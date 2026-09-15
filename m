@@ -1,98 +1,155 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18FF62E737D;
-	Tue, 15 Sep 2026 00:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E70A309EE9
+	for <linux-edac@vger.kernel.org>; Tue, 15 Sep 2026 01:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789433638; cv=none; b=bsxg1ITI2mkleiB2Vp2/Hn6HwSnUwmURwGbisZXSjSzkv7LSWcIkjaEnmMktMeCx0YWIpCsn/GIya/+QN0e1rohQLaUKY3lAh7bDP/HypBujovtOH1+NVzjLfsfiFASnQuFHzd+faqusYwRxT+BBSNzUNIyVncGWLGQ28hqSaj4=
+	t=1789436148; cv=none; b=qX4J2WNGYqmo9lxq3Ib6pLeVpPjxGI+nSY4UX/BI6zQa6mEzDfvCA5R0XDh9XugCdi1p6Bgv6hcEB8hhnKjkBOyXrSr/PFd9rXcYtIX4zK8atoOM1uaJbFI6V+GdU6XHqyKDsEz4zrdnoqkNn35uATiCIFHYTBPiBXHbwqjm8kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789433638; c=relaxed/simple;
-	bh=v4BI8DORGEp/jVkOSrBj50ZHN0zxLx6Opdhe3f6/eSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=thGUw/9mikTTvv1KV3GewBIVNSJzpetvAM7VZhqLY3nO8ASIuqeH+Z07W5esCeD/qRClHR3vmoRop+z0xVxZNcyl5sb9RlZ5jTmtzEDfNvHSnJgdf+/rftpTVRH1CgrV+5HOFsOL/VKmP3NLT5DMbYPry0eNKSZK1bs1F38biIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=f1YAT6NF; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1789436148; c=relaxed/simple;
+	bh=6Ks+xsuYG7cTmaDMBguFljJXWFMHILbuZCCXEhp3hz8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vue8ErpMSy6+9DnOWIjwCuO46r6lU8t+XvajI7SRo8SW+u0HDWVTvSKID5YQoQLioLjcsAR9Y+xY/hIGv+nfsgA9ncKCAf+Bb3TGbpTmkGogt/Dg45DXVmKalkVlMg9Wh2W4o2Jg55w182+7KFSefTaeoQ0ngciq9ilfXJ+aCTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YYRZXE2Y; arc=none smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="f1YAT6NF"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id DA85340E0173;
-	Tue, 15 Sep 2026 00:53:54 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id bQe7kUB22Y6H; Tue, 15 Sep 2026 00:53:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1789433625; bh=H7l445s6yGzd2zv0X1Uvu3H21iJtrDpjsPFtU6vgDEw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f1YAT6NFJlXrEp48gAJcR51XC6qiVC2a0VKHbXFhWP3ZawnBbaPZtJshXuzhi8v6s
-	 IffqVOEb8OYuXkXFX5CcQHpUjlBlqYjMgWtuIHXoI3+31Ehq9Bg/XDhrP5dqtRHE97
-	 NvfkKq5YPY9+HqO5qCHG7mbGpcnaXjb4LpFsn6vouS+CFUFRnSBl2XaDMDQa4YG3W2
-	 95V7ZEo6HcwwnfWYvYSjUa5aEOU8hQAAc1Rryq8Grmn050/OqutmZgBSZEQIuUZ5ag
-	 v0sDVzWEgTIwttkKElmkccjcWcledWINp5rZpdT4mpZFqykvwbwB4dmtoK0KIyyjpR
-	 XSbQDDwKgwijC/3+BTo50OtPBMDG1XO6/AGVmsxZ5a2d/uVAIrq1g0krKd6/S55Rdh
-	 XOKkbMYCbI8iSFoUULqzWEOuFWA00wfeDpU5GxGzGFeJyLAZub0d2Rrd/DYWcCkoWw
-	 oDOjqyFaeE86iBzyimk8NiAytZg2eHAgfE6LDemBngw6L9+b/XUhldGB5rVAvY4jqP
-	 e/q7fCArkSqldpVlioNuY/lwtuxK2SQ4UsT/z/36SVGgcgGiiEXJtbkce+9zv0iIsB
-	 iG31OFpiCfYyXO9wCwxLl0liULWj2PLTPoc5h/pTQSTCBLXQKAGA6YSM5ZJctyJ6xx
-	 oFQXOuNT05dqulEMYo0Qb5pQ=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5DD8E40E015D;
-	Tue, 15 Sep 2026 00:53:38 +0000 (UTC)
-Date: Mon, 14 Sep 2026 17:53:34 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: Myeonghun Pak <mhun512@gmail.com>, Jason Baron <jbaron@akamai.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Ijae Kim <ae878000@gmail.com>
-Subject: Re: [PATCH] EDAC/ie31200: Disable PCI device when probing fails
-Message-ID: <20260915005334.GEaqiXDqDGVsYE_NXp@fat_crate.local>
-References: <20260913212500.60272-1-mhun512@gmail.com>
- <SJ1PR11MB6083885F54ECDC88B894EEDAFCBB2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YYRZXE2Y"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb76ef19aso30378401cf.2
+        for <linux-edac@vger.kernel.org>; Mon, 14 Sep 2026 18:35:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789436146; x=1790040946; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OYSdJ3BpaBA99mybiSOcxyeplaGMmUigodcgqfqpRMM=;
+        b=YYRZXE2YfGN6AWFt47nNnux8MA6K+niA4xbntiuOuNcsUQL3TNCtm+XlCv5Vxe+QKs
+         /anhC+UE2x2kkpT+mK8BATKxCOoHBgYzYrb5nxQgqv3839HBKAn880usg3nkl2LGrD6N
+         MAuTolgIkq2O9dr3u0aR2ntTql6oSYyyIo7eioVXB6kj3+ACfCHAQ2Nku8kvhT4CPhQz
+         p8QgZ4zg5BAxdTYsssXSNloSAW4Z3A8etBDfbmaKcxykr7hK+Dg13xBfFyyHDESMMkSE
+         hgjSfenwmIiaOmDL3TNA1yshuqfJCtVwAAYrH8aBzYChaHSI4uigN4qTuUaF10DLQ4jQ
+         bUPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789436146; x=1790040946;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OYSdJ3BpaBA99mybiSOcxyeplaGMmUigodcgqfqpRMM=;
+        b=0QSkk7SC71te942GOewPyB/dGZ5mWlUo7zRC9DUJA2lQaUi6ZlW5YyZapKQlELtjAw
+         fsBhtU1Tgwhr2sXKv/VGf7q6qj3kdVnUgQ9ARuWh4mWGUo9+jQjwow4cN5K4jDHg4oQx
+         XZZrZ469I+6YVed33D6pAmMyov++Zp9YaUuFubuyX3s7WgQopRM5aQTXSJArvJY7ZnUS
+         iOGE5BTfQH3RN8RsuYSH6WT97XJq3tEc0QZvNH4DVJkUEEkysZFjmv0dE6ZluqqBoGgN
+         lzv0bRyr88WyKjePseHGNtFarBclOXiyOvy2M9x2MoVTV0TTFQNWpWpUFh59HgeWdiK6
+         +BXg==
+X-Forwarded-Encrypted: i=1; AKwUvByW0KIJ+hcVc0tQ3Fsu+r7EOra4gVLNOAz0n80qBN6Omjh6ibIXtiRofuh5KzApoh31cmezer/vt141@vger.kernel.org
+X-Gm-Message-State: AFuF++kp0xHxoqWxnb1iWtMUGT9/L/Zy644oYzAxmCyUL6Z/k+bfj56p
+	lFM0AzZfOse5lZO9afeDkyfyuJd7aBWcjuP2lj7i7mOqPwU7R/sg/SUEEB7+NMWaGw==
+X-Gm-Gg: AYBFou0o3VUQe3zYwd7z8qnyRnQv121Ktn2fsmeuGFCvDpNnuqD0kMDnas+CtXcsFTw
+	WF40UcgQ3hwVRdYwmM0BIGbkL44xVo2ME+N4gqHnDCYbjorhJklv3CRrLR0UA1NMMK6h/kFNA3G
+	BsaPQdITXXLjvrdRd85XbOycpbVA+Ul7Lgcg7QhDMLy+JNOmMmarnrz+dxcyAe/CwbW+FF4nW0e
+	Q5cVdjE66sAq8X8e9umZQEBSaHnNoBCIy0xeExORaOb22CW+q2WCLoU065qqMkC+IunTM/d1R3Q
+	aZ1wxssELWHchIAthng66rA24942JSOKAKzl+5KHAatd+SDKS+0tPc0UeB21zS772xanOeoXmXv
+	V/2eW7hhgI8i9hjQ6XTkxN3NHh4NHObh3p90VeM5Km9uzDozhe0FrZEzMUx+kgMDFleI0qTeHto
+	jVSfdFXWryk15vqP4ilXXrUnOhPiOEYCmdva8IW/YOrdKGMIvIq61u0KHW48WbBk0O8OjMlmk8Q
+	4xItioR4CpgFa+u6Mvq6WK4yzJ/mX9E77vVJcMjTLHbr81Q0jMhjHIj2Sb0/OCIReHdjC3lDkXk
+	8MpwFrGasfAvAYg9Alc2lkLJVxXJEAt8TzRbQVoFqFlm1iYtgZJ51l29OUUjhix8Y3S2ng==
+X-Received: by 2002:ac8:5a51:0:b0:530:e1b1:eaeb with SMTP id d75a77b69052e-5310cf60669mr78434021cf.21.1789436145940;
+        Mon, 14 Sep 2026 18:35:45 -0700 (PDT)
+Received: from 6e-wmo5420-02.ad.psu.edu.net (6e-wmo5420-02.ad.psu.edu. [104.39.213.233])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530f9b99fc7sm66059601cf.30.2026.09.14.18.35.44
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 14 Sep 2026 18:35:44 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: "Arvind R." <arvino55@gmail.com>
+Cc: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] EDAC/i82975x: Balance PCI ownership on probe and module exit
+Date: Mon, 14 Sep 2026 21:35:37 -0400
+Message-ID: <20260915013537.71211-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <SJ1PR11MB6083885F54ECDC88B894EEDAFCBB2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 14, 2026 at 04:51:07PM +0000, Luck, Tony wrote:
-> > Assisted-by: OpenAI:GPT-5.6
-> 
-> I added "LLM" to this tag based on current guidance in Documentation/process/coding-assistants.rst
+i82975x_init_one() leaves its PCI enable reference behind on failure
+and removal. Also, the fallback probe is never removed at module exit:
+i82975x_registered is initialized to one and never changed.
 
-Nah, it needs to be only LLM:
+Balance PCI enablement and track successful fallback initialization so
+module exit removes controllers that are not bound to the PCI driver.
+Only remember a normally probed device after successful initialization,
+and release the saved device reference on both normal and fallback exit.
 
-"Assisted-by: LLM"
+This issue was identified during our ongoing static-analysis research
+while reviewing kernel code.
 
-because
+Fixes: 420390f06a5a ("drivers/edac: new i82975x driver")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+---
+ drivers/edac/i82975x_edac.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-commit 816d9992d9ed434ec52cfbd63080d518e535a41b
-Author: Christian Brauner <brauner@kernel.org>
-Date:   Wed Jul 1 17:54:48 2026 +0200
-
-    coding-assistants: simplify attribution
-    
-    The requirement to identify specific models used in the Assisted-by tag
-    provides free advertising to proprietary software companies while adding
-    little or no useful information.  Change the requirement to simply:
-    
-      Assisted-by: LLM
-    
-    to capture the fact that an LLM was used without tracking which one.
-
-Lemme fix it up.
-
+diff --git a/drivers/edac/i82975x_edac.c b/drivers/edac/i82975x_edac.c
+--- a/drivers/edac/i82975x_edac.c
++++ b/drivers/edac/i82975x_edac.c
+@@ -233,7 +233,7 @@ static struct pci_dev *mci_pdev;
+ 					 * already registered driver
+ 					 */
+ 
+-static int i82975x_registered = 1;
++static bool i82975x_fallback;
+ 
+ static void i82975x_get_error_info(struct mem_ctl_info *mci,
+ 		struct i82975x_error_info *info)
+@@ -597,6 +597,10 @@ static int i82975x_init_one(struct pci_dev *pdev,
+ 		return -EIO;
+ 
+ 	rc = i82975x_probe1(pdev, ent->driver_data);
++	if (rc) {
++		pci_disable_device(pdev);
++		return rc;
++	}
+ 
+ 	if (mci_pdev == NULL)
+ 		mci_pdev = pci_dev_get(pdev);
+@@ -620,6 +624,7 @@ static void i82975x_remove_one(struct pci_dev *pdev)
+ 		iounmap( pvt->mch_window );
+ 
+ 	edac_mc_free(mci);
++	pci_disable_device(pdev);
+ }
+ 
+ static const struct pci_device_id i82975x_pci_tbl[] = {
+@@ -670,6 +675,7 @@ static int __init i82975x_init(void)
+ 			pci_rc = -ENODEV;
+ 			goto fail1;
+ 		}
++		i82975x_fallback = true;
+ 	}
+ 
+ 	return 0;
+@@ -688,10 +694,9 @@ static void __exit i82975x_exit(void)
+ 
+ 	pci_unregister_driver(&i82975x_driver);
+ 
+-	if (!i82975x_registered) {
++	if (i82975x_fallback)
+ 		i82975x_remove_one(mci_pdev);
+-		pci_dev_put(mci_pdev);
+-	}
++	pci_dev_put(mci_pdev);
+ }
+ 
+ module_init(i82975x_init);
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+2.51.0
