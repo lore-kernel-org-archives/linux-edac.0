@@ -1,60 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07F04CDA2B;
-	Tue, 15 Sep 2026 19:05:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A8534DCCD;
+	Tue, 15 Sep 2026 19:30:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789499127; cv=none; b=WY+YVE21ZC8smaazrim45RHNdeuuHnUlwvje3YVjwB9q0zixtEsBSZwR5BMEz5dEfRdSjVeGl1wL/q7qO4z/Ej0XccTfmSNtAfTF9eFw2dP9/mQju8/3qkuNcSZHaB43ouTImiK4+1QVt2zw6z/N41a77o4mdCQYPG+4PsqjbsI=
+	t=1789500629; cv=none; b=Sv5rYkTtJWGkJfSAC/IIkFRAdNbHvEh3CAONNQAEisySosPt6ZmnqpR4RaiUtmnnN3lkx9p2tZWk2qiWvD2tp7GMvcEAJw7LG0dC8N0D8w/T39YnOyqqbHC2e9S8IxDetOS6Vxjz4mVgDbET7AjpAmmfUMcUKThcJ9rHSXoFD7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789499127; c=relaxed/simple;
-	bh=n3loMqr+GZfBR6Ve82tKdG4Jkfg6eHJMDQWbwHfIQpQ=;
+	s=arc-20240116; t=1789500629; c=relaxed/simple;
+	bh=4cWMkRG+Z1pJ1YvFzmDZQGESqd6Z0JZYG5q1O4QBX8Y=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HYe7PQLPjCSi899GSbXwGJTvRh+L7jD56P+VkfDycOwYQw1UHMiYlldatj8Y2flIEaHmLutbaipJVARuJf5UoxYn0eOOWDFxau2o2LDARyeLRFm39pddHQouzfcMKcurz+SDt1NSE8pCaVfTsnm7lOviBjQfvpFeedK1awTx44U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=AezeimY/; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=foNXPkTrKo65XxXYRnLMmHDdN52uc92S1nS4HPivj0VmT1aAP1l3oW0bJKJ6JAJMkR8qevrtePFiY0OwJB+miOgQATfVX1FhSbBZJKubKsy+l7Rd7s0+1Z1pPBeEHIUo7ukdZUazo4YEL0m5EWznamL0Xw36wNWBZXvlHraR6yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EyruoRl0; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="AezeimY/"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B2E62408B4
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EyruoRl0"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F2F804090B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1789499125; bh=s1U6htYr3KDizbM+pvOno5keAAu3JxFYL37YugBOwe0=;
+	t=1789500627; bh=29SVqZL6jaoTFFeLQLoNThpgj0piqyLyfTAK7yqpIug=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=AezeimY/EDjo3fPXgLQ44KDX5OPDDr1xgkzE1EhmKpD7gPcaQSQjTSBElZiXRAxkA
-	 KILGB8FKia8q5oNdr52WrUsQ98GO/HtHsqLdegw4wrlygVFdOuGgh9g9snNDr4/8xu
-	 3nvYU1Vx2XmgdCGifzb4oYWcVmckQsdkkneZfv9nQVhXlKHvuBuFghnI5XGCItVg/g
-	 ZbyiL+JDMXAEQJLWXR3mnwgj5xXni5CX8KEjZWj/8+FYBxZMvVy+Lx9PB0iDEc1rxP
-	 2yXvNg8nDcC3z1IJWmSFuW7cFS4GUm3/ZxZF6K/VLoGUYXIlJW0ebXouEL15PEJbdx
-	 SQIzW0KKooMcA==
+	b=EyruoRl03OfhKEEodVxwuVKlMcA1THLACkOdReZNBhjYyEMWe8UWtqgwlrVKQ2k9V
+	 Ac2wHtWfbrINS9koY1N4SZTqQXNLjPcm8+WWvLTvbvXKbZiPq94Kq1RdBsZ3UZxEWH
+	 gY6qbEulSvkhaEVGgaQDsJIcf0SLqUCT5V0ckBIZwrZkJFRgdrWFjLEipPIGI3MESj
+	 B+Fej+BB6f6olcWAeq2fqV/BH82wmq0s34MbcxzQa8g9mmoo4qnh0fZb5BYbv+XWUf
+	 YAD/K/bi4rd/pDdBltIgre8enU1G6eTTDX2ha194FzcTMIVrBeB90RwqZvfv281JIv
+	 JBKi/MnvmsaSg==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B2E62408B4;
-	Tue, 15 Sep 2026 19:05:24 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id F2F804090B;
+	Tue, 15 Sep 2026 19:30:26 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>, Geert Uytterhoeven
- <geert@linux-m68k.org>, linux-m68k@lists.linux-m68k.org, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
+To: Karl Mehltretter <kmehltretter@gmail.com>, Tony Luck
+ <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>, linux-edac@vger.kernel.org,
  linux-doc@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, Randy
- Dunlap <rdunlap@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo
- Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, Steve Wahl
- <steve.wahl@hpe.com>, Dimitri Sivanich <dimitri.sivanich@hpe.com>, Mike
- Travis <mike.travis@hpe.com>, Tony Luck <tony.luck@intel.com>,
- linux-edac@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, linux-samsung-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Tony Lindgren <tony@atomide.com>,
- Kevin Hilman <khilman@baylibre.com>, linux-omap@vger.kernel.org, Dominik
- Brodowski <linux@dominikbrodowski.net>, Michael Schmitz
- <schmitzmic@gmail.com>, Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH v3 0/8] docs: kernel-parameters: Remove eight entries
- for parameters that no longer exist
-In-Reply-To: <20260910013245.8619-1-kmehltretter@gmail.com>
-References: <20260910013245.8619-1-kmehltretter@gmail.com>
-Date: Tue, 15 Sep 2026 13:05:23 -0600
-Message-ID: <875x069vyk.fsf@trenco.lwn.net>
+ Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] Documentation: RAS: Use the real EDAC PCI parity
+ control names
+In-Reply-To: <20260905092441.41401-1-kmehltretter@gmail.com>
+References: <20260905092441.41401-1-kmehltretter@gmail.com>
+Date: Tue, 15 Sep 2026 13:30:26 -0600
+Message-ID: <874ifq8g8d.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -65,24 +54,28 @@ Content-Type: text/plain
 
 Karl Mehltretter <kmehltretter@gmail.com> writes:
 
-> kernel-parameters.txt still documents eight boot parameters whose parsing
-> code was removed with the drivers or platforms that used them, one of
-> them (atarimouse=) since before the git history. There is one patch per
-> parameter, with a Fixes: tag where the removal is in git history.
-> Each entry was checked with git grep for its __setup(), early_param()
-> and module_param() handler and with git log -S for the removing commit,
-> and the name is absent from the whole tree at that commit.
+> The document names the sysfs control
+> /sys/devices/system/edac/pci/check_pci_parity and the module parameter
+> edac_panic_on_pci_pe. Neither exists.
 >
-> Changes in v3:
-> - patch 3: name the commit that turned edac_report= into a module
->   parameter (fee27d7d9788) and the one that removed it (7fc0b9b995f2),
->   Fixes: tag moved to the latter (Boris)
-> - the pata_legacy patch is dropped, Ethan's patch from June covers all
->   six parameters that commit 3c4d783f6922 removed:
->   https://lore.kernel.org/r/20260607064053.195166-1-enelsonmoore@gmail.com/
-> - collect Reviewed-by and Acked-by tags
-> - the "Found by cross-checking ..." paragraph dropped from the messages
+> check_pci_parity was renamed to check_pci_errors by commit 91b99041c1d5
+> ("drivers/edac: updated PCI monitoring"), after the document had been
+> written.
+>
+> The module parameter has been edac_pci_panic_on_pe
+> (drivers/edac/edac_pci_sysfs.c) since it was introduced, and the
+> document described it as edac_panic_on_pci_pe from the start.
+>
+> Use the real names.
+>
+> Fixes: 91b99041c1d5 ("drivers/edac: updated PCI monitoring")
+> Fixes: 327dafb1c61c ("edac: core fix redundant sysfs controls to parameters")
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+> ---
+>  Documentation/admin-guide/RAS/main.rst | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 
-I've applied the set, thanks.
+Applied, thanks.
 
 jon
