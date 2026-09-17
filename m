@@ -1,144 +1,82 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C3837FF6F
-	for <linux-edac@vger.kernel.org>; Thu, 17 Sep 2026 18:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789669136; cv=pass; b=mxGlC1/dTzbrq3nX7h+IWvzSpidu4TV4hJ/daQcUPymeUueFwM56LfKsbjkRrCvVD4Xgrewd2/UZMvNZkxyQxVV0l/vcxZa7I6LIWtF/wXt0Y9Fs/4LsAxEA3EaMaaTzprHeeZnUTLMhdJNGmvSq+sQGOq7s5EXea9u5hxRMwD4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789669136; c=relaxed/simple;
-	bh=TOT1meVSqfblGDrdqsFf6MzcvOlETVrJmJLU2ZhnqmQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hmIkr/pdqbM2XjMiFYCgRi5ffYXmxg6ey171iiDJluZFiUzZZN7uXOFi+IgSW1gyaKMgp2eDdu/ZbAOQeib3mBQbrpZipEw8MAZJ1nqL0eKKnGWVkVx94OBLPc919rDEPJ3Om1grh2WFNEnQa/ARbLo3G2NEOfnLI/5WXXqzN+A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Eymp/YJL; arc=pass smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0DDA4CDDCD;
+	Thu, 17 Sep 2026 18:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789670520; cv=none; b=NiRExxnui9Y4JGTb4vWgta8Qu5sE2K3koZUnXQcM+QgBIrNj6R8eHJiTSHFD3CqLbtPWVyuHxHaCt9fN0BjfBJldynEh248X7yPFnKE7P0wklmWTuN86nVdJQTDrAXo6AYqCDRMF/47wnlkipbZx5ZPFfxCFuCqt8DlDVJKP0lg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789670520; c=relaxed/simple;
+	bh=Co+gH4/6K912eDqoK4/z/Pdi6PTbnK38rMt06wO2dmU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b1mRQ7peRrjPuQMn67zQzGzkI1cXHNrjL2jPeBaNRz67GuaobsFu7I3h9Dkn0B/+d4LFt1VytC5JHQU8AXdOiAWgjKPVYebVg2AqHZeRdT/LoI8uv7+JVPl9N82zZUHkVHm24ecp8L7zaSZnNzNdxnGJCpNtKi5lsYvVpeeaEfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=IpPlpJAX; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eymp/YJL"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f705536so251664066b.1
-        for <linux-edac@vger.kernel.org>; Thu, 17 Sep 2026 11:18:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789669133; cv=none;
-        d=google.com; s=arc-20260327;
-        b=SKAN81AqIppI0JaFJ8ogS7VpPKR+HUz336fqMT4qTcQmRu+zRi2Oci0+NOBZeUIAWb
-         M9uxoFTl/2L7N5Ij9+kLrVRXp1TuNl7qVe7SZx/ZsifIIxbRPbqC4qbwT65MFNa01/+h
-         CqcB20zvC2JR4LIGzmVXTm3BtEc1JuMahu89jDy5SnrdB8jNwhj1QixagglPCr3X4Nnh
-         6BnVR45qfbAJDJGesiXtTf655V5mIGSjMTn1qhVyMG3yH7+hVWjR0JSHm/4lDw2theLz
-         fjYOqk228KXr8kRqrd5vdMES9sLKklxMQX70P6gF1hzUJwKtg1miu1pkdFNX5ZS/VCsJ
-         Kw5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=l20clSa/FKU397EhPwh18Xmkk9Ag+DiAxpnayaLKjKc=;
-        fh=xgccP/fKRJTKFW/pK4X4AR8if0S8NkFNsiqyhzKlg6I=;
-        b=APufjOTxccWxUJ0qdPXX0z+1+O3FJVKs0/qVVohoh/3lPOZ25TKpF4S1r2kr9LrjrC
-         FlKXcntku7WkO1HcEbKCLjKhDLDOSHfOlyzP6z2+yjG7lV157nvCjDu35BfiXy6BnA/z
-         i202mj6M5IB/kW3Swvn7JyyL1Nzp6vIlpy4oYhjoAVyCLiGtCzl6qC9tqH9M9g8wozZ7
-         qe29xsxLvW+0U6Yig319qto6wSi4J92d0nRGOSLOxnWwY2c19GFpMBdFrpflx0wu4el0
-         xdrcFvmzj2ylNHQYQPKk6UNyPllJo7Yz/1d2TgigSdw1BS7PB+4XSLKOKaLSH6D5md2P
-         mhcg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789669133; x=1790273933; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=l20clSa/FKU397EhPwh18Xmkk9Ag+DiAxpnayaLKjKc=;
-        b=Eymp/YJL/5kDsNlGBeFZP+xB5GX/1wPjs4PMA0frT41jOFom5zx9NrfOIT2Y4jPDdQ
-         dG7FdmVQZAGHZh/B2LyloFJqjteQwQMZm7ez3e2ssKYbZ2r6Ks0ZZ6PtLTnPw+g5fhHk
-         xJBCtENVDWYTLdNV/2eYGMqkjiAJISvYEgssbo/Eg/hyVL71ciRgh9bdtjkOWTV/TPw3
-         07+kmmso/ujJRT3iO44sXIR06oyxCPiF96tZ7Xo6fQz6i/JMdmjGm8qYjjWsc4oWrclI
-         G+GHwd58UUe55bRXjhevXnYXsQ0L88rFt3YXnKLmT0BMFdJQBofSjjMcftNfQlhb+ckg
-         ULrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789669133; x=1790273933;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=l20clSa/FKU397EhPwh18Xmkk9Ag+DiAxpnayaLKjKc=;
-        b=kDuFEKtPO/j6tv1/lbWVqBYndM16gRYgEVb0nT4P+essmQvKhCyMGqm3+Dpru+rnWc
-         WsvQuQUEIhw/qMrx7Xi1qUojwPliacB6rGkWRUAzUgMYa7yzR5lDOJM8c1TGVrACyZ2h
-         /bQnMh7wqjlpm5eYOP7CxE7kuoXcx+Kfw0AN+VScy/XgbPUIuwxLtchx8oiec+CkU3qy
-         trBaRcoc03EKYgL1wIYg1QnM1OUDCm8pX3jDG9XiY2INRb70LXRtPZJj98F8CyxRj1zu
-         Xd0P4Fj34nMZwQ9NRrE6OGdPSVNyCmFGUEVCuo/w5pxfXoHQFoSP5fUIxvXGcLk9PD6+
-         YXuQ==
-X-Forwarded-Encrypted: i=1; AKwUvBymQKbuF4MYqUyTjmHCxEEdPcqXLpOHpP/2F/Jm1IlY6N36ZKB8w5axV0E4iXwYrux3b9pP8qrBgSZ0@vger.kernel.org
-X-Gm-Message-State: AFuF++nqeXDVCPJP52OZHC2b1ocSq6PXk/iQr/5WHB3Aqzkd0rRBMIvA
-	HwQKJn9dhRAIQ0W5Dyj63dVWTka9Fob/lbY1HHlTzQTxlRtY9POjV++wov6KDFJbIbc2DWSDVMB
-	/kUnCcS36XTntOgCMtUEr5KYrXfbb/A==
-X-Gm-Gg: AYBFou1MYRlOiMvtGLw90Nd6v7zM7R2GVIvhkrQCN+2iDI8QtNQoFV2LffNUyQYXRnk
-	CYHtYRi7dKnPc6QvhBi8Hk5pPWC/eh8HIZQM1+Pf9PCjZ42ZQ/OvN5/xSNdwVv4woX2LK1KeQW4
-	zwt0xs/R4hO4O5L1FxvHF8Wv6RmE/bJtQoZYl4cqv3g+BX+tN7zeDj0xDpxUF5GVKze/8hD+Cj/
-	ojhP/ujtvooaAl1ZDMzJaiETp7j48R4sJU+ilwBuy4AP6+R7VSbC5fQ1cR81wBuZALLO4OQPTDn
-	dh0IkzPdP+4d/bQ+PkyN+amlFbG7jCKOnT9XN7DQF14JP5anFFEtY2wMnCZU/gQSA5g/veBrxUl
-	fMmORfbxqSEmEHxEjQJoPBFJpB1j4IGmmw/48SGf9FbfX5Ojhamhy+C71udXujO3Qy3Wc
-X-Received: by 2002:a17:907:1ca4:b0:c28:599b:7782 with SMTP id
- a640c23a62f3a-c2a15b11ac5mr1428866b.21.1789669133187; Thu, 17 Sep 2026
- 11:18:53 -0700 (PDT)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="IpPlpJAX"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 6FA3240E01F9;
+	Thu, 17 Sep 2026 18:41:55 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id lnD9E5OiZVb4; Thu, 17 Sep 2026 18:41:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1789670505; bh=qPDuv9mdHYzqM9aQUjJSkupupuH/6Y8SfdtHNVuyaP0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IpPlpJAXjESKR+suqefjdCAvWDeJIZKkwyasSSmdqRk+iYYHEJgjlAC5rp/zsUf3L
+	 MGoboJNRILB9NTQU2Hj+eN6zHqiehnjSwOZ/IVP1B+DvcoYIxg1f0gUECteIzctBOD
+	 RdJzQ7pWtkJiC91NPbIoHT6MFQ2Wo41mZCzUd6TwLpjHbLN2RxceznaBpYL148fOd4
+	 5T1lgMbivZ/lRKDwWz6vLortLa2ind6u3DuIQXLziNtnUMFeWEzfkiRk/cNhbImNyQ
+	 FCfjdGbCWbQwoRu0MSp0gVbYj8OMHeOct1us7uy1Iuc80dV523MqxneKQlXdbseZJ/
+	 KVcat7I+3oJ7ZNvuN0AheVmv3AsmS73o6ZQsrcAHpWUpRTuouMnRIp7f+5FrQwrmzn
+	 SlbHVsJCB9qFOlJ95TXJJMonSdf8qM5jM3+DQcACFqjht73b3tFv3TWOUfl6qmACLj
+	 91dd96n/9jSZEq3IC3rylCBcfYm4fciyNUz7Sr5RmLm1PpKhaMWmvQz8jRWdxUoJIJ
+	 OGRhbg5UIOkqPPT2zFbhi4kt2OEQHOQExkS8buZOuXM5bay3xeZ9v7A2V+zrpHjbAi
+	 bH4UN1l46hq2T44bhYtOapIqMAwvTgxnKIcUsK5Md9OmR5Q87AIZg8U/IY7oIc2bK1
+	 xHuBu/Bq9LOwR2sUEF1lzOEA=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::48])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DF8D940E00B9;
+	Thu, 17 Sep 2026 18:41:38 +0000 (UTC)
+Date: Thu, 17 Sep 2026 11:41:35 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Myeonghun Pak <mhun512@gmail.com>
+Cc: "Luck, Tony" <tony.luck@intel.com>, Jason Baron <jbaron@akamai.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Ijae Kim <ae878000@gmail.com>
+Subject: Re: [PATCH] EDAC/ie31200: Disable PCI device when probing fails
+Message-ID: <20260917184135.GBaqw0X0O09v7BH3vM@fat_crate.local>
+References: <20260913212500.60272-1-mhun512@gmail.com>
+ <SJ1PR11MB6083885F54ECDC88B894EEDAFCBB2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260915005334.GEaqiXDqDGVsYE_NXp@fat_crate.local>
+ <CAGEsz8EZhS_5sBDXo0KgmMAXh4JKaa2yjUg=rhL2KMkQddSvmw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260913212500.60272-1-mhun512@gmail.com> <SJ1PR11MB6083885F54ECDC88B894EEDAFCBB2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260915005334.GEaqiXDqDGVsYE_NXp@fat_crate.local>
-In-Reply-To: <20260915005334.GEaqiXDqDGVsYE_NXp@fat_crate.local>
-From: Myeonghun Pak <mhun512@gmail.com>
-Date: Thu, 17 Sep 2026 14:18:39 -0400
-X-Gm-Features: AcwNN1VlayQ9ktzuVqf3oQSFFUBVBchkxRwlj1BULSIKdsZ4RrkQ3EahK_ExkJM
-Message-ID: <CAGEsz8EZhS_5sBDXo0KgmMAXh4JKaa2yjUg=rhL2KMkQddSvmw@mail.gmail.com>
-Subject: Re: [PATCH] EDAC/ie31200: Disable PCI device when probing fails
-To: Borislav Petkov <bp@alien8.de>
-Cc: "Luck, Tony" <tony.luck@intel.com>, Jason Baron <jbaron@akamai.com>, 
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Ijae Kim <ae878000@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAGEsz8EZhS_5sBDXo0KgmMAXh4JKaa2yjUg=rhL2KMkQddSvmw@mail.gmail.com>
 
-Thanks, Tony and Boris, for applying the patch and fixing the tag.
-I'll use "Assisted-by: LLM" in future submissions.
+On Thu, Sep 17, 2026 at 02:18:39PM -0400, Myeonghun Pak wrote:
+> Thanks, Tony and Boris, for applying the patch and fixing the tag.
+> I'll use "Assisted-by: LLM" in future submissions.
 
-Best regards,
-Myeonghun Pak
+Also, for the future, do not top-post when replying on a public ML but put
+your reply underneath the text you're replying to, like I just did.
 
-2026=EB=85=84 9=EC=9B=94 14=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 8:53, B=
-orislav Petkov <bp@alien8.de>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> On Mon, Sep 14, 2026 at 04:51:07PM +0000, Luck, Tony wrote:
-> > > Assisted-by: OpenAI:GPT-5.6
-> >
-> > I added "LLM" to this tag based on current guidance in Documentation/pr=
-ocess/coding-assistants.rst
->
-> Nah, it needs to be only LLM:
->
-> "Assisted-by: LLM"
->
-> because
->
-> commit 816d9992d9ed434ec52cfbd63080d518e535a41b
-> Author: Christian Brauner <brauner@kernel.org>
-> Date:   Wed Jul 1 17:54:48 2026 +0200
->
->     coding-assistants: simplify attribution
->
->     The requirement to identify specific models used in the Assisted-by t=
-ag
->     provides free advertising to proprietary software companies while add=
-ing
->     little or no useful information.  Change the requirement to simply:
->
->       Assisted-by: LLM
->
->     to capture the fact that an LLM was used without tracking which one.
->
-> Lemme fix it up.
->
-> --
-> Regards/Gruss,
->     Boris.
->
-> https://people.kernel.org/tglx/notes-about-netiquette
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
