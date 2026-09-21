@@ -1,39 +1,39 @@
-Received: from mail-24421.protonmail.ch (mail-24421.protonmail.ch [109.224.244.21])
+Received: from mail-244119.protonmail.ch (mail-244119.protonmail.ch [109.224.244.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4949486E4C;
-	Mon, 21 Sep 2026 13:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D992949E5C1;
+	Mon, 21 Sep 2026 13:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789997567; cv=none; b=jlc1g1M4978ek+BiCZyeB2jb9khQRKSgtm/DknD3UAThm5tb2aTlu4M7gUzJRXHBiJu/I6ycCyggDnzm5iWdu65DIMXx8kHIl7oKfNGyHSO2F4f7GK0L/OmiOTI0yLWQmHWpV18mDc5cGlclx1MprkW6WdCLboKCgKNnvOqOVrc=
+	t=1789997839; cv=none; b=dPNEcv+UnvSJExNexl4EEb+Wsh3wEmquM7FYOTssKwjKlMBLtkQNwdrntm1Z7geEOOfdosBSQJ6etAPecyfXrgckuBM1S+03PgkrJWu+i/NJmmCjToPfEhAGN8r8C4oELYWIzao8UUIrKttPK2UPfylMJ3E+UGYJ7fukyZppEdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789997567; c=relaxed/simple;
-	bh=/JlwHsnz9qBWezNIZd35ZdD7VBL43SxECRUxqfHXKYs=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=GLRZJFDQwbshudvh+wJj69t91CwmZL3hGikqbeouxacwRTHBOysSiBBrxfOhqnmChmfMt3k/KYLFXyTeyoz/fE35kBu89u+cIUNm+f4epWbSF4knIkRg9k71zb/wLS5dzPZ3kTFoZ2sWMh38J091puFuC/OsilH0RpLPrekFi8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=optocloud.no; spf=pass smtp.mailfrom=optocloud.no; dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b=XiOV0L+u; arc=none smtp.client-ip=109.224.244.21
+	s=arc-20240116; t=1789997839; c=relaxed/simple;
+	bh=GoENAPf9dFiYUYklg7AsBKBG3mFt3S6OJLXYWWp28cU=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=rcC3+XmB0P6GkYxIdNQ95HEiSMRDlD+4TFhD42CkChDdn+oGQIUnsbPUR66mr9n/qec2D23R5bNwhCt7hdGZrPcm6MomoHg1Tc6bQYyugMFKE5hYxpsPIuCSirPdJK9GyVW2sf1Jgjywnf+FrBEq5kbAhLMAgciy2Hjj+S5Chhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=optocloud.no; spf=pass smtp.mailfrom=optocloud.no; dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b=HfsoEXIH; arc=none smtp.client-ip=109.224.244.119
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=optocloud.no
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=optocloud.no
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b="XiOV0L+u"
+	dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b="HfsoEXIH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=optocloud.no;
-	s=protonmail; t=1789997552; x=1790256752;
-	bh=rqfzXhIHgWL1ysTH5+xFLxUMZV2vHhaYy5Z33AQ80QY=;
+	s=protonmail; t=1789997829; x=1790257029;
+	bh=x6wUzIlb3dtSGcoG7a+WpQVXahNZmkRSC3HZl+bJRdg=;
 	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
 	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=XiOV0L+uG0kgaYngu1BqlyrzP84s3VhV2qQmEj+sXDcJILd8ZztEUYJZVGwFx3wXw
-	 RfS5v0XxyQSsEgXgJ0cHyXD+KKFdGaJNWIk+uAiijSqcNsg4unm5H+DYFWMsCO313C
-	 9gME/sY396pbzmo0l1a8LDXS/O+IOpY8Bws30Tv0/Vkc2+Cjpz3VmOe9kmi3Us6T2c
-	 P+JBvHYxOvgqPWg002vMiFJi3J2vRNupQOMml1efXgPcAbJIGmc1DKc47yqS6oGuQM
-	 qDJ/Kg6I9CvQC+zT/uysy0bQd5LZyqBMX2AqLPBGa2H0MIxFbD+rC0ssYVHpJ0GH96
-	 ThGCZhmzqU4qg==
-Date: Mon, 21 Sep 2026 13:32:27 +0000
+	b=HfsoEXIHJueU5R38Pp065PIa9ExcBtXpG9uJunXZYX6xhGWaU3371wMEepaOt3orx
+	 SLvLld6ODt2XpDdpa+es5HihA9pcvXDntCWZeNkiefLjoP0sXygboJg3WNrz6PFkxb
+	 /kVrUm9TpQA8Kgpno9f2BDr05L0w+zbmJ8d69OU0mPNYXSu0JGwAJtq8DoK+LahPyU
+	 vzgpipapyiMLK4+GDD/uMyusd4QhQ+aYoBxfaQjkuezkhy1DTRqzPhXLI1c0+no8/l
+	 tBO1lBDeKKAhZtofNy7IWWsDQrtK5c0Cp2K1zdb2wBdFel15NVtznxYXmLZ5lV7x+S
+	 dDpIBOfRTtoEw==
+Date: Mon, 21 Sep 2026 13:37:02 +0000
 To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
 From: OptoCloud <git@optocloud.no>
 Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Yazen Ghannam <yazen.ghannam@amd.com>, Avadhut Naik <avadhut.naik@amd.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>, "x86@kernel.org" <x86@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 0/2] x86/mce: Reset stale per-bank state between bank scans
-Message-ID: <g0x3OhSrEu9B2QPUUvyd5APM00mZ3wahJzeMthu0lcy8o_1R55nx_1kNgUgQ11cABCTZE6w9qJVKXItSyD0gxnC0oZ8wq-wIplFvR3V2rwQ=@optocloud.no>
+Subject: [PATCH v3 1/2] x86/mce: Reset MCA_SYND between bank scans
+Message-ID: <zmLt5S3aLNcgxhqRI7yuVhN-gNY-W2KFuNz9F9gU4jvyJuY4LGM41p4WuEVus3-_3fs8B9sMA0143PG2urpBRYKlSCxuUQxV401F6USx4DA=@optocloud.no>
 Feedback-ID: 192797849:user:proton
-X-Pm-Message-ID: c4877b5cb0f056577176d5338e23cf2c9d725ddd
+X-Pm-Message-ID: cab022f29a8d9cdad8f31f10022429e94147355f
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -43,30 +43,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+From: Eirik B=C3=B8e <git@optocloud.no>
 
-Here is v3 of the MCA per-bank state resets, squashed into two patches
-instead of three.
+machine_check_poll() and __mc_scan_banks() both reuse a single
+struct mce_hw_err while iterating over the MCA banks. The record is
+zeroed once before the loop. Each iteration then resets only MISC
+and ADDR.
 
-v1 and v2 accidentally went out with "OptoCloud" as the display name,
-which is my online alias.
+On SMCA, mce_read_aux() writes SYND only when MCI_STATUS_SYNDV is
+set. Nothing clears it again, so a bank that does not set SYNDV
+inherits the SYND value read for the previous bank in the same
+scan, and that stale value is printed and handed to the decoders as
+if it belonged to the current error.
 
-Yazen asked for the ->kflags reset to go in the helper, and for v2's
-3/3 to be merged with 2/3. Both done, so __mc_scan_banks() now clears
-m->kflags too, which it did not in v2.
+Decoders are expected to ignore MCA_SYND when SYNDV is clear, so
+the stale value is cosmetic.
 
-Dropped Cc: stable in both patches per Yazen's review. Patch 1 is
-unchanged code-wise and carries his Reviewed-by.
+Reset SYND at the start of each iteration in both loops, alongside
+the existing MISC and ADDR resets.
 
-Eirik B=C3=B8e (2):
-  x86/mce: Reset MCA_SYND between bank scans
-  x86/mce: Reset MCA_SYND1/2 and kflags between bank scans
+Found by code inspection; not reproduced on hardware.
 
- arch/x86/kernel/cpu/mce/core.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+Fixes: db819d60f672 ("x86/mce: Add support for new MCA_SYND register")
+Signed-off-by: Eirik B=C3=B8e <git@optocloud.no>
+Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+---
 
+Notes (amlog):
+    No v2 of this patch was sent. The numbering follows the series.
+   =20
+    Changes since v1:
+    - Dropped Cc: stable (Yazen)
+    - Picked up Yazen's Reviewed-by
 
-base-commit: 93f51579e7df248780214094418f205253383cc5
+ arch/x86/kernel/cpu/mce/core.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.=
+c
+index ab469605fc89..16183fa4ddc7 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -808,6 +808,7 @@ void machine_check_poll(enum mcp_flags flags, mce_banks=
+_t *b)
+=20
+ =09=09m->misc =3D 0;
+ =09=09m->addr =3D 0;
++=09=09m->synd =3D 0;
+ =09=09m->bank =3D i;
+=20
+ =09=09barrier();
+@@ -1347,6 +1348,7 @@ __mc_scan_banks(struct mce_hw_err *err, struct pt_reg=
+s *regs,
+=20
+ =09=09m->misc =3D 0;
+ =09=09m->addr =3D 0;
++=09=09m->synd =3D 0;
+ =09=09m->bank =3D i;
+=20
+ =09=09m->status =3D mce_rdmsrq(mca_msr_reg(i, MCA_STATUS));
 --=20
 2.55.0
 
