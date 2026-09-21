@@ -1,45 +1,53 @@
-Received: from out198-18.us.a.mail.aliyun.com (out198-18.us.a.mail.aliyun.com [47.90.198.18])
+Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8997B365A0F;
-	Mon, 21 Sep 2026 05:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2417044A725;
+	Mon, 21 Sep 2026 08:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789970205; cv=none; b=VDHDfOg3BY/4Z0gPZyM4We1H2RFAfW4CEQyamxDlLRsaxfjXgXwBwe6P3O4fZ9GB/MO6R7wZDOji6oFKxx/qtJf2RXaa4NxjX2aPI3yCFPzPTsVQkrLN/AlbS9I7nzer+E69JXr7LbWWxE2q+LGawdXt8wf9wCFpdXE68+fbvkU=
+	t=1789977857; cv=none; b=ir3lYcsyxy3vRNUiEO4p44RVY10tNrOLVNLsWYurH2ck76WcwAUkv5yqB8UPMjOvPzb4lYtphwXs5QXtWWsy9QKpWAYdxnldmumiTXz3LJjVtIM5iw+sbBwunUBBXGJt/enahsjS8Ek42pESQpf33tsx1jV1QaRlECn4RCQqsBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789970205; c=relaxed/simple;
-	bh=Y19hvtuGGIPWGRHUaLnout1jeLW6wcOtdMLMoTiH57s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O13YYrw08YHHWnTgdZfJntRKqIjeh2Hwyqt9nzShpwSdCeThZ8X8jLB4nM1QuxL+hg9kep+2BbG8sFUdVsZCK3oFe1H7vecFsVjHZHBXLy9XxQPQwjtVQHNJGDs/La6VJM0cS6LwR5hj6YWRfOKOjSrKCEULfk0u/SYxbaYxjXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=47.90.198.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.105473|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.00706148-0.0109065-0.982032;FP=5300217843762596315|1|1|1|0|-1|-1|-1;HT=maildocker-contentspam033037022039;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=15;RT=15;SR=0;TI=SMTPD_---.jIkm1uO_1789970180;
-Received: from localhost.localdomain(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.jIkm1uO_1789970180 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Mon, 21 Sep 2026 13:56:21 +0800
-From: Lin Wang <wanglin@open-hieco.net>
-To: Borislav Petkov <bp@alien8.de>,
-	Yazen Ghannam <yazen.ghannam@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Cc: Pu Wen <puwen@hygon.cn>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Tony Luck <tony.luck@intel.com>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Guenter Roeck <linux@roeck-us.net>,
-	x86@kernel.org,
-	linux-edac@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 6/8] x86/amd_nb: Restrict the northbridge framework to AMD CPUs
-Date: Mon, 21 Sep 2026 13:56:01 +0800
-Message-ID: <20260921055603.25112-7-wanglin@open-hieco.net>
+	s=arc-20240116; t=1789977857; c=relaxed/simple;
+	bh=2+MPneEC8c6gMfIIvCxJ05wEMHIdcFqJRHelEWlO9qE=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YDDSHm4mhPmaz6EJd8e/EZVvRpW4UnVeU/szgN8zv53z4eLvEiAU2Vq7wewgJJb2U0tM+rghz+/ubCtnpI3pWAI0BnIHuA4hkNkASlTtWtLC74Ga9VgKgUrNyi96ooW/BJueO1f8RvUS/r5Mtk6hSwoE7EUSFlo0HZfSCALeatk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=FrFzVX6H; arc=none smtp.client-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="FrFzVX6H"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=xv+EVXdkYcjZnUBkDlxkGt1+yajUwqqEUYIuSmBmRUg=;
+	b=FrFzVX6HxZQlXWZzst69uTPQ4CoYdrR4RdJqw3WxYNMxdju+kUq/iQ8tu23hvkTqOPFlzRGA2
+	0aAnLPM4O4adq4z2MeqRbrdIRSA6g7LCISauc6e09xU4O1FgqmRNO3VTZdajFfofRESq6Khzwe/
+	eGYZgE/3MOMuRH2BwlizVec=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4hpFnD3SDXzpSvD;
+	Mon, 21 Sep 2026 15:52:16 +0800 (CST)
+Received: from kwepemf100015.china.huawei.com (unknown [7.202.181.14])
+	by mail.maildlp.com (Postfix) with ESMTPS id BFDBA40538;
+	Mon, 21 Sep 2026 16:04:10 +0800 (CST)
+Received: from dggphicprd10024.huawei.com (10.243.6.112) by
+ kwepemf100015.china.huawei.com (7.202.181.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Mon, 21 Sep 2026 16:04:09 +0800
+From: Abbott Liu <liuwenliang@huawei.com>
+To: <guohanjun@huawei.com>, <tony.luck@intel.com>, <bp@alien8.de>,
+	<ardb@kernel.org>, <mchehab+huawei@kernel.org>, <rafael.j.wysocki@intel.com>,
+	<jic23@kernel.org>, <jason@os.amperecomputing.com>,
+	<danielf@os.amperecomputing.com>, <luoshengwei@huawei.com>,
+	<linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<liuwenliang@huawei.com>
+CC: <yangzhuohao1@huawei.com>, <douzhaolei@huawei.com>,
+	<zouyipeng@huawei.com>, <wangbing6@huawei.com>, <nixiaoming@huawei.com>
+Subject: [PATCH v5 1/3] RAS: Fix inverted context info bounds check in ARM processor errors
+Date: Mon, 21 Sep 2026 16:03:35 +0800
+Message-ID: <20260921080337.3000957-2-liuwenliang@huawei.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260921055603.25112-1-wanglin@open-hieco.net>
-References: <20260921055603.25112-1-wanglin@open-hieco.net>
+In-Reply-To: <20260921080337.3000957-1-liuwenliang@huawei.com>
+References: <20260921080337.3000957-1-liuwenliang@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -47,47 +55,40 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemf100015.china.huawei.com (7.202.181.14)
 
-The AMD northbridge cache previously discovered Hygon F3 devices by PCI
-ID. It now derives the node count from CPU topology and locates node
-functions at fixed PCI slots. Hygon DF devices do not follow that
-layout, so the Hygon branch no longer builds a usable cache.
+Commit 87880af2d24e ("APEI/GHES: ARM processor Error: don't go past
+allocated memory") added bounds checks for malformed ARM processor
+error records but contained a bug:
 
-amd64_edac and ATL no longer use this cache on Hygon. Restrict
-northbridge initialization and the early northbridge check to AMD CPUs.
-Keep amd_get_mmconfig_range() available on Hygon because it reads the
-MMCONFIG MSR without using the northbridge cache.
+  In log_arm_hw_error(), the ctx_info bounds check is inverted. The
+  condition "sz + (long)ctx_info - (long)err >= err->section_length"
+  adds ctx_info->size when the context header is already past the end
+  of the section instead of when it is within bounds. So change the
+  comparison to <=.
 
-Signed-off-by: Lin Wang <wanglin@open-hieco.net>
-Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Fixes: 87880af2d24e ("APEI/GHES: ARM processor Error: don't go past allocated memory")
+Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
+Reviewed-by: Hanjun Guo <guohanjun@huawei.com>
 ---
- arch/x86/kernel/amd_nb.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/ras/ras.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/x86/kernel/amd_nb.c b/arch/x86/kernel/amd_nb.c
-index 5d364540673d..848ed2ca17c3 100644
---- a/arch/x86/kernel/amd_nb.c
-+++ b/arch/x86/kernel/amd_nb.c
-@@ -125,8 +125,7 @@ bool __init early_is_amd_nb(u32 device)
- 	const struct pci_device_id *id;
- 	u32 vendor = device & 0xffff;
+diff --git a/drivers/ras/ras.c b/drivers/ras/ras.c
+index 03df3db62334..2540538a16a8 100644
+--- a/drivers/ras/ras.c
++++ b/drivers/ras/ras.c
+@@ -74,7 +74,7 @@ void log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev)
+ 	for (n = 0; n < err->context_info_num; n++) {
+ 		sz = sizeof(struct cper_arm_ctx_info);
  
--	if (boot_cpu_data.x86_vendor != X86_VENDOR_AMD &&
--	    boot_cpu_data.x86_vendor != X86_VENDOR_HYGON)
-+	if (boot_cpu_data.x86_vendor != X86_VENDOR_AMD)
- 		return false;
+-		if (sz + (long)ctx_info - (long)err >= err->section_length)
++		if (sz + (long)ctx_info - (long)err <= err->section_length)
+ 			sz += ctx_info->size;
  
- 	if (cpu_feature_enabled(X86_FEATURE_ZEN))
-@@ -315,8 +314,7 @@ static __init void fix_erratum_688(void)
- 
- static __init int init_amd_nbs(void)
- {
--	if (boot_cpu_data.x86_vendor != X86_VENDOR_AMD &&
--	    boot_cpu_data.x86_vendor != X86_VENDOR_HYGON)
-+	if (boot_cpu_data.x86_vendor != X86_VENDOR_AMD)
- 		return 0;
- 
- 	amd_cache_northbridges();
+ 		ctx_info = (struct cper_arm_ctx_info *)((long)ctx_info + sz);
 -- 
 2.43.0
 
