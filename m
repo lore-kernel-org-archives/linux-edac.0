@@ -1,132 +1,74 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+Received: from mail-24421.protonmail.ch (mail-24421.protonmail.ch [109.224.244.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB91345041A;
-	Mon, 21 Sep 2026 08:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4949486E4C;
+	Mon, 21 Sep 2026 13:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789977863; cv=none; b=u8J9ccXtsaLQ3H1XQZdLiAdTQrlqhsCY5SrJ0grxB7F8fSDnw6NOeQrPB9LzzAVRMvfvz3MKS//NlZ6OgBTi3UOBbIU7Id8mf90YlTfWV5CpEQMy60QW/ysArc2XCycFmfBaaDdavcXIM/jsL4jQk8X2VLhBnqePeg4+kK3CzPM=
+	t=1789997567; cv=none; b=jlc1g1M4978ek+BiCZyeB2jb9khQRKSgtm/DknD3UAThm5tb2aTlu4M7gUzJRXHBiJu/I6ycCyggDnzm5iWdu65DIMXx8kHIl7oKfNGyHSO2F4f7GK0L/OmiOTI0yLWQmHWpV18mDc5cGlclx1MprkW6WdCLboKCgKNnvOqOVrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789977863; c=relaxed/simple;
-	bh=ctxsi4K3jhdYPETBNpeycBJxIsBVH+gMJj5n6DNzq30=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lKyy++IqWoIedg5qmQ/l8gKOl3mGmr+45iGwGN7VcvHGERYlalkd1LUeK0PzacR0U0vbFtq0PP0bw4/OmadhKRMd+ZxshUES/MYySytVz11hI8+h3eI0Owv/UYwz+MinMFqTzw8wSpSRLewLx9UrNEa6unnL60hFJdmD795t1wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=50Sb9D39; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1789997567; c=relaxed/simple;
+	bh=/JlwHsnz9qBWezNIZd35ZdD7VBL43SxECRUxqfHXKYs=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=GLRZJFDQwbshudvh+wJj69t91CwmZL3hGikqbeouxacwRTHBOysSiBBrxfOhqnmChmfMt3k/KYLFXyTeyoz/fE35kBu89u+cIUNm+f4epWbSF4knIkRg9k71zb/wLS5dzPZ3kTFoZ2sWMh38J091puFuC/OsilH0RpLPrekFi8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=optocloud.no; spf=pass smtp.mailfrom=optocloud.no; dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b=XiOV0L+u; arc=none smtp.client-ip=109.224.244.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=optocloud.no
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=optocloud.no
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="50Sb9D39"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=AGMOgDnjn0bT3s1dxuqcJ7m7Fndb2GHS1+lbjuUfUu8=;
-	b=50Sb9D39MVQZ/zEj7KM69SrN+kfRa4aUEDFIpVktde/8+MZjb7XFGElApjvnlP0neF51CYLad
-	Gdu/E1NwO4Q9MZHzw2BkO6pt8WYNVKAwMb0TJOZs0B1WsWkZZEth/oCy6c0ngPnYIQBrOIPNyD4
-	llPwlBcN5U3I10xE5/A5pAM=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hpFpF1LswznTZf;
-	Mon, 21 Sep 2026 15:53:09 +0800 (CST)
-Received: from kwepemf100015.china.huawei.com (unknown [7.202.181.14])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6B56540563;
-	Mon, 21 Sep 2026 16:04:11 +0800 (CST)
-Received: from dggphicprd10024.huawei.com (10.243.6.112) by
- kwepemf100015.china.huawei.com (7.202.181.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Mon, 21 Sep 2026 16:04:10 +0800
-From: Abbott Liu <liuwenliang@huawei.com>
-To: <guohanjun@huawei.com>, <tony.luck@intel.com>, <bp@alien8.de>,
-	<ardb@kernel.org>, <mchehab+huawei@kernel.org>, <rafael.j.wysocki@intel.com>,
-	<jic23@kernel.org>, <jason@os.amperecomputing.com>,
-	<danielf@os.amperecomputing.com>, <luoshengwei@huawei.com>,
-	<linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<liuwenliang@huawei.com>
-CC: <yangzhuohao1@huawei.com>, <douzhaolei@huawei.com>,
-	<zouyipeng@huawei.com>, <wangbing6@huawei.com>, <nixiaoming@huawei.com>
-Subject: [PATCH v5 2/3] RAS: Fix out-of-bounds read when tracing arm_event
-Date: Mon, 21 Sep 2026 16:03:36 +0800
-Message-ID: <20260921080337.3000957-3-liuwenliang@huawei.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260921080337.3000957-1-liuwenliang@huawei.com>
-References: <20260921080337.3000957-1-liuwenliang@huawei.com>
+	dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b="XiOV0L+u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=optocloud.no;
+	s=protonmail; t=1789997552; x=1790256752;
+	bh=rqfzXhIHgWL1ysTH5+xFLxUMZV2vHhaYy5Z33AQ80QY=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=XiOV0L+uG0kgaYngu1BqlyrzP84s3VhV2qQmEj+sXDcJILd8ZztEUYJZVGwFx3wXw
+	 RfS5v0XxyQSsEgXgJ0cHyXD+KKFdGaJNWIk+uAiijSqcNsg4unm5H+DYFWMsCO313C
+	 9gME/sY396pbzmo0l1a8LDXS/O+IOpY8Bws30Tv0/Vkc2+Cjpz3VmOe9kmi3Us6T2c
+	 P+JBvHYxOvgqPWg002vMiFJi3J2vRNupQOMml1efXgPcAbJIGmc1DKc47yqS6oGuQM
+	 qDJ/Kg6I9CvQC+zT/uysy0bQd5LZyqBMX2AqLPBGa2H0MIxFbD+rC0ssYVHpJ0GH96
+	 ThGCZhmzqU4qg==
+Date: Mon, 21 Sep 2026 13:32:27 +0000
+To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
+From: OptoCloud <git@optocloud.no>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Yazen Ghannam <yazen.ghannam@amd.com>, Avadhut Naik <avadhut.naik@amd.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>, "x86@kernel.org" <x86@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 0/2] x86/mce: Reset stale per-bank state between bank scans
+Message-ID: <g0x3OhSrEu9B2QPUUvyd5APM00mZ3wahJzeMthu0lcy8o_1R55nx_1kNgUgQ11cABCTZE6w9qJVKXItSyD0gxnC0oZ8wq-wIplFvR3V2rwQ=@optocloud.no>
+Feedback-ID: 192797849:user:proton
+X-Pm-Message-ID: c4877b5cb0f056577176d5338e23cf2c9d725ddd
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemf100015.china.huawei.com (7.202.181.14)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-The vsei_len < 0 error path did not verify the pei_len and ctx_len.
-When vsei_len is negative, section_length is too small to hold the
-full record, yet pei_len and ctx_len were derived from
-err_info_num/context_info_num and may describe regions beyond the
-(long)err .. err + section_length buffer. To prevent trace_arm_event
-from reading past the allocated record, sanitize the parameters:
-recalculate ctx_len and pei_len based on section_length, limit them,
-and set the corresponding pointers to NULL and lengths to 0 when
-there is no remaining space.
+Hi,
 
-pei_len and ctx_len become s32 so that the recalculated lengths can
-be checked for negative values.
+Here is v3 of the MCA per-bank state resets, squashed into two patches
+instead of three.
 
-Fixes: 05954511b73e ("RAS: Report all ARM processor CPER information to userspace")
-Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
-Reviewed-by: Hanjun Guo <guohanjun@huawei.com>
----
- drivers/ras/ras.c | 22 ++++++++++++++++++----
+v1 and v2 accidentally went out with "OptoCloud" as the display name,
+which is my online alias.
+
+Yazen asked for the ->kflags reset to go in the helper, and for v2's
+3/3 to be merged with 2/3. Both done, so __mc_scan_banks() now clears
+m->kflags too, which it did not in v2.
+
+Dropped Cc: stable in both patches per Yazen's review. Patch 1 is
+unchanged code-wise and carries his Reviewed-by.
+
+Eirik B=C3=B8e (2):
+  x86/mce: Reset MCA_SYND between bank scans
+  x86/mce: Reset MCA_SYND1/2 and kflags between bank scans
+
+ arch/x86/kernel/cpu/mce/core.c | 22 ++++++++++++++++++----
  1 file changed, 18 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/ras/ras.c b/drivers/ras/ras.c
-index 2540538a16a8..085fe2d980e5 100644
---- a/drivers/ras/ras.c
-+++ b/drivers/ras/ras.c
-@@ -58,10 +58,10 @@ void log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev)
- 	struct cper_arm_err_info *err_info;
- 	struct cper_arm_ctx_info *ctx_info;
- 	u8 *ven_err_data;
--	u32 ctx_len = 0;
-+	s32 ctx_len = 0;
- 	int n, sz, cpu;
- 	s32 vsei_len;
--	u32 pei_len;
-+	s32 pei_len;
- 	u8 *pei_err, *ctx_err;
- 
- 	pei_len = sizeof(struct cper_arm_err_info) * err->err_info_num;
-@@ -87,14 +87,28 @@ void log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev)
- 		pr_warn(FW_BUG "section length is too small\n");
- 		pr_warn(FW_BUG "firmware-generated error record is incorrect\n");
- 		vsei_len = 0;
-+		ven_err_data = NULL;
-+
-+		ctx_len = err->section_length - (sizeof(struct cper_sec_proc_arm) + pei_len);
-+		if (ctx_len < 0) {
-+			ctx_len = 0;
-+			ctx_err = NULL;
-+
-+			pei_len = err->section_length - sizeof(struct cper_sec_proc_arm);
-+			if (pei_len < 0) {
-+				pei_len = 0;
-+				pei_err = NULL;
-+			}
-+		}
-+	} else {
-+		ven_err_data = (u8 *)ctx_info;
- 	}
--	ven_err_data = (u8 *)ctx_info;
- 
- 	cpu = GET_LOGICAL_INDEX(err->mpidr);
- 	if (cpu < 0)
- 		cpu = -1;
- 
--	trace_arm_event(err, pei_err, pei_len, ctx_err, ctx_len,
-+	trace_arm_event(err, pei_err, (u32)pei_len, ctx_err, (u32)ctx_len,
- 			ven_err_data, (u32)vsei_len, sev, cpu);
- }
- 
--- 
-2.43.0
 
+base-commit: 93f51579e7df248780214094418f205253383cc5
+--=20
+2.55.0
+
+Cheers,
+Eirik B=C3=B8e
