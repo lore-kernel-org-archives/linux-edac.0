@@ -1,218 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010019.outbound.protection.outlook.com [52.101.193.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B7248FF67;
-	Tue, 22 Sep 2026 19:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31033A0B2E;
+	Tue, 22 Sep 2026 20:23:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.19
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790105183; cv=fail; b=aZxmr3AkkIFYxzLk9saU3RdKTOX3qn8/fgusRnkG0HRnhgekipQj0qj38kw6fUuaOY4hH4YdCq0AzEYDi6NTWq7tdrrofSaJ5wlFYO5tZqsvv1Jy4kqppEVq7RM9sJXU1ACCyYediF6TisyQ04Xi00kNHkSml9OiNKecW38Eclc=
+	t=1790108628; cv=fail; b=r3Kwc58tNql1hFMI+8S4Zuoo+v48wplI98W8vwOe9dUykYLhoxEPCPUAIpiQTxrjMQAAkHmx9/+7JrcEDQnMwiGEYtR6NMSAfrCQ3HqWSDPNPYsXdiPFsV5459UdiWXm8Dn8UlcIfFv+vIWA2tsaxUS2ywWoIwLuyCKXG4goZrg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790105183; c=relaxed/simple;
-	bh=ja614ymcYOMPz6PRB/SXAAcyyGk521qagFQrU8PGJNo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=caLenec7vv+EIgVlGYAsM0TzuoM+K2fx+tm5Jbf9IHXKwsh3M4szf19/Pe8q9LMoehjqQekn4i/LGA+tOC7PJl9tOsMSJWTNq+6GteaViFulBxfu1JWJkVZ0eUgbXKanW/gxO2MSaLW+wJNU9qFE88ouRzbnQL9KO+vvGj4ny0A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ljlqK5jO; arc=fail smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790108628; c=relaxed/simple;
+	bh=9+LBtx0HX4hFW6yiZncJWjKoaBKK07ph7p4TmIacqWI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fHVNteoFDGBq9ES//MN53ByieuPUXvSjqC5a1SLnjj1pQqzebyWN1aoBFYCp3olYdc7LcY6GM7sC0MxOB5mXcmzyXWcOzGykLPRmNBxH1BjM5INDXjAEvpXl4UYlE0Llkrx4lp+UmDkPlw5Th5R/RfXXCGB4+ValX3DoHs+cJts=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=uEqmAI/B; arc=fail smtp.client-ip=52.101.193.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ljlqK5jO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790105182; x=1821641182;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=ja614ymcYOMPz6PRB/SXAAcyyGk521qagFQrU8PGJNo=;
-  b=ljlqK5jOnYg9b04sINTsF9xTobKhtldoBsIcPN6yrrao/MN71hE+JKvU
-   qpn7HKf0oIO1flQ8kOws8usMntGib4qlpdi6nq/w7kS33MjU1vqESUzpE
-   Rb+iXrArO2UYEnOrjIkfjEDONmPyLeKxQY8tTxAsDYwYxodwrNBoYdYE7
-   YmhX5FhQqX598IdH40inKX/+zSo0afNBJ7qMchd9O+/qISIAxRGz9AzLR
-   yR1RA9fC/tTp+kFp2chTgF0j83RwvoEhj/BMH+/G/o38lAosqagJsHSVJ
-   YvjDNcBxMMEqdii5Qe+ZTcJKTbAuxQm9VQWn9GkLpkKYpZ2cPPac9nC+A
-   w==;
-X-CSE-ConnectionGUID: 9/WGAXv1RYaoFd9V46OFoQ==
-X-CSE-MsgGUID: x9UQ1YkNQ3GQqczk5Jo2pw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="90858423"
-X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
-   d="scan'208";a="90858423"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 12:25:47 -0700
-X-CSE-ConnectionGUID: WqceGlClRbW4H1cOIhT3GQ==
-X-CSE-MsgGUID: 8JYF05HjQYCquMUq9xkqWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
-   d="scan'208";a="278029215"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 12:25:47 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Tue, 22 Sep 2026 12:25:46 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46 via Frontend Transport; Tue, 22 Sep 2026 12:25:46 -0700
-Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.21) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Tue, 22 Sep 2026 12:25:46 -0700
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="uEqmAI/B"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ACLKVSg/8vobSlS+lAWxJcmDPLWbOlbbebjwgV/edfOQs+2Qq+UFBcDRllrw8Go9/Jo2usxfF55/f8fkBJLP/tk+JAllWqY4RQuQx7JNwTDT8WMP2M6cpp7nAEg0xVfvDaUmk5fOEciytun5D+TWv2LIMO74Vck7LTJPp1HysVMOOJJV6zKGzwni5f6LrWPRcn+CH/0XTX0baCcds3GoSOLe9Im7dK21a0ndTG18qlyH9qo4O9axkFttqtb0rHRzvG9KT/X9YqJsrihWSr65/CqIutlHMggyCkx+FsWbzuz01CDo/o2L0g+lmaxevIR6knHTxlQLf8BtAnCa+ybVxQ==
+ b=mK/MqpEofwAWfBWiMPF4NLE6Y7FgSY/Sd04LgvK6YmIoB3/uWm5BwDjwdQFORH5PI2nxICuosoNWA3ZWcAKiYWeSxBTokoc7LdMWGX0iGYt2ErGe6gm6qAdPSWIONJXUaErgjsy0YYTs8tMH71V7CJC9uao8Hyogqq5SPmJMcenhB3tc53xrHAiQ3QLDfj9oT0h4fJGe4rzCwnwWfLdAY5j1KwIVX70ITwSl90pp2FQGL4TXW+xuTPq/lk8eVOVFFHli7hExtGTiv/aaVNEW03jmE9uYay0lDdModPxl77+c8nv3FAWIkT3GYOwxE3j8NfvNzdEYZ7G4CG2KspLg1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yVCadMS/KV+2CplxqIV/vNELWqBrma/C3lws5Go5PrQ=;
- b=rLD3Amwuz5j5AeHxZCGsKy7VRDmV7btlOjdkxLbonlN5KALvuJQ55dhZcifZ7wR958L5OVfL0ZQ1tVeLI2z70+BZNwp5jaqxgS/UCE6WZxjnUusdZiLKfji6h+ZShxO+Is0RAoWqQtYfVwDdil0dG7+anwLKr8va64To2UK9BlfcZC54jWiA3HCU2h0wIZLdvnCTir3Tt6/8/NUH1hHi6tHYPeqQD+sXlucoDjFDVS6BgPuhueKAlcGzeZl8w59SiQbXSwT/Zb/274xYYepHPzYVxDukP/7toce+aSZycbguy11njW5UOPD4JvT1xojPeL5In6yXjQfm2y1OLXJhAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by PH3PPFE80710477.namprd11.prod.outlook.com (2603:10b6:518:1::d5a) with
+ bh=DAC2xRFc3F3GbaL4PjdqWrzXNSoD6xAVH3REfOwbZbg=;
+ b=LSd89K8nDSuvVfjYyuLPNfnfTSLMY4zYbmdsJLW01C5qhY5tUc8ZBmInW52UVcZDLT4OSXtNeFkWF0lf+9C6T0+DZbBEsu2NUDbfrpb5ymeow+k7HFwEME3Yf+eoQwdTz8YxblABAN8w8w8gm0YJeEVEn8CGG/3TuSh/ga7FbI5tvoesoLuCZbGxE5YOQ+GVw7EXDpY7CgcFi6q5mQzG82jknfU36AizeBRt3edINC+umd8y6ud5al7IRbhFm85d5JsHz24DQY1XdZ4XkcJncn9qY1Wp0MTQvG4bMCqNn97VylUu4J4rnvh9S+6z2YzzMjnlVkcSZVvads8HocU0cA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DAC2xRFc3F3GbaL4PjdqWrzXNSoD6xAVH3REfOwbZbg=;
+ b=uEqmAI/BEUQkMq504nSGLx0A5T6UNs8GIgUqRo2mw2wYoYbpvKomMIgD2kUg8FCPk15FMk9e4A+h7IIOgb9YRRkQ7LMvG8wzpVVZU8SJC84v7jh86r+P02qt+EZMFGyFgNKIXOA4xUjggSoRlg6pOHnc8ja8KpgyXF9d8o+ccIg=
+Received: from SJ0PR13CA0007.namprd13.prod.outlook.com (2603:10b6:a03:2c0::12)
+ by CH3PR12MB9432.namprd12.prod.outlook.com (2603:10b6:610:1c7::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.16; Tue, 22 Sep
- 2026 19:25:43 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6%4]) with mapi id 15.21.0451.014; Tue, 22 Sep 2026
- 19:25:43 +0000
-Date: Tue, 22 Sep 2026 12:25:42 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Borislav Petkov <bp@alien8.de>
-CC: Wentao Liang <vulab@iscas.ac.cn>, <linux-edac@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <qiuxu.zhuo@intel.com>
-Subject: Re: [PATCH] EDAC/i10nm: Fix mdev reference leak in
- i10nm_get_ddr_munits()
-Message-ID: <arLWNgnyo08aFM-R@agluck-desk3>
-References: <20260916091251.1997522-1-vulab@iscas.ac.cn>
- <aqx5UOLpXdDnDsi7@agluck-desk3>
- <20260919053437.GEaq4e7SFEZqRzsjim@fat_crate.local>
- <arFVjp8k-3kvSkhf@agluck-desk3>
- <20260922045057.GGarIJMRAjfqj6mkhE@fat_crate.local>
- <arKX7O905e7yv3Ra@agluck-desk3>
- <20260922185307.GBarLOkzBqoqlD_mNX@fat_crate.local>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260922185307.GBarLOkzBqoqlD_mNX@fat_crate.local>
-X-ClientProxiedBy: SJ0PR03CA0371.namprd03.prod.outlook.com
- (2603:10b6:a03:3a1::16) To SJ1PR11MB6083.namprd11.prod.outlook.com
- (2603:10b6:a03:48a::9)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Tue, 22 Sep
+ 2026 20:23:32 +0000
+Received: from SJ1PEPF000037A8.namprd03.prod.outlook.com
+ (2603:10b6:a03:2c0:cafe::95) by SJ0PR13CA0007.outlook.office365.com
+ (2603:10b6:a03:2c0::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.14 via Frontend Transport; Tue,
+ 22 Sep 2026 20:23:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ1PEPF000037A8.mail.protection.outlook.com (10.167.244.181) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.451.8 via Frontend Transport; Tue, 22 Sep 2026 20:23:32 +0000
+Received: from quartz-7b1chost.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Tue, 22 Sep
+ 2026 15:23:28 -0500
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: <bp@alien8.de>, <linux-edac@vger.kernel.org>
+CC: <linux-kernel@vger.kernel.org>
+Subject: [PATCH v10 0/7] Incorporate DRAM address in EDAC messages
+Date: Tue, 22 Sep 2026 15:23:10 -0500
+Message-ID: <20260922202318.4079080-1-yazen.ghannam@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|PH3PPFE80710477:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92155e3e-d6ca-4a13-3c79-08df18df4ba5
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000037A8:EE_|CH3PR12MB9432:EE_
+X-MS-Office365-Filtering-Correlation-Id: 786d1784-ee2a-49fa-d0ab-08df18e75f23
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|11063799006|6133799003|56012099006|10067099003|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: ydeXbVLDhOsxAT/CaTugsx+3IbPFTjpd9LUIaYfMDU2QvLGot2SIItSPSiDZZX9g1pqmuulyY8wBdGq4rWucIqbaGdm7igQ85Ei5A6ske0zONd3iNf0nHeI8rbg3mKmeCvUhRw09wdID+Rvks+nUDGfatwF4FT4D9A9rJHWIMLJ3/ieVSOuLZYh8yNqh91yXN7IrpLjSIdLP+ch3vcV/dUIGs21RfciNI7/2l3pNZxn7qH6ND6ku4GdHgkozfcW+IVw4CoNV36AMqqL0ccDFoQ3CFM5jyCmFoRusiRd066l4uqGzoAxUcyEk5wMCkbWCUry0c4URQQsLF7nVUva1ijEQi//gw2tA1skmgwUBtf3bu7tM5VsCDqRLQklKwd5bCR33qvCKC9kaeV8Sj33sZFJed8xQbS4IiTyOJGctfMJiFl+H2IbmKJvlb1zglVRzSzOhG/NLWGk/dEm4A4zf0xUfnW+FP+N6BXCPw5DPIZ60vDA/ZN5ZGdexRG1yy15JxyIuFBqy+NtzG06XBiWpKzLCjbeOOZGQ1DJaTuFD3qcgwGs7FOE64YARD7mc39tsWpV5dH8RrX0t4ODTcx5Hzhg0TKaUpGj9MisZagwLXQlZH0VwyrlAyWlcuEoVt+RnRhFaVYqWd3cOLJ5bWAiZjRjWqsNKAidFrA6Vj53/jWA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(11063799006)(6133799003)(56012099006)(10067099003)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|23010399003|36860700016|1800799024|82310400026|56012099006|5023799004|11063799006|10067099003|18002099003|13003099007|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	7a9a8vg6p6vuWaF6fEKmqrXkV+QRrMNkg9Fwurx3ocJbfAyFTc50KDba5GPTOmQOwewcFVW/8+ivxAIj9IWmyhe00CS3Ec4Eg/R3Bl57VqMiov+AJX6Qr7p4J1YZapa2Cy9f8IbS6Ha8SdV595nOka9RNF9imhK3ckKPcQhaHZOxPl5RcsbYPyV8uyLWmQOwAZQQ91uuc70S53nWvt+diehq8ppPAaKIlUnxEPTILpWkYSmW+TQoA4xuHpsIvD5EOIXOI0FlZQyeEtCxD/Yv4nurK9rQcAwWyya0YY3R6Xu7AKurpm4V281aWMjhSM6iKyNpFfZM1vHiv8DHcHkYPz7fqu0rP5S7kFGLlfdnQGfKMtAPfS74Gk4hZhkR3vHzLZ7jMSUM39r2IvPZj13QDpcyoEjDPfy9uCBJMPAJRE2Ozv3cL/quFvSplzzshS4kDBa3fNA9QB1kqN7g/X5BAkFCGvz8nghhpQWUssQETjq9BcxOY/au5h6wuAb+8ENRU8FLLy4imNP7mcZXa16HsaFnIjsftHdkSePKSrTP9qj/il5QQlIAsPkFtF4UVF/uCr2JFQUjCjedrNGt+oO41iORpyt8eMxkaTuOh4qVUB0Xo7RLfHcjMQXTrGSHhA1pIcgo6zGPXrL/IU1f0WdDOfcZIZpDyF9JKhFnzQJZFlQ=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(36860700016)(1800799024)(82310400026)(56012099006)(5023799004)(11063799006)(10067099003)(18002099003)(13003099007)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RVydRKlR1L0JfJTh9b7E7zGZca3RKll/JCbDcex6iYmtR8VlXByZiUi6Os5j?=
- =?us-ascii?Q?lmK03Sx9fCwepzVLr7bZMvtDCPPqi5PbYJv9rrEIic0S1dzMHYSl45+OfqW8?=
- =?us-ascii?Q?MWScypqaGgpsX3S817edvfsjRQLj9Y/wZU6RDFcjyBXZegQOeVFIvyoSBolS?=
- =?us-ascii?Q?BofJdVVKitzSOPj0fL5SR5a7IxxW7mkN5GtuObO0aj23Hi9hPDU1OkwMcjfF?=
- =?us-ascii?Q?yFARR30SzsNIIagui9K/LkpQGyRgYwDxeZTMuVz7HS+GMnrcMq5torAu4tJO?=
- =?us-ascii?Q?Xbv8THfR+D+TKRWLwFKlO0HAdzr5l6LQtCjUHO6x5hDoVE69h8YZ86iE71Wy?=
- =?us-ascii?Q?zhRitFIvIJsdgKFwzTHVsrv/nKNJEl3L9ENQGmZO3GaZxPcm0ik1uHjSYERe?=
- =?us-ascii?Q?PkJHLPVcWhOKfFDbk9RdcBq+chzcCv4Q4NbBQkeEVWVedz8pbw+kXoBmI90L?=
- =?us-ascii?Q?5kOwmLmMXSAQlfRe4MXhjaAfE+qDBWh5eIErWGX9KAhoaW+Jx0yoFWymELbV?=
- =?us-ascii?Q?t097+GMeCnEc0udHvrscxg4hBBqg9NQz2guEub1iKsgNiH6KpwBIOnWSVu+R?=
- =?us-ascii?Q?lCxd1sGtGjDLqX3S1Fn2Kdm0BsUNMoaEgYS01HtnVFuKrlFHplDN+OWaw9JA?=
- =?us-ascii?Q?BW0t47s5ZeUb6T1FZkTCV4jSaxWsefa4/dUsmvfj0Ai0EvCPKVT2bCdOsbvE?=
- =?us-ascii?Q?vI3RsypbdqJLTZAOyBoY9wGuZXl+LmO3y1xQRGZ5nsoYH+JFEpzOr1Y2ejVU?=
- =?us-ascii?Q?X4T429VwzVzGtFolRxH1sDCK2ZQR0lq/TtX0GIrqroIUTaHgYjhehbbfg5BD?=
- =?us-ascii?Q?ittEQ6rXYzjjKLvaGYG4TG7dSw9n7jfh1p2yVfoUm4G8NsNy6iX4vEcG36aE?=
- =?us-ascii?Q?LAnh9fP+JfrMAE32dyM/MGQ2P/jhc0t1KgAMTrDGYAV+aNj6VJoXEfWDa1lj?=
- =?us-ascii?Q?QGkZz9CtZ+bLalaFNUlH1nmOBwsJ2ZKJc2xLh2IqsWPizGe0m1+bGLZtK1+g?=
- =?us-ascii?Q?yVipIEGTZ8AvSp4Nt/4r1Gs33ePHf5E+aUzVEJUaum57qm5ahsoPlRhFLeEr?=
- =?us-ascii?Q?u1hdNVFXDHrcejlUcv6VLOsRuvS+u2SFmJ6zNVmX5BggVKjhZi2AtK+zhT9H?=
- =?us-ascii?Q?QATf0zL4WUuVPYRkLkYisLgukP/yKu1wyqmBlWyMnsCDsL0drUE3Y7O6FMjm?=
- =?us-ascii?Q?bFdlYRpaCxCRiPkl0QH/Zk9sRtzExZeOPIx3ByG+BB8NmKcXK46Ha/55ffEV?=
- =?us-ascii?Q?wjNZ1VfLs0ojOgOAQoX+sU75/Y9jRELdTiKD+qH3HavBL0iy7H36tkt4Jmos?=
- =?us-ascii?Q?tLCVQG4e6bvosHWUBaDVJnLtxbxCzr2pOhOvIDISxCn6rU/Cyo3AJRn+KkaX?=
- =?us-ascii?Q?o1o7YFt43sBU0YxJy/Gq9YlIxlSi4TgjN2fTyJOGN4eGZFjXo7am+8c/Rbvh?=
- =?us-ascii?Q?AmVg0OmqZF69D7B2ZX0Xbs3RSHx1QwGaHvukDt8bdiazPZvmjExmjdvov4F6?=
- =?us-ascii?Q?4s1vl8RCYEDLnDcSGfb/ubm0rs6yGQzJa+DSdUUAIDHtG1zH+kpWM6ndyH72?=
- =?us-ascii?Q?As4fcSDf1A6mXIm5clx8ORH9saxjL0EwqHHiorFPMq1yYefYDlNW7yob9tps?=
- =?us-ascii?Q?np44HGUH2TuMTN3IgXkC8J5V0nFBChPPqMz/u0xPkHBbH/fX31wwy/Sd5dm3?=
- =?us-ascii?Q?Zr0+3iOL54Fa++vfITKxJKCRTZkLhPqZsVQKRB29SZrRVhciGQCxHuwQUBSV?=
- =?us-ascii?Q?FZYXxjyH0A=3D=3D?=
-X-Exchange-RoutingPolicyChecked: lvG+zSFvWHqum710KsCFTUS5cPYZTuYWIephqHge7yL+XdMkEaZfYBgpLjvrh/3egK8Pj4sxnDw2clChTNQ4W6tIez2y7ovofXOrUD2KJev02a/TzUGKwpdeWt/BHzgwS/Ykb7nkSHvvDsvL1AKwGHM6jkwBNPvAoAOwfFZIi/gsQ2A8oms9gXljpsT8Zg0g1qKktRUd/AvcFBfnMqewlLnRd1/pqGcJTnsCDcVNwUSwIFc1qWMdcntOZ5i098XXngxR2Cgs+hO7hmmPDJWUSFKfCxBh6xElAyyIDD/fRzaETpwG6U3Tg56R6rl/Jitqe/GRX6IlGMOXAXbgDvLnVg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92155e3e-d6ca-4a13-3c79-08df18df4ba5
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 19:25:43.7657
+X-MS-Exchange-AntiSpam-MessageData-0:
+	53EHM8wyz7Qtg/XMxJLSlXJ9mT9PnEVnlGVSdiro9Y+3CuiNKIW+6wcWdJEAI9zYmgU6RP3GRF+BKuqL3SLz+66qcpyNySbNk7lKhvrlojLPUv5zj8yCy798cHPilRge70v16j3++EOpueUvw8hEaxH3ayCXkOCL6umAyBuQpaHDLf+D8J2F0RfZXxL9RgWtBos+oo/eJeGIbro2Cv/Uec9RB1ggBZAHpVt8Bcr0uMx4U49VNR71Iw+Zvan9hSLH4p1GH2SK6eIVbirc9p0cz/i492SvUFE4Ggjd+D9pGsEmRjcUYxQdfu7tW9qBNN99Yaz8cK1mG5aPzmrDqlKftDKJQsTkm66p7hhUxdcRNcKdsxAZX/sgFs6j7m/xp+9M7GcYgocP3lOTVsw5xdf08huueFsHw0R941zBcXWPWCN3+scTr23UiJ168rlCs+yw
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 20:23:32.1346
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QVrOKf2KaN8K3U+pttMAwxSW/u/qWCCsf4DIkoWWBKLyP8KBHpaLdspmVijMWSwKoErFa1LiXqzrhdRQd5Hd+Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFE80710477
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 786d1784-ee2a-49fa-d0ab-08df18e75f23
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF000037A8.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9432
 
-On Tue, Sep 22, 2026 at 11:53:07AM -0700, Borislav Petkov wrote:
-> On Tue, Sep 22, 2026 at 07:59:56AM -0700, Luck, Tony wrote:
-> > The "Fixes:" tag is a matter of fact. The "Cc: stable" is just an
-> > opinion.
-> 
-> Are you being serious here?
-> 
-> "CC: stable" is a matter of opinion?!?!
-> 
-> Tony, where are you getting this from? Please point me to the docs where we
-> state that, please, because I have never read it before.
+Hi all,
 
-In Documentation/process/howto.rst
+This revision addresses a couple comments from Boris. Also, the couple
+of patches originally by Avadhut have gone through a few revisions. So I
+updated the attributions.
 
-  - After two weeks a -rc1 kernel is released and the focus is on making the
-    new kernel as rock solid as possible.  Most of the patches at this point
-    should fix a regression.  Bugs that have always existed are not
-    regressions, so only push these kinds of fixes if they are important.
+Thanks,
+Yazen
 
-and Documentation/process/2.Process.rst
+Link:
+https://lore.kernel.org/20260730194834.3203601-1-yazen.ghannam@amd.com
 
-   The merge window lasts for approximately two weeks.  At the end of this
-   time, Linus Torvalds will declare that the window is closed and release the
-   first of the "rc" kernels.  For the kernel which is destined to be 9.x,
-   for example, the release which happens at the end of the merge window will
-   be called 9.x-rc1.  The -rc1 release is the signal that the time to
-   merge new features has passed, and that the time to stabilize the next
-   kernel has begun.
+Changes in v10:
+ - Retitle patch 1 and rewrite its commit message as suggested.
+ - Pass a struct param_buf to prm_umc_norm_to_addr() in patch 2
+   instead of the individual fields, and trim the commit message.
+ - Move struct param_buf to internal.h in patch 3 so that callers
+   outside prm.c can build it, and build it at each call site.
+ - Drop Avadhut as author of patches 6 and 7; credit him with
+   Originally-by instead.
+ - Update the Assisted-by tags to the format documented in
+   Documentation/process/coding-assistants.rst.
 
-and Documentation/process/stable-kernel-rules.rst says when to add Cc: stable
+Changes in v9:
+- Treat -EOPNOTSUPP like -ENODEV when PRM support is not built.
+  (Sashiko)
+- Document why the PRM handlers do not need the MI300 address
+  conversion. (Sashiko)
+- Clear the completed-operations bits in the translation entry points
+  rather than at each call site.
+- Narrow the operation bitmaps to u8.
+- Note that struct atl_dram_addr mirrors the PRM output buffer.
+- Widen the subject prefix of patch 4 to cover the EDAC changes.
+- Reorder variable declarations and reword commit messages.
 
-  - It fixes a problem like an oops, a hang, data corruption, a real security
-    issue, a hardware quirk, a build error (but not for things marked
-    CONFIG_BROKEN), or some "oh, that's not good" issue.
+Changes in v8:
+- Drop "Directly export address translation helper".
+- Merge the two PRM translation helpers into one. (Boris)
+- Build the PRM support unconditionally and drop CONFIG_AMD_ATL_PRM.
+- Formatting and other small changes.
 
-> 
-> Maybe I have missed that memo, who knows?
-> 
-> All I know is that stable folks appreciate and more or less rely on CC:stable
-> from the patch committers so that they can know to pick up the patch quick. So
-> CC:stable is actually a statement: this patch should go to stable.
-> 
-> Fixes: is just a tag that shows which commit it fixes.
->  
-> > An extreme example would be a patch that fixes a spelling error in a
-> > comment posted on a Friday before Linus is expected to tag a "final"
-> > release in a cycle. A "Cc: stable" on that patch shouldn't trigger
-> 
-> A patch like that should *NEVER* get CC:stable.
+Changes in v7:
+- Drop fake_inject patch that was already accepted.
+- Remove function pointers. (Boris).
 
-The above is a clear example that should not be tagged for stable. I'm
-suggesting that this EDAC bug doesn't meet the stable criteria.
+Changes in v6:
+- Remove fake_inject interface. (Boris)
+- Add two more values to 'other_detail'.
 
-I ought to have quizzed the submitter on why they thought it needed the
-tag.
-> 
-> > But if you want to add this patch to edac-urgent, then go ahead.
-> 
-> I want us to agree on the nomenclature so that there are no misunderstandings.
+Changes in v5:
+ - Address a comment from Sashiko in patch 2.
 
--Tony
+Changes in v4:
+ - Drop a "handler available" check in patch 1.
+ - Reword commit message in patch 2.
+ - Reformat string in patch 2.
+
+Yazen Ghannam (7):
+  RAS/AMD/ATL: Make PRM address translation support builtin
+  RAS/AMD/ATL: Refactor PRM address translation into a common helper
+  RAS/AMD/ATL: Add unified UMC address translation interface
+  RAS/AMD, EDAC/amd64: Use unified interface for SPA translation
+  RAS/AMD/ATL: Remove the standalone SPA translation interface
+  RAS/AMD/ATL: Add DRAM address translation via PRM
+  EDAC/amd64: Include DRAM address in output
+
+ drivers/edac/amd64_edac.c      | 38 ++++++++++++++-----
+ drivers/edac/amd64_edac.h      |  2 +
+ drivers/ras/amd/atl/Kconfig    |  4 --
+ drivers/ras/amd/atl/Makefile   |  3 +-
+ drivers/ras/amd/atl/core.c     |  4 +-
+ drivers/ras/amd/atl/internal.h | 19 +++++-----
+ drivers/ras/amd/atl/prm.c      | 30 +++------------
+ drivers/ras/amd/atl/system.c   |  4 ++
+ drivers/ras/amd/atl/umc.c      | 69 +++++++++++++++++++++++++++++-----
+ drivers/ras/amd/fmpm.c         | 10 ++---
+ drivers/ras/ras.c              | 31 ++++++++-------
+ include/linux/ras.h            | 46 +++++++++++++++++++----
+ 12 files changed, 171 insertions(+), 89 deletions(-)
+
+
+base-commit: 2a11decdb2ddf456d743417d5d86b55c52baf101
+-- 
+2.43.0
+
