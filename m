@@ -1,153 +1,98 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7588A4D9F7E
-	for <linux-edac@vger.kernel.org>; Tue, 22 Sep 2026 09:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351DF4E06E1;
+	Tue, 22 Sep 2026 11:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790071107; cv=none; b=PKdyo/ZsGTlxyOqmDdPovZvbT7aQDB/0BDd29Tm5/wnu9RIjGrCdAfXnz7BoqLX+rBo3RxSHEe8xZkit5wqaeeMDHCgTglN3Gyynrt95u6PqpHLO/PHD2+uEXdT8m8Axl7S/cRiyfbQVuyF/kVWVe2BLrS73UmV5+xQIsibhY9I=
+	t=1790075495; cv=none; b=q0KuyFjUEEMVXQJD3VJqJ/L9fZQxx4ega0s0LIt5b+Hd1Z8m1Mkq2pRK2BYN6r2C/TSDI7W4J7uD88QjEuK0XVmYwOHtO0SaBAGqI+lCdE0tmpF8JyNo/SAG7dLyHeQXI6Ge1DcssVQReJUx3LDJApz5linzP8byk2cUDoiirt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790071107; c=relaxed/simple;
-	bh=zYbfbPSv4oN0DQRZXu+ig0WpHZAE1jueUN/5aUe+dpQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZS6SHX30+GKn3WVUKo40rQpJ35tgorV9tBFp8sXIVBNcsXwW6rN9wEaXlNrG1Uhihj2XcZX5jZSH/bAms6+sHF7ursf6Gpe+wLRVXZKDZ0ku6LfZzvM5wRYCJ/JZHdSVEbwhcsGUUg9BWd615vqaE15HxfqfZyjJ9q4daw2qme8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=VtBoOvXm; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1790075495; c=relaxed/simple;
+	bh=ltkpGZNZ+w9ahxzRyfJCjUXFWxOs5rvFIO0qvCzrsSc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CLtBMOC5pLkgsd39sl+TNKXPU0nSYhLNfv9gGWQkv0WURjBL9XYjBApeI19uWxiVJqLLhFDQq1/FD1Zf2UcpTkuXDyJADJiQDCXA0jRwBuU6458GdRX4gWpH5c7vdmuq3U3VUUG1amEpiyKxpvvtNtdduRi4CdUnB3W3uz6VO2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=ZRyFMd6A; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="VtBoOvXm"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912e4ad9so22933215e9.2
-        for <linux-edac@vger.kernel.org>; Tue, 22 Sep 2026 02:58:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1790071102; x=1790675902; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nZUNZdA2VreC5ZuzVVTaU77y9kWQRV4FmcQNBHWyLvk=;
-        b=VtBoOvXmAmen9A15P2XUuom5lD/1FL4lYGpdQVlTKAozAKOcuAjxP/fvx0Ao38Exoq
-         5+Z4Hz0ZBE6NheeiWCh5xeWyQPagqjfs4f79S40IPirUpX5MyYP/m4caovC3dzry78uG
-         qLVHF46WMJzE6APh5ToFTevmH6sDFNe8j6X21GWEoW4cLdhNm4hEB96kOS4aoPn79zyN
-         nZrL7X7l5ieVRSVE7emEimSWG9oKJUGSRvLQJGSqXqZQPPgzbooqStbK79ZVMeOIf3FZ
-         Rfg8io+iLrPWZmwv45RZ6QmcYxFygH8ndbcley/wqvpcy8l0XeKLrrX3CsuxOj3R0rI1
-         hMhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790071102; x=1790675902;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=nZUNZdA2VreC5ZuzVVTaU77y9kWQRV4FmcQNBHWyLvk=;
-        b=IoRS2Ew6Lt0fTMydF/mgZyyG0REnnz7cdFBZOxYSVSexw3W082dG/U6hXKM58cSY/v
-         ytl61Jv06EHjhPV+yKqgfGt7x9uIQJeA/x2JEUWHpopYVAWt31db0EbRUOYt3rPeroAZ
-         Aw+E1Wys2boPAYYNdnVbJvZ6du2zQ8aoH0hLgxXXqjmAsom8CZ6e/tlkQtNXLrrm7ZEq
-         TNaCjRlDdY2OozjTf2bpkbb30UjpDo2f8AsvPisVpBY2a2frUgdLPGPrHSBwmijJPPwU
-         OskIP15AY8Vi5RmuIwJXMIa78/B1XWBP6FCfopUc+SF+WGN/DCq0j6YV4LlpmlmLisQm
-         QuSA==
-X-Forwarded-Encrypted: i=1; AKwUvBy24410M+SsRdB7dkysv85aXJ1MTiUQMm9FX1NY6nX9adasAjbQ/oYBgr3b405Hv9Gfdr8IU61s6n7/@vger.kernel.org
-X-Gm-Message-State: AFuF++lyKAWgCCXqw2rfXXGMsmkrMtomjc1qQ27e4bf6ZvKVRlftTdDE
-	gQ+D6a/PLsQAS2ya1esDtcCahIaqT0reue/E5htUZcPUZB1q7opUtPB53C46mjEohP8=
-X-Gm-Gg: AYBFou0CcR7MH/3ATV37dAKdO2o64n2tqlSrAlR7hgeT5k1unyE3QmcruNcUeY1ISsF
-	puy/xWtl0M/Gm/jLePcZFP642QhsxJOTow86H/ZYKeXx1PGLZXkdWY57QVfhlGBF0gM3pUwo8vF
-	Q6AHO9CnYhjlQUa0zV+k65oXIjetAp178tN/bLvfDLTA9fkU5pO4Na4oP2pwsM/vJLjzf3AxmEw
-	UcVqadGDLh5NhVka+I6EH4Xvm3tWjmOnaeqA/AGjEM0KtJof/jUDb2Nh8ssg7qZLYSdGG2Mlv9W
-	j29yaWup1ANz8vwZqGeWVZAAMKRMW23gWvlu/jEQdjFNS6TCDrDr48oVsJhHffZd5SWctRY4mEf
-	zuMjwwUC6lTb7L3kfVvn/NRIgtFdjBdI1+c5CELpA8XS7Zj1M04HBPab29u+gy8tn32RH+qQ+bV
-	VaQkTozkdzNAn2q9WUajoNwVmdt5th2VhOztf+d5ZI0leW+WegWfQ4LgvPxiGVLQwylq3WYwGC3
-	JZs4PgANhZyhrdpw3MxIZI8sO5a/y2okw5hqIR5ZTlznLmgINdOd1QUg2KIoDhZv1dOrjXs5/ew
-	T+kEWLhHWpuT8BYeBaovFNO4zlSpbP558SL02LN8
-X-Received: by 2002:a05:600c:a0a:b0:49e:84bf:6110 with SMTP id 5b1f17b1804b1-49fc56dbb49mr199597855e9.6.1790071101618;
-        Tue, 22 Sep 2026 02:58:21 -0700 (PDT)
-Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fdab0c240sm27108755e9.4.2026.09.22.02.58.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Sep 2026 02:58:21 -0700 (PDT)
-Message-ID: <2bf82e0b-a032-4ee7-8d93-c5604222723d@suse.com>
-Date: Tue, 22 Sep 2026 11:58:18 +0200
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="ZRyFMd6A"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-Id:Date:Subject:From:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=hlcz+9iunZjlloBhWee2/o4b61W6beR1z9/6YCLqlK4=; b=ZRyFMd6AuDSa06wmZ6f8XRpZ3D
+	6w0h/NiPB3+cgQCzMW0pq4I9FPEljL1i+uhRPKhrozOq5kjg16BCqxSZf6q+gkffkGai01i0O1tgo
+	4wwompMd0QR7kengI1NjGgozyTLcW/O1Yxgb8kZKGxFUUXXhfCIPlstR6B2RERf4W59SUtB38+OMt
+	mFyAa07b8FTjSBGhE+qp0sV4ApcMXdqBF7L4MSSCvNkFbz1Qs7ch+lPq4tPEDFzSnwkZVfyjZpolE
+	DRydJpwfDdotCYhpjiNOXOQ/nFEf++6u6zsSBNUO0tGQeSbFX0rNLhZxDiZ0xecFvQYXOm/Y4WHq8
+	2mxrepCw==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1x8yPH-002wIm-0t;
+	Tue, 22 Sep 2026 11:11:27 +0000
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH 0/2] x86/mce: Stop losing MCE record fields to pr_cont()
+Date: Tue, 22 Sep 2026 04:11:07 -0700
+Message-Id: <20260922-b4-mce-print-v1-0-500205689e54@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/3] Bring includes in linux/kmod.h up to date
-To: petr.pavlu@suse.com
-Cc: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>,
- Philipp Reisner <philipp.reisner@linbit.com>,
- Lars Ellenberg <lars.ellenberg@linbit.com>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Jens Axboe <axboe@kernel.dk>, Johan Hovold <johan@kernel.org>,
- Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Michal Januszewski <spock@gentoo.org>, Helge Deller <deller@gmx.de>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
- Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
- Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
- Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
- Joseph Qi <joseph.qi@linux.alibaba.com>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Pavel Machek <pavel@kernel.org>,
- Len Brown <lenb@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Danilo Krummrich <dakr@kernel.org>, Nikolay Aleksandrov
- <razor@blackwall.org>, Ido Schimmel <idosch@nvidia.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
- Jarkko Sakkinen <jarkko@kernel.org>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
- drbd-dev@lists.linux.dev, linux-block@vger.kernel.org,
- greybus-dev@lists.linaro.org, linuxppc-dev@lists.ozlabs.org,
- linux-acpi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
- cgroups@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
- bridge@lists.linux.dev, netdev@vger.kernel.org, keyrings@vger.kernel.org,
- linux-security-module@vger.kernel.org
-References: <20260911-module-include-kmod-v3-0-6ebccc3e0731@suse.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260911-module-include-kmod-v3-0-6ebccc3e0731@suse.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEtismoC/x3MSwqAMAwFwKuEtzZgi/jpVcRFrVGzsEorIoh3F
+ 5wDzIMsSSXD0YMkl2bdIxyZghBWHxdhneAItrR12VnDY8VbED6SxpNr07TedmOYWkFBOJLMev9
+ dP7zvB8c1Wi5eAAAA
+X-Change-ID: 20260921-b4-mce-print-6178a29bcd8e
+To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Breno Leitao <leitao@debian.org>, kernel-team@meta.com
+X-Mailer: b4 0.16-dev-f8e9d
+X-Developer-Signature: v=1; a=openpgp-sha256; l=876; i=leitao@debian.org;
+ h=from:subject:message-id; bh=ltkpGZNZ+w9ahxzRyfJCjUXFWxOs5rvFIO0qvCzrsSc=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqsmJbk9cqcvHUtges32QpDsvBjHvzT9TofBSAs
+ HbaxhCw8zGJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCarJiWwAKCRA1o5Of/Hh3
+ bccRD/9QLuquETyBHFdow4vzBAOXSd8nXULbGVocZqjJaZQ57DULU69FkKg1ZytwHC6A2JoEMVf
+ slQ7ySavnAxAp4Ra6gh543mhxS8ux03lMhYxis/PpC/PUgMF4Y5CUV+NUmcnsf3JEq07A6/1emk
+ D7xqC2PWVwWlNWxCAJu2GI3SvnG3i1A7dr6yBHSg7XL7OhLIRj/VLD3jlh5PrZaMPUknJkzqyjX
+ 0SHf5XbFpwXtA8fiAvmQ3yCcC6smoXZ5I8PBMDTKendEYXmEdtgPNa5H5EFW1Oyb4ieY9zQlXzf
+ KUxuFqU26rTrpHSM354u/2cpWUo1a9zuttEi7gKjfbbUK+ZaeeoQQYbSRmSwBjLa3Kpi5BKCoHx
+ VE43Uv6uaVgHC9gCMFTUyZvOH2rzLOrgUiEu6YOKKKRRJ0o0pRWp6xLuaFC0tt9U6kWPpQBFZu6
+ Eh97vg7UakWAcF+g7SiyEAAGmbSh3LiTOsE5vSD4SrZU4xvfr6nS/CyKN64RR9nj/WevgyvFJM6
+ tPqUPJXcUcMn2lUr4dTQfQdOQ1tlzg7Py62DjPXGWrg71RfAdzf3LayacXZYd0h1ugyGZsKtx2Y
+ vWtVCNJmo2QyEQ9EvoP5V2dekozgI9oROMp8xcFubODU6AQjgenlJ7WdJ6mn83s02udWt1donPu
+ +VclexoHh/xuh6g==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
-On 9/11/26 4:46 PM, Petr Pavlu wrote:
-> The usermode helper declarations were previously provided by linux/kmod.h
-> but commit c1f3fa2a4fde ("kmod: split off umh headers into its own file")
-> moved them to linux/umh.h in 2017. Add explicit includes of linux/umh.h to
-> files that use usermode helpers and remove linux/kmod.h where it is no
-> longer needed.
-> 
-> Also add a missing include of linux/sysctl.h to kernel/time/jiffies.c.
-> 
-> Finally, clean up linux/kmod.h so that it includes only the headers that it
-> actually requires, importantly removing the compat linux/umh.h include.
-> 
-> This cleanup is motivated by trying to reduce the preprocessed size of
-> linux/module.h, which includes linux/kmod.h. linux/module.h appears in
-> roughly 15k #include directives across the kernel. This makes it a "hot"
-> header, so it should avoid pulling in unnecessary definitions. Note that
-> this series doesn't immediately improve the situation, since most of the
-> files included by linux/kmod.h are, for now, also included by
-> linux/module.h through other paths.
-> 
-> Apologies for the wide distribution. Acked-bys are appreciated.
+__print_mce() builds two of its four lines from pr_cont(). A printk from
+another CPU breaks the line, and the orphaned tail loses the
+"mce: [Hardware Error]: " prefix, requiring effort to parse things
+clearly.  Fatal machine checks are exactly when that happens.
 
-I've queued the series on modules-next for 7.4-rc1.
+Patch 1 is a no-op %llx cleanup to make checkpatch happy. Patch 2 makes
+each line one record.
 
--- 
-Thanks,
-Petr
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+Breno Leitao (2):
+      x86/mce: Spell the long long conversions in __print_mce() as %llx
+      x86/mce: Print each MCE record line in a single printk()
+
+ arch/x86/kernel/cpu/mce/core.c | 46 ++++++++++++++++++++++++++++--------------
+ 1 file changed, 31 insertions(+), 15 deletions(-)
+---
+base-commit: b0fa123835c147e77b9a967de76dc899062bd405
+change-id: 20260921-b4-mce-print-6178a29bcd8e
+
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
+
