@@ -1,92 +1,111 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F86C2FD69A;
-	Wed, 23 Sep 2026 00:33:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738AA38F93B
+	for <linux-edac@vger.kernel.org>; Wed, 23 Sep 2026 03:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790123628; cv=none; b=Ak9falIjBayBHbIe0jHdfBlMwl1eW9PnAvbwM5GJTP1piQEA4mlH5NKa8QsO60dGX6GSetTPLcNBdH6o9Gc7q/3ixW3td7klIcm0LXAWK/JQBZwR5DmoXeGhjlHafX2s26lwVFbV+LVB4yI031CKR/HLAh/vtMaouE6pIcwjKGI=
+	t=1790135256; cv=none; b=g2/253yjw4dktCXBBJQj4KXYe9gfFFrfR5ojD4j0nZN3pECHo1K2cTxH60DLe+qU8tW6tb0HhZVgq93KvwxvWpYTpNKYamS/tdYBtxXrwf4ZLRpAeP3HgF9vlqiX3BA5LQzkVvbx/QCO2vCeR9V0F9H9TV3oY19rCu+leEixp8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790123628; c=relaxed/simple;
-	bh=yn155oLUbOwco1a3vrgLY/H4a0kYV61RzjF4sWf/JHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kNNTMaxwbLwlkEblPvHgd7X2GV6kLt1y/xVfGE7J4KCQS+KK/QYJnJNdjFCnHXBfJ7y6m4GVaGsRaLK922iHYcQw88kQ8LxTmOqicsTj6LkU7rmhUojDitEwjJ2pYQ1i5iuYXEml0pxn2uyu35kC3mdLBTmFe9+NBV4zDHmlfIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=j2rwBW3N; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1790135256; c=relaxed/simple;
+	bh=mds5LaoDnAhtJZjxPhR+U5MDg4hOmQ59qLngSFzyKpE=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=KXhzfN+HjcLYq1X5RZQnyKNzmzbwgA7KlcFtaNLfr9q7Ghloxdj3+jz2rZaGsdNH3jNGmD8+0SEw7MazDvxtmlgR2IP0rrhOFD6n9Z11LEEMqvrsw4ZDAn0qaF6D8q5cMUjUDPAYaIpnjHSX9wajadhaRa3hWzX3yiA09YTkRFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ieXr2VkQ; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="j2rwBW3N"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id EC6B040E0173;
-	Wed, 23 Sep 2026 00:33:43 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id vZrba4C09s0k; Wed, 23 Sep 2026 00:33:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1790123613; bh=VfKsWwYlEO6OtfC36cO8SCRkLeOdY4ITDkXm5tPK8ng=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j2rwBW3NwmBMxgvBGu/6t1i9Iqqy0wUHXyUPVPkpxz2xxPLWKd2QDJNsGrrThkzzX
-	 vpshAObqZ/LSmPdA8svuxPQ5b4zMstQk24DACltwu+WZ751en9ok+w5IdvqxxOrc5I
-	 nSuOds3C5xNoCARB9IFpvcotU3+cCrkEssCNB+6yI0VSvYj+0Nn9nfekAC87K3jkcz
-	 rRBRN/chZbNifROnqeF6lEXd+V88aSoH5NBcJduVupudmIs/THgouCTbT2aeqE7N46
-	 vdj6Lo1MME0n+TKMWq82erqAGDRsYmQeJXw5JQ2PZFkYa9mt9F4Xq2XCTb+8VcTT6q
-	 VGnR6WX07MJET32gesIXS6q2QCqC7iLPY6uS9spD+L4A0Za+QEslpVFkltG7rzAADr
-	 Zy2KC12ax8RdAzTBCCTPeBGl2uZ7Bofq3K9uE/LFrBJYR6YFMpHx/khNgd5pXNN1RJ
-	 rs16ZP/thpPNadGw5WqdIJdVj2xvu1nzW6mAHlhLmWqzM5PXiTRWSQOjZm1/UsOIQ6
-	 I04JIuetWXuUZFV2iHIYhKysJ6mUWAXyDPmdE4r0eil5eZONQEJGTEUfbDQKeTZl7x
-	 cl9ZU3IHfl5u8qbUiFism2GjA9QfRBF8fhzXPG7H7yylGyuUetnSiE5zvtDm3LbnbS
-	 TbzsOHo/VTcYsz5ixxm+1/4Y=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6042E40E015D;
-	Wed, 23 Sep 2026 00:33:28 +0000 (UTC)
-Date: Tue, 22 Sep 2026 17:33:25 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: Wentao Liang <vulab@iscas.ac.cn>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>
-Subject: Re: [PATCH] EDAC/i10nm: Fix mdev reference leak in
- i10nm_get_ddr_munits()
-Message-ID: <20260923003325.GDarMeVTCo1w8L_av5@fat_crate.local>
-References: <20260916091251.1997522-1-vulab@iscas.ac.cn>
- <aqx5UOLpXdDnDsi7@agluck-desk3>
- <20260919053437.GEaq4e7SFEZqRzsjim@fat_crate.local>
- <arFVjp8k-3kvSkhf@agluck-desk3>
- <20260922045057.GGarIJMRAjfqj6mkhE@fat_crate.local>
- <arKX7O905e7yv3Ra@agluck-desk3>
- <20260922185307.GBarLOkzBqoqlD_mNX@fat_crate.local>
- <arLWNgnyo08aFM-R@agluck-desk3>
- <20260923002009.GCarMbOYCb4onwhwRf@fat_crate.local>
- <SJ1PR11MB6083173AFAEBB2AA8FFAA922FC822@SJ1PR11MB6083.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ieXr2VkQ"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd4ba9f68so4561285e9.1
+        for <linux-edac@vger.kernel.org>; Tue, 22 Sep 2026 20:47:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790135252; x=1790740052; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=n50NtDqLH91LeFgcnpR6M94/AjIPFqSlb81bC/4TwTU=;
+        b=ieXr2VkQxRTUzccch8PhcXMUGfi28PK6RxRLc8EmF4M3u44cR+nr9p5gLn3m86Us7J
+         o01X//TZeghmOv58oRA1O+vGz0zCDN4k99t8uwnqvcgwzaQDNk+h9NXXRHSbtRNnYmjd
+         SkzIAlTOErqFrXFUrizlkoAKwHWXQjGwhdm7y1yhWu5fjbXsxb+URMR+CczhiOUH6sPB
+         6hhGkElzNRWVPpU6OwYjwT+Nbv9+ICGlf7qeI3ODXKzM6QSsVNuB9T1SqAd28qDCjY6N
+         wNd1UbXZsewOrZ0FXV+faUIUs/Iw/aPLTBc3h7lWEpMA2XGEEd8ZoynFjUIVkOx5BZT4
+         AQpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790135252; x=1790740052;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=n50NtDqLH91LeFgcnpR6M94/AjIPFqSlb81bC/4TwTU=;
+        b=F5PJoZtnTsu0hVl+qXvpfQEaNGl+HOJ8VxqSgq4mVintBwglVxe/jqR56ot5RmRKH+
+         0RUXCLuB5cOfU8K+PpV//CB32StMMwMrhIxMmGejL4nqJ9NA8Gxon9sIpTARdwz6d0Xg
+         lhN/sNqDhjE5gaF2Sx3oeakOgq3p9bUoJDM7Aa4McrIwbkvCs+8Vk1LpARP0Hc2ywP8z
+         c6Zf4BdxCuY7bWYoSz5i+6lIavx7qLLLyL47AnHgCVJV51QbrQUZPjsCl08YzKeYgFgC
+         JgKOAIKR9K+xN8mf4PRsRgt4NSTikiwz4NefnFMtbpK+1ln6b+lhS1n5CdTs8UNlZrEB
+         0SDw==
+X-Forwarded-Encrypted: i=1; AKwUvBw1D1LBenE9aPDv8VHBa/rWIP5Z8/4y9Xq6mrjHQJZ7Xq80fzcseBwz044oKflLvg2vsXKHp0YHyUkd@vger.kernel.org
+X-Gm-Message-State: AFuF++lZLhnBgnTsEEGUh4kPlx/traxVmJ0Ql85nNeMZJYH3/AN4S6Zh
+	MHzWNEKrZbPtWQUGTRqFxQN6hC5q4xk4/Ce3TvnuAPyTbCFvOXDxZaDyC7h0l1Sq+Sw=
+X-Gm-Gg: AYBFou1i4rXoGYfQTb/02ldzKKviseNYKmxvEo5Mg9RPF0ypHoB2ePWEdrwTHdsLJOW
+	IkRz4PQJcqg+qMxoIpcuwv3zRTzDSngQ4f6JhQoAnSdM9jzhkdJ+kGKafLFkQdjaUFf12rnImbC
+	Lhj2ObqfVU2sITvSZn2NwJAA+ispZBjdBQwSlA0sl8QYP1j21HLGLxTxx0D2w984AoUPCjeM6Jo
+	ebBIkXlapq3hGzerFy8vw458+9qkl9hYyFEbypubBLxCNil+VdJB/tAbhZ6WNYDFAsramqSJ8A1
+	0ryeaRiPn8XcIbTK8JoLXXZJMqsYx5wqXthpAy9HwGp2IirT5ibAyQseFlUZkpDEscB2HVkrHBq
+	0tWyX+BfnCY0Ts055whXpXx67q0r9pg90A56CMjB12k73H7vKd00EkbdoV6ylYd3yZa5ptB67S7
+	aTOjW3DAIAYHGb2Nq+zNOrnA1Xj8DQDYM6g9LoVs4ol3vuAGO91003in+nHO8C8bColGGstkCZZ
+	OAYlpLsGQheS7Uf3voH9VCf5l4HvM6Pw54H95mACqdkJRHw58A8k+uOw9aW1i7O4ZEur+d6pqQa
+X-Received: by 2002:a05:600c:500d:b0:49e:799a:8952 with SMTP id 5b1f17b1804b1-49fdf139bb0mr13552775e9.26.1790135252023;
+        Tue, 22 Sep 2026 20:47:32 -0700 (PDT)
+Received: from [192.168.5.15] (brnt-05-b2-v4wan-169762-cust1351.vm7.cable.virginm.net. [81.101.101.72])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fde1a3b46sm39159965e9.11.2026.09.22.20.47.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 20:47:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <SJ1PR11MB6083173AFAEBB2AA8FFAA922FC822@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: RE: [PATCH] EDAC/skx_base: Fix ambiguous bitwise and logical
+ operator style
+From: Bryan Chan <bchimhim15@gmail.com>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Bryan Chan <bchimhim15@gmail.com>, Borislav Petkov <bp@alien8.de>, 
+ "open list:EDAC-SKYLAKE" <linux-edac@vger.kernel.org>, 
+ open list <linux-kernel@vger.kernel.org>
+In-Reply-To: <SJ1PR11MB6083B6CEC6BA730C18AD450FFC822@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <20260922231854.108188-1-bchimhim15@gmail.com>
+ <SJ1PR11MB6083B6CEC6BA730C18AD450FFC822@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Date: Wed, 23 Sep 2026 04:47:30 +0100
+Message-Id: <179013525089.122719.12798013417319991127.b4-reply@b4>
+X-Mailer: b4 0.15.2
 
-On Wed, Sep 23, 2026 at 12:30:02AM +0000, Luck, Tony wrote:
-> > So, what I would do is, rebase the branch and zap the stable tag. The stable
-> > tag is not something we should use willy-nilly but think twice whether we
-> > really want to pile more work for distros and stable folks.
+On 2026-09-23 00:20 +0000, Luck, Tony wrote:
+Hi Tony,
+> > The code works fine and works how it should be, the fix is just for
+> > uniformity/consistency of the bitwise operations. Also fix the compiler
+> > warning.
 > 
-> Tag zapped. Updated edac-drivers branch force-pushed and merged into edac-for-next
-> (replacing old merge).
+> Details? I don't see a warning with gcc 14.3.1
+> 
+> Which compiler, version, and any relevant compiler flags.
+> 
+> What is the warning message?
+> 
+> -Tony
+> 
+Sorry for my mistake, this is not compiler warning, but warning from the
+sparse, here is the warning message:
+drivers/edac/skx_base.c:359:46: warning: dubious: x | !y
 
-Thanks!
+The command and flag used:
+make C=1 W=1 drivers/edac/skx_base.o
 
--- 
-Regards/Gruss,
-    Boris.
+The change is a style fix rather than gcc warning fix. After change, the
+whole operation will be bitwise shift and xor, instead of bitwise shift
+and logical (not), which increase readability and consistancy.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+My gcc version is 16.2.1 20260810
+
