@@ -1,58 +1,66 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010064.outbound.protection.outlook.com [52.101.201.64])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013030.outbound.protection.outlook.com [40.93.196.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21D5569F1C;
-	Wed, 23 Sep 2026 19:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E6857C700;
+	Wed, 23 Sep 2026 20:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.30
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790192773; cv=fail; b=YdXq9IAf25h/mIl/+Anb/uRxhQkyQ2fvl6m3MreYsA4xREoGAFsgm5kBATxrMcg9cKE9z1P40ZL13FHMniC1VzA96jzfGAFKWD7bOKlIyuzpHnzBa2SXZXyvM/R/pLLG2SlnBehuOznANnFrwYP/qHx2bMgYq1HIuUrV/EvzRE4=
+	t=1790194045; cv=fail; b=dBuNP7CYazeLq8Btd7TnSWcX9jV2MqvTpkHhZXJYYUIvmyBlH3i3Q3oc/hA15si3UDjkK+4Om+uCuKkXQZu4RvF7EiyjghTS5TxwmxWN7eDgaPMBVisPmJZjbAxJGRmGnwbRRi2X62IP5jyBW1fvsKRxwEgUb5uWY4JW1XBafaY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790192773; c=relaxed/simple;
-	bh=3vMxn3WEWKKQkso1utRaD3LEnIHqeN3gs70YqPwwQmQ=;
+	s=arc-20240116; t=1790194045; c=relaxed/simple;
+	bh=SxsXMGo8nZTNhXrqh0yeB2iTZAaiNdjA+LmyBwx3ZEI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=W4A8RrdMGdmQTsfmFZsNSPkUQjgfORA1D/ANCsdL3lh+5x7du2//4ad2rb7AQHZcavQdAkO2Fhszsnqo8uJI+4aZEKeuxR/hssO+nRtmmdfvkNgZX5TRk+itY8SM1WpQtd+s4mzEgw8DL7QdF51eYraldp5Mgj3ktvz5ZS0Th4U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=qrTmCGaR; arc=fail smtp.client-ip=52.101.201.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ZnEWU16gFVlwsdPeyk6bKaGkyptp3IyP0ZL0pMpmUgwpAvamV6bhDPIuuZvdwV0mfTs0CQWqVtue4XNIXIDvWt5sQ/yLXQTCANM6gsUm/Uvn1b6Q+tzXbY/UPIIo5sepoaoLwHEnGbjlEO+cEQXlQW8D+rjzN095UGkR0dWeZpg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=fail (1024-bit key) header.d=amd.com header.i=@amd.com header.b=TSGDW1tt reason="signature verification failed"; arc=fail smtp.client-ip=40.93.196.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="qrTmCGaR"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=amd.com header.i=@amd.com header.b="TSGDW1tt"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xa3RKIHyYekCy/ZWkxBwntLDZCtsCsXt7EIG29kwf8AiHKJxJMDHUACl/CJ/KVkiho2fwakHI6h3xDQN93D5QO3mRBG71ZATIgvuNbwL47iKQhlseY6nJlAVLpcCF5l7pka2joOk5/4Z3iFuf2xPspa1HkgPW6Zt7K10IkGVdr+ztl+zB4+vX4Nl0NRGhbHvpRsjJruJjC2zpM8EX6yBR7c+YRfpMP5oNrcBAqV96JJSrMmPnBbiyUeJtYb59QtnqQqv/lt/Rrf3N/ituNrTpbsK0hkaU24qiNZt7IQUDfoNaqKjfb5Q0iu1zTVm3rqKiQXwe1hSE6PFPOP+BD199A==
+ b=p52LdD1FfPu7BdJ2IPdaeioce1qU9f+YHbJj/QleooFV/pyowUUXhLMvi4QNer/f2XJB37/pz4sdklkBzw6e2Veay8DsfzOzfwoDf4s8TIIqE3m2G6Sro9BDvhqe8MgzQ6hWBbf7v8MhgLrJqqepylupkgrlMrk8nxnvF/+9nz58gDH0uogqqxV53Y9wNJG92XPDAT167Wn+g+iaPSknQGNJCsZwF3C8YHbORQgXYUpDLZsI2XV4/o4APG9V/PeNuHdSmx8hakvRhymgOkd4sRkoRzpOJZHmX1pRhzYYD/13Sh5Oanj9Ka4YqbpAtdrp9QIrHbZTVHO1FBcMN0wC3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sgjSig6vWZAViEXRdMCRl6LatqyMQ8iD6qGnLUG/fpY=;
- b=tjgFjDx7Xwou2Q4ARiHouCG2Mzf5byhVoZ4zjehO8gPsiSDPajqw8tMYzoXQC6UKS0fvwxh+UayYBzJUPM1Zv0E+Bq/WpvowtdjGyFD9/pRaZEs5r5H9EYCL+OmUYRsjmhEoAco9CiHHf/ve96hOvr5778BnHZdidUvtNF6Bh4DccO9Jwvnb5pqByXzwdOTY0duCjPIC1JZ9bEGdiwlcUwjGGYcOY8xJSpwjybJoqabaMLmiK8guFcErm2UIKj6Bbte9h7rmAIcCOx9VN/tK4bs0/VxQ3/17ErrJxrGeXD1dxpasjhkjbWH7C5QWuELoYNGVJlc6ZFlk/ODi7LxlfQ==
+ bh=UAgDKGuYjVdM7k1KqNjnS7qVD/iOmlZg6bGm9vwji0o=;
+ b=bH/uEnPCjr5qDqBkVnW/dBJqwaebGNowwK+zB6dsfOTQIvh+I+CpnaKnUc6yBTHocz0XlsR/KuEksh82g6unHwSh6VuUKOVqzaQuOnVWKtD/y/h4zSUqOAbkT7n+W21eHNSfKJV8lWYyNWNzT/yoNPDdJmJRxy4wPx9B/aMgXhPn4cOFjyQJQuavbXqUtQqEQubalPF+vlfxw7Jvhhk7LzEkCiXAl2nnPOUCsT4TJWfDhH8UowfwM07FpXV7ukMd3S11ZamfHjbeXzoe5397wH06ltPlDvNpsD+k+K84eYnGmWLb85B2JkFyEMj/EG5XyB4upWI/P/wf9UNycaM3aw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sgjSig6vWZAViEXRdMCRl6LatqyMQ8iD6qGnLUG/fpY=;
- b=qrTmCGaRTC0d9Vydv6SqyveKuP0WIICDQbjyR3Q2OmBeeE/3NJ6aB2PZ7xzpbABg54GY39yv5hrwgRiMdAKRVJIEx7ykEHTagdYedbRDJhUMyz3TvPtLudC4fSjRH2rrFUko5WH2leAbCFmzRD9luwunrwzl+8cXLKyx0MWWakw=
+ bh=UAgDKGuYjVdM7k1KqNjnS7qVD/iOmlZg6bGm9vwji0o=;
+ b=TSGDW1tthe4W4M77wP4ZAwTWqcZVvQNuMmCTBjXvhOs4kx0aWKE2UBl6qojUUPIpa9iYKpIcHyxcftbtS5W2O9GeMtjbTlY1bhrqJQdjJGngcLFusWk2yyaR8zlKvbxCB95CoJmuIIdw7C6nYTqzf6KYUrl5y4Ch06SiMQRY3t0=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from DM4PR12MB6374.namprd12.prod.outlook.com (2603:10b6:8:a3::18) by
- SA1PR12MB8947.namprd12.prod.outlook.com (2603:10b6:806:386::7) with Microsoft
+ CY8PR12MB7148.namprd12.prod.outlook.com (2603:10b6:930:5c::11) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.14; Wed, 23 Sep 2026 19:46:05 +0000
+ 15.21.451.14; Wed, 23 Sep 2026 20:06:56 +0000
 Received: from DM4PR12MB6374.namprd12.prod.outlook.com
  ([fe80::af35:a7a6:6ca:7fcf]) by DM4PR12MB6374.namprd12.prod.outlook.com
  ([fe80::af35:a7a6:6ca:7fcf%5]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
- 19:46:05 +0000
-Date: Wed, 23 Sep 2026 15:45:21 -0400
+ 20:06:56 +0000
+Date: Wed, 23 Sep 2026 16:06:48 -0400
 From: Yazen Ghannam <yazen.ghannam@amd.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] EDAC/amd64: Stop allocating ECC settings separately
-Message-ID: <20260923194521.GA1080284@yaz-khff2.amd.com>
-References: <arCC5ukNvN11l1aj@google.com>
-Content-Type: text/plain; charset=us-ascii
+To: OptoCloud <git@optocloud.no>
+Cc: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Avadhut Naik <avadhut.naik@amd.com>,
+	Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 1/2] x86/mce: Reset MCA_SYND between bank scans
+Message-ID: <20260923200648.GB1080284@yaz-khff2.amd.com>
+References: <zmLt5S3aLNcgxhqRI7yuVhN-gNY-W2KFuNz9F9gU4jvyJuY4LGM41p4WuEVus3-_3fs8B9sMA0143PG2urpBRYKlSCxuUQxV401F6USx4DA=@optocloud.no>
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <arCC5ukNvN11l1aj@google.com>
-X-ClientProxiedBy: PH7P221CA0083.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:510:328::8) To DM4PR12MB6374.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <zmLt5S3aLNcgxhqRI7yuVhN-gNY-W2KFuNz9F9gU4jvyJuY4LGM41p4WuEVus3-_3fs8B9sMA0143PG2urpBRYKlSCxuUQxV401F6USx4DA=@optocloud.no>
+X-ClientProxiedBy: SN7PR04CA0097.namprd04.prod.outlook.com
+ (2603:10b6:806:122::12) To DM4PR12MB6374.namprd12.prod.outlook.com
  (2603:10b6:8:a3::18)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -61,271 +69,126 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|SA1PR12MB8947:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c50e32d-8e00-46ab-ce0d-08df19ab4e20
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|CY8PR12MB7148:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7794c59d-24b9-43d8-e977-08df19ae37f5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|3023799007|10067099003|56012099006|11063799006|22082099003|18002099003;
+	BCL:0;ARA:13230040|376014|366016|7416014|23010399003|1800799024|10067099003|11063799006|5023799004|56012099006|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	oQbsM+aBn/ZTKRPil/NwfhFtMMzAXX6GIRT5G2O+JUKZdnCcArEkiY3uwe7lZerCw02chm7v1G4PBlKYBnMHCtR7uECFr6AAksh0fsC7riyKWZVxPNTiGrQKudSwUVfnRFXr+yPBsVx4lWAkRkmGyzOOMZxS5qjKxSeQTbnCYDrnakI3fUn/OSikCx4nnr3c+dr+wGfQrKKTjSJRObGg3r4s9Q6Gr/WsAkMxAdUdUkQGGSREZBPmYw0v+F3H68NL8c3k/Z00aLy+9CBXDiZWwGnKCkemtu4yrpSocUY4Rcik7D8DdDHjG7XlhGF2iqrUUQZ6OF9Z8RTCbtxJTAuwl+wFtTNssx16Ty/kNn/ob6APFaAfesOaVPZdbqKl2SV+hpc4IIZWf3mTrjCnrdei6QX7+aCivHzN3t/sSEhzXG14gOM9goPEw27o5GdNRMsvm1vdsC/mwjene+ZoKMefvhOf6GFoSxdbuwRhMcQqZ2i1dJAlBRKGy1TX3bs3HBATr8aaqQgf/f/yJ45bExYdmYmJ+BHO+vBYnU4QWmdtJ9fNGB9a6WTZF8zCugEJdfCQCBh4HfkKADWeuXlV3hv6ncRJTyr7bV5mUpBqemJFmSqDIjmbBnD6uz6y3ZXY32kaLSwTBYqNSI39iz1bkHU2g0dYkRq44SimiAnfbNbGv24=
+	m/6t3tbBfhj+Z48tm3+cKX3tfA+TeEZQon6u1hYbtcohSulaTeW6gF640N+rVAUFuZ/6uRrwEAWPAcnO1TZtAk8j/8oMb3r7ohiSUNyR1D/EaJQ1COmI4yVYQBxUiiydMw4cIrDtRyIEm+fC/n0dJ1fBrYglQY8/nHX1O/aJAlzFAGCNv63J3l92XkLF8pNlb2DSC65mkmzrxkR/B1hVe2LtGw1cFG5N5Kvyr1MZHp6jtKPQ0NOE+BJiJWUL3XkP0iRDsJAkxkAKobZP41rVUuxdfyXcF/0v+Q7VyHzd2rOXs3+U4Q56aN0qIgW6zkIAAWWDU2BdAHNFDhCA+VQ7s0M7ZaJpOgd1QxNuVgm7zPbuGzaqEmD4wXK8Sl3U7Sbx1NavoTFKtwBKopAFwn39pCxmbL8P+/YREtNbv3774THWPv+M8Ncg0ZJux4eHSZ9hIzXHiCG9E0+sDwKaCRwUE0NAlQuiHPrBRvzcGLqJnfq395rX7jGlm8DHhP63MxCBM5/q2Eu5axSmHjE2KA4CEcrqK3IBfnAy5kAiZ38KONYCZZf5GSV0l06f61nI7Ijhr0j8LyuAydnTxqjJaDLES4lPayarL9vsKnKohYZxKtfHLqZjEf2HKXK6a5jOLBcx/eNlUnj+IFIIDvwcLcwezzHYWc6y1I/WwESZF0lxHXQ=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(3023799007)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(23010399003)(1800799024)(10067099003)(11063799006)(5023799004)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?oErOLng8AN+FHpjpB5Nm/GU9mazTFaaERXXfaxbhU9SqttTM6QjHq6SRfkQm?=
- =?us-ascii?Q?ttCLSuTFRq6iSBNWAwPIis+mZAYg4l0vdXPO2LLn5kmZQSCN0EgzQ//piYp3?=
- =?us-ascii?Q?HqK5/0jqXQ2KqhoEGJRpxI5NvoCLlLahtehF1OzpyGo2KZxbjf2npy3E7s/9?=
- =?us-ascii?Q?0FH/JFoN+53bbX9oH6jAXhE5LQoiBKheiHwP/uVIr/9pPOYOOYEnbWbhjhcP?=
- =?us-ascii?Q?QcbeBkS6JqrFlcvqBLzidXsc5Vq836v7zl0sn3HReEntQPwb3SShwEF3MlSV?=
- =?us-ascii?Q?QWdt2Py6az9zp0EZTnd8Gzp0L2TAnASsoYHEkXlvNu5YK59EflEfrvDMpHRS?=
- =?us-ascii?Q?8hto+olSlQaliHhnJ6sjWMpgPE4doTM1ju4N7BbNK57Ad89CRo+FGZw2fpcR?=
- =?us-ascii?Q?Zyw0l79SzZUNaFxaOD1SZvfrNV48faxAVvKjalAj57nQkl5N7POcs4ye1sGL?=
- =?us-ascii?Q?0Zugk9h9vC0ln4XKnb52V2MW9pRg+ALEpjZxVHTTPRtCgRS5wDpNpwT/GqJW?=
- =?us-ascii?Q?7C+5ot3JY2hnMVTZFFfR2KiXVJwRN17EfN8EZt9jswB2BfFKA9YoiWvOYSo0?=
- =?us-ascii?Q?k9gDScMgAfqfceMQJgFFo4BBfyZqOA/lBht8bGIFwyT8N3pDHfUpOCT/n7nQ?=
- =?us-ascii?Q?zhJ8FiqZs576HM8sSvAMss4zDdxT0fpitbXCKLUphs3b+RCT445NNmi8f7+F?=
- =?us-ascii?Q?ZSCHRB1YpVKKk785+ToqODrZ/BRTcCZ4pViWm7/4lW9O2ZA2qE30EeZkKwzm?=
- =?us-ascii?Q?qUaqMBQq+Q65IDS1SvHPtkxArs+uvYGh5S5pOGvmimKbX92bcZqchfq6fWuX?=
- =?us-ascii?Q?zvqsmfZSvpaLttscPfKuQNNF8qlM4iJv3GC1GFJ9RXSr+5GFa/OYJIwxxbzU?=
- =?us-ascii?Q?Drt9mGCCvGUBIz4gpHMTALutR24xYT31YemvG1OVxGu4kiK5tNgoxr49CxGd?=
- =?us-ascii?Q?1bPSMioDoAfGSfl/quosh0uCqpbHK+QlyQhBXB+HJWdS6h6wsfcqT6ROG+ro?=
- =?us-ascii?Q?afuNc6zmERDEW9HkPni1Yb0SBoQoMPFq5D/Dg5KG3Es7op4Tg0SBjC6LeGQa?=
- =?us-ascii?Q?y/1yvwp37ioHuGcNRPcphh2gU/bnuAHQ2a4S9VmeEnhNJMqafnUJ5ua/s5iS?=
- =?us-ascii?Q?o8ONTTe9WSmNj18a5zq3s0DAvCBVe1BIewCwjumJA7CLE7DcyVN5mrosD3r2?=
- =?us-ascii?Q?u9ij6gU+4Ecta3KSUTF1EiJe/Cz1CBieggPaFyA0+auDgAy29yy2oW4xz+FK?=
- =?us-ascii?Q?RSAfR9hlS+KEZ8HqXTCrqKYbCZD+JlqLfCkAiFQj9tlweXQkIn5mfS2jwDnO?=
- =?us-ascii?Q?bd/XS51BCIExeuKmrZ8yHcP+HBejVwUOagvrqY2oTc9wsc30kKt01uAKGh7y?=
- =?us-ascii?Q?8c9Hpb9zGx48Ysh+X9PWFwb30Wmd/+U8weVFrgBSnOYvZRsVqdZpLKR3TS1J?=
- =?us-ascii?Q?kzt8tqx2e5w57zO6d3hSii01AB3x4nLtwo3rXHlm2P1W6f8GhhEWZaJZsojQ?=
- =?us-ascii?Q?7ugd6NjNHEZCwDIpsWSIQlER4l+2BobXcdBMPIMFkZpi7n6x1HorzvxZ52+k?=
- =?us-ascii?Q?qmQhjWspC0OCIjhCDdbyAsQnjmVeF8QGic2PCzf05I1R/sqcm4JPkqvJpZgs?=
- =?us-ascii?Q?c+p6Q7smcLAfZVv/rAAUPFFtZg3jeq9LySceLvG+z5eoL8CmkaHMpLzTfkk8?=
- =?us-ascii?Q?S2sERCy3yCVhVbjSJawiGE1M4JOs2S5TsYsekx+7CqG8paLu?=
+	=?iso-8859-1?Q?D7eoZRH8oKxDokooHTkI2CXT+ngfAKAQpXQ0tI/Q9dmshcMs5j0ISbYv+n?=
+ =?iso-8859-1?Q?SkTaB4Aub/J8r/L398R6BAWwc2Cyk6me1ocR31t29KrTMjuHHHn+m3s1Wu?=
+ =?iso-8859-1?Q?YOPWJvg5n+ZFZs1GuAZvJqCjRDDiUYwkZ/XiWamfxYz3E/4oMXu5kUEY9p?=
+ =?iso-8859-1?Q?Qsnk4eDXFTJCPM/5wosmwK6Vp7HJV2CZnd7qBMi4OhtIlF4fnkipM4eM5P?=
+ =?iso-8859-1?Q?H3498DNP02pUuwuavRhF1aFjEUb62n8OLzHcF8ySYag9iXEmpJHWUCcbYI?=
+ =?iso-8859-1?Q?3f7zGrf3j1s3v5Yosfinc7XnFANxd6JIePh7HIjc4cmN9LsxyhXtNEevpc?=
+ =?iso-8859-1?Q?9Cb9bPN9BgvVxvvzDpOsusgSrJe0ABFhJlqljafItAEYjopRRKeDAIj4ty?=
+ =?iso-8859-1?Q?MmrMMAH1cR4/rt1cHzahURCXkDhe60plnIGTMj5yf1x19ufl7ehXhK4+Mo?=
+ =?iso-8859-1?Q?pDb5yDUDPIUMg13MEkOin5T8g9Zu/L/qeKWfuu9BRG9MLQ+P9VGrMEqCYH?=
+ =?iso-8859-1?Q?VHHCNlQ21IhiEg4eVOyMMu3bDFyVuGCBsM3T0TCZccLT+c2fwg+5IonrbY?=
+ =?iso-8859-1?Q?rxKGHrRe16Gy/puiKmtGxIwq5+nUFfe2hYgQaEo/ueBnDPPKo7pcmxu56x?=
+ =?iso-8859-1?Q?jB+ti7S92G/xMjmI6YG5ijz4lAdX8HK610ehQ7IKsjg1JsxOa5jIOgMejg?=
+ =?iso-8859-1?Q?5cdErntlPhwEzIfdvzPJqN5auW7EEzC3YNayyemejj+UTNmj3Kr8GQcRdz?=
+ =?iso-8859-1?Q?/ClYpDfz6aAMZPYL9m8Zvi3QPPX3AQ/XxXUlY2H+6GIng64FRDLqVmF8tV?=
+ =?iso-8859-1?Q?I8KUd2bVWeVNspv8Zef0FEX8Hm0cv7FyGvccQvxYXs0jarIcMbVEPVlOta?=
+ =?iso-8859-1?Q?z8iuvFbAV1bvAJgmeXZhCFgEBpdUJhulhsUF2YOBqpWpZeHBpwq2lD0578?=
+ =?iso-8859-1?Q?Ei1u3/6NSO7+Sin1Kc0mqTGW3zvqW26uUPpTyk+gY+XWw/CrQOranLYmRA?=
+ =?iso-8859-1?Q?MhQTYhr69RgRG7UhNGPkJ8gn9Pkz/t9eq+Uw3Es7hhqf+HEFJWu0/3NQr1?=
+ =?iso-8859-1?Q?tigkGjOECZNNP0SjSbAZExAL1v6nzNh8iCVewR0FrGe6It/MfkZPY79/Xb?=
+ =?iso-8859-1?Q?PxJMi56ysWFTD2c9Nk+Qo05PqmlRoQRUwXetLKEdRQ99QA/a0zKbQdNqUM?=
+ =?iso-8859-1?Q?scO3+qnRVe192uYqroWas0xey62VmWVNXGIdDSxZrFaY0yKcVgpaw4EF7e?=
+ =?iso-8859-1?Q?9VbPc0TYf3grEVBb4gZXEXVsEOTqMFNmvDZoVsmHqWWwwnyo/ZSCGNW7pd?=
+ =?iso-8859-1?Q?w4l1I09pxg/1LcKOfDcFWDVNbcuBfUlsmA0EQqBSGjVBPEH6mPULpyNUwW?=
+ =?iso-8859-1?Q?OhQO1RMZyVP4Q4Zuphx+W5jBQibuAcKTqzQD9yfuQycN3MexcQAdDBmuFi?=
+ =?iso-8859-1?Q?n4kleOBzVKmFXYkOcZ9ruiIls2MailalaQcXzP310yDWRrgpGS6LXvvGfF?=
+ =?iso-8859-1?Q?xZQP/CKjEVGtb1vAGass8VUIilP9h1//endrivV1JteTxxG5j7u09DI1Vb?=
+ =?iso-8859-1?Q?WzfJbdTnfOuqH/6+Q+0Y1dWHVxK3676tNxPF/R/Qok731d93ny/TnQODan?=
+ =?iso-8859-1?Q?YnoEKsoFzgTaCMLBChJP6i1HsVTc73n72X7FG2UV8VfHTvlkG1zsHpiHYW?=
+ =?iso-8859-1?Q?I3TyJqlzRWgr8n5gk3D79U3t1dcUnSQxUEd/qYsaCRYoXqL712cQmRryKt?=
+ =?iso-8859-1?Q?LChCrQI562SzAGk4ZPpDl/1dS3vP6C70EtCFm6JHZvs67e?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c50e32d-8e00-46ab-ce0d-08df19ab4e20
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7794c59d-24b9-43d8-e977-08df19ae37f5
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6374.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 19:46:05.2165
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 20:06:56.5964
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /WEwplEfgBcL90tlkRbytQjtO/jFDeaSvGoPDDJ58x7lxyX+dr85Bo0m4rN2wvLb+ITCiUWMeJead5xmQuU6aA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8947
+X-MS-Exchange-CrossTenant-UserPrincipalName: Cd1RdZOTOwC4aAdeVcAfy2Plq+rq6rsTat+eZteC5YvKqmwaOzXmjyuZqHYjS/lgMFnWTfcNCRVwa0/kGGzc7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7148
 
-On Sun, Sep 20, 2026 at 07:10:13PM -0700, Dmitry Torokhov wrote:
-> There is no reason to allocate and manage ECC settings separately when
-> struct ecc_settings can be embedded directly into the driver-private
-> struct amd64_pvt.
+On Mon, Sep 21, 2026 at 01:37:02PM +0000, OptoCloud wrote:
+> From: Eirik Bøe <git@optocloud.no>
 > 
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> machine_check_poll() and __mc_scan_banks() both reuse a single
+> struct mce_hw_err while iterating over the MCA banks. The record is
+> zeroed once before the loop. Each iteration then resets only MISC
+> and ADDR.
+> 
+> On SMCA, mce_read_aux() writes SYND only when MCI_STATUS_SYNDV is
+> set. Nothing clears it again, so a bank that does not set SYNDV
+> inherits the SYND value read for the previous bank in the same
+> scan, and that stale value is printed and handed to the decoders as
+> if it belonged to the current error.
+> 
+> Decoders are expected to ignore MCA_SYND when SYNDV is clear, so
+> the stale value is cosmetic.
+> 
+> Reset SYND at the start of each iteration in both loops, alongside
+> the existing MISC and ADDR resets.
+> 
+> Found by code inspection; not reproduced on hardware.
+> 
+> Fixes: db819d60f672 ("x86/mce: Add support for new MCA_SYND register")
+> Signed-off-by: Eirik Bøe <git@optocloud.no>
+> Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
 > ---
 > 
-> Resending this standalone cleanup that was originally posted back in
-> 2015 as part of an async-probe RFC series [1] and got lost in the
-> broader driver model discussion. Since amd64_edac has long moved away
-> from pci_register_driver() to probing nodes directly in
-> amd64_edac_init(), patches 2 and 3 from that series are obsolete, and
-> this patch has been rebased onto the current code.
+> Notes (amlog):
+>     No v2 of this patch was sent. The numbering follows the series.
+>     
+>     Changes since v1:
+>     - Dropped Cc: stable (Yazen)
+>     - Picked up Yazen's Reviewed-by
 > 
-> [1] https://lore.kernel.org/all/1426726150-983-2-git-send-email-dmitry.torokhov@gmail.com/
+>  arch/x86/kernel/cpu/mce/core.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> 
->  drivers/edac/amd64_edac.c | 40 ++++++---------------------------------
->  drivers/edac/amd64_edac.h | 27 ++++++++++++++------------
->  2 files changed, 21 insertions(+), 46 deletions(-)
-> 
-> diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-> index 475235c402e8..6931b7e61652 100644
-> --- a/drivers/edac/amd64_edac.c
-> +++ b/drivers/edac/amd64_edac.c
-> @@ -30,9 +30,6 @@ static inline u32 get_umc_reg(struct amd64_pvt *pvt, u32 reg)
->  	return 0;
->  }
+> diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+> index ab469605fc89..16183fa4ddc7 100644
+> --- a/arch/x86/kernel/cpu/mce/core.c
+> +++ b/arch/x86/kernel/cpu/mce/core.c
+> @@ -808,6 +808,7 @@ void machine_check_poll(enum mcp_flags flags, mce_banks_t *b)
 >  
-> -/* Per-node stuff */
-> -static struct ecc_settings **ecc_stngs;
-> -
->  /* Device for the PCI component */
->  static struct device *pci_ctl_dev;
+>  		m->misc = 0;
+>  		m->addr = 0;
+> +		m->synd = 0;
+>  		m->bank = i;
 >  
-> @@ -3999,19 +3996,12 @@ static int probe_one_instance(unsigned int nid)
->  {
->  	struct pci_dev *F3 = node_to_amd_nb(nid)->misc;
->  	struct amd64_pvt *pvt = NULL;
-> -	struct ecc_settings *s;
->  	int ret;
+>  		barrier();
+> @@ -1347,6 +1348,7 @@ __mc_scan_banks(struct mce_hw_err *err, struct pt_regs *regs,
 >  
->  	ret = -ENOMEM;
-> -	s = kzalloc_obj(struct ecc_settings);
-> -	if (!s)
-> -		goto err_out;
-> -
-> -	ecc_stngs[nid] = s;
-> -
->  	pvt = kzalloc_obj(struct amd64_pvt);
->  	if (!pvt)
-> -		goto err_settings;
-> +		goto err_out;
+>  		m->misc = 0;
+>  		m->addr = 0;
+> +		m->synd = 0;
+>  		m->bank = i;
 >  
->  	pvt->mc_node_id	= nid;
->  	pvt->F3 = F3;
-> @@ -4042,7 +4032,7 @@ static int probe_one_instance(unsigned int nid)
->  		} else
->  			amd64_warn("Forcing ECC on!\n");
->  
-> -		if (!enable_ecc_error_reporting(s, nid, F3))
-> +		if (!enable_ecc_error_reporting(&pvt->ecc, nid, F3))
->  			goto err_enable;
->  	}
->  
-> @@ -4051,7 +4041,7 @@ static int probe_one_instance(unsigned int nid)
->  		amd64_err("Error probing instance: %d\n", nid);
->  
->  		if (boot_cpu_data.x86 < 0x17)
-> -			restore_ecc_error_reporting(s, nid, F3);
-> +			restore_ecc_error_reporting(&pvt->ecc, nid, F3);
->  
->  		goto err_enable;
->  	}
-> @@ -4067,10 +4057,6 @@ static int probe_one_instance(unsigned int nid)
->  	hw_info_put(pvt);
->  	kfree(pvt);
->  
-> -err_settings:
-> -	kfree(s);
-> -	ecc_stngs[nid] = NULL;
-> -
->  err_out:
->  	return ret;
->  }
-> @@ -4078,7 +4064,6 @@ static int probe_one_instance(unsigned int nid)
->  static void remove_one_instance(unsigned int nid)
->  {
->  	struct pci_dev *F3 = node_to_amd_nb(nid)->misc;
-> -	struct ecc_settings *s = ecc_stngs[nid];
->  	struct mem_ctl_info *mci;
->  	struct amd64_pvt *pvt;
->  
-> @@ -4089,10 +4074,7 @@ static void remove_one_instance(unsigned int nid)
->  
->  	pvt = mci->pvt_info;
->  
-> -	restore_ecc_error_reporting(s, nid, F3);
-> -
-> -	kfree(ecc_stngs[nid]);
-> -	ecc_stngs[nid] = NULL;
-> +	restore_ecc_error_reporting(&pvt->ecc, nid, F3);
->  
->  	/* Free the EDAC CORE resources */
->  	mci->pvt_info = NULL;
-> @@ -4149,13 +4131,10 @@ static int __init amd64_edac_init(void)
->  	opstate_init();
->  
->  	err = -ENOMEM;
-> -	ecc_stngs = kzalloc_objs(ecc_stngs[0], amd_nb_num());
-> -	if (!ecc_stngs)
-> -		goto err_free;
->  
->  	msrs = msrs_alloc();
->  	if (!msrs)
-> -		goto err_free;
-> +		goto err_ret;
-
-This can just 'return -ENOMEM;'.
-
->  
->  	for (i = 0; i < amd_nb_num(); i++) {
->  		err = probe_one_instance(i);
-> @@ -4195,10 +4174,7 @@ static int __init amd64_edac_init(void)
->  	msrs_free(msrs);
->  	msrs = NULL;
->  
-> -err_free:
-> -	kfree(ecc_stngs);
-> -	ecc_stngs = NULL;
-> -
-> +err_ret:
->  	return err;
->  }
->  
-> @@ -4218,11 +4194,7 @@ static void __exit amd64_edac_exit(void)
->  	for (i = 0; i < amd_nb_num(); i++)
->  		remove_one_instance(i);
->  
-> -	kfree(ecc_stngs);
-> -	ecc_stngs = NULL;
-> -
->  	pci_ctl_dev = NULL;
-> -
-
-This removal isn't needed.
-
->  	msrs_free(msrs);
->  	msrs = NULL;
->  }
-> diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
-> index 1757c1b99fc8..a93e0214143c 100644
-> --- a/drivers/edac/amd64_edac.h
-> +++ b/drivers/edac/amd64_edac.h
-> @@ -322,6 +322,19 @@ struct amd64_family_flags {
->  	      __reserved	: 63;
->  };
->  
-> +/*
-> + * per-node ECC settings descriptor
-> + */
-
-I understand this was a direct move, but it can just be a single-line
-comment.
-
-> +struct ecc_settings {
-> +	u32 old_nbctl;
-> +	bool nbctl_valid;
-> +
-> +	struct flags {
-> +		unsigned long nb_mce_enable:1;
-> +		unsigned long nb_ecc_prev:1;
-> +	} flags;
-> +};
-> +
->  struct amd64_pvt {
->  	struct low_ops *ops;
->  
-> @@ -372,6 +385,8 @@ struct amd64_pvt {
->  	/* place to store error injection parameters prior to issue */
->  	struct error_injection injection;
->  
-> +	struct ecc_settings ecc;
-> +
->  	/*
->  	 * cache the dram_type
->  	 *
-> @@ -441,18 +456,6 @@ static inline u8 dct_sel_interleave_addr(struct amd64_pvt *pvt)
->  
->  	return	((pvt)->dct_sel_lo >> 6) & 0x3;
->  }
-> -/*
-> - * per-node ECC settings descriptor
-> - */
-> -struct ecc_settings {
-> -	u32 old_nbctl;
-> -	bool nbctl_valid;
-> -
-> -	struct flags {
-> -		unsigned long nb_mce_enable:1;
-> -		unsigned long nb_ecc_prev:1;
-> -	} flags;
-> -};
->  
->  /*
->   * Each of the PCI Device IDs types have their own set of hardware accessor
+>  		m->status = mce_rdmsrq(mca_msr_reg(i, MCA_STATUS));
 > -- 
 
-Besides the minor issues, this looks good to me.
+Hi Eirik,
 
-Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+This patch can be dropped. It isn't necessary with the update to patch
+2.
+
+Also, please adjust your email settings to keep all patches within a
+revision as a single email thread.
 
 Thanks,
 Yazen
