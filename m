@@ -1,46 +1,46 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013030.outbound.protection.outlook.com [40.93.196.30])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012061.outbound.protection.outlook.com [52.101.53.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E6857C700;
-	Wed, 23 Sep 2026 20:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073F658122B;
+	Wed, 23 Sep 2026 20:11:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.61
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790194045; cv=fail; b=dBuNP7CYazeLq8Btd7TnSWcX9jV2MqvTpkHhZXJYYUIvmyBlH3i3Q3oc/hA15si3UDjkK+4Om+uCuKkXQZu4RvF7EiyjghTS5TxwmxWN7eDgaPMBVisPmJZjbAxJGRmGnwbRRi2X62IP5jyBW1fvsKRxwEgUb5uWY4JW1XBafaY=
+	t=1790194297; cv=fail; b=fshb6Qtz2imhl7awe6wgL6wLEsafRDavGMzOgbWPSVOpvmP/HwIqpvBLIddaLB1qDhjfwJhHyyWolpFledGV3NZAh2yHIcHqw2x69pM8/eD82K0SHhi3s5fxQQAxGBy0daL5nl4Kirkh0yXz6br00bI7k9CuO/nK0tvEQe+Gci8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790194045; c=relaxed/simple;
-	bh=SxsXMGo8nZTNhXrqh0yeB2iTZAaiNdjA+LmyBwx3ZEI=;
+	s=arc-20240116; t=1790194297; c=relaxed/simple;
+	bh=r0ERvGZdL+8C9rxRpnLmIP+ae7cjk6vYSQLFCZ0TpLU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ZnEWU16gFVlwsdPeyk6bKaGkyptp3IyP0ZL0pMpmUgwpAvamV6bhDPIuuZvdwV0mfTs0CQWqVtue4XNIXIDvWt5sQ/yLXQTCANM6gsUm/Uvn1b6Q+tzXbY/UPIIo5sepoaoLwHEnGbjlEO+cEQXlQW8D+rjzN095UGkR0dWeZpg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=fail (1024-bit key) header.d=amd.com header.i=@amd.com header.b=TSGDW1tt reason="signature verification failed"; arc=fail smtp.client-ip=40.93.196.30
+	 Content-Disposition:In-Reply-To:MIME-Version; b=fIlhRf+RB5kD2Peo/TYjx+suDWbEtBDC5Fec+lVvGlZhejQFio9AgGKi80r52LyYTeLktcRkPs0BtIFXrFT4cYMkuIuyzjoUmQgdNr2Hm4IiT1JiQvWTfiSxp+HVrhHPk/Pbb4Kdb1B7bPZ8ViA1Z8kIVuteK74WJaRw0oRSrtM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=fail (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Upsz6TKI reason="signature verification failed"; arc=fail smtp.client-ip=52.101.53.61
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=amd.com header.i=@amd.com header.b="TSGDW1tt"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Upsz6TKI"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p52LdD1FfPu7BdJ2IPdaeioce1qU9f+YHbJj/QleooFV/pyowUUXhLMvi4QNer/f2XJB37/pz4sdklkBzw6e2Veay8DsfzOzfwoDf4s8TIIqE3m2G6Sro9BDvhqe8MgzQ6hWBbf7v8MhgLrJqqepylupkgrlMrk8nxnvF/+9nz58gDH0uogqqxV53Y9wNJG92XPDAT167Wn+g+iaPSknQGNJCsZwF3C8YHbORQgXYUpDLZsI2XV4/o4APG9V/PeNuHdSmx8hakvRhymgOkd4sRkoRzpOJZHmX1pRhzYYD/13Sh5Oanj9Ka4YqbpAtdrp9QIrHbZTVHO1FBcMN0wC3w==
+ b=HqxyP/pW1AUuh0SWDa/zQusoCoaNUlFl1xgAS4ZkCI7za3FsPUfiNccLqajqzVY2FeHgLFsoRp4zIy4waw7hzaMIt/3e5hKsuppFB98j3WGn/UGUpL+OmuSvsL7wd2ITSYRvKkGKP1bObidFDhkojwQM9/r9yf8cGzmThscOqf7o5oLcoci/0b0MyYgVEDbXEBV+RMaqOCt9Dq29g2/4wXZ1O0wsrcxUUtnbJdF/y5iO/1Z8gBYKG0VkOqE6J5VsZ2UFEULVUoSE1GAQ1XvMiXBoP6fO55YArDMk/Ee3edI23X8cUuH+ShrRk9WCyselck5+r/Q7im2tA1EWg21Fuw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UAgDKGuYjVdM7k1KqNjnS7qVD/iOmlZg6bGm9vwji0o=;
- b=bH/uEnPCjr5qDqBkVnW/dBJqwaebGNowwK+zB6dsfOTQIvh+I+CpnaKnUc6yBTHocz0XlsR/KuEksh82g6unHwSh6VuUKOVqzaQuOnVWKtD/y/h4zSUqOAbkT7n+W21eHNSfKJV8lWYyNWNzT/yoNPDdJmJRxy4wPx9B/aMgXhPn4cOFjyQJQuavbXqUtQqEQubalPF+vlfxw7Jvhhk7LzEkCiXAl2nnPOUCsT4TJWfDhH8UowfwM07FpXV7ukMd3S11ZamfHjbeXzoe5397wH06ltPlDvNpsD+k+K84eYnGmWLb85B2JkFyEMj/EG5XyB4upWI/P/wf9UNycaM3aw==
+ bh=7Wgnlz9ZRnQcYQhuiHGmOCkSK2lQ8jD2tx3Ocj91yFo=;
+ b=gNqdd+xg8/AnECefa304IGskgmZBUNVGHJcTn6ynVGuchTA8AskBs01X/EVyLzDmM31jZE3wUvxJA+1u4puuDPDn5UzhhLc1eeefNshcJAhugH7LuYOwSrPVkp6G152OYL4qkTaKjVPEeroeSCptULAk18pX4vaIo4DNcdfUdHMDI6Nt9yLdtFgZfuZNaVwhry0T4LYtvIRtR24jrVZM8Fcc2B7T0X0Scelul7kXqz82LxxCUZI0QxfaA+MNFXygKUFE7CNxE2wI7MfJl62eZhTa2EJpcGLqmJ7wKXB6zjViQs777cxHOLthDglIrEXemFHL/ZGsBuFrtoL8LJ8V6A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UAgDKGuYjVdM7k1KqNjnS7qVD/iOmlZg6bGm9vwji0o=;
- b=TSGDW1tthe4W4M77wP4ZAwTWqcZVvQNuMmCTBjXvhOs4kx0aWKE2UBl6qojUUPIpa9iYKpIcHyxcftbtS5W2O9GeMtjbTlY1bhrqJQdjJGngcLFusWk2yyaR8zlKvbxCB95CoJmuIIdw7C6nYTqzf6KYUrl5y4Ch06SiMQRY3t0=
+ bh=7Wgnlz9ZRnQcYQhuiHGmOCkSK2lQ8jD2tx3Ocj91yFo=;
+ b=Upsz6TKIiLOY+WHOdWiAiOJpnQGnLO6mTQbGYrJvcOVfSuOzWRwW9f8H4XXvNrK+GzVkfvfmm/tREcLAR3OvoO8eWwGW0SIMNgSh1QT07MhgxOHL7sSG4sk4txpmppn8OEk9jCYeIMnxWLn31y038iHIOzB/unOi7G5Z0BPCIq4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from DM4PR12MB6374.namprd12.prod.outlook.com (2603:10b6:8:a3::18) by
- CY8PR12MB7148.namprd12.prod.outlook.com (2603:10b6:930:5c::11) with Microsoft
+ SJ2PR12MB8136.namprd12.prod.outlook.com (2603:10b6:a03:4f8::6) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.14; Wed, 23 Sep 2026 20:06:56 +0000
+ 15.21.428.15; Wed, 23 Sep 2026 20:11:11 +0000
 Received: from DM4PR12MB6374.namprd12.prod.outlook.com
  ([fe80::af35:a7a6:6ca:7fcf]) by DM4PR12MB6374.namprd12.prod.outlook.com
  ([fe80::af35:a7a6:6ca:7fcf%5]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
- 20:06:56 +0000
-Date: Wed, 23 Sep 2026 16:06:48 -0400
+ 20:11:11 +0000
+Date: Wed, 23 Sep 2026 16:11:06 -0400
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 To: OptoCloud <git@optocloud.no>
 Cc: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
@@ -52,15 +52,16 @@ Cc: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
 	"x86@kernel.org" <x86@kernel.org>,
 	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 1/2] x86/mce: Reset MCA_SYND between bank scans
-Message-ID: <20260923200648.GB1080284@yaz-khff2.amd.com>
-References: <zmLt5S3aLNcgxhqRI7yuVhN-gNY-W2KFuNz9F9gU4jvyJuY4LGM41p4WuEVus3-_3fs8B9sMA0143PG2urpBRYKlSCxuUQxV401F6USx4DA=@optocloud.no>
+Subject: Re: [PATCH v3 2/2] x86/mce: Reset MCA_SYND1/2 and kflags between
+ bank scans
+Message-ID: <20260923201106.GC1080284@yaz-khff2.amd.com>
+References: <n489m-wELNDg-JxPbFni_X3f1c3kAR0ODpWqP-6B0YEZ_a_xs8eGi6BfU1J5AOS9dt13GpHGucYDJoPucZ0D5pezQwkFoX-Jm_vX7OH72vI=@optocloud.no>
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <zmLt5S3aLNcgxhqRI7yuVhN-gNY-W2KFuNz9F9gU4jvyJuY4LGM41p4WuEVus3-_3fs8B9sMA0143PG2urpBRYKlSCxuUQxV401F6USx4DA=@optocloud.no>
-X-ClientProxiedBy: SN7PR04CA0097.namprd04.prod.outlook.com
- (2603:10b6:806:122::12) To DM4PR12MB6374.namprd12.prod.outlook.com
+In-Reply-To: <n489m-wELNDg-JxPbFni_X3f1c3kAR0ODpWqP-6B0YEZ_a_xs8eGi6BfU1J5AOS9dt13GpHGucYDJoPucZ0D5pezQwkFoX-Jm_vX7OH72vI=@optocloud.no>
+X-ClientProxiedBy: SN7PR04CA0120.namprd04.prod.outlook.com
+ (2603:10b6:806:122::35) To DM4PR12MB6374.namprd12.prod.outlook.com
  (2603:10b6:8:a3::18)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -69,126 +70,148 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|CY8PR12MB7148:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7794c59d-24b9-43d8-e977-08df19ae37f5
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|SJ2PR12MB8136:EE_
+X-MS-Office365-Filtering-Correlation-Id: e02f8c21-9a2b-4a9a-6d71-08df19aecf94
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|7416014|23010399003|1800799024|10067099003|11063799006|5023799004|56012099006|18002099003|22082099003;
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|10067099003|11063799006|18002099003|22082099003|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	m/6t3tbBfhj+Z48tm3+cKX3tfA+TeEZQon6u1hYbtcohSulaTeW6gF640N+rVAUFuZ/6uRrwEAWPAcnO1TZtAk8j/8oMb3r7ohiSUNyR1D/EaJQ1COmI4yVYQBxUiiydMw4cIrDtRyIEm+fC/n0dJ1fBrYglQY8/nHX1O/aJAlzFAGCNv63J3l92XkLF8pNlb2DSC65mkmzrxkR/B1hVe2LtGw1cFG5N5Kvyr1MZHp6jtKPQ0NOE+BJiJWUL3XkP0iRDsJAkxkAKobZP41rVUuxdfyXcF/0v+Q7VyHzd2rOXs3+U4Q56aN0qIgW6zkIAAWWDU2BdAHNFDhCA+VQ7s0M7ZaJpOgd1QxNuVgm7zPbuGzaqEmD4wXK8Sl3U7Sbx1NavoTFKtwBKopAFwn39pCxmbL8P+/YREtNbv3774THWPv+M8Ncg0ZJux4eHSZ9hIzXHiCG9E0+sDwKaCRwUE0NAlQuiHPrBRvzcGLqJnfq395rX7jGlm8DHhP63MxCBM5/q2Eu5axSmHjE2KA4CEcrqK3IBfnAy5kAiZ38KONYCZZf5GSV0l06f61nI7Ijhr0j8LyuAydnTxqjJaDLES4lPayarL9vsKnKohYZxKtfHLqZjEf2HKXK6a5jOLBcx/eNlUnj+IFIIDvwcLcwezzHYWc6y1I/WwESZF0lxHXQ=
+	bAL6L7bZ748CR3/lJshZkqn7TeK9wuatJDMq0lrSySXBBh/Qce/gvRpdhzor4pbAeDRPA3bxMpBPF4m5idp1QJMub3gcayQxMNsyvRn9b9DqLwEGfFnuuKWzIDIZjr+1b0QBORb7ZBwW3DzGyKs1bnl7q24wGCKGRbJ2PLMBndVxUzMPa3On8M7wZLQYall7YxyQBy9Tyxin5zGjifkgVeJqMeNQn7h0JqYzKoun9FTMLHnTLSFeO3AhuTttdKi9VH/VRrvKa3yoauUtfZzW24AjqnzeanmfSgZBjHsHEoBi4hNTFuTfZFRN8BEPJIzBh2DgyKWOEBZuX/Yo7wxRPKVHSLLMIhLkHayqavBpoxbHkNs85P5AxqW82tjHHJoIjKX/17kf//N4//JJ66H40iPK/2oLRhmg74Gw7aP0rbxRSLgrJMVeriTrar1p+8PzQEE10K3jqFdxwFsdLVc1mDOn/6ux1DivfU/PF10ThCJ9PjmaLW2rKm7pFBuy5TNg8S4J94zcYdVUjuJAJGp/Zco9LGNQ0mh3OSipEXAQ0VXXbno4sJ5ORAiJk0rt8nRVtFokFdlSikixyLl7VQ5P+BMYNBo2mJVjevUxJhLltrGeaE4vqJpyyjH/wncYi0aBM73a1/kz/bH9eglmkttZC/1bCqD6+ECzwDyBom3YIZA=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(23010399003)(1800799024)(10067099003)(11063799006)(5023799004)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(10067099003)(11063799006)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?D7eoZRH8oKxDokooHTkI2CXT+ngfAKAQpXQ0tI/Q9dmshcMs5j0ISbYv+n?=
- =?iso-8859-1?Q?SkTaB4Aub/J8r/L398R6BAWwc2Cyk6me1ocR31t29KrTMjuHHHn+m3s1Wu?=
- =?iso-8859-1?Q?YOPWJvg5n+ZFZs1GuAZvJqCjRDDiUYwkZ/XiWamfxYz3E/4oMXu5kUEY9p?=
- =?iso-8859-1?Q?Qsnk4eDXFTJCPM/5wosmwK6Vp7HJV2CZnd7qBMi4OhtIlF4fnkipM4eM5P?=
- =?iso-8859-1?Q?H3498DNP02pUuwuavRhF1aFjEUb62n8OLzHcF8ySYag9iXEmpJHWUCcbYI?=
- =?iso-8859-1?Q?3f7zGrf3j1s3v5Yosfinc7XnFANxd6JIePh7HIjc4cmN9LsxyhXtNEevpc?=
- =?iso-8859-1?Q?9Cb9bPN9BgvVxvvzDpOsusgSrJe0ABFhJlqljafItAEYjopRRKeDAIj4ty?=
- =?iso-8859-1?Q?MmrMMAH1cR4/rt1cHzahURCXkDhe60plnIGTMj5yf1x19ufl7ehXhK4+Mo?=
- =?iso-8859-1?Q?pDb5yDUDPIUMg13MEkOin5T8g9Zu/L/qeKWfuu9BRG9MLQ+P9VGrMEqCYH?=
- =?iso-8859-1?Q?VHHCNlQ21IhiEg4eVOyMMu3bDFyVuGCBsM3T0TCZccLT+c2fwg+5IonrbY?=
- =?iso-8859-1?Q?rxKGHrRe16Gy/puiKmtGxIwq5+nUFfe2hYgQaEo/ueBnDPPKo7pcmxu56x?=
- =?iso-8859-1?Q?jB+ti7S92G/xMjmI6YG5ijz4lAdX8HK610ehQ7IKsjg1JsxOa5jIOgMejg?=
- =?iso-8859-1?Q?5cdErntlPhwEzIfdvzPJqN5auW7EEzC3YNayyemejj+UTNmj3Kr8GQcRdz?=
- =?iso-8859-1?Q?/ClYpDfz6aAMZPYL9m8Zvi3QPPX3AQ/XxXUlY2H+6GIng64FRDLqVmF8tV?=
- =?iso-8859-1?Q?I8KUd2bVWeVNspv8Zef0FEX8Hm0cv7FyGvccQvxYXs0jarIcMbVEPVlOta?=
- =?iso-8859-1?Q?z8iuvFbAV1bvAJgmeXZhCFgEBpdUJhulhsUF2YOBqpWpZeHBpwq2lD0578?=
- =?iso-8859-1?Q?Ei1u3/6NSO7+Sin1Kc0mqTGW3zvqW26uUPpTyk+gY+XWw/CrQOranLYmRA?=
- =?iso-8859-1?Q?MhQTYhr69RgRG7UhNGPkJ8gn9Pkz/t9eq+Uw3Es7hhqf+HEFJWu0/3NQr1?=
- =?iso-8859-1?Q?tigkGjOECZNNP0SjSbAZExAL1v6nzNh8iCVewR0FrGe6It/MfkZPY79/Xb?=
- =?iso-8859-1?Q?PxJMi56ysWFTD2c9Nk+Qo05PqmlRoQRUwXetLKEdRQ99QA/a0zKbQdNqUM?=
- =?iso-8859-1?Q?scO3+qnRVe192uYqroWas0xey62VmWVNXGIdDSxZrFaY0yKcVgpaw4EF7e?=
- =?iso-8859-1?Q?9VbPc0TYf3grEVBb4gZXEXVsEOTqMFNmvDZoVsmHqWWwwnyo/ZSCGNW7pd?=
- =?iso-8859-1?Q?w4l1I09pxg/1LcKOfDcFWDVNbcuBfUlsmA0EQqBSGjVBPEH6mPULpyNUwW?=
- =?iso-8859-1?Q?OhQO1RMZyVP4Q4Zuphx+W5jBQibuAcKTqzQD9yfuQycN3MexcQAdDBmuFi?=
- =?iso-8859-1?Q?n4kleOBzVKmFXYkOcZ9ruiIls2MailalaQcXzP310yDWRrgpGS6LXvvGfF?=
- =?iso-8859-1?Q?xZQP/CKjEVGtb1vAGass8VUIilP9h1//endrivV1JteTxxG5j7u09DI1Vb?=
- =?iso-8859-1?Q?WzfJbdTnfOuqH/6+Q+0Y1dWHVxK3676tNxPF/R/Qok731d93ny/TnQODan?=
- =?iso-8859-1?Q?YnoEKsoFzgTaCMLBChJP6i1HsVTc73n72X7FG2UV8VfHTvlkG1zsHpiHYW?=
- =?iso-8859-1?Q?I3TyJqlzRWgr8n5gk3D79U3t1dcUnSQxUEd/qYsaCRYoXqL712cQmRryKt?=
- =?iso-8859-1?Q?LChCrQI562SzAGk4ZPpDl/1dS3vP6C70EtCFm6JHZvs67e?=
+	=?iso-8859-1?Q?SUN9uBKvTdF9mHw0LX/Wgu5+ogsPVfs0Meh5dgSuY3zFVibOXiKbNS/kGM?=
+ =?iso-8859-1?Q?JDR3zTFMMRvK7pAFE7a2+W5Pmf+3EnEsk2i85glALbVGsjlGon5CZqXKeo?=
+ =?iso-8859-1?Q?H/3TmvMVVkMDX7jl8Apjeo7jAwt/rnS4rv1MSYz8PdXrpOREH19RPQtgcr?=
+ =?iso-8859-1?Q?xAbVj4Rh2m16rs1nnaSR/jl730dUl0pV6Z+nXws2DraeAVzDZJ7Pf6/Vx6?=
+ =?iso-8859-1?Q?hywDy7yL07JhsN2Va4eup+Pu1IUgCpQeKumBDFO8LYsuwxrZzLGwCircZh?=
+ =?iso-8859-1?Q?7F3god/XYWN+6VqMhrk/jNtQsL9hMy5tatk/0kWlo675Fo++kSTW1a9+8i?=
+ =?iso-8859-1?Q?yHmseEFq0s4zxnMMRyuHfI2N+tlGobJBVPZcmkD6VV0WGiSMaQ0Aq6P7vo?=
+ =?iso-8859-1?Q?hugDkImfqij4zhD8owrE3CXk3jpRbT+eiE6YTl4mVsYt+Qj2nGB7tWSpX3?=
+ =?iso-8859-1?Q?a5PP7xD5qxds0GbeTuUqxup125pmFO4AL+/EPwBMIjIZw887OZQGykW2pd?=
+ =?iso-8859-1?Q?AFqoEjzg4KaVwfrLFAyM2ie53Gtu+VFwmw8LY3Fpty+9+fx0UV6BY61KiT?=
+ =?iso-8859-1?Q?uQAvZy3jZzppHTU3WF7PpMVj3+j9ZdfUZacPO1Fn8EDqo61WRIEsb7JBYE?=
+ =?iso-8859-1?Q?Vt2oAQrAoxDnjNNQAKudMlV7tNHQJn09Z37ibUD/zLSe7QGUBxrPBKxYe9?=
+ =?iso-8859-1?Q?Kvop3Bl5dagWhSzqkSt1YzN4V0V39lmN9bII0EzqE/U1sjUUSKtZ6PDUfU?=
+ =?iso-8859-1?Q?yFYZHShIUUAhJJE5qpeOmSvnNKyKIYju7NXNk0HtB2WlpQMuVmlrP9JfGH?=
+ =?iso-8859-1?Q?dwaZmUVozNTaHsRXCwD0Ygc2Opf4ePuOpAyrn6dOQvcEkOIVun48tjuBpY?=
+ =?iso-8859-1?Q?WzmmfCBvygBAzXFEN1DhBici5DMzWNtYY3Dwi89XRd65pYKM1H4zYCzjXm?=
+ =?iso-8859-1?Q?62WYxgtcBH9BscLFMt8shuSf+B5V7z0v+W3JSBydDcoeiP5hoXcfDVmpMv?=
+ =?iso-8859-1?Q?ySFh/1BvgLWZil4ihh2KbUrud3v0K9LLQs57fy1lpsVnG7igD14OgIUDr3?=
+ =?iso-8859-1?Q?9D7cRatDGQAAO9JVyIF1chGEhFc49j5xMsIEwagdsJ/PsZIdd4wc+JjMyN?=
+ =?iso-8859-1?Q?JUWkAFqYER4HuPLReOCJk3X+l+aYAHtEum1tF4mx4hhCLlnyg9zs13oqCG?=
+ =?iso-8859-1?Q?mPUvrI3aeW4quiwluHcPTwmZDf0YwvRHDMJjIuXWvyr6SqOTQrdG4NUekl?=
+ =?iso-8859-1?Q?cesvxXGa4Sc/jYG6fPJ/Y3ghe3mjaF8pbR5uG9VPHMOCjTOtw4yXeDOMAn?=
+ =?iso-8859-1?Q?6eA2a5uvdyjeH6/KJ3Khhjc9HXRAbuYaz1AzTTEv85K0nNdgQDnS5EVIht?=
+ =?iso-8859-1?Q?jU1K8AvXe9T8V6cTNNAqbgh/JUznG8hdy1Niz9S2wIaP2fj2YWRV6ctUQl?=
+ =?iso-8859-1?Q?hQDLd7R1vK6Mk2YsfPaEBpRn4j1pl7uR48JKxupA1xJ5XhVxHWQrxbuf9M?=
+ =?iso-8859-1?Q?K0licfTAJXExrY0SHs5zvZnV7f3eIWCnoGxIAwPhfjZ6fXRUh4J9IqEHqM?=
+ =?iso-8859-1?Q?6Uv8/RZdSH7RTrc1hj6FsFi6GEn1zrxRkSOg31+dVQvj/bZlGUOFO4Rrt1?=
+ =?iso-8859-1?Q?INL6EFLVTB7OF1JYG5tWpCA2MwRuFmbgbT5sfcsK1GOIQH+WWVRXIPH9t+?=
+ =?iso-8859-1?Q?tnsj2gDvCle/jIL5yH5BWmhOkYu4pAZM7J5ymtY6v+GMob7WQwuTmnym/s?=
+ =?iso-8859-1?Q?WXxb6StUaH691p+/zw9/928KNzVAA0QeaOSiSeQEaJneuF?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7794c59d-24b9-43d8-e977-08df19ae37f5
+X-MS-Exchange-CrossTenant-Network-Message-Id: e02f8c21-9a2b-4a9a-6d71-08df19aecf94
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6374.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 20:06:56.5964
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 20:11:11.0791
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Cd1RdZOTOwC4aAdeVcAfy2Plq+rq6rsTat+eZteC5YvKqmwaOzXmjyuZqHYjS/lgMFnWTfcNCRVwa0/kGGzc7w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7148
+X-MS-Exchange-CrossTenant-UserPrincipalName: oIxs23B/L841dchcwyhPgNKs11co3Hlhfcc8SH0hCdwAYUUC8+yI1k+8q2vxqlwg8Rg48PeVtz/MkInQLuHfmg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8136
 
-On Mon, Sep 21, 2026 at 01:37:02PM +0000, OptoCloud wrote:
+On Mon, Sep 21, 2026 at 01:38:12PM +0000, OptoCloud wrote:
 > From: Eirik Bøe <git@optocloud.no>
 > 
-> machine_check_poll() and __mc_scan_banks() both reuse a single
-> struct mce_hw_err while iterating over the MCA banks. The record is
-> zeroed once before the loop. Each iteration then resets only MISC
-> and ADDR.
+> machine_check_poll() and __mc_scan_banks() reuse a single
+> struct mce_hw_err across the whole bank scan. The record is zeroed
+> once before the loop. Each iteration then resets only MISC, ADDR and
+> SYND. Three more fields are written conditionally inside the loop and
+> never cleared again, so a later bank inherits them.
 > 
-> On SMCA, mce_read_aux() writes SYND only when MCI_STATUS_SYNDV is
-> set. Nothing clears it again, so a bank that does not set SYNDV
-> inherits the SYND value read for the previous bank in the same
-> scan, and that stale value is printed and handed to the decoders as
-> if it belonged to the current error.
+> mce_read_aux() writes err->vendor.amd.synd1/synd2 only on SMCA, and
+> then only when MCI_STATUS_SYNDV is set, so a bank without SYNDV is
+> printed with the supplemental syndromes of an earlier bank in the
+> same scan.
 > 
-> Decoders are expected to ignore MCA_SYND when SYNDV is clear, so
-> the stale value is cosmetic.
+> A stale m->kflags changes what happens to the next bank:
 > 
-> Reset SYND at the start of each iteration in both loops, alongside
-> the existing MISC and ADDR resets.
+>   - smca_should_log_poll_error() sets MCE_CHECK_DFR_REGS when an
+>     error was taken from MCA_DESTAT rather than MCA_STATUS. A later
+>     bank in the same poll then reads MCx_DEADDR instead of MCA_ADDR
+>     if it has ADDRV, and amd_clear_bank() returns before writing 0 to
+>     MCA_STATUS, so MCI_STATUS_VAL stays set and the bank is logged a
+>     second time on the next poll.
+> 
+>   - mce_default_notifier() prints a record only if m->kflags is empty
+>     or print_all is set, and the record reaches the gen pool as it
+>     stands. A later bank that inherits MCE_CHECK_DFR_REGS is logged
+>     with a non-zero m->kflags and is not printed by the notifier
+>     chain.
+> 
+> Factor the per-bank clearing into mce_clear_hw_err_fields() and call
+> it from both loops.
 > 
 > Found by code inspection; not reproduced on hardware.
 > 
-> Fixes: db819d60f672 ("x86/mce: Add support for new MCA_SYND register")
+> Fixes: d4fca1358ea9 ("x86/MCE/AMD: Add support for new MCA_SYND{1,2} registers")
+> Fixes: 7cb735d7c0cb ("x86/mce: Unify AMD DFR handler with MCA Polling")
+> Suggested-by: Yazen Ghannam <yazen.ghannam@amd.com>
 > Signed-off-by: Eirik Bøe <git@optocloud.no>
-> Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
 > ---
 > 
 > Notes (amlog):
->     No v2 of this patch was sent. The numbering follows the series.
+>     Changes since v2:
+>     - Squashed the MCA_SYND1/2 reset and the ->kflags reset into one
+>       patch, with the ->kflags reset in mce_clear_hw_err_fields() (Yazen)
+>     - m->kflags is now cleared in __mc_scan_banks() as well, which it was
+>       not in v2
+>     - Subject prefix x86/mce/amd: -> x86/mce:
 >     
 >     Changes since v1:
 >     - Dropped Cc: stable (Yazen)
->     - Picked up Yazen's Reviewed-by
+>     - Added mce_clear_hw_err_fields() so the resets are not repeated in
+>       machine_check_poll() and __mc_scan_banks() (Yazen)
+>     - Reset the whole m->kflags field instead of just MCE_CHECK_DFR_REGS
+>       (Yazen)
 > 
->  arch/x86/kernel/cpu/mce/core.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  arch/x86/kernel/cpu/mce/core.c | 24 ++++++++++++++++++------
+>  1 file changed, 18 insertions(+), 6 deletions(-)
 > 
 > diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-> index ab469605fc89..16183fa4ddc7 100644
+> index 16183fa4ddc7..e906c3f8e888 100644
 > --- a/arch/x86/kernel/cpu/mce/core.c
 > +++ b/arch/x86/kernel/cpu/mce/core.c
-> @@ -808,6 +808,7 @@ void machine_check_poll(enum mcp_flags flags, mce_banks_t *b)
+> @@ -653,6 +653,22 @@ static struct notifier_block mce_default_nb = {
+>  	.priority	= MCE_PRIO_LOWEST,
+>  };
 >  
->  		m->misc = 0;
->  		m->addr = 0;
-> +		m->synd = 0;
->  		m->bank = i;
->  
->  		barrier();
-> @@ -1347,6 +1348,7 @@ __mc_scan_banks(struct mce_hw_err *err, struct pt_regs *regs,
->  
->  		m->misc = 0;
->  		m->addr = 0;
-> +		m->synd = 0;
->  		m->bank = i;
->  
->  		m->status = mce_rdmsrq(mca_msr_reg(i, MCA_STATUS));
-> -- 
+> +/*
+> + * These fields are only filled in conditionally, so clear them before each
+> + * bank to stop a bank inheriting the previous bank's values.
+> + */
+> +static noinstr void mce_clear_hw_err_fields(struct mce_hw_err *err)
+> +{
+> +	struct mce *m = &err->m;
+> +
+> +	m->misc = 0;
+> +	m->addr = 0;
+> +	m->synd = 0;
+> +	m->kflags = 0;
+> +	err->vendor.amd.synd1 = 0;
+> +	err->vendor.amd.synd2 = 0;
 
-Hi Eirik,
+It seems that the entire union can be reset in one step:
+	err->vendor = (union vendor_info){ };
 
-This patch can be dropped. It isn't necessary with the update to patch
-2.
+This would be more future-proof if/when new fields or structs are added
+to the union.
 
-Also, please adjust your email settings to keep all patches within a
-revision as a single email thread.
+Also, please align the lines on the '='.
 
 Thanks,
 Yazen
