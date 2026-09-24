@@ -1,111 +1,104 @@
-Received: from va-1-113.ptr.blmpb.com (va-1-113.ptr.blmpb.com [209.127.230.113])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A892326F288
-	for <linux-edac@vger.kernel.org>; Thu, 24 Sep 2026 02:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFEE92475E3;
+	Thu, 24 Sep 2026 09:31:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790216684; cv=none; b=BmYeJJXnB8oOyM39kR/cGp/MHg2/gPT26O9RYLqE9JH3DPmnYAUr1Ar+hlu4Fcyh+44xmujM78QvYNoawiyR/z2gv/SC+PACsA4TXl84v2wlRpe1+zkWZ1sNTncAk+6nfp/SdYY+vn5HHG7/Z+Y592mA8eUPSjJf+ks2sbV41WE=
+	t=1790242271; cv=none; b=iE3Ckt6+66O8yeEaK7urdhc6Tg+sMNAoWTgHpqoPNrbb0fWpFPuWGT7L8Eht68yX3aWKYFhyNLZdKzqu3q3k3VOutJuOKxpZz+RfZfaxj6C9oVUjP6b3uYkkr1npBh3ESJKvqfcaSL4Yif5SBaWfP+b4BYPnurbDpfuoKtd+jDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790216684; c=relaxed/simple;
-	bh=LJEwdCJXYFUOpsFXfusU9YAf5JfIN02KGa/uTgGJ4Hs=;
-	h=To:In-Reply-To:References:From:Date:Message-Id:Mime-Version:
-	 Content-Type:Cc:Subject; b=D/KfL9JyCcgyfAe6YACIqVD1cNQzyDQxAF0XZTK8L4ZYDGe39JSpDAF4+vkdnYro3AY6KdSqHB3Pg8QEigSJirwi6abbMyZKtMgkjKmVfPSYnfR0oOA5Zt+/I+Oj0MUIcaihIXDPWFjl7czhJyNEeDgp9xrpIctK0B+bwYiFL64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=dCX2s9Kf; arc=none smtp.client-ip=209.127.230.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1790242271; c=relaxed/simple;
+	bh=au3jbxr6y4LL+gq0xCbn7TrW5KlkAyo1ztERHFp3jrM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=aaUXCY3Oq2Bxlun2izTNZvHldJIFaR9gpAON4wC+tTTldiDjb/FvXxp4KS/Nnk/Bpxn6meJfM6mW59S0iqK8mPq9Z95PLKKa4dP4Gqg3HOzJbgY6Qm/cFrAV8m+5uts8YYjG1YG0QO9sGc1CIv+HxRCG1FizyTeMVPsOupUmp8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=053M5NxC; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="dCX2s9Kf"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1790216676; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=2Hoz+6lDzmydq9LFtPljkge7QzlrUAbeB7f24NEGMgg=;
- b=dCX2s9Kf+IJkSxRnisi6ZS+Z5LdhSRhTttSxpYe/ERBKY+eEmA8JEry2vtRwWxYDWTQfJ9
- zlCQbNsoHm+Hd+XiIccCpsYu+4ElDqx0zOUINJKJelWlzJ3QbjLDrWaFevlBuuB4bcS5hs
- VlPJhxcWEnhxfEVq0zJjYEKmEfOtO6c/fnpqWvviIjAbmKI6BM25VsUWNqZOJXdhxg2gJp
- BZRrJv5EERIo86mwFsEQOZ3VOkT8Uj1+kWDcyU2vE1GYnINYYJ6t6wkKu3At4a7bQv5kBZ
- 2xd7y5cqLxuN4NXqUAnJMBx4twOIjxg7VKqm8kYBajqMCnPd69J39s5GjGznnA==
-Content-Transfer-Encoding: 7bit
-X-Lms-Return-Path: <lba+26ab489e2+f58434+vger.kernel.org+qirui.001@bytedance.com>
-To: <Yazen.Ghannam@amd.com>
-User-Agent: Mozilla Thunderbird
-X-Original-From: Rui Qi <qirui.001@bytedance.com>
-In-Reply-To: <20260826035314.1536340-1-qirui.001@bytedance.com>
-References: <20260821094748.145394-1-qirui.001@bytedance.com> <20260826035314.1536340-1-qirui.001@bytedance.com>
-From: "Rui Qi" <qirui.001@bytedance.com>
-Date: Thu, 24 Sep 2026 10:24:21 +0800
-Message-Id: <e9b72122-64db-47bf-a541-3b9705ed0b4a@bytedance.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="053M5NxC"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 3BD8B4E41055;
+	Thu, 24 Sep 2026 09:31:06 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0D7FB5FB45;
+	Thu, 24 Sep 2026 09:31:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2E628103294C2;
+	Thu, 24 Sep 2026 11:31:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1790242264; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=uXekq9sUZ1Rb9ztyZuQyMfRK+tlGw3xEjANbuSVm6js=;
+	b=053M5NxCsOVxO8l3zPgNgvTbcOJMCCgBjlguC0U5GRR2yW1WUanOpnG235ZezsgTxaopLR
+	IdMplu/cE8yiubEU0qvnqfsJZQMK2UOllRnYMuNDx8tbQPj6uACpbp8cXbaD0fzgCM1yR9
+	M9m2Jb5JSF1lmjgjpp0VDFyJkU+hdswnYHel/KOR719xeGc+yRWcHroCBpXMbuFD84TJpZ
+	OpGCZxC9yj0h1IB1G9TPa5T2GPyk9LRd1SN3xZcPM9zin5M+QmLSzkmxE0E7R1Q/OTZYO3
+	3rup5Pm6kLh7ra/8jZ8UFkQd2R/wo6D5b02kobXc785DHebDKEi5/Sf84/rHsQ==
+From: Paul Louvel <paul.louvel@bootlin.com>
+Subject: [PATCH 0/3] Add Renesas RZ/N1x EDAC driver
+Date: Thu, 24 Sep 2026 11:30:24 +0200
+Message-Id: <20260924-paul-v7-3-rc1-edac-v1-0-70be37c41a18@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Cc: <tony.luck@intel.com>, <bp@alien8.de>, <linux-edac@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 0/4] RAS/AMD/FMPM: Fix OOB, uninitialized data, and error-handling bugs
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33NzQ7CIBAE4FcxnF3Dsv2hnnwP44FSUIwWA5Vom
+ r67VC8ajcdJZr4ZWTTBmcjWi5EFk1x0vs8BlwumD6rfG3BdzkxwUfEGK7io6wlSDQRBI5hOaUB
+ b1I1tKqvLmuXhJRjrbk90u3vleG2PRg+zNDcOLg4+3J+vCefe34OEwKHjVEkpJIlWbVrvh5PrV
+ 9qf2XyRxDtS/0RERmxZSuSEHbfmG6E3RNBPhDJSSkKpFRWtok9kmqYH8PZZeFIBAAA=
+X-Change-ID: 20260916-paul-v7-3-rc1-edac-1f479f96fc57
+To: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org, 
+ devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Herve Codina <herve.codina@bootlin.com>, 
+ "Paul Louvel (Schneider Electric)" <paul.louvel@bootlin.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790242261; l=1267;
+ i=paul.louvel@bootlin.com; s=20260313; h=from:subject:message-id;
+ bh=au3jbxr6y4LL+gq0xCbn7TrW5KlkAyo1ztERHFp3jrM=;
+ b=CjyjO+FlJaBOP6kHmk9aT1tFkVhaoV1ryhjaJYWNilQ2Xp2Dl6HYk7OYCl3JoJRW29dj1iLL9
+ 4Sn31n1+Gh2BA5rSOcK9m80HRdFtQ3baL4zNQEPCHfuji9aRd1j8LqE
+X-Developer-Key: i=paul.louvel@bootlin.com; a=ed25519;
+ pk=eLW50NT18UAvUT5cAcYf88zNbBCZDLFXuptpyLVhVIU=
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 8/26/26 11:53 AM, Rui Qi wrote:
-> Hi Yazen, Borislav, Tony,
-> 
-> This series fixes several bugs in the AMD FRU Memory Poison Manager
-> driver.
-> 
-> Patch 1 fixes an out-of-bounds read in the for_each_fru macro caused by
-> the comma operator evaluating the array access before the bounds check.
-> 
-> Patch 2 fixes an uninitialized stack bitmap in save_new_records() that
-> could cause the rollback path to clear ERST records that were not created
-> in the current initialization pass.
-> 
-> Patch 3 makes the max_nr_entries module parameter read-only (0444),
-> preventing runtime writes that could exceed the allocated flexible array
-> size.
-> 
-> Patch 4 fixes a spurious BUG when erst_get_record_id_begin() fails,
-> because the error path unconditionally calls erst_get_record_id_end()
-> which triggers BUG_ON.
-> 
-> All four bugs have been present since the original introduction of the
-> AMD FMPM driver.
-> 
-> Changes since v1 [1]:
-> - All patches: Use RAS/AMD/FMPM: subject prefix to match existing
->   convention (Yazen Ghannam)
-> - Patch 1: Replace UBSan with KASAN in commit message, as KASAN is the
->   appropriate sanitizer for out-of-bounds memory accesses (Yazen Ghannam)
-> - Patch 1: Use ", true" instead of ", 1" in the for_each_fru macro to
->   clearly indicate a boolean value (Yazen Ghannam)
-> - Patch 2: Initialize DECLARE_BITMAP at declaration with = { 0 } instead
->   of calling bitmap_zero() separately (Yazen Ghannam)
-> - Patch 4: Fix commit message to accurately describe the comment in
->   erst_get_record_id_end() (Yazen Ghannam)
-> - Patch 4: Simplify error path by using goto out and moving the out:
->   label above kfree(old), removing the out_free label (Yazen Ghannam)
-> 
-> [1] https://lore.kernel.org/r/20260821094748.145394-1-qirui.001@bytedance.com
-> 
-> Rui Qi (4):
->   RAS/AMD/FMPM: Fix out-of-bounds read in for_each_fru macro
->   RAS/AMD/FMPM: Clear new records bitmap before rollback
->   RAS/AMD/FMPM: Make max_nr_entries read-only
->   RAS/AMD/FMPM: Fix spurious BUG when ERST record enumeration fails
-> 
->  drivers/ras/amd/fmpm.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> --
-> 2.20.1
+The Cadence memory controller found on Renesas RZ/N1x SoCs supports ECC
+with SECDED.
 
-Hi Yazen,
+The memory controller found on the r9a06g032 supports at most a single
+DIMM of DDR2/3, up to 2GB.
 
-Gentle ping on this series.
+Add the EDAC driver for this memory controller, and the relevant
+device-tree binding. Also add the EDAC node to the existing r9a06g032
+SoC base device-tree.
 
-This v2 incorporates all your feedback on v1, including the subject
-prefix updates and the suggested changes to patches 1, 2, and 4.
-Could you please take another look when you have a chance?
+Signed-off-by: Paul Louvel (Schneider Electric) <paul.louvel@bootlin.com>
+---
+Paul Louvel (3):
+      dt-bindings: edac: cdns,ddr-edac: add Cadence DDR EDAC binding
+      EDAC/cadence: Add Cadence DDR EDAC driver
+      ARM: dts: renesas: r9a06g032: add EDAC node
 
-Thanks,
-Rui
+ .../devicetree/bindings/edac/cdns,ddr-edac.yaml    |  62 ++++
+ MAINTAINERS                                        |   7 +
+ arch/arm/boot/dts/renesas/r9a06g032.dtsi           |  10 +
+ drivers/edac/Kconfig                               |  10 +
+ drivers/edac/Makefile                              |   1 +
+ drivers/edac/cadence_edac.c                        | 333 +++++++++++++++++++++
+ 6 files changed, 423 insertions(+)
+---
+base-commit: d9f39b2c0579f313d14954a9ec584511c543aab5
+change-id: 20260916-paul-v7-3-rc1-edac-1f479f96fc57
+
+Best regards,
+--  
+Paul Louvel, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
