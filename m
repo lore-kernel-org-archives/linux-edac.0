@@ -1,476 +1,145 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012044.outbound.protection.outlook.com [52.101.48.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9258347FB1E;
-	Thu, 24 Sep 2026 13:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790257301; cv=none; b=l259gwj1dumvVIFptoNq0O6KYj+ynH7k92KkbdAoNVNWOXMJNoYdVdoV8vimdjdneyHlT9AVd5E+N17SWYjrfV86TH/054uV0Hpx/8lXpoiFnQdSsqxfHvfa326HjAOx+CC1klZ1XXfg28wTy63jrXz5Nk984cP6C3d9Nind4GE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790257301; c=relaxed/simple;
-	bh=Wotvzpf+tO+GO3zb7vB9hCvjcd/ZZy9oIL04GBOQfIg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cNGGXNrjbR+LQw8+Ti0JljI57/fVsSl41X3uU55slskZlU1HDSlYMH/JTQ1U/nghEMJveYhAE+7aotva6fk/i7mJCQ6iSOhZeL5vh9nPYflVZwipWO7WRnNLG06qRwwhpDy3JZ3J/nBObdjZp5/Wjd9YG2jX5WFw2Jt2CFlJ2MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DI6LlIDT; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4C938422E;
+	Thu, 24 Sep 2026 14:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790259120; cv=fail; b=cCKkhFBnPU34/yhMy47mGwQdXP+kpAZcX8hDjrQdywP+pJsx8Y0XdImnog9kvLCjfBc1cXVxz73zO4ML7Lw42ISleRO0j4gVjrOVy4ZAJFTg3pyE73VLmsFgGby6NHQNLB7hpqyUN8PQBUhjMeRhpSQwjpg3to51Fr3FQn7CmCY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790259120; c=relaxed/simple;
+	bh=uKf3pmarI5LlWOyEfsHtXcuUCqy+P3hTbrHjUJb59+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=PSYvB0uXYEMeSxGpLqCIeS8VSaEFf9ywRFEdZU17oKVe1c0QtcBDU98/m73vzYovy3mz2blLi6aHkGHSPyoOrFgqPUIIZgk70IqTkGSKvpmat7Mo14uT034P/aXUz19twQoN0S+b6+x32IXsl6CZtVgwO85Te1LVVKHAB1D6MYc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=rqSMFZY2; arc=fail smtp.client-ip=52.101.48.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DI6LlIDT"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 9035F1A1004;
-	Thu, 24 Sep 2026 13:41:32 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6331460341;
-	Thu, 24 Sep 2026 13:41:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4C177103294A2;
-	Thu, 24 Sep 2026 15:41:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1790257291; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=fA0sJENE1WQriZkcwhcpdf0F853voDSlB0eog/7mMN8=;
-	b=DI6LlIDT6wTSVaQS3NXA1RUa4zotLr98wKlcwgPEw62wp1WVSA1K9OMDp49dVI9qwrUzij
-	LbcFtw3aDFuA1WFiG89TJ+2Kh/+5B2YX4ggFyIonHn9jG100rtWTTNWne8z4nIsfamMc8Y
-	6Q+DrthOOyJjyjyaD6m7WphTPIsCWzGD8JMoliLsuOohxyU8bQI6sNZhxBJfyH+dor8nRV
-	B7XuFR9/A4o9NKmZJYEkeJVn4yHctRjNnv4I8X93w1FiHFx6p2bj7R8Zi4fJ/jgCdLismQ
-	NW4k+SBumvYNrzP7U7+cYKJd+0Or6xJte9JSnW7KYDeIcgyNSvQyikJSORDURw==
-From: Paul Louvel <paul.louvel@bootlin.com>
-Date: Thu, 24 Sep 2026 15:41:13 +0200
-Subject: [PATCH v2 2/3] EDAC/cadence: Add Cadence DDR EDAC driver
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="rqSMFZY2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lBFd9/oltkUwbgU5HqxithFNJer2M+l8/9tj5iYfC+L4EIyX7CPjq5PY8rGWfHZvZqduYaqfCepKOeuB0UfGT84B/eREmk9wg7U1AfWxr5XcaFPYsoMplD6vsOC5TiaAw1KtBgzQ2Sm4esuNWSw3lXLI8EXGmEsb4CPxwkZc4VmYofPEjEa8sDcTLUptaRxumuJpF/0wqUFKpgf6AVbo0Y1gEAH/Hf6OfYhZkU0X2BZnuOYTLicESnDNDRB31aWxDv96p9cKInh1XtKcFsJuHJwB3quvl5rjo9GE+l0RjBBCTnE2sRBDm61BiNudgfdgYt5xokLgxWlRkjVcVSRbBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yQxpqBjOoiTGhzV28vyJGE7u7Z5RO9TKG1z/6FOHAFA=;
+ b=neM6mworXpAgsq1F0dHuqbFT2ktoUk8JoaPqUp8tCwQQumO+JYvrMc/20r/w+NJ76wLKvgx0yzbnp62dd8hvbT5fssPs6iuUq41xfN+0ogNrLZLrhxwTsTdnzLz8m9jLYMbjnQuGwcUPuy6l5ZsVyGkx4EtzKJUcyiiRoITbDaMEufUhabVsaZdm04dmx/k20nJUnxKijMqsUzCu05fyDIyYLHIueSmIjyBXZO0X+GvAFmj1SgTzfMHd3LVaQlDuw4J79bQdTHJG//1Vb4hGLxm2TWk5oY3lTQnjKR5VOMMf9AF4M6IVchnwdphFyV1kqv+Fjg5HMhSqJ5ueSFHahg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yQxpqBjOoiTGhzV28vyJGE7u7Z5RO9TKG1z/6FOHAFA=;
+ b=rqSMFZY299UaVIEB41dRqs177Vbwu6Jz4hzEmPW+GT3azPqWiSgaUAvbUevORAyfIiYMZrcAzoTkWDFwcnF0lK+hZ//66HuIdee1xCUo4E1I/CtHhkC0H8r+mh0m1RDKbz4NPO3LCULs2mWDkdYewIXZ9eapU0a7QMo36rXPp4Y=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6374.namprd12.prod.outlook.com (2603:10b6:8:a3::18) by
+ BY5PR12MB4081.namprd12.prod.outlook.com (2603:10b6:a03:20e::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Thu, 24 Sep
+ 2026 14:11:55 +0000
+Received: from DM4PR12MB6374.namprd12.prod.outlook.com
+ ([fe80::af35:a7a6:6ca:7fcf]) by DM4PR12MB6374.namprd12.prod.outlook.com
+ ([fe80::af35:a7a6:6ca:7fcf%5]) with mapi id 15.21.0451.014; Thu, 24 Sep 2026
+ 14:11:55 +0000
+Date: Thu, 24 Sep 2026 10:11:46 -0400
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: Vishal Badole <Vishal.Badole@amd.com>
+Cc: bp@alien8.de, tony.luck@intel.com, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH Intenal 1/2] EDAC/amd64: Add support for AMD family 1Ah
+ models 80h-8Fh
+Message-ID: <20260924141146.GD1080284@yaz-khff2.amd.com>
+References: <20260923112003.3677719-1-Vishal.Badole@amd.com>
+ <20260923112003.3677719-2-Vishal.Badole@amd.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260923112003.3677719-2-Vishal.Badole@amd.com>
+X-ClientProxiedBy: BN0PR08CA0030.namprd08.prod.outlook.com
+ (2603:10b6:408:142::9) To DM4PR12MB6374.namprd12.prod.outlook.com
+ (2603:10b6:8:a3::18)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260924-paul-v7-3-rc1-edac-v2-2-bc1406161ecc@bootlin.com>
-References: <20260924-paul-v7-3-rc1-edac-v2-0-bc1406161ecc@bootlin.com>
-In-Reply-To: <20260924-paul-v7-3-rc1-edac-v2-0-bc1406161ecc@bootlin.com>
-To: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-edac@vger.kernel.org, devicetree@vger.kernel.org, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, 
- Herve Codina <herve.codina@bootlin.com>, 
- "Paul Louvel (Schneider Electric)" <paul.louvel@bootlin.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790257282; l=12733;
- i=paul.louvel@bootlin.com; s=20260313; h=from:subject:message-id;
- bh=Wotvzpf+tO+GO3zb7vB9hCvjcd/ZZy9oIL04GBOQfIg=;
- b=y/AtYUBOldj4vDkFA9ykVs972RdKL1q0p9/QNo/r3J8MW1iTkKavhoVHkN7EpViOoNGcTs5qz
- MsiU6RWXSDWC3G77CvtJfZ4SXfJryyTfA8ygkuXauVdNxu1J6Uu6Okg
-X-Developer-Key: i=paul.louvel@bootlin.com; a=ed25519;
- pk=eLW50NT18UAvUT5cAcYf88zNbBCZDLFXuptpyLVhVIU=
-X-Last-TLS-Session-Version: TLSv1.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|BY5PR12MB4081:EE_
+X-MS-Office365-Filtering-Correlation-Id: 198ed91e-8ed3-47cd-1289-08df1a45c9a1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|10067099003|56012099006|11063799006|18002099003|22082099003|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	tBjAG5Ttzsaw42TFP6sqkMA2fRu+ZRuetnKwKymbEv/bKjQBCk2jR1tjTUnJfEAikdgnWaUGTuKwZTvTPR1sAzZYUoge4kjRfvYhzjlalzhIwtERKyUcg0w8gimzEtznvcaKKMvBJKDgcEchYvwctlwVrNnGeH9zbHSrrYXu7PKZOatLTBFgZLy1Q2Q3vCJ1fMVxPPGOLoSxbODPWhvFLidXXUQi7Mq11eloXPpwgy2Y5/PRJKYrFi4UxissIz9pXqzNwDg9j9ZNT3tb1G8vb1hWfpC7MTUYPtuvcODWCswlmCZGFsZiJ5RugUoVOianCy7Hp3+UcsDSJkF9RiR9O6w5Tx+n0eS2fr/m7VEoDYQOZbTncrqdE4AMqdskozeLTdgK2dFm47e9vexMbU7OvWhl9/0H4PisoYcUQC+0+J83u0ocivI/0/Yp9SuoKC11ZCFqgtA30hGVF5ENkGxu5SmFfI0Q5+NygWuwVS//5Fh4iADTrGptto5YCS6pyUh+VEg4WC7UnzXX7KgBinR4SZGWT8kKGg7VL/nTzX79oPv59pofuyTTOuvemZZX2xEXZrrpXAgXLfzf/4YleHznk79dRUdVosav973bOq+bGfT5J2RKSDV29evbnE5EnK3CzFM20nI7j0YaTLr3gfkClencVusanZpp+Tl6O0KZ4oY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0hhcaLYRzKmAIdiFQeEVZ7PKe7NiIKTVM2povzzDxDrPUXmNERudSBfIj/8k?=
+ =?us-ascii?Q?5D1W/I7BPuI5+C/V+CeYu1JBvFM7+PvevK1xP1vul9+vaphWPyo9wE7O2jfV?=
+ =?us-ascii?Q?p9k77uwjEO3dx/wvaWwHQ4ChC2FI1XA6BJQOR2PsS9TuzjafQ75hfEuqVU3a?=
+ =?us-ascii?Q?4bmArwfpBGegcjXsgRZlhIvBP9awpt5QhFqaz1V6Hpj1+HkophNO1AEP27Gu?=
+ =?us-ascii?Q?f86ZazErCrGiO5xRDjP7g+4ZO79wVzGcZ6zhPVzyU1ultxbBS8TL3TzZnAoC?=
+ =?us-ascii?Q?Sm3m/5nlVSOc8cPR2qU8cq811r1nkf9oLgVOJTJvqLkM9QZF+uytpwyoM5zm?=
+ =?us-ascii?Q?u/vC1gILxltMrmTENPihiy462pCT1B6bAddIJMHni1DfVlyac56S17abGMNY?=
+ =?us-ascii?Q?bpHXhMJWSFpUjCEuSbG/zE0QrQzoYP+4GK1HzDIXUIM656K64uQuxm7zjRYS?=
+ =?us-ascii?Q?CRY0ZD5/wbd8hbxXxHsPxrioYSX+kCmlVWdnhq0owV9ewe46MvH1Ll/9VbyG?=
+ =?us-ascii?Q?rUkRyuUerzlLxVW1If6qLcSpIz50YSCUVdDW/aNBE3myHe0YzT+wtnJOrmgk?=
+ =?us-ascii?Q?Uq0TFqbqtLmmWwlvO0oHu+DPSwjWu81FskhkIbN6wJ4Icmfq5pWmzj1vOPTd?=
+ =?us-ascii?Q?I66mxS5wxTB3EFQ36cEgMVMb3Zma5IS21fr/YV9+zSc3/3arukdg5b+6hezg?=
+ =?us-ascii?Q?/xXn8NQzd7z979aVkQilSiSPtwMtTch9v3MlBlORDVPxlQuT08TyYvuC7awI?=
+ =?us-ascii?Q?22lo2X+ZwmVc0kE1lGo1kNzh9nph6bd6bglsykYvEBbMYXy/JA5aVHw1yKkW?=
+ =?us-ascii?Q?XEThEu5vlwN64I2YdOV2Dvk/0pv/2lWrUEpVDRT/qhH9/rFn48qQM5g4kTXl?=
+ =?us-ascii?Q?0yA/Tvlu4iKZr9IHiuwZ5POKoqlg3z3JbIcjW/0gsBCqRcmrWJ8Au1lggTJv?=
+ =?us-ascii?Q?3dm4Z8Q3gUrBAPXV5WOhff+dNsxYEjPgG2cetfGjuuVtSLgwYFzJfnfjDdih?=
+ =?us-ascii?Q?6emb1UNtm+cFTUljFRJnPskwXv2HbEvoNdLshgVIfTpoG4pWPlxWEt4Whe/R?=
+ =?us-ascii?Q?RGEw/YSKYfqJkLwniriTQPrcxRd6q5I/WqPYxmYXzT0nMV5Zs4bnERfRpun3?=
+ =?us-ascii?Q?AIQtKdJb1EHBxmPkryVt/Lfn0w24cAxDXJYpNzTPzIvrpwX7K+V9wNWfZXZq?=
+ =?us-ascii?Q?AUP47YIGV4ISRyvTrMVagT/HGckAbE3kJFtMziHkRfj4pKnV4/+mkwFq5Dcg?=
+ =?us-ascii?Q?izpRkhi72YIRmFp8dCbII955E6k7EdO0PCQz1gKIQm3Cutx0drteM6X3Gbj1?=
+ =?us-ascii?Q?iJuqw4jursjSr+AUqjJk0r29N1QD+cqfNlZHgfR8QVb971YcN+0mop/JSjQB?=
+ =?us-ascii?Q?v0F2oEs7K2wLeeOwuvhv8gMgcsW14QxuLlfwyykpqSr5e1Xm2nzndsrkRySb?=
+ =?us-ascii?Q?NnGsIUNYkwW5XUllTeGqSZbLCWjVvHIWjz5VZlS8m91fPD2rWa/uqU0T62Dw?=
+ =?us-ascii?Q?4pJLFZ+6VDHwGTF9zZSI1Bx8Rj6t1vjys9c6QeXXUtVt4WyhocZVLUjlZ1G8?=
+ =?us-ascii?Q?0sHOZJUK+hLnwmlYQBK5GYbJt5p93NEhisP++hO89hreDXcugk4MIwHj+lIA?=
+ =?us-ascii?Q?pMq3uukDfbETdM4jaQjBjwpy4DAaYBM6xv3ztvG1Ph+UHARWVbRvTakrYHT7?=
+ =?us-ascii?Q?kwRrN/wO/krZYfD+FQSLHjl8IxmTwc58HKNC20vJQQd/Ox/N?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 198ed91e-8ed3-47cd-1289-08df1a45c9a1
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2026 14:11:54.9381
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PLb/BxqAbrDBLBgvOM6EV5kBRDuR5SJLnanIMdYwRwAjXw/nWm5dWoxemBEsZ4sGB+NjTw5fpq22U1wOjT3AeA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4081
 
-Add the Cadence EDAC driver found on Renesas RZ/N1x SoC.
-The memory controller supports ECC, software scrubbing, and SECDED.
+On Wed, Sep 23, 2026 at 04:50:02PM +0530, Vishal Badole wrote:
+> Add support for family 1Ah-based models 80h-8Fh.
+> 
+> Signed-off-by: Vishal Badole <Vishal.Badole@amd.com>
+> ---
+>  drivers/edac/amd64_edac.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+> index c6aa69dbd9fb..ff0ebc8e15f6 100644
+> --- a/drivers/edac/amd64_edac.c
+> +++ b/drivers/edac/amd64_edac.c
+> @@ -3900,6 +3900,10 @@ static int per_family_init(struct amd64_pvt *pvt)
+>  			pvt->max_mcs            = 16;
+>  			pvt->flags.zn_regs_v2   = 1;
+>  			break;
+> +		case 0x80 ... 0x8f:
+> +			pvt->max_mcs            = 2;
 
-Signed-off-by: Paul Louvel (Schneider Electric) <paul.louvel@bootlin.com>
----
- MAINTAINERS                 |   1 +
- drivers/edac/Kconfig        |  10 ++
- drivers/edac/Makefile       |   1 +
- drivers/edac/cadence_edac.c | 340 ++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 352 insertions(+)
+Should this be '4'?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 60db3734df5b..0c7ab1d22172 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5765,6 +5765,7 @@ M:	Paul Louvel <paul.louvel@bootlin.com>
- L:	linux-edac@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/edac/cdns,ddr-edac.yaml
-+F:	drivers/edac/cadence_edac.c
- 
- CADENCE MIPI-CSI2 BRIDGES
- M:	Maxime Ripard <mripard@kernel.org>
-diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index a44b85c440ca..1707fe76b53c 100644
---- a/drivers/edac/Kconfig
-+++ b/drivers/edac/Kconfig
-@@ -503,6 +503,16 @@ config EDAC_QCOM
- 	  For debugging issues having to do with stability and overall system
- 	  health, you should probably say 'Y' here.
- 
-+config EDAC_CADENCE
-+	tristate "Cadence EDAC Controller"
-+	depends on HAS_IOMEM && OF
-+	depends on ARCH_RZN1 || COMPILE_TEST
-+	help
-+	  Support for error detection and correction on RZN1x SoCs. ECC must be
-+	  configured by the bootloader.
-+	  The controller supports single bit error correction, double bit error
-+	  detection.
-+
- config EDAC_ASPEED
- 	tristate "Aspeed AST BMC SoC"
- 	depends on ARCH_ASPEED
-diff --git a/drivers/edac/Makefile b/drivers/edac/Makefile
-index a37534300ab9..0d66a072b15c 100644
---- a/drivers/edac/Makefile
-+++ b/drivers/edac/Makefile
-@@ -82,6 +82,7 @@ obj-$(CONFIG_EDAC_SYNOPSYS)		+= synopsys_edac.o
- obj-$(CONFIG_EDAC_XGENE)		+= xgene_edac.o
- obj-$(CONFIG_EDAC_TI)			+= ti_edac.o
- obj-$(CONFIG_EDAC_QCOM)			+= qcom_edac.o
-+obj-$(CONFIG_EDAC_CADENCE)		+= cadence_edac.o
- obj-$(CONFIG_EDAC_ASPEED)		+= aspeed_edac.o
- obj-$(CONFIG_EDAC_BLUEFIELD)		+= bluefield_edac.o
- obj-$(CONFIG_EDAC_DMC520)		+= dmc520_edac.o
-diff --git a/drivers/edac/cadence_edac.c b/drivers/edac/cadence_edac.c
-new file mode 100644
-index 000000000000..7edac7795fa7
---- /dev/null
-+++ b/drivers/edac/cadence_edac.c
-@@ -0,0 +1,340 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright 2015 Renesas Electronics Europe Ltd.
-+ * Copyright 2026 Bootlin
-+ *
-+ * Based on highbank EDAC driver:
-+ *
-+ * Copyright 2011-2012 Calxeda, Inc.
-+ */
-+
-+#include <linux/bits.h>
-+#include <linux/bitfield.h>
-+#include <linux/clk.h>
-+#include <linux/edac.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/mm.h>
-+#include <linux/mutex.h>
-+#include <linux/of_address.h>
-+#include <linux/string.h>
-+#include <linux/platform_device.h>
-+
-+#include "edac_mc.h"
-+
-+#define DRV_NAME "cdns_edac"
-+
-+#define REG_BYTE_SZ 4
-+#define DDR_CTL(n) ((n) * REG_BYTE_SZ)
-+
-+#define CDNS_DDR_DDR_STAT DDR_CTL(0)
-+#define CDNS_DDR_DDR_STAT_DRAM_CLASS GENMASK_U32(11, 8)
-+#define CDNS_DDR_DDR_STAT_DRAM_DDR2 BIT(2)
-+#define CDNS_DDR_DDR_STAT_GET_DRAM_CLASS(reg) FIELD_GET(CDNS_DDR_DDR_STAT_DRAM_CLASS, reg)
-+
-+#define CDNS_DDR_ECC_STAT DDR_CTL(36)
-+#define CDNS_DDR_ECC_STAT_ENABLED BIT(16)
-+#define CDNS_DDR_ECC_STAT_IS_ENABLED(reg) FIELD_GET(CDNS_DDR_ECC_STAT_ENABLED, reg)
-+#define CDNS_DDR_ECC_STAT_FWC BIT(24)
-+
-+#define CDNS_DDR_ECC_XOR DDR_CTL(37)
-+#define CDNS_DDR_ECC_XOR_CHECK_BITS GENMASK_U32(13, 0)
-+
-+#define CDNS_DDR_BUS_CTRL DDR_CTL(54)
-+#define CDNS_DDR_BUS_CTRL_REDUC BIT(1)
-+
-+/* DDR Controller Error Registers */
-+
-+#define CDNS_DDR_ECC_U_ERR_ADDR DDR_CTL(38)
-+#define CDNS_DDR_ECC_U_ERR_STAT DDR_CTL(39)
-+
-+#define CDNS_DDR_ECC_C_ERR_ADDR DDR_CTL(41)
-+#define CDNS_DDR_ECC_C_ERR_STAT DDR_CTL(42)
-+
-+#define CDNS_DDR_ECC_ERR_STAT_GET_SYNDROME(reg) FIELD_GET(GENMASK(6, 0), reg)
-+
-+#define CDNS_DDR_PORT_CMD_ERR_ADDR DDR_CTL(61)
-+#define CDNS_DDR_PORT_CMD_ERR_TYPE DDR_CTL(62)
-+#define CDNS_DDR_PORT_CMD_ERR_TYPE_GET(reg) FIELD_GET(GENMASK_U32(10, 8), reg)
-+
-+/* DDR Controller Interrupt Registers */
-+
-+#define CDNS_DDR_ECC_INT_STAT DDR_CTL(56)
-+#define CDNS_DDR_ECC_INT_STAT_CE BIT(3)
-+#define CDNS_DDR_ECC_INT_STAT_MULTIPLE_CE BIT(4)
-+#define CDNS_DDR_ECC_INT_STAT_UE BIT(5)
-+#define CDNS_DDR_ECC_INT_STAT_MULTIPLE_UE BIT(6)
-+#define CDNS_DDR_ECC_INT_STAT_PORT_CMD_CHAN BIT(7)
-+
-+#define CDNS_DDR_ECC_INT_ACK DDR_CTL(57)
-+#define CDNS_DDR_ECC_INT_ACK_MASK GENMASK_U32(21, 0)
-+
-+#define CDNS_DDR_ECC_INT_CTRL DDR_CTL(58)
-+#define CDNS_DDR_ECC_INT_CTRL_MASK GENMASK_U32(21, 0)
-+#define CDNS_DDR_ECC_INT_CTRL_MASK_ALL BIT(22)
-+#define CDNS_DDR_ECC_INT_CTRL_UNMASK(i) ((~(i)) & CDNS_DDR_ECC_INT_CTRL_MASK)
-+
-+struct cdns_mc_priv {
-+	void __iomem *io_base;
-+	struct mutex lock;
-+};
-+
-+static void cdns_rmw(struct cdns_mc_priv *priv, u32 reg, u32 mask, u32 val)
-+{
-+	u32 regval;
-+
-+	mutex_lock(&priv->lock);
-+	regval = readl(priv->io_base + reg);
-+	FIELD_MODIFY(mask, &regval, val);
-+	writel(regval, priv->io_base + reg);
-+	mutex_unlock(&priv->lock);
-+}
-+
-+static irqreturn_t cdns_mc_err_handler(int irq, void *dev_id)
-+{
-+	struct mem_ctl_info *mci = dev_id;
-+	struct cdns_mc_priv *priv = mci->pvt_info;
-+	u32 addr, status, err_addr, syndrome, reg;
-+	char other_details_str[32];
-+	u8 type;
-+
-+	/* Read the interrupt status register */
-+	status = readl(priv->io_base + CDNS_DDR_ECC_INT_STAT);
-+	if (!status)
-+		return IRQ_NONE;
-+
-+	/*
-+	 * We can't know how many CE / UE occurred since last ACK in case of
-+	 * multiple errors. Just report it.
-+	 */
-+
-+	if ((status & CDNS_DDR_ECC_INT_STAT_UE) || (status & CDNS_DDR_ECC_INT_STAT_MULTIPLE_UE)) {
-+		reg = readl(priv->io_base + CDNS_DDR_ECC_U_ERR_STAT);
-+		syndrome = CDNS_DDR_ECC_ERR_STAT_GET_SYNDROME(reg);
-+
-+		err_addr = readl(priv->io_base + CDNS_DDR_ECC_U_ERR_ADDR);
-+
-+		edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci, 1, err_addr >> PAGE_SHIFT,
-+				     err_addr & ~PAGE_MASK, syndrome, 0, 0, -1, mci->ctl_name, "");
-+	}
-+
-+	if ((status & CDNS_DDR_ECC_INT_STAT_CE) || (status & CDNS_DDR_ECC_INT_STAT_MULTIPLE_CE)) {
-+		reg = readl(priv->io_base + CDNS_DDR_ECC_C_ERR_STAT);
-+		syndrome = CDNS_DDR_ECC_ERR_STAT_GET_SYNDROME(reg);
-+
-+		err_addr = readl(priv->io_base + CDNS_DDR_ECC_C_ERR_ADDR);
-+
-+		edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, 1, err_addr >> PAGE_SHIFT,
-+				     err_addr & ~PAGE_MASK, syndrome, 0, 0, -1, mci->ctl_name, "");
-+	}
-+
-+	if (status & CDNS_DDR_ECC_INT_STAT_PORT_CMD_CHAN) {
-+		addr = readl(priv->io_base + CDNS_DDR_PORT_CMD_ERR_ADDR);
-+		reg = readl(priv->io_base + CDNS_DDR_PORT_CMD_ERR_TYPE);
-+		type = CDNS_DDR_PORT_CMD_ERR_TYPE_GET(reg);
-+
-+		snprintf(other_details_str, sizeof(other_details_str), "type 0x%02x", type);
-+
-+		edac_mc_handle_error(HW_EVENT_ERR_INFO, mci, 1, addr >> PAGE_SHIFT,
-+				     addr & ~PAGE_MASK, 0, 0, 0, -1, mci->ctl_name,
-+				     other_details_str);
-+	}
-+
-+	/* clear the error, clears the interrupt */
-+	writel(status & CDNS_DDR_ECC_INT_ACK_MASK, priv->io_base + CDNS_DDR_ECC_INT_ACK);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static void cdns_mc_err_inject(struct mem_ctl_info *mci, u16 synd)
-+{
-+	struct cdns_mc_priv *priv = mci->pvt_info;
-+
-+	cdns_rmw(priv, CDNS_DDR_ECC_XOR, CDNS_DDR_ECC_XOR_CHECK_BITS, synd);
-+	cdns_rmw(priv, CDNS_DDR_ECC_STAT, CDNS_DDR_ECC_STAT_FWC, 1);
-+}
-+
-+static ssize_t inject_ctrl_store(struct device *dev, struct device_attribute *attr, const char *buf,
-+				 size_t count)
-+{
-+	struct mem_ctl_info *mci = to_mci(dev);
-+	u16 synd;
-+
-+	if (kstrtou16(buf, 16, &synd))
-+		return -EINVAL;
-+
-+	cdns_mc_err_inject(mci, synd);
-+
-+	return count;
-+}
-+
-+static DEVICE_ATTR_WO(inject_ctrl);
-+
-+static struct attribute *cdns_edac_attrs[] = { &dev_attr_inject_ctrl.attr, NULL };
-+
-+ATTRIBUTE_GROUPS(cdns_edac);
-+
-+static void devm_cdns_edac_free(void *data)
-+{
-+	edac_mc_free(data);
-+}
-+
-+static void devm_cdns_edac_del(void *data)
-+{
-+	edac_mc_del_mc(data);
-+}
-+
-+static int cdns_get_mem_sz(resource_size_t *mem_sz)
-+{
-+	struct device_node *np;
-+	struct resource res;
-+	int ret;
-+
-+	np = of_find_node_by_name(NULL, "memory");
-+	if (!np)
-+		return -ENODEV;
-+
-+	ret = of_address_to_resource(np, 0, &res);
-+
-+	of_node_put(np);
-+
-+	if (ret)
-+		return ret;
-+
-+	*mem_sz = resource_size(&res);
-+
-+	return 0;
-+}
-+
-+static int cdns_mc_probe(struct platform_device *pdev)
-+{
-+	struct edac_mc_layer layers[2];
-+	struct cdns_mc_priv *priv;
-+	struct mem_ctl_info *mci;
-+	struct dimm_info *dimm;
-+	resource_size_t mem_sz;
-+	struct clk *clk;
-+	int ret, irq;
-+	u32 reg;
-+
-+	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
-+	layers[0].size = 1;
-+	layers[0].is_virt_csrow = true;
-+	layers[1].type = EDAC_MC_LAYER_CHANNEL;
-+	layers[1].size = 1;
-+	layers[1].is_virt_csrow = false;
-+	mci = edac_mc_alloc(0, ARRAY_SIZE(layers), layers, sizeof(struct cdns_mc_priv));
-+	if (!mci)
-+		return dev_err_probe(&pdev->dev, -ENOMEM, "unable to allocate edac mc\n");
-+
-+	ret = devm_add_action_or_reset(&pdev->dev, devm_cdns_edac_free, mci);
-+	if (ret)
-+		return ret;
-+
-+	mci->pdev = &pdev->dev;
-+	priv = mci->pvt_info;
-+
-+	priv->io_base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(priv->io_base))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(priv->io_base), "unable to map regs\n");
-+
-+	clk = devm_clk_get_enabled(&pdev->dev, "ddrc");
-+	if (IS_ERR(clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(clk), "unable to get ddrc\n");
-+
-+	clk = devm_clk_get_enabled(&pdev->dev, "pclk");
-+	if (IS_ERR(clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(clk), "unable to get pclk\n");
-+
-+	reg = readl(priv->io_base + CDNS_DDR_ECC_STAT);
-+	if (!CDNS_DDR_ECC_STAT_IS_ENABLED(reg))
-+		mci->edac_cap = EDAC_FLAG_NONE;
-+	else
-+		mci->edac_cap = EDAC_FLAG_SECDED;
-+
-+	mci->mtype_cap = MEM_FLAG_DDR2 | MEM_FLAG_DDR3;
-+	mci->edac_ctl_cap = EDAC_FLAG_NONE | EDAC_FLAG_SECDED;
-+	mci->mod_name = pdev->dev.driver->name;
-+	mci->ctl_name = "cdns-ddr-ctrl";
-+	mci->dev_name = dev_name(&pdev->dev);
-+	mci->scrub_mode = SCRUB_SW_SRC;
-+
-+	ret = cdns_get_mem_sz(&mem_sz);
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret, "unable to get memory size\n");
-+
-+	dimm = *mci->dimms;
-+	dimm->nr_pages = PFN_UP(mem_sz);
-+	dimm->grain = 4;
-+	dimm->edac_mode = EDAC_SECDED;
-+
-+	/* Check if half datapath feature of the controller is active. */
-+	reg = readl(priv->io_base + CDNS_DDR_BUS_CTRL);
-+	if (reg & CDNS_DDR_BUS_CTRL_REDUC)
-+		dimm->dtype = DEV_X8;
-+	else
-+		dimm->dtype = DEV_X16;
-+
-+	strscpy(dimm->label, "Channel#0_DIMM#0", sizeof(dimm->label));
-+
-+	reg = readl(priv->io_base + CDNS_DDR_DDR_STAT);
-+	if (CDNS_DDR_DDR_STAT_GET_DRAM_CLASS(reg) == CDNS_DDR_DDR_STAT_DRAM_DDR2)
-+		dimm->mtype = MEM_DDR2;
-+	else
-+		dimm->mtype = MEM_DDR3;
-+
-+	ret = edac_mc_add_mc_with_groups(mci, cdns_edac_groups);
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret, "failed to add mc\n");
-+
-+	ret = devm_add_action_or_reset(&pdev->dev, devm_cdns_edac_del, &pdev->dev);
-+	if (ret)
-+		return ret;
-+
-+	writel(CDNS_DDR_ECC_INT_CTRL_MASK_ALL, priv->io_base + CDNS_DDR_ECC_INT_CTRL);
-+
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return dev_err_probe(&pdev->dev, irq, "unable to get irq\n");
-+
-+	ret = devm_request_irq(&pdev->dev, irq, cdns_mc_err_handler, 0, dev_name(&pdev->dev), mci);
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret, "unable to request irq %d\n", irq);
-+
-+	/*
-+	 * Unmask ECC recoverable and unrecoverable interrupts, and port
-+	 * command errors.
-+	 */
-+	writel(CDNS_DDR_ECC_INT_CTRL_UNMASK(
-+		       CDNS_DDR_ECC_INT_STAT_CE | CDNS_DDR_ECC_INT_STAT_MULTIPLE_CE |
-+		       CDNS_DDR_ECC_INT_STAT_UE | CDNS_DDR_ECC_INT_STAT_MULTIPLE_UE |
-+		       CDNS_DDR_ECC_INT_STAT_PORT_CMD_CHAN),
-+	       priv->io_base + CDNS_DDR_ECC_INT_CTRL);
-+
-+	edac_mc_chipset_printk(mci, KERN_DEBUG, DRV_NAME, "ECC %s",
-+			       (mci->edac_cap == EDAC_FLAG_NONE) ? "disabled" : "enabled");
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id cdns_ddr_ctrl_of_match[] = {
-+	{ .compatible = "cdns,ddr-edac" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, cdns_ddr_ctrl_of_match);
-+
-+static struct platform_driver cdns_mc_edac_driver = {
-+	.probe = cdns_mc_probe,
-+	.driver = {
-+		.name = DRV_NAME,
-+		.of_match_table = cdns_ddr_ctrl_of_match,
-+	},
-+};
-+
-+module_platform_driver(cdns_mc_edac_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Renesas Electronics Europe Ltd.");
-+MODULE_AUTHOR("Paul Louvel <paul.louvel@bootlin.com>");
-+MODULE_DESCRIPTION("EDAC driver for Cadence DDR controller");
+In documentation, I see 4 UMC MCA banks, and the UMC register
+definitions list UMC0-UMC3 instances.
 
--- 
-2.55.0
-
+Thanks,
+Yazen
