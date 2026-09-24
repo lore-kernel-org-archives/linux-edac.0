@@ -1,244 +1,159 @@
-Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011007.outbound.protection.outlook.com [52.101.62.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF0B33E360
-	for <linux-edac@vger.kernel.org>; Thu, 24 Sep 2026 14:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A8D3BCD2E;
+	Thu, 24 Sep 2026 14:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.7
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790259337; cv=pass; b=rCWtdUrSKjxIedV28RTsPSsDIl/LcNArlvFni1K7UA3YV8O/0A2LHuu8de0qXJyvujFvaKV8lrtVLaluvcUKdthp9eUsFqckVdP5vGR1XX2H9T/+9u1ExGZuwMU+LXPCcvErL7K3bg759zmddeJaSR6/8qZkKk+7LSDWrnKIOhs=
+	t=1790260110; cv=fail; b=s/4YXX0XzirEHUHLzoeWexlpElxf0OPJOO4wJjdcUxZWvFz72Y2UTBP8BNLR68KcNYcrLtEBsFd+ITWR5aXOiZJaWxaVSh05Ywk1hdcknhhlNhzQZ3pBxUgFkBIpIfl4CdjESpxIXM3qRsoBUxY3mHIt8FPnfmv3R5BI9MegK90=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790259337; c=relaxed/simple;
-	bh=fwqbiIvV2P3fJebB0UiNrrEc0OEvVKiw/rH/H2+mMoI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WehXGEkcgs6HeWPEvc3QMyG7KcKPo25UUKflFWDQ8IoLh0Hvnx5jNPgE3jXjL2NHJrn3gz1Oo0mle7Lc+YKQWxYMHz2ve/tNT7PexgEnp+/AU7EkgnGvugi6kTl3D0uISqD9rYjSBzN8imJoAg5u9awP1A1SSy2WpiIfTzabmMQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F3K3d5kP; arc=pass smtp.client-ip=74.125.224.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790260110; c=relaxed/simple;
+	bh=OmAF+UlNYg/cQQgemaarnphY3bnM44N3pF+QtIBAZqY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=JQ9LOoO7WJ38geB7gweZGvns0lh8Y9M9Rwf8vsP+qBV+Y5yQXzkIj7QuZgv5JIIfLQeY0jWuFeQdVk6q2BzV/+TEUUIHxEOm085iXO5nQh5CurMridC53Z4JEGJC1kPj7QUapi5MGTF+khHUZnNCI9gn+OPsRE2Sq6Pe+9YNIuQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4YeYCfLX; arc=fail smtp.client-ip=52.101.62.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F3K3d5kP"
-Received: by mail-yx2-f43.google.com with SMTP id 956f58d0204a3-66e4ab201ecso1970508d50.2
-        for <linux-edac@vger.kernel.org>; Thu, 24 Sep 2026 07:15:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790259334; cv=none;
-        d=google.com; s=arc-20260327;
-        b=d4sKHiCQYz2b/20g9rDwth09WZhWSIFxkPZF5aQzY/Ic9fcQBKEO1EHdUXxSoOwAER
-         4cqOZn8FwT/vYia7DS9sB7Z/Jl3LxFaJK1NIxar7HnQRFdsI+GIfplsxdUEJHMoDmUIs
-         d1fmpgoIclFeDH1fVk1X95DhGE3vZ5oc9xCjTRCYNJdVhSKxG2FWikGLzMDJhpX8QTXe
-         /X+D6e+5C5UtsWPq5rJfZE3cvP//j48dnUpFprZTXI62vjqvzqB4JGm3CXA0PyRw3r5K
-         tPhb8Yj6TkB7gOnSoLhGhRfxK6Mumq68uLLz0czsHLcp95ShkEK/lmIcmZq/0VJQWfxx
-         Jb0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VqwT+zeVYyyeJDz/W7VPDo/dJJgtgXoVFAXAXD+e99Q=;
-        fh=o7VDSJJMp2P4CBTJPWIx6i7F5pV5uRvehuQwQ9LSjBQ=;
-        b=nOWGspjmmMZH/pSNuF7Axahtm2klDS22tim7Ikd7VdtnTyllk8ib5PfG8pX9W0OcVA
-         gXQhjJHVO6wzZSO1Iz6OocgaNRfWla/ja8QfLrbJ1Wa+FNphkeqKB2WPkH1WesytZIM4
-         PCk86Ui0wxPQdILJt1i/isI3NlKtsxQYgkYM3jM+0r8sFBpCJ7D7gXxJJjUa6pw1kTZm
-         KrjzeTFnJNijxs3Bg7pBhn5YdMXPhLxfzqWvHY/hUjOh/9PsvZ2tavjkEeEMrLhC2puF
-         Q2G717FgixBNRzxnb1DWW2MqXfvOu/pUjyrAzOTyj1gqSC1NUyh8S5TH6xnQ6xIm1Qa9
-         kzJw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790259334; x=1790864134; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VqwT+zeVYyyeJDz/W7VPDo/dJJgtgXoVFAXAXD+e99Q=;
-        b=F3K3d5kPbEPHFwpEn6i8mTBzmoXMyGURRHUcDU8wjEdayPe7V1Utuisa3T8ae7Nv8N
-         SZYxwe3zrR1iZmh71CUYjjbU8+HwmygCoeTjiqSidlwnWCZLb4h5bQv5mL9rv2dJ6+7S
-         vnLtJwuBD2wQoH8LjlRo9+Wle8OMwnBkh/p1xfjAa2vLwA5ep8mShx4r62ByqsDyFStl
-         ZZ735AynwZyVglkXjr55LyEJrd0Mg0AGReTg9AxlEQRk1EfPv6n7WbscetSgNx61jIHo
-         CaitIcmt7eOqvAhhtsy3kBe+JIQCEYbQg/yJJ89aJkKfgbNp/glXOV4FyozaaLXJSl4u
-         I+Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790259334; x=1790864134;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VqwT+zeVYyyeJDz/W7VPDo/dJJgtgXoVFAXAXD+e99Q=;
-        b=D5Ny1HusZ3QjdF2Bl+B3fVlRf7sd4TclJUy7mLwaNPhNCjhQiO05dAJ8wTlgJnVXUM
-         VuSrsusGm4NBQGPGoQrDVKyEw0V1ZLA6tg9FUAPXYoRUGrs6Kbgh/FHHQbxw6HIsTwUM
-         5l22kZ8q4CleZZxCzMJ31iGjWy5LI7aBv4FXXYm0fRg+nZlaLF8rsyhOErz+GXxoWIoh
-         1laK76gXqujtWDMuRaM+DJ2F/fksyKNf4EqLigC1N0Ni4lrs/YU5Q2s4cWK+hixLp2JK
-         OcCJ5Lww3L1Ah0a/O9ph/dtLW/NPqV8Od+Q9akfVJGfw/QnuhcOYMaNLpiIxPaRE2rc3
-         JROQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz+hYtrB+Qfa+G5Km74lDIriKMxB34GaIvqGYdgVtSlSu2LHR+EbhUO8y/+uvxrL4d8mlTahkV4bB5D@vger.kernel.org
-X-Gm-Message-State: AFq9FYJPLjZjLZ4smDoUL30TTFaw+HKfyNJdcJ3w9orc377SY2+l/JZT
-	xorPXz3P+yFW7YWGMHGJiLkNJp1txagInJ5ljTam1N9rPsPPC4hm6uM8HNrkxbVjY48Vh0D+0mN
-	qmNvY1LClnYsC9o+CtBXjRQMUH/EaFQA=
-X-Gm-Gg: AYBFou3wYS6NVik8MX6gOlc7cF5RlhCdv7/WvVN/xEQU1hn81FZUF0mac1cR57/r9pK
-	3S6TtN+cH0Mwg9HfIICzgVp4z1uGy/7OPggz3vTGwHVnlCy6VsHh70+viNIU8QOXYFLJBigsO6o
-	Uq836SSL/S6RgC33eOrmFuOenWnGOBpaeY70tSVPMXwe90/+RyIKYGqXbST0hi8dHw18swZhlMX
-	kCD8iBWeG6zVV6bgABs5xNlLK+V15P9WgUxLU+WBweIDa+Lba9+24vkWB6HcthPQgCpBRwhMweG
-	7vCpY/oCwMufu2WpFf5qmshaG9+ljhZV4Ssx4rqNdnE4nf5inJFvRno+FQ==
-X-Received: by 2002:a05:690e:bc9:b0:671:3e72:de4 with SMTP id
- 956f58d0204a3-672ed2a5798mr1189306d50.50.1790259334119; Thu, 24 Sep 2026
- 07:15:34 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4YeYCfLX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BaEFRNzDnDHWBrOW/+9HFTOy2r/TbOSyLvGslwMQ8FGTVPHrJ0YPKbUU35qZrIJCmJhrAgxdDXzGZU/aFxT25uTc8+9SEfbU2uqRK2C/0yW+yElwbmAOcKAJreOoEeHKQrgQYv0kNj8rXSDmc2cJMwv0c2MGfnLwoC6Q2MYat5UHnWKDwj/R0ioHyKpzpdFA+OmUHNr8oHQaeQJ1txdjXbBcMtcHTFXoTGcl9NlvchUZJgQ2Rg+Q46uC0fP7SNkaPAqPnhGzuWvd8o2LNLsI/5gZ7lFZ0uRYErQeJuMyBl9nyXvpoBw+WALEBviTBRiEawyzRfkusJdHc6w31bVirw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eFkBlV3wrlLaU0u8HRkHQ8io8EQZBGkbm7AE/SuK3e0=;
+ b=Y/rMkHPRcdQ3G918SMoBPJa8YP9ujwOathFfNW3WoSH85lTfcBHUIsTRroc5wjCsvX2uhLazRwJjj5/cbLZpbZ31XG/tCaW1Ok4uDOw2mAiuq/mUD8s8RsOpS0hOl4eV9F28P1aEgb5MPzdx+1qP4fPw8wGj8viQg+g8wwaDEaQ5IvD2XsopnZJJpdHsFNm/Dja3B1bVomEtzzjYT6Y/OHOys4Jtz64fu3fM7SBF9aNRtP8VVV0mBp1kz8zGsTMdLsFwb0A9AYcs86EXYnP8Nl1Sf9hA/sSp03CufPb3+PQdC/bajQGR43mpDLTvwqZMTZVAOBxRtEHEFRBVl+g3XQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eFkBlV3wrlLaU0u8HRkHQ8io8EQZBGkbm7AE/SuK3e0=;
+ b=4YeYCfLX3EqOjcmI7m3Z5CVJvTlC7iqwMYNj8If5Ry+xhB+mxi9CsJQaPacuBauNzOnDeDOzcBDdMcvrzXdX3oz3USYWINMVSxW5eSU444v16hC9l7WcnHDQZ4XpYOYRIHr+WNk+9waZ601NC0meT70iNX/7SblRD38kGgE5Lbw=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6374.namprd12.prod.outlook.com (2603:10b6:8:a3::18) by
+ SA1PR12MB6749.namprd12.prod.outlook.com (2603:10b6:806:255::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Thu, 24 Sep
+ 2026 14:27:40 +0000
+Received: from DM4PR12MB6374.namprd12.prod.outlook.com
+ ([fe80::af35:a7a6:6ca:7fcf]) by DM4PR12MB6374.namprd12.prod.outlook.com
+ ([fe80::af35:a7a6:6ca:7fcf%5]) with mapi id 15.21.0451.014; Thu, 24 Sep 2026
+ 14:27:40 +0000
+Date: Thu, 24 Sep 2026 10:27:32 -0400
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: Vishal Badole <Vishal.Badole@amd.com>
+Cc: bp@alien8.de, tony.luck@intel.com, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH Intenal 2/2] EDAC/amd64: Limit UMC csrow decode to the
+ implemented chip selects
+Message-ID: <20260924142732.GE1080284@yaz-khff2.amd.com>
+References: <20260923112003.3677719-1-Vishal.Badole@amd.com>
+ <20260923112003.3677719-3-Vishal.Badole@amd.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260923112003.3677719-3-Vishal.Badole@amd.com>
+X-ClientProxiedBy: SA9PR13CA0010.namprd13.prod.outlook.com
+ (2603:10b6:806:21::15) To DM4PR12MB6374.namprd12.prod.outlook.com
+ (2603:10b6:8:a3::18)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260920055519.3778269-1-lgs201920130244@gmail.com> <CAKfKVtGZH8OaXp0WtJSD7AAQb8BSWg=xo+x9jj1sbjSxjEanGg@mail.gmail.com>
-In-Reply-To: <CAKfKVtGZH8OaXp0WtJSD7AAQb8BSWg=xo+x9jj1sbjSxjEanGg@mail.gmail.com>
-From: Guangshuo Li <lgs201920130244@gmail.com>
-Date: Thu, 24 Sep 2026 22:15:23 +0800
-X-Gm-Features: AclHuK-fZqbWgXfBotsQgsWCdm5fHoCRS2vmaG_pyD4sYaLoKbt6W1Kj9w7yy-s
-Message-ID: <CANUHTR_yAgnZN05PBLae3DSk3xo0haLRRgHyKxswSYDE2tHgFQ@mail.gmail.com>
-Subject: Re: [PATCH] EDAC/versalnet: fix memory leak on device registration failure
-To: Shubhrajyoti Datta <shubhrajyoti.datta@gmail.com>
-Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, Borislav Petkov <bp@alien8.de>, 
-	Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|SA1PR12MB6749:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8fb13ca4-1a5b-46a5-1088-08df1a47fcdf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|18002099003|22082099003|56012099006|11063799006|10067099003|3023799007|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	pA4cPCAdzx9OZbRc0Coe/Rx4P0ZqGL2DxUd/p6rkvp+q3HeDiVDZpO+TsptORsWZ5joXZp4a4x8oA7SpbZ8qjSfYpk80sq/TzZcERXg/Ol16JbyGzY+retrLN6ZTT6PsVXkzYP8+kZbR5tPZT+jOLYzj9+5lPfc3EXjOeh75n5YFg4z+PWhSV8XgQhhN8R2UXRpQU6OeJMqirkIsuaxYE+R5z5B57ftYdx8uFfVX4+EJtJZotnYFDMYgc3bTIhPbkjD1+t4s56VnqG3+KWNI1EZCyE8nuuvvDj227TAU3VQUP0tjZGckwyGKfW8krvBU9VkN0qb0Hv3PQj0a8JSKiSGTfz53Zr1rRUqpuBSyyZ4VGMvmxsViXEqvpEpJwW6fq4V+h+cZp3HtOuuNCdhUGrAgKjoT/VO88OtNpvdiW45wiP5CkZJ0OCVPiTwlH5uWXqQgCNkS1TtOBnrjxGqahsJXz+kb7KxOW1ISmcO02KnyLIM2P0tgoGmh7t2beJNfaQvFGag3mnzyciYomc4e9TZwTqiAjKA1U+YY+1Nrj3JSPefy1trdx1e0++apBNrASV7AL596Zxupuu6omTbHwO80LoxvQ9vdy0aCF8ij6FI+LGOH6e8qUnioZDzYpb2UBEzkfoX5kWX+goCPjAfe7YmLfwQeoPMKFwRyO2VARa0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(18002099003)(22082099003)(56012099006)(11063799006)(10067099003)(3023799007)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?D5YdD5GAkrswMGrMGNzL6L+pVPr9ASZHmbAetThAdFkfn9+INrqhgZaMSlQr?=
+ =?us-ascii?Q?LXUGJRjf8tygkdqybhL9R3gEMOPia8YSfNRAjSMImFCoT1THj8w/NuKfqap8?=
+ =?us-ascii?Q?xmVmPocW5TNYJB7+sR6AuuN8Kx3JeyPDp2Q00OHdR10NlD2UFo/CLpUAkg66?=
+ =?us-ascii?Q?UxWDhDXeRejtJyooR9hMuD/mAv56CpLLR1ZsAaUzWu6NB83nQvKo4MvptEZL?=
+ =?us-ascii?Q?1TjN7qSsioftTkkjIOjNbnfXaYKMpR3UjhAQCfwTBhVJJWrnDaVcA1U4ow1G?=
+ =?us-ascii?Q?qYKR1h4Ijsf6x8flOfRoOMXB4+VMjc6A3THmxlYDrUKXh6TGk3XSuZXpNxkx?=
+ =?us-ascii?Q?Nlqi+PtVztqdxSlGocFkrlqOlGU/NupOa+nkQlOJG956deeyiIamsyEbHzpn?=
+ =?us-ascii?Q?rSfSsemOr1hQEaXCQ7Z+FUoAOCRQh9tVZInUr+BeLiXkWpmYGJS75fTjL+S2?=
+ =?us-ascii?Q?ebat2oII4tNVdURE9A/MhJu8X2AxoXkPHbLPiCQ5Le+BsEEopRyt21jumqmd?=
+ =?us-ascii?Q?EB2UW72oABdymNA3fEXbHXT+uWY0LjI1l1Gkoen0V0zEPdtwbQk0rrjh/8xP?=
+ =?us-ascii?Q?mwo+POQZVLMW1plQqe5bpszV/U7L4+3CEdISnFbAJMj9+Cm+d4soKSFeSif2?=
+ =?us-ascii?Q?XkWSqbaZRRSzwXxGu1lEkTFjjUv/M7KlKEa1nO8Cici2GrfcOgxt70fXYwXY?=
+ =?us-ascii?Q?ajsSaPgnZGZfF7FCtpC1jKfmKwDYWlS0D6XbYym1lfU8tbclgk32wIKDkAje?=
+ =?us-ascii?Q?WPa8up0Q8pno1nSigmwu7UTzJ13V0C+G0vqxX6i3UQCZ+Tj7FO5Enb9/CIEc?=
+ =?us-ascii?Q?JoX2OroNA1FqP8hZYa0GKDBU/3+SkFgGK920C6/+0jqAhSRc+s7kreGCLdeH?=
+ =?us-ascii?Q?FyoqAf61TUMsPK8fr83R5WZI28xm71ScXpUBKpWO54/qqJ5ubYfsfgprnaze?=
+ =?us-ascii?Q?KkCqjMhblQVtPHHFEdmFU0nAGU1czRk8uw5VhSAJ6o8tgDO/BJrPkC43pB6Q?=
+ =?us-ascii?Q?fIAnUnwlHPDVG7ud5uAuOEEAizXF1smHNMtZoDDolMa7dntv06xsVnV6lSjy?=
+ =?us-ascii?Q?k5p7rE+PTFPmVCYajrRlyCE4fLzBfvC3qUdZvXAxq5p+DvGWKGXKIbXnmd6p?=
+ =?us-ascii?Q?9B4lQOy4UyksVMY8pqJSM//ln4dTIuOWPykhjQ7THe5bXeLuXFQMmzDsSOJ0?=
+ =?us-ascii?Q?RuydVnd8fTD3VYjlMcpZ8InPEFop3Gt7QjpgQHuvv/c0KybBNLTfpQh2FCtN?=
+ =?us-ascii?Q?308YMPyyxzXRYrcYwlI4H+Czw447iZlRnPBdVmLMPrW+n+7ik1i9mgR6GPuI?=
+ =?us-ascii?Q?Y3ozuyFPyAh2/hQfjprv9Z9/0VsjERIrhiN/4tz5LtoeXCKZBPZebv3Wax7P?=
+ =?us-ascii?Q?SGiy7HrGMRfeUhVrvD6wMgDgBSUNytViqKQyPLZ87sXrrNT8FpOY7h2hUMb1?=
+ =?us-ascii?Q?49tjdxjkkCJtUj7VLqwk0Un20WqlerZjCwQX6xRMja6HkfU6BHoXZgnEaFtG?=
+ =?us-ascii?Q?7L2oUnDgsIJDgr9raoTcf4zc4zrHousVp8G/E40Yp4Rf2p4/+tZcbUemf6my?=
+ =?us-ascii?Q?7OJTlIdKe4vwjAsEDM5UfXwdHOUfbimx1nY9CiJV4Cddzwm+BCV0xGrWRnKX?=
+ =?us-ascii?Q?LONnN0RKUtm5rIiWpkFA1pzB5EcQnILscW4UjtJlH5/Ix35dDoBXP3DI3go2?=
+ =?us-ascii?Q?lIgrPV3elZn4Qvdt7KmznmZpPlOpDD8JI479eJg8Zw9dGrE0?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8fb13ca4-1a5b-46a5-1088-08df1a47fcdf
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2026 14:27:39.9525
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AI0CEH8JHEYKCFsc3tZv/WFJ0u3fym5CHy8AFFOnRqa9t7VC9i8fzsB1x6FAGJtwDTlEP1NmgAwxSfaAf9Hy2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6749
 
-Hi Shubhrajyoti,
+On Wed, Sep 23, 2026 at 04:50:03PM +0530, Vishal Badole wrote:
+> For DRAM ECC errors on SMCA systems, the Chip Select which reported the
+> error is encoded in the MCA_SYND[ErrorInformation] field. The EDAC core
+> uses that value to index into the csrow array which was sized during
+> probe from pvt->csels[].b_cnt.
+> 
+> On Family 1Ah Model 88h a corrected DRAM error results in:
+> 
+>   EDAC MC0: INTERNAL ERROR: csrow value is out of range (5 >= 4)
+>   WARNING: drivers/edac/edac_mc.c:919 at edac_raw_mc_handle_error
+> 
+> and the error is subsequently reported against "unknown memory", so the
+> DIMM which actually reported the error cannot be identified.
+> 
+> This happens because the syndrome field is masked with a hardcoded 0x7,
+> i.e. eight possible chip selects, while umc_prep_chip_selects() sizes
+> every UMC channel for four. Bit 2 of that field is therefore not a valid
+> Chip Select bit, and whenever hardware leaves it set the decoded value
+> exceeds the number of csrows the EDAC core knows about.
 
-Thanks for pointing that out.
+This isn't an accurate description of the issue.
 
-On Wed, 23 Sept 2026 at 23:03, Shubhrajyoti Datta
-<shubhrajyoti.datta@gmail.com> wrote:
->
-> On Sun, Sep 20, 2026 at 11:25=E2=80=AFAM Guangshuo Li <lgs201920130244@gm=
-ail.com> wrote:
-> >
-> > init_one_mc() allocates dev with kzalloc() and registers it with
-> > device_register(). If device_register() fails, the device has already
-> > been initialized and holds its initial device reference.
-> >
-> > The current error path eventually frees dev directly with kfree().
-> > This bypasses the device release path and can leak driver-core
-> > resources associated with the initialized device. The existing
-> > versal_edac_release() callback is responsible for freeing dev once the
-> > device reference reaches zero.
-> >
-> > Call put_device() when device_register() fails so the initialized
-> > device reference is dropped and versal_edac_release() performs the
-> > proper cleanup. Return after freeing mci to avoid falling through to
-> > the direct kfree() path, which remains necessary for failures that
-> > occur before device_register() is called.
-> >
-> > The issue was identified by a static analysis tool I developed and
-> > confirmed by manual review.
-> >
-> > Fixes: d5fe2fec6c40 ("EDAC: Add a driver for the AMD Versal NET DDR con=
-troller")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
-> > ---
-> >  drivers/edac/versalnet_edac.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_eda=
-c.c
-> > index 3a06b41c1d84..db3bf5a1345b 100644
-> > --- a/drivers/edac/versalnet_edac.c
-> > +++ b/drivers/edac/versalnet_edac.c
-> > @@ -829,8 +829,10 @@ static int init_one_mc(struct mc_priv *priv, struc=
-t platform_device *pdev, int i
-> >         dev->release =3D versal_edac_release;
-> >
-> >         rc =3D device_register(dev);
-> > -       if (rc)
-> > +       if (rc) {
-> > +               put_device(dev);
-> >                 goto err_mc_free;
-> > +       }
->
-> There was a comment earlier from sashiko
->  failure path calls put_device() with dev->init_name still pointing at a =
-stack
-> buffer before device_add() copies it. That's unsafe in
-> principle (dev_name() would follow init_name)
-> >
-> >         mci->pdev =3D dev;
-> >         mc_init(mci, dev);
-> > @@ -852,9 +854,9 @@ static int init_one_mc(struct mc_priv *priv, struct=
- platform_device *pdev, int i
-> >         device_unregister(mci->pdev);
-> >  err_mc_free:
-> >         edac_mc_free(mci);
-> > +       return rc;
-> >  err_dev_free:
-> >         kfree(dev);
-> > -
-> >         return rc;
-> >  }
-> >
-> > --
-> > 2.43.0
-> >
-> >
+For this model, the hardcoded 0x7 mask is correct. The register
+definition shows "MCA_SYND_UMC[2:0] = Chip Select" for this error code.
 
-Would splitting device_register() into device_initialize(), dev_set_name(),
-and device_add() be a reasonable way to handle this? For example:
+The issue is that some forms of error 'injection' populate the registers
+with hardcoded values that don't necessarily reflect the hardware.
 
-diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
---- a/drivers/edac/versalnet_edac.c
-+++ b/drivers/edac/versalnet_edac.c
-@@ -64,7 +64,6 @@
- #define XDDR5_BUS_WIDTH_64 0
- #define XDDR5_BUS_WIDTH_32 1
- #define XDDR5_BUS_WIDTH_16 2
--#define MC_NAME_LEN 32
+> 
+> Mask with the number of chip selects the controller actually implements
+> so the decoded value can never exceed what was allocated, instead of
+> relying on an assumption about the field width that no longer holds.
+> 
 
- static int init_one_mc(struct mc_priv *priv, struct platform_device
-*pdev, int i)
- {
-@@ -730,7 +729,6 @@ static int init_one_mc(struct mc_priv *priv,
-struct platform_device *pdev, int i)
-  u32 num_chans, rank, dwidth, config;
-  struct edac_mc_layer layers[2];
-  struct mem_ctl_info *mci;
-- char name[MC_NAME_LEN];
-  struct device *dev;
-  enum dev_type dt;
-  int rc;
-@@ -773,13 +771,17 @@ static int init_one_mc(struct mc_priv *priv,
-struct platform_device *pdev, int i)
-  goto err_dev_free;
-  }
-
-- sprintf(name, "versal-net-ddrmc5-edac-%d", i);
--
-- dev->init_name =3D name;
-+ device_initialize(dev);
-  dev->release =3D versal_edac_release;
-
-- rc =3D device_register(dev);
-+ rc =3D dev_set_name(dev, "versal-net-ddrmc5-edac-%d", i);
-+ if (rc)
-+ goto err_mc_free;
-+
-+ rc =3D device_add(dev);
-  if (rc)
-  goto err_mc_free;
-
-@@ -800,10 +802,13 @@ static int init_one_mc(struct mc_priv *priv,
-struct platform_device *pdev, int i)
-
- err_unreg:
-  device_unregister(mci->pdev);
-+ edac_mc_free(mci);
-+ return rc;
- err_mc_free:
-  edac_mc_free(mci);
-+ put_device(dev);
-+ return rc;
- err_dev_free:
-  kfree(dev);
-
-  return rc;
- }
-
-This avoids keeping dev->init_name pointing at stack storage and uses
-put_device() only after the device has been initialized. Would this look
-reasonable to you? If this looks good to you, I=E2=80=99ll send v2 with thi=
-s approach.
+In practice, the simpler solution is to change the mask to 0x3.
+Documentation for newer products show "MCA_SYND_UMC[1:0] = Chip Select".
+And older products only ever had 4 chip selects as you point out.
 
 Thanks,
-Guangshuo
+Yazen
