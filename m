@@ -1,172 +1,77 @@
-Received: from va-1-111.ptr.blmpb.com (va-1-111.ptr.blmpb.com [209.127.230.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162E13101B6
-	for <linux-edac@vger.kernel.org>; Fri, 25 Sep 2026 03:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0779D3955EA;
+	Fri, 25 Sep 2026 04:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790306017; cv=none; b=fFH1Zq6pyDndvwx/DK2J+oeaheN5lPxAnrtwCb3cmSNp63BK4+O4cg3ZQZVMCwEWT80C7C7y5GcA585qDkwW3fejytV9ojb5dFrGd4EIZ3hYEaDx3P7behEQYscAxASGvJwIGGoi6xjJ9Y5p0LoP7hMvYxuhiWjt8WVDaLIxEME=
+	t=1790310751; cv=none; b=hhcTuAeSIvVB3sYN7ylzJ7EpCGZJjuufbtQF75HDvrU7abCc96BMslfCTPioox1F7/qvPR8zupp39Sg01QnihO/2ssk1dAEzcZ6cDB5vCIzT3UUjUtkvDhhwVshREkCRu0tkMYT3uq4YZkj8+SNnJFUTU+WAToZMlz0TMDaE1jA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790306017; c=relaxed/simple;
-	bh=cVk0fwmHlGWiQY3wRXaMcPOvQHl1z/urVxS/MPahtZc=;
-	h=From:Cc:Date:References:Content-Type:Subject:Message-Id:
-	 Mime-Version:In-Reply-To:To; b=L8DlxkFnKUtgm6nEmnFVyv4lCWaoLoOWynr4klyNlc8E4KgTWYjg4K0o02DG5tq8ci2M5J1DclkKUMsRKvrOEUDnruiLot2RKc21QzTDM237LKhhqu0yeHeZfQUYPoe37Xq1Ye7PaYjGAxbjypY6HssAhmKJVqcLa7jPKIHtByo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=HDMtqNZM; arc=none smtp.client-ip=209.127.230.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1790310751; c=relaxed/simple;
+	bh=OWHKwS3XzaFy9lR/g+z7CKm0pRLSq0uQNVCvrhw2Dgs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=onlbcu12Jhnbrk8x+lL3YAJVtEZo2mx+yDDEhnY9uzp5cFo28QVnLmkiF3Y9UIA3t4RI8DTYha2gRlRnrVyrCIX1SinN+sIelTyTOWXc97g6tHpiRTu4uRHbp155/EDHEx067nUqKp74cYngrAcNMcsguVKT4z6asfvLEP1SCw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=U/1uqBwG; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="HDMtqNZM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1790306004; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=avKKwd5cal353VXVjwLmx9houVqa88TvZg+eD/uVkwE=;
- b=HDMtqNZMtjJmNxJDyzpYaCWHY7WmTQhg9OVSAQjMDHI11RLUNNAnWT2zBzpGKw3uNbKPgJ
- WyntyFTCGg0ICQ3RE7UgMSZ5WYExBJHeWKAAktdtd5OsbrTKKKdwhDH78rBrDBH5+R3nXS
- aUT4Qtft4eZxGFyRnHv9MXpMIJYuVJYrB8bmxoyuPWM0jSeAGVtst0GQFFmBRE9ZGE3b4W
- MV4jutzKWhgpOIh5Tza+wZ0/1iEVUpXLU2CWC0U88hGOA095rq+CqVlQaXmFaEtttbMOYR
- tzd5esb8GUsCcz0wV4bh9xbZ/kxDFE7D7vI/3v/y2Pf1hpVb7ca2pXA3FmC/YA==
-User-Agent: Mozilla Thunderbird
-From: "Rui Qi" <qirui.001@bytedance.com>
-Cc: <tony.luck@intel.com>, <bp@alien8.de>, <linux-edac@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>
-Date: Fri, 25 Sep 2026 11:13:11 +0800
-References: <20260821094748.145394-1-qirui.001@bytedance.com> <20260826035314.1536340-1-qirui.001@bytedance.com> <20260826035314.1536340-5-qirui.001@bytedance.com> <20260924161746.GI1080284@yaz-khff2.amd.com>
-Content-Type: text/plain; charset=UTF-8
-X-Original-From: Rui Qi <qirui.001@bytedance.com>
-X-Lms-Return-Path: <lba+26ab5e6d2+558669+vger.kernel.org+qirui.001@bytedance.com>
-Subject: Re: [PATCH v2 4/4] RAS/AMD/FMPM: Fix spurious BUG when ERST record enumeration fails
-Message-Id: <e804e406-9732-49d5-a84d-ee309f5702f8@bytedance.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="U/1uqBwG"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 18E9140E021A;
+	Fri, 25 Sep 2026 04:32:25 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id tArC7ubeFXrH; Fri, 25 Sep 2026 04:32:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1790310735; bh=DjhoGNA2O1aRflBp2Dg/Dl55MeMqHjjzEjzOIAUCNfI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U/1uqBwGiYNXlK+yuYF9FMp/tl/YdJk/u1ZwboDiQDGPfOTwqZrsIz/GWOPK7xcrQ
+	 uzXNT46+k9VfaWQ4naQXSUzQYHX9SypuazlE8fHEZgODMs+ecg8v6cj94BmJxWvKH9
+	 LPmDz+LugIghOSW7gjvAwe/fKAAOBppPrnt1x4w5haIQJIaWMkigY+tkOupyMwZs/M
+	 1WSVV24dYuB+f8F9Pi+92CZrxS+8aFmn3NyHe/+8lV5DiPa0l9UlBNJO94vkJzGrcl
+	 GSImmY0hhITr1R5RttnCRHOkpDnf59EOmZQ5UCW/7T9F0kVEFcQ5Z9kr5N3B36LKp2
+	 JRmZCNk+D0Nf/Ul8ZsftsjXjLCPm2sde6R89wl5RQJ2WeF3Q1D7Q2Ho+nIg2pVSa2K
+	 x6d1bH1LdVqfPJivrY9rXu5lsluKuKX0A8Euiv8aAqfo7FoY+FEOuVTJzLFRcm+b51
+	 ohvIN66uBQa9ByDyhQc9f5eshwsSn3gR1j921/+4Olh/D5fwOWBzxFmniZ1RhsGVFb
+	 9XviPBW9rZJ33pWNI43avx/wrP1hlNSAky/l9YTrKd6oRj69XXWKHK5GjLkg2UaUV2
+	 vMRu4cEpkRMZpNWmVvoUVw+h22aJNVZN4OZpzsap+gEPvIuabK9uybNfKAcyoYG+cF
+	 Qcsv2MKIEzfSyIDaVUNcPrz4=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A1B2840E00E7;
+	Fri, 25 Sep 2026 04:32:09 +0000 (UTC)
+Date: Thu, 24 Sep 2026 21:32:07 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Dinh Nguyen <dinguyen@kernel.org>
+Cc: tony.luck@intel.com, linux-edac@vger.kernel.org,
+	rounakdas2025@gmail.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv5 0/4] EDAC/altera: Address sashiko reviews part 1(v5)
+Message-ID: <20260925043207.GDarX5R3gCCkEjS323@fat_crate.local>
+References: <20260911120627.2634225-1-dinguyen@kernel.org>
+ <b71909f6-4192-46db-b974-e6b24d097821@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-In-Reply-To: <20260924161746.GI1080284@yaz-khff2.amd.com>
-Content-Transfer-Encoding: 7bit
-To: "Yazen Ghannam" <yazen.ghannam@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <b71909f6-4192-46db-b974-e6b24d097821@kernel.org>
 
-On 9/25/26 12:17 AM, Yazen Ghannam wrote:
-> On Wed, Aug 26, 2026 at 11:53:14AM +0800, Rui Qi wrote:
->> When erst_get_record_id_begin() returns an error, get_saved_records()
->> jumps to the out_end label which unconditionally calls
->> erst_get_record_id_end(). This is wrong because:
->>
->> - If erst_disable is true, begin() returns -ENODEV without
->>   incrementing the refcount. Then end() hits BUG_ON(erst_disable)
->>   and panics.
->>
->> - If mutex_lock_interruptible() is interrupted, begin() returns
->>   -EINTR without incrementing the refcount. Then end() decrements
->>   refcount below zero, hitting BUG_ON(refcount < 0).
->>
->> The comment in erst_get_record_id_end() warns that it should not be
->> called when erst_disable is true, so callers must not invoke it after
->> begin() fails.
->>
->> Fix by jumping to the out label when begin() fails, skipping the
->> erst_get_record_id_end() call. This is safe because kfree() handles
->> NULL pointers.
->>
->> Fixes: 6f15e617cc99 ("RAS: Introduce a FRU memory poison manager")
->> Signed-off-by: Rui Qi <qirui.001@bytedance.com>
->> ---
->>  drivers/ras/amd/fmpm.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/ras/amd/fmpm.c b/drivers/ras/amd/fmpm.c
->> index c13db1f743e5..48a437042953 100644
->> --- a/drivers/ras/amd/fmpm.c
->> +++ b/drivers/ras/amd/fmpm.c
->> @@ -673,7 +673,7 @@ static int get_saved_records(void)
->>  
->>  	ret = erst_get_record_id_begin(&pos);
->>  	if (ret < 0)
->> -		goto out_end;
->> +		goto out;
->>  
->>  	while (!erst_get_record_id_next(&pos, &record_id)) {
->>  		if (record_id == APEI_ERST_INVALID_RECORD_ID)
->> @@ -714,8 +714,8 @@ static int get_saved_records(void)
->>  
->>  out_end:
->>  	erst_get_record_id_end();
->> -	kfree(old);
->>  out:
->> +	kfree(old);
->>  	return ret;
->>  }
->>  
->> -- 
-> 
-> The patch is okay, but the 'erst_disable' part didn't make sense to me.
-> So I went over it with an AI assistant. Response is below.
-> 
-> Basically, the commit message needs to be reworded to cover the actual
-> issue.
-> 
-> Thanks,
-> Yazen
-> 
-> =========================
-> 
-> `erst_get_record_id_begin()` has two ways to fail, and the commit
-> message describes both. Only one of them can happen when fmpm calls it.
-> 
-> ```c
-> int erst_get_record_id_begin(int *pos)
-> {
-> 	if (erst_disable)
-> 		return -ENODEV;			/* case 1 */
-> 
-> 	rc = mutex_lock_interruptible(&erst_record_id_cache.lock);
-> 	if (rc)
-> 		return rc;			/* case 2: -EINTR */
-> 	erst_record_id_cache.refcount++;
-> 	...
-> ```
-> 
-> **Case 1 (`-ENODEV`) can't happen from `get_saved_records()`:**
-> - `fru_mem_poison_init()` already returns `-ENODEV` when `erst_disable`
->   is set, before it calls `get_saved_records()`.
-> - `erst_disable` has only two writers: the `erst_disable` boot parameter
->   (`__setup`) and the error path of `erst_init()`.
-> - `erst_init()` is a `device_initcall` in `drivers/acpi/`, which links
->   ahead of `drivers/ras/`. When fmpm is built in, `erst_init()` has
->   already run by the time fmpm's initcall runs. When fmpm is a module,
->   it loads later still.
-> - So `erst_disable` can't change between fmpm's check and the `begin()`
->   call, and the `BUG_ON(erst_disable)` in `end()` can't fire here.
-> 
-> **Case 2 (`-EINTR`) can happen, but only under narrow conditions:**
-> - The lock has to be contended. `mutex_lock_interruptible()` takes an
->   uncontended lock without checking for signals. Other code that takes
->   `erst_record_id_cache.lock` includes the other `begin()` callers:
->   `erst_open_pstore()`, `erst_dbg_open()` and `apei_read_mce()`.
-> - A signal has to be pending while the task waits. That's realistic when
->   fmpm is a module, for example Ctrl-C or SIGKILL sent to `modprobe`
->   while pstore or erst-dbg holds the lock. When fmpm is built in, its
->   init runs in the `kernel_init` thread before userspace starts, so no
->   signal can reach it.
-> - Before the patch, this path calls `end()`. The refcount drops to -1
->   and hits `BUG_ON(refcount < 0)` while `erst_record_id_cache.lock` is
->   held. The oops kills the task with the mutex still locked, so every
->   later ERST user blocks on it forever.
-> 
-> In short, "reachable" was loose wording. The `-ENODEV` case can't happen
-> from fmpm at all. The `-EINTR` case can happen, but only when fmpm is a
-> module, the lock is contended, and the load is interrupted by a signal.
-> The patch fixes that case, which is real. The commit message just leads
-> with the case that can't happen from fmpm and understates the
-> consequence of the one that can.
-> 
-> 
+On Thu, Sep 24, 2026 at 09:48:47AM -0500, Dinh Nguyen wrote:
+> Ping on this series. Just wondering if there any comments for this series?
+> From Boris's comments on V2[1], I thought the series is ready.
 
-Thanks Yazen. The commit message is reworded in v3 to lead with the
-reachable -EINTR case and to spell out the deadlock (loader dies
-holding erst_record_id_cache.lock); the -ENODEV case is dropped.
-No code changes.
+They're on the todo list.
 
-v3:
-https://lore.kernel.org/r/20260925030918.3428029-1-qirui.001@bytedance.com/
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
