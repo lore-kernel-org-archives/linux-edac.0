@@ -1,80 +1,83 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3454908BA
-	for <linux-edac@vger.kernel.org>; Fri, 25 Sep 2026 12:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E86A471CE7;
+	Fri, 25 Sep 2026 12:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790339435; cv=none; b=fIKGlIItwMf7nr4DH6iJcrnQOnjIdu0yHIr0KDPb7JbOdjClrRznQa0y00eKtti9hS+Kd3DUBwwblsOB5QC8LaT2QA4/Gle2UFnIgL2S5cTlvRDhEH9y/3vnOArT2bIBAMtym+S0ydbhoNwbIC0PEi5tLgn6zwMExdSBoD56GyQ=
+	t=1790340625; cv=none; b=sw3tJ752jRRUZvwnRqAZZ63ZhU4YRB8MehAP2Bl++VOi1rwxUINyh05Sx6ZeV6MlpgHI1b5fjWc0RGBPdjFKQg6KKfKOXRawzv5sSgOWgfqPdAdu6n5SKnaNyH2OMWHUn/f4DTQJF9eI1s8SRUPMlohbPi+vx4TqmRDjjWr0tlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790339435; c=relaxed/simple;
-	bh=LUoDULbeAmVFn8GVNo7EZKcLNyZ0ZR0Y9ydjWuh5Sm8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gSaFqLTFCnHdwM+PRfsabre4czENFKt8ctiLxHWLCCqLjclnr+u0ixUj/VAwptVZabCAhSnOlycjDCPImNZbnmvOIjqxbGsD30iS9iWlScq3nzUpN0vFXdejXGHoTZkDPFPePvAfqPU9SKKqKmHGIIUn5gQvoovY2kXGBsfOWK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=jvD9WR10; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1790340625; c=relaxed/simple;
+	bh=h2BwQz/H4wDyJnZZiwXPk+XlhoH4jxeNDuPofwUx+rY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=WOihghCg5lRK4qJcLokwhmnUARyzlaeCoJu7FDIZOb7xficsLDwQ6FYKIPx8pnyyDUma0a29iw349Q/2TK6yurnKvQoeCehYGOKq1K/vn2gUfwOx0SOLcpUHPAJ9vs8kgb1cm1qJ2BY/aZHTHmBoLvTAmHV+EbPsAAlz/Ff5CII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nAQLCHzz; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="jvD9WR10"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=4rHU
-	MvsohuKMD7j/vbMX/ACnA/Knzn/24tCErnfx2D8=; b=jvD9WR10Do6hn8YQrGRl
-	UZ8GiWJvMx7vkNRIG5vilrAcKBpNK91TSOZw8d2oJ2wLr6EVuzokavDCakQLU1EX
-	XvtkdyjHe4exDdTfnaLsv6xIVZa7/eae6x70LaIk6V+vcJpdICNVIBke+FKVgqwI
-	UTSf40XWi2vcOtlsApPEMJWn4gVTNAQ4ZZQdA2WFVci3dn6U3YEIzz7eYjAnXlxY
-	CVOIIAe2pHwWdkxVweiaZ53/1RzEFRHizQCfEc0jwMu9GbWYgzx7OiovcAbAMoZ5
-	ADIy4NgJ825M6otG/D63jnaOsdijg6k0XAbQGK70VisFOf/XXHFTQSUr3ZjGYnWQ
-	lw==
-Received: (qmail 1557948 invoked from network); 25 Sep 2026 14:30:31 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Sep 2026 14:30:31 +0200
-X-UD-Smtp-Session: l3s3148p1@41/N4U1cPs8ujnvn
-Date: Fri, 25 Sep 2026 14:30:30 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Paul Louvel <paul.louvel@bootlin.com>
-Cc: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-edac@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Herve Codina <herve.codina@bootlin.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: edac: cdns,ddr-edac: add Cadence DDR
- EDAC binding
-Message-ID: <arZpZolRwdU8zh6O@shikoro>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nAQLCHzz"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id CE5BE1A1022;
+	Fri, 25 Sep 2026 12:50:21 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 9E9586073B;
+	Fri, 25 Sep 2026 12:50:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0B0B6103283E4;
+	Fri, 25 Sep 2026 14:50:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1790340621; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=/0XQb7dUF6Xw+wOJyOLnA3OnExUzqknuA+1w9fxzllI=;
+	b=nAQLCHzzLPVUd0xMh23JX3gIyRH8E+tYSiwp+XWhexJ18SUuS+kUKoEks6fGO1se/S8Chi
+	AXZiO1ZWrLR/Ee2MOhB3EU2BqK+RykLClQgVJ4RSyYFjSzRoiELXDiCWhlU68YZCFQxEap
+	4wJBrltkT2C4c/1JRaVSaIYEoi77qzi96OG8PX/YxWipQXzVvLGsYJpLMe5HSAgn1OHGLI
+	A1/wSaYHa529cpEyG32SLHAOaQhS2fTzjkplOmlzMVBq8jMzV4xqNIlwOsa5On8nf/VRkT
+	efE9XorQx9IbZDTyHKhzBDFKvEAvPt4EjTkMMaT60pNeFQb0vstcHX4nt7FZLw==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Paul Louvel <paul.louvel@bootlin.com>,  Borislav Petkov <bp@alien8.de>,
+  Tony Luck <tony.luck@intel.com>,  Rob Herring <robh@kernel.org>,
+  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>,  Geert Uytterhoeven <geert+renesas@glider.be>,
+  Magnus Damm <magnus.damm@gmail.com>,  linux-kernel@vger.kernel.org,
+  linux-renesas-soc@vger.kernel.org,  linux-edac@vger.kernel.org,
+  devicetree@vger.kernel.org,  Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>,  Herve Codina <herve.codina@bootlin.com>
+Subject: Re: [PATCH v3 1/3] dt-bindings: edac: cdns,ddr-edac: add Cadence
+ DDR EDAC binding
+In-Reply-To: <arZpZolRwdU8zh6O@shikoro> (Wolfram Sang's message of "Fri, 25
+	Sep 2026 14:30:30 +0200")
 References: <20260924-paul-v7-3-rc1-edac-v3-0-bd8054a5b180@bootlin.com>
- <20260924-paul-v7-3-rc1-edac-v3-1-bd8054a5b180@bootlin.com>
+	<20260924-paul-v7-3-rc1-edac-v3-1-bd8054a5b180@bootlin.com>
+	<arZpZolRwdU8zh6O@shikoro>
+User-Agent: mu4e 1.12.12; emacs 30.2
+Date: Fri, 25 Sep 2026 14:50:18 +0200
+Message-ID: <8733uxlcl1.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260924-paul-v7-3-rc1-edac-v3-1-bd8054a5b180@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Thu, Sep 24, 2026 at 04:12:47PM +0200, Paul Louvel wrote:
-> Add the Cadence EDAC DT binding.
-> 
-> Signed-off-by: Paul Louvel (Schneider Electric) <paul.louvel@bootlin.com>
+Hi Wolfram,
 
-So, my DT check runs have passed.
+> But one thing came to my attention just now which needs fixing:
+>
+>> +    items:
+>> +      - const: renesas,r9a06g032-ddr-edac # RZ/N1D
+>> +      - const: renesas,rzn1-ddr-edac      # RZ/N1
+>
+> We don't need a family compatible. Only N1D has a DDR controller.
 
-But one thing came to my attention just now which needs fixing:
+This is true, but from my experience with this platform, Geert used to
+request both. I'm fine exposing only one of them, but I explicitly asked
+Paul to put them both to mimic the existing bindings and keep some kind
+of uniformity. I'm fine either ways, but before we go through that
+iteration, Geert, would you mind confirming your preferences?
 
-> +    items:
-> +      - const: renesas,r9a06g032-ddr-edac # RZ/N1D
-> +      - const: renesas,rzn1-ddr-edac      # RZ/N1
-
-We don't need a family compatible. Only N1D has a DDR controller.
-
-This needs also updates in the example below and in patch 3. With this
-fixed:
-
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
+Thanks!
+Miqu=C3=A8l
