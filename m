@@ -1,273 +1,159 @@
-Received: from mail-dy2-f25.google.com (mail-dy2-f25.google.com [74.125.229.25])
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F895286D5D
-	for <linux-edac@vger.kernel.org>; Sat, 26 Sep 2026 05:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2525A404BC5
+	for <linux-edac@vger.kernel.org>; Sat, 26 Sep 2026 12:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790400925; cv=none; b=tRsMYVb+Ewp31ym3irkHL4YUxsVZbOWbZ4680Lu7P6CtHEB+25xgfv8fxHL1l09VmmPUhxUn6h+fTSbLhp70wedX68hc1dZ56RGQbS7MVLzCIIkQ3emVOZFiOUMoGDpBBl7lXHUrCp0sfnGwjzW81KusehCtskkgXUDbk05Qad8=
+	t=1790424695; cv=none; b=fKzDXkdGu5BIryvMuFFXqr112OIHmJ9AE1je+XHgematXZADUy+OXyPiUAiE+aG8lXL0TeIeCwyifvYGxphdafEAG7rCLF3uhGtSCHfWduXMHBoexc+dr2vYjqKArfz/Xj2I4/0Y++bgTVeNMBQ6tiX2rzWg4uahKNlT1tyJf4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790400925; c=relaxed/simple;
-	bh=J6Prvg+6vaewHBeT2b1h/LdSJwG0urcGl1JQlFweaoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oe3iRMfPCrnXLxq15BGylWBMaloqWG2g3xM67kBl8tNm0pFlgd92GtQw8FllJ65+CZtPMsTXoXeux/kdDETSf4ARVyF5H3kliavVjt4mf8aWfAnOpm2JuCzi0N9Bh7zWoAiUZZrHCGW2CMCn/DRvSl8syCTufMSCFS/3NTo0rAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dw6SmMx/; arc=none smtp.client-ip=74.125.229.25
+	s=arc-20240116; t=1790424695; c=relaxed/simple;
+	bh=LPLjbx8I8Er+Ls1rTGy3VE3lTFlXqKXn4zGM+1+2f5g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S2tNicX4HoyRph8MBYRL0FUUd3/LggBb9QKl9TCGhPSlj0s19eTRK9JAzC2/vzVMBqX95cKva2q62HDABHicoSCa5D2ijCVz4kV9DV0TJnP0f52qH7dP5QDBSpdv89CBR4qCITKpaeppAfyu8+Psw+RAackDgP3gRnfP+n34Fs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i+sk5qJu; arc=none smtp.client-ip=74.125.227.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dw6SmMx/"
-Received: by mail-dy2-f25.google.com with SMTP id 5a478bee46e88-328664e061cso1728442eec.2
-        for <linux-edac@vger.kernel.org>; Fri, 25 Sep 2026 22:35:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i+sk5qJu"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2dd58e1e2c7so7805495ad.0
+        for <linux-edac@vger.kernel.org>; Sat, 26 Sep 2026 05:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790400923; x=1791005723; darn=vger.kernel.org;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EVNin9yaHMh2i8wnCnC2c+dtKTQhoPPNqR7Ci+QQIb4=;
-        b=Dw6SmMx/QKg/1/kxWtElvq9bBoZX4+GNqOvnCpc/2elcd9s8j3UsxNxrxJH34kNEbC
-         iRsr1+MX8X0V4nzXxfvndOS7JI0AS2H43Wfki+UCR783h+D4wgi30P5vW9Pwv+e/WU02
-         OgnJvcKuIk2N82BnGRIwSFb7N2rPzCCt5+6Qrm8dAbi7cZoUnrsbtjEqSpbgdAPBZcHe
-         wgHT3paPQGidL4N+UQfwHhK4IKR3/xz2Imizoz/mzzMdHUq0R51wI8GH2vP931BoOwIe
-         mZ0mJEteQ6/1VBC9gARUsxd3kIU9IpTyCjU781S8ECFzjlI2wWDU22uVWm+X3pkK5YZn
-         2sPg==
+        d=gmail.com; s=20251104; t=1790424693; x=1791029493; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5UCqXVsEit/5UgovE1bO5G5/xS9YReJJK497aNTHOdc=;
+        b=i+sk5qJuLG66S6nC7xXOHVYHkaQcO2NQAeSz1VZTONJ3UQt6ZysaNEEXJE+eQh133M
+         aaNgb2hYkvXviU2eRFwu9a5xr5GmBJ6okAQezikfO1BSBEatxs4JPzAk0zTBSt5W6BN7
+         it/GMfUEaDEohznpgf/TeSSRNBBNNM/uG857LEFdWhKv+hW8GY36yqjP1SsZMsvmHCuJ
+         Rskejsv299DEj6XULGd9E6GddrpOMY/yNVewt7aPINVfl2Uo9JK4S7CoowxOJqXfqb42
+         QYo6xA+5bLQ9XZN3wCAVtb8iG6bWzO+a1GFv6mw6wqXotn8cUq3qtw+IXk828Ouy5E0u
+         GjVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790400923; x=1791005723;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1790424693; x=1791029493;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=EVNin9yaHMh2i8wnCnC2c+dtKTQhoPPNqR7Ci+QQIb4=;
-        b=mz4+xIpVdAjkNvD+kvT5ddxuNRZ5cOrAEIApCnNlr1zQu1Dktlf6qGnOG1MxFJbT69
-         qxSzeAN4fBfcDovFMF6jhDX3UlRvwY8QTK7T6B/ySNuZ/3rCIMb4UDiPhvNEZD9AMn3/
-         QFrgmzWetfYSOCHj5cP6kT3Ri+TMPzAVBTmWfpkhn9tTG99ustK3qiVOAweZe+qJS+En
-         o4YKjr8MV1NGWpGqOEcskV2kdbJWzDXqXOfSZaKvFGyVJgBUhuYmGaY4n5uORMfyzjyu
-         9i1XCtrIO6rH/jR/EJbHxXKmQkwfpgWSVrOP/vvOAAfchS/7jx8kJ9tKufyRiaxXJ//w
-         gHyg==
-X-Gm-Message-State: AFuF++lAA+5lEKDW21FKPYGdxh3dDRIc3DWGPANwOF0n9IA9wfNs74tq
-	ZvUCflDf7nYvJnqwVWHdrmv2VVaECZguxrvvp3392c9Krmo04qcNwEkc
-X-Gm-Gg: AYBFou0vHsse9v6A8cufjGRrqWM4WJ1hLfDm/gMdGJSNdK50acje492vd/Axlo35mdf
-	lo1I2CbBQBgbgvFZ5WpkjnMB/U9Zqx4gj69tuW9OQBcr06Hg3mPq52IJTrO2W73e439SJpbxVAT
-	2jJD3bgm0rPCkGk/ZmLtzzRVQdyF1oMoDQgtWYJ4368PlpmebRUZo09/HX5spoIV8JUcLEWlQQe
-	Fwb7zN46p4Z0LEosSPxr1nXZtvM6uizA3a5tOEKC2Tf1TS/ww63Z8CXiToFkB5okot2RYBgDzrL
-	kn52zjBWiRB35WymWtScsoyACrpnj+gVMpFY+rc3dPNKbyt4+zK8uQNFnH2r9r0aRrxOg1LzhjR
-	KTR4VEkWZ+FfmJsCcMgGReeKAvbw/msGY6BdV9AgbOmz/a4VRRRegkZrK9LSZIHRl6iYsTNAOpg
-	J7kgzvu71e11+ImQlLkXjzIXlCxRe9Tht6H/j1nIjub4WNNRWZtTYswuN/VAHAMMjTLY12K5hNY
-	KeIvs3HCR5wjpvoMN1QJJuFC12TX8Bjf7eaFKo=
-X-Received: by 2002:a05:7301:428b:b0:33e:3f5b:3ffe with SMTP id 5a478bee46e88-34272a4579emr2026486eec.27.1790400923325;
-        Fri, 25 Sep 2026 22:35:23 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:375:19cf:5fee:be32])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34145727589sm10629611eec.23.2026.09.25.22.35.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 22:35:22 -0700 (PDT)
-Date: Fri, 25 Sep 2026 22:35:19 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Yazen Ghannam <yazen.ghannam@amd.com>, Borislav Petkov <bp@alien8.de>, 
-	Tony Luck <tony.luck@intel.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] EDAC/amd64: Stop allocating ECC settings separately
-Message-ID: <ardZinoPZXbXZvhe@google.com>
+        bh=5UCqXVsEit/5UgovE1bO5G5/xS9YReJJK497aNTHOdc=;
+        b=MmVxgxn6ecQMNpitomZuk5eewy1uRLsCyBmkwpxS2/X/ncQCr0i1bkJtfDCa1rMy1Q
+         Sw0fABtHTJtR9Sm64DuYO2kKcnqvlHiyTQqvno13lpLHhcJVLh3yGtcutKN4lPE1++mK
+         YQEZWrdnxgSqZS3hheGiFA0w6xNuTW2SR58M+RHUZQq+kDDw0AwrR+vVYTdGK5Ox0e+y
+         6vRVRJGudtYyLXgctZpVSU5qHpC2g7I2/7L7n2NZAiGTj6fESZjGJsQJ1SWoP5iWgzl7
+         0XHW90nk0cEKObBdVUVdi+LUeZA3MI/bD6auHNZp5nHeMXOjN/tX4x0I9G9Ag1VucfT5
+         py/g==
+X-Forwarded-Encrypted: i=1; AKwUvBx6WI6b9XwSLu54HcFVKkidt8Ru4gkL7OrJtYpz4xpOT2A8Zb2OqBgOV1N3OzvPOcdiH9660exA5Au5@vger.kernel.org
+X-Gm-Message-State: AFq9FYIrfhwd8Z2tV0+xS7rpwOoa0W25SIwRnaqt9gKhaAJPBxt24afF
+	v9o9tw80oxMXlme7dZq3DFqHVPtTvbg3MsVZJlmj/jPK5b54vPZwvRLP
+X-Gm-Gg: AYBFou3t1mnLCGwHGFZSQ0oMDPziFj9qYjvigaLhq413sn45fPTvSJehLFJmjviSbPX
+	3GuSG8WyDIH4uJZhLOXwwnCz0XUiO5D3xpTVOikS/eeS0RRVA1BZDjA5X3kEbabL3IwbGZus23k
+	f9kERghwaVxanYnDuORKwJtFkAXmRYhxMS2jqREbndX3fO8+ARMdlpCBy52En2Q5yIARwunRggq
+	urMY/jJ+0t0Med06n137NQxzsEBqqDIylTOas19EYJ33SxEf+A3gZ/KyDVvsz+IXmOa1kWCfEyv
+	G4IF2szsn8YAIaYUTXpet6RNifcA/gC1m7S4zDdLQ6HW/UQie2bNSFxplG38KgDeTbxmXtuTznp
+	CT/+LnkfktDfOvVnSi45y57ybzmW09tCpqy437vncmDNLk808t+IIJWO2pd/y/u9B2ycuv6HCy5
+	t3tZsbbWgScKJUXtfRClQo0w5BsDKJQ5zRLGQWP/vOtlCUTP3F/aUBeVkdBH0YsSLWz1KBrhlI6
+	1X1cCpy42Zu/Asz6oHeO0djhlZVfl3bXnl/oHlaYxEP
+X-Received: by 2002:a17:903:22c4:b0:2df:8ef0:4597 with SMTP id d9443c01a7336-2df8ef04654mr43600025ad.42.1790424693330;
+        Sat, 26 Sep 2026 05:11:33 -0700 (PDT)
+Received: from localhost.localdomain ([2409:40e3:208b:3411:14ea:51a9:50f2:5786])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df913dfe98sm21709715ad.22.2026.09.26.05.11.28
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 26 Sep 2026 05:11:31 -0700 (PDT)
+From: Rounak Das <rounakdas2025@gmail.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Dinh Nguyen <dinguyen@kernel.org>,
+	Tony Luck <tony.luck@intel.com>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Rounak Das <rounakdas2025@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] EDAC/altera: Fix device node reference leaks in the SDMMC ECC setup
+Date: Sat, 26 Sep 2026 17:38:46 +0530
+Message-ID: <20260926120846.35716-1-rounakdas2025@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-There is no reason to allocate and manage ECC settings separately when
-struct ecc_settings can be embedded directly into the driver-private
-struct amd64_pvt.
+Under altr_portb_setup() and socfpga_init_sdmmc_ecc(),
+of_find_compatible_node() was being used to look up the sdmmc-ecc
+node. This node wasn't being dropped using of_node_put().
 
-Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+altr_portb_setup() did not drop its reference under its success path
+or on any error path.
+
+socfpga_init_sdmmc_ecc() did an early return thereby skipping the
+common exit label and thus leaking the reference.
+
+Add the missing of_node_put() calls in altr_portb_setup(), and route
+socfpga_init_sdmmc_ecc()'s success path through the common exit label.
+
+Fixes: 911049845d70 ("EDAC, altera: Add Arria10 SD-MMC EDAC support")
+Fixes: 788586efd116 ("EDAC/altera: Initialize peripheral FIFOs in probe()")
+Cc: stable@vger.kernel.org # 6.18+
+Closes: https://sashiko.dev/#/patchset/20260708091135.94114-1-rounakdas2025%40gmail.com
+Acked-by: Dinh Nguyen <dinguyen@kernel.org>
+Signed-off-by: Rounak Das <rounakdas2025@gmail.com>
 ---
-Changes in v2:
-- Return -ENOMEM directly on allocation failure in probe_one_instance()
-  and amd64_edac_init() instead of using error labels (Yazen Ghannam)
-- Keep the blank line after clearing pci_ctl_dev in amd64_edac_exit()
-  (Yazen Ghannam)
-- Make the comment above struct ecc_settings a single-line comment
-  (Yazen Ghannam)
-- Link to v1: https://lore.kernel.org/r/arCC5ukNvN11l1aj@google.com
+v3:
+ - Rebase on top of Dinh's "Address sashiko reviews part 1" series (Dinh).
+ - Limit stable backport to 6.18+.
+v2: https://lore.kernel.org/all/20260717131720.19038-1-rounakdas2025@gmail.com/
+v1: https://lore.kernel.org/all/20260717102549.13309-1-rounakdas2025@gmail.com/
+---
+ drivers/edac/altera_edac.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
- drivers/edac/amd64_edac.c | 42 +++++----------------------------------
- drivers/edac/amd64_edac.h | 25 ++++++++++++-----------
- 2 files changed, 18 insertions(+), 49 deletions(-)
-
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 475235c402e8..6b9d7bb11d76 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -30,9 +30,6 @@ static inline u32 get_umc_reg(struct amd64_pvt *pvt, u32 reg)
- 	return 0;
- }
+diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+index 4c20fb926160..bb95dab847b3 100644
+--- a/drivers/edac/altera_edac.c
++++ b/drivers/edac/altera_edac.c
+@@ -1506,6 +1506,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+ 	dci = edac_device_alloc_ctl_info(sizeof(*altdev), ecc_name, 1,
+ 					 ecc_name, 1, 0, edac_idx);
+ 	if (!dci) {
++		of_node_put(np);
+ 		edac_printk(KERN_ERR, EDAC_DEVICE,
+ 			    "%s: Unable to allocate PortB EDAC device\n",
+ 			    ecc_name);
+@@ -1518,6 +1519,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
  
--/* Per-node stuff */
--static struct ecc_settings **ecc_stngs;
--
- /* Device for the PCI component */
- static struct device *pci_ctl_dev;
- 
-@@ -3999,19 +3996,11 @@ static int probe_one_instance(unsigned int nid)
- {
- 	struct pci_dev *F3 = node_to_amd_nb(nid)->misc;
- 	struct amd64_pvt *pvt = NULL;
--	struct ecc_settings *s;
- 	int ret;
- 
--	ret = -ENOMEM;
--	s = kzalloc_obj(struct ecc_settings);
--	if (!s)
--		goto err_out;
--
--	ecc_stngs[nid] = s;
--
- 	pvt = kzalloc_obj(struct amd64_pvt);
- 	if (!pvt)
--		goto err_settings;
-+		return -ENOMEM;
- 
- 	pvt->mc_node_id	= nid;
- 	pvt->F3 = F3;
-@@ -4042,7 +4031,7 @@ static int probe_one_instance(unsigned int nid)
- 		} else
- 			amd64_warn("Forcing ECC on!\n");
- 
--		if (!enable_ecc_error_reporting(s, nid, F3))
-+		if (!enable_ecc_error_reporting(&pvt->ecc, nid, F3))
- 			goto err_enable;
+ 	if (!devres_open_group(device->edac->dev, altr_portb_setup, GFP_KERNEL)) {
+ 		edac_device_free_ctl_info(dci);
++		of_node_put(np);
+ 		return -ENOMEM;
  	}
  
-@@ -4051,7 +4040,7 @@ static int probe_one_instance(unsigned int nid)
- 		amd64_err("Error probing instance: %d\n", nid);
- 
- 		if (boot_cpu_data.x86 < 0x17)
--			restore_ecc_error_reporting(s, nid, F3);
-+			restore_ecc_error_reporting(&pvt->ecc, nid, F3);
- 
- 		goto err_enable;
+@@ -1584,6 +1586,8 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+ 		rc = -ENOMEM;
+ 		goto err_release_group_1;
  	}
-@@ -4067,18 +4056,12 @@ static int probe_one_instance(unsigned int nid)
- 	hw_info_put(pvt);
- 	kfree(pvt);
- 
--err_settings:
--	kfree(s);
--	ecc_stngs[nid] = NULL;
--
--err_out:
- 	return ret;
- }
- 
- static void remove_one_instance(unsigned int nid)
- {
- 	struct pci_dev *F3 = node_to_amd_nb(nid)->misc;
--	struct ecc_settings *s = ecc_stngs[nid];
- 	struct mem_ctl_info *mci;
- 	struct amd64_pvt *pvt;
- 
-@@ -4089,10 +4072,7 @@ static void remove_one_instance(unsigned int nid)
- 
- 	pvt = mci->pvt_info;
- 
--	restore_ecc_error_reporting(s, nid, F3);
--
--	kfree(ecc_stngs[nid]);
--	ecc_stngs[nid] = NULL;
-+	restore_ecc_error_reporting(&pvt->ecc, nid, F3);
- 
- 	/* Free the EDAC CORE resources */
- 	mci->pvt_info = NULL;
-@@ -4148,14 +4128,9 @@ static int __init amd64_edac_init(void)
- 
- 	opstate_init();
- 
--	err = -ENOMEM;
--	ecc_stngs = kzalloc_objs(ecc_stngs[0], amd_nb_num());
--	if (!ecc_stngs)
--		goto err_free;
--
- 	msrs = msrs_alloc();
- 	if (!msrs)
--		goto err_free;
-+		return -ENOMEM;
- 
- 	for (i = 0; i < amd_nb_num(); i++) {
- 		err = probe_one_instance(i);
-@@ -4195,10 +4170,6 @@ static int __init amd64_edac_init(void)
- 	msrs_free(msrs);
- 	msrs = NULL;
- 
--err_free:
--	kfree(ecc_stngs);
--	ecc_stngs = NULL;
--
- 	return err;
- }
- 
-@@ -4218,9 +4189,6 @@ static void __exit amd64_edac_exit(void)
- 	for (i = 0; i < amd_nb_num(); i++)
- 		remove_one_instance(i);
- 
--	kfree(ecc_stngs);
--	ecc_stngs = NULL;
--
- 	pci_ctl_dev = NULL;
- 
- 	msrs_free(msrs);
-diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
-index 1757c1b99fc8..2c6b0429916e 100644
---- a/drivers/edac/amd64_edac.h
-+++ b/drivers/edac/amd64_edac.h
-@@ -322,6 +322,17 @@ struct amd64_family_flags {
- 	      __reserved	: 63;
- };
- 
-+/* per-node ECC settings descriptor */
-+struct ecc_settings {
-+	u32 old_nbctl;
-+	bool nbctl_valid;
++	of_node_put(np);
 +
-+	struct flags {
-+		unsigned long nb_mce_enable:1;
-+		unsigned long nb_ecc_prev:1;
-+	} flags;
-+};
-+
- struct amd64_pvt {
- 	struct low_ops *ops;
+ 	altr_create_edacdev_dbgfs(dci, prv);
  
-@@ -372,6 +383,8 @@ struct amd64_pvt {
- 	/* place to store error injection parameters prior to issue */
- 	struct error_injection injection;
+ 	list_add(&altdev->next, &altdev->edac->a10_ecc_devices);
+@@ -1600,6 +1604,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+ 	 */
+ 	devres_release_group(device->edac->dev, altr_portb_setup);
+ 	edac_device_free_ctl_info(dci);
++	of_node_put(np);
+ 	edac_printk(KERN_ERR, EDAC_DEVICE,
+ 		    "%s:Error setting up EDAC device: %d\n", ecc_name, rc);
+ 	return rc;
+@@ -1627,7 +1632,7 @@ static int socfpga_init_sdmmc_ecc(struct altr_edac_device_dev *device)
+ 		goto exit;
  
-+	struct ecc_settings ecc;
-+
- 	/*
- 	 * cache the dram_type
- 	 *
-@@ -441,18 +454,6 @@ static inline u8 dct_sel_interleave_addr(struct amd64_pvt *pvt)
+ 	/* Setup portB */
+-	return altr_portb_setup(device);
++	rc = altr_portb_setup(device);
  
- 	return	((pvt)->dct_sel_lo >> 6) & 0x3;
- }
--/*
-- * per-node ECC settings descriptor
-- */
--struct ecc_settings {
--	u32 old_nbctl;
--	bool nbctl_valid;
--
--	struct flags {
--		unsigned long nb_mce_enable:1;
--		unsigned long nb_ecc_prev:1;
--	} flags;
--};
- 
- /*
-  * Each of the PCI Device IDs types have their own set of hardware accessor
--- 
-2.56.0.rc1.315.gc6ed9934b7-goog
+ exit:
+ 	of_node_put(child);
 
-
+base-commit: eef3b67f9c6782127163b631c9043011a68016e2
 -- 
-Dmitry
+2.54.0 (Apple Git-157)
+
