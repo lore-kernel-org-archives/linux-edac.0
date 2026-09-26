@@ -1,80 +1,273 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f25.google.com (mail-dy2-f25.google.com [74.125.229.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A30834041E;
-	Sat, 26 Sep 2026 01:35:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F895286D5D
+	for <linux-edac@vger.kernel.org>; Sat, 26 Sep 2026 05:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790386566; cv=none; b=uztnwIemjwzxF6tYJK4+UFU/m0jGf+eKB7olHbGzNekQBOSc2+mCixfv1bKN5iKKNlZrr3+Di9LxB6IHP7ZlFG0KjC5D9MqyRR3j0xIA2qSH8NuNjeEI/r/x7/0m/bNZAp049/XdASMaKR0E7h/udr9rD+YhM0JNDQX7KKy8cEc=
+	t=1790400925; cv=none; b=tRsMYVb+Ewp31ym3irkHL4YUxsVZbOWbZ4680Lu7P6CtHEB+25xgfv8fxHL1l09VmmPUhxUn6h+fTSbLhp70wedX68hc1dZ56RGQbS7MVLzCIIkQ3emVOZFiOUMoGDpBBl7lXHUrCp0sfnGwjzW81KusehCtskkgXUDbk05Qad8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790386566; c=relaxed/simple;
-	bh=bLpuX8+fDH6EHUNb6dVWA4b4Zh592cInja9uwieaL0c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tlv/V6VYRvtbMj2Akv+WKEoT64W92SvHJFdcMiPglDqOrsE3lXW1X2QZb8JkN6adVxTAyPkG3uQMYKiUbmTJ0B6jfXmExGYrwcPUPgtccgTKWC9EGsBmjs9bP6QH87V1Ettsy7C8PZ1H+5KnFW7hUZlssPkbVWmk8mcPVVEi3+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=PkirdCxr; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1790400925; c=relaxed/simple;
+	bh=J6Prvg+6vaewHBeT2b1h/LdSJwG0urcGl1JQlFweaoY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oe3iRMfPCrnXLxq15BGylWBMaloqWG2g3xM67kBl8tNm0pFlgd92GtQw8FllJ65+CZtPMsTXoXeux/kdDETSf4ARVyF5H3kliavVjt4mf8aWfAnOpm2JuCzi0N9Bh7zWoAiUZZrHCGW2CMCn/DRvSl8syCTufMSCFS/3NTo0rAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dw6SmMx/; arc=none smtp.client-ip=74.125.229.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="PkirdCxr"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 57F3640E00E5;
-	Sat, 26 Sep 2026 01:35:50 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id bWOq_xQsUVsD; Sat, 26 Sep 2026 01:35:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1790386540; bh=Jusva0SS4AdP1hg8p8rbJkUfy+5lQ7/ImX4PS99MfTI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PkirdCxrbS0C2VvK1IOynDIeMKdXokhc7ZU1G7IGuFm85HhDU7smc3vvKNMt6/JLC
-	 ei11eZd5hc/+dedtmQACQX0fy5aGykj8tY+7Hui0oIr9TUuHmLgSHKiKgwLI8q3pa+
-	 qEffhrLTMKwGB2rjE7VLZICkrtCoyxhSzVu2TCnqHVCn6ojZLNo9JfaZdO44qFyakV
-	 OJ/4Qwvjo5tI4XZd6xYXQSbZ+8/gI4PAL94KWyjz8vNrHNCF2IPGXn36wgsUQw8yhh
-	 SXaVVcw1D8m59f2P2IHUZX7CtPTJtATy5C4XG3/GuiBF3HZC+g5fe2skGWbK1669X2
-	 UgAJSg1wJGWOUS0hUzLq2UYi1P9HJq6vyKK1A+BPg2IWnM2D/w/fBKdv9yeGsLxH+K
-	 XaWbGUHlbQ2gfGPf176nueIZdo+EjIlfuZ3zwnWt4kTYiMk+YmlhDQJxAsgAJAXB9z
-	 MS/HCnf6b8wz6vNBIdF6FpfpwBi8qM2lWfkF30beGkuBV3vKOOQBUu+ZeDbZ2K8MyJ
-	 ATR4TEqM/fg0ch/nHI1/ARtvYplf4uTHgGYSiRH1Bcxgl8UeXEZGhQCx9JbzFGrsbf
-	 l1NfXM8p6Ud5XOJ5AMCvuuWvzrXFMXkPPxZnTv09qV12TNPueeqoOx5OaPtIBkVdvd
-	 f1bbocxU2pWVPWzOuPoeWLgI=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D641D40E021A;
-	Sat, 26 Sep 2026 01:35:34 +0000 (UTC)
-Date: Fri, 25 Sep 2026 18:35:31 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Dinh Nguyen <dinguyen@kernel.org>
-Cc: tony.luck@intel.com, linux-edac@vger.kernel.org,
-	rounakdas2025@gmail.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv5 0/4] EDAC/altera: Address sashiko reviews part 1(v5)
-Message-ID: <20260926013531.GAarchYw8ed2_Fs99x@fat_crate.local>
-References: <20260911120627.2634225-1-dinguyen@kernel.org>
- <20260925043821.GBarX6vdJ1WucqPuvN@fat_crate.local>
- <48621819-9a03-4577-ac73-5cb186f8a9a7@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dw6SmMx/"
+Received: by mail-dy2-f25.google.com with SMTP id 5a478bee46e88-328664e061cso1728442eec.2
+        for <linux-edac@vger.kernel.org>; Fri, 25 Sep 2026 22:35:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790400923; x=1791005723; darn=vger.kernel.org;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EVNin9yaHMh2i8wnCnC2c+dtKTQhoPPNqR7Ci+QQIb4=;
+        b=Dw6SmMx/QKg/1/kxWtElvq9bBoZX4+GNqOvnCpc/2elcd9s8j3UsxNxrxJH34kNEbC
+         iRsr1+MX8X0V4nzXxfvndOS7JI0AS2H43Wfki+UCR783h+D4wgi30P5vW9Pwv+e/WU02
+         OgnJvcKuIk2N82BnGRIwSFb7N2rPzCCt5+6Qrm8dAbi7cZoUnrsbtjEqSpbgdAPBZcHe
+         wgHT3paPQGidL4N+UQfwHhK4IKR3/xz2Imizoz/mzzMdHUq0R51wI8GH2vP931BoOwIe
+         mZ0mJEteQ6/1VBC9gARUsxd3kIU9IpTyCjU781S8ECFzjlI2wWDU22uVWm+X3pkK5YZn
+         2sPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790400923; x=1791005723;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EVNin9yaHMh2i8wnCnC2c+dtKTQhoPPNqR7Ci+QQIb4=;
+        b=mz4+xIpVdAjkNvD+kvT5ddxuNRZ5cOrAEIApCnNlr1zQu1Dktlf6qGnOG1MxFJbT69
+         qxSzeAN4fBfcDovFMF6jhDX3UlRvwY8QTK7T6B/ySNuZ/3rCIMb4UDiPhvNEZD9AMn3/
+         QFrgmzWetfYSOCHj5cP6kT3Ri+TMPzAVBTmWfpkhn9tTG99ustK3qiVOAweZe+qJS+En
+         o4YKjr8MV1NGWpGqOEcskV2kdbJWzDXqXOfSZaKvFGyVJgBUhuYmGaY4n5uORMfyzjyu
+         9i1XCtrIO6rH/jR/EJbHxXKmQkwfpgWSVrOP/vvOAAfchS/7jx8kJ9tKufyRiaxXJ//w
+         gHyg==
+X-Gm-Message-State: AFuF++lAA+5lEKDW21FKPYGdxh3dDRIc3DWGPANwOF0n9IA9wfNs74tq
+	ZvUCflDf7nYvJnqwVWHdrmv2VVaECZguxrvvp3392c9Krmo04qcNwEkc
+X-Gm-Gg: AYBFou0vHsse9v6A8cufjGRrqWM4WJ1hLfDm/gMdGJSNdK50acje492vd/Axlo35mdf
+	lo1I2CbBQBgbgvFZ5WpkjnMB/U9Zqx4gj69tuW9OQBcr06Hg3mPq52IJTrO2W73e439SJpbxVAT
+	2jJD3bgm0rPCkGk/ZmLtzzRVQdyF1oMoDQgtWYJ4368PlpmebRUZo09/HX5spoIV8JUcLEWlQQe
+	Fwb7zN46p4Z0LEosSPxr1nXZtvM6uizA3a5tOEKC2Tf1TS/ww63Z8CXiToFkB5okot2RYBgDzrL
+	kn52zjBWiRB35WymWtScsoyACrpnj+gVMpFY+rc3dPNKbyt4+zK8uQNFnH2r9r0aRrxOg1LzhjR
+	KTR4VEkWZ+FfmJsCcMgGReeKAvbw/msGY6BdV9AgbOmz/a4VRRRegkZrK9LSZIHRl6iYsTNAOpg
+	J7kgzvu71e11+ImQlLkXjzIXlCxRe9Tht6H/j1nIjub4WNNRWZtTYswuN/VAHAMMjTLY12K5hNY
+	KeIvs3HCR5wjpvoMN1QJJuFC12TX8Bjf7eaFKo=
+X-Received: by 2002:a05:7301:428b:b0:33e:3f5b:3ffe with SMTP id 5a478bee46e88-34272a4579emr2026486eec.27.1790400923325;
+        Fri, 25 Sep 2026 22:35:23 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:375:19cf:5fee:be32])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34145727589sm10629611eec.23.2026.09.25.22.35.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2026 22:35:22 -0700 (PDT)
+Date: Fri, 25 Sep 2026 22:35:19 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Yazen Ghannam <yazen.ghannam@amd.com>, Borislav Petkov <bp@alien8.de>, 
+	Tony Luck <tony.luck@intel.com>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] EDAC/amd64: Stop allocating ECC settings separately
+Message-ID: <ardZinoPZXbXZvhe@google.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <48621819-9a03-4577-ac73-5cb186f8a9a7@kernel.org>
 
-On Fri, Sep 25, 2026 at 10:00:33AM -0500, Dinh Nguyen wrote:
-> All patches should be applied to v6.18+. Would you like me to follow up with
-> a v6 that has the proper tag for v6.18+?
+There is no reason to allocate and manage ECC settings separately when
+struct ecc_settings can be embedded directly into the driver-private
+struct amd64_pvt.
 
-Nope, all fixed and pushed out. It'll go to Linus in a week or so.
+Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+Changes in v2:
+- Return -ENOMEM directly on allocation failure in probe_one_instance()
+  and amd64_edac_init() instead of using error labels (Yazen Ghannam)
+- Keep the blank line after clearing pci_ctl_dev in amd64_edac_exit()
+  (Yazen Ghannam)
+- Make the comment above struct ecc_settings a single-line comment
+  (Yazen Ghannam)
+- Link to v1: https://lore.kernel.org/r/arCC5ukNvN11l1aj@google.com
 
-Thx.
+ drivers/edac/amd64_edac.c | 42 +++++----------------------------------
+ drivers/edac/amd64_edac.h | 25 ++++++++++++-----------
+ 2 files changed, 18 insertions(+), 49 deletions(-)
+
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index 475235c402e8..6b9d7bb11d76 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -30,9 +30,6 @@ static inline u32 get_umc_reg(struct amd64_pvt *pvt, u32 reg)
+ 	return 0;
+ }
+ 
+-/* Per-node stuff */
+-static struct ecc_settings **ecc_stngs;
+-
+ /* Device for the PCI component */
+ static struct device *pci_ctl_dev;
+ 
+@@ -3999,19 +3996,11 @@ static int probe_one_instance(unsigned int nid)
+ {
+ 	struct pci_dev *F3 = node_to_amd_nb(nid)->misc;
+ 	struct amd64_pvt *pvt = NULL;
+-	struct ecc_settings *s;
+ 	int ret;
+ 
+-	ret = -ENOMEM;
+-	s = kzalloc_obj(struct ecc_settings);
+-	if (!s)
+-		goto err_out;
+-
+-	ecc_stngs[nid] = s;
+-
+ 	pvt = kzalloc_obj(struct amd64_pvt);
+ 	if (!pvt)
+-		goto err_settings;
++		return -ENOMEM;
+ 
+ 	pvt->mc_node_id	= nid;
+ 	pvt->F3 = F3;
+@@ -4042,7 +4031,7 @@ static int probe_one_instance(unsigned int nid)
+ 		} else
+ 			amd64_warn("Forcing ECC on!\n");
+ 
+-		if (!enable_ecc_error_reporting(s, nid, F3))
++		if (!enable_ecc_error_reporting(&pvt->ecc, nid, F3))
+ 			goto err_enable;
+ 	}
+ 
+@@ -4051,7 +4040,7 @@ static int probe_one_instance(unsigned int nid)
+ 		amd64_err("Error probing instance: %d\n", nid);
+ 
+ 		if (boot_cpu_data.x86 < 0x17)
+-			restore_ecc_error_reporting(s, nid, F3);
++			restore_ecc_error_reporting(&pvt->ecc, nid, F3);
+ 
+ 		goto err_enable;
+ 	}
+@@ -4067,18 +4056,12 @@ static int probe_one_instance(unsigned int nid)
+ 	hw_info_put(pvt);
+ 	kfree(pvt);
+ 
+-err_settings:
+-	kfree(s);
+-	ecc_stngs[nid] = NULL;
+-
+-err_out:
+ 	return ret;
+ }
+ 
+ static void remove_one_instance(unsigned int nid)
+ {
+ 	struct pci_dev *F3 = node_to_amd_nb(nid)->misc;
+-	struct ecc_settings *s = ecc_stngs[nid];
+ 	struct mem_ctl_info *mci;
+ 	struct amd64_pvt *pvt;
+ 
+@@ -4089,10 +4072,7 @@ static void remove_one_instance(unsigned int nid)
+ 
+ 	pvt = mci->pvt_info;
+ 
+-	restore_ecc_error_reporting(s, nid, F3);
+-
+-	kfree(ecc_stngs[nid]);
+-	ecc_stngs[nid] = NULL;
++	restore_ecc_error_reporting(&pvt->ecc, nid, F3);
+ 
+ 	/* Free the EDAC CORE resources */
+ 	mci->pvt_info = NULL;
+@@ -4148,14 +4128,9 @@ static int __init amd64_edac_init(void)
+ 
+ 	opstate_init();
+ 
+-	err = -ENOMEM;
+-	ecc_stngs = kzalloc_objs(ecc_stngs[0], amd_nb_num());
+-	if (!ecc_stngs)
+-		goto err_free;
+-
+ 	msrs = msrs_alloc();
+ 	if (!msrs)
+-		goto err_free;
++		return -ENOMEM;
+ 
+ 	for (i = 0; i < amd_nb_num(); i++) {
+ 		err = probe_one_instance(i);
+@@ -4195,10 +4170,6 @@ static int __init amd64_edac_init(void)
+ 	msrs_free(msrs);
+ 	msrs = NULL;
+ 
+-err_free:
+-	kfree(ecc_stngs);
+-	ecc_stngs = NULL;
+-
+ 	return err;
+ }
+ 
+@@ -4218,9 +4189,6 @@ static void __exit amd64_edac_exit(void)
+ 	for (i = 0; i < amd_nb_num(); i++)
+ 		remove_one_instance(i);
+ 
+-	kfree(ecc_stngs);
+-	ecc_stngs = NULL;
+-
+ 	pci_ctl_dev = NULL;
+ 
+ 	msrs_free(msrs);
+diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
+index 1757c1b99fc8..2c6b0429916e 100644
+--- a/drivers/edac/amd64_edac.h
++++ b/drivers/edac/amd64_edac.h
+@@ -322,6 +322,17 @@ struct amd64_family_flags {
+ 	      __reserved	: 63;
+ };
+ 
++/* per-node ECC settings descriptor */
++struct ecc_settings {
++	u32 old_nbctl;
++	bool nbctl_valid;
++
++	struct flags {
++		unsigned long nb_mce_enable:1;
++		unsigned long nb_ecc_prev:1;
++	} flags;
++};
++
+ struct amd64_pvt {
+ 	struct low_ops *ops;
+ 
+@@ -372,6 +383,8 @@ struct amd64_pvt {
+ 	/* place to store error injection parameters prior to issue */
+ 	struct error_injection injection;
+ 
++	struct ecc_settings ecc;
++
+ 	/*
+ 	 * cache the dram_type
+ 	 *
+@@ -441,18 +454,6 @@ static inline u8 dct_sel_interleave_addr(struct amd64_pvt *pvt)
+ 
+ 	return	((pvt)->dct_sel_lo >> 6) & 0x3;
+ }
+-/*
+- * per-node ECC settings descriptor
+- */
+-struct ecc_settings {
+-	u32 old_nbctl;
+-	bool nbctl_valid;
+-
+-	struct flags {
+-		unsigned long nb_mce_enable:1;
+-		unsigned long nb_ecc_prev:1;
+-	} flags;
+-};
+ 
+ /*
+  * Each of the PCI Device IDs types have their own set of hardware accessor
+-- 
+2.56.0.rc1.315.gc6ed9934b7-goog
+
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Dmitry
