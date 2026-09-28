@@ -1,78 +1,163 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D1E283FE5;
-	Mon, 28 Sep 2026 05:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B329B370AE7;
+	Mon, 28 Sep 2026 07:32:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790573457; cv=none; b=hjEwSH5ZYa3M03japy8WCamy0cCASuqi+yel61TjTz2ScLFmmBQKUJIq+FpfYjfSi3gFWIhx/hkPwtgcgE73+4cGJHOWZhnKssoKHV34McV1VGizA4L9a5TMJpdlj20yxgsF2lp1G2fx+zjfd/0QXSadqPHBAAD6sIJ3NgBeESc=
+	t=1790580748; cv=none; b=ripOK4NN2wg2TZezv81t8GpyGa/4CpQpmad45p2BUURcO8ue4/rO/UPUNCESF6oCVD00W4xl2KmlH4G0aNhoGlan0TMDJ7PVbFNdUIIj4t9e5oqS2w78nVr99fStW6k5G2fBJTimDZPkCwdHebgcNJ9fn3pyJJ8Ja29eo2Hri2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790573457; c=relaxed/simple;
-	bh=r3RlCnLbVTLvBPw8sYQj42w+QUrBsBxwOxbYvTSUh0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pa6MRTER6Pa8QRhzowNHgd5krxV4KsDa6Z+K/YYz/Bxz5dtCKCQTQ4n2WCctdmyB0Wa/kBZ+W8IpkZBRWOm4/UEy7qRoGTJgKZXhs8b/tEZVIfBxH6s2kHio2INw83RYMbGGgQ7NF4Ne0ZKTp13579yd1yDd99RLLlB1rWPa+c4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=f0Bql77A; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1790580748; c=relaxed/simple;
+	bh=dgepjDVWjlpjORY9mopx1lT//VGOTdCXOKLVTmgrXrU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=fCPMkNhVf2/UfHORqU7e3X3XJl6DMRULZ9fhpiGmqCoCguOquqJcMd171APCp7deMM4HuXGnZOv/cQ3doCK0brzG6sTqxKUru7TmUW8dbRZJk5iEHRwhMxVBuEMzpa998XelcJ/13g6DH8tm3cI0RTpeA0zTwc8Cg56ZKmpIj5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=vkH/KMvR; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="f0Bql77A"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C6C0740E00E8;
-	Mon, 28 Sep 2026 05:30:53 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id hoEjBQGBiy3i; Mon, 28 Sep 2026 05:30:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1790573446; bh=0Mdtj6gVLfP8Vc+G2eRm8KJwF3bWgMYYkUKF+bwmRfY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f0Bql77AFT3OzF5w51j/PUBzt1rOSGVXRzIvHQECz0HufTwdn0CcpmH4c6dcDL2da
-	 /gghTdSZTvD8ow9HVFjft/cRXgPPC4AySSszpZv50961b8yCs33iA83TS09i7SIsK9
-	 rAtmmdSFad69QaESIqrBS7MuRU5UeawOFZHRGK8FoKrX3rbNBJf6CYYuAYvyveUKi2
-	 FC8e82CDEI4PyyiEsORGt35xIXRFjlW+ZEiGntUpfaNfWZILOYrIG01fgXP1Odvvwp
-	 c/CW6aWex8u5ksbcu+BSLqwZIlTTXHcvSUSVyP5ws9XyaXDWIotOPwmanfqHOJ2535
-	 O6/ADI8JUtNg4vbxjpZh1aIlEdtug/bdyjDkqRDyTg1CJtaGu2jy51Jdu7IfySu83o
-	 20hAwpWy6TxGUGEz8w05d3nSIWfgpO/OzaleTN4nYev0qXEcROwU5DbOl6F2DG9Jpp
-	 5Key6XxchbCXDeu21S5AG7aIgD2hbeWkpTTnoidzxw5zWm+Ds1LBwwZMpvAFSaTtTr
-	 TEOvky6hXZJXNTkKi2upFQaVrlwkhefptzqpQFeYYogpgZ+Q+xRxwdxSdqw0yCuYBp
-	 gzBONNo4gS+6PptsSw6P/IYzjAor8c5uhFJpFEcvw0fXklP6h8qJQT+ZuwqWrC8e+V
-	 pjYPkfXSTvNBd7S/1Ap/zGWo=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::46])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 04D1140E01F9;
-	Mon, 28 Sep 2026 05:30:42 +0000 (UTC)
-Date: Sun, 27 Sep 2026 22:30:40 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v10 0/7] Incorporate DRAM address in EDAC messages
-Message-ID: <20260928053040.GCarn7gHIDY6qPkZNi@fat_crate.local>
-References: <20260922202318.4079080-1-yazen.ghannam@amd.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="vkH/KMvR"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 40CE7C5CD4C;
+	Mon, 28 Sep 2026 07:33:09 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id F2D36601BD;
+	Mon, 28 Sep 2026 07:32:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B96CF102F1E42;
+	Mon, 28 Sep 2026 09:32:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1790580738; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=1yVG7biGd8LMh933pwAmn0KONt09cooOBGmuGeDuRG4=;
+	b=vkH/KMvRVbAsfr989+yy6/jIOx0UvnkM3xmUrwI+hntjDoZhKSZlothGHJWV0SLXfmPioi
+	pBZUROwK79npc1KIJKFRseNPaZnVAO+E2Z88iFJjy6KC1Grzt3bjXI9IfaN+i4FOxs/gNQ
+	Nnd08n+01OQYRJf2xjlpAlFBIA18cnd8XINovHmM4HOYrI8avIZ6jZf54Dr3Aai2X//9S9
+	8VOJojwMsDZWENJ5jiYaQzZ5LFazff2+Cek28yw04jdKczOgYxKanRU6wBaXYQ3V8JhHzz
+	cNdID9Py9+StbQfzqUV4oln25LsWwpONTUdoIoh8yBrujC63mB2j91B03n0XGw==
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260922202318.4079080-1-yazen.ghannam@amd.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 28 Sep 2026 09:32:14 +0200
+Message-Id: <DLQRW9F3KVF9.349XXY22RRFKH@bootlin.com>
+Cc: "Borislav Petkov" <bp@alien8.de>, "Tony Luck" <tony.luck@intel.com>,
+ "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Geert
+ Uytterhoeven" <geert+renesas@glider.be>, "Magnus Damm"
+ <magnus.damm@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-edac@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, "Miquel Raynal"
+ <miquel.raynal@bootlin.com>, "Herve Codina" <herve.codina@bootlin.com>
+Subject: Re: [PATCH v3 2/3] EDAC/cadence: Add Cadence DDR EDAC driver
+From: "Paul Louvel" <paul.louvel@bootlin.com>
+To: "Wolfram Sang" <wsa+renesas@sang-engineering.com>, "Paul Louvel"
+ <paul.louvel@bootlin.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260924-paul-v7-3-rc1-edac-v3-0-bd8054a5b180@bootlin.com>
+ <20260924-paul-v7-3-rc1-edac-v3-2-bd8054a5b180@bootlin.com>
+ <arZiv20Z4P7DQaD6@shikoro>
+In-Reply-To: <arZiv20Z4P7DQaD6@shikoro>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, Sep 22, 2026 at 03:23:10PM -0500, Yazen Ghannam wrote:
-> This revision addresses a couple comments from Boris. Also, the couple
-> of patches originally by Avadhut have gone through a few revisions. So I
-> updated the attributions.
+Hi,
 
-One Sashiko question here:
+On Fri Sep 25, 2026 at 2:02 PM CEST, Wolfram Sang wrote:
+> Hi Paul,
+>
+> thanks for your patches!
+>
+> On Thu, Sep 24, 2026 at 04:12:48PM +0200, Paul Louvel wrote:
+>> Add the Cadence EDAC driver found on Renesas RZ/N1x SoC.
+>> The memory controller supports ECC, software scrubbing, and SECDED.
+>>=20
+>> Signed-off-by: Paul Louvel (Schneider Electric) <paul.louvel@bootlin.com=
+>
+>
+> Disclaimer: I don't know the technology nor the subsystem. So, only some
+> high level comments.
+>
+>> +
+>> +static void cdns_rmw(struct cdns_mc_priv *priv, u32 reg, u32 mask, u32 =
+val)
+>> +{
+>> +	u32 regval;
+>> +
+>> +	mutex_lock(&priv->lock);
+>> +	regval =3D readl(priv->io_base + reg);
+>> +	FIELD_MODIFY(mask, &regval, val);
+>> +	writel(regval, priv->io_base + reg);
+>> +	mutex_unlock(&priv->lock);
+>
+> Hmm, a spinlock is probably more suitable for such short operations? You
+> could even save a lock here and use a generic mutex in
+> inject_ctrl_store() for the whole operation. That would work for now. In
+> terms of defensive programming, a spinlock could be argued, too, to make
+> future additions more robust.
 
-https://sashiko.dev/#/patchset/20260922202318.4079080-1-yazen.ghannam%40amd.com
+Yes, I wanted to use the lock inside the function so that in the future, if=
+ it
+is used, the caller won't have to bother locking anything.
+Noted for the spinlock, that seems more appropriate indeed.
 
--- 
-Regards/Gruss,
-    Boris.
+>
+>> +static void cdns_mc_err_inject(struct mem_ctl_info *mci, u16 synd)
+>> +{
+>> +	struct cdns_mc_priv *priv =3D mci->pvt_info;
+>> +
+>> +	cdns_rmw(priv, CDNS_DDR_ECC_XOR, CDNS_DDR_ECC_XOR_CHECK_BITS, synd);
+>> +	cdns_rmw(priv, CDNS_DDR_ECC_STAT, CDNS_DDR_ECC_STAT_FWC, 1);
+>> +}
+>
+> Bike shedding: I think this is too short for a seperate function and it
+> should be folded into its caller.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+ACK.
+
+>
+>> +
+>> +static ssize_t inject_ctrl_store(struct device *dev, struct device_attr=
+ibute *attr, const char *buf,
+>> +				 size_t count)
+>> +{
+>> +	struct mem_ctl_info *mci =3D to_mci(dev);
+>> +	u16 synd;
+>> +
+>> +	if (kstrtou16(buf, 16, &synd))
+>> +		return -EINVAL;
+>> +
+>> +	cdns_mc_err_inject(mci, synd);
+>> +
+>> +	return count;
+>> +}
+>> +
+>> +static DEVICE_ATTR_WO(inject_ctrl);
+>> +
+>> +static struct attribute *cdns_edac_attrs[] =3D { &dev_attr_inject_ctrl.=
+attr, NULL };
+>> +
+>> +ATTRIBUTE_GROUPS(cdns_edac);
+>
+> What about using debugfs instead via edac_debugfs_create_*?
+
+Seems to be more appropriate since inducing a CE or UE would only be for
+debugging purposes.
+
+>
+> Happy hacking,
+>
+>    Wolfram
+
+
+Thanks,
+
+
+
+--=20
+Paul Louvel, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
