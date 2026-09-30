@@ -1,258 +1,147 @@
-Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from twmbx01.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D7119DF6A
-	for <linux-edac@vger.kernel.org>; Wed, 30 Sep 2026 04:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790744195; cv=pass; b=dSM4AmAHvY7kAE50Eh0msw/lh3ETmWIR7AF35zMtAx/VvtOfMtgKSHyMv0kOUejbfK5Pkm2ZDFLdF525eRNSexKPIeJWXFk9P2o1Zo0RFc0YWtFT2oDKh+pMqvEZIjy+NXBE92LGZVd0pjtew42eirTGNqJ4flhqrQQPKZdia/0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790744195; c=relaxed/simple;
-	bh=aijIq6MG49th3NxWEi1RYjXRzGo8e6tnPdyVZG7VoU0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uSuwvppCLlzGqwC4nZa5z6g6BX/GZMmyGUc1zPxgfZ4qzhPiJvJ6ysuh51ElNgMguWhUYaFq7lsoGCniuTYWB9rQD0CUFggwTs/EUb1pSHgZ4MOJV2xEfyn8BnLQWzQEmPmwWL5b4T+9+jBRAwQYRPJOoQ805FQS0nxs/dlnLL8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BsPfNluM; arc=pass smtp.client-ip=74.125.224.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BsPfNluM"
-Received: by mail-yx2-f43.google.com with SMTP id 956f58d0204a3-66e4ab22370so4383969d50.3
-        for <linux-edac@vger.kernel.org>; Tue, 29 Sep 2026 21:56:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790744193; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NYBUCGuIKO9mDoDvcceUbuqCQdW2U05I+epSY8oDkc23tACvrbwbYF+r4yKE5/d4so
-         w9+vSdRKv5purQNrdBC3fF756q7sQWkalYK4E3L9kfiXvJ3QgEMr95B1gyFuqY6moUPa
-         dJMXqsotlpWYMHNUCHXUKf21YSbXuMtQKWBleh+Uji26l7teuCbHVzqdk6yeVupxJH8L
-         huF/epHz5cY6RYxK6+GcvCBGSviOqinV5/XUMGpJV7TboYAJGvM98D1vadeucCMjI4xP
-         P1ec+6mlmzui8xYEHe/SukeO2I4pUKGoSram8MeXmeS/cl92agUynjJA1EK09GmNCDyK
-         Iu6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=YazpLo8uOEsrRzgBDuZEHvPTChLlaZapwZA6DqRFIGE=;
-        fh=wIOvMtAQR9Raqk/nnrt6jzHJQY35E5fGKkzYZDoba+M=;
-        b=I+tp8XAOU1Ps7pNHpnDmoWaCFoM2Rtc8Q/kIPfnMJFXu+apSln3ERakPCUtguTFuxY
-         wnE1LfPwF44croZmCoPWoWj8Ic4SIXCaC3m6NZ4hlgRN+sL2jBBqyLWC4qFxov+8phkf
-         y43Zok/0MOeE5Yymx6FfZkLK+D9fmQK24aiqD2DMOKFeizKpdBhYjgekoXOzu4qYwCtD
-         kzJ9Jw4TBJ7ANmiM/zrP9snVPPbSGASq3WiIHhx0ki7U+n8iyZ7sxl4OvfX00AMWenlY
-         zm1fxFWMVHAf/7veskcUCvrl4mZ7ZkU5qYTF6cfqNJdgijlLxt9CwKirCoB7Ydq4KXTa
-         0rbg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790744193; x=1791348993; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YazpLo8uOEsrRzgBDuZEHvPTChLlaZapwZA6DqRFIGE=;
-        b=BsPfNluMyV7VnbDx8bcRuJLa4SEFo0DgwXPjaEIuDdc0oWXf3kKnzF62jQE6biHBCH
-         ATxkbkB8adjFF3aqLYM3jJd7zMMyOCn/2gbDlAw9qpHgcbPKC0yCOtT/xh0fyZpKCLyB
-         hE7Jtmswmb0ySZxaORv2IoJb3Eax9+geI2nCpQrPxIzSdNLcdJFmRlgx2q+PtQxkDgbu
-         RdqY8j7SKp4Bgnvf0I1rLEHWHb1rxZbTOF8+Vk1ynsN6OQVzQCiSrL5jIYF0F5Dbk+iR
-         0cRkU66G08rWsPN5ECNwGrsR27YzbhwD+5HWxCOG7azhtfU15ApGqMOvTXE+cNPz/GIB
-         JWbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790744193; x=1791348993;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YazpLo8uOEsrRzgBDuZEHvPTChLlaZapwZA6DqRFIGE=;
-        b=sBt+YUnMv+TrsgOkqxEqqEXCnyq1fiLTRHS4QP3SXFM5m28Mk4WKT3F28f3PuF2F+1
-         h79ggKcEuz+J6lUcMYyuN9Etfkd660wzoDEsMpj1I531+s46y9p7tRcl6K81xqFFldgw
-         YxNkhXYbG41EnN3f5rvDjWw4Z0Rf5/t+yquwhADg6mVIf2GU7CztAyAE4aAP0SHxUNJ7
-         vm+QnmcCd0gfiExOPhDu262G+XOps0+h5lYiUZFfaOi8D9YsR9njYQo3/O5HJ19sqgA5
-         gg/kC758dcPZNQnb6SfoJN/oxaHgXToduHrT8P/8x9BwkqY4O2YjLfEuEVf2KHbaaZmk
-         smLg==
-X-Forwarded-Encrypted: i=1; AKwUvByOzgHN8rkXp9UBQeJDAhfRN/8z3zrmHsvLmPe0mNqLX9dScUglZKJY6KZj9239vCqJUq15V2rIJ445@vger.kernel.org
-X-Gm-Message-State: AFq9FYJg8fU3JCxHyNC+FQYTBWXPCeW1hsKR7ADqsKA9IzuzFwEAVsmL
-	kPJIcNdTkod0E7mtgs0DH5KD1niobs5cxx1BLccYroi0idz4UUMTNmgSri3RQAOOmf1fbPEx7ry
-	iHVpxP8wX8w5ya+s6JClsmR7w/A9Hebk=
-X-Gm-Gg: AYBFou3AIVUQyRhrUHERA2vqxTujPAdH7RS9xzQB1rapPgwPsFwMe0HC3EKBFfL0H1m
-	K9J9tR/RIRqyX9u24CI2vfeZgRPWOmp9F1cH7FpBBg+aAF1v+YZKSjEWuZH2Uuq1NXPnroSJkVT
-	sF0194fnlXZqi1HCYsCsmWUrEYhIoU9/GqSRDcJbkEClFHhXQ1eKKGY2byd0K93EHsb6kTDD0Kv
-	HMkLQp/1mYSuC4Y8mRz5bRc0Z4UoFRoytAOfQxQU9hFru89pctlzOpqtTGNBfzTle1fFYlFGWy0
-	SASHfdzBxnH+2gY3wcPSL5OOYtVTy8K5sD6IQ68Fadd5fkIFFDyQAL4Ns0M0gqmSnrM=
-X-Received: by 2002:a05:690e:4197:b0:675:39f6:9bca with SMTP id
- 956f58d0204a3-676834a58f0mr102811d50.58.1790744193227; Tue, 29 Sep 2026
- 21:56:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F705363086;
+	Wed, 30 Sep 2026 05:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.20.114.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790745311; cv=none; b=CBiWDJyKgSOmzEZmo7AiiJhAtU/F23NxZcI4l+xrhJiBIHKVJ/cr9ivaM8NSSYMlKIzjifTXzVU6IDSpH9Cf5aJ7gqmZg2zmLVphvj3sRpxeBgBA3F6rvF/jzKyLEo3K9vCkZqC+7eKl5QE5jPKNzgJXDDRqXfYlczI6mhJFEWE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790745311; c=relaxed/simple;
+	bh=pfBHQqwY0FRL/vJkTp/4D4cyjGIq75z45FRzsyOMCj4=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=PZo7FfmQYLp7rVl4kcOzV7/s1LjnavLVzB7O9lokBy9o16DHSqbhsDuVe7YMEvGASDYYsGdHoF/uYEeqh/GnyhgPK8t1JLC642sMQqYhhk/2VHV9C2MqD3NVC9R4U8OgNaMizhc11WmBfqTk/XyFGxisjCjPlLKiU2DlsFUC55Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass smtp.mailfrom=aspeedtech.com; arc=none smtp.client-ip=211.20.114.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 30 Sep
+ 2026 13:14:59 +0800
+Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Wed, 30 Sep 2026 13:14:59 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: [PATCH v4 0/9] Add Aspeed AST2700 SDRAM EDAC support
+Date: Wed, 30 Sep 2026 13:14:58 +0800
+Message-ID: <20260930-edac-v4-0-c2e526f3ed79@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260920055519.3778269-1-lgs201920130244@gmail.com>
- <CAKfKVtGZH8OaXp0WtJSD7AAQb8BSWg=xo+x9jj1sbjSxjEanGg@mail.gmail.com> <CANUHTR_yAgnZN05PBLae3DSk3xo0haLRRgHyKxswSYDE2tHgFQ@mail.gmail.com>
-In-Reply-To: <CANUHTR_yAgnZN05PBLae3DSk3xo0haLRRgHyKxswSYDE2tHgFQ@mail.gmail.com>
-From: Shubhrajyoti Datta <shubhrajyoti.datta@gmail.com>
-Date: Wed, 30 Sep 2026 10:26:20 +0530
-X-Gm-Features: AclHuK_5dLBTDCM2a4gpvqnnswpJIWECN6q0YsymVQT1CjxevikTIfBgbHvWtBg
-Message-ID: <CAKfKVtFkZ-T==D2-3OJeWUsRAzCE7_YP9kW1dDA0d3kjVWfBFg@mail.gmail.com>
-Subject: Re: [PATCH] EDAC/versalnet: fix memory leak on device registration failure
-To: Guangshuo Li <lgs201920130244@gmail.com>
-Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, Borislav Petkov <bp@alien8.de>, 
-	Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANKavGoC/23MTQ7CIBCG4asY1mLo0FJw5T2MCwqDZWHbQEM0T
+ e8u/Uk00eU3meedSMTgMZLzYSIBk4++7/IojwdiWt3dkXqbNwEGggmoKFptqEQlGDLA2tUkvw4
+ BnX+umest79bHsQ+vtZqK5boFZAFbIBWUUcaVArSoQdUXHQdEO6JpT6Z/kKWS4EtCuUvI0kgrm
+ 0YoXknxV/KPVIXYJc8SOCq04Brr1I+c5/kNMqHP6xEBAAA=
+X-Change-ID: 20260625-edac-8e960e02e7f7
+To: Stefan Schaeckeler <sschaeck@cisco.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>
+CC: <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+	<linux-edac@vger.kernel.org>, Borislav Petkov <bp@suse.de>, Ryan Chen
+	<ryan_chen@aspeedtech.com>, Krzysztof Kozlowski
+	<krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790745299; l=4479;
+ i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
+ bh=pfBHQqwY0FRL/vJkTp/4D4cyjGIq75z45FRzsyOMCj4=;
+ b=NlbSINSUFdPmrseU4+qeJZJMs8z7w+3jpAyrHyDJXqrB0lPNiAsyFVEs5T6CThxJkuzNQK6nn
+ s3bBZ3S1aESD7cumxTunaBz8ruEGykldYe6PgIZ5YzSDIQsicDujohb
+X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
+ pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
 
-On Thu, Sep 24, 2026 at 7:45=E2=80=AFPM Guangshuo Li <lgs201920130244@gmail=
-.com> wrote:
->
-> Hi Shubhrajyoti,
->
-> Thanks for pointing that out.
->
-> On Wed, 23 Sept 2026 at 23:03, Shubhrajyoti Datta
-> <shubhrajyoti.datta@gmail.com> wrote:
-> >
-> > On Sun, Sep 20, 2026 at 11:25=E2=80=AFAM Guangshuo Li <lgs201920130244@=
-gmail.com> wrote:
-> > >
-> > > init_one_mc() allocates dev with kzalloc() and registers it with
-> > > device_register(). If device_register() fails, the device has already
-> > > been initialized and holds its initial device reference.
-> > >
-> > > The current error path eventually frees dev directly with kfree().
-> > > This bypasses the device release path and can leak driver-core
-> > > resources associated with the initialized device. The existing
-> > > versal_edac_release() callback is responsible for freeing dev once th=
-e
-> > > device reference reaches zero.
-> > >
-> > > Call put_device() when device_register() fails so the initialized
-> > > device reference is dropped and versal_edac_release() performs the
-> > > proper cleanup. Return after freeing mci to avoid falling through to
-> > > the direct kfree() path, which remains necessary for failures that
-> > > occur before device_register() is called.
-> > >
-> > > The issue was identified by a static analysis tool I developed and
-> > > confirmed by manual review.
-> > >
-> > > Fixes: d5fe2fec6c40 ("EDAC: Add a driver for the AMD Versal NET DDR c=
-ontroller")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
-> > > ---
-> > >  drivers/edac/versalnet_edac.c | 6 ++++--
-> > >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_e=
-dac.c
-> > > index 3a06b41c1d84..db3bf5a1345b 100644
-> > > --- a/drivers/edac/versalnet_edac.c
-> > > +++ b/drivers/edac/versalnet_edac.c
-> > > @@ -829,8 +829,10 @@ static int init_one_mc(struct mc_priv *priv, str=
-uct platform_device *pdev, int i
-> > >         dev->release =3D versal_edac_release;
-> > >
-> > >         rc =3D device_register(dev);
-> > > -       if (rc)
-> > > +       if (rc) {
-> > > +               put_device(dev);
-> > >                 goto err_mc_free;
-> > > +       }
-> >
-> > There was a comment earlier from sashiko
-> >  failure path calls put_device() with dev->init_name still pointing at =
-a stack
-> > buffer before device_add() copies it. That's unsafe in
-> > principle (dev_name() would follow init_name)
-> > >
-> > >         mci->pdev =3D dev;
-> > >         mc_init(mci, dev);
-> > > @@ -852,9 +854,9 @@ static int init_one_mc(struct mc_priv *priv, stru=
-ct platform_device *pdev, int i
-> > >         device_unregister(mci->pdev);
-> > >  err_mc_free:
-> > >         edac_mc_free(mci);
-> > > +       return rc;
-> > >  err_dev_free:
-> > >         kfree(dev);
-> > > -
-> > >         return rc;
-> > >  }
-> > >
-> > > --
-> > > 2.43.0
-> > >
-> > >
->
-> Would splitting device_register() into device_initialize(), dev_set_name(=
-),
-> and device_add() be a reasonable way to handle this? For example:
->
-> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.=
-c
-> --- a/drivers/edac/versalnet_edac.c
-> +++ b/drivers/edac/versalnet_edac.c
-> @@ -64,7 +64,6 @@
->  #define XDDR5_BUS_WIDTH_64 0
->  #define XDDR5_BUS_WIDTH_32 1
->  #define XDDR5_BUS_WIDTH_16 2
-> -#define MC_NAME_LEN 32
->
->  static int init_one_mc(struct mc_priv *priv, struct platform_device
-> *pdev, int i)
->  {
-> @@ -730,7 +729,6 @@ static int init_one_mc(struct mc_priv *priv,
-> struct platform_device *pdev, int i)
->   u32 num_chans, rank, dwidth, config;
->   struct edac_mc_layer layers[2];
->   struct mem_ctl_info *mci;
-> - char name[MC_NAME_LEN];
->   struct device *dev;
->   enum dev_type dt;
->   int rc;
-> @@ -773,13 +771,17 @@ static int init_one_mc(struct mc_priv *priv,
-> struct platform_device *pdev, int i)
->   goto err_dev_free;
->   }
->
-> - sprintf(name, "versal-net-ddrmc5-edac-%d", i);
-> -
-> - dev->init_name =3D name;
-> + device_initialize(dev);
->   dev->release =3D versal_edac_release;
->
-> - rc =3D device_register(dev);
-> + rc =3D dev_set_name(dev, "versal-net-ddrmc5-edac-%d", i);
-> + if (rc)
-> + goto err_mc_free;
-> +
-> + rc =3D device_add(dev);
->   if (rc)
->   goto err_mc_free;
->
-> @@ -800,10 +802,13 @@ static int init_one_mc(struct mc_priv *priv,
-> struct platform_device *pdev, int i)
->
->  err_unreg:
->   device_unregister(mci->pdev);
-> + edac_mc_free(mci);
-> + return rc;
->  err_mc_free:
->   edac_mc_free(mci);
-> + put_device(dev);
-> + return rc;
->  err_dev_free:
->   kfree(dev);
->
->   return rc;
->  }
->
-> This avoids keeping dev->init_name pointing at stack storage and uses
-> put_device() only after the device has been initialized. Would this look
-> reasonable to you? If this looks good to you, I=E2=80=99ll send v2 with t=
-his approach.
+Add ECC error reporting for the Aspeed AST2700 SoC to the existing
+aspeed_edac driver.
 
-This is already addressed in the ongoing patch series:
+The AST2700 memory controller keeps the same overall EDAC programming
+model as the earlier Aspeed BMC SoCs, but uses a different register
+layout, a split interrupt status/clear/mask scheme and DDR4/DDR5 memory.
+Rather than fork the driver, the existing code is first tidied and
+generalised, then the AST2700 is added as one more per-SoC variant.
 
-https://lore.kernel.org/all/20260724171945.2812749-5-shubhrajyoti.datta@amd=
-.com/
+Patches 1-4 are bug fixes and cleanups to the existing driver. Patch 5
+documents the AST2700 binding, patches 6 and 7 rework the implementation
+to accommodate it, and patch 8 adds the AST2700 support itself. Patch 9 is
+Stefan's step-down patch, amended to leave the entry in place with me
+as its reviewer.
 
-Please have a look and let me know if you have any concerns.
->
-> Thanks,
-> Guangshuo
+Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+---
+Changes in v4:
+- Put the bug fixes first: the two fixes are now patches 1 and 2, the
+  cleanups 3 and 4, and the bindings patch moves to 5 ahead of the
+  AST2700 work.
+- Explain in patch 1 where the grain value comes from, rather than the
+  warning it silences.
+- Drop the Cc: stable tags from the two fixes. Neither meets the bar in
+  Documentation/process/stable-kernel-rules.rst; the Fixes: tags stay.
+- Merge Stefan's step-down patch into patch 9, keeping the MAINTAINERS
+  entry alive with a reviewer instead of removing it.
+- Link to v3: https://lore.kernel.org/r/20260916-edac-v3-0-23e9ed2fbdf9@aspeedtech.com
+
+Changes in v3:
+- Establish the AST2700 interrupt mask in the driver rather than
+  deriving it from the register's contents: ast2700_set_irq() now
+  writes the mask outright, masking every source and unmasking only
+  the ECC ones, and the mask is established before the interrupt is
+  requested.
+- New patch: add myself as a reviewer for the driver in MAINTAINERS.
+- Tested on an AST2600 with CONFIG_PROVE_LOCKING=y; injected correctable
+  errors are reported from the interrupt handler with no lockdep reports.
+- Link to v2: https://lore.kernel.org/r/20260824-edac-v2-0-c8d8bb693586@aspeedtech.com
+
+Changes in v2:
+- New patch: free the ECC interrupt before the mem_ctl_info in
+  aspeed_remove(). The interrupt is requested with devm_request_irq() and
+  is only released after .remove() has returned, so edac_mc_free() could
+  free the handler's context while the handler was still running on
+  another CPU.
+- Acquire the register lock with the irqsave variant in init_csrows() and
+  in aspeed_probe(). The interrupt handler takes the same lock in hardirq
+  context.
+- Move the dev_dbg() of the interrupt status register out of the
+  raw_spinlock critical section in the interrupt handler.
+- Opt aspeed_edac.o into context analysis in drivers/edac/Makefile. The
+  check is opt-in per object, so without it the __guarded_by() annotation
+  added by the same patch was never actually verified.
+- Return IRQ_NONE from ast2700_dramc_isr() when no ECC interrupt status
+  bit is set; the handler clears only the ECC bits, so unconditionally
+  claiming the interrupt could livelock the level-triggered line.
+- Tested v2 on both AST2600 and AST2700 by injecting a correctable
+  error with the memory controller's ECC error injection; each is
+  reported as a CE with the expected failure address.
+- Link to v1: https://lore.kernel.org/r/20260812-edac-v1-0-03992edea297@aspeedtech.com
+
+---
+Ryan Chen (8):
+      EDAC/aspeed: Set the DIMM grain
+      EDAC/aspeed: Free the interrupt before the mem_ctl_info on remove
+      EDAC/aspeed: Clean up whitespace and include ordering
+      EDAC/aspeed: Free the mem_ctl_info unconditionally on remove
+      dt-bindings: edac: aspeed: Add AST2700 SDRAM EDAC
+      EDAC/aspeed: Replace regmap with direct register access
+      EDAC/aspeed: Abstract SoC differences behind chip data
+      EDAC/aspeed: Add AST2700 support
+
+Stefan M Schaeckeler (1):
+      MAINTAINERS: Step down as Aspeed AST2500 EDAC driver maintainer
+
+ CREDITS                                            |   8 +
+ .../bindings/edac/aspeed,ast2400-sdram-edac.yaml   |   6 +-
+ MAINTAINERS                                        |   2 +-
+ drivers/edac/Makefile                              |   1 +
+ drivers/edac/aspeed_edac.c                         | 426 ++++++++++++++-------
+ 5 files changed, 293 insertions(+), 150 deletions(-)
+---
+base-commit: 5464985e42c04e335fb30e38fbc409c997db9bec
+change-id: 20260625-edac-8e960e02e7f7
+
+Best regards,
+-- 
+Ryan Chen <ryan_chen@aspeedtech.com>
+
