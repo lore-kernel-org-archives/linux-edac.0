@@ -1,118 +1,180 @@
-Received: from twmbx01.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010025.outbound.protection.outlook.com [52.101.85.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE6B3B42E3;
-	Wed, 30 Sep 2026 05:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.20.114.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790745330; cv=none; b=JlB+4g+SZTjSG4bTWRh7/rEkzELDdKLIZiOr80J52R7WUNIkexnfH0HG5oj5WxNWImhHqTXkwNxqqDgGbNW5B1z8v/zOJaT3NVqUEO6FfeMaksvn5yWcYGUZItWc2lP5AoFCTji0fynxMHSufUeUW0MJWR4qRIedTRlnNeZRXYA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790745330; c=relaxed/simple;
-	bh=yoY/AJV0SO32f/IabKPD/Sgz/CT21v76s8SGciVCT4k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=cLDvRdljUXKY4Y1JFKqmzaN0Zsd/s59fZcwTgFv97mY0HjkRpsgYiG345vfDIB0n5eN9I9QxpWrEeG1Z0p4ki3OUQNeahps7pwdcQHM0FIAbb3pSSa43TqvvlXOL+Q7HALc4R3Ry5aiXZ31peAD2bssYEnL8qkx6ObhQGTJIbK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass smtp.mailfrom=aspeedtech.com; arc=none smtp.client-ip=211.20.114.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 30 Sep
- 2026 13:15:01 +0800
-Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Wed, 30 Sep 2026 13:15:00 +0800
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-Date: Wed, 30 Sep 2026 13:15:07 +0800
-Subject: [PATCH v4 9/9] MAINTAINERS: Step down as Aspeed AST2500 EDAC
- driver maintainer
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49272459AD5;
+	Wed, 30 Sep 2026 07:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790751812; cv=fail; b=VsBkVDF/m/qWDFoKXkviOwi1+LxVZuJkCl4yo3Gp7JuFU6i8Yr132H6d7gOQGJOofuFpi2zaHXF1oGY+dq3k/7D9m6JuwzPt0BJY4K4PAStRWM1ozdRlRRNFzuwj/Bg5344Z5VXFqGTzOXtJDBmLKRMOnFc9r850aEYl2afs3bg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790751812; c=relaxed/simple;
+	bh=LleY10jWVKcioh2cCgFT1XCzTPL49EuhQjhBg3LPyYE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=AwG+1t+cX1rAkXX/M2v/lfg+wB41V1otCDCDW3/FiKfWo1RmS3p2hHY8b0JhM0n9erejzu9lhhkjtck7bml9xLGOmr2lr56pDfbwSXlHmKbTzTuhfI616kfUswiqEC711vh8rLUPz2M2D/XhsUpyEhm5ABw1YBxn5G5J5Wzejb4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1EcJUWZw; arc=fail smtp.client-ip=52.101.85.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1EcJUWZw"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=n5KP66IU/lMNf42l7VsWwAQoFB97WhEya6mGwmv7PK4n+pbsvFy6mhfDDwM24NIJNVKZNQ9dvHCN0TMIyglaLMc4HG2UcKulp9hWtSHEJx/OoiiHeyiAvJK4af4dWZvyRJ0NR1dgAW1DD474a+K6b1aEY2yon+dO1Hikg/GBBgEIvQSctrNnYyBbh3t1da1/tpEBhel8XmuVBsJXGCIJv3RiLwblnETswY6lNtbo0IZZYNliamwgsRkgt9Fk4xM+BDZq5cz37ZA+V8uQmQ1BTZiwKJA9ipyxwXGiFRZ1VG86KA8WZzS4abGS1Rr6vw7mrXnTmIW0gQ/MfjjLNxMo3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TIGqYt8SGKQwTUO8HUhpZPTbl9msBETf/+epdvUAfig=;
+ b=gZKGHS6V9I+Gj4wN3kl45mOOaaw3hBZjvM566G+RWvzl615KAupwhmXh8x7rLOSHPwAp9uIjRn7z30gEA3glao0blpztNZEZkRKkL4b+r+8Tp7H38wHTRC/JQH+7vOD5oLHxOCUjGb1XQOfKe05ObHXzjChcufzgSdGNYjVKNX27m1AjIgRmWcjmoiaJu0g1VNcuky3OWFeeYalx66spqD2wH9A3IKXquNeYTNPHvo1Cdf2Oyg3KczvFRjEcbdL66Tbxx3YS682DE4QDNaZtcqdZi/eFNdmPUc+eQV58Qg+2Fd4wp9M3mPeAuPye6Lvfe0NKG46DZvnAZKSeb1zlLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TIGqYt8SGKQwTUO8HUhpZPTbl9msBETf/+epdvUAfig=;
+ b=1EcJUWZwwXks5oNDUJ4GXRcK034KqNzPSW9UbJxWCf03n9pDu0a+MVTwuUWhvOZyD8O4KeDAVzMsFkJJ9vvQ2LZ66kozaOfZalyqeR2FSdsxBliJNwa41UWWa5D3MkX7wj4gpn0Scec5UnGMMg9hEhZDuUh7EnZNPjdPeb5io7s=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from LV0PR12MB999069.namprd12.prod.outlook.com
+ (2603:10b6:408:32a::19) by SA3PR12MB7903.namprd12.prod.outlook.com
+ (2603:10b6:806:307::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Wed, 30 Sep
+ 2026 07:03:11 +0000
+Received: from LV0PR12MB999069.namprd12.prod.outlook.com
+ ([fe80::6d95:9938:bff0:cd99]) by LV0PR12MB999069.namprd12.prod.outlook.com
+ ([fe80::6d95:9938:bff0:cd99%4]) with mapi id 15.21.0451.026; Wed, 30 Sep 2026
+ 07:03:11 +0000
+Message-ID: <e3c3dd49-a1ad-4a94-81ac-4d5759e847b5@amd.com>
+Date: Wed, 30 Sep 2026 12:33:05 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] EDAC/amd64: Mask UMC chip select to the four
+ implemented selects
+To: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: bp@alien8.de, tony.luck@intel.com, linux-edac@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260928180935.472319-1-Vishal.Badole@amd.com>
+ <20260928180935.472319-2-Vishal.Badole@amd.com>
+ <20260929165549.GA3082391@yaz-khff2.amd.com>
+Content-Language: en-US
+From: "Badole, Vishal" <vishal.badole@amd.com>
+In-Reply-To: <20260929165549.GA3082391@yaz-khff2.amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4PR01CA0035.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:273::16) To LV0PR12MB999069.namprd12.prod.outlook.com
+ (2603:10b6:408:32a::19)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260930-edac-v4-9-c2e526f3ed79@aspeedtech.com>
-References: <20260930-edac-v4-0-c2e526f3ed79@aspeedtech.com>
-In-Reply-To: <20260930-edac-v4-0-c2e526f3ed79@aspeedtech.com>
-To: Stefan Schaeckeler <sschaeck@cisco.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>
-CC: <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
-	<linux-edac@vger.kernel.org>, Borislav Petkov <bp@suse.de>, Ryan Chen
-	<ryan_chen@aspeedtech.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790745299; l=1860;
- i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
- bh=0JAwcCSCddvZK+VJy0ySr5E6GGqKRb6s6URpXuDAV2s=;
- b=SRW3DY/LBt8IbrnG7P+7riWOpQaGuOT3/0PIom3r5pFRAH36Lisy/enbx/1uc4QeqgS2+fxuF
- VPnGrKlRwU9APVSN+LrUJdyuOv+cZpfndUasx6xHg26KZ5cHDL9CVtF
-X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
- pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV0PR12MB999069:EE_|SA3PR12MB7903:EE_
+X-MS-Office365-Filtering-Correlation-Id: f11d8e5c-ad9f-4592-5616-08df1ec0e3b4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|18002099003|22082099003|4143699003|10067099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	wMcjhjc/nCidYy2L0+zjcV1GbJfmbkTKJc4YBEySf/RUUUDp+XptgOePTQmAzxgAwdrPK/yxy5Jw7SmQU0/4EkzaKR7XjJEYKozaVZj5B8Gnb0hN0J9kChjEjcQR4+lOpX70FFOBlnYj4WeuOFhSNEU+nn60NJMn3VBqZW8UYBK/7XOFs9EIEXxchimYQ/vWOLRnE2R50S0STY19mJWdXDPiS1LjtxKz43UBCLB0erhUhBwrmcglpBnxdxwtByXGRXKuBo9gldu5TcAv+swdsmI75HB/3YZzuPDyM1wnQ/5UiRDG7LgR0IKPiU8IC/jWDGmKBMSZEq13pOMMESb/cLz6mQep7Kn4b3ru01TKxQ+8L37Wlu56cm1t6gNNe2XShUkKuc5zUWSTDhEzw1UNTn+C2678J3rLMWPHJEfPbk/DQ1+QAILCLGvWZx9GyaWPp/P8i/Lvqdg5MAcNmGoKKwCjkiRlCxhFkBRS1QJ6TcZEDMYlItF0uh8hzCIG+iJiMzbSVI94+b7d/JBgkeA3dYIN1nudm4N9iphW/+bArHP41sO8OPphH0ePDE/PQH7nWJaAEWGT54IZXOay/zayHe4uZZWa8SSl9gMyadIjz+r6dLfNFTNag4pWPNccQJkcjhMfehA5ZKpbsGzblDK8S41vsVh9PUCyePcyIJa3fnE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV0PR12MB999069.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(18002099003)(22082099003)(4143699003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Q0FWKzBDNy8xaXZqRi8xVjkxdE5YK1BEZFd6REorU2dwZDBjTW9JcUd5SmNy?=
+ =?utf-8?B?aFFhcFd6WlIvbHJ4OWlCRTBmNjJJaUE1U09GWUMzcEV1Qk9meUFwNkdIWWZB?=
+ =?utf-8?B?dlBwVU1YRW95VE5vRHRWT1dTVHIyTVhoQ2gxNDRMQ1lWb1FiYk9NYm9Nc092?=
+ =?utf-8?B?cThpODZmUU56VEtHaFlIWHJPSDVmdmJJUWJJRTREc0JJVHI1MDdta3dKbTBW?=
+ =?utf-8?B?QWdTSG9CcFdrbEJFck1Lem9aa0dBTVRFTmFZZkFESHE4UnpaSkNTOWtXU0dT?=
+ =?utf-8?B?MVMyb1BrK3BweFd3SXBFa3gwRzF5MkVHQ1dmK0ZScFk2US8rQUhveTl0T2Jn?=
+ =?utf-8?B?SGlXSTlxdXNWMnBJRXFobGVYWkxZUDdpM0xCclgxZlVGZmlrTnEySHpIQyt3?=
+ =?utf-8?B?U1ZaN1NRR0VCcGYvMit0eXBya0paN3JxdWI1RTQ5OE1iMHZFWlpyc1hJczhE?=
+ =?utf-8?B?RlpTMkdqWlVITmQxYklKWXc0Z1Zzc0RjRUxHWXdLVE9iRkw0M0hKSWlhTHNp?=
+ =?utf-8?B?dUZoNXN6a2ZHdnhkYXZGVU9abFQzK3E5U1VuOVg5bWt3Rmdja3JHTEk2ZGRW?=
+ =?utf-8?B?L3doYStDYlpPN0R1ZWkyL212WnhEZGIzSmlnRXF5Z013QVphc28wc0I3M2sv?=
+ =?utf-8?B?K1RUcW40SHIvL2NPLzVncVgyOHJsS1lROGFIVzRHNEZjMXI1WUxwdkFacGdX?=
+ =?utf-8?B?R0hVMWRaMGc3V2tJajgwb0xHWko5ODJuRWZ1ckNJRXIrNW4vU2h1STUzanRG?=
+ =?utf-8?B?TmtSUHB2Ky9qYWFreVNGNWFMcEhrWTRMYkd4bnpjVlBGcUFJWjlkbmVDcnNC?=
+ =?utf-8?B?N3JJRVI3S2xuaitibzRJam9KdW5QTU1PMUVWcm9nZVlpZkw5Zm9GQWFlbTZX?=
+ =?utf-8?B?NTNDRWRxVENRaUF4QWQ4U25PVTc5bGx6T3A5YnphYytsbXFPejdVdjMycmk5?=
+ =?utf-8?B?YWo0c1lFaDlIcFZidzJNVVp5Z1ZuK3c3U2dyZ2l3alpBSVBpS2hKdWQzUE9S?=
+ =?utf-8?B?cGM0dkNxSFQ0ejdCUHkxUHdCSTNibHpaWUJhMG5pSU0xZzFPNHdFcllDNGRE?=
+ =?utf-8?B?YlZNTkk2bXpyMitzb0Jqbjg5NW9VT0g0T2JVdHRNVXdqQnRGdmxRbWJ3WFA5?=
+ =?utf-8?B?YzliSlNLOStJME1SRXkxSmNPS3d6c3FaWmgxbFRNZXFQU1FWWkE5RXNrZ1hr?=
+ =?utf-8?B?RmlBbGViMXdqYnpYSXE1TTFVVndvU3VFL2lTQmNZaWZtQlVaWGwwSHluRzFY?=
+ =?utf-8?B?VGhLZG9GNkF5Q1IySUEzenVwMkJkRFJZS2crTW0zMGZBWXE5bUhVSzZoc3p3?=
+ =?utf-8?B?b1JIc1pTdk44cWh3alNmbndqYzJxMCtzY0ZqcVJ4SEJpSkFXcGM5Qkw5QW1p?=
+ =?utf-8?B?cXJhdjZ5NlEvTnJMZWU5UWVwZHByamRuL0FrNHN0SzFUSEx6VXBzT0lsWWZh?=
+ =?utf-8?B?NXdWMHI4WEpoNGxCY3Fqbjd2dkRRcm5YblU3VEd3OHAwam1YbmFndDlKcXl6?=
+ =?utf-8?B?Q3dhVWQxVlllZ3Zhd1JRM3IwNlFGNTBnMVRvMGJXL1Fob3M2a3ZIblpnZnhq?=
+ =?utf-8?B?dHNQcEwvQ3gzMHJMTlVwa2FLbVFYdzM4TWdXVkFhTlhnUEh6b09uV1MzQlh6?=
+ =?utf-8?B?a1I1T0h0Qkp6RStZVzNvLzFMbFpsdEhnMWlXVmlseWhDSXA0L3YwYWNjM2lY?=
+ =?utf-8?B?RmJPcE85VGljTnh3MDhVdExaRnlDUnBRamFyQ3QybDQwak5rTkZmUEhlcVQ5?=
+ =?utf-8?B?a2NpZXJRaXFwcWlTZ29wUTZEVTg4ZW51TEpWaTd5NjQ1RHNoaXAyMWFMZVhs?=
+ =?utf-8?B?aDc5UituSGpDYXFReG5FZmFqL1I4UXhZUkRlWEtaK3FpVi8rd1RVVnFVYkI1?=
+ =?utf-8?B?WnFKRXJDOU9EUUE3VGZaUzlCWW9jcEkvNnErYTIxbHphUjBrdWcwN3dEU1M4?=
+ =?utf-8?B?VW92NXlJSC9aclc1UVV3ZlArYlhWall6bmdLMVRDK1JWNDI1MHpSZHUyYjNj?=
+ =?utf-8?B?MHpJckJMMnV3dXVRMExWRW1QWHpEQUpORis3Q29wTnN6TlA2eHQ1NEovYm9o?=
+ =?utf-8?B?RDZWcGpiTnAxczVXNzdQME1TM0sxYzlMT2NmN3Q2NmduU3BFVkgrNVhDSmZv?=
+ =?utf-8?B?eFl5dUJyNm9yWFNacXRLT3Fkc21nOHY3dy9iU2VqRnYrNmpiaFJsWUZ1eWFE?=
+ =?utf-8?B?cjhEcEw0dkxKNnZGMXorSTVCNXlVMVFFZzBiMXZIeUFrdXdYTjhlNkI0SWl5?=
+ =?utf-8?B?WHk5VkYrSXVzakVCZ0g3b3NIUXZmeEtmTlI0aFdha2ZZMUdaZnhDalJKdlJ2?=
+ =?utf-8?B?amhwdnlzQ3ZBMVFKb2dSYmVnUE1QMjlhK2pYYXdTYmxFbStBclkwQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f11d8e5c-ad9f-4592-5616-08df1ec0e3b4
+X-MS-Exchange-CrossTenant-AuthSource: LV0PR12MB999069.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 07:03:11.5595
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aqP+40yroc19aoM5FRaU6LK3FieSaJRucvbAY2VW0BXt6PLplgxjBkrsxJxTSXceW/QPdQmCZL0AqlBhf4UsJw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7903
 
-From: Stefan M Schaeckeler <sschaeck@cisco.com>
 
-I am stepping down as a maintainer for drivers/edac/aspeed_edac.c and
-Documentation/devicetree/bindings/edac/aspeed,ast2400-sdram-edac.yaml
 
-Move my entry from the MAINTAINERS file to CREDITS to reflect my past
-contributions.
+On 9/29/2026 10:25 PM, Yazen Ghannam wrote:
+> On Mon, Sep 28, 2026 at 11:39:34PM +0530, Vishal Badole wrote:
+>> umc_get_err_info() masks the Chip Select from MCA_SYND with 0x7, a
+>> leftover from Zen 1 where the architecture reserved space for up to
+>> eight chip selects. Only four have ever been implemented, and newer
+>> products document this as MCA_SYND_UMC[1:0] = Chip Select.
+>>
+>> Since only four csrows are allocated, a syndrome with bit 2 set decodes
+>> to an out-of-range csrow and trips:
+>>
+>>    EDAC MC0: INTERNAL ERROR: csrow value is out of range (5 >= 4)
+>>
+>> Mask with 0x3 to match the four implemented chip selects.
+>>
+>> Fixes: 713ad54675fd ("EDAC, amd64: Define and register UMC error decode function")
+>> Cc: <stable@vger.kernel.org>
+>> Suggested-by: Yazen Ghannam <yazen.ghannam@amd.com>
+>> Signed-off-by: Vishal Badole <Vishal.Badole@amd.com>
+>> Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+>> ---
+>>   drivers/edac/amd64_edac.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+>> index 475235c402e8..ec4cc306b726 100644
+>> --- a/drivers/edac/amd64_edac.c
+>> +++ b/drivers/edac/amd64_edac.c
+>> @@ -2802,7 +2802,7 @@ static inline void decode_bus_error(int node_id, struct mce *m)
+>>   static void umc_get_err_info(struct mce *m, struct err_info *err)
+>>   {
+>>   	err->channel = (m->ipid & GENMASK(31, 0)) >> 20;
+>> -	err->csrow = m->synd & 0x7;
+>> +	err->csrow = m->synd & 0x3;
+>>   }
+>>   
+>>   static void decode_umc_error(int node_id, struct mce *m)
+>> -- 
+> 
+> I just noticed that the code comment above this function needs an update
+> too.
+Sure, I will correct it in the next patch revision.
 
-[ ryan: keep the EDAC-AST2500 entry and list myself as its reviewer
-  rather than removing it ]
-
-Signed-off-by: Stefan M Schaeckeler <sschaeck@cisco.com>
-Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
-Link: https://lore.kernel.org/r/20260920225846.4039017-1-sschaeck@cisco.com
-
----
-Changes in v4:
-- Merge Stefan's step-down patch into this one, keeping the MAINTAINERS
-  entry alive with a reviewer instead of removing it.
-
-Changes in v3:
-- New patch.
----
- CREDITS     | 8 ++++++++
- MAINTAINERS | 2 +-
- 2 files changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/CREDITS b/CREDITS
-index 091412875a66..28e5b274bc28 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -3655,6 +3655,14 @@ D: I2O kernel layer (config, block, core, pci, net). I2O disk support for LILO
- D: XScale (IOP, IXP) porting and other random ARM bits
- S: Portland, OR
- 
-+N: Stefan Schaeckeler
-+E: sschaeck@cisco.com
-+E: schaecsn@gmx.net
-+D: Author and initial maintainer of the Aspeed AST2500 EDAC driver
-+S: 2253 Anna Dr.
-+S: Santa Clara, CA 95050
-+S: USA
-+
- N: Eric Schenk
- E: Eric.Schenk@dna.lth.se
- D: Random kernel debugging.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d413dac5c8b3..2001466fd6da 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9283,7 +9283,7 @@ F:	Documentation/devicetree/bindings/memory-controllers/marvell,mvebu-sdram-cont
- F:	drivers/edac/armada_xp_*
- 
- EDAC-AST2500
--M:	Stefan Schaeckeler <sschaeck@cisco.com>
-+R:	Ryan Chen <ryan_chen@aspeedtech.com>
- S:	Supported
- F:	Documentation/devicetree/bindings/edac/aspeed,ast2400-sdram-edac.yaml
- F:	drivers/edac/aspeed_edac.c
-
--- 
-2.34.1
+> 
+> Thanks,
+> Yazen
 
