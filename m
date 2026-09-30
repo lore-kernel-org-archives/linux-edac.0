@@ -1,66 +1,83 @@
-Received: from out28-49.mail.aliyun.com (out28-49.mail.aliyun.com [115.124.28.49])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E007E445AFC;
-	Wed, 30 Sep 2026 07:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D5027FD4F;
+	Wed, 30 Sep 2026 10:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790751852; cv=none; b=HCDrlp1b/ofE4KoUae5fdyWhYzEaJ2F4nq3iBfpgrL6c5YK9E+5xAA0znlWveX4ClW/9dBcGT9piWmCS3tGw78HGHsghS+Nz0jS7D24ec3Vt8MQsRwv2BbACwyJaCVSc6zHVe819vN4+OFuYKK/QPafAdz10HP7WViS/Gjdrtvk=
+	t=1790764159; cv=none; b=fWfk/vF1OdMymbXIyCZY1sZ4L8pqpdbBBsRoQ4qijoJhfPnEtjFUwZJGROQYFE13jy+7fT8hZIrmyd6YgTKBwQqwYb1wUJ2lF5Fe2oQO9uxkzaJQAMoT8VtxY7hx3YB1n5vnCEizXANvPAcOhzO+zoLujtMS44wiwW5kIHmduV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790751852; c=relaxed/simple;
-	bh=Cm2/40osqJcIeeBGxlyJWWFCuIFIM+wGPhLTFCkARwc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WBsr2pK2WjjXcMTJoWvHuhzcH/tQqvTrjTi8vNMXiOwbH9ds1M1Ni68ReA35nyAZhOtRmKii/56mdlDfBGI5hJjeGcvI8fq6zxniioA0+KQmO+4DNmrY2U0qG3mHJhVcYp9IwjpPg+i3b/38TLOIuYznJa/c3Q6cM0G1d+4Nsfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=115.124.28.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.1388332|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0553599-0.00509708-0.939543;FP=7278710166377978061|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033022149254;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=15;RT=15;SR=0;TI=SMTPD_---.jS1YStn_1790751828;
-Received: from 172.18.24.170(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.jS1YStn_1790751828 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Wed, 30 Sep 2026 15:03:50 +0800
-Message-ID: <82811325-5386-4956-aff7-56da37d898aa@open-hieco.net>
-Date: Wed, 30 Sep 2026 15:03:48 +0800
+	s=arc-20240116; t=1790764159; c=relaxed/simple;
+	bh=1baYsbbfYZS51WE4A8LFOMrqN4nBkpMPnZggmujvd8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fgdWeJfAdLEwXIeYllK3YDWSEKU9vaApCKoFdq7PUlgyFA8+9JysOe8JGQI187vuE1mTNL4QzjzC9bA/8Ndxp/ShhOvBT16Bqj4D6pmCHRZPLHMAfYoztBxplJm34DzpX2jwtrluprJRFwUl+1bRSlr1JD8uoOtpYfW7rrlT6t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rg4iIWKJ; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rg4iIWKJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F50C1F00893;
+	Wed, 30 Sep 2026 10:29:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790764158;
+	bh=XdE7q3nbuxshtMAB7rZHdfhP8TS2FQKcq708Ekq6ZOA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Rg4iIWKJbIVfsdUOiUkToOU2NBDSUu8zLOCiRRX0FcMN0vSNQECpv+/TrfAWS9saf
+	 L783MXkcRN+8tfIABRbebXvVZe5y83TJgllf9VgsEYLyccinPxEwSYex+uVAe2UKfO
+	 oVHG8DqmckjZIvHIFQNlnNKIZ37DGArxMnAkp06XqBcEPtFWubjv8vt0+9DIEwmRkt
+	 DKfemNBVx/oV4mSJkCPHxsGJZBO0bYrZ9b69p9uMjQuF2ioumWbqnCaTdqD8NYCvh2
+	 DavmcSIuClcBuFVFOyIMlL2GYBy7cjr2FetbQ9XMdOnWf+KXD0jdtHlUZIZ2CETHsn
+	 jBIEMRNC42faw==
+Date: Wed, 30 Sep 2026 12:29:14 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Paul Louvel <paul.louvel@bootlin.com>, Borislav Petkov <bp@alien8.de>, 
+	Tony Luck <tony.luck@intel.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-edac@vger.kernel.org, 
+	devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	Herve Codina <herve.codina@bootlin.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: edac: cdns,ddr-edac: add Cadence DDR
+ EDAC binding
+Message-ID: <20260930-honest-frogmouth-of-artistry-b8831e@quoll>
+References: <20260928-paul-v7-3-rc1-edac-v4-0-4646a5b7cac9@bootlin.com>
+ <20260928-paul-v7-3-rc1-edac-v4-1-4646a5b7cac9@bootlin.com>
+ <20260929-brave-mouflon-of-enthusiasm-df7efe@quoll>
+ <87cxtw5sbh.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/8] x86/hygon: Map CPU NodeIds to DF nodes
-To: Borislav Petkov <bp@alien8.de>
-Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>, Pu Wen <puwen@hygon.cn>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Tony Luck <tony.luck@intel.com>, Clemens Ladisch <clemens@ladisch.de>,
- Guenter Roeck <linux@roeck-us.net>, x86@kernel.org,
- linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260921055603.25112-1-wanglin@open-hieco.net>
- <20260921055603.25112-3-wanglin@open-hieco.net>
- <20260930030004.GGarx7NIIToO-fWAww@fat_crate.local>
-Content-Language: en-US
-From: Lin Wang <wanglin@open-hieco.net>
-In-Reply-To: <20260930030004.GGarx7NIIToO-fWAww@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87cxtw5sbh.fsf@bootlin.com>
 
-On 9/30/2026 11:00 AM, Borislav Petkov wrote:
-> arch/x86/include/asm/hygon/node.h:81: * hygon_cpu_to_df_node() - Map CPU to dense DF CDD index
-> arch/x86/include/asm/hygon/node.h:95:int hygon_cpu_to_df_node(unsigned int cpu);
-> arch/x86/include/asm/hygon/node.h:138:static inline int hygon_cpu_to_df_node(unsigned int cpu)
-> arch/x86/kernel/hygon_node.c:586:int hygon_cpu_to_df_node(unsigned int cpu)
-> arch/x86/kernel/hygon_node.c:600:EXPORT_SYMBOL_GPL(hygon_cpu_to_df_node);
+On Tue, Sep 29, 2026 at 11:18:26AM +0200, Miquel Raynal wrote:
+> Hi Krzysztof,
 > 
-> So why is this function in a header and exported to no one?
+> >> +properties:
+> >> +  compatible:
+> >> +    items:
+> >> +      - const: renesas,r9a06g032-ddr-edac # RZ/N1D
+> >> +      - const: cdns,ddr-edac
+> >
+> > I doubt this can be used standalone, so I am not sure what is the
+> > benefit of cnds compatible.
 > 
-> Pls export it only when you need it and until then, keep it in the .c file
-> only.
-Right, there is no caller yet. I'll remove the declaration and stub
-from node.h and the symbol export. I'll keep the translation code
-private to hygon_node.c until a consumer needs it.
+> For now it seems that we are not using any Renesas specific
+> implementation detail. The driver actually matches the Cadence
+> compatible. But since we have no other user, and since we know this IP
+> is generic, we preferred to add a Renesas compatible to match the actual
+> implementation of the Cadence IP, in case we later figure out
+> differences with the original HDL. I thought this was the correct policy
+> to apply.
 
-Thanks!
+Indeed I don't see Renesas-specific quirks in the driver. I think having
+a generic vendor-block compatible is not a preferred policy in general,
+because in the past many times it was simply not enough, so was actually
+useless. I guess fine here.
 
-Lin
+Best regards,
+Krzysztof
+
