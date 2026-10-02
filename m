@@ -1,119 +1,131 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013068.outbound.protection.outlook.com [40.93.201.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD113451A7;
-	Fri,  2 Oct 2026 05:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790918407; cv=none; b=Sw5olKgO/vxACCY3XuKZiA/EEUg4IxIl8MHj6C6O6Uvhha3q7owSPjgxUNGqBlydqly7XcmlUVmKzWdm4TYyIntp/Ys5HbIHe+GF7C1BFN8bdqxMpSYLJ3xk6XtwS7hmoLOEKwGrCgsr0mYgJwuUmartwjGLbE/E1RbQwveA1pI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790918407; c=relaxed/simple;
-	bh=lBUFIBmtNPnA/7B0n+Z4pRXRpk+MT2mNw7TJkBlZwu4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cDOYw+TKbXWe7UtC25GOEsVWYFRu91l6lTt5Ishjf1do3dQLKfuAHShUGI64nXCwwUM4lNKOGzMG0ap615CH62G2AuJTaDyzMSXEk9SEOl9pjW5BgVBvqScynx68Urbdy38xt2D2O6Uanq9K9mQyn9rPWMHZ3SH8eZRk4ew6cN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=FPw+0+ko; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3C9370AE5;
+	Fri,  2 Oct 2026 11:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.68
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790940806; cv=fail; b=Lek9ZA9oPMvnR/uXdpL/cm/6Dx8TUFHqisn6hm9CRNguTQWI+VMbZA9Ii8ecSw94ZbcAO4fD1CETVR+lei6Fz4bGfQLxCHPte+P3JGl0mcn9XpZ4jzxWbZHMb7pGa7vLq7vLgiAdfUVxaRMxFsjYK+n4OK2XnTv/AAmKttrc7rE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790940806; c=relaxed/simple;
+	bh=r729t3wJa8shX7LSTlxRStjyU53AJNuxv1FiPbwHS2M=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UJphqdkOA9ZymwN7dF0mqcxz8FW3jiTKJi7guvlwU9XjN2qykGVNZeizJGnBx2rUl5VDhQHjXelTXD1qZ3hKRA+l/tvZ1bcKbLk+btvPao3DFADmya6u4svKZkybYtxCAFhovC7mNytQxaHWpjQAaTcAfMmZd5qEf4noRSD4FUc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=XvFjEFsx; arc=fail smtp.client-ip=40.93.201.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="FPw+0+ko"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8AF9F40E03BE;
-	Fri,  2 Oct 2026 05:20:02 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id PUIQFFFb73Mt; Fri,  2 Oct 2026 05:19:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1790918391; bh=iZGCiopQZoK9nMJNa8qGe84TuqiqoIvvk4HizNQi6Bs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FPw+0+ko6fht8ylkAIVObgKWuCcMRtKuBJ9N++A8hnDlF9+756cs0kliKSfoWPfvy
-	 tKQWQfwvp8THdYbUInPpKgnjCJJ1mBza8GOim6Xv1dhNq3FvA4WCtwR4z1si+W9LcJ
-	 IsLN3KEJS0du8mR0w1d/HWr6GZ6vwUi6JPyErhEwuex3C2J0BtKqpZxOg/6+xQyvc6
-	 Swzr0uGfZwSWfLSzPKMkcWrgoehmtQNdcpcqUSuI6E9fHFYCSOqnFaK/w1iOXgIBFu
-	 5jJBjvtlO1Wz8Bj0tH2FsKFApax/HusbJ0UeBNXZ/UQvtlZ859gQ/9R9Z4RNOi0d8f
-	 JHTGJOlkSG3BSgTYgtEdPwRto06aTeosHeNy39aByLB05zJWMg4B3QzROaEaaZNMiV
-	 LbpOnYOs5RgFMII9zaVcCbKf8hf+yc6TN5uw10hCttKQ9yW04T/jvL2k4IZGZYDpLL
-	 oUSBcZnr4KQsqm9KntEGKvW01sB9fzBHeemY6N3zoBJ/vCWmUbhP3GEHiKVCKB/71H
-	 ZaghANCcEBwxW9ENrnU9l9lNc6IvfK2qAHOUi8h85RZk7RNfXJtMvaSvwNtwNCLTqq
-	 0hKM6QUgnfWDCZATKNAgSToGawXb7aBJ2MfUZeFe7q5iWMoTlYDmC78EGF3ALRgR43
-	 6/xpDwhikmXbhaWVoctMvor8=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 230EB40E00B9;
-	Fri,  2 Oct 2026 05:19:45 +0000 (UTC)
-Date: Thu, 1 Oct 2026 22:19:42 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-	tony.luck@intel.com, x86@kernel.org
-Subject: Re: [PATCH 1/3] x86/mce/amd: Fix bank lookup in
- amd_mce_usable_address()
-Message-ID: <20261002051942.GIar8-7qT6l3mUhofX@fat_crate.local>
-References: <20260903142049.4126599-1-yazen.ghannam@amd.com>
- <20260903142049.4126599-2-yazen.ghannam@amd.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="XvFjEFsx"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LrCKNtfzYnFcRvTJo5Ki/4R0df6O/iV87Pbqj6+MtE0kaXiOoQ66vDAiSZispjhwEOF9Cd4FVNAGmTuJjorPPMNRfYQJsc434bI1wZw2qsKshUoyS1Kc9x28eYbZ5kzxMFU0/mrw31e2CBEM/mXhbLvdd00KeLgnaGHF1LgXSY5MqDfYTlTLchPmBSO2hYmVcpeuVhfaQbQ70S5gcmy3r0syGGzoFcQl2XkxawPkdv1up0w52RbkpC0LxJ+u3Qq68qiMaWzF8U5eT5jok6kLqYoU95uPL/mLjHg4vksw5uQfhaX5GpekE2UVzvtw67l1uYM5rYcP94XPONtKlxpwPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LnW5LN9w0RZaYEwa1D5b5IOLc1L0HXF6tuF/SHWTX/w=;
+ b=K+2f/AyaHZLm4rxzjpwohQqDi2WVfwYDIeZYtezKH+YbPnfn5szIG7VwbnfGI1nj7u+OnysZHicopWHPZx830LMlaMcFWPz/tVqWW2M02NINkG9iUGMncPP9vqLWJs13biO4OaLPrEnS2/it+VQhVOrMnD1+DeACgY7ljWCzJ735gjCBHQCaN5KL3sK6vLkghXU3E0iQ1b46aoyWJLf2nGZ8jSbzGBZ9mNj43EYDjqhb+s6xmvs9vQD+ZPtYF6vnXGRLSq1myfi9S7L4JtOHI7l6eDELSJTSyrk9sgIMy2YDx7T+/Jdzqm1Uz1yRUA9y4dDKql2QxvL6oenyNuAwSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LnW5LN9w0RZaYEwa1D5b5IOLc1L0HXF6tuF/SHWTX/w=;
+ b=XvFjEFsxn3tXRD5x7FZrAsyf0qW3NBOVorf33EcnyUwTpf+MvYxTj+1u4xrrMpjjwdZ+K/0GH3LRluVBIZjKKwr8DAwIqqtMPdsldFJZ1bbx82pYGvgzpXPmft6jSSBVHnpa7+8WXY1+UQ0wI1OSh07pE137+J4Jr/g6hUD9gUA=
+Received: from CH0PR03CA0331.namprd03.prod.outlook.com (2603:10b6:610:11a::22)
+ by DS0PR12MB999290.namprd12.prod.outlook.com (2603:10b6:8:424::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.18; Fri, 2 Oct
+ 2026 11:33:21 +0000
+Received: from CH1PEPF0000AD7C.namprd04.prod.outlook.com
+ (2603:10b6:610:11a:cafe::93) by CH0PR03CA0331.outlook.office365.com
+ (2603:10b6:610:11a::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.18 via Frontend Transport; Fri, 2
+ Oct 2026 11:33:21 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CH1PEPF0000AD7C.mail.protection.outlook.com (10.167.244.84) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.472.14 via Frontend Transport; Fri, 2 Oct 2026 11:33:21 +0000
+Received: from airavat.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Fri, 2 Oct
+ 2026 06:33:18 -0500
+From: Vishal Badole <Vishal.Badole@amd.com>
+To: <bp@alien8.de>, <yazen.ghannam@amd.com>, <tony.luck@intel.com>,
+	<linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: Vishal Badole <Vishal.Badole@amd.com>
+Subject: [PATCH v3 0/2] EDAC/amd64: Fix UMC csrow decode and consolidate Family 1Ah setup 
+Date: Fri, 2 Oct 2026 17:02:02 +0530
+Message-ID: <20261002113204.3358815-1-Vishal.Badole@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260903142049.4126599-2-yazen.ghannam@amd.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD7C:EE_|DS0PR12MB999290:EE_
+X-MS-Office365-Filtering-Correlation-Id: a4ff1286-edde-46c0-21ed-08df2078f663
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|1800799024|82310400026|376014|36860700016|18002099003|13003099007|56012099006|11063799006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	Da487+kG+qvmBDMwvY6oAVrcUI89Wekz3aUppkoub3c8Hfj2At0mkoppgSKe1MqtiUixnU8Z0xEyPzZkaJdIUx7bjKY0WS5dXLDDEuUc83qyx7vpV11m8pyQt4m3+MZPksyYLJeINF75vn91OLSN0nNu9aJVZ1m15I1LeYYl/CcsyzCpoCpobz34AUn1S7ynirFLB1XozRUcviCRkeVAznBF+xNULGCNXB9ylDL+bHt36IHvO+/aBK2mKn0hcNdd6aN42UzleDh92rZ5KtpQPfpicGk2Qeyr2UGAQQ7kMaHXzijQthuVRmfcyL60+AblSBjMhpPXmvQ6fSA7RbSM3V23aETT2Pqdw0O0uAvIxA9t6a61lxhd+LcrHvPf2o2ZNlyHn2RaabgUQ4ynhkz36gywWWdscNNQCq2rOFevaTZ4UJKkpVdh7dXJ66lxsQ7LnlmsQEwM/PCMOw81f2jsXW1g+w8aWVrJGzEmsFdia6WBhgdHmrJsKOWr257DFgU3h/nIFYhtPkgZA3RlYaAlSLFe/FzNpKBxTUXm5FUr/OO01BUeR+j6yBcqofwxsfgiUtKrOisFlavRsLAZ0BoEsIUMuRA62xFbhRSPP8ZtGPXuBH6GFhT1PS4EgmuITIUaPMpqNJW7TxSwhv8o4oBdxgejprq+FNVimuGXqg11wuniIRwneAvlN+/1zZ0fD5+CeoDfRs0bXs/dynvmYVBCBg==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(82310400026)(376014)(36860700016)(18002099003)(13003099007)(56012099006)(11063799006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	VOCJwUuAAoXkTQMJpMLtJV79LrackdMaulv35wJ5Za7BFapnXYBd0q+0+tA0Wl+7CTw2DuXBWxyxZjEqcSmvQH8kwLSsQq8+55KxfZKARpcNpqpLQXS2d+4tUTHSOTu52+HGV3EKINrQuAmAv8xCh/5TVj5N2YraSIzCCTMGHh8OK/tojSus0IxvWLt8SCREn2Vk1pyCkrnszOzRH/hTr7Rojo9hFu4VcwI4LrXahheWlzxI2jO+zL6VGyuXzPF0gq9CqNxrwoqivRAYAkUF6i+ptmUbodavv18B9J9dBuC5ow4uEZf3WYPC5XTRjdzys38yo4KK9BRTkQ+sP7KaFt9s42ZdK9QDG7gw96CaXlFt7CPUX8sLM+u0zocCuE1zh20NNLuJZNX6CGh493iUB6F9f/1Ji+DwVKJ/igHv1xRPz0XeT1wUca9A7DlzWDOg
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2026 11:33:21.1218
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4ff1286-edde-46c0-21ed-08df2078f663
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH1PEPF0000AD7C.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB999290
 
-On Thu, Sep 03, 2026 at 09:20:47AM -0500, Yazen Ghannam wrote:
-> amd_mce_usable_address() reads the per-CPU smca_banks array at index
-> m->bank on the running CPU. The index is not checked, and the bank
-> belongs to m->extcpu, not to whichever CPU is decoding.
-> 
-> m->bank is unbounded here. apei_mce_report_mem_error() sets it to -1,
-> which is 255 in the u8 field, and apei_smca_report_x86_error() takes it
-> from a firmware BERT record. Both reach this function through the
-> decoder chain, which runs from a workqueue on any CPU. Bank counts
-> differ per CPU on SMCA systems. So the read can land past the end of
-> the array, or on a CPU where that bank means something else.
-> 
-> Use m->extcpu for both the bound and the lookup.
->
-> Fixes: 821f5fe4dbcb ("x86/mce: Add support for physical address valid bit")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Claude:claude-opus-5
+Two small amd64_edac fixes/cleanups for AMD Family 1Ah.
 
-...: LLM
+Patch 1 is the fix: mask the UMC chip select with 0x3, not 0x7. Only
+four chip selects exist, so the old mask could decode an out-of-range
+csrow and trip an EDAC warning.
 
-For all three pls.
+Patch 2 sets zn_regs_v2 once at the Family 1Ah level instead of in each
+model case, so future models cannot miss the v2 register layout.
 
-> Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
-> ---
->  arch/x86/kernel/cpu/mce/amd.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
-> index f916fb4c5d13..e6542e00dc5a 100644
-> --- a/arch/x86/kernel/cpu/mce/amd.c
-> +++ b/arch/x86/kernel/cpu/mce/amd.c
-> @@ -837,7 +837,8 @@ bool amd_mce_usable_address(struct mce *m)
->  			return false;
->  	}
->  
-> -	if (this_cpu_ptr(smca_banks)[m->bank].paddrv)
-> +	if (m->bank < per_cpu(mce_num_banks, m->extcpu) &&
-> +	    per_cpu(smca_banks, m->extcpu)[m->bank].paddrv)
+Changes since v2:
+ - Patch 1 (fix): Simplified the commit message and updated the code
+   comment.
 
-Except that this conditional turns into an unreadable mess now. IOW, split it:
+Changes since v1:
+ - Patch 1 (fix): Added Fixes: and Cc: stable, and move the fix first.
+ - Patch 2 (cleanup): Updated the commit message.
 
-        if (m->bank >= per_cpu(mce_num_banks, m->extcpu)) 
-                return false;
+v2: https://lore.kernel.org/all/20260928180935.472319-1-Vishal.Badole@amd.com/
+v1: https://lore.kernel.org/all/20260925172639.97063-1-Vishal.Badole@amd.com/
 
-        if (per_cpu(smca_banks, m->extcpu)[m->bank].paddrv)
-                return m->status & MCI_STATUS_PADDRV;
+Vishal Badole (2):
+  EDAC/amd64: Mask UMC chip select to the four implemented selects
+  EDAC/amd64: Set zn_regs_v2 for all Family 1Ah models
+
+ drivers/edac/amd64_edac.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
 -- 
-Regards/Gruss,
-    Boris.
+2.34.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
