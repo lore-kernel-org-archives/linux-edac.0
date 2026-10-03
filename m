@@ -1,140 +1,106 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7F72D9797
-	for <linux-edac@vger.kernel.org>; Sat,  3 Oct 2026 22:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188BC39F17F;
+	Sat,  3 Oct 2026 23:17:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791066087; cv=none; b=OVvLHUM3Ppa9QOFdrtJ18Sxwny9Jzmt5/N8Gh0F0pVTzQRs5fipcxmZejuQOlEjpkq/JM+1Qmj+hKntWIV3k9it8SdjgO4tYdcmPyLcYyU6u0QFL/DUDD42NEChX2T7QZQ1VPOX3btNKTyt8eWS9qR9LfjKxo8w6rv8P05tt5H0=
+	t=1791069451; cv=none; b=MMyu4BY77Z+ZYbjWUeziZ6wn8Ffz6xYoUiobqFLyctAj+hR4NwTRKh/AP6gSnHjzn49yYrnLj105uDjpwiR8NePCBidfbupG+2Awbuhn8UqmjKPCAugdjRO7lBl+3t9DoXzTE/49mibCmkfSYftuAUdqcS3oe1lALJ1T+xTU6SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791066087; c=relaxed/simple;
-	bh=GqP1kw14JkewxSUQle72wM0zScwoml5WzU48eNYPO/4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NOeBmEQnUnLab9Na9k38jcOJNli/Ox/eQBmXr55UlHiI3P2NuKG1FsD9R5AYafq8iDHy1LF8s9KeeP5BCtMEG/Cdy7utZ2C2IxI0kaE/ylGQEc2lJYIa9N/BI42/TPQQyA3qvHnqXnkKnABJ1TnuZxPr7lfuKWtu45Zvavsmmeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=adrianschlegel.com; spf=none smtp.mailfrom=adrianschlegel.com; dkim=pass (2048-bit key) header.d=adrianschlegel-com.20251104.gappssmtp.com header.i=@adrianschlegel-com.20251104.gappssmtp.com header.b=n0yS86oO; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=adrianschlegel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=adrianschlegel.com
+	s=arc-20240116; t=1791069451; c=relaxed/simple;
+	bh=CWHKXXC5uOb9xIAN4f41S4t5Zw/bnluVTKZw0ImQJQk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HKvTterX0tlRWkJaJNxS9ROPiHG2EaPWGoRu+8UfIu+veE89RPmCFV6qsGW1OJ9PcQ7cpERNycws4yfi9fo2aSBjUe9CBFAk3BI8xjJETsWC2mXsnjk19VsCzLpYVHK7pScD8ui2o+LBohA4Q2OkdrZt1ksD2bTIjjHfszlRY9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=A5FTc9pm; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=adrianschlegel-com.20251104.gappssmtp.com header.i=@adrianschlegel-com.20251104.gappssmtp.com header.b="n0yS86oO"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-4a01ff8c098so5130945e9.3
-        for <linux-edac@vger.kernel.org>; Sat, 03 Oct 2026 15:21:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=adrianschlegel-com.20251104.gappssmtp.com; s=20251104; t=1791066084; x=1791670884; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=nSz2kVU1/aiGRRcK39q9ZWYO77RTsz6YoD59coEe4vY=;
-        b=n0yS86oOTFH2DgJYPhVuFoNAJc1WqALWiVnyjQ7kM2ITaZuQi3mPDtcKPm8bEL/ZaZ
-         SaCagJjSIwkoyZitGQIbxQRWgP0toNyFrDEL0wQ8s17w97v8OrPe0oI/VxgpBBl3IQ7j
-         LwycGo93/c7zQyyjwYsR+G4FzoeasqFXq7FZpjQeRFyp8ZxxsAvGq3LezUtzj5gPa3dF
-         nyPV/QwckhWAN60Hbes+j1qErctymLQ6VKqLVOVJCFMijn17IFQp4bFSCEu15/3vByBF
-         eB6ZFaCjPMHaz3J0WON4z7k3itWbFcoj63pW1JZ5xRi7vvK+2W6zGGLJDplBcoVl04x7
-         Zeyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791066084; x=1791670884;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nSz2kVU1/aiGRRcK39q9ZWYO77RTsz6YoD59coEe4vY=;
-        b=en4Q3oQKqUaAb8M5UcKyT8pbDzJZPuHh/BWq++Dterr/9n15RSP4rxkes/nNl+yERi
-         ri+2mSwKTI3KQDC5hRtMn/JocfV3YFp7hhtvAO9HMuKMnWRQ3VC/7NpSObqrew23tbO8
-         h+GgM8xvLH6oe3jOUcVQocnuMNRTDgJaTdnpOyxnLQvJt1YzglxrBzmvNhUIj5hF6JvQ
-         IhKUQKXWwGEVtRyu9YCqhlUyj0JoeS+uR26raY4zw5O2iLv/MFoGxZodq1mtlhSbMbF8
-         mUfop41fdjzAhUOY3TWTax9cJNN/wAYUtoQxvLKmAbAE6TOl5bq4nmZxBfCHlZ2o5Mv0
-         HY4g==
-X-Forwarded-Encrypted: i=1; AKwUvBxWk/9kD8xqDPzoPxOYi94U5jv15MKhUL9WnRt4sd+tgqhZ5PP8JZIuOb+Uz3MPoK/cZNn0QeJ3mvaJ@vger.kernel.org
-X-Gm-Message-State: AFuF++mg0Qw5YXBnCju1fgKtkRlR4so8srTc0Kpd68q8OhgcSmiKIEiC
-	xWEsHGcBTdLV23apnoY5qXcWcCQNfmZmNTVI2F2ytplt4Use89meKmS3nVea8FJvCoXZXsiqINt
-	9YReBHQzLuvXOUg==
-X-Gm-Gg: AYBFou3gpyqBLz7TrKEgpiD2DrclvqtyvZ2AJB7RM+YeFSSqiw1gLmEdZYsCdn07Pme
-	UIyqp/f+6u1c/8rdf1rt6ukWD332+eVueAyFjIJOJmsWbus+FW2N0JZSSqpMbnqsY44wHSG+Y4P
-	Es4cZHM7BYColpysIJ5izRVa+UChuaDBRTm3NQg1vJVFXE5ofUeCvAFCaqxnii3bDK1PFxuRUKF
-	U3MfwHD2mhEcRu7ancEW0GzFVd8qFRC/aRHVBQgFXOHNJUgnelkMwrU6oF1O15mv0obPyd8rckn
-	rEqNG7x8QHtYz8FotS0b9g+NzC4nssYPx+7ysr2IoFSr5FzvQK28Dj9jAURMS+/GjyF73aKW88a
-	aqtFE4WfeDNqS6+B3SLowa8LEhTfAK4Zb1keLg7LXiabSBzpY4raWE3Dn5vMHCsGcmvkjJY8PHd
-	FT+yFR6zagSZ6Ay/CivPguHfiTo/GK0ZA6WGYG0m9sNE3rbuboZBsEZCN4TVRZNIsYemiIe7TVy
-	/eOFe2HpZPcJjgxj7lc7yLQ+x/T/phMs1wDP5Ap/g==
-X-Received: by 2002:a05:600c:3152:b0:4a0:2500:2cd0 with SMTP id 5b1f17b1804b1-4a0275977eamr111245305e9.18.1791066083939;
-        Sat, 03 Oct 2026 15:21:23 -0700 (PDT)
-Received: from Adrian-Arch ([2a02:168:96c6:1:452b:38d5:263b:6319])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0316b2524sm242906545e9.1.2026.10.03.15.21.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2026 15:21:23 -0700 (PDT)
-From: Adrian Schlegel <me@adrianschlegel.com>
-To: tony.luck@intel.com,
-	bp@alien8.de
-Cc: x86@kernel.org,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Adrian Schlegel <me@adrianschlegel.com>
-Subject: [PATCH v2] x86/mce: Do not treat cache hierarchy errors as memory errors
-Date: Sun,  4 Oct 2026 00:20:12 +0200
-Message-ID: <20261003222012.19685-1-me@adrianschlegel.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260927151904.30524-1-me@adrianschlegel.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="A5FTc9pm"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id F1B2040E02A8;
+	Sat,  3 Oct 2026 23:17:25 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id bs3J1h_PiT5z; Sat,  3 Oct 2026 23:17:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1791069435; bh=mdkHnY29Sj9s2VkTeuMkQJj722InSALx4gPP9TGUIfw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=A5FTc9pmrS9B6iDTAnay4NYcmOCcUExdeL0ySHr9xS/8lIuIFRGmxEbYm4z14c1ft
+	 MGKzZouOFv29mlQk5f81zEu8ZuPL9nR4xMecLbrRA2UWlBCTlB5i9EmTqKqr3lrxMC
+	 p0D7q2VQq/P5LaNP0ALMUDmIJv+GVwb1Bar53R9roHOF1pSp9szdWr2jwHLjHMW+9l
+	 Q9bikLhg7IefwqYp85TVI2QZUZu5Z8D38ENjANabmZ9RfzjNlF0ERmM7pNuV5vyUn/
+	 qfQO2y6v0pwmBj4brSbEdlrPcVpCfZmSv7Uw119NKYpSlCcJIbG/d2wGcQc+i1GKz8
+	 qzxZfdhzyYTLEwcThYRKkYROIhPLYoJZsw3heAWeHVCNqIQWOVhTPw1ZTqGyar8VwJ
+	 KtBUMP/PIeP5OaudEZhxwLdf9v024lrn18990B71Q2ogRGahq8TEI/BjvhhJCWiXdc
+	 30iAJ4avVNZGbC2C26acJLYkJBgXpUEZ/0qeJoQsWDthGXMaU+3iIkRGt9gnBwHXct
+	 bJIgUp7i4PKmcNj7+ZHsC5KXC9telK0ynt/FOCHVXL4olqqbOp9NZWQf+NLuaYQ3Yt
+	 8GynOlFhxCWs/JdbSb7orW+FQbqzrNq+006xwUgxsvQWs65RLWegTrR1Cs/pS1Cm+W
+	 mCplcyrHikZrxgV8pk7T0diA=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2393740E021A;
+	Sat,  3 Oct 2026 23:17:10 +0000 (UTC)
+Date: Sat, 3 Oct 2026 16:17:06 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Adrian Schlegel <me@adrianschlegel.com>
+Cc: tony.luck@intel.com, x86@kernel.org, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] x86/mce: Do not treat cache hierarchy errors as
+ memory errors
+Message-ID: <20261003231706.GDasGM8vjstliIosnK@fat_crate.local>
 References: <20260927151904.30524-1-me@adrianschlegel.com>
+ <20261003222012.19685-1-me@adrianschlegel.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261003222012.19685-1-me@adrianschlegel.com>
 
+On Sun, Oct 04, 2026 at 12:20:12AM +0200, Adrian Schlegel wrote:
+> On Intel and Zhaoxin, mce_is_memory_error() returns true not only for memory controller errors but also for cache hierarchy errors (MCACOD 000F 0001 RRRR TTLL) and generic cache hierarchy errors (000F 0000 0000 11LL). The cache hierarchy checks were added in commit fa92c5869426 ("x86, mce: Support memory error recovery for both UCNA and Deferred error in machine_check_poll") for uncorrected errors. All callers of mce_is_memory_error() expect it to report memory errors only, as its name says.
+> 
+
+$ cat /tmp/new | ./scripts/checkpatch.pl 
+WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+#14: 
 On Intel and Zhaoxin, mce_is_memory_error() returns true not only for memory controller errors but also for cache hierarchy errors (MCACOD 000F 0001 RRRR TTLL) and generic cache hierarchy errors (000F 0000 0000 11LL). The cache hierarchy checks were added in commit fa92c5869426 ("x86, mce: Support memory error recovery for both UCNA and Deferred error in machine_check_poll") for uncorrected errors. All callers of mce_is_memory_error() expect it to report memory errors only, as its name says.
 
-This is wrong for corrected errors. A corrected cache hierarchy error means a bit flipped in the cache and was fixed there. The reported address only names the line that happened to be cached. The CEC still counts these as DRAM errors, and with the Intel action threshold of 2 from commit d25c6948a6aa ("RAS/CEC: Reduce offline page threshold for Intel systems"), two such errors on the same page are enough to soft-offline it.
+total: 0 errors, 1 warnings, 23 lines checked
 
-This was observed on an i9-9900K without ECC memory and with a faulty core. Bank 3 on CPU 1 reports thousands of corrected cache errors (MCACOD 0x0135, 0x0151, 0x0179, ...) with addresses spread over the whole physical address space. Within one hour the CEC made 502 soft-offline attempts on 159 distinct pages. 453 failed because the page was in kernel use, the others took healthy pages offline:
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplace.
 
-  RAS: Soft-offlining pfn: 0x24f6c8
-  mce: [Hardware Error]: CPU 1: Machine Check: 0 Bank 3: cc5ffdc000100151
-  mce: [Hardware Error]: TSC 21903b589a2 ADDR 24f6c85c0 MISC 2516485
+"[PATCH v2] x86/mce: Do not treat cache hierarchy errors as memory" has style problems, please review.
 
-As a result, healthy RAM is lost until reboot and HardwareCorrupted keeps growing. Pages that cannot be offlined are retried repeatedly, and the log messages suggest failing DRAM while the defect is in the CPU.
+NOTE: If any of the errors are false positives, please report
+      them to the maintainer, see CHECKPATCH in MAINTAINERS.
 
-AMD already restricts this to DRAM ECC errors since commit c6708d50f166 ("x86/MCE: Report only DRAM ECC as memory errors on AMD systems"). Do the same for Intel and Zhaoxin.
 
-Fixes: fa92c5869426 ("x86, mce: Support memory error recovery for both UCNA and Deferred error in machine_check_poll")
-Signed-off-by: Adrian Schlegel <me@adrianschlegel.com>
----
-v2:
-- Fix mce_is_memory_error() itself instead of adding a CEC-local helper (Tony)
-- v1: https://lore.kernel.org/r/20260927151904.30524-1-me@adrianschlegel.com
+do a
 
-Tested with mce-inject (sw) in a VM with an Intel CPU model. A corrected cache error (status 0xcc5ffc0000100179) is no longer counted and its page stays online. A corrected memory controller error (status 0x8c0000000000009f) is still counted and its page soft-offlined.
+git log arch/x86/kernel/cpu/mce/core.c
 
- arch/x86/kernel/cpu/mce/core.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+to get inspired about how patches should look like.
 
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index ab469605f..4d2ace76a 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -542,19 +542,11 @@ bool mce_is_memory_error(struct mce *m)
- 		/*
- 		 * Intel SDM Volume 3B - 15.9.2 Compound Error Codes
- 		 *
--		 * Bit 7 of the MCACOD field of IA32_MCi_STATUS is used for
--		 * indicating a memory error. Bit 8 is used for indicating a
--		 * cache hierarchy error. The combination of bit 2 and bit 3
--		 * is used for indicating a `generic' cache hierarchy error
--		 * But we can't just blindly check the above bits, because if
--		 * bit 11 is set, then it is a bus/interconnect error - and
--		 * either way the above bits just gives more detail on what
--		 * bus/interconnect error happened. Note that bit 12 can be
--		 * ignored, as it's the "filter" bit.
-+		 * Memory controller errors have an MCACOD of 000F 0000 1MMM CCCC:
-+		 * bit 7 set, bits 8-11 and 13-15 clear. Bit 12 is the "filter"
-+		 * bit and is ignored.
- 		 */
--		return (m->status & 0xef80) == BIT(7) ||
--		       (m->status & 0xef00) == BIT(8) ||
--		       (m->status & 0xeffc) == 0xc;
-+		return (m->status & 0xef80) == BIT(7);
- 
- 	default:
- 		return false;
+Also:
+
+https://docs.kernel.org/process/submitting-patches.html
+
+and
+
+https://docs.kernel.org/process/maintainer-tip.html
+
+Thx.
+
 -- 
-2.55.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
