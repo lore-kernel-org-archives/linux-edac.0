@@ -1,64 +1,66 @@
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3096414420;
-	Sun,  4 Oct 2026 17:51:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137334A8FD7;
+	Sun,  4 Oct 2026 21:22:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791136272; cv=none; b=tZMxBdSdf9JeXwyag/uEo0T1USy+CP0iTwNaVhlGnKnyQeOfT0Yr9VNjQrOD19l5gn2bTdsiVa624Xy/lFpznfQxzjJ0dABrTmJPwGSZl7dfbf4T5jLNYFnOZDwIN2uyca+h9WX5InjWBC8YoifTIa4lkO+GANFflM4U/IFJXoU=
+	t=1791148924; cv=none; b=qvXJXSwS2zjCNdYaKO8eXMObIsr5YgQhOMcLF7Qj57rk4j6NOG5akZS7/8IBGKS0VnBLMSUG5kMSbQTOJ+6sdgHqZPVXMH0Mg68QOH4bcxMC/Avy+S2FQhLV1Ow3GK1CnguCW4snioJvqFGK3z9oUkXnNzsbDIUB8rGPtAQhRT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791136272; c=relaxed/simple;
-	bh=bSRqYSiG8cm8JeD0ZHg1F1jCtgcSQWKx8GuwlwpRUZE=;
+	s=arc-20240116; t=1791148924; c=relaxed/simple;
+	bh=ZZUr2+umJzdSVriIYIyQr6rMBME1tWhOMTyAgyqV5HI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KnNlnvbpfYQvz8qCZ+bqKv/Rp5BXB0/u+PM+J585PsPpK5FWvyJjjvCUMj+xOlLgIY4r5y4WFzLf9B6Ca7ZKEsDBXpUvesMD+q58iii9QP6OVmDj2/Ibt+C1LGspKLOj0dW21r8ybe/E0N+ukaE3MdeNtMTeGdBAp2aH6dO0FEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Er9z8Dm5; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=oUNb9tVTlpK2uksQkVpPe3sSm3kKSEqvPOCXjzaaaTNacmuTo5OGEY5WGUnt5NFGUlxIvqA1LFWNawVNbCiwRLaExrQ1NXbzqA6Hj2B2dEIncz0OZagK5fo8N9JbMV+AmzpN5btmYD5Hl6TAscfYWq6jR2eCb7lS0y5P2U/4FqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=OERElRgK; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Er9z8Dm5"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="OERElRgK"
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3C68340E02B3;
-	Sun,  4 Oct 2026 17:51:07 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5775340E015B;
+	Sun,  4 Oct 2026 21:21:59 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
 	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id tmS11KGYzn1e; Sun,  4 Oct 2026 17:50:57 +0000 (UTC)
+	with ESMTP id 5OJwn_BmlW23; Sun,  4 Oct 2026 21:21:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1791136257; bh=xpY2VretqJoxHmI7Stssjy7eeYaINM6kjBfxKH+WLC0=;
+	t=1791148908; bh=FVeBxV3npQhGFjd3cFphrrfxu61g0yoUdtS4oHH6rZ4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Er9z8Dm5daaK1OhydqLygbNiC11HjSwdZSVM7DsaTrmEv+8yGzdnaGt+RwTw6RLMc
-	 SUw9GrYImiCaICG0KxIjPD0nTZ5U1taS26g/xiPMLqjECIwNeCk87k1JyJEbafh8HS
-	 IRpCZ72Pdw6pqMxh6FbGe5t18l3dJHNN9IrFUdq8WDFoyyCe9GSG3TuFVKJuTDQOKm
-	 zy6Diw+UCC2EBhnEAtNeW8LEqOfA8S9wWynAqy9mFqJnF8L/qreP5xH9ZaKtXn+Rfi
-	 S58qXYSQzpxBGriJ+rh58guiZVg7ihiyggvwJRQwMF19H41G0y1IF4ML+d6p/6p+XR
-	 9OY7FoOcdQDegT8E7kq/r1EXalvOaMpJ3+pJqMc0Mwn+WhwgkKHaoMXQc33gnXGiPY
-	 L/Z1bQwrl1LPPcLXKqJFVPKdCaTkcHuV8xWWIStgnmLU62XZ6P9Vbf8+Y4KCOx0k5w
-	 a/+EiuaabCu/0B46HDGSY8FpUV/yto5N+QIZH0t4EcCpG3RNMEI7E/r8mFMoQFIscy
-	 J9WtduxBLlRs/PE8g7C2jBbDjFRM72NlicMZQF2WgmkNZdjII1mQCoSUQEefH4Pdg9
-	 od+9X1r9tnaQLW3Fv0DbFxcIRROXxzhKX8DzdK6T9x7PuHBZgGhmgo0p5jEnY5J2AV
-	 QFDtLSWevEDOna3zyRh4FcDU=
+	b=OERElRgKK6gtkWWOo+K4+GMnCersfdUlQm+1L0vPIjEhTv+MCfX4edU8Zt2nymUSz
+	 1jHn1zY5YQXGvUFsETIG6ipvl5c+KA+MLyF2uQ+wnRBjQWWML1KwdzCbP3ap2GY0Tw
+	 2N1cqe9YCVqUtrrMQ58CwPd1mxKhOQi5u0XXyHJFEdcuc+kKFuxYFmTtBJp5zostnk
+	 EJvMbRBCHGu7Mwtrw/dcAb9YcrJplgCwONsj2CzWTr1b092uTKHCEhWm6OLQ23wqx+
+	 KFreX4bbI3ZteCBluDZKHp6UjylnZYH/nqKV8bfPltIuop9nPaY73yQg3adUDZk62y
+	 uJch4X8Jnt8fe0jhivKuxMYEiNcT5144XISF9XKEjRF+spqJft1Vb+tQ1cUzCeJncI
+	 Gab3TgOtGdPGC9nb0sd4avZIqaKzX+jK+T+7KRUFULEtXxJE3adpW90sXwbvkvgn3W
+	 6N690BoNgE404Paxi6N564DikidG/3TdzEBbzH+FoCGCWnzZf2eBJB1j8CiVS9OsP3
+	 1kk9P7aTbQszbcf3JiEx+xAI/ynzwBi2S+1jNECoSQmz9rm2TjMiIjatj2yUrznWdV
+	 FGkMOjJokT7L2+I6ofWmL0YbO4+mvAa4Q0fvwCmI83G8kXMPuVNuadroeIlqrQ3vdA
+	 EjHY+Frg8Nh4AJk02iARaYac=
 Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id ABA4D40E015B;
-	Sun,  4 Oct 2026 17:50:51 +0000 (UTC)
-Date: Sun, 4 Oct 2026 10:50:48 -0700
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DF11F40E01B4;
+	Sun,  4 Oct 2026 21:21:33 +0000 (UTC)
+Date: Sun, 4 Oct 2026 14:21:29 -0700
 From: Borislav Petkov <bp@alien8.de>
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: Vishal Badole <Vishal.Badole@amd.com>, tony.luck@intel.com,
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] EDAC/amd64: Set zn_regs_v2 for all Family 1Ah
- models
-Message-ID: <20261004175048.GBasKR-AA6kPKnbgEa@fat_crate.local>
-References: <20261002113204.3358815-1-Vishal.Badole@amd.com>
- <20261002113204.3358815-3-Vishal.Badole@amd.com>
- <20261003012238.GCasBY3rN9K8ps1dDR@fat_crate.local>
- <20261004151447.GA2673@yaz-khff2.amd.com>
- <20261004160412.GAasJ4_AhYcuacY6ZM@fat_crate.local>
- <20261004170525.GC2673@yaz-khff2.amd.com>
+To: Ryan Chen <ryan_chen@aspeedtech.com>
+Cc: Stefan Schaeckeler <sschaeck@cisco.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Tony Luck <tony.luck@intel.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+	Borislav Petkov <bp@suse.de>
+Subject: Re: [PATCH v4 2/9] EDAC/aspeed: Free the interrupt before the
+ mem_ctl_info on remove
+Message-ID: <20261004212129.GBasLDWZyMyVNXIKmq@fat_crate.local>
+References: <20260930-edac-v4-0-c2e526f3ed79@aspeedtech.com>
+ <20260930-edac-v4-2-c2e526f3ed79@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -67,32 +69,80 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261004170525.GC2673@yaz-khff2.amd.com>
+In-Reply-To: <20260930-edac-v4-2-c2e526f3ed79@aspeedtech.com>
 
-On Sun, Oct 04, 2026 at 01:05:25PM -0400, Yazen Ghannam wrote:
-> I'd rather we load unconditionally for all models with the same base
-> behavior using sane defaults. Then we can have model-specific patches
-> for variations, if needed.
+On Wed, Sep 30, 2026 at 01:15:00PM +0800, Ryan Chen wrote:
+> The ECC interrupt is devm-managed, so it is only released after .remove()
+> has returned, and masking the controller does not wait for a handler
+> already running on another CPU. edac_mc_free() can therefore free the
+> mem_ctl_info the handler uses as its context while it is still running.
+> 
+> Fix the ordering and synchronise by freeing the interrupt prior to
+> releasing related memory.
+> 
+> Fixes: 9b7e6242ee4e ("EDAC, aspeed: Add an Aspeed AST2500 EDAC driver")
+> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> 
+> ---
+> Changes in v4:
+> - Drop the Cc: stable tag.
+> 
+> Changes in v2:
+> - New patch.
+> ---
+>  drivers/edac/aspeed_edac.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
+> index 83d60414f89a..e05ebed5c2f2 100644
+> --- a/drivers/edac/aspeed_edac.c
+> +++ b/drivers/edac/aspeed_edac.c
+> @@ -359,11 +359,16 @@ static int aspeed_probe(struct platform_device *pdev)
+>  static void aspeed_remove(struct platform_device *pdev)
+>  {
+>  	struct mem_ctl_info *mci;
+> +	int irq;
+>  
+>  	/* disable interrupts */
+>  	regmap_update_bits(aspeed_regmap, ASPEED_MCR_INTR_CTRL,
+>  			   ASPEED_MCR_INTR_CTRL_ENABLE, 0);
+>  
+> +	irq = platform_get_irq(pdev, 0);
+> +	WARN_ON(irq < 0);
+> +	devm_free_irq(&pdev->dev, irq, platform_get_drvdata(pdev));
 
-I'd rather not because I keep getting all those: amd64_edac doesn't load on my
-machine reports. Well, after a while it turns out that it should not load
-there in the first place.
+A couple of things come to mind when looking at this:
 
-And then there's the managerial checkbox patch which needs to add support for
-their new model just because... does it even make sense to add support? Oh, we
-didn't even think of that but it says "Unsupported" so we thought we should
-"fix" the error message... 
+- if you have to do platform_get_irq(), then something in the design of this
+  driver is missing. Perhaps a private structure:
 
-So I don't want to have that unnecessary waste of everything. And if a f/m/s
-would keep my sanity, then I'm perfectly fine with it.
+  struct mem_ctl_info.pvt_info
 
-> Essentially, we could avoid a whole class of patches for derivative
-> (client, embedded, etc.) products. The module would load with the sane
-> defaults. If the test folks find an issue, then we can have a
-> model-specific patch.
+  which contains driver-specific stuff like the irq number and so on. Look at
+  the other EDAC drivers for examples.
 
-Only on well-tested and supported configurations. Everything else doesn't
-work.
+- then, what is the point of this being a devm-managed IRQ if you have to
+  explicitly free it?
+
+  By that logic, you might as well use the normal IRQ registration stuff.
+
+  But then looking at the other EDAC drivers, they all do devm_request_irq()
+  but only the DMC-520 one does free_irq().
+
+  So that would mean that either all the other EDAC drivers need such a fix.
+  And they would all need proper auditing to make sure when they disable IRQs,
+  all IRQ handlers running have finished.
+
+  Or, their hw can handle that and IRQs firing at driver remove time is not an
+  issue...
+
+  Sounds to me like I need to do a EDAC subsystem TODO for all the driver
+  owners to go read and check...
+
+So I'm presuming this is Sashiko reporting an issue and you're addressing it.
+Or is it a real issue that someone hits?
+
+Thx.
 
 -- 
 Regards/Gruss,
