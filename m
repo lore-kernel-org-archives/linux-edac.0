@@ -1,100 +1,100 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E926A46D560;
-	Mon,  5 Oct 2026 15:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE1B4AF16C;
+	Mon,  5 Oct 2026 18:20:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791215812; cv=none; b=tfp7Etb2LS4LBiHk9gS+VY+iINdyCrD1IZe1kuzc0ptg+cONRrc6ulDg6uC8t6RWrXXBPRAkb7/7pxJxntUdZGuaEgmbSkuJrcJdNBZKodhyCLZ9aHxOxArVRo+Xtd/qhf9tCUCQCIWFQmJk290HoDCRxSUNn+geb/ucXSsZPKo=
+	t=1791224421; cv=none; b=COG6S93k1JwtQMvGHuT5exYH7cyBDxrOGYKvM6wPIjTkEvG3i4laCIEd94NO4L5EW71twY3JFr28CE8a09JW1/m4Yfe8Dd3X+cy1fi7EUV1yUifeZCesEWKGtW1mNJdYj6ErDz2/H3ewP5/Ei7UbGuAwUAkxuEDGAhgs8PS7SiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791215812; c=relaxed/simple;
-	bh=San2EAcEagKWNRww0ZuEmzeFYQv9o6waaC9tjR1tUb8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F/Fg1l+DkWFSmU3wg2Ww3QgOgkhJO7APe6PCNl/Qad81tvLF58l49tmpw8z/vpQOx810IFZSbpX+Z+6Sxqshaf4syjmO+O7Vdmv1b/jWzFXjE6luLRO6cKP0Cu3Rla8GpTLiH1stuApe4m3dXC1SebWyHWRAFog58KoATQmlk0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=G6D+kfaG; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1791224421; c=relaxed/simple;
+	bh=u9gRhPSqI1RxmddsmsTOcJb5Um6f5nB6yTdSQ5JCLvM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d4jP4i8inopSDchVjBOCuLlZ+uRzsnT/iio2AbqRPD3Vr9nu+UPLilAWntzidL2On6brLypHgI4nP2laHZgC6X+r44c0l4TfKc2+EAGQ9ee7tzZ3ro3CqFF577rdRT4ycLsH7jpFKYCt8NHzCppMwdeQBRcly1GihRpW+ebOyMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=UQIubSk1; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="G6D+kfaG"
-Received: from CPC-namja-026ON.localdomain (unknown [4.213.232.17])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 4C46220B7166;
-	Mon,  5 Oct 2026 08:55:52 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4C46220B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1791215755;
-	bh=Wdh829qJ7XTsvIb70ZlYNzuuqViCk8z9qtK/9ymW1Rw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=G6D+kfaGOqzocjmWkiioeyHDN4qlCVutn8sy+4QIiI0k3x9gKouT01ZrZPOgnZTm1
-	 oKRlmLH/e/gmmcXjlokxn3eq06IvEmhRELqzUj0gnTPZERik/+Vebd59c0oBIhhkvZ
-	 mz+g1Yh7ZIQsG3/BXpeOIgwpgPgqPNi7cr3FYrAA=
-From: Naman Jain <namjain@linux.microsoft.com>
-To: decui@microsoft.com
-Cc: bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
-	kameroncarr@microsoft.com,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mingo@redhat.com,
-	namjain@linux.microsoft.com,
-	tglx@kernel.org,
-	tony.luck@intel.com,
-	x86@kernel.org
-Subject: Re: [PATCH] x86/mce: Report unavailable MCE support at informational level
-Date: Mon,  5 Oct 2026 15:56:41 +0000
-Message-ID: <20261005155641.272139-1-namjain@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260923173033.4104944-1-decui@microsoft.com>
-References: <20260923173033.4104944-1-decui@microsoft.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="UQIubSk1"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 0F28040E0326;
+	Mon,  5 Oct 2026 18:20:17 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id LvgLAoQ1mMwH; Mon,  5 Oct 2026 18:20:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1791224406; bh=s8KeXRed3YAjZFs85med3SgZDGBuc1I4LD8UFJ0xho0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UQIubSk1qiv+WCddBK9bC5gLfkFd1DnNV1zrEW7GWYm4ta2enlDIaJBzY5YAdzHym
+	 V6NQD1EnuRvIKtELV4MnOxtZQzJQfcufy2e+7+ZM+oy37Im34Z9tNwvwQ2xn4NS1Dz
+	 ldfgS5+zM9FSMGzAM1d1kkEZMd9j+9mdoH7RKt4KERkhSeNAlujfCwvjaR2rXWInJn
+	 pNcq1HXXKeyV+8fTyVQd3Llo/yQhxd9rSmVwmoRKhqAuY1qFW1b15OiJ5D7SskBWX6
+	 LscaiRCvf2reWtd/5AZGrkhtafhsk2XNHqx5/TfvkJeXtcL2m3MCJo0bSzfx3EEqAt
+	 u4LABocktJiAfzi746auLFpKzdIc+Rl0eyPE3+3sq+kPUIZB044OxX2y1RZniuqUYZ
+	 0Fq4FENc3dThuwQNHfzi1EM7VURsoZY1W8eZqtoEkNgqiPwZ4gmAuVHdkX/LD1yLxr
+	 TTw3AybIs+89JZuMJTU+mp0zo95kFug99bv147iMu1AzyXzDU0zKmIiI5r+zit2p26
+	 apFILlIntW9vq1ixSlRKytNuIVeZfJNan83DxGDVznPQEZq2sO3KUAkaZw8K9mTyzt
+	 O/VSNziGNbMzqTIMCcvzwkzvOlugU5XWknGY+Fd7IqD7sooNI0viDSEYbaWgEmuR/M
+	 9YWIUtjBgx5pbAWwAAfie3M0=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BAAB640E02A8;
+	Mon,  5 Oct 2026 18:19:59 +0000 (UTC)
+Date: Mon, 5 Oct 2026 11:19:56 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Vishal Badole <Vishal.Badole@amd.com>
+Cc: yazen.ghannam@amd.com, tony.luck@intel.com, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] EDAC/amd64: Mask UMC chip select to the four
+ implemented selects
+Message-ID: <20261005181956.GAasPqTL5dULZdj9TJ@fat_crate.local>
+References: <20261002113204.3358815-1-Vishal.Badole@amd.com>
+ <20261002113204.3358815-2-Vishal.Badole@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261002113204.3358815-2-Vishal.Badole@amd.com>
 
-On Wed, Sep 23, 2026 at 10:30:33AM -0700, Dexuan Cui wrote:=0D
-> mcheck_init_device() reports an error and returns -EIO when=0D
-> mce_available() is false. However, MCE support being unavailable does=0D
-> not necessarily indicate an initialization failure.=0D
-> For example, a TDX guest with TD_CTLS.REDUCE_VE set and=0D
-> FEATURE_PARAVIRT_CTLS.MCA clear does not enumerate the MCE and MCA=0D
-> CPUID capabilities. This is an expected configuration, but it causes=0D
-> the kernel to print:=0D
->=0D
->   mce: Unable to init MCE device (rc: -5)=0D
->=0D
-> MCE can also be unavailable because it was explicitly disabled with=0D
-> mce=3Doff or nomce. When it was disabled due to an earlier initialization=
-=0D
-> problem, the relevant path already reports the reason.=0D
-> Report MCE unavailability at informational level and return -ENODEV=0D
-> directly instead of routing it through the common error path.=0D
->=0D
-> Signed-off-by: Dexuan Cui <decui@microsoft.com>=0D
-> ---=0D
->  arch/x86/kernel/cpu/mce/core.c | 4 ++--=0D
->  1 file changed, 2 insertions(+), 2 deletions(-)=0D
->=0D
-> diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/cor=
-e.c=0D
-> index f3a793e3a6c8..24ac10075263 100644=0D
-> --- a/arch/x86/kernel/cpu/mce/core.c=0D
-> +++ b/arch/x86/kernel/cpu/mce/core.c=0D
-> @@ -2825,8 +2825,8 @@ static __init int mcheck_init_device(void)=0D
->  	MAYBE_BUILD_BUG_ON(__VIRTUAL_MASK_SHIFT >=3D 63);=0D
->=0D
->  	if (!mce_available(&boot_cpu_data)) {=0D
-> -		err =3D -EIO;=0D
-> -		goto err_out;=0D
-> +		pr_info("MCE is unavailable\n");=0D
-> +		return -ENODEV;=0D
->  	}=0D
->=0D
->  	if (!zalloc_cpumask_var(&mce_device_initialized, GFP_KERNEL)) {=0D
-=0D
-LGTM.=0D
-=0D
-Reviewed-by: Naman Jain <namjain@linux.microsoft.com>=0D
-=0D
-Regards,=0D
-Naman Jain=0D
+On Fri, Oct 02, 2026 at 05:02:03PM +0530, Vishal Badole wrote:
+> For DRAM ECC errors, the chip select value can be found in the
+> MCA_SYND[ErrorInformation] field.
+> 
+> ErrorInformation[2:0] was first documented in Zen1. The 3 bit field
+> implied that up to 8 chip selects may be used.
+> 
+> However, all Zen-based systems have only ever had up to 4 chip selects.
+> So only bits [1:0] would contain a valid chip select value.
+> 
+> Future systems are redefining the field to ErrorInformation[1:0]. This
+> matches the existing 'up to 4 chip selects' implementations. And it
+> frees up the extra bit for other decoding.
+> 
+> Change the current chip select mask from 0x7 to 0x3 to prepare for the
+> decode change.
+> 
+> Fixes: 713ad54675fd ("EDAC, amd64: Define and register UMC error decode function")
+> Cc: <stable@vger.kernel.org>
+> Suggested-by: Yazen Ghannam <yazen.ghannam@amd.com>
+> Signed-off-by: Vishal Badole <Vishal.Badole@amd.com>
+> Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+> ---
+>  drivers/edac/amd64_edac.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Applied, thanks.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
