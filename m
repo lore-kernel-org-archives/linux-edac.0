@@ -1,228 +1,185 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022093.outbound.protection.outlook.com [40.107.75.93])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F2B2DF717;
-	Mon,  5 Oct 2026 03:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.93
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791169220; cv=fail; b=RRi1S5Id3WQYWSOEDghjwLPNLciNds17kz11m758lHrvUFlb9Y3oqStW5J+3Co69bXdVmXEOt9R4+zneZnUNPanwU+gX/QYmX9RYTnfUBelf6sKjJ/s3AmkggdYbUpWOaPVM3IL+hf06NN+ZmfS9Irxyarfa2PUBF4ZypzBlRmE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791169220; c=relaxed/simple;
-	bh=AukHzc54MGBIda11PcUoJQ/tV8dco9udGmtpOQpwOdw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=fkpj6bA10qC7nCB/CxmGkTQsahtOBvs1WVXzVlw2l4WRv6oHACPRh5ZcwsxXdlqp46Ey/0Vm5fr8UqC0M4BbZuUyrAzq5FoRTIVoiHSnLc0xLSou7pNph4GDlgzIT82JcVOw8vumxGeVmXitA6019C8J+9XKeoYwBEC0ANTLd1E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass smtp.mailfrom=aspeedtech.com; dkim=pass (2048-bit key) header.d=aspeedtech.com header.i=@aspeedtech.com header.b=SioFNE0a; arc=fail smtp.client-ip=40.107.75.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80B4480336;
+	Mon,  5 Oct 2026 12:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791204634; cv=none; b=uoF+VbDk0LWma5OcElNS881d2tRtObbMYRziRKlz6zVsqa3EOPJzG730Nqc+eZxoYmG/hYvsu5rwcmsGMmrPBkHwipqkI+ECGAXeJGfhUyEu/RpvVj2/TqiFlKTs1eG4Kerk/KkZF1ufQyoOJb0BZD8b6RCq2ZuipvW9jkB4hhY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791204634; c=relaxed/simple;
+	bh=PLtvOz9VJuOXMvS7z5C15tnldSxsZEREX64v8VYcty0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qoiCAbM3Ue7oVo3l0+V0VAIi09sAlrc9bJDUoQmmi3zZX7cpy7szVn+OWWStYpdfeuWsVGB8/wZAaDa56Wwh+0s4a7t0zskqdMyRNwXWyKAvEuL63S8A7HRsHvJzun3Lz//128oz5hI8sTrSqYkK9MgqVG98Fgl//dnhc3mPGYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SZOA5A1o; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aspeedtech.com header.i=@aspeedtech.com header.b="SioFNE0a"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tVVVCes6znIVDyNqXR+kLwjRe2/Jp4wEMn6xrBowJhQ0tyY1afzRst/PZul5kXygNmHHi8F4OQwj3ksW8HLOLnhwJxQVFeQpwqhQ4o26ZA5OVWQoXk6IawbKBr5EgJq6UCTNjtxuw6JQaL9/b3PpRBmR49hRyUqrAW1M91RmZMZ6MduP1heZsRPRcfOCtw5Xla3xQdOJZzxLBJNnhF8CQwy0CsHc6cVKrvImVN8AEL5miVchI7QA8Z0SwkyBPOTmqEMjaQ+W3yI//7cX1hPVSZtMLr4M02gH63TIKFX1cOEP/bMyyUP7S1nS8ItOAEXgkOYhAqruJ8XMri4DMWECYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AukHzc54MGBIda11PcUoJQ/tV8dco9udGmtpOQpwOdw=;
- b=ZN/igjTW/Txirs33DDUuf9ZQ/5YDI899RaTIYY0mTaPyzrC98glUvfj7pQYZ/ONYqSECajSZGbyQPPjwvPJFxhzvwLckVvm0F7qwOTMXMFE77xzATU0mELBPM6r0XclUg5+WJr3GBX3umU5FItOxIIFG+lNhR06F96icFa+WvsC/k+YFDpfGoLPnIuwcXFouEwIh7jmEekLTgKBLC4mwitvCe9haPEbPAIRnyolgxkj3CloDen7gsCeng0dtrwYMBl7ZqPDLNvtSUsBfgNmSeC+yp/CcOcJDouJQYKLZE2GPsSkvyQ1KLQPESVcVRxCKAGJDsGUCzHWdQXSXjCKaMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AukHzc54MGBIda11PcUoJQ/tV8dco9udGmtpOQpwOdw=;
- b=SioFNE0aZheSDWbuSXh4Ellxc411TukByV17tDUoUjOaWIRnssVYyNQ3GzpMdbJoZOw/EUAvJXeRYjR6+gqJohvXSLR2Bto44es3DU+BhQhURIyY39UZznMegk5bX9GsUs/G8tTqGLOpEcrH5mr1Woona/8eJoMNWrLhgzFjFP0RxrlRMwMZvHdMKdM8xYcjhNza7tu4qm8w/1A9wmqeBvFiau7CxAqsusRG8B8yXZm2qIPgjTXEZTM3abedXZ9sC6Q6ZXhHl9HpXXzvFH4Y+hLw/wPLMsB58Yqo3DtsNkG2imTOGb2BTu0fNvyWtL4FHUPn1hsymYSttp40xKLl2g==
-Received: from TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com (2603:1096:408::791)
- by SEZPR06MB6488.apcprd06.prod.outlook.com (2603:1096:101:18a::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Mon, 5 Oct
- 2026 03:00:10 +0000
-Received: from TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com
- ([fe80::e00f:6219:946c:195e]) by TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com
- ([fe80::e00f:6219:946c:195e%4]) with mapi id 15.21.0472.016; Mon, 5 Oct 2026
- 03:00:10 +0000
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Borislav Petkov <bp@alien8.de>
-CC: Stefan Schaeckeler <sschaeck@cisco.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Tony Luck <tony.luck@intel.com>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>, Borislav Petkov <bp@suse.de>
-Subject: RE: [PATCH v4 2/9] EDAC/aspeed: Free the interrupt before the
- mem_ctl_info on remove
-Thread-Topic: [PATCH v4 2/9] EDAC/aspeed: Free the interrupt before the
- mem_ctl_info on remove
-Thread-Index: AQHdUJqnxy9a+RAslk6TaE5dk/Y1MLbt626AgABdSoA=
-Date: Mon, 5 Oct 2026 03:00:10 +0000
-Message-ID:
- <TY2PPF5CB9A1BE6A0885928E4222A0B65B3F2962@TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com>
-References: <20260930-edac-v4-0-c2e526f3ed79@aspeedtech.com>
- <20260930-edac-v4-2-c2e526f3ed79@aspeedtech.com>
- <20261004212129.GBasLDWZyMyVNXIKmq@fat_crate.local>
-In-Reply-To: <20261004212129.GBasLDWZyMyVNXIKmq@fat_crate.local>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY2PPF5CB9A1BE6:EE_|SEZPR06MB6488:EE_
-x-ms-office365-filtering-correlation-id: b376319e-ee32-47ce-3eca-08df228cc516
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|23010399003|376014|366016|1800799024|6133799003|18002099003|22082099003|10067099003|38070700021|4143699003|56012099006;
-x-microsoft-antispam-message-info:
- 7vW9U1ct8+hpk7gpI3kgvWbVYxYXxl3X8wccv3ZIbzHcWllpy0GDFvUtScU34Lyflj7K5/2r+/ZsTG0/JA/7uSJZHMCkk4+IDbst/RAGNQkDl6My1pcktlQrrC+T8/y0lXrLyLGQhKfUvo0jo3p4tYxmdZpRbYsFGRgGe8Htz3KGYLFHyhkMf2DrbMlIYdaPnRifLQyaJ+sXp2nrnLw1ZzQbjyskd0rAxEBS02qMz5T7OK5EgoXdmj4aLRneCi2gpxt2j0nvsbQmN3Yb53ecqOfYqJ7x/aptf/fHvcPCyWIspwm1Jh6NOT6IbSMzPHs7jSz9sccmF5h6oXAGlJnAHUfUcdcaP7Poi9miD0nngfviVntqNMX6nRMnJKcDiOIJ44c60nSM3URHh4iXO3PVbi+I5AeQfXasQGmd0Mh4L0m07nMFrTOq4Z+8cn2lMQcL83/dT7DEVEJ/NIGzX/X01LzMNWQhNcB1eT46vKfx9bsbRBCU2297Vm6f4q4ojme6wIaoogmlONR/iwA3hXcXgBGWfW18pP1bT6mNtgzpG4i8loAjZuvCrkjSFPCXA0UIX30LBx1LcoKvzPskd3BILKR188Bt8Mf3AblfdKDVqvShaDrQ2rcrXoh0vj1Lfb+O8xNCTB+BxbZ5XL+S+dd3NRPLxEH69HKpjSrrId1gQk0ehLDtCO+bRrIReAUh1bBbuRWkBm1HJXNMxgpY6iKmpvvZGcNky4vfo+Zr0slegPk=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(366016)(1800799024)(6133799003)(18002099003)(22082099003)(10067099003)(38070700021)(4143699003)(56012099006);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?VFVtQWs0b0dvUDdpUm9OS3hwOGJqOFFINUNyOSs5Y3hkMnZlZ1ZKclhEY3Vs?=
- =?utf-8?B?WDR5dExURVAzWnhTREU2a243cnh4dVVuMXUvYmtnd2NYd283WmtyeHFRVDNh?=
- =?utf-8?B?V1lyeTRSK25BY0VoNGtrZ0FncDVFR0E3SEt0dmFLZnE2ZFBBU21tUXRKeXJo?=
- =?utf-8?B?TkpjQ1lncTQvUTZLSFFRdmVjeUZXeWVJNDlCbTlFclZYYklqMFY5NmVCc3NE?=
- =?utf-8?B?cjNwMGlLZ1JMR3ppOStCOVc2ZXBpQXJUb1lianltdC9xZ3VTcnFTcVVJcnYz?=
- =?utf-8?B?c0VDbVc4S2JCaXRCdTB1dkRyeHN6SXMwdnYzRHplN0IyY05IY1VXU1hUR1Vm?=
- =?utf-8?B?eTFseXdkSmVrT3N5Y2ZCN1p6ai9tanh4RFFOMGRSZG5POXYzbTErTkppdlNa?=
- =?utf-8?B?UGhMWHRNZUxMcWZRdmhHelliaWdFSlcyMGRlc2xKMGRpZ3BSRjF5TzA5b3Fj?=
- =?utf-8?B?RjhUK29aYnc2M0pwd2JoS2Z0bnQ1MjlZSjljWlRic214VU96cStrb0VHb2xH?=
- =?utf-8?B?QWs2V29qVWtEV1M3Q05tZ1BkaU42bVRnOHZpR2JFUjBSWngxUW1xQm9oMUVS?=
- =?utf-8?B?YWQ1am9iQXB5VkNDR0g5WjNPOHJVdjBZTzF4UmhSUkltNStBSVN3bm1OZFJK?=
- =?utf-8?B?aGt3T0c4VFdGeEx5N0JWbEY1M0xBU1E4aE9lQ0hsakpDMW9IckdaTXlnS3Rt?=
- =?utf-8?B?RFJtSDZzSlNKWThtTTdWYnJDc1BtY09nWFp3bUJoaHk0VE9zb0F0VDhSQUlQ?=
- =?utf-8?B?YWpweERzcHZjQ2lJY250MzErSG5VWjV3Z3BjanRxNkpaWitJZEV5a0FiUFRI?=
- =?utf-8?B?bEF1amhPRE5JeTZsS2d0MkFsNEg4eXRpeU1LLzZFb1ZUb0NHd2RxamlUWDJp?=
- =?utf-8?B?S0krSDgyYzhXWDlJZlBBbFFNN1VnUmRjWUQvSWhpSHZkUzZyM0lWY3JZc0JM?=
- =?utf-8?B?cG5JZHdjSCtVQU5MUkwrd3V0ME9NSTNwWFg0UWVjOW82L3pCeUpQTkhnNlZB?=
- =?utf-8?B?dG4vMEZpUklFOGsyc3A4di8vcDc1NGVZMld3V2VyWkNHQU9DcXBCQzhZV3c5?=
- =?utf-8?B?ckpyblhINTk4MllDcVIzZkplTHQ1eXA1elF4M0dENVcwaEo4akJ2WXRWekRV?=
- =?utf-8?B?dlM3YVBraDlFMFVpT2s1c1l0Z1JjMFFoWWlUZ1lrcDY5TkFlYWRSQk0ramlT?=
- =?utf-8?B?TVNwV0dTRWN2T3ZLeHhVK3BOWDZPTWtwVFZvV2I1QmtjRHcvNWJVWW8xTUNq?=
- =?utf-8?B?V2djWFlSdVVBS1JydkpFVmdNcnpYUUNzZHlhYzBoY0FmVzhSL1kvSDRHSkFZ?=
- =?utf-8?B?RElaU3lOQVQ3Nkc4MzZmckJSajRPUmNGaWh6OWdJKy9NWldXZEdWd1pYQnN6?=
- =?utf-8?B?VFFoNnZSeit4YXdFUEZ5YjFEUU5HSUY5emdUOTVJYWtYVmpaZ1VpcVBEQlVI?=
- =?utf-8?B?ZVBjUllqS0ZYdHoyWFE0MWg2NytVaXhxQWpoMUZPSStsc2ZHWHpYOG1QRXBI?=
- =?utf-8?B?WHBwUm5IaVZFdWtod2Z1UVEzSXkrSUxQRklNQmRUZ1Rhem1FeGtyb3JXTnAz?=
- =?utf-8?B?S1NOZTFEK2ZqSGg3QVNaNmg1SVdYN2t2UWlEVXBBeXF0RVNUQlprQjdhV3Ex?=
- =?utf-8?B?cnkyZnFPaG9MdjZRQ29wNVNtM08zOXJRSXFOMGFGMkVUYTk5azhWTnBEdmdw?=
- =?utf-8?B?Q0tMUDM4NFNBZk9oaStSaGtzL2F2MFdhUFd5YlVMZWdQcVhVZVg5UFR0M2No?=
- =?utf-8?B?UkZUNnpiK1ZJTkZFNm12cndBaXpjVDg5VkNTRmg4VkZCMklKbmRyaVFsOGdS?=
- =?utf-8?B?MVhPSlhHV2hjNVZYQ3RhdlFKbE41dlo4VlEyRFJ2NDBIQWNNdHlsTnV3QWlr?=
- =?utf-8?B?NXFBRmV6L2ZKNmZZQm5ORHpnL2NkOHNyc2hFZGJGcC83R0tYM2JKL0Z1RnN6?=
- =?utf-8?B?UTBLYUQ0aHY1K0pxeHN6aDFrNG1nWjJsZHNOKy9hWVl5QW13ZEtqU3R4U2NI?=
- =?utf-8?B?TW5hR0JTWXZaWHl6clpyRFBiaStucFlPMkF1dG9BRW5xSVVhRGhZRktJUERq?=
- =?utf-8?B?Y3BrdWY0RGJvZHYxUU5PSVJQSHVWVllidURlL2VnYW8yQnE4OThGa2NEcHN1?=
- =?utf-8?B?ajVOMTdvZkR5L05zVWpGamlSS2xybS8yaXZ3bWJ0SCtBQWhlMnFWckxlU1lh?=
- =?utf-8?B?Z2JJMHluRUxxKzROYWphY1Q0V0ljY2lDdzBKYVpmWGRSLzdlWFpXUjVMeDFv?=
- =?utf-8?B?SGY1cWN6RmtRVjBBT2luTTlrcHpQN3MxRjNPbGNOMDRSUVVNZ21oU1JkYXA2?=
- =?utf-8?B?SFRlSEs4Z3FGbEFlM1RPbktiZ1dLRzFDdUZneEpULy9Cd2x6VENpUT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SZOA5A1o"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 206201A1161;
+	Mon,  5 Oct 2026 12:50:30 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id DA92A601A5;
+	Mon,  5 Oct 2026 12:50:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DF7E010330731;
+	Mon,  5 Oct 2026 14:50:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1791204624; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=P0rw6J6Ue0d4JDDg+MYCxIcOBl5T7NsLZ5PGtYmNLCs=;
+	b=SZOA5A1oHXeyHp82yHPAU9LEZxAQKRkdrojJQpLcWfEYcNzW+JYH40Tw+JCuIP8wh9aqGE
+	u/c+BQ5+ewLF91Pbpz+H/JpLA8/C6wpwMJPAMu72G19hbvS6tOtOI4X0CIqcw3nBQTPZ9m
+	mAq+iiPrlrT+AqM3D0/gHWpOnXW8ebhMn07UKka9lUzRrWeb+3k0xJdVzNPPqKqABdNFPF
+	bvtbP6sNju4wYi8Q4ZpKma1scYvj4vF9x8cMnEI1zDHZoit+B+z9Pqw/hbw2IQhi8NVcNo
+	uSjDC9lyfYAfSo4PhI6OjSwTPjTmcajdI4R+NanqOJQSEPNrMhLuFQpGPtCU4w==
+From: Paul Louvel <paul.louvel@bootlin.com>
+Subject: [PATCH v5 0/3] Add Renesas RZ/N1x EDAC driver
+Date: Mon, 05 Oct 2026 14:49:21 +0200
+Message-Id: <20261005-paul-v7-3-rc1-edac-v5-0-140a0f124bc0@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b376319e-ee32-47ce-3eca-08df228cc516
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Oct 2026 03:00:10.7013
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EtOjsbkAi/n1X/L+AJGcCqhAelDNbW3at//DT455VPC4Ygr6GL5K2CfHb8ZVusEdrHRNaRrVAtqo5Y+6E4YdkIPPcRBJm3EFNd2iAwQaFpU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6488
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5WOzU7DMBAGX6XyGSOv13/hxHsgDvbGpkYlqZI0A
+ lV5d+z2kqoBqcdP2pmdMxvjkOPIXnZnNsQ5j7nvytBPO0Z7331EntuymRTSiAYMP/rTgc+WIx8
+ IeGw9cUjKNqkxibRlBTwOMeXvi/Tt/brHU/iMNFVTvdjnceqHn8vXGerdvw9m4IK3Ao1z0qEM/
+ jX0/XTI3TP1X9V3haX6E7YiRLSkwIO7gWvfLNcFdlMiiyRp7UAgtCLFhwoqHAiUMGAgEt0X4Kp
+ A4qYEi0Q7BEceVfD4UEGFQ+uEVl4HcOK+QK0L3KZEFYkyyhSFJU/NrWRZll9+wgy8TgIAAA==
+X-Change-ID: 20260916-paul-v7-3-rc1-edac-1f479f96fc57
+To: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-edac@vger.kernel.org, devicetree@vger.kernel.org, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Herve Codina <herve.codina@bootlin.com>, 
+ "Paul Louvel (Schneider Electric)" <paul.louvel@bootlin.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791204619; l=3873;
+ i=paul.louvel@bootlin.com; s=20260313; h=from:subject:message-id;
+ bh=PLtvOz9VJuOXMvS7z5C15tnldSxsZEREX64v8VYcty0=;
+ b=+SLFnqcxv9Qxaj5ouw0gxoOwV/T6vgJhcxL1d9o92ONv20RdWp/ZWiUWsFbpG4h9JbwkN3Hrk
+ agUXQPoCrxNBixc7H9TDqL55xwJGOhtbP9NJTR1TgMXXNSBgTGPheMP
+X-Developer-Key: i=paul.louvel@bootlin.com; a=ed25519;
+ pk=eLW50NT18UAvUT5cAcYf88zNbBCZDLFXuptpyLVhVIU=
+X-Last-TLS-Session-Version: TLSv1.3
 
-PiBTdWJqZWN0OiBSZTogW1BBVENIIHY0IDIvOV0gRURBQy9hc3BlZWQ6IEZyZWUgdGhlIGludGVy
-cnVwdCBiZWZvcmUgdGhlDQo+IG1lbV9jdGxfaW5mbyBvbiByZW1vdmUNCj4gDQo+IE9uIFdlZCwg
-U2VwIDMwLCAyMDI2IGF0IDAxOjE1OjAwUE0gKzA4MDAsIFJ5YW4gQ2hlbiB3cm90ZToNCj4gPiBU
-aGUgRUNDIGludGVycnVwdCBpcyBkZXZtLW1hbmFnZWQsIHNvIGl0IGlzIG9ubHkgcmVsZWFzZWQg
-YWZ0ZXINCj4gPiAucmVtb3ZlKCkgaGFzIHJldHVybmVkLCBhbmQgbWFza2luZyB0aGUgY29udHJv
-bGxlciBkb2VzIG5vdCB3YWl0IGZvciBhDQo+ID4gaGFuZGxlciBhbHJlYWR5IHJ1bm5pbmcgb24g
-YW5vdGhlciBDUFUuIGVkYWNfbWNfZnJlZSgpIGNhbiB0aGVyZWZvcmUNCj4gPiBmcmVlIHRoZSBt
-ZW1fY3RsX2luZm8gdGhlIGhhbmRsZXIgdXNlcyBhcyBpdHMgY29udGV4dCB3aGlsZSBpdCBpcyBz
-dGlsbCBydW5uaW5nLg0KPiA+DQo+ID4gRml4IHRoZSBvcmRlcmluZyBhbmQgc3luY2hyb25pc2Ug
-YnkgZnJlZWluZyB0aGUgaW50ZXJydXB0IHByaW9yIHRvDQo+ID4gcmVsZWFzaW5nIHJlbGF0ZWQg
-bWVtb3J5Lg0KPiA+DQo+ID4gRml4ZXM6IDliN2U2MjQyZWU0ZSAoIkVEQUMsIGFzcGVlZDogQWRk
-IGFuIEFzcGVlZCBBU1QyNTAwIEVEQUMNCj4gPiBkcml2ZXIiKQ0KPiA+IFNpZ25lZC1vZmYtYnk6
-IFJ5YW4gQ2hlbiA8cnlhbl9jaGVuQGFzcGVlZHRlY2guY29tPg0KPiA+DQo+ID4gLS0tDQo+ID4g
-Q2hhbmdlcyBpbiB2NDoNCj4gPiAtIERyb3AgdGhlIENjOiBzdGFibGUgdGFnLg0KPiA+DQo+ID4g
-Q2hhbmdlcyBpbiB2MjoNCj4gPiAtIE5ldyBwYXRjaC4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9l
-ZGFjL2FzcGVlZF9lZGFjLmMgfCA1ICsrKysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2Vy
-dGlvbnMoKykNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMvYXNwZWVkX2VkYWMu
-YyBiL2RyaXZlcnMvZWRhYy9hc3BlZWRfZWRhYy5jDQo+ID4gaW5kZXggODNkNjA0MTRmODlhLi5l
-MDVlYmVkNWMyZjIgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9lZGFjL2FzcGVlZF9lZGFjLmMN
-Cj4gPiArKysgYi9kcml2ZXJzL2VkYWMvYXNwZWVkX2VkYWMuYw0KPiA+IEBAIC0zNTksMTEgKzM1
-OSwxNiBAQCBzdGF0aWMgaW50IGFzcGVlZF9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlDQo+
-ID4gKnBkZXYpICBzdGF0aWMgdm9pZCBhc3BlZWRfcmVtb3ZlKHN0cnVjdCBwbGF0Zm9ybV9kZXZp
-Y2UgKnBkZXYpICB7DQo+ID4gIAlzdHJ1Y3QgbWVtX2N0bF9pbmZvICptY2k7DQo+ID4gKwlpbnQg
-aXJxOw0KPiA+DQo+ID4gIAkvKiBkaXNhYmxlIGludGVycnVwdHMgKi8NCj4gPiAgCXJlZ21hcF91
-cGRhdGVfYml0cyhhc3BlZWRfcmVnbWFwLCBBU1BFRURfTUNSX0lOVFJfQ1RSTCwNCj4gPiAgCQkJ
-ICAgQVNQRUVEX01DUl9JTlRSX0NUUkxfRU5BQkxFLCAwKTsNCj4gPg0KPiA+ICsJaXJxID0gcGxh
-dGZvcm1fZ2V0X2lycShwZGV2LCAwKTsNCj4gPiArCVdBUk5fT04oaXJxIDwgMCk7DQo+ID4gKwlk
-ZXZtX2ZyZWVfaXJxKCZwZGV2LT5kZXYsIGlycSwgcGxhdGZvcm1fZ2V0X2RydmRhdGEocGRldikp
-Ow0KPiANCj4gQSBjb3VwbGUgb2YgdGhpbmdzIGNvbWUgdG8gbWluZCB3aGVuIGxvb2tpbmcgYXQg
-dGhpczoNCj4gDQo+IC0gaWYgeW91IGhhdmUgdG8gZG8gcGxhdGZvcm1fZ2V0X2lycSgpLCB0aGVu
-IHNvbWV0aGluZyBpbiB0aGUgZGVzaWduIG9mIHRoaXMNCj4gICBkcml2ZXIgaXMgbWlzc2luZy4g
-UGVyaGFwcyBhIHByaXZhdGUgc3RydWN0dXJlOg0KPiANCj4gICBzdHJ1Y3QgbWVtX2N0bF9pbmZv
-LnB2dF9pbmZvDQo+IA0KPiAgIHdoaWNoIGNvbnRhaW5zIGRyaXZlci1zcGVjaWZpYyBzdHVmZiBs
-aWtlIHRoZSBpcnEgbnVtYmVyIGFuZCBzbyBvbi4gTG9vayBhdA0KPiAgIHRoZSBvdGhlciBFREFD
-IGRyaXZlcnMgZm9yIGV4YW1wbGVzLg0KDQpQYXRjaCA3IGRvZXMgdGhhdCAtIGl0IG1vdmVzIHRo
-ZSByZWdpc3RlciBiYXNlLCB0aGUgbG9jayBhbmQgdGhlIElSUQ0KbnVtYmVyIGludG8gYSBzdHJ1
-Y3QgaW4gbWNpLT5wdnRfaW5mbywgYW5kIGFzcGVlZF9yZW1vdmUoKSB1c2VzDQpwcml2LT5pcnEg
-ZnJvbSB0aGVyZS4gVGhpcyBwYXRjaCBzaXRzIGFoZWFkIG9mIGl0LCB3aGlsZSB0aGUgZHJpdmVy
-DQpzdGlsbCBrZWVwcyBpdHMgc3RhdGUgaW4gZmlsZS1zY29wZSB2YXJpYWJsZXMsIHdoaWNoIGlz
-IHdoeSBpdCByZWFjaGVkDQpmb3IgcGxhdGZvcm1fZ2V0X2lycSgpLg0KDQoNCj4gDQo+IC0gdGhl
-biwgd2hhdCBpcyB0aGUgcG9pbnQgb2YgdGhpcyBiZWluZyBhIGRldm0tbWFuYWdlZCBJUlEgaWYg
-eW91IGhhdmUgdG8NCj4gICBleHBsaWNpdGx5IGZyZWUgaXQ/DQo+IA0KPiAgIEJ5IHRoYXQgbG9n
-aWMsIHlvdSBtaWdodCBhcyB3ZWxsIHVzZSB0aGUgbm9ybWFsIElSUSByZWdpc3RyYXRpb24gc3R1
-ZmYuDQo+IA0KDQpBZ3JlZWQuIEkgd2lsbCB1cGRhdGUgd2l0aCBmb2xsb3dpbmcgaW4gVjUuDQpU
-aGUgSVJRIG51bWJlciBnb2VzIG5leHQgdG8gdGhlIHN0YXRlIHRoZSBkcml2ZXIgYWxyZWFkeQ0K
-aGFzIGFuZCB0aGUgaGFuZGxlciBpcyByZWdpc3RlcmVkIG5vcm1hbGx5LCBzbyBuZWl0aGVyDQpw
-bGF0Zm9ybV9nZXRfaXJxKCkgbm9yIGRldnJlcyBpcyBpbnZvbHZlZDoNCg0KLS0tIGEvZHJpdmVy
-cy9lZGFjL2FzcGVlZF9lZGFjLmMNCisrKyBiL2RyaXZlcnMvZWRhYy9hc3BlZWRfZWRhYy5jDQpA
-QCAtMzYsNiArMzYsNyBAQA0KIA0KIHN0YXRpYyBzdHJ1Y3QgcmVnbWFwICphc3BlZWRfcmVnbWFw
-Ow0KK3N0YXRpYyBpbnQgYXNwZWVkX2lycTsNCiANCkBAIC0zMzMsMTEgKzMzNCwxMiBAQCBzdGF0
-aWMgaW50IGNvbmZpZ19pcnEodm9pZCAqY3R4LCBzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2
-KQ0KIAlpZiAoaXJxIDwgMCkNCiAJCXJldHVybiBpcnE7DQogDQotCXJjID0gZGV2bV9yZXF1ZXN0
-X2lycSgmcGRldi0+ZGV2LCBpcnEsIG1jcl9pc3IsIElSUUZfVFJJR0dFUl9ISUdILA0KLQkJCSAg
-ICAgIERSVl9OQU1FLCBjdHgpOw0KKwlyYyA9IHJlcXVlc3RfaXJxKGlycSwgbWNyX2lzciwgSVJR
-Rl9UUklHR0VSX0hJR0gsIERSVl9OQU1FLCBjdHgpOw0KIAlpZiAocmMpDQogCQlyZXR1cm4gcmM7
-DQogDQorCWFzcGVlZF9pcnEgPSBpcnE7DQorDQogCS8qIGVuYWJsZSBpbnRlcnJ1cHRzICovDQog
-CXJlZ21hcF91cGRhdGVfYml0cyhhc3BlZWRfcmVnbWFwLCBBU1BFRURfTUNSX0lOVFJfQ1RSTCwN
-CiAJCQkgICBBU1BFRURfTUNSX0lOVFJfQ1RSTF9FTkFCTEUsDQpAQCAtMzU5LDYgKzM2MSw4IEBA
-IHN0YXRpYyB2b2lkIGFzcGVlZF9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikN
-CiAJcmVnbWFwX3VwZGF0ZV9iaXRzKGFzcGVlZF9yZWdtYXAsIEFTUEVFRF9NQ1JfSU5UUl9DVFJM
-LA0KIAkJCSAgIEFTUEVFRF9NQ1JfSU5UUl9DVFJMX0VOQUJMRSwgMCk7DQogDQorCWZyZWVfaXJx
-KGFzcGVlZF9pcnEsIHBsYXRmb3JtX2dldF9kcnZkYXRhKHBkZXYpKTsNCisNCiAJLyogZnJlZSBy
-ZXNvdXJjZXMgKi8NCiAJbWNpID0gZWRhY19tY19kZWxfbWMoJnBkZXYtPmRldik7DQogCWlmICht
-Y2kpDQoNCmNvbmZpZ19pcnEoKSBpcyB0aGUgbGFzdCB0aGluZyBhc3BlZWRfcHJvYmUoKSBkb2Vz
-IGFuZCBpdCByZXR1cm5zIDANCnN0cmFpZ2h0IGFmdGVyd2FyZHMsIHNvIHRoZXJlIGlzIG5vIGVy
-cm9yIHBhdGggZm9yIGRldnJlcyB0byB1bndpbmQgaW4NCnRoZSBmaXJzdCBwbGFjZS4gUGF0Y2gg
-NyB0aGVuIGZvbGRzIGFzcGVlZF9pcnEgaW50byB0aGUgcHJpdmF0ZQ0Kc3RydWN0dXJlIGFsb25n
-IHdpdGggdGhlIHJlZ2lzdGVyIGJhc2UgYW5kIHRoZSBsb2NrLCBhbmQgcGF0Y2hlcyA3IGFuZA0K
-OCB1c2UgZnJlZV9pcnEocHJpdi0+aXJxLCBtY2kpLg0KDQo+ICAgQnV0IHRoZW4gbG9va2luZyBh
-dCB0aGUgb3RoZXIgRURBQyBkcml2ZXJzLCB0aGV5IGFsbCBkbyBkZXZtX3JlcXVlc3RfaXJxKCkN
-Cj4gICBidXQgb25seSB0aGUgRE1DLTUyMCBvbmUgZG9lcyBmcmVlX2lycSgpLg0KPiANCj4gICBT
-byB0aGF0IHdvdWxkIG1lYW4gdGhhdCBlaXRoZXIgYWxsIHRoZSBvdGhlciBFREFDIGRyaXZlcnMg
-bmVlZCBzdWNoIGEgZml4Lg0KPiAgIEFuZCB0aGV5IHdvdWxkIGFsbCBuZWVkIHByb3BlciBhdWRp
-dGluZyB0byBtYWtlIHN1cmUgd2hlbiB0aGV5IGRpc2FibGUNCj4gSVJRcywNCj4gICBhbGwgSVJR
-IGhhbmRsZXJzIHJ1bm5pbmcgaGF2ZSBmaW5pc2hlZC4NCj4gDQo+ICAgT3IsIHRoZWlyIGh3IGNh
-biBoYW5kbGUgdGhhdCBhbmQgSVJRcyBmaXJpbmcgYXQgZHJpdmVyIHJlbW92ZSB0aW1lIGlzIG5v
-dCBhbg0KPiAgIGlzc3VlLi4uDQo+IA0KPiAgIFNvdW5kcyB0byBtZSBsaWtlIEkgbmVlZCB0byBk
-byBhIEVEQUMgc3Vic3lzdGVtIFRPRE8gZm9yIGFsbCB0aGUgZHJpdmVyDQo+ICAgb3duZXJzIHRv
-IGdvIHJlYWQgYW5kIGNoZWNrLi4uDQo+IA0KPiBTbyBJJ20gcHJlc3VtaW5nIHRoaXMgaXMgU2Fz
-aGlrbyByZXBvcnRpbmcgYW4gaXNzdWUgYW5kIHlvdSdyZSBhZGRyZXNzaW5nIGl0Lg0KPiBPciBp
-cyBpdCBhIHJlYWwgaXNzdWUgdGhhdCBzb21lb25lIGhpdHM/DQoNClNhc2hpa28sIG9uIHYxIC0g
-aXQgZmxhZ2dlZCB0aGUgdXNlLWFmdGVyLWZyZWUgYXMgcHJlLWV4aXN0aW5nIGFuZA0Kc3VnZ2Vz
-dGVkIGVpdGhlciBmcmVlaW5nIHRoZSBpbnRlcnJ1cHQgYmVmb3JlIHRoZSBtZW1fY3RsX2luZm8g
-b3INCmRyb3BwaW5nIGRldm0uDQpOb2JvZHkgaGFzIGhpdCBpdDogSSBoYXZlIG5vdCBzZWVuIGl0
-IGFuZCBJIGhhdmUgbm8gcmVwb3J0IG9mIG9uZS4NCg0KUmVnYXJkcw0KUnlhbg0K
+The Cadence memory controller found on Renesas RZ/N1x SoCs supports ECC
+with SECDED.
+
+The memory controller found on the r9a06g032 supports at most a single
+DIMM of DDR2/3, up to 2GB.
+
+Add the EDAC driver for this memory controller, and the relevant
+device-tree binding. Also add the EDAC node to the existing r9a06g032
+SoC base device-tree.
+
+Signed-off-by: Paul Louvel (Schneider Electric) <paul.louvel@bootlin.com>
+---
+Changes in v5:
+
+- Patch 1:
+
+    - Reworded commit title.
+
+    - Dropped unused label.
+
+    - Switch to plain flow scalar for description.
+
+    Note: keeping cdns,ddr-edac compatible after Krzysztof's comment.
+
+- Patch 2:
+
+    - Setup IRQ after allocating and registering the device to EDAC
+      core.
+
+    - Explicitly free the interrupt line with devm_free_irq() to avoid
+      any UAF before releasing MC.
+
+- Link to v4: https://patch.msgid.link/20260928-paul-v7-3-rc1-edac-v4-0-4646a5b7cac9@bootlin.com
+
+Changes in v4:
+- Patch 1 and 3: drop the RZN1 family compatible, as requested by Geert.
+- Patch 2:
+
+    - Instead of using FIELD_MODIFY macro that expect a compile-time
+      constant mask, use binary operators instead. Note that the new
+      code is doing exactly what FIELD_MODIFY do, minus the error if
+      cdns_rmw() is not inlined.
+
+    - Use a spinlock instead of mutex since the locked region will be
+      really fast to execute. Only lock it once for two register rmw.
+
+    - Use edac_debugfs_* facility instead of sysfs attributes. Use a
+      separate "bits" and "inject" file instead of just a single file.
+      This is better since clients can read the previously set syndrome.
+
+    - Cleaned up the probe function in separate functions. Use a remove
+      function instead of registering custom devm action. Use a goto for
+      resources cleaning.
+
+    - Mask all interrupts before un-registering the memory controller.
+
+- Link to v3: https://patch.msgid.link/20260924-paul-v7-3-rc1-edac-v3-0-bd8054a5b180@bootlin.com
+
+Changes in v3:
+- Patch 2:
+
+    - Added trailing newline to end message.
+
+    - Forgot mutex_init() in probe...
+
+    - Registering the MC at the end of the probe.
+
+- Link to v2: https://patch.msgid.link/20260924-paul-v7-3-rc1-edac-v2-0-bc1406161ecc@bootlin.com
+
+Changes in v2:
+- Patch 2:
+
+    - FIELD_MODIFY() is always called with a compile-time constant mask
+      in this driver. I see no problem here.
+
+    - Use devm_clk_get_enabled() so the driver does not need to store
+      struct clk_bulk_data outside the stack space.
+      Clocks are not manipulated outside of probe.
+
+    - Introduced a mutex for rmw operations in inject_ctrl_store() sysfs
+      callback. Rename drv to priv in cdns_rmw().
+
+    - Return IRQ_NONE if the stat int register is empty.
+
+    - I see no reason to follow Sashiko last remark on this patch.
+      Is an unhandled interrupt a big deal in this case ?
+
+- Link to v1: https://patch.msgid.link/20260924-paul-v7-3-rc1-edac-v1-0-70be37c41a18@bootlin.com
+
+---
+Paul Louvel (3):
+      dt-bindings: edac: cdns,ddr-edac: add Cadence DDR EDAC
+      EDAC/cadence: Add Cadence DDR EDAC driver
+      ARM: dts: renesas: r9a06g032: add EDAC node
+
+ .../devicetree/bindings/edac/cdns,ddr-edac.yaml    |  61 ++++
+ MAINTAINERS                                        |   7 +
+ arch/arm/boot/dts/renesas/r9a06g032.dtsi           |   9 +
+ drivers/edac/Kconfig                               |  10 +
+ drivers/edac/Makefile                              |   1 +
+ drivers/edac/cadence_edac.c                        | 399 +++++++++++++++++++++
+ 6 files changed, 487 insertions(+)
+---
+base-commit: d9f39b2c0579f313d14954a9ec584511c543aab5
+change-id: 20260916-paul-v7-3-rc1-edac-1f479f96fc57
+
+Best regards,
+--  
+Paul Louvel, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
