@@ -1,96 +1,154 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from twmbx01.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355CA3803DB;
-	Wed,  7 Oct 2026 04:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC903033CB;
+	Wed,  7 Oct 2026 06:13:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.20.114.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791348919; cv=none; b=d99WNcZLo7ENBo6D1gzfVT/BgrqplVuszZnpLbfJcw1Z2EgO7nHp0XoY/XnH6AhgZ2oMrDQ5C1OK2N2+HMcctxGwoT/cU/vwpxqII3q+tmr04yQBHXSQ/iK6FkF5mgaQ5GZvB/eU4Kzmxg/RD+Ov7Vzkr2/LQ0dxmGXpX7c8icQ=
+	t=1791353609; cv=none; b=CmCDCLRYBKdzNq5uN/GanRzQPqRvFp1IerYEifNbF03OLo6zK2xSxnAfLoF27b0aDKphjCD+Q42uyWz0rooofGCbalwNJmhuju2GXFTdrWGLQ3aMMeaXa3Fx5wC7FF9z3z230s1iTzZILe2Y2jMqAraeF2XKRTjwVdiXte6u++Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791348919; c=relaxed/simple;
-	bh=3Cz0SimQqCHuxFdDf5kI6yFxOfbA2RzmYpDsSrCuluU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=TM+jbUzuUZONbELgeTvxytK8uPpQqraHa637lZaSvBCYsPKXPmh/WkPV08okKa3wzXuiqvop9ZBJwcmwDwfthY2bikoAwHmqDx21yQZXwxlILOIwsBllG6bNs+ZrRdVFk8o1TXx+fL+7nrgTOOWBFNnfYKbDblpJvQCupB/bR0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=zYfsStcp; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="zYfsStcp"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 7E1424E4115B;
-	Wed,  7 Oct 2026 04:55:14 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 333256074B;
-	Wed,  7 Oct 2026 04:55:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BB122103309C5;
-	Wed,  7 Oct 2026 06:55:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791348913; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=/sJd7eH2sLKt1YGQkZySmzpNOTpbHq2cBxqPOa4ucJk=;
-	b=zYfsStcp9Zh4SyCT+HGY3e2oISTjIEs7+47PTIugOc9yfx2oJkE/RKyhZFK6Y8DZ7WKiEU
-	8ncTh0rlkywUpA1TEXiEqzxPqlz4jIoiNXA33NYoZRwzAQJjWb0brV5Pn/53Dbclo86Ww5
-	gVD46lfzhTW4EgcHSAVVHaYe5AhHR4zPLM0773Lva+037t7CisI9bLdL8UvIJu8YWVm9Pk
-	Dc3gfmE12gL4Rv/KMXuZE0SAqWN0V6FpiQEPUtjSnrtxpvhB5dg5uqGhVP2K7YCSRmEVnK
-	wwHpt0+lUBynO7iiPzynVzoDy0fOqokfHX6L/7W8KUfrdrs1IPw806nSNUVRNQ==
+	s=arc-20240116; t=1791353609; c=relaxed/simple;
+	bh=Lwx+rRS5I73PbaS+c/kGijOAXPZWzSM+yhi0589qL5c=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=HY5Jqd15z3xStSnaeCQPFnux9yoGV4M1j2MjXoe6s3AL+wIE2k+N5ucxJwnGoQQAemJCPJHAhPmXOMjqH1ZmvsPHFQd/Lz1amVWMQR+CvPVRvWojOHzUMwHurjYpjolIxpUvcNjwbrk6/q9grlblw5QHgzAoocNBMUjZ0tJHtbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass smtp.mailfrom=aspeedtech.com; arc=none smtp.client-ip=211.20.114.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 7 Oct
+ 2026 14:13:19 +0800
+Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Wed, 7 Oct 2026 14:13:19 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: [PATCH v5 0/9] Add Aspeed AST2700 SDRAM EDAC support
+Date: Wed, 7 Oct 2026 14:13:17 +0800
+Message-ID: <20261007-edac-v5-0-5c31fc5df4cf@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 07 Oct 2026 06:55:09 +0200
-Message-Id: <DLYC6W4J0NRH.3T1EOLT37KM9S@bootlin.com>
-To: "Borislav Petkov" <bp@alien8.de>, "Paul Louvel"
- <paul.louvel@bootlin.com>
-Cc: "Tony Luck" <tony.luck@intel.com>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Geert Uytterhoeven" <geert+renesas@glider.be>,
- "Magnus Damm" <magnus.damm@gmail.com>, <linux-kernel@vger.kernel.org>,
- <linux-renesas-soc@vger.kernel.org>, <linux-edac@vger.kernel.org>,
- <devicetree@vger.kernel.org>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, "Miquel Raynal"
- <miquel.raynal@bootlin.com>, "Herve Codina" <herve.codina@bootlin.com>,
- "Wolfram Sang" <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v5 1/3] dt-bindings: edac: cdns,ddr-edac: add Cadence
- DDR EDAC
-From: "Paul Louvel" <paul.louvel@bootlin.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20261005-paul-v7-3-rc1-edac-v5-0-140a0f124bc0@bootlin.com>
- <20261005-paul-v7-3-rc1-edac-v5-1-140a0f124bc0@bootlin.com>
- <20261005184621.GCasPwfaQNE0q6zykP@fat_crate.local>
-In-Reply-To: <20261005184621.GCasPwfaQNE0q6zykP@fat_crate.local>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAP3ixWoC/23N0Q6CIBiG4VtpHEfDH0XoqPtoHSh8JAelE+dqz
+ XsP0y23Ovz+8by8WEQfENlx92I9xhBDe0+j2O+Ybar7FTy4tBkJUkJRweEqyzWMEhCE0pcsPe1
+ 6+PD4ZM6XtJsQh7Z/fqpjNl+XgM5oCYwZF1xIYwgOFZnyVMUOcANsc7Dtjc2VkTaS8lVSklY7X
+ dfKyEKrv1J+pcnUKmWSJGHgyNfOm78y30gpVpnPfxIKUl7Clb9ymqY3m8A2OEsBAAA=
+X-Change-ID: 20260625-edac-8e960e02e7f7
+To: Stefan Schaeckeler <sschaeck@cisco.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>
+CC: <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+	<linux-edac@vger.kernel.org>, Borislav Petkov <bp@suse.de>, Ryan Chen
+	<ryan_chen@aspeedtech.com>, Krzysztof Kozlowski
+	<krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791353599; l=4835;
+ i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
+ bh=Lwx+rRS5I73PbaS+c/kGijOAXPZWzSM+yhi0589qL5c=;
+ b=rBLX6/9jGZ8kJ2nnVCHhfQQProhcDs7YgtGuPZCSoJCOcZATlRuHzvyrImaxL/o0lFNG8P9ul
+ GFYMWRIdeoxAbYpc0OiOqyjjFf+Q0Ro8g8MHvXTApSXRaIff1ND+6nQ
+X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
+ pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
 
-On Mon Oct 5, 2026 at 8:46 PM CEST, Borislav Petkov wrote:
-> On Mon, Oct 05, 2026 at 02:49:22PM +0200, Paul Louvel wrote:
->> Add the Cadence EDAC dt binding.
->> The memory controller optionally supports ECC SECDED with DDR2/DDR3
->> memory.
->>=20
->> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
->> Signed-off-by: Paul Louvel (Schneider Electric) <paul.louvel@bootlin.com=
->
->> ---
->>  .../devicetree/bindings/edac/cdns,ddr-edac.yaml    | 61 +++++++++++++++=
-+++++++
->>  MAINTAINERS                                        |  6 +++
->>  2 files changed, 67 insertions(+)
->
-> Needs review by DT maintainers if it is going to go through the EDAC tree=
-, see
-> output of:
->
-> ./scripts/get_maintainer.pl -f Documentation/devicetree/bindings/edac/
+Add ECC error reporting for the Aspeed AST2700 SoC to the existing
+aspeed_edac driver.
 
-ACK.
-For some reason b4 did not included most of the people apart from Rob /
-Krzysztof / Wolfram.
+The AST2700 memory controller keeps the same overall EDAC programming
+model as the earlier Aspeed BMC SoCs, but uses a different register
+layout, a split interrupt status/clear/mask scheme and DDR4/DDR5 memory.
+Rather than fork the driver, the existing code is first tidied and
+generalised, then the AST2700 is added as one more per-SoC variant.
 
---=20
-Paul Louvel, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Patches 1-4 are bug fixes and cleanups to the existing driver. Patch 5
+documents the AST2700 binding, patches 6 and 7 rework the implementation
+to accommodate it, and patch 8 adds the AST2700 support itself. Patch 9 is
+Stefan's step-down patch, amended to leave the entry in place with me
+as its reviewer.
+
+Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+---
+Changes in v5:
+- Register the ECC interrupt with request_irq() instead of
+  devm_request_irq() followed by an explicit free, and keep the
+  interrupt number alongside the driver's other state so
+  aspeed_remove() does not have to call platform_get_irq() again.
+- Link to v4: https://lore.kernel.org/r/20260930-edac-v4-0-c2e526f3ed79@aspeedtech.com
+
+Changes in v4:
+- Put the bug fixes first: the two fixes are now patches 1 and 2, the
+  cleanups 3 and 4, and the bindings patch moves to 5 ahead of the
+  AST2700 work.
+- Explain in patch 1 where the grain value comes from, rather than the
+  warning it silences.
+- Drop the Cc: stable tags from the two fixes. Neither meets the bar in
+  Documentation/process/stable-kernel-rules.rst; the Fixes: tags stay.
+- Merge Stefan's step-down patch into patch 9, keeping the MAINTAINERS
+  entry alive with a reviewer instead of removing it.
+- Link to v3: https://lore.kernel.org/r/20260916-edac-v3-0-23e9ed2fbdf9@aspeedtech.com
+
+Changes in v3:
+- Establish the AST2700 interrupt mask in the driver rather than
+  deriving it from the register's contents: ast2700_set_irq() now
+  writes the mask outright, masking every source and unmasking only
+  the ECC ones, and the mask is established before the interrupt is
+  requested.
+- New patch: add myself as a reviewer for the driver in MAINTAINERS.
+- Tested on an AST2600 with CONFIG_PROVE_LOCKING=y; injected correctable
+  errors are reported from the interrupt handler with no lockdep reports.
+- Link to v2: https://lore.kernel.org/r/20260824-edac-v2-0-c8d8bb693586@aspeedtech.com
+
+Changes in v2:
+- New patch: free the ECC interrupt before the mem_ctl_info in
+  aspeed_remove(). The interrupt is requested with devm_request_irq() and
+  is only released after .remove() has returned, so edac_mc_free() could
+  free the handler's context while the handler was still running on
+  another CPU.
+- Acquire the register lock with the irqsave variant in init_csrows() and
+  in aspeed_probe(). The interrupt handler takes the same lock in hardirq
+  context.
+- Move the dev_dbg() of the interrupt status register out of the
+  raw_spinlock critical section in the interrupt handler.
+- Opt aspeed_edac.o into context analysis in drivers/edac/Makefile. The
+  check is opt-in per object, so without it the __guarded_by() annotation
+  added by the same patch was never actually verified.
+- Return IRQ_NONE from ast2700_dramc_isr() when no ECC interrupt status
+  bit is set; the handler clears only the ECC bits, so unconditionally
+  claiming the interrupt could livelock the level-triggered line.
+- Tested v2 on both AST2600 and AST2700 by injecting a correctable
+  error with the memory controller's ECC error injection; each is
+  reported as a CE with the expected failure address.
+- Link to v1: https://lore.kernel.org/r/20260812-edac-v1-0-03992edea297@aspeedtech.com
+
+---
+Ryan Chen (8):
+      EDAC/aspeed: Set the DIMM grain
+      EDAC/aspeed: Free the interrupt before the mem_ctl_info on remove
+      EDAC/aspeed: Clean up whitespace and include ordering
+      EDAC/aspeed: Free the mem_ctl_info unconditionally on remove
+      dt-bindings: edac: aspeed: Add AST2700 SDRAM EDAC
+      EDAC/aspeed: Replace regmap with direct register access
+      EDAC/aspeed: Abstract SoC differences behind chip data
+      EDAC/aspeed: Add AST2700 support
+
+Stefan M Schaeckeler (1):
+      MAINTAINERS: Step down as Aspeed AST2500 EDAC driver maintainer
+
+ CREDITS                                            |   8 +
+ .../bindings/edac/aspeed,ast2400-sdram-edac.yaml   |   8 +-
+ MAINTAINERS                                        |   2 +-
+ drivers/edac/Makefile                              |   1 +
+ drivers/edac/aspeed_edac.c                         | 425 ++++++++++++++-------
+ 5 files changed, 293 insertions(+), 151 deletions(-)
+---
+base-commit: 5464985e42c04e335fb30e38fbc409c997db9bec
+change-id: 20260625-edac-8e960e02e7f7
+
+Best regards,
+-- 
+Ryan Chen <ryan_chen@aspeedtech.com>
 
