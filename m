@@ -1,106 +1,67 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6431B4A3D5B
-	for <linux-edac@vger.kernel.org>; Tue,  6 Oct 2026 18:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A592222AC;
+	Wed,  7 Oct 2026 02:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791310793; cv=none; b=A8FFkspwm741ZYDNxYmM23XjWFEYq3OXfwP3XOlynQc+BARfx7lJ1F4/DxEhSSUadxkmWMPHozd6nXGy4mzQ+AI1O+fzs7LmFznJp/tToeTgvSHaOzT5sxBVaCDc4amJyZAhpEIOxorZoWxaPVUKu/9ShFftl2G2j+oU+SQeiHo=
+	t=1791339136; cv=none; b=BttDTLQbRDWqKRo7VxiyZXmkc9zleKT2gkpIk0KknBEzqfU0nhiPE6tksNIz7rGqNcEDurQW6fU2HGSiN2r+bf3N1tOuLujQMqx/7TCsbVCRX3EfZB3cD0p2KqWkJY5wqbbMXf7YYcbiq0uTfhhTItQRXfiiKDy4vAP3/ygO+jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791310793; c=relaxed/simple;
-	bh=Wod9oGeD5WufeLQ9GfctH6+LN61xeZrD+JrPx+0eSfo=;
+	s=arc-20240116; t=1791339136; c=relaxed/simple;
+	bh=HcbHlyDAa4Gm/J9dEMUmk3W5T7P3RyRYVDy2NfHxVUw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KNgPHMYnCN1ir5qc6YDsUjAa6pQv3A1cc6nC2QhoCuvV2Jxr7DXGupIty+v5CdJe6II0ma+KmmcMRa1NIGy99rxu+rARMliRtWTcZxHnmVNYynmWUSgJbA9WLPWZ/CXYwojfnYi8NqjeEI50MmRvwZohyXBNWmdMlIBHyaYMBJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=I285338H; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GF8jV2l+; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=n0Ah9yMoRFMxpOLrfOB4RZG+ABjIFmIfn4cDm6wFXh1ie/4qPE8bjiHViGG/T86bdafgg8HnqMll1SXgqu6oEeiOoxx5KiygsAJY4w+vY8pGv5Zh+C/msD5ab+qLm9dBPSJ4wxWOfEAtuZFdOXFlKNArhFdMV3nL0W3tK4i/psg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=LPux/eGE; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="I285338H";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GF8jV2l+"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 696HesaN517432
-	for <linux-edac@vger.kernel.org>; Tue, 6 Oct 2026 18:19:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=eErMTVv+GI4Tv4XbuyvCgn3L
-	WQksVnWHpw5fdcoGEqI=; b=I285338HN6WS3wZTHKFiclQi87+58QmBhveu9Oaa
-	PirLWkvMUxQq9UvUOJUFIolv122tUDXOUsE2Ugw0sbxN2xK3T6NtgIcUocti9/JO
-	7zL3yfK9ZvPTjfcY/t7ETBBvxtrbwWwAvt79vZizt4yyt4S/gSym3vBxwvikiJ55
-	JnnwprW3rdM7rM3GKSy2EZTo3n+YrFr1/GgvJtZ5JU2XIN8edDF3+I7woCzQCyDv
-	9hLMhqokP0+KLqFq/UwL5A7uWW9ug59X7o0dk8rUrMz6vXVTdPgb80ezqbY5/TIY
-	3D067Coff3bBeq/dJzDuRhvapbZQs5Yh3KdIJ/+Ny3M0CQ==
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h53asgwp1-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-edac@vger.kernel.org>; Tue, 06 Oct 2026 18:19:50 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-34ef5fd7934so8607637eec.0
-        for <linux-edac@vger.kernel.org>; Tue, 06 Oct 2026 11:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791310789; x=1791915589; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=eErMTVv+GI4Tv4XbuyvCgn3LWQksVnWHpw5fdcoGEqI=;
-        b=GF8jV2l+5T2sZWNVts5vm+BqH0tv3vqF3oa1o8AEFiB4uavFAlLpMFzt/94MT9pWBv
-         H+UgAKATPzUEBa6IKD31p3ms83uz4v0C3O9f3H+cUGrsfXwzQJ2QFHqkqQ/ByquPhmQU
-         x7974v0QRn/YimOIvc9a/P9UARFsbLgWzO5mkTEj5b0IGBnmiz8jWxBJk+/AQLOLOZ/8
-         gmtkNm2GRJEZt7pTyV72W5L7P+s8XE797VJtWLOcJiWuCCP5q/dV/n6qNlgL1I1oxnJj
-         FvObD5As1wi9nslcVmzPh39jCtjd54cA37lMdeLTL8vn4Ow2Wvxl02Hs2rZf7ZrdlbWx
-         vRqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791310789; x=1791915589;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eErMTVv+GI4Tv4XbuyvCgn3LWQksVnWHpw5fdcoGEqI=;
-        b=S4urSvZxJc4XEtBTdTkfXc4JTzrm1fpCSdxpicsFjZ4wGmLxcVpUCV4jAEQ3X2BIIP
-         r9Ixcshb4HJdI1M1sN7TggjzDNWRIQMLJWQjGgED3aFpasZ4t6gZsXYL42w+jpIh/6Wt
-         xUzE/U886UHBInauPql432kau7Ewj2YAcSBQBoF3tg+PPCaMpf4rZ+9a6148WBmGxHpv
-         n1htJrLvryPV1+53+wiYVvrKDmqxkV3bGozy/U1tTNogUR6m+UaG13Ifb9eaK99zpVCY
-         2/GmbauRWa8YOo9d2j0teUnFd7mNPSqaLOzQuZQCHbSTEYOrgAIjY2DaBKg3C3ANyb/w
-         aVAg==
-X-Forwarded-Encrypted: i=1; AKwUvBx+mSztGPo8bZgplOYBqSmoIXzj7Zp0mn+jpuzCs3do2tBbaLyFZj6OnadRB8Ep6iqn3HHZaAA8hEv2@vger.kernel.org
-X-Gm-Message-State: AFq9FYKhemPT/VFV20Iq+shEyeyj5JgKoZ+kOj7UtLxdQyicjjH7xQ9R
-	3JGNhu6FGTpT1JOY05sXXU+6z6V4YRkRJFNC/q6rnIcU6GVgAap+2d4+gdRnDDplPSSreyuozBS
-	m0I9rMBl8u9271N1W8EAGI5+J5oER0/08/xGvdOq1NJJC4uTN2yI4G/vngz1Gv+bx
-X-Gm-Gg: AYBFou04b36/wn8OZ2MHTDEuZy19B/16q28Tcv58MAFVGZJuPqdcadLFRBFnoli3XCE
-	7XF1RgXxd1fBvUyHEMCo3PnA0jtPITq7JIpX/cODlTKr0BoWKuK43cWPgEcUXQbTGHVpinz1iZu
-	z+qy+v+3uZQYgYMlRPo2agpcFMkaEzT9cfRmQMWs/0yA3hHZKUQUuhzjrF2cLx8ijZS/XfH/u7o
-	0VmU6yK5odywkl4MBOvXpvgHDKVGztbY4JB51TJimpr+qcQdTMEBdoOk65Vr2LSNCT48GIHLLnF
-	VJNN4o/ja9lE46FuHLHLibk0g0k2+TcJp63/DYHGsgRf0KuEuGu5dr71M8M4GyB9h371fqHKIs7
-	8+7j3eGah2X8fUygSUVC8DuSPgk2/3OK+oMLSFvM/V6URHtwu
-X-Received: by 2002:a05:7300:e9d9:10b0:34c:bc38:e2ee with SMTP id 5a478bee46e88-3514e2f4ca6mr2599975eec.8.1791310788889;
-        Tue, 06 Oct 2026 11:19:48 -0700 (PDT)
-X-Received: by 2002:a05:7300:e9d9:10b0:34c:bc38:e2ee with SMTP id 5a478bee46e88-3514e2f4ca6mr2599280eec.8.1791310773165;
-        Tue, 06 Oct 2026 11:19:33 -0700 (PDT)
-Received: from hu-ashoraj-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3515abb67e5sm302800eec.4.2026.10.06.11.19.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 11:19:32 -0700 (PDT)
-Date: Tue, 6 Oct 2026 11:19:30 -0700
-From: Ashok Raj <ashok.raj@oss.qualcomm.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: shijujose2008@gmail.com, rafael@kernel.org, akpm@linux-foundation.org,
-        rppt@kernel.org, dferguson@amperecomputing.com,
-        linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org, tony.luck@intel.com,
-        lenb@kernel.org, Yazen.Ghannam@amd.com, mchehab@kernel.org,
-        jic23@kernel.org, linuxarm@huawei.com, rientjes@google.com,
-        jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
-        naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
-        somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
-        duenwen@google.com, gthelen@google.com, wschwartz@amperecomputing.com,
-        wbs@os.amperecomputing.com, nifan.cxl@gmail.com, tanxiaofei@huawei.com,
-        prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
-        kangkang.shen@futurewei.com, wanghuiqiang@huawei.com,
-        Ashok Raj <ashok.raj@oss.qualcomm.com>, ashoraj@qti.qualcomm.com
-Subject: Re: [PATCH v23 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
- table
-Message-ID: <asU7svV8g2Hb5DZl@hu-ashoraj-lv.qualcomm.com>
-References: <20260726212812.89266-1-shijujose2008@gmail.com>
- <20260726212812.89266-2-shijujose2008@gmail.com>
- <20261005235021.GBasQ3vXTivT3NLbBq@fat_crate.local>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="LPux/eGE"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id CB05540E03BE;
+	Wed,  7 Oct 2026 02:12:10 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id pBR29GntPvhf; Wed,  7 Oct 2026 02:12:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1791339120; bh=edrBKizi8Y/o+NoHr6PB6dvEJtTx1JjOPN8f3xwfv9M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LPux/eGELh8vaNuJWr8dk8iSCdGcGJiwmBuUuuFqYoeD47MpG7Hh5cV/mpRq8s4jr
+	 Rwc20VcjFSg3ALXfNOVf/VzdPOw9mSuoq49eUSBmoGADabvavw9N8qo8tYKfZfxP8i
+	 77tQKPXAL2+a7vwSqRCZKbsjlFErczhxLETPkAui+7qUXALxxvxOx4dHqwFYXug0eH
+	 o2BGxUTTx1zrX0INN4UnR+y1MdGj56HnwlSZ4hhuwx+IeQKr7yzfjcZKsfH6td2Ze4
+	 f9SU9UdskazsAISTc72zElEE80U5ohBrw5UZq8c6XWHdPSVYApkvtBzw87J4vo1+Eb
+	 oQQbgH4AJv9G8nLqBGRhker9oWuovMZYV0OSbRNUFAR5DGSNspX/YP2G67FePQSPno
+	 vjVdGBpHvgxsVN8sDL9vqUj3YP1rAO8M1T852LdwsMUr/ZHQTdiVJ8WGUj0E8nbNCQ
+	 GqmQ49x0mcXb6gvtsdCmSSz7QctWfoMfULNx85OcDMm6JfVftQgY6OdUR9kbHjla+y
+	 kmXHu1jdwoGZxJJIEQR0JrGL1zyPVlsX1jTm3gml3wpYeT40SKkIGWNufHb/pY21Vs
+	 3mPl+/sWu283AioJMvcDIZtLfd/xJ1HnKyGcPTH9M0iMDBdzO7RuV7gZuPOXK4YYLq
+	 3v3WMoTPnwFlTTVSvyqyvkGY=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 13CA940E00B9;
+	Wed,  7 Oct 2026 02:11:45 +0000 (UTC)
+Date: Tue, 6 Oct 2026 19:11:42 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Paul Louvel <paul.louvel@bootlin.com>
+Cc: Tony Luck <tony.luck@intel.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-edac@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Herve Codina <herve.codina@bootlin.com>
+Subject: Re: [PATCH v5 2/3] EDAC/cadence: Add Cadence DDR EDAC driver
+Message-ID: <20261007021142.GAasWqXsuPpjYUIYIv@fat_crate.local>
+References: <20261005-paul-v7-3-rc1-edac-v5-0-140a0f124bc0@bootlin.com>
+ <20261005-paul-v7-3-rc1-edac-v5-2-140a0f124bc0@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -109,220 +70,329 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261005235021.GBasQ3vXTivT3NLbBq@fat_crate.local>
-X-Proofpoint-ORIG-GUID: PSbvXhmrDeop2o6eW3BE-xfAxCs50vgU
-X-Proofpoint-GUID: PSbvXhmrDeop2o6eW3BE-xfAxCs50vgU
-X-Authority-Analysis: v=2.4 cv=Xt5vqlF9 c=1 sm=1 tr=0 ts=6ac53bc6 cx=c_pps
- a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=bC-a23v3AAAA:8 a=pGLkceISAAAA:8 a=MvuuwTCpAAAA:8 a=VwQbUJbxAAAA:8
- a=vzhER2c_AAAA:8 a=EUspDBNiAAAA:8 a=NDcxwIbCrCWPj7GKXwgA:9 a=QEXdDO2ut3YA:10
- a=6Ab_bkdmUrQuMsNx7PHu:22 a=FO4_E8m0qiDe52t0p3_H:22 a=0YTRHmU2iG2pZC6F1fw2:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA2MDA3MyBTYWx0ZWRfX9PYYYJFkTtPK
- O9FweM/zCU4ZY+JdJsrkgw+96vOC5efuYnOuUo9PcP/MeYJYJdHxfnNiUIK9CcQLAJJD7C882NG
- euKOQBBhFhyCfkjT8q7iuvEHdiSrvHBKR1vL/LruT3CExbu7vN0nPRAStCkAU4CF1LRrYmJkBBL
- eDQHqKGo8YGO67s0xdaYKjgYP0fIDfxH3y7kNH4Bxto5zqH18HguLEI7S5ODTaNc0C4bIWszQsB
- C/voyDFL47MDxyzAR3vqgdcZKXbdBCvIvQJUbxfbNFyPjMfd/U8OkwOM934ZEpkJh1LJJFgq6dz
- AlG0FhjQkx2TPcerd/D0k2B3xmhKD3UBnZvB6MkYK0qW1cVvTx2JMSvNd2pzg66+cOkqpvf0CSn
- rVoQZ4zICDhxyhxxDd+tdF1yfPgM9B7fmPaL8UuU0LuGrsLzp9FMEEUVJhuJx65tVuEOD7X+KGV
- GnGbx/GTICLAE24M9Bw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA2MDA3MyBTYWx0ZWRfX3kUy069MUHHb
- xCT+ybjPCw3O8qGMqURNyVmmjRxuU0lV2mBTQUx1oLh3Y14EH9EKmpRg9ZHzrvnMNamegA4M96Q
- CRAkPbnLGoLY4/2SS9rN+Fm7hE8Pts8=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-06_05,2026-10-06_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 malwarescore=0 clxscore=1015 phishscore=0
- impostorscore=0 suspectscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610060073
+In-Reply-To: <20261005-paul-v7-3-rc1-edac-v5-2-140a0f124bc0@bootlin.com>
 
-Boris, Hi
+On Mon, Oct 05, 2026 at 02:49:23PM +0200, Paul Louvel wrote:
+> diff --git a/drivers/edac/Makefile b/drivers/edac/Makefile
+> index a37534300ab9..0d66a072b15c 100644
+> --- a/drivers/edac/Makefile
+> +++ b/drivers/edac/Makefile
+> @@ -82,6 +82,7 @@ obj-$(CONFIG_EDAC_SYNOPSYS)		+= synopsys_edac.o
+>  obj-$(CONFIG_EDAC_XGENE)		+= xgene_edac.o
+>  obj-$(CONFIG_EDAC_TI)			+= ti_edac.o
+>  obj-$(CONFIG_EDAC_QCOM)			+= qcom_edac.o
+> +obj-$(CONFIG_EDAC_CADENCE)		+= cadence_edac.o
 
-everything looks great, just one minor ordering bug we discovered, noted
-below.
+This goes at the end of that file.
 
-
-On Mon, Oct 05, 2026 at 04:50:21PM -0700, Borislav Petkov wrote:
-> On Sun, Jul 26, 2026 at 10:28:11PM +0100, shijujose2008@gmail.com wrote:
-> > From: Shiju Jose <shijujose2008@gmail.com>
-> > 
-> > ACPI 6.5 Specification, section 5.2.21, defined RAS2 feature table (RAS2).
-> > Driver adds support for RAS2 feature table, which provides interfaces for
-> > platform RAS features, e.g., for HW-based memory scrubbing, and logical to
-> > PA translation service. RAS2 uses PCC channel subspace for communicating
-> > with the ACPI compliant HW platform.
-> > 
-> > Co-developed-by: A Somasundaram <somasundaram.a@hpe.com>
-> > Signed-off-by: A Somasundaram <somasundaram.a@hpe.com>
-> > Co-developed-by: Jonathan Cameron <jic23@kernel.org>
-> > Signed-off-by: Jonathan Cameron <jic23@kernel.org>
-> > Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-> > Reviewed-by: Ashok Raj <ashok.raj@oss.qualcomm.com>
-> > Signed-off-by: Shiju Jose <shijujose2008@gmail.com>
-> > ---
-> >  drivers/acpi/Kconfig  |  11 +
-> >  drivers/acpi/Makefile |   1 +
-> >  drivers/acpi/bus.c    |   3 +
-> >  drivers/acpi/ras2.c   | 509 ++++++++++++++++++++++++++++++++++++++++++
-> >  include/acpi/ras2.h   |  57 +++++
-> >  5 files changed, 581 insertions(+)
-> >  create mode 100644 drivers/acpi/ras2.c
-> >  create mode 100644 include/acpi/ras2.h
-> 
-> Ok, went through it one last time, I hope. Caught a bunch of things, see
-> changelog. See below if it still does what it should.
-> 
-> Thx.
-> 
-> ---
-> From: Shiju Jose <shijujose2008@gmail.com>
-> Date: Sun, 26 Jul 2026 22:28:11 +0100
-> Subject: [PATCH] ACPI:RAS2: Add a driver for the ACPI RAS2 feature table
-> 
-> The ACPI 6.5 Specification, section 5.2.21, defines a RAS2 feature table
-> (RAS2). Add a driver supporting that RAS2 feature table and which provides
-> interfaces for platform RAS features, e.g., for HW-based memory scrubbing, and
-> logical to PA translation service. RAS2 uses PCC channel subspace for
-> communicating with the ACPI compliant HW platform.
-> 
->   [ bp:
->    - Massage commit message
->    - in ras2_send_pcc_cmd():
->     - check check_pcc_chan() retval
->     - remove else assignment to rc = 0 after mbox_send_message() call
->    - Do proper error unwinding in register_pcc_channel()
->    - Do proper error unwinding for auxiliary_device_init() in
->      add_aux_device()
->    - Cleanup parse_ras2_table() some
->    - drop ras2_ prefix from all static functions
->    - unbreak long lines
->    - minor touchups ]
-
-Your cleanup and unwind path is good!
-
-> 
-> Co-developed-by: A Somasundaram <somasundaram.a@hpe.com>
-> Signed-off-by: A Somasundaram <somasundaram.a@hpe.com>
-> Co-developed-by: Jonathan Cameron <jic23@kernel.org>
-> Signed-off-by: Jonathan Cameron <jic23@kernel.org>
-> Signed-off-by: Shiju Jose <shijujose2008@gmail.com>
-> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-> Reviewed-by: Ashok Raj <ashok.raj@oss.qualcomm.com>
-> Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-> Link: https://patch.msgid.link/20260726212812.89266-2-shijujose2008@gmail.com
-> ---
->  drivers/acpi/Kconfig  |  10 +
->  drivers/acpi/Makefile |   1 +
->  drivers/acpi/bus.c    |   3 +
->  drivers/acpi/ras2.c   | 517 ++++++++++++++++++++++++++++++++++++++++++
->  include/acpi/ras2.h   |  57 +++++
->  5 files changed, 588 insertions(+)
->  create mode 100644 drivers/acpi/ras2.c
->  create mode 100644 include/acpi/ras2.h
-> 
-
-[snip]
-
+>  obj-$(CONFIG_EDAC_ASPEED)		+= aspeed_edac.o
+>  obj-$(CONFIG_EDAC_BLUEFIELD)		+= bluefield_edac.o
+>  obj-$(CONFIG_EDAC_DMC520)		+= dmc520_edac.o
+> diff --git a/drivers/edac/cadence_edac.c b/drivers/edac/cadence_edac.c
+> new file mode 100644
+> index 000000000000..26b9a7facd57
+> --- /dev/null
+> +++ b/drivers/edac/cadence_edac.c
+> @@ -0,0 +1,399 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright 2015 Renesas Electronics Europe Ltd.
+> + * Copyright 2026 Bootlin
+> + *
+> + * Based on highbank EDAC driver:
+> + *
+> + * Copyright 2011-2012 Calxeda, Inc.
+> + */
 > +
-> +static struct ras2_sspcc *sspcc_get(int pcc_id)
+> +#include <linux/bits.h>
+> +#include <linux/bitfield.h>
+> +#include <linux/clk.h>
+> +#include <linux/edac.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mm.h>
+> +#include <linux/of_address.h>
+> +#include <linux/string.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/platform_device.h>
+
+How many of those includes are *actually* needed?
+
+> +#include "edac_mc.h"
+> +#include "edac_module.h"
+> +
+> +#define DRV_NAME "cdns_edac"
+
+"cadence_edac" is a perfectly fine name.
+
+> +#define REG_BYTE_SZ 4
+> +#define DDR_CTL(n) ((n) * REG_BYTE_SZ)
+> +
+> +#define CDNS_DDR_DDR_STAT DDR_CTL(0)
+
+Align all defines vertically like this:
+
+#define REG_BYTE_SZ		4
+#define DDR_CTL(n)		((n) * REG_BYTE_SZ)
+
+#define CDNS_DDR_DDR_STAT	DDR_CTL(0)
+...
+
+> +#define CDNS_DDR_DDR_STAT_DRAM_CLASS GENMASK_U32(11, 8)
+> +#define CDNS_DDR_DDR_STAT_DRAM_DDR2 BIT(2)
+> +#define CDNS_DDR_DDR_STAT_GET_DRAM_CLASS(reg) FIELD_GET(CDNS_DDR_DDR_STAT_DRAM_CLASS, reg)
+
+Also, I would shorten those long mouthfuls so that the code remains relatively
+readable. The "DDR_DDR" thing above is the first I'd whack. And so on.
+
+> +#define CDNS_DDR_ECC_STAT DDR_CTL(36)
+> +#define CDNS_DDR_ECC_STAT_ENABLED BIT(16)
+> +#define CDNS_DDR_ECC_STAT_IS_ENABLED(reg) FIELD_GET(CDNS_DDR_ECC_STAT_ENABLED, reg)
+> +#define CDNS_DDR_ECC_STAT_FWC BIT(24)
+> +
+> +#define CDNS_DDR_ECC_XOR DDR_CTL(37)
+> +#define CDNS_DDR_ECC_XOR_CHECK_BITS GENMASK_U32(13, 0)
+> +
+> +#define CDNS_DDR_BUS_CTRL DDR_CTL(54)
+> +#define CDNS_DDR_BUS_CTRL_REDUC BIT(1)
+> +
+> +/* DDR Controller Error Registers */
+> +
+> +#define CDNS_DDR_ECC_U_ERR_ADDR DDR_CTL(38)
+> +#define CDNS_DDR_ECC_U_ERR_STAT DDR_CTL(39)
+> +
+> +#define CDNS_DDR_ECC_C_ERR_ADDR DDR_CTL(41)
+> +#define CDNS_DDR_ECC_C_ERR_STAT DDR_CTL(42)
+> +
+> +#define CDNS_DDR_ECC_ERR_STAT_GET_SYNDROME(reg) FIELD_GET(GENMASK(6, 0), reg)
+> +
+> +#define CDNS_DDR_PORT_CMD_ERR_ADDR DDR_CTL(61)
+> +#define CDNS_DDR_PORT_CMD_ERR_TYPE DDR_CTL(62)
+> +#define CDNS_DDR_PORT_CMD_ERR_TYPE_GET(reg) FIELD_GET(GENMASK_U32(10, 8), reg)
+> +
+> +/* DDR Controller Interrupt Registers */
+> +
+> +#define CDNS_DDR_ECC_INT_STAT DDR_CTL(56)
+> +#define CDNS_DDR_ECC_INT_STAT_CE BIT(3)
+> +#define CDNS_DDR_ECC_INT_STAT_MULTIPLE_CE BIT(4)
+> +#define CDNS_DDR_ECC_INT_STAT_UE BIT(5)
+> +#define CDNS_DDR_ECC_INT_STAT_MULTIPLE_UE BIT(6)
+> +#define CDNS_DDR_ECC_INT_STAT_PORT_CMD_CHAN BIT(7)
+> +
+> +#define CDNS_DDR_ECC_INT_ACK DDR_CTL(57)
+> +#define CDNS_DDR_ECC_INT_ACK_MASK GENMASK_U32(21, 0)
+> +
+> +#define CDNS_DDR_ECC_INT_CTRL DDR_CTL(58)
+> +#define CDNS_DDR_ECC_INT_CTRL_MASK GENMASK_U32(21, 0)
+> +#define CDNS_DDR_ECC_INT_CTRL_MASK_ALL BIT(22)
+> +#define CDNS_DDR_ECC_INT_CTRL_UNMASK(i) ((~(i)) & CDNS_DDR_ECC_INT_CTRL_MASK)
+> +
+> +struct cdns_mc_priv {
+
+For all privately used struct names and static functions, drop the "cdns_"
+namespace prefix - it is not necessary.
+
+> +	int irq;
+> +	void __iomem *io_base;
+> +	struct dentry *debugfs;
+> +	spinlock_t lock;
+> +	u16 xor_check_bits;
+> +};
+> +
+> +static irqreturn_t cdns_mc_err_handler(int irq, void *dev_id)
 > +{
-> +	struct ras2_sspcc *sspcc;
+> +	struct mem_ctl_info *mci = dev_id;
+> +	struct cdns_mc_priv *priv = mci->pvt_info;
+> +	u32 addr, status, err_addr, syndrome, reg;
+> +	char other_details_str[32];
+> +	u8 type;
 > +
-> +	guard(mutex)(&sspcc_lst_lock);
-> +	list_for_each_entry(sspcc, &sspcc_lst, elem) {
-> +		if (sspcc->pcc_id != pcc_id)
-> +			continue;
+> +	/* Read the interrupt status register */
+
+The fact that you have to put an obvious comment above the read of a register
+basically says that your register naming is not optimal enough. If you name it
+properly, you don't need a comment.
+
+> +	status = readl(priv->io_base + CDNS_DDR_ECC_INT_STAT);
+> +	if (!status)
+> +		return IRQ_NONE;
 > +
-> +		if (!kref_get_unless_zero(&sspcc->kref))
-> +			break;
+> +	/*
+> +	 * We can't know how many CE / UE occurred since last ACK in case of
+
+Please use passive voice: no "we" or "I", etc, and describe things in an
+imperative mood.
+
+> +	 * multiple errors. Just report it.
+> +	 */
 > +
-> +		return sspcc;
+> +	if ((status & CDNS_DDR_ECC_INT_STAT_UE) || (status & CDNS_DDR_ECC_INT_STAT_MULTIPLE_UE)) {
+
+This is what I mean with too long lines. That one and others like it needs
+shortening.
+
+Also this test can be merged into a single one by ORing the flags.
+
+> +		reg = readl(priv->io_base + CDNS_DDR_ECC_U_ERR_STAT);
+> +		syndrome = CDNS_DDR_ECC_ERR_STAT_GET_SYNDROME(reg);
+> +
+> +		err_addr = readl(priv->io_base + CDNS_DDR_ECC_U_ERR_ADDR);
+> +
+> +		edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci, 1, err_addr >> PAGE_SHIFT,
+> +				     err_addr & ~PAGE_MASK, syndrome, 0, 0, -1, mci->ctl_name, "");
+> +	}
+
+ditto for that one below:
+
+> +	if ((status & CDNS_DDR_ECC_INT_STAT_CE) || (status & CDNS_DDR_ECC_INT_STAT_MULTIPLE_CE)) {
+> +		reg = readl(priv->io_base + CDNS_DDR_ECC_C_ERR_STAT);
+> +		syndrome = CDNS_DDR_ECC_ERR_STAT_GET_SYNDROME(reg);
+> +
+> +		err_addr = readl(priv->io_base + CDNS_DDR_ECC_C_ERR_ADDR);
+> +
+> +		edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, 1, err_addr >> PAGE_SHIFT,
+> +				     err_addr & ~PAGE_MASK, syndrome, 0, 0, -1, mci->ctl_name, "");
 > +	}
 > +
-> +	return NULL;
+> +	if (status & CDNS_DDR_ECC_INT_STAT_PORT_CMD_CHAN) {
+
+What kind of an error is that one so that you have to call
+edac_mc_handle_error() for it separately?
+
+> +		addr = readl(priv->io_base + CDNS_DDR_PORT_CMD_ERR_ADDR);
+> +		reg = readl(priv->io_base + CDNS_DDR_PORT_CMD_ERR_TYPE);
+> +		type = CDNS_DDR_PORT_CMD_ERR_TYPE_GET(reg);
+> +
+> +		snprintf(other_details_str, sizeof(other_details_str), "type 0x%02x", type);
+> +
+> +		edac_mc_handle_error(HW_EVENT_ERR_INFO, mci, 1, addr >> PAGE_SHIFT,
+> +				     addr & ~PAGE_MASK, 0, 0, 0, -1, mci->ctl_name,
+> +				     other_details_str);
+> +	}
+> +
+> +	/* clear the error, clears the interrupt */
+
+No need for obvious comments. Audit your whole driver pls.
+
+> +	writel(status & CDNS_DDR_ECC_INT_ACK_MASK, priv->io_base + CDNS_DDR_ECC_INT_ACK);
+> +
+> +	return IRQ_HANDLED;
 > +}
 > +
-> +static int register_pcc_channel(struct ras2_mem_ctx *ras2_ctx, int pcc_id)
+> +static int cdns_get_mem_sz(resource_size_t *mem_sz)
+
+Do not use an I/O function param but return the correct size or an error and
+have call site handle that.
+
+Looking how that function is called only once, simply merge it into the call
+site.
+
 > +{
-> +	struct pcc_mbox_chan *pcc_chan;
-> +	struct ras2_sspcc *sspcc;
+> +	struct device_node *np;
+> +	struct resource res;
 > +	int ret;
 > +
-> +	if (pcc_id < 0)
-> +		return -EINVAL;
+> +	np = of_find_node_by_name(NULL, "memory");
+> +	if (!np)
+> +		return -ENODEV;
 > +
-> +	sspcc = sspcc_get(pcc_id);
-> +	if (sspcc) {
-> +		ras2_ctx->sspcc	    = sspcc;
-> +		ras2_ctx->comm_addr = sspcc->comm_addr;
-> +		ras2_ctx->dev	    = sspcc->pcc_chan->mchan->mbox->dev;
-> +		ras2_ctx->pcc_lock  = &sspcc->pcc_lock;
+> +	ret = of_address_to_resource(np, 0, &res);
 > +
-> +		return 0;
-> +	}
+> +	of_node_put(np);
 > +
-> +	sspcc = kzalloc(sizeof(*sspcc), GFP_KERNEL);
-> +	if (!sspcc)
-> +		return -ENOMEM;
+> +	if (ret)
+> +		return ret;
 > +
-	__mbox_bind_client() reads knows_txdone at bind time to promote the
-	channel off MBOX_TXDONE_BY_POLL. It must be set before requesting the
-	channel, otherwise the channel stays on polling and mbox_client_txdone()
-	later hits the mailbox core's "Client can't run the TX ticker" guard.
-
-	sspcc->mbox_client.knows_txdone = true;
-
-> +	pcc_chan = pcc_mbox_request_channel(&sspcc->mbox_client, pcc_id);
-> +	if (IS_ERR(pcc_chan)) {
-> +		ret = PTR_ERR(pcc_chan);
-> +		goto ret_err_mbox;
-> +	}
-> +
-> +	if (!pcc_chan->shmem || pcc_chan->shmem_size < sizeof(struct acpi_ras2_shmem)) {
-> +		ret = -EINVAL;
-> +		goto ret_err_shmem;
-> +	}
-> +
-> +	sspcc->pcc_id		= pcc_id;
-> +	sspcc->pcc_chan		= pcc_chan;
-> +	sspcc->comm_addr	= pcc_chan->shmem;
-> +
-> +	if (pcc_chan->latency)
-> +		sspcc->deadline_us = PCC_NUM_RETRIES * pcc_chan->latency;
-> +	else
-> +		sspcc->deadline_us = PCC_NUM_RETRIES * PCC_CHNL_DEFAULT_LATENCY;
-> +
-> +	sspcc->pcc_mrtt		= pcc_chan->min_turnaround_time;
-> +	sspcc->pcc_mpar		= pcc_chan->max_access_rate;
-> +
-> +	sspcc->mbox_client.knows_txdone	= true;
-
-        ^^^^ This needs to be set before request_channel above. 
-> +
-> +	mutex_init(&sspcc->pcc_lock);
-> +	kref_init(&sspcc->kref);
-> +
-> +	mutex_lock(&sspcc_lst_lock);
-> +	list_add(&sspcc->elem, &sspcc_lst);
-> +	mutex_unlock(&sspcc_lst_lock);
-> +
-> +	ras2_ctx->sspcc		= sspcc;
-> +	ras2_ctx->comm_addr	= sspcc->comm_addr;
-> +	ras2_ctx->dev		= pcc_chan->mchan->mbox->dev;
-> +	ras2_ctx->pcc_lock	= &sspcc->pcc_lock;
+> +	*mem_sz = resource_size(&res);
 > +
 > +	return 0;
-> +
-> +ret_err_shmem:
-> +	pcc_mbox_free_channel(pcc_chan);
-> +
-> +ret_err_mbox:
-> +	kfree(sspcc);
-> +
+> +}
 
+> +
+> +#ifdef CONFIG_EDAC_DEBUG
+> +
+> +static void cdns_rmw(struct cdns_mc_priv *priv, u32 reg, u32 mask, u32 val)
+> +{
+> +	u32 regval;
+> +
+> +	regval = readl(priv->io_base + reg);
+> +	regval &= ~mask;
+> +	regval |= (val << __bf_shf(mask)) & mask;
+> +	writel(regval, priv->io_base + reg);
+> +}
+> +
+> +static ssize_t cdns_force_ecc_error(struct file *file, const char __user *data, size_t count,
+> +				    loff_t *ppos)
+> +{
+> +	struct device *dev = file->private_data;
+> +	struct mem_ctl_info *mci = to_mci(dev);
+> +	struct cdns_mc_priv *priv = mci->pvt_info;
+> +
+> +	spin_lock(&priv->lock);
+> +
+> +	cdns_rmw(priv, CDNS_DDR_ECC_XOR, CDNS_DDR_ECC_XOR_CHECK_BITS, priv->xor_check_bits);
+> +	cdns_rmw(priv, CDNS_DDR_ECC_STAT, CDNS_DDR_ECC_STAT_FWC, 1);
+> +
+> +	spin_unlock(&priv->lock);
+> +
+> +	return count;
+> +}
+> +
+> +static const struct file_operations cdns_ecc_error_fops = {
+> +	.open = simple_open,
+> +	.write = cdns_force_ecc_error,
+> +	.llseek = generic_file_llseek,
+> +};
 
-Cheers,
-Ashok
+#else
+static ssize_t cdns_force_ecc_error(struct file *file, const char __user *data, size_t count, loff_t *ppos)
+{
+	return 0
+}
+#endif
+
+and get rid of the ifdeffery below.
+
+> +static void cdns_setup_debugfs(struct mem_ctl_info *mci)
+> +{
+> +	struct cdns_mc_priv *priv = mci->pvt_info;
+> +
+> +	priv->debugfs = edac_debugfs_create_dir(DRV_NAME);
+> +	if (!priv->debugfs) {
+> +		dev_dbg(mci->pdev, "failed to create debugfs dir\n");
+> +		return;
+> +	}
+> +
+> +	edac_debugfs_create_x16("bits", 0644, priv->debugfs, &priv->xor_check_bits);
+> +	edac_debugfs_create_file("inject", 0200, priv->debugfs, &mci->dev, &cdns_ecc_error_fops);
+> +}
+> +
+> +#endif
+
+...
+
+> +
+> +	/*
+> +	 * Unmask ECC recoverable and unrecoverable interrupts, and port
+> +	 * command errors.
+> +	 */
+> +	writel(CDNS_DDR_ECC_INT_CTRL_UNMASK(
+> +		       CDNS_DDR_ECC_INT_STAT_CE | CDNS_DDR_ECC_INT_STAT_MULTIPLE_CE |
+> +		       CDNS_DDR_ECC_INT_STAT_UE | CDNS_DDR_ECC_INT_STAT_MULTIPLE_UE |
+> +		       CDNS_DDR_ECC_INT_STAT_PORT_CMD_CHAN),
+
+Yah, unreadable mess that. Shorten pls.
+
+> +	       io_base + CDNS_DDR_ECC_INT_CTRL);
+> +
+> +	return 0;
+> +}
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
