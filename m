@@ -1,100 +1,103 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E148388E62
-	for <linux-edac@vger.kernel.org>; Thu,  8 Oct 2026 17:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B22390226
+	for <linux-edac@vger.kernel.org>; Thu,  8 Oct 2026 18:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791482313; cv=pass; b=cQVNrJ8+5h5kgUcta4qME1o8em0L+a90mIDYXcYD2U5rb/DScXfrFXlWeMUKPE45DXaKY/VshnaWpbgPdVyFXTX+CSDYwXZuQTlBT4pbPwJ/glLclUgpEc0hUGl8aSn4prTKnBtHJc399r6VXtCr2KbI763KyF3JZd5AMN1vc/s=
+	t=1791485430; cv=pass; b=NSvAROnTybyhU267XhXFyiVU7qIUPdO+dh2KrLxGvUv6SSkkmF30G/U/gEDOFpF0JBkABeUv8R8t0IWuoaR0h6i+H6E7/uSyTySG54sw5PbHyDM+uyXM9TSSrDqmBNRGz+07w11wNlvNr7WhqqnV5EuA0Z1q6k+hqOXKPGKACfM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791482313; c=relaxed/simple;
-	bh=+PQHOWhS6Z/YJqJfeCNpqWI3Cf2C66ZMrvU1PsYpWWQ=;
+	s=arc-20240116; t=1791485430; c=relaxed/simple;
+	bh=lr8M7fmxQx+oenGID2VdP5yfHKsvKNwWZtz8MlvHV6k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fr7bGm0Hhx0lAo7PCmjVWT0ZXAToG/sK1pv7DgDHrFGYKWm/2Gr8hTt7pETza/y+d6rZNk3WHcOqU3l6RIFFRWdS+6mBq18LHQ8wQPU782jJzkhd7ankUrLeL6/XinGVi6hNZCnY+7MTH90ZUiRDav8oXL1IjfmVgMAYLwYVboM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ak6PV6fo; arc=pass smtp.client-ip=209.85.210.49
+	 To:Cc:Content-Type; b=epMCMX2ppohDcThlhuH0BAEpXlbfxxrvfkW4foa7fp8hp713ES/vUnkMu4IOmItFWelqY+T50LI8XCchXEmndw0YqCiOsKpioWEG2VZQc+iiAjn25QN6eYaXFO4j7CNsg12D1OhuouE/lfZLMb0/kfuR4itg9PEpuYkaum922RM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Omizmiq5; arc=pass smtp.client-ip=209.85.210.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ak6PV6fo"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-825b40f8a26so1616010a34.1
-        for <linux-edac@vger.kernel.org>; Thu, 08 Oct 2026 10:58:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791482311; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Omizmiq5"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-81c5aac8478so2099071a34.0
+        for <linux-edac@vger.kernel.org>; Thu, 08 Oct 2026 11:50:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791485420; cv=none;
         d=google.com; s=arc-20260327;
-        b=Z+gicISeHiAJzNkHEj1U/zls3oxQTprXvH3T93M/eYOIWbMhnepdft8KibpiNs6+6b
-         0DPrRTKVuKpXmQQviKjKaMRebGcSu7QMcCBnmoWaSMdaxmwn/CDLUpVCe4e1p7xJaU4r
-         hLhKTgunRTrWEySfth7QSIrzJVK9EQzCDNbSJHnik+x/t67EG4LCe4Pjj2K3r1jW1Rnr
-         U/U1SoMIw3G0Ly5sTHj1MUjhiGmI7mjFDgdCZ5b9QApXNkZFsTYfLcE93GttJ2vAGOhg
-         D1kO5D0o5ah5lG0AWZ3hLvVdM7kilfFdoE1+HnbREX1OlKIhbRHyZrmUBxk7YWSizbF5
-         HAPg==
+        b=L7UM07lzI6x5aRRlJ5XuGq6VKSiDhjQAziUFMqb9P4kgsY5oxDqWJ4ldwYMImYnrLQ
+         pgb85F6rBsFOv5RkQw2DHGp92pV/p3H12MlSnWD2R5tCdPjZXd3efonHAo49DjhwKvNX
+         iBr/6U+kj1JVMeOYzrg1brapEnXD4ZEt2MhZ4p6sCGUK1bOldH8LI0vQsvn6+Mkjhw4G
+         2QPySgnCuuUUpFTu3yVJ2bSiVzJWE05qgYpmiB3lzTtNyBhz8hm+SnavpM9JWyKa2wL2
+         avnnngmriqKDj3OPT4yMuGF8B7Aqx19kU32Mp6Qw6TOTervRul9Wqw6scat4oa4/P7ry
+         BCQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=t87G03YJP+Jtnvd/a8HSoKeiu6kRlnnSEIlqeg1Cd6Q=;
-        fh=l0vGJi15dmyfYu5R5jLiA6GSfOQmBn+IzloymgnaL9w=;
-        b=Kas7bNFf964AMgZZAzNvUyZgSjQt4YYtHbjMPivnlk2odRTblAv936pu60swuabacR
-         4loxCxi3F9lCwUSDmK0PNpv7OMESdlR6JeXHn5xQz/+oVW3ydhLZTazzPQrzp6Lox52+
-         XyCIzhvlQlin/udiONWj7kWwUiVXWm8od154x0LFoGSX4b0PJ6uMX/Ck2cLDM4KXdld3
-         1j4u4f5+FWSOQurodraxVcLlicoCDrUgzdhzjuJd7lV8vN+OMSos1iG1liQiN15tixkt
-         RBEFYp+z+DyuCyuPNq7tVyeGOqgOWUH7UQK8OzBygsc1f5sJfkMFAIcoT6Pfl/CrTYvm
-         5fBw==;
+        bh=HUuHUTe3yEqV1MPJyew4xZgwaSUycY+L6akjTIcM0eo=;
+        fh=CG46sS/1QP3yFS7LOAQPUx2QX1b192wFF5r/SvJwvss=;
+        b=a0/a2E0MO2OdCG1kqg4AUvZWs2j91sNrshNugsumV9yLXO4apl5syB+zB8ftxCqlj8
+         gKHfmjEJfXOwO+ujp+3gzoTHZvllPOVJEfnnHHgkF6dRDbPoHNzQOSiyEisFmMG+eZNU
+         AqJp40tBC5x6esiwZ/Qcg2a1oiIuoJ2S04L6TCnRE/1QXvHRH22HppgZ6BM90O1ZEHw+
+         yeW7+4R04MUffeZ3o17KxHUYMgSv2yV8wZ85b5o/1tzY86P56yxfHujbxlW0+uu9POD4
+         vG3mJh8W+ZcJNldHopXoiC7+YIXWNC8DfYunLglHFl1ONGRkizhWTxO5wZnMOKxR2HPx
+         EGGg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791482311; x=1792087111; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791485420; x=1792090220; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=t87G03YJP+Jtnvd/a8HSoKeiu6kRlnnSEIlqeg1Cd6Q=;
-        b=ak6PV6foUHSdBw/tqnd94Q+TnEZpCxhtlK6/OZct3xv5qb47SaSigWejmO2nLb5gKn
-         3r6+beZ/nClYfGOgqGKeV4avpRwSWxevx1YSdvz/m4lKRmS3ebIuDs0gg8FFNXt3Tiiv
-         MOjvGwVWhQvBEJ/tOksOTdkApWeOyO6+z5hnMMQVYTFaIv74DdNWGU13W5+3CkusTe/N
-         /qh1feV14x5hom/T6x/kpUA7E1wxPwBPM6gqf2/58y+UyZCNL6+6UKdBMVuPaf2R3m9f
-         nKepwVqktpe6Gk4EavokJ8X26EbDp8OHgwCkrvirnE8kbtf8lxEGpQoybKnrse2O8Z7F
-         +zZA==
+        bh=HUuHUTe3yEqV1MPJyew4xZgwaSUycY+L6akjTIcM0eo=;
+        b=Omizmiq5kZD2GJIYcjN5Z1UlkdIXv+r+rTOY1/VbtxY4WeYAI5gkIPlvbvki1uJfcU
+         Z6h/3z2ll+vxeJ26AFdNi4EnbUF9DMHnopFSs9KsZIi/UpwN6chmQsGOgHx1BkLUz61t
+         ZTKZQWZYRIQQb0EDPAAcCKbvrHJEL8dzIbREJ21QUC+HbRkEhsQnvvNIUxJLbaWzuqEv
+         KQ9UA6TKp7GoVEwezvh4U+lPnKeWTYBsQW9VdGXTiGHUZIFh2b1JHPZT0SoS7mKG+AyN
+         qKgqQsFh9AlcsPTK8ukKIuR7qQbKdBM3XsItH0z0cPag+NfcHjW0IYsFMMzLJNhhBtJZ
+         SDSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791482311; x=1792087111;
+        d=1e100.net; s=20260707; t=1791485420; x=1792090220;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=t87G03YJP+Jtnvd/a8HSoKeiu6kRlnnSEIlqeg1Cd6Q=;
-        b=n7vJ72p2aTMC/CasmhFdJbwCV6Jx6uE5fXR0zkDGb2UWKlDfcfk1FKU11BfPVinRFd
-         3nbGo96TVx4SmO+HK0C0zLw9e+WGNXaXy6rQKMZb+OQrlTm37gzAt2YjKvfwvcJD0B62
-         9iLDb+L049jNj7xRkx+ymRaIVV+oo7q4nc+Bjau4A4N/ZkUBY0WvXVccNISGbcpqJNvq
-         Jlew43vWN81Nx0tv1+E7rmNME1rpL0zU9cr/El/BtMpi7XKxKOyuc5Pr3T045ol8gNZN
-         dJImHki5I6vCBHgsTA/bXf1jn4ZM1CYvnguZiIBqyZQoVSmlCAK65sHc4ZaTswECk4L6
-         i7tg==
-X-Forwarded-Encrypted: i=1; AKwUvBzvkuIFcfUPPmqRjxGSxnb1xTBwJE9XCpjx1JRX2ZB1KQzdZkUpbEAbCPhj87NcK+GKG6m8pGrRuu9o@vger.kernel.org
-X-Gm-Message-State: AFuF++l1AnjafK1OOX7bR7O3q/ELuw+zPf8RA5Zi+QKr+UJUQk8mdaBd
-	lVBjXdqzycEQHUlIXKgem0wcvDg2M7+9J5hBGDBN78YDpJVgBKT+s9U6c3vowJOAPR2DzCUVavJ
-	gHSChXkN1qtoro6ZtXnnJdSL3ac5Bsfg=
-X-Gm-Gg: AYBFou1WmA9iz77xmWdv89A4JI/MXlfQ7j+4yTCMhDUvEc3qF4rpsGtzS4qt79Uahy/
-	SZZExeFZfY/xx4sxnUeE9RXRIygeyt0qdxKiPrgBwyW7GG8vSAu6Qbl1+MzJ92JWEGS0+wWYsxu
-	3DO7+Ptmt6zi/YgCSnR4iDjdeBPTRjsm82mcBQHJA1/N0SWERbUvPuaQCPEuD2zmq5AlNEYkTV5
-	w8HQRfvr/O3/VECErYVtzyaR1Pnhi0OeUZdZnc5yoXjb7bPSwySyoSqiLtjd5LZY/w6bkbtLXa4
-	lwW2Lsg8CPVGRIUMkB7AbH9Yo6nLLNrmsRDqzzIKW1qiqcBDVM5wLx4=
-X-Received: by 2002:a05:6830:6ad8:b0:804:d4b0:a36 with SMTP id
- 46e09a7af769-82ad06ca857mr5680753a34.27.1791482311350; Thu, 08 Oct 2026
- 10:58:31 -0700 (PDT)
+        bh=HUuHUTe3yEqV1MPJyew4xZgwaSUycY+L6akjTIcM0eo=;
+        b=bOjSMsC+amutnY9O8W0kHkoq6GHy1TZMol9m/lEsQWc6yePVaasTZpNaQmYenEoicu
+         XRS/dQz6IAduJbEDhLqKVeohxOwGSCausl/asGAv0qlDGivzhMBqT2WTlkiY3bd/DK73
+         oifI0IbNtTH0cz4/7iOEwj1qr/LTzkzTiPlhRbloH4WG9XMGkA5d7zRJEd8TIwhsfDKf
+         Ppj8S+3wVmIP3ctn1O4mvbNNUSylUIiPsUqMjMSEteX8ycwaDUpCxqmSZrjp3SHropov
+         UmpUJXENz0R6T0dY+TTZ6rXSeHdPgT/tepQVDc1cX7p0tXPo1QTpjmXQr713elQTMgll
+         jBwA==
+X-Forwarded-Encrypted: i=1; AKwUvBw1C1QzuOxj2XlbM3qy55AtxRsYm98i0vTJSqZh3WQgE8esY6JkyKKxOgN2Or/zrsrzhaFckvtid2Hx@vger.kernel.org
+X-Gm-Message-State: AFuF++nVDjtbxyOQwK8XXjFZg9KENS0Gp0QmRlj7G7PKbgYUqjA/VK7y
+	SWZayeWeYBVq5HwSnXOsLjo2MJJGAzashEfAKbNvyJHpU9nOR3Bv5BwYkMMGi2FB8mJZw3tHoDA
+	LNy3uaYscKuF+mWcudvO+9gracANPN7Y=
+X-Gm-Gg: AYBFou3/e3+3MEkQgoarFP/9xFkkRQlEr+X/YVzQ+ntz80w845Sjqz6d3Q/VGucFZcG
+	7mDQ5d+snl5tN6DIe3Zk1QvMsSc054h7jVFYIPSC5V0EgzS+5SxuNW04BgDS0dAWIeSBWZkRviI
+	BMQDKtx1qrc7FYRWWnhia+j+gpWk3rzXsh3v6Yg48PEvoIgoaiyD1wpB+9O5epH4d4hyzsXMKPT
+	OhkQ1s2zz8Cj3AJX7HX4KdQ6gjOWntmOR7C99DxrczaOIADYK6RwjvlFimMyVsoYAG05VksjC5u
+	Sv40ohg24oee/TxWSm2dkiQtvovERMz/ni/TicK3ui4reV7TIKg5xV4=
+X-Received: by 2002:a05:6830:398e:b0:829:2af1:a07e with SMTP id
+ 46e09a7af769-82acce646e4mr6427817a34.3.1791485419594; Thu, 08 Oct 2026
+ 11:50:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260726212812.89266-1-shijujose2008@gmail.com> <ac2a8f1c-295e-4791-b233-cc8549430e07@oss.qualcomm.com>
-In-Reply-To: <ac2a8f1c-295e-4791-b233-cc8549430e07@oss.qualcomm.com>
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-2-shijujose2008@gmail.com> <20261005235021.GBasQ3vXTivT3NLbBq@fat_crate.local>
+ <asU7svV8g2Hb5DZl@hu-ashoraj-lv.qualcomm.com> <20261008030603.GAascImzt4cv8Gz49p@fat_crate.local>
+ <CAG4KcRLhN9=6xeT4qfqKLFdukiZLUc7akGcWwXJUU1-qrfxTUQ@mail.gmail.com> <20261008174114.GAasfVutvsmAk8JGsD@fat_crate.local>
+In-Reply-To: <20261008174114.GAasfVutvsmAk8JGsD@fat_crate.local>
 From: Shiju Jose <shijujose2008@gmail.com>
-Date: Thu, 8 Oct 2026 18:58:18 +0100
-X-Gm-Features: AclHuK8_IR-ipfDqjHPYRkAYBCIcO3XOLSiPBhuHH-voREme2zuF2x6jh8EHKeg
-Message-ID: <CAG4KcRLk3FdV1uKHhiTtr8uAuEB+Z=rBnrHgzPwPxQRsLyo-CA@mail.gmail.com>
-Subject: Re: [PATCH v23 0/2] ACPI: Add support for ACPI RAS2 feature table
-To: Sathvika Vasireddy <sathvika.vasireddy@oss.qualcomm.com>
-Cc: rafael@kernel.org, bp@alien8.de, akpm@linux-foundation.org, 
-	rppt@kernel.org, dferguson@amperecomputing.com, linux-edac@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	tony.luck@intel.com, lenb@kernel.org, Yazen.Ghannam@amd.com, 
-	mchehab@kernel.org, ashok.raj@oss.qualcomm.com, jic23@kernel.org, 
+Date: Thu, 8 Oct 2026 19:50:07 +0100
+X-Gm-Features: AclHuK-7nYIEHIpgx3dw55yERdZIxrZ2s_no432HghoTK3RqssmmaR0vXdDXvqQ
+Message-ID: <CAG4KcRLx69BK+aw+exUzPe+BW8exFM2LLvN9pEr-+1BoGVhFXg@mail.gmail.com>
+Subject: Re: [PATCH v23 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature table
+To: Borislav Petkov <bp@alien8.de>
+Cc: Ashok Raj <ashok.raj@oss.qualcomm.com>, rafael@kernel.org, 
+	akpm@linux-foundation.org, rppt@kernel.org, dferguson@amperecomputing.com, 
+	linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org, 
+	Yazen.Ghannam@amd.com, mchehab@kernel.org, jic23@kernel.org, 
 	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com, 
 	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, naoya.horiguchi@nec.com, 
 	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com, 
@@ -102,97 +105,44 @@ Cc: rafael@kernel.org, bp@alien8.de, akpm@linux-foundation.org,
 	gthelen@google.com, wschwartz@amperecomputing.com, wbs@os.amperecomputing.com, 
 	nifan.cxl@gmail.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com, 
 	roberto.sassu@huawei.com, kangkang.shen@futurewei.com, 
-	wanghuiqiang@huawei.com
+	wanghuiqiang@huawei.com, ashoraj@qti.qualcomm.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Sathvika,
+On Thu, Oct 8, 2026 at 6:42=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrote=
+:
+>
+> Shiju,
+>
+> On Thu, Oct 08, 2026 at 08:18:14AM +0100, Shiju Jose wrote:
+> > Thanks Ashok for reporting this issue.
+> >
+> > I debug this. nows_txdone used to set before requesting the channel
+> > until v16 and was changed in v17
+> > following a review comment by claude.
+> > Found this issue occurs when txdone_poll set and  setting nows_txdone
+> > before requesting the channel, solved.
+> > In my test setup,  I missed this issue, because txdone_irq was set in
+> > pcc_mbox_probe()
+> > with the acpi pcct flag set to ACPI_PCCT_DOORBELL by the firmware.
+>
+> What?!? I can barely understand what you're writing here.
+>
+> And tell me, how many times do I need to remind you not to top-post on pu=
+blic
+> mailing lists?
+>
+> Geez.
 
-Thanks for verifying and confirming.
+Sorry. I meant the issue occurred when setting the PCC signalling mode
+as polling for the RAS2 PCC
+(In include/acpi/actbl2.h struct acpi_table_pcct: flags).
 
-Hi Boris,
-
-Can you merge this change or Do you want me to send another version
-with the change?
-
-Thanks,
+Regards,
 Shiju
-
-
-On Thu, Oct 8, 2026 at 8:38=E2=80=AFAM Sathvika Vasireddy
-<sathvika.vasireddy@oss.qualcomm.com> wrote:
 >
-> Hi Shiju,
+> --
+> Regards/Gruss,
+>     Boris.
 >
-> On 27-07-2026 02:58, shijujose2008@gmail.com wrote:
-> > From: Shiju Jose <shijujose2008@gmail.com>
-> >
-> > Add support for ACPI RAS2 feature table (RAS2) defined in the
-> > ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
-> > scrubbing feature.
-> >
-> > ACPI RAS2 patches were part of the EDAC series [1].
-> >
-> > The code is based on linux.git v7.2-rc2 [2].
-> >
-> > 1. https://lore.kernel.org/linux-cxl/20250212143654.1893-1-shiju.jose@h=
-uawei.com/
-> > 2. https://github.com/torvalds/linux.git
-> >
->
-> [snip]
->
-> > Shiju Jose (2):
-> >    ACPI:RAS2: Add driver for the ACPI RAS2 feature table
-> >    ras: mem: Add ACPI RAS2 memory driver
-> >
-> >   Documentation/ABI/testing/sysfs-edac-scrub |  20 +-
-> >   Documentation/edac/scrub.rst               |  70 +++
-> >   drivers/acpi/Kconfig                       |  11 +
-> >   drivers/acpi/Makefile                      |   1 +
-> >   drivers/acpi/bus.c                         |   3 +
-> >   drivers/acpi/ras2.c                        | 509 +++++++++++++++++
-> >   drivers/edac/scrub.c                       |  12 +
-> >   drivers/ras/Kconfig                        |  13 +
-> >   drivers/ras/Makefile                       |   1 +
-> >   drivers/ras/acpi_ras2.c                    | 624 ++++++++++++++++++++=
-+
-> >   include/acpi/ras2.h                        |  86 +++
-> >   include/linux/edac.h                       |   4 +
-> >   12 files changed, 1349 insertions(+), 5 deletions(-)
-> >   create mode 100644 drivers/acpi/ras2.c
-> >   create mode 100644 drivers/ras/acpi_ras2.c
-> >   create mode 100644 include/acpi/ras2.h
-> >
->
-> I applied the v23 RAS2 series on top of Linux v7.2-rc2 and tested it.
->
-> Verified ACPI RAS2 and PCCT discovery, PCC mailbox registration, EDAC
-> scrub device creation, scrub capability sysfs attributes, background
-> scrub control, and demand scrub operations.
->
-> I also reproduced the PCC TX ticker issue reported during Ashok's review
-> of patch 1/2 and confirmed that the proposed fix (initializing
-> mbox_client.knows_txdone before pcc_mbox_request_channel()) resolves it.
->
-> Without the proposed fix:
->
->    # d=3D/sys/bus/edac/devices/acpi_ras_mem0/scrub0
->    # echo 0x8000000000 > $d/addr
->    # echo 0x1000000 > $d/size
->    # echo 1 > $d/enable_demand
->
->    [125.577700] PCCT PCCT: Client can't run the TX ticker
->    [125.577704] PCCT PCCT: Client can't run the TX ticker
->
-> After applying the proposed fix and repeating the same test, the PCC TX
-> ticker error was no longer observed.
->
-> Based on the above testing of the complete v23 series together with the
-> proposed PCC fix, feel free to add:
->
-> Tested-by: Sathvika Vasireddy <sathvika.vasireddy@oss.qualcomm.com>
->
-> Thanks,
-> Sathvika
->
+> https://people.kernel.org/tglx/notes-about-netiquette
