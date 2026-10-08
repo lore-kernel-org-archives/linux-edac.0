@@ -1,122 +1,155 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D47731ED7C;
-	Thu,  8 Oct 2026 03:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E92E6283FE5;
+	Thu,  8 Oct 2026 07:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791428827; cv=none; b=QSCgv9IEHrv0hrUVlD7CTMS+pk4Ujd5H7IlmXJWc6+15SS/FteVY1FBvC50r4CBQxw8arCTgZXxqcwNzE5YVRd99Y6/WVaHVnKLr2peNrwRxrBH7wO065zWrCEmYjOdAlK5bjruCO8bg/6JrkyOYSoFoHAKDMxgRx+utyRLsuCA=
+	t=1791442872; cv=none; b=UIVcpY4IM4U7AXHOLMhr7deYq7ty/IUlmUpmgy/SsyIypoIr0w/JKyrZxW2QuH9QZcWvN2C0ACtQPZmxK52XajaU5F7WK++6kLK+RyJRx79mRnA1MIZMyvwklb6OTCJg1mlah3Ht8bTq4SrVCHZdEHfycbme6GbxZ/jX+ecdTVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791428827; c=relaxed/simple;
-	bh=IzLKLBvBJvQ90dp5Fr7AoL4y/c6CHUQCMulASK2sAN4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=USw+jF66sv5sVGFfhpwMd34JkFYog5ZJWF2y9pFwh2xj+G/0Z3dPbKeAuzZITx6JEm2XsAYmOO79NpSzFf4+wGK4vqL1H2VHC/722KJLwwJg9Z/jqRMq0DECzTcyzKfg6GfQp+Bndg2VM02XNPIK/BcLjSYIPzdsVVOXiF4Ywds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=MTvM4QRE; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="MTvM4QRE"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id BE0B840E00E5;
-	Thu,  8 Oct 2026 03:06:54 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id mgqvtUb_NHYt; Thu,  8 Oct 2026 03:06:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1791428804; bh=cyhM1nUNozz0bBiV0uhM/z9n5mfCAa1GSAZkjkT7ZwA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MTvM4QRENWPPyXa1ccOMqG0xWEftwSJsaexQPCdfxBkXP7aZz3Em5whU2pQk5U3et
-	 G+uyGfmeEELkGkv+0ctFdA81yHntZDUoz4GPNiRNbGWn5VIaI7rw28qh8cX08XPtY0
-	 m3V+1VmUS2w/Ua3WMxQzU38Kc6eCVUT1YCfM7qq+Uq2x45slABOTqqLuA+FNRdHTMg
-	 gOfTMGMnSd+YlKNdxUoyIdYWOWwKGJOBMLiVSZAzhO3EZTFBHKOFduhuvZhHzIywWv
-	 aK3/lZ3bo5qaaeSkaegusJbhR+Ij2ZdbsRvOEB5Exrbwlnt1WhZgmrWgGAgVDQg7Rh
-	 p8LBRs2ECOzNSXNfJGtnTqEmy2XqWiUglM1iHXsNTo/T7LcVABevxKWAXggygRJUN8
-	 WndUwCBiS7EvIW77HYvqxGuTi1tPhLBGCuBkVCDzEskMRaviNtXGckj9unOsth17KZ
-	 DsjhwknwklTzWaCtfOR9k1uvCQgcJ/QuBCfEsSDJGuycQ2GeLCPG+31za9DrnM3r9Y
-	 9OI5AdS0SYsRO1sUZnE6vX3sk2Q/a9iu2TtHC/326UTNyOvlUSoHNclJf0WEkMcfYp
-	 uQtJUSOhCCCJIlpg8tKX4tYXYfBgAxG8kVbecegnZmJI+es8vUz6myXMDT3AgzcbqQ
-	 JVbpZWFtomeYaCZJInqDT6xs=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C1C9940E021A;
-	Thu,  8 Oct 2026 03:06:06 +0000 (UTC)
-Date: Wed, 7 Oct 2026 20:06:03 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Ashok Raj <ashok.raj@oss.qualcomm.com>
-Cc: shijujose2008@gmail.com, rafael@kernel.org, akpm@linux-foundation.org,
-	rppt@kernel.org, dferguson@amperecomputing.com,
-	linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, tony.luck@intel.com,
-	lenb@kernel.org, Yazen.Ghannam@amd.com, mchehab@kernel.org,
-	jic23@kernel.org, linuxarm@huawei.com, rientjes@google.com,
-	jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
-	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
-	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
-	duenwen@google.com, gthelen@google.com,
-	wschwartz@amperecomputing.com, wbs@os.amperecomputing.com,
-	nifan.cxl@gmail.com, tanxiaofei@huawei.com,
-	prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
-	kangkang.shen@futurewei.com, wanghuiqiang@huawei.com,
-	ashoraj@qti.qualcomm.com
-Subject: Re: [PATCH v23 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
- table
-Message-ID: <20261008030603.GAascImzt4cv8Gz49p@fat_crate.local>
-References: <20260726212812.89266-1-shijujose2008@gmail.com>
- <20260726212812.89266-2-shijujose2008@gmail.com>
- <20261005235021.GBasQ3vXTivT3NLbBq@fat_crate.local>
- <asU7svV8g2Hb5DZl@hu-ashoraj-lv.qualcomm.com>
+	s=arc-20240116; t=1791442872; c=relaxed/simple;
+	bh=h73wPTVLtVL8bmddHdlMfN6vKjZ1mA+xoY6PQLngFrs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=I5SmKUgCvTr2xY1aN4zdAdfwe0ki2VZdDW2mp9VmHVSVeVSA00WyBMGnFPJV9Sfr3Ls8D/HM/Dskhyjyeh9DTr/B8Sl05T4aISxmzA4U3B0K/ww5b2qQg3gR4IKlsbBKKWYjwWZvLhrm6ZShKpbFqBD55DLdcn7wvsPzJy81Gm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.102])
+	by gateway (Coremail) with SMTP id _____8CxKvC0P8dqFaATAA--.57200S3;
+	Thu, 08 Oct 2026 15:01:08 +0800 (CST)
+Received: from [10.20.42.102] (unknown [10.20.42.102])
+	by front1 (Coremail) with SMTP id qMiowJAx1cywP8dqS+spAA--.60369S2;
+	Thu, 08 Oct 2026 15:01:06 +0800 (CST)
+Message-ID: <42bb8b65-226f-42f9-8fa1-81e2f5a7a3cd@loongson.cn>
+Date: Thu, 8 Oct 2026 14:58:21 +0800
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <asU7svV8g2Hb5DZl@hu-ashoraj-lv.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] EDAC/loongson: Encode node and MC info into mc_idx
+To: Borislav Petkov <bp@alien8.de>
+Cc: tony.luck@intel.com, linux-edac@vger.kernel.org,
+ linux-kernel@vger.kernel.org, chenhuacai@kernel.org,
+ Wang Jinwei <wangjinwei@loongson.cn>, Yulong Wang <wangyulong@loongson.cn>,
+ Dongyan Qian <qiandongyan@loongson.cn>, Chao Li <lichao@loongson.cn>
+References: <20260902084827.2652-1-zhaoqunqin@loongson.cn>
+ <20260902084827.2652-2-zhaoqunqin@loongson.cn>
+ <20260930003412.GEarxZBOHFAgZg7TL6@fat_crate.local>
+Content-Language: en-US
+From: Qunqin Zhao <zhaoqunqin@loongson.cn>
+In-Reply-To: <20260930003412.GEarxZBOHFAgZg7TL6@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJAx1cywP8dqS+spAA--.60369S2
+X-CM-SenderInfo: 52kd01pxqtx0o6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxCF45KrWkXw4rtr4kGr1ruFX_yoW5WryDpF
+	WUA3WYkrs8tr10934ktr4DZFySkw4xJasxArsaq3yFkwnIyF1xWF9agr45uFn8Ary0kFyI
+	qFWUtw4kuFnrAFXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUyEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+	Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE
+	14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwI
+	xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
+	Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7
+	IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k2
+	6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
+	AFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UUUUU==
 
-On Tue, Oct 06, 2026 at 11:19:30AM -0700, Ashok Raj wrote:
-> > +static int register_pcc_channel(struct ras2_mem_ctx *ras2_ctx, int pcc_id)
-> > +{
-> > +	struct pcc_mbox_chan *pcc_chan;
-> > +	struct ras2_sspcc *sspcc;
-> > +	int ret;
-> > +
-> > +	if (pcc_id < 0)
-> > +		return -EINVAL;
-> > +
-> > +	sspcc = sspcc_get(pcc_id);
-> > +	if (sspcc) {
-> > +		ras2_ctx->sspcc	    = sspcc;
-> > +		ras2_ctx->comm_addr = sspcc->comm_addr;
-> > +		ras2_ctx->dev	    = sspcc->pcc_chan->mchan->mbox->dev;
-> > +		ras2_ctx->pcc_lock  = &sspcc->pcc_lock;
-> > +
-> > +		return 0;
-> > +	}
-> > +
-> > +	sspcc = kzalloc(sizeof(*sspcc), GFP_KERNEL);
-> > +	if (!sspcc)
-> > +		return -ENOMEM;
-> > +
-> 	__mbox_bind_client() reads knows_txdone at bind time to promote the
-> 	channel off MBOX_TXDONE_BY_POLL. It must be set before requesting the
-> 	channel, otherwise the channel stays on polling and mbox_client_txdone()
-> 	later hits the mailbox core's "Client can't run the TX ticker" guard.
-> 
-> 	sspcc->mbox_client.knows_txdone = true;
 
-Yah, I can see that happening but I don't have the hw to even poke at this.
+在 2026/9/30 08:34, Borislav Petkov 写道:
+> On Wed, Sep 02, 2026 at 04:48:25PM +0800, Qunqin Zhao wrote:
+>> @@ -23,6 +24,8 @@ struct loongson_edac_pvt {
+>>  	 * register state.
+>>  	 */
+>>  	int last_ce_count;
+>> +	u32 mcs_per_node;
+>> +	bool mc_idx_valid;
+> Why do you need a silly bool if you have valid indices in any case?
+>
+> You either get it from edac_device_alloc_index() and in that case, the node
+> number is always 0 and when you get it from ACPI, you get the right thing
+> anyway?
+>
+> IOW, you init mc_idx properly in the probe function and then you're all set.
+The indices are unique, but they are not physically meaningful.
 
-Shiju, what's up?
+`edac_device_alloc_index()` returns a global atomic counter:
 
--- 
-Regards/Gruss,
-    Boris.
+```c
+int edac_device_alloc_index(void)
+{
+    static atomic_t device_indexes = ATOMIC_INIT(0);
+    return atomic_inc_return(&device_indexes) - 1;
+}
+```
 
-https://people.kernel.org/tglx/notes-about-netiquette
+It only guarantees uniqueness; it does not encode any node or MC
+information. When firmware lacks the "mc-idx" _DSD property on a
+multi-node system and the probes run concurrently on different CPUs,
+There is no guarantee that `alloc_index()` values map to physical
+MC order. Decoding `mc_idx / mc_per_node` and `mc_idx % mc_per_node`
+from this counter can report a wrong location.
+>>  static int read_ecc(struct mem_ctl_info *mci)
+>> @@ -44,7 +47,8 @@ static int read_ecc(struct mem_ctl_info *mci)
+>>  static void edac_check(struct mem_ctl_info *mci)
+> In a prepatch, please remove the "edac_" prefix from all your driver-local
+> definitions like edac_probe() or loongson_edac_pvt. The edac_ namespace
+> belongs to the EDAC core functions. Since your functions are static, you can
+> simply call them probe(), check() etc.
+Will fix.
+>>  	struct loongson_edac_pvt *pvt = mci->pvt_info;
+>> -	int new, add;
+>> +	char other_detail[64] = {0};
+>> +	int new, add, node, mc;
+>>  
+>>  	new = read_ecc(mci);
+>>  	add = new - pvt->last_ce_count;
+> ...
+>
+>>  static int edac_probe(struct platform_device *pdev)
+>>  {
+>>  	struct edac_mc_layer layers[2];
+>>  	struct mem_ctl_info *mci;
+>> +	struct device *dev = &pdev->dev;
+>>  	void __iomem *vbase;
+>> +	u32 mcs_per_node;
+>>  	int ret;
+>> +	bool mc_idx_valid = true;
+
+If this bool variable serves a real purpose, I'll place it between the u32 and int.
+
+
+Thanks,
+
+Qunqin.
+
+> The EDAC tree preferred ordering of variable declarations at the
+> beginning of a function is reverse fir tree order::
+>
+> 	struct long_struct_name *descriptive_name;
+> 	unsigned long foo, bar;
+> 	unsigned int tmp;
+> 	int ret;
+>
+> The above is faster to parse than the reverse ordering::
+>
+> 	int ret;
+> 	unsigned int tmp;
+> 	unsigned long foo, bar;
+> 	struct long_struct_name *descriptive_name;
+>
+> And even more so than random ordering::
+>
+> 	unsigned long foo, bar;
+> 	int ret;
+> 	struct long_struct_name *descriptive_name;
+> 	unsigned int tmp;
+>
+> Thx.
+>
+
