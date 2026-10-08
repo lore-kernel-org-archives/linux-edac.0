@@ -1,93 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9807020D4FC;
-	Wed,  7 Oct 2026 20:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D47731ED7C;
+	Thu,  8 Oct 2026 03:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791405139; cv=none; b=uJMRnrJPSqTRSSFLLETVrfuyUIS6oEBDpr2ARilwJzDNOlyySgaJJvy5N1jh63rEMz23GrSTvQrCy3/irTUH4gvR5BC4ExWe+SjNDz5JuIDimiQbak4BjQKkHyNqIqFbq6Ch0YWD+ibW+L1PNleIqTQb/Mq9tvmeNlnH+WNBRPY=
+	t=1791428827; cv=none; b=QSCgv9IEHrv0hrUVlD7CTMS+pk4Ujd5H7IlmXJWc6+15SS/FteVY1FBvC50r4CBQxw8arCTgZXxqcwNzE5YVRd99Y6/WVaHVnKLr2peNrwRxrBH7wO065zWrCEmYjOdAlK5bjruCO8bg/6JrkyOYSoFoHAKDMxgRx+utyRLsuCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791405139; c=relaxed/simple;
-	bh=wYnZNF7HpQql6W9cKu0C3hSW7fhGRS4I+KL0/DhDHZc=;
+	s=arc-20240116; t=1791428827; c=relaxed/simple;
+	bh=IzLKLBvBJvQ90dp5Fr7AoL4y/c6CHUQCMulASK2sAN4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bTS0i11KhY3yg65CXvZlrUb5JrmIBDMJEuEufFvXiHH28dmkMpaihHupXV+oEw9ECUSeFkLtwVzTDQNb2MoX541UKLs7l8GwLzkcAJkK7mZo2mjZ3U/e4x4vophkOBoZ5/Cn3+fmizIdPBgYMBSux+0TvFIvd7EGAVHTMlf4CXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKNO7A2M; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=USw+jF66sv5sVGFfhpwMd34JkFYog5ZJWF2y9pFwh2xj+G/0Z3dPbKeAuzZITx6JEm2XsAYmOO79NpSzFf4+wGK4vqL1H2VHC/722KJLwwJg9Z/jqRMq0DECzTcyzKfg6GfQp+Bndg2VM02XNPIK/BcLjSYIPzdsVVOXiF4Ywds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=MTvM4QRE; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JKNO7A2M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09DF41F000FF;
-	Wed,  7 Oct 2026 20:32:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791405138;
-	bh=33a7FuM1XA/yleJJfc/HZhNZxuDla2AYpsl5P+iHXX4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JKNO7A2MR765pe+grZ2PwDrYvBxrTJNTe5/eXVMrPtt9NBTr1PswA3JFdtZsj2D9+
-	 AcrQ0Mo4Rb+lTAyg5vIZWYa1j0spxHRdQn2DWKOWiBbduBrWCc5nEOOX7JIPB65oRZ
-	 DzZXq4MJT6nce19y0xnahJMvuXmqxgMCK6rxTH1Uds53hwHTC3Qr4LrBXNDCc/qjM+
-	 KBz1q03dLWGKSC2c1y+YiQ5vZWLCob48IFz+61808vcMjA5QcdZp1AmqaYqHHDBsWm
-	 QLRhGcOsB9iSoH8TxRkod83e4Q0g8ZSnSqGyaykAlICm4MNk3UoKoRm03AR/C5Q22N
-	 dnbolY3aXt9Tw==
-Date: Wed, 7 Oct 2026 15:32:17 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Cc: Andrew Jeffery <andrew@codeconstruct.com.au>,
-	linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@suse.de>,
-	Joel Stanley <joel@jms.id.au>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Stefan Schaeckeler <sschaeck@cisco.com>,
-	Conor Dooley <conor+dt@kernel.org>, linux-edac@vger.kernel.org,
-	Borislav Petkov <bp@alien8.de>
-Subject: Re: [PATCH v5 9/9] MAINTAINERS: Step down as Aspeed AST2500 EDAC
- driver maintainer
-Message-ID: <179140513668.197997.15808651432801165459.robh@kernel.org>
-References: <20261007-edac-v5-0-5c31fc5df4cf@aspeedtech.com>
- <20261007-edac-v5-9-5c31fc5df4cf@aspeedtech.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="MTvM4QRE"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id BE0B840E00E5;
+	Thu,  8 Oct 2026 03:06:54 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id mgqvtUb_NHYt; Thu,  8 Oct 2026 03:06:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1791428804; bh=cyhM1nUNozz0bBiV0uhM/z9n5mfCAa1GSAZkjkT7ZwA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MTvM4QRENWPPyXa1ccOMqG0xWEftwSJsaexQPCdfxBkXP7aZz3Em5whU2pQk5U3et
+	 G+uyGfmeEELkGkv+0ctFdA81yHntZDUoz4GPNiRNbGWn5VIaI7rw28qh8cX08XPtY0
+	 m3V+1VmUS2w/Ua3WMxQzU38Kc6eCVUT1YCfM7qq+Uq2x45slABOTqqLuA+FNRdHTMg
+	 gOfTMGMnSd+YlKNdxUoyIdYWOWwKGJOBMLiVSZAzhO3EZTFBHKOFduhuvZhHzIywWv
+	 aK3/lZ3bo5qaaeSkaegusJbhR+Ij2ZdbsRvOEB5Exrbwlnt1WhZgmrWgGAgVDQg7Rh
+	 p8LBRs2ECOzNSXNfJGtnTqEmy2XqWiUglM1iHXsNTo/T7LcVABevxKWAXggygRJUN8
+	 WndUwCBiS7EvIW77HYvqxGuTi1tPhLBGCuBkVCDzEskMRaviNtXGckj9unOsth17KZ
+	 DsjhwknwklTzWaCtfOR9k1uvCQgcJ/QuBCfEsSDJGuycQ2GeLCPG+31za9DrnM3r9Y
+	 9OI5AdS0SYsRO1sUZnE6vX3sk2Q/a9iu2TtHC/326UTNyOvlUSoHNclJf0WEkMcfYp
+	 uQtJUSOhCCCJIlpg8tKX4tYXYfBgAxG8kVbecegnZmJI+es8vUz6myXMDT3AgzcbqQ
+	 JVbpZWFtomeYaCZJInqDT6xs=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C1C9940E021A;
+	Thu,  8 Oct 2026 03:06:06 +0000 (UTC)
+Date: Wed, 7 Oct 2026 20:06:03 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Ashok Raj <ashok.raj@oss.qualcomm.com>
+Cc: shijujose2008@gmail.com, rafael@kernel.org, akpm@linux-foundation.org,
+	rppt@kernel.org, dferguson@amperecomputing.com,
+	linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, tony.luck@intel.com,
+	lenb@kernel.org, Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	jic23@kernel.org, linuxarm@huawei.com, rientjes@google.com,
+	jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
+	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
+	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
+	duenwen@google.com, gthelen@google.com,
+	wschwartz@amperecomputing.com, wbs@os.amperecomputing.com,
+	nifan.cxl@gmail.com, tanxiaofei@huawei.com,
+	prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
+	kangkang.shen@futurewei.com, wanghuiqiang@huawei.com,
+	ashoraj@qti.qualcomm.com
+Subject: Re: [PATCH v23 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
+ table
+Message-ID: <20261008030603.GAascImzt4cv8Gz49p@fat_crate.local>
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-2-shijujose2008@gmail.com>
+ <20261005235021.GBasQ3vXTivT3NLbBq@fat_crate.local>
+ <asU7svV8g2Hb5DZl@hu-ashoraj-lv.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261007-edac-v5-9-5c31fc5df4cf@aspeedtech.com>
+In-Reply-To: <asU7svV8g2Hb5DZl@hu-ashoraj-lv.qualcomm.com>
 
+On Tue, Oct 06, 2026 at 11:19:30AM -0700, Ashok Raj wrote:
+> > +static int register_pcc_channel(struct ras2_mem_ctx *ras2_ctx, int pcc_id)
+> > +{
+> > +	struct pcc_mbox_chan *pcc_chan;
+> > +	struct ras2_sspcc *sspcc;
+> > +	int ret;
+> > +
+> > +	if (pcc_id < 0)
+> > +		return -EINVAL;
+> > +
+> > +	sspcc = sspcc_get(pcc_id);
+> > +	if (sspcc) {
+> > +		ras2_ctx->sspcc	    = sspcc;
+> > +		ras2_ctx->comm_addr = sspcc->comm_addr;
+> > +		ras2_ctx->dev	    = sspcc->pcc_chan->mchan->mbox->dev;
+> > +		ras2_ctx->pcc_lock  = &sspcc->pcc_lock;
+> > +
+> > +		return 0;
+> > +	}
+> > +
+> > +	sspcc = kzalloc(sizeof(*sspcc), GFP_KERNEL);
+> > +	if (!sspcc)
+> > +		return -ENOMEM;
+> > +
+> 	__mbox_bind_client() reads knows_txdone at bind time to promote the
+> 	channel off MBOX_TXDONE_BY_POLL. It must be set before requesting the
+> 	channel, otherwise the channel stays on polling and mbox_client_txdone()
+> 	later hits the mailbox core's "Client can't run the TX ticker" guard.
+> 
+> 	sspcc->mbox_client.knows_txdone = true;
 
-On Wed, 07 Oct 2026 14:13:26 +0800, Ryan Chen wrote:
-> From: Stefan M Schaeckeler <sschaeck@cisco.com>
-> 
-> I am stepping down as a maintainer for drivers/edac/aspeed_edac.c and
-> Documentation/devicetree/bindings/edac/aspeed,ast2400-sdram-edac.yaml
-> 
-> Move my entry from the MAINTAINERS file to CREDITS to reflect my past
-> contributions.
-> 
-> [ ryan: keep the EDAC-AST2500 entry and list myself as its reviewer
->   rather than removing it, and take over the binding's maintainers
->   field ]
-> 
-> Signed-off-by: Stefan M Schaeckeler <sschaeck@cisco.com>
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
-> Link: https://lore.kernel.org/r/20260920225846.4039017-1-sschaeck@cisco.com
-> 
-> ---
-> Changes in v5:
-> - Also hand over the maintainers field inside the binding, which
->   get_maintainer.pl reads directly for .yaml files.
-> 
-> Changes in v4:
-> - Merge Stefan's step-down patch into this one, keeping the MAINTAINERS
->   entry alive with a reviewer instead of removing it.
-> 
-> Changes in v3:
-> - New patch.
-> ---
->  CREDITS                                                           | 8 ++++++++
->  .../devicetree/bindings/edac/aspeed,ast2400-sdram-edac.yaml       | 2 +-
->  MAINTAINERS                                                       | 2 +-
->  3 files changed, 10 insertions(+), 2 deletions(-)
-> 
+Yah, I can see that happening but I don't have the hw to even poke at this.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Shiju, what's up?
 
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
