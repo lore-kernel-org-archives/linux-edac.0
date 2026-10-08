@@ -1,155 +1,177 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E92E6283FE5;
-	Thu,  8 Oct 2026 07:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791442872; cv=none; b=UIVcpY4IM4U7AXHOLMhr7deYq7ty/IUlmUpmgy/SsyIypoIr0w/JKyrZxW2QuH9QZcWvN2C0ACtQPZmxK52XajaU5F7WK++6kLK+RyJRx79mRnA1MIZMyvwklb6OTCJg1mlah3Ht8bTq4SrVCHZdEHfycbme6GbxZ/jX+ecdTVs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791442872; c=relaxed/simple;
-	bh=h73wPTVLtVL8bmddHdlMfN6vKjZ1mA+xoY6PQLngFrs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I5SmKUgCvTr2xY1aN4zdAdfwe0ki2VZdDW2mp9VmHVSVeVSA00WyBMGnFPJV9Sfr3Ls8D/HM/Dskhyjyeh9DTr/B8Sl05T4aISxmzA4U3B0K/ww5b2qQg3gR4IKlsbBKKWYjwWZvLhrm6ZShKpbFqBD55DLdcn7wvsPzJy81Gm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.20.42.102])
-	by gateway (Coremail) with SMTP id _____8CxKvC0P8dqFaATAA--.57200S3;
-	Thu, 08 Oct 2026 15:01:08 +0800 (CST)
-Received: from [10.20.42.102] (unknown [10.20.42.102])
-	by front1 (Coremail) with SMTP id qMiowJAx1cywP8dqS+spAA--.60369S2;
-	Thu, 08 Oct 2026 15:01:06 +0800 (CST)
-Message-ID: <42bb8b65-226f-42f9-8fa1-81e2f5a7a3cd@loongson.cn>
-Date: Thu, 8 Oct 2026 14:58:21 +0800
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCC43D411B
+	for <linux-edac@vger.kernel.org>; Thu,  8 Oct 2026 07:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791443912; cv=pass; b=lo591qJj+u9INHwa654biarYfBVQTw8R59vymZakh5k3q19d1lGJdnFy3ZpnxJp31vpWSoE6sFvPaT4/Y/TSqA+RGq+Uux+NLasJjdq47ZSU173LlVAoHk+nZpejlg0S6neMHvLeNq6bUsgURN9ECiCmsPtRQ1igmYsnH3GFf30=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791443912; c=relaxed/simple;
+	bh=mEfZs82VT+qdUvxddu4QZb3styi2rIzs8l6ABw4Qllo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Yek9x4v17APW6MQu7ozQ5TNzCghrIFfotB+fADRKN4nvrzIslEEoi3HC0dEn9EDyURl0QwjiRo2gQ+RpPhIdTs1kJu/BO7Mx732HTah5eQyTzOKkI4njSSWzA6NxRz60e2WJwbbb/6CJvnzhbt3vyM1LxbJ489X+pdBtK5QQ1AQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l8r4URmw; arc=pass smtp.client-ip=209.85.161.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l8r4URmw"
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-6d290b10a35so1000318eaf.2
+        for <linux-edac@vger.kernel.org>; Thu, 08 Oct 2026 00:18:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791443909; cv=none;
+        d=google.com; s=arc-20260327;
+        b=OCLJJL1i9bKiO97wK87cCVWwxkhgwv82Fy3qDtkftP0QxvrTPm1fgEIUq7UcO0TK7x
+         q4dARP8jEE+IjWlxlvMvifdSkgzf94Sdvg8SQnyiVKlbPG1UHohpQjxT/tLpVfUFqneN
+         2iV2G/aEGSvfUAADgj3iG7YCUn/jYRnOr0cEjqa+5Jo45R3JWWYQb2Mpl/ISrboBb5jN
+         rnhca/GtudHu4WL9IXdmSc/j8FrowWLQi5mSIYgK8B+L2RxrxlJP8ENFI4wwC90oUtuT
+         OvEPJ+bR88bcL2mPji5IFzLOvrjwnQ5XUlzjwLKnp1lDQmdRF+UzrXZy7oN9GprWS3oc
+         ZAqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=70ywZ2AyEe7ncaX3K+b5VsGq7joUvo2qDjp4zFNieZQ=;
+        fh=5Cxs5gJc3EZRBR1ZOT1ixnaLNeAFF9FKtnY9xAh4p1c=;
+        b=B/iFAgxhSWkNFevdgbVNnlmRgxPyxm/DlF8onQesLOBv4ApXQj8hcwNjtVf/sc94Se
+         dYRxoqY4Wfd1lm8U5czEysP7VeBB1BSyLYxgtdtQphiAja/gSLRlrIDY3Kp+F3XisKNf
+         W7NB59NYXZZqx3fDya4DD2ajRdB1n/HefpfExw8aeEL3k+vQ4wXpDpQLaAtUa1dqhimq
+         rhl4UToz+MQCo9GA6MMnTIGvkc9QAwMNsWlyXqwDbqp/m2zUAWZkJZ5SQmeto+0HeplW
+         zl1vbcpznEtlC+s7bDjOGyAPQ6NNs2HHiRe31M0e1rLkJMw8QO4hlyqMYIKNP1fxeKw8
+         GSmQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791443909; x=1792048709; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=70ywZ2AyEe7ncaX3K+b5VsGq7joUvo2qDjp4zFNieZQ=;
+        b=l8r4URmwE6Pqf05rXr098yyUPpb0lPIsiCToQANmesWZw04HT6qBAsBWeE63M2Ftd2
+         6ZnU0ZFm5fVVkw9PJ7zeU2S0ubWbK8a8dtxjz9anI4pN8sWr9WjYll7VIJdgWxUKRZcE
+         CzYAE/e7oyx73INhV9UZr9cCz+4zHyK48ShE5TNmNK/eo7+ZH+lmBR7Yd0QMqwwf/RFJ
+         Qp09hJzek5jHZZTgE0RIawPjlk1BAkm8EqCdTW5lVyJAwuOkwrNozXmI97OiNX98g4ja
+         GI0Eait86lFnirEPX+RrTGL88K1JaT+amRpGPzg1DUNmHtsPURU7feScxkskttJ8LVpN
+         AztQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791443909; x=1792048709;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=70ywZ2AyEe7ncaX3K+b5VsGq7joUvo2qDjp4zFNieZQ=;
+        b=XUbWA6YZraQOz/XAS0LOaT8mR4Z8Uf+F5TqLTkViDdQHT5jtM3SVQ/9t/x9A5MdXeu
+         2ShmONE4npW0tbwAvUlY6HLdsyVTJiXTSD0l4kuCqk7rUeTK6WPTe2VdRkgoxxhwYk6q
+         aOAlb6XlhfKdw9giMz4sW2Ja/zIRlL/GqlqF36a5jkQqq47Ru6FEShSESvBlPQB5QeCu
+         WfC7Re6VCcwV0/x1LaitU7MFS7cdCrDwq5VdulJMMtcXfj7s84xmoXYlg6HNjZ2Z734Q
+         UkGlaT/2mOeZe2Zd613PUDzuS3fH7bD+sa3MWGXE5pK93gh8PVg5xTZpN6kEMPs0lYpN
+         el/A==
+X-Forwarded-Encrypted: i=1; AKwUvBw1qMEAXei5YbSqXLQc8Htbz9nWr56D607R74sB5AEh3SLfLNDqx+w5KRpJxU2SZoZkxq8mySMKzkDx@vger.kernel.org
+X-Gm-Message-State: AFuF++lhQbQxp7Vrw+gBeU8juT99ipwg4ZhUymWWdEQ78B1HLTcwdHrd
+	h4EOoPf1NiPRjUgM7Fymgc0xX0rhSfqxEEdQxQCTpeHLL9EABRvaoS5QB45/a26WPOx0V2FHdfF
+	sPPOsIc+x7dp1RzzZsEfDyGnxWsNk4B8=
+X-Gm-Gg: AYBFou3mVnOUMPeqodQrRYgtkYWD8dKfPPR/lExHi5N2XJByaV4QA+/65zC8PUidjox
+	hc2Rerhlys5DHo5soYG9YAt0imE5DbKpZIWQq2he77I5u1IfRcGuR1kg3Hdp4jcBAXFwcJEvMVi
+	ZufsPhwP1S75MApkgWsLmrzXDRYtE4WFabkvksXI8hZYOiId/al8si3SryBUuVenZPYenY9aleH
+	JMr+2X29ldtmRsDfItP6dZn6iwkqAacM8HFro8/GHTIdBtheXMFAKUYNROtXfkC1KEjqiuvevQF
+	F6i6WHJL7jwzUH+Uw7ozuNFE44xg1ZIDHZbZm9Na10L/CRBpzqQDj7C7fIyEXFsDsQ==
+X-Received: by 2002:a05:6820:618:b0:6e4:1587:d2b9 with SMTP id
+ 006d021491bc7-6e7aaecda5cmr4190773eaf.35.1791443909157; Thu, 08 Oct 2026
+ 00:18:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] EDAC/loongson: Encode node and MC info into mc_idx
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-2-shijujose2008@gmail.com> <20261005235021.GBasQ3vXTivT3NLbBq@fat_crate.local>
+ <asU7svV8g2Hb5DZl@hu-ashoraj-lv.qualcomm.com> <20261008030603.GAascImzt4cv8Gz49p@fat_crate.local>
+In-Reply-To: <20261008030603.GAascImzt4cv8Gz49p@fat_crate.local>
+From: Shiju Jose <shijujose2008@gmail.com>
+Date: Thu, 8 Oct 2026 08:18:14 +0100
+X-Gm-Features: AclHuK_Pa4PSN7Ovd8UjVYuZheIOrKSyX750Qa13rdRkYN_uBxTlt7ZeUcurB5c
+Message-ID: <CAG4KcRLhN9=6xeT4qfqKLFdukiZLUc7akGcWwXJUU1-qrfxTUQ@mail.gmail.com>
+Subject: Re: [PATCH v23 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature table
 To: Borislav Petkov <bp@alien8.de>
-Cc: tony.luck@intel.com, linux-edac@vger.kernel.org,
- linux-kernel@vger.kernel.org, chenhuacai@kernel.org,
- Wang Jinwei <wangjinwei@loongson.cn>, Yulong Wang <wangyulong@loongson.cn>,
- Dongyan Qian <qiandongyan@loongson.cn>, Chao Li <lichao@loongson.cn>
-References: <20260902084827.2652-1-zhaoqunqin@loongson.cn>
- <20260902084827.2652-2-zhaoqunqin@loongson.cn>
- <20260930003412.GEarxZBOHFAgZg7TL6@fat_crate.local>
-Content-Language: en-US
-From: Qunqin Zhao <zhaoqunqin@loongson.cn>
-In-Reply-To: <20260930003412.GEarxZBOHFAgZg7TL6@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJAx1cywP8dqS+spAA--.60369S2
-X-CM-SenderInfo: 52kd01pxqtx0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxCF45KrWkXw4rtr4kGr1ruFX_yoW5WryDpF
-	WUA3WYkrs8tr10934ktr4DZFySkw4xJasxArsaq3yFkwnIyF1xWF9agr45uFn8Ary0kFyI
-	qFWUtw4kuFnrAFXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUyEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
-	Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE
-	14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwI
-	xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
-	Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7
-	IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k2
-	6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
-	AFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UUUUU==
+Cc: Ashok Raj <ashok.raj@oss.qualcomm.com>, rafael@kernel.org, 
+	akpm@linux-foundation.org, rppt@kernel.org, dferguson@amperecomputing.com, 
+	linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org, 
+	Yazen.Ghannam@amd.com, mchehab@kernel.org, jic23@kernel.org, 
+	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com, 
+	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, naoya.horiguchi@nec.com, 
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com, 
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com, 
+	gthelen@google.com, wschwartz@amperecomputing.com, wbs@os.amperecomputing.com, 
+	nifan.cxl@gmail.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com, 
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com, 
+	wanghuiqiang@huawei.com, ashoraj@qti.qualcomm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Boris, Hi Ashok,
 
-在 2026/9/30 08:34, Borislav Petkov 写道:
-> On Wed, Sep 02, 2026 at 04:48:25PM +0800, Qunqin Zhao wrote:
->> @@ -23,6 +24,8 @@ struct loongson_edac_pvt {
->>  	 * register state.
->>  	 */
->>  	int last_ce_count;
->> +	u32 mcs_per_node;
->> +	bool mc_idx_valid;
-> Why do you need a silly bool if you have valid indices in any case?
->
-> You either get it from edac_device_alloc_index() and in that case, the node
-> number is always 0 and when you get it from ACPI, you get the right thing
-> anyway?
->
-> IOW, you init mc_idx properly in the probe function and then you're all set.
-The indices are unique, but they are not physically meaningful.
+Thanks Ashok for reporting this issue.
 
-`edac_device_alloc_index()` returns a global atomic counter:
-
-```c
-int edac_device_alloc_index(void)
-{
-    static atomic_t device_indexes = ATOMIC_INIT(0);
-    return atomic_inc_return(&device_indexes) - 1;
-}
-```
-
-It only guarantees uniqueness; it does not encode any node or MC
-information. When firmware lacks the "mc-idx" _DSD property on a
-multi-node system and the probes run concurrently on different CPUs,
-There is no guarantee that `alloc_index()` values map to physical
-MC order. Decoding `mc_idx / mc_per_node` and `mc_idx % mc_per_node`
-from this counter can report a wrong location.
->>  static int read_ecc(struct mem_ctl_info *mci)
->> @@ -44,7 +47,8 @@ static int read_ecc(struct mem_ctl_info *mci)
->>  static void edac_check(struct mem_ctl_info *mci)
-> In a prepatch, please remove the "edac_" prefix from all your driver-local
-> definitions like edac_probe() or loongson_edac_pvt. The edac_ namespace
-> belongs to the EDAC core functions. Since your functions are static, you can
-> simply call them probe(), check() etc.
-Will fix.
->>  	struct loongson_edac_pvt *pvt = mci->pvt_info;
->> -	int new, add;
->> +	char other_detail[64] = {0};
->> +	int new, add, node, mc;
->>  
->>  	new = read_ecc(mci);
->>  	add = new - pvt->last_ce_count;
-> ...
->
->>  static int edac_probe(struct platform_device *pdev)
->>  {
->>  	struct edac_mc_layer layers[2];
->>  	struct mem_ctl_info *mci;
->> +	struct device *dev = &pdev->dev;
->>  	void __iomem *vbase;
->> +	u32 mcs_per_node;
->>  	int ret;
->> +	bool mc_idx_valid = true;
-
-If this bool variable serves a real purpose, I'll place it between the u32 and int.
-
+I debug this. nows_txdone used to set before requesting the channel
+until v16 and was changed in v17
+following a review comment by claude.
+Found this issue occurs when txdone_poll set and  setting nows_txdone
+before requesting the channel, solved.
+In my test setup,  I missed this issue, because txdone_irq was set in
+pcc_mbox_probe()
+with the acpi pcct flag set to ACPI_PCCT_DOORBELL by the firmware.
 
 Thanks,
+Shiju
 
-Qunqin.
 
-> The EDAC tree preferred ordering of variable declarations at the
-> beginning of a function is reverse fir tree order::
+On Thu, Oct 8, 2026 at 4:06=E2=80=AFAM Borislav Petkov <bp@alien8.de> wrote=
+:
 >
-> 	struct long_struct_name *descriptive_name;
-> 	unsigned long foo, bar;
-> 	unsigned int tmp;
-> 	int ret;
+> On Tue, Oct 06, 2026 at 11:19:30AM -0700, Ashok Raj wrote:
+> > > +static int register_pcc_channel(struct ras2_mem_ctx *ras2_ctx, int p=
+cc_id)
+> > > +{
+> > > +   struct pcc_mbox_chan *pcc_chan;
+> > > +   struct ras2_sspcc *sspcc;
+> > > +   int ret;
+> > > +
+> > > +   if (pcc_id < 0)
+> > > +           return -EINVAL;
+> > > +
+> > > +   sspcc =3D sspcc_get(pcc_id);
+> > > +   if (sspcc) {
+> > > +           ras2_ctx->sspcc     =3D sspcc;
+> > > +           ras2_ctx->comm_addr =3D sspcc->comm_addr;
+> > > +           ras2_ctx->dev       =3D sspcc->pcc_chan->mchan->mbox->dev=
+;
+> > > +           ras2_ctx->pcc_lock  =3D &sspcc->pcc_lock;
+> > > +
+> > > +           return 0;
+> > > +   }
+> > > +
+> > > +   sspcc =3D kzalloc(sizeof(*sspcc), GFP_KERNEL);
+> > > +   if (!sspcc)
+> > > +           return -ENOMEM;
+> > > +
+> >       __mbox_bind_client() reads knows_txdone at bind time to promote t=
+he
+> >       channel off MBOX_TXDONE_BY_POLL. It must be set before requesting=
+ the
+> >       channel, otherwise the channel stays on polling and mbox_client_t=
+xdone()
+> >       later hits the mailbox core's "Client can't run the TX ticker" gu=
+ard.
+> >
+> >       sspcc->mbox_client.knows_txdone =3D true;
 >
-> The above is faster to parse than the reverse ordering::
+> Yah, I can see that happening but I don't have the hw to even poke at thi=
+s.
 >
-> 	int ret;
-> 	unsigned int tmp;
-> 	unsigned long foo, bar;
-> 	struct long_struct_name *descriptive_name;
+> Shiju, what's up?
 >
-> And even more so than random ordering::
+> --
+> Regards/Gruss,
+>     Boris.
 >
-> 	unsigned long foo, bar;
-> 	int ret;
-> 	struct long_struct_name *descriptive_name;
-> 	unsigned int tmp;
->
-> Thx.
->
-
+> https://people.kernel.org/tglx/notes-about-netiquette
