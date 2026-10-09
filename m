@@ -1,92 +1,88 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from out28-195.mail.aliyun.com (out28-195.mail.aliyun.com [115.124.28.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288333DA7F9;
-	Fri,  9 Oct 2026 05:07:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D53E366DD3;
+	Fri,  9 Oct 2026 09:01:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791522474; cv=none; b=dp1F02EsiPRZ6dF8Yreoxy28MqRuH4BSdIpUcmxLBIGMd0tvgMjetCa4lP9eyhbNLbWzL8OpkQRRBezUt/v9njLT8UR1SgaEFV9ddvwW1TpL2gd2SRa0M+HNLXFr7QY/ms6Auyzmd+amg5772VdvN3iiyp+osHuevnMizTFIK7g=
+	t=1791536501; cv=none; b=O+zup89M6ujujTeO+54DEcDGfwDjqNQjFYhr8JhpT3JNlnREfQPoBBahNkHKnpNgkn61D6xRmVxteITUKMeLw5WZcOaM28wJFuBtP5STIk/1u7lUJfV7cGUNHiabduq1tCsUQdWhMb+hEOGBLw87eWYvINS+O73Dq8AfF4O76fE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791522474; c=relaxed/simple;
-	bh=x1aNNo/8YX97HgJV5kOcfePNBMpST9aMFtWai/no6vo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sii3eqGqHSDJk/8xAG2OdNvHR0z0NazAanVWb8k3xf/kOtGzb+wmHiX1gpT7rnjSUeu125XG/hhH1mxWAfIkBEM7vIy5CAj/oZedejUhUoP56K0vuQHNDHx5H8OKlSqXWJpP/La/Ivju5D1PVrfGkQL+9XRC2mges+SCj17ObEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=LRjoVvNg; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="LRjoVvNg"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1924340E021A;
-	Fri,  9 Oct 2026 05:07:50 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id OZ0Y7uBpHPeF; Fri,  9 Oct 2026 05:07:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1791522455; bh=Q/sgnTooCaDERwylVTvqmkr/jwLgvt3t3IOsBkxyjhc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LRjoVvNg3OprX6lLMWyZpAjUhzeMf7SACzndTCUIRciNvet2NGE0wvRHGgDEgvzfe
-	 4EMiY0VRLgASwXDx1x2neeAaz2P5FYTvXBTCt6r7jKAQyCYfnmOwmwbCR2x6r4VfNV
-	 8qwLNdRSARglJ9Kvxvq5UREZExX8oaMkeMEiZRudWOLndkXX9eg9dX4ifhcGepOLJb
-	 uvXLgIkR2cu9cGgho2OWwbjOH7FQn3Ts+anA2QJThHwITZV5qrn5YcrXlAzqhbzn38
-	 q1+lyPupiflayxErNzSjIWLyp6z7+YS0zotv9UE60FOt965fhG+sCYs94GPyY+ubII
-	 xx1HiAb+ggqXoCBAJBoYPN68kUONteZc/BgKegDaiiGQ/N4x1IiAdw8A+jfkUJ9f2J
-	 dRElQa2EY57IhaasxWcQg6AC2u3h6bETMXjvPjytNLEdrM/Nqa9lfAaGtcPddhC/Qk
-	 B9CatwgzuvfnmKhRAfX7GqnkE3WZgtz7BcOcu1iX6r/Qd8eah58NP4qAsmSW5eY3gJ
-	 78NgKSpwinWMSyTivA4ReZBrm6epmJCj0u9E1Y0AWV+wEDk3aRWg+WakqDSVvj5p1U
-	 jYp5JkorWyv5WBkh/iIlMwwlaqKIrwKYTnDJMcsbrpfXzyeWWedk0YuHNPjbdQEwtl
-	 0XV4LDz9lWLXG5TKnudzFW2U=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9A4ED40E00B9;
-	Fri,  9 Oct 2026 05:07:27 +0000 (UTC)
-Date: Thu, 8 Oct 2026 22:07:24 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Guixiong Wei <weiguixiong@bytedance.com>
-Cc: Yazen Ghannam <yazen.ghannam@amd.com>, Tony Luck <tony.luck@intel.com>,
-	Muralidhara M K <muralidhara.mk@amd.com>,
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] EDAC/mce_amd: Add missing long names for SMCA bank types
-Message-ID: <20261009050724.GIash2jAEvVxHhvXDb@fat_crate.local>
-References: <20261009020447.90758-2-weiguixiong@bytedance.com>
+	s=arc-20240116; t=1791536501; c=relaxed/simple;
+	bh=sTJQttWIt5QNV913jz2FjMxnjyeQG89dqlE13rgovFE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=o6/sVfwbBZp7pYsSMeQHpREnvV+xP09dFXg7V0L6PodoW/mOn0U8c6FnSZJYlk5xrmUxpN4sC8CYpvNShTteDYSUvd2arzfF9vWzHP3jVeZYXbaeH4NYyPArcYQ9JnduAQW7Uv5ecxLfq87Jz+KnsIgXZkNs3lGlSmwiN/p1IqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=115.124.28.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.2229122|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0154444-0.0477482-0.936807;FP=3168411775932122835|1|1|1|0|-1|-1|-1;HT=maildocker-contentspam033037022039;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.jXYKwCl_1791536488;
+Received: from localhost.localdomain(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.jXYKwCl_1791536488 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Fri, 09 Oct 2026 17:01:29 +0800
+From: Lin Wang <wanglin@open-hieco.net>
+To: Borislav Petkov <bp@alien8.de>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Cc: Pu Wen <puwen@hygon.cn>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Tony Luck <tony.luck@intel.com>,
+	x86@kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v7 3/7] EDAC/amd64: Stop matching Hygon CPUs
+Date: Fri,  9 Oct 2026 17:01:07 +0800
+Message-ID: <20261009090111.151878-4-wanglin@open-hieco.net>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261009090111.151878-1-wanglin@open-hieco.net>
+References: <20261009090111.151878-1-wanglin@open-hieco.net>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261009020447.90758-2-weiguixiong@bytedance.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 09, 2026 at 10:04:24AM +0800, Guixiong Wei wrote:
-> Commit 47b744ea5e3c ("x86/MCE/AMD: Add new MA_LLC, USR_DP,
-> and USR_CP bank types") added three SMCA bank types after the bank long
-> names had been moved to the MCE decoder.
-> 
-> The new types were added to the enum, short-name table, and HWID/McaType
-> mapping, but not to smca_long_names[]. As a result, an error from any of
-> these banks is logged with "(null)" in place of the bank name.
-> 
-> Add the missing long names.
-> 
-> Fixes: 47b744ea5e3c ("x86/MCE/AMD: Add new MA_LLC, USR_DP, and USR_CP bank types")
-> Cc: stable@vger.kernel.org
+amd64_edac gets its node count and DF devices from the AMD northbridge
+cache. Since commit 49b96fc0dddc ("x86/amd_nb: Simplify function 3
+search"), the cache finds function 3 only at the fixed PCI slots
+0x18 + N. Hygon DF devices are not at those slots, so the cache is
+discarded on Hygon and amd64_edac_init() returns -ENODEV at its
+amd_nb_num() check.
 
-Which of the real-bug-fix criteria at the top of that file:
+Remove the Hygon match and the empty Family 0x18 case. MCE decoding
+in mce_amd.c is separate and unchanged. Hygon memory controller support
+will use the Hygon node interfaces in a separate series.
 
-Documentation/process/stable-kernel-rules.rst
+Signed-off-by: Lin Wang <wanglin@open-hieco.net>
+---
+ drivers/edac/amd64_edac.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-justify the CC:stable tag?
-
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index 475235c402e8..9e35098d3dd2 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -3840,9 +3840,6 @@ static int per_family_init(struct amd64_pvt *pvt)
+ 		}
+ 		break;
+ 
+-	case 0x18:
+-		break;
+-
+ 	case 0x19:
+ 		switch (pvt->model) {
+ 		case 0x00 ... 0x0f:
+@@ -4120,7 +4117,6 @@ static const struct x86_cpu_id amd64_cpuids[] = {
+ 	X86_MATCH_VENDOR_FAM(AMD,	0x15, NULL),
+ 	X86_MATCH_VENDOR_FAM(AMD,	0x16, NULL),
+ 	X86_MATCH_VENDOR_FAM(AMD,	0x17, NULL),
+-	X86_MATCH_VENDOR_FAM(HYGON,	0x18, NULL),
+ 	X86_MATCH_VENDOR_FAM(AMD,	0x19, NULL),
+ 	X86_MATCH_VENDOR_FAM(AMD,	0x1A, NULL),
+ 	{ }
 -- 
-Regards/Gruss,
-    Boris.
+2.43.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
