@@ -1,122 +1,140 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3302424641
-	for <linux-edac@vger.kernel.org>; Tue, 13 Oct 2026 11:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77BC4EF149;
+	Tue, 13 Oct 2026 11:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791891725; cv=none; b=P9pJK+/S87L6B42B38LZjkX65DE/P6JhyPz5jX+Il7YQtzva06YmdRmSMTGk7xEyfO9H3cjV4pD7RzOyjH2M5hv/31XkSrM88LT6SnVWqH0atDfJOOLT+KTgKiq+GO0iwdiZjPdnsADBoBmE6Bmcsw7B+oMVUVt1eSJPy5LF0Bs=
+	t=1791892692; cv=none; b=nHCFg7QAU/Tlt+Q4Nc4jR/4StEk4PyOIjsL2wI9hwhqOmmSjjtAKiS3ojS5F0fmpaWTFgwevbfJnk4T/8rcFW6Vm9T3qICbdTdlls/e1AKb/7kL2PzEamushuunIpmr6tqc31w4DgkHcOaxtPWwwdnYHlmYRlT98LcJ+iQuY+0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791891725; c=relaxed/simple;
-	bh=k5veFeTTHtqbcVUOmk8kP3kRfVRBO7Pptciq5IbVpOA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dM3oTDWWDv6a35/LW8Mtdpic6gE09DibfC64uanBcoWqvJNlbC5fE335GaVjDU8YByai6OzsWITTAvh28pAgjfHekbwvSuZ7UEbIY6nxhJOdmUSw2tVDESiVuUBLyjiznayK/c460DsrXy6PIQ2o2/BHeqv74JNSv0pgI3+P7dA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6a374bea882so4106716a12.1
-        for <linux-edac@vger.kernel.org>; Tue, 13 Oct 2026 04:42:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791891722; x=1792496522;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=WEZ3XROOQ5wml3OCk98kzhYlw6diUWNF5eLEQIKJbBE=;
-        b=y1DVl9EVqRh6POh///qV8qO++UloKYsSxyCW5nvN0L1+9IKSwq8TnTHRhn/hfChx5v
-         ztb+jPPd+mpafMzZ5rm7Qb7k7rhnoHEjma4t2oP7nUfJ4sWNhssEPJ+N8vyFmOSzt1LA
-         Z45YW8ne/7v55YHjqdVQ16jdYz0TO8yWyweUxGE9tKCn/qHSJjyftfY7Ygr5OiDfy3Tz
-         CkNCCeTNX5hsO4J//xKUrwLoUVxFslQ/5284P5L8kyN0JCCv7Z7NJJ+cGVdeIgAJr3JV
-         InIVItnYuPoFXuXG13PdLpAAoiy/0n3NHqDI5O8p57xwlM3CCnS9H+8DEODv/G5OTmLX
-         w6Wg==
-X-Forwarded-Encrypted: i=1; AKwUvBxIcm5CRLRxfHlSEhluQ6xYpWN0pUpg5LhLC7RlRKMSH9pl2vi1x/1bA2XjX+g1TPB+PFjnaDCQBBz1@vger.kernel.org
-X-Gm-Message-State: AFq9FYK+ufNxy3r5c0MzJd4t/jPZHWJiw+KS2XTK8Eb5QKY4lt6wZORL
-	2TbaLzMxvazQoKVxXAiq84MXC3NSynYXz3Rh/2kwlcRNoxv2TfYxnntr46bC+y9Ala8=
-X-Gm-Gg: AYBFou2jL0eCVvZ2/VmK1TCAqgFym8UEO3sXXgCL8wxIa4l/UH3pSBASarqxC4W+B3L
-	Op/BV1HQRLi5Ot8lEDhs8In81BvPMBaSccOC5w6KdfFORoCndUTGlOewn+SJiajf70mDOcXjJWC
-	tKyCQK/1EdAkFgzYHZDQWKUwEgBAMyo6DSXsWTPGeoYfENxsgqna8mrk3WAxCOLtQnsf8fb+akZ
-	vqEaHgSZrtUb5ILXzrpZ0dc+zXHNlls43RaUH81PmgLnsat+iJtc1DHw4TdSthFx362tDYJ9VP8
-	dpsCjOdq4jXzlJakhTExfiQwRJlcbVh56fA9L0r8oiLiTm5CI/EaiIv8UkrkRBVjBRG3u5Eaw94
-	EGrPcFv5VIVukKDfyufv8yAYNaSActgC75qYyp2THOMEIQT9vaRh7eX7sPX2nkFfKESAnG7p3Op
-	HvhT5rYJOTtt9/p/dlKIa2VjfzRA8ahMRD+whN+NLe/XscfBjzBlvz1es53z5yJjzTaKSeD8CrO
-	aoGL0VzFAsYwY9Cw3jfkwSUQ+iLh/CMUIbhA7PSI2619co=
-X-Received: by 2002:a17:907:d03:b0:c29:4147:f4e2 with SMTP id a640c23a62f3a-c31a9fced7dmr1222107966b.15.1791891721856;
-        Tue, 13 Oct 2026 04:42:01 -0700 (PDT)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com. [209.85.208.53])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c31a9a3ab4esm574126566b.29.2026.10.13.04.41.56
-        for <linux-edac@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 04:41:57 -0700 (PDT)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6b1a86c0316so3063578a12.0
-        for <linux-edac@vger.kernel.org>; Tue, 13 Oct 2026 04:41:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzdIObJmja9oOb0fvpPra4LiULUu5FmzRgguRG3NNRWrxTSpo/OHrhivSxB76vSJNTbOCiZYJGOQiud@vger.kernel.org
-X-Received: by 2002:a17:907:e158:b0:c34:e9fe:82ed with SMTP id
- a640c23a62f3a-c34e9fe8db4mr355591866b.28.1791891716374; Tue, 13 Oct 2026
- 04:41:56 -0700 (PDT)
+	s=arc-20240116; t=1791892692; c=relaxed/simple;
+	bh=HSOWWU74lDNxt1d+wQt3X3kc79zz+ssUkjfC7waIdoQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=RXOe8x2D9QdGLbhj7Qf8anfSAHqZfHmD8FZ/1uRW1E2kM6bL3VtHYeMtAAPFhirhR6y7Jq4QOu+BloX8kiPFzQ6lwWMDNJoqQvrTJmUbO8omVucFSImoe4nko12+EUbZnUgKtvb4fo0Uqu3i/7pikpcOKbfjprrCmNEX5DInn5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=kZqkjOZk; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kZqkjOZk"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 447EE1A11FE;
+	Tue, 13 Oct 2026 11:58:07 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 170B160362;
+	Tue, 13 Oct 2026 11:58:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4E51811D7080C;
+	Tue, 13 Oct 2026 13:57:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1791892685; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=jXUFuuOTF8XeXu/Tjy+acP2BZmhd2fr98R0Z92J5Q4g=;
+	b=kZqkjOZkVy20xkYa6RsVyitkCikl+xV1v9ZoLLUiibvYRoBpyMJQueIZZeoYQEnZ5H7lhV
+	OL49oCCTzGbuv0nqs3SmjbYXgX6mYv3PH2zybHqY45k6u/MP0BC3kKHYkOiZMVCp4D+Owm
+	I9CbI4LgxBfP58tDlh6VrxtePh6w1KJQT/ZajajtZr7uj/b+EsmZLXw5Y+AsNn3LUflJiH
+	i7IgQvdZH4sZYcEfzqymI87yDotN9U2J6iYxdxqdyuD/uJm5AFr0DNWk8n9drJRBVx5KhK
+	ZWLpZ+SSamr2yYEa2RigFWrJlT08dmcLfTu0i7WZX3KnInsDZvvgjbmMcNsGiA==
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20261013-paul-v7-3-rc1-edac-v6-0-2f1d6f2f74db@bootlin.com> <20261013-paul-v7-3-rc1-edac-v6-3-2f1d6f2f74db@bootlin.com>
-In-Reply-To: <20261013-paul-v7-3-rc1-edac-v6-3-2f1d6f2f74db@bootlin.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 13 Oct 2026 13:41:43 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV1nuiSAKbCrD0mWJX7rC4T=fxO5LC5ksRD440YSL_3cw@mail.gmail.com>
-X-Gm-Features: AclHuK9GyhuxP1j4sSDne1XJEsD6-l0raq_tLn-7rYWcCt7pn2fMfEYbVEbwDsM
-Message-ID: <CAMuHMdV1nuiSAKbCrD0mWJX7rC4T=fxO5LC5ksRD440YSL_3cw@mail.gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 13 Oct 2026 13:57:56 +0200
+Message-Id: <DM3OXV8IQQKR.36V79A742H52F@bootlin.com>
+To: "Geert Uytterhoeven" <geert@linux-m68k.org>, "Paul Louvel"
+ <paul.louvel@bootlin.com>
+Cc: "Borislav Petkov" <bp@alien8.de>, "Tony Luck" <tony.luck@intel.com>,
+ "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Geert
+ Uytterhoeven" <geert+renesas@glider.be>, "Magnus Damm"
+ <magnus.damm@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-edac@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, "Miquel Raynal"
+ <miquel.raynal@bootlin.com>, "Herve Codina" <herve.codina@bootlin.com>,
+ "Wolfram Sang" <wsa+renesas@sang-engineering.com>
 Subject: Re: [PATCH v6 3/3] ARM: dts: renesas: r9a06g032: add EDAC node
-To: Paul Louvel <paul.louvel@bootlin.com>
-Cc: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-edac@vger.kernel.org, devicetree@vger.kernel.org, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Herve Codina <herve.codina@bootlin.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
+From: "Paul Louvel" <paul.louvel@bootlin.com>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261013-paul-v7-3-rc1-edac-v6-0-2f1d6f2f74db@bootlin.com>
+ <20261013-paul-v7-3-rc1-edac-v6-3-2f1d6f2f74db@bootlin.com>
+ <CAMuHMdV1nuiSAKbCrD0mWJX7rC4T=fxO5LC5ksRD440YSL_3cw@mail.gmail.com>
+In-Reply-To: <CAMuHMdV1nuiSAKbCrD0mWJX7rC4T=fxO5LC5ksRD440YSL_3cw@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Paul,
+Hi Geert,
 
-On Tue, 13 Oct 2026 at 12:45, Paul Louvel <paul.louvel@bootlin.com> wrote:
-> Add EDAC node to the SoC base device tree file.
+On Tue Oct 13, 2026 at 1:41 PM CEST, Geert Uytterhoeven wrote:
+> Hi Paul,
 >
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Signed-off-by: Paul Louvel (Schneider Electric) <paul.louvel@bootlin.com>
-
-Thanks for your patch!
-
-> --- a/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-> +++ b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-> @@ -164,6 +164,15 @@ dmamux: dma-router@a0 {
->                         };
->                 };
+> On Tue, 13 Oct 2026 at 12:45, Paul Louvel <paul.louvel@bootlin.com> wrote=
+:
+>> Add EDAC node to the SoC base device tree file.
+>>
+>> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>> Signed-off-by: Paul Louvel (Schneider Electric) <paul.louvel@bootlin.com=
 >
-> +               edac: memory-controller@4000d000 {
-> +                       compatible = "renesas,r9a06g032-ddr-edac", "cdns,ddr-edac";
-> +                       reg = <0x4000d000 0x1000>;
-> +                       interrupts = <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&sysctrl R9A06G032_CLK_DDRC>, <&sysctrl R9A06G032_HCLK_DDRC>;
-> +                       clock-names = "ddrc", "pclk";
-> +                       status = "disabled";
-
-Should this node be enabled by default, or am I too naive?
-
-> +               };
-> +
->                 udc: usb@4001e000 {
->                         compatible = "renesas,r9a06g032-usbf", "renesas,rzn1-usbf";
->                         reg = <0x4001e000 0x2000>;
 >
+> Thanks for your patch!
+>
+>> --- a/arch/arm/boot/dts/renesas/r9a06g032.dtsi
+>> +++ b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
+>> @@ -164,6 +164,15 @@ dmamux: dma-router@a0 {
+>>                         };
+>>                 };
+>>
+>> +               edac: memory-controller@4000d000 {
+>> +                       compatible =3D "renesas,r9a06g032-ddr-edac", "cd=
+ns,ddr-edac";
+>> +                       reg =3D <0x4000d000 0x1000>;
+>> +                       interrupts =3D <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
+>> +                       clocks =3D <&sysctrl R9A06G032_CLK_DDRC>, <&sysc=
+trl R9A06G032_HCLK_DDRC>;
+>> +                       clock-names =3D "ddrc", "pclk";
+>> +                       status =3D "disabled";
+>
+> Should this node be enabled by default, or am I too naive?
 
-Gr{oetje,eeting}s,
+The bootloader will be responsible to initialize the DDR controller and ena=
+ble
+ECC if specified. On this specific platform (r9a06g032), ECC is disabled by
+default.
+Enabling the ECC require a specific property to be present under the contro=
+ller
+node in U-Boot. I think it make sense to keep it by default disabled.
 
-                        Geert
+>
+>> +               };
+>> +
+>>                 udc: usb@4001e000 {
+>>                         compatible =3D "renesas,r9a06g032-usbf", "renesa=
+s,rzn1-usbf";
+>>                         reg =3D <0x4001e000 0x2000>;
+>>
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+
+--=20
+Paul Louvel, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
