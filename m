@@ -1,160 +1,215 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010059.outbound.protection.outlook.com [40.93.198.59])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAF031E84B;
-	Tue, 13 Oct 2026 01:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.59
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791853490; cv=fail; b=bnV6eUYtwI9SZfV9ITD2c98Z7dwgUCUGlXNtcZIpGWolosGUHtg+VVbfi7ucsQ/koQLOtnG2bt2NHs66LGvklGh+HNTe9rgF6Ectfq+CAQZIBlre1vRe+QAtK1cVKypc8pZB3TcEQ9a6IIwSgWUGEE0Rm5FkLO0a+ODSclIZTGk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791853490; c=relaxed/simple;
-	bh=FW/I1eA0uf9SxGl4RPUA5HMr1+9SFTEdetiV7t+4Wds=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=NMwNpG78b5Duc/rA/hfU1/CnLahiPYDWhAizNeIapMS7yHPJctUgwS63NMNl2fYD51LBw12CUwmGD9pM+XaK/xp9pp2pKNm53d9ynGqObgkkP9p+SW/gl1Vq1gmx8lWaA37gdlJv5Gw/OF93dNMPPsY+8FJM/gnYnO1xLPpsF+o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Nv0SEj9d; arc=fail smtp.client-ip=40.93.198.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA9C427F8F;
+	Tue, 13 Oct 2026 10:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791888333; cv=none; b=BPInwrWuhRsduJYQPGvnD1ToD85Ok2PQoUj+Eipu1iD1wSQr+y8cf74UXxNGLOVvAIowau3W64e5CahZM0mqoSG85iHDrvRFxsH9oJjQSs2MGK8Gry8gpv5r7GKCQ4VVMVfuG0lmWTa0T3ymdWeXUI8JCfr0z6bKtSnp8vm7JX8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791888333; c=relaxed/simple;
+	bh=73no7mk5zY0fT9RmHVWdNYH+hEaQpHWWjUrSfrrunLA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RKm4LebyGTfyM1iuYtR0QlxBR0ABr+qnYmf56xKs30Y5EwYdAPseVgKI1Av/l0X3kk/OlGfiYYzxS8Pq78ZN57N7GSS6AUAN6410uP9gZ4a2pUFWQfnfAatXFC4/e3URhdmhkG2nnqRSHzWsvh/VGZgi82jUNh51OkVKMODyIh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=PSxp7+h2; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Nv0SEj9d"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iMbBftgM9+iWh9Jx2LlkW3A3UkWdQF37uVERumk1MhAkoVKc6B3Obw5pSDojKslzahwkCZWHJvTa5FWpWvVOm/P4Cgyi2HxliNk0QxAri/FdW6u1n1XRVJvOAAzfk5Q5c8fnUdyBBqdMCTh2UINJYRUsmGn/aGlZ/XYeD3jDheo+0TvnSJ5lj1Im2tr843ygz2Yoowo3BWAnGJq5wH60/eSacXyTyuIPA2/nqeUnrHRiAW5V46n0pX+h8xZTNXVKWojvQsDfKNhLdnnwHBqU7f0DAMn34t+d6BE2uSQzg2olQK2e0NRQYnBR1dwo+iQbYpxPFTvzWIjvtsJzneSsTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0V0xbMn8ec8izVwBQOBeGylBVVQC6D0kk9KWLW7fUAo=;
- b=hkpTltqnZ0+F5gJLSFzVXOilHak7oj8tVHpwX5TZ8e8EbBfnp6SGJ0AsFSlEbd+xuvjgSlak6RG5wxrewR93UQtIy7ahU5UBZPcB7CeMYW4qYsmN6ehCuxm5FlFuuj7Agghkr6NoJfu7Kie7r0dhMcgIVIO8xkMBh1DyT1KPgroDzeBty2WESEdxWJLWMVvNIeL8NlZ/XasWBzok6g8KdbLbjRCVuImvZPwXlReWb9yeHghvqnlD5lIWZ6mFjCCXdLTAS+nMtn6VCp9zXv/KNkVlmPQi7rHDWpnmoD8y9YrxQ1gSwNkNeUs1YtEp75PIj+bxUZBGTDSncUfIOPVDLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0V0xbMn8ec8izVwBQOBeGylBVVQC6D0kk9KWLW7fUAo=;
- b=Nv0SEj9dp8IN6UoXwvd6sykFs1vUgiBa1pjyX+hYDPc8bblyCEsuOSGEGnT4SD9z4bi1gw3gm5bd52tLqr33bxntFJxJLxh8E+IA7/u93O7bKLDWygBx27Tox1xqhXJ59/J9Ndo2AFpxsckYnQfuhqQu4K6w1C5rWjGxr3B9KJeQj9ey2lAj3ZrwSsSkqJRAFX4cBzXvIV0QiCLJOFn4aDCWNScBa1iIL1H9ugkuod4nOE6JemG8gO2Nt8lNjR1Kdb4CDR1s1B0IOScf7XPAwH/eHkGlT8fHnv+AeDgei5I5VpNwOClYjSDT9Mfbgdvyd9dvOPq3qkvX3oI5arW2mg==
-Received: from CY8PR12MB7290.namprd12.prod.outlook.com (2603:10b6:930:55::13)
- by CY5PR12MB6108.namprd12.prod.outlook.com (2603:10b6:930:27::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.17; Tue, 13 Oct
- 2026 01:04:44 +0000
-Received: from CY8PR12MB7290.namprd12.prod.outlook.com
- ([fe80::a8ce:7b9b:3e72:d1cc]) by CY8PR12MB7290.namprd12.prod.outlook.com
- ([fe80::a8ce:7b9b:3e72:d1cc%5]) with mapi id 15.21.0496.020; Tue, 13 Oct 2026
- 01:04:44 +0000
-From: "Qiuxu (Leo) Zhuo" <qzhuo@nvidia.com>
-To: Adrian Schlegel <me@adrianschlegel.com>, "tony.luck@intel.com"
-	<tony.luck@intel.com>, "bp@alien8.de" <bp@alien8.de>
-CC: "x86@kernel.org" <x86@kernel.org>, "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3] x86/mce: Do not treat cache hierarchy errors as memory
- errors
-Thread-Topic: [PATCH v3] x86/mce: Do not treat cache hierarchy errors as
- memory errors
-Thread-Index: AQHdWoCS6utJ270nGkuMKrZA/eZg/Lb6qEDw
-Date: Tue, 13 Oct 2026 01:04:44 +0000
-Message-ID:
- <CY8PR12MB7290EFD53AFBA1A474BA86EAD19E2@CY8PR12MB7290.namprd12.prod.outlook.com>
-References: <20261003222012.19685-1-me@adrianschlegel.com>
- <20261012193305.38931-1-me@adrianschlegel.com>
-In-Reply-To: <20261012193305.38931-1-me@adrianschlegel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY8PR12MB7290:EE_|CY5PR12MB6108:EE_
-x-ms-office365-filtering-correlation-id: aa67065d-6b32-490b-a8d6-08df28c5f7f8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|18002099003|10067099003|22082099003|38070700021|4143699003|11063799006|56012099006;
-x-microsoft-antispam-message-info:
- zwLEnD3AeFSGzZbSkJYQxXF49+ksbnRn+o/Oz25b68LYbQn4JzECgh4zwFtYOGfk/gS1vA1IOVvrrb+EYkKyB00b+II4zlckO9RaW5k9rk5wgy71Bm1vjyc1GeE7kcisC3BEMqpZZjqmO16wEok04b8+PjkXpBukiJaQQbZGXQlEYMG81RSx4B3WQjONkG4e5q9OroXhNDo7wss+4/wnqxoOnj6PBhe+1PGN6BI5mzPxGDyoWK6N7eEtV1nEBiUwyBTQqybjTFvew6wfTMfUVCzqMJ1ahGUlRzQ+o9i1rM5rUzQVcQgRZlrlvZN8zcJRGtRPsDCPUqUCP6jfa+tJwNoYm9k+1+mg6WGqt91ASHYXg4VU7Jk3VmaiUdcLBcx+2XbN3eRGZA3HYf59V7DlNBJypa16SsyUcyHFF0wJw0HgwX0EfGllVFU4GgY3Ga4QCqKdfQ68omOgClzwpyaD1NZsYvWaHj6ki8eo+IkNLnmEVDGfLcNN2WYZEgmzDH5qBsmj9TMVm0lU9VL9lYqniiwkEjQ28qZ8St560WRYx/wyyiI8cY/urw84CbmEbxtmQbPBpSOUblD+e8nzY/Mxwseb6enij/6/f2Zfn4OLMwuD8aCmH/UBmz3jQX3IGM69+IJONd8MzQRVaVWh88EOu0GhhWcVCSXiG7MsSOeiQkqx7/Y3N2S2f6bOOpANNbfyGQuQCb4s/ODuhTxw8JCgyas5qXZOu52fyHroIiULIGI=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR12MB7290.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(18002099003)(10067099003)(22082099003)(38070700021)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?kL7FYKHhFTt/n9wH5RAXvEzZ1rGMSITywb9ymfuSblJrQhArfMoGObRTjZSK?=
- =?us-ascii?Q?kU6WWxHGp0qcBeRSH/Fcv2pYiGRwfGI3VvCJ3Ge5q6QOJiLcKM4zXeuRObU8?=
- =?us-ascii?Q?S0PiDNo/jIgp81aHGh49e99koyXFfCWsOauDHn+w9n0/40ToYIivsYLiAeM1?=
- =?us-ascii?Q?7fe+16gBviIk3MOKk6OZXDmsFD0Sm2zrOPPnJGHAeYV4Ko3U5VbTHl84rPx5?=
- =?us-ascii?Q?sn7fd0xrRJtu7nqGfJy4Ztpg7/7w/n8e3+yByNSdj/9CMS9lmGqWCugiAurI?=
- =?us-ascii?Q?Yl8+X4BvDey01Vkd6yjxxjw96Au90kd6GsxyGCkSuP0Q0F8BQglZtXqjR9i4?=
- =?us-ascii?Q?H8JEY6GVsqG2F7NaBloxQy+G+EXQ5ISNAFv5p3MEEo07ztflPHnjeOy7Jtk1?=
- =?us-ascii?Q?N6jSNYCHjf9kNYslC3xCql8xOac7MIZFhGkdFaBPpIg3irTzKEdO+2t+lh7A?=
- =?us-ascii?Q?jg2eSa8wRajVVYQBSRFU065ymj0j+Qpo6R5FKkWJaynU+JsTR3zZnAPcWtgv?=
- =?us-ascii?Q?hw2rYBPrTKQCbO32GLkE5KGGQqyZP0QGS2Zr0DWpddN239+wdNLcp9Khq2UI?=
- =?us-ascii?Q?WKmzltVjDzc6v5GnZncn/+O4xhIeiMKO047MMA3BSx0ZkaZq4yfIybEZzfGM?=
- =?us-ascii?Q?YMZPMXc5PQR/OQJbX0yllGyqu5dlHRXLz5RHDb9y38OjANPWyNM7hAH1slVM?=
- =?us-ascii?Q?rYT4W1Zk12hnGyc/XzFbo0Jfi54xu/i80BLgUhWfwOfi0m+yVBHIGw86aXPQ?=
- =?us-ascii?Q?Wqy9Q8Tb++VtWDX0o51XT92XLpJtJnNETm5mdocZPXdEje0DinpZWm2GWh7b?=
- =?us-ascii?Q?Z8NhwhVN/vDAUCSU2r4m75rz3i3a60COUTnnhbur8+88JbfC8mUr0QYTcU5q?=
- =?us-ascii?Q?3n1bFtXOhAMh6o7A3ITeerz9iAGiuf9ifRlwcv0ramVNpc0QYFfUkr1uxSY4?=
- =?us-ascii?Q?y9eHWe87nLBEE81Tzr6ocDdwfEnm4JO/5l5LqCAu4q1OiLxnwoAZT6afElV1?=
- =?us-ascii?Q?ZZDoUf51QlDuR3/iFy4BK1gQpm8sdzrO37rwwQrjEozxcTxVWlT1XRoGrzNz?=
- =?us-ascii?Q?NVMk6nKiJ4c6ROlPuEU7VEPepxMP9dABZqpT2fzsNVEGkvHUtbWyUj+pAa3V?=
- =?us-ascii?Q?oVu73KyPpNPEsWBybn5vAI5nOAOcWwN9UQm7bgj5H7wJgQ467L7JhScBc8Uw?=
- =?us-ascii?Q?KyVn29o9iMN9vxHp9hjCgC3VSf4iefSZHRU0QTMEYfSJDOnuZEVFwZeVSn5k?=
- =?us-ascii?Q?mqgJj7ISAu3gaUYcF+O5yHEJ7zHvI61GU1H3KMOwix1nb2LTD4G5tNyR5ClF?=
- =?us-ascii?Q?Num9hoPNuSDFt/EPRQmJSf7TJAprtmnvjlKCkNGLFn6kOzk3LwrJdxL7lXBf?=
- =?us-ascii?Q?iU67bbPodojSOs6gEwBMsTPBMCBQ1uoc1TR6wkh2CnWIOda+i7lraabR1i3C?=
- =?us-ascii?Q?sAOw3iuHMAMFowJ0NUrmo2lYzE5eqhX0JX7OQx9SpRMxQI4ENDiDKimRdOrk?=
- =?us-ascii?Q?vEAaWkdjHzXtDBQC8T7evm3UBnAYUTae2rTLu3VvZzqbxP7E0YLXEKhR27FS?=
- =?us-ascii?Q?69MaFdYEjiSMYN0pIUQJso0ihHY03Vp2Yx4N7h8SJP6XM82hrvC9YiiPhMet?=
- =?us-ascii?Q?eMYyO0iLd59o1AJG7ixPuFQuma7a7raAsmiVkDjyqvWcpFhMB2X9pnmUICjJ?=
- =?us-ascii?Q?K2vk5B8uJ6W+nZOpjYXF0UVZIsYxT6M/bcriYe7IOFpXLc1s?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PSxp7+h2"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id BECF21A11FA;
+	Tue, 13 Oct 2026 10:45:27 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 9069F60362;
+	Tue, 13 Oct 2026 10:45:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8317711D70DB1;
+	Tue, 13 Oct 2026 12:45:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1791888326; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=XZK57Ew8RtsB4VB6YRRGpa0+57nwvbdU6CuWfPyEudA=;
+	b=PSxp7+h25CGTjoeUV9H+L+tGXjpzpK9HwdWakYwv2PBWq/9Nr6JMumNTMyAbctoR0KItim
+	K0dupXMIkwhqctBG+SreVqiX+CoNq6+svtahxarOYGi3uxC9CHicKZuZZjqS43httUTtJx
+	q9VcimuMfKeFIEL+VK33C6b4YnLTpTNlKpa5/HQcQxwlx2Z3ooIzHyCSl6YgvUev9BHnKR
+	1JRXm5eVm29eCBUXOnUh114a9MydBS/0viRCr/72XlcQOqC9YAhXVaxKWWuoSbW3UH9Fag
+	FWdQ0TbnAhdtXDUzsSadzQspoPvVuvkO8kXWCCSh1q47oMQAjRUzClf81jLapg==
+From: Paul Louvel <paul.louvel@bootlin.com>
+Subject: [PATCH v6 0/3] Add Renesas RZ/N1x EDAC driver
+Date: Tue, 13 Oct 2026 12:44:57 +0200
+Message-Id: <20261013-paul-v7-3-rc1-edac-v6-0-2f1d6f2f74db@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR12MB7290.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa67065d-6b32-490b-a8d6-08df28c5f7f8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2026 01:04:44.2692
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8u+0xgpHKPbbO1yXw+QYU5avkb9kRRRNiLywo9BTUVpedfxKOgburd81O7SAGtsFADz65GOnFl30+4sBEAN8MA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6108
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5WQy07DMBAAf6XKGaNdv9MT/4E42BubGpWkStIIV
+ OXfsVsJBRKQelxpZ3a0l2oIfQpDtd9dqj5MaUhdmwf9sKvo4NrXwFKT54oD11CjZid3PrLJMMF
+ 6QhYaRwyjNHWsdSRlqgye+hDTx1X6/HKbh7N/CzQWU9k4pGHs+s/r1QnL3r8HJmTAGhDaWm4F9
+ +7Jd914TO0jde/Fd4O5/BM24IMwJNGh/QGXvokvC8ymhGdJVMoiCGwghrsKCuwJJWjUGIjWBWJ
+ RwMWmRGSJsgItOSG9E3cVFNg3FpR0yqOFdYFcFthNicwSqaXOCkOO6rVEfUsQQG1KVJbkTziIy
+ KWnXyXzPH8BbZwWfJMCAAA=
+X-Change-ID: 20260916-paul-v7-3-rc1-edac-1f479f96fc57
+To: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-edac@vger.kernel.org, devicetree@vger.kernel.org, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Herve Codina <herve.codina@bootlin.com>, 
+ "Paul Louvel (Schneider Electric)" <paul.louvel@bootlin.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791888321; l=4772;
+ i=paul.louvel@bootlin.com; s=20260313; h=from:subject:message-id;
+ bh=73no7mk5zY0fT9RmHVWdNYH+hEaQpHWWjUrSfrrunLA=;
+ b=lNqhsb2xp9E1y/aOuVEhW+R0PxZEeCGTJLYN6vTYyPFiElj4A1cu1GYNwbrhSwk2oN/FnWSbv
+ Xyb30laJ/54CZ4jApcoyJvjVOCjeQIBMUvVHfXq1hCtDw2adB4y84Iv
+X-Developer-Key: i=paul.louvel@bootlin.com; a=ed25519;
+ pk=eLW50NT18UAvUT5cAcYf88zNbBCZDLFXuptpyLVhVIU=
+X-Last-TLS-Session-Version: TLSv1.3
 
-> From: Adrian Schlegel <me@adrianschlegel.com>
-> Sent: Tuesday, October 13, 2026 3:33 AM
-> To: tony.luck@intel.com; bp@alien8.de
-> Cc: x86@kernel.org; linux-edac@vger.kernel.org; linux-kernel@vger.kernel.=
-org;
-> Adrian Schlegel <me@adrianschlegel.com>
-> Subject: [PATCH v3] x86/mce: Do not treat cache hierarchy errors as memor=
-y errors
->=20
->=20
-> On Intel and Zhaoxin, mce_is_memory_error() also returns true for cache h=
-ierarchy
-> errors. All callers expect it to report memory errors only.
->=20
-> The CEC uses it to count corrected DRAM errors. A corrected cache error o=
-nly
-> names the cache line that was affected, not a faulty DRAM page.
-> With a faulty CPU core, the CEC therefore soft-offlines healthy pages.
-> On an i9-9900K this caused about 500 soft-offline attempts per hour.
->=20
-> Report only memory controller errors on Intel and Zhaoxin, as is already =
-done for
-> AMD.
->=20
-> Fixes: fa92c5869426 ("x86, mce: Support memory error recovery for both UC=
-NA and
-> Deferred error in machine_check_poll")
-> Signed-off-by: Adrian Schlegel <me@adrianschlegel.com>
-> ---
+The Cadence memory controller found on Renesas RZ/N1x SoCs supports ECC
+with SECDED.
 
-LGTM,
+The memory controller found on the r9a06g032 supports at most a single
+DIMM of DDR2/3, up to 2GB.
 
-  Reviewed-by: Qiuxu Zhuo <qzhuo@nvidia.com>
+Add the EDAC driver for this memory controller, and the relevant
+device-tree binding. Also add the EDAC node to the existing r9a06g032
+SoC base device-tree.
+
+Signed-off-by: Paul Louvel (Schneider Electric) <paul.louvel@bootlin.com>
+---
+Changes in v6:
+
+- Patch 2:
+
+  - Sorted the includes alphabetically. I have also ran a check with
+    IWYU and, after careful checking, there is no superfluous header.
+
+  - cdns_get_mem_sz() helper inlined into cnds_setup_mc().
+
+  - Debugfs helpers built unconditionally with no-op stubs if debugfs is
+    not selected.
+
+  - Port command channel error reporting removed since it does not
+    belong to an EDAC driver.
+
+  - Removed useless comments.
+
+  - Renamed macro prefix to CDNS_* instead of CDNS_DDR_*. Also indented
+    all the macros definition at the same level.
+
+  - Dropped cnds_ prefix to the private structure.
+
+  - Shortened interrupt unmasking into a single macro to shorten line
+    column length.
+
+  - OR'ing flags to detect type of errors in irq handler.
+
+- Link to v5: https://patch.msgid.link/20261005-paul-v7-3-rc1-edac-v5-0-140a0f124bc0@bootlin.com
+
+Changes in v5:
+
+- Patch 1:
+
+    - Reworded commit title.
+
+    - Dropped unused label.
+
+    - Switch to plain flow scalar for description.
+
+    Note: keeping cdns,ddr-edac compatible after Krzysztof's comment.
+
+- Patch 2:
+
+    - Setup IRQ after allocating and registering the device to EDAC
+      core.
+
+    - Explicitly free the interrupt line with devm_free_irq() to avoid
+      any UAF before releasing MC.
+
+- Link to v4: https://patch.msgid.link/20260928-paul-v7-3-rc1-edac-v4-0-4646a5b7cac9@bootlin.com
+
+Changes in v4:
+- Patch 1 and 3: drop the RZN1 family compatible, as requested by Geert.
+- Patch 2:
+
+    - Instead of using FIELD_MODIFY macro that expect a compile-time
+      constant mask, use binary operators instead. Note that the new
+      code is doing exactly what FIELD_MODIFY do, minus the error if
+      cdns_rmw() is not inlined.
+
+    - Use a spinlock instead of mutex since the locked region will be
+      really fast to execute. Only lock it once for two register rmw.
+
+    - Use edac_debugfs_* facility instead of sysfs attributes. Use a
+      separate "bits" and "inject" file instead of just a single file.
+      This is better since clients can read the previously set syndrome.
+
+    - Cleaned up the probe function in separate functions. Use a remove
+      function instead of registering custom devm action. Use a goto for
+      resources cleaning.
+
+    - Mask all interrupts before un-registering the memory controller.
+
+- Link to v3: https://patch.msgid.link/20260924-paul-v7-3-rc1-edac-v3-0-bd8054a5b180@bootlin.com
+
+Changes in v3:
+- Patch 2:
+
+    - Added trailing newline to end message.
+
+    - Forgot mutex_init() in probe...
+
+    - Registering the MC at the end of the probe.
+
+- Link to v2: https://patch.msgid.link/20260924-paul-v7-3-rc1-edac-v2-0-bc1406161ecc@bootlin.com
+
+Changes in v2:
+- Patch 2:
+
+    - FIELD_MODIFY() is always called with a compile-time constant mask
+      in this driver. I see no problem here.
+
+    - Use devm_clk_get_enabled() so the driver does not need to store
+      struct clk_bulk_data outside the stack space.
+      Clocks are not manipulated outside of probe.
+
+    - Introduced a mutex for rmw operations in inject_ctrl_store() sysfs
+      callback. Rename drv to priv in cdns_rmw().
+
+    - Return IRQ_NONE if the stat int register is empty.
+
+    - I see no reason to follow Sashiko last remark on this patch.
+      Is an unhandled interrupt a big deal in this case ?
+
+- Link to v1: https://patch.msgid.link/20260924-paul-v7-3-rc1-edac-v1-0-70be37c41a18@bootlin.com
+
+---
+Paul Louvel (3):
+      dt-bindings: edac: cdns,ddr-edac: add Cadence DDR EDAC
+      EDAC/cadence: Add Cadence DDR EDAC driver
+      ARM: dts: renesas: r9a06g032: add EDAC node
+
+ .../devicetree/bindings/edac/cdns,ddr-edac.yaml    |  61 ++++
+ MAINTAINERS                                        |   7 +
+ arch/arm/boot/dts/renesas/r9a06g032.dtsi           |   9 +
+ drivers/edac/Kconfig                               |  10 +
+ drivers/edac/Makefile                              |   1 +
+ drivers/edac/cadence_edac.c                        | 377 +++++++++++++++++++++
+ 6 files changed, 465 insertions(+)
+---
+base-commit: d9f39b2c0579f313d14954a9ec584511c543aab5
+change-id: 20260916-paul-v7-3-rc1-edac-1f479f96fc57
+
+Best regards,
+--  
+Paul Louvel, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
