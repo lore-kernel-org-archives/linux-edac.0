@@ -1,86 +1,88 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16BA554089
-	for <linux-edac@vger.kernel.org>; Wed, 14 Oct 2026 15:56:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FD8395AF8
+	for <linux-edac@vger.kernel.org>; Wed, 14 Oct 2026 15:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791993394; cv=none; b=UDUO7yjgmLYSLscD/DbtncacLyKVwfA395l1ttZowdiAhEJ/my8yBjlwiy6Iaj6e/p+p/xrs0RYloSdqNoAao/63+KnIVXh1X1GdCjutjlJn404qU8s9cyembhBMQ7xpBwokT2ymEMVD2qFnbF1KzqPW8K9uzy1fYzOKGbuht48=
+	t=1791993401; cv=none; b=ATej8I6zh8Tp8/zqvzk2+W4sd02wX7qJhVd0njpQzzzy9mww7EJ8s24NeM3mZIToOMqTMHVNrCR0w7l0wxJVZdaHsJEFWsjmx8JVchNVBIt9e5vvn0FC8AkfpC/yyTvpswLWfVjgrj0L5qJuUdiyVcjfB/Uac3aI4W/CaX1XnoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791993394; c=relaxed/simple;
-	bh=QcP01yeYANmnSOpCckxi4SHgUGs/ns1aGF7CqSeJ3UI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TJabuvwrV4KW+myRVRIM1wN2WoK6iz9fZS3tACgC9h4GU7jcFZFBw5A/MyHV9X7VAGcOj6s6nR5t5F1hda2nRwAzin8mxcLyZi3Yy+ApZUruim41FrV23i1LGSeaKWA2ehyHjjJpYzbZbB0q8MJ8tmZcKjD0blHhN46RsIR/7zM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VvjzfRk5; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jp672+6Z; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1791993401; c=relaxed/simple;
+	bh=0cSHgniriXpKHw02i0e3M7P7eWMIpRf6UznVWutKdYs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=N+99gNpvJ4QpcdDFonFF3T8QX9Kj7bkWwjXQaj7j3RVx3qha2F3cL3EuM63gxODZShFwcBSi4dpp7iRSwJjX/rWly39bWNA4+N8YitzculYlBs5JLoq/OBVUqX44sLSVoQxl4vKYLBGDPowaQkGvCLpdyp14NbCkUI+YWJ9qvOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=h+GHvyle; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ahonGwDc; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VvjzfRk5";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jp672+6Z"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69EEabGQ500266
-	for <linux-edac@vger.kernel.org>; Wed, 14 Oct 2026 15:56:33 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="h+GHvyle";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ahonGwDc"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69EEbNux3643036
+	for <linux-edac@vger.kernel.org>; Wed, 14 Oct 2026 15:56:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=nRN5mwPXK5jua7t9LUgDQO
-	MkK+R4yZYyk715f9CNhO0=; b=VvjzfRk5J6Z9CkwIJwodw+ihTsee+ukv63IqOX
-	Q6WCjbh4ntyQsNl40UV0YtscS8XbHAdRr1bSL5Lwkxd3jYJQPOdWAsMF+a+byAjn
-	35O78uSyLMmGd+S3EukL4LU1QVoUfA12dDj4tlsGrsIO+mHvy2h/ZVFhFiSukeTS
-	/5Acr0uNCgHGOGLKOD4cwQwAiEsEXn1PgSImFhcWwDYowpNtjbqbzh7eX6aqwZqw
-	8vgCAyuoLnXxJdI04NgbxrW+XRC6Gke2cjuUNaC8UNVrSr9A3/BXMS+HiAmXJ7uz
-	XqJT2pK4mL6e28eD/AIb7o8SWS8IbWXweKZyKtMVnlRUP8gQ==
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Q8w3Lw7DKmz55PdeZYxvJqbcSrA9JDoqVHNUMY9HxG0=; b=h+GHvylefpaRPeNI
+	tUbVlkHIluFEntsPME9GueVa9eDP6/yPdD+h1ERFnjxfsmdIYc8oBCoGt4PF9507
+	rfBEIDe2u85ZoIFXtagcAg/Szet40/xjmRYSwfOnhPqEYBvpNb6pRQ1+x5ZuSuq5
+	Eer/CWIwUFG0btGudZx6G4HJe9et5H8T6O/FPKgp7EYU4QjL10a1J3gb8Q5GT6WL
+	wbBdkMZNkQ7Os4yGw4Syu1DBA1g+CW40J+6ka4UhZx8UxHD44qNiroFJ5b7lOd+4
+	Sbvmcp3ONbQM6mYJ2FjLE/622tgVWEQCqYM5tj2sgZ2RZ6ln8lcmRQt2kkVWssbt
+	m0+U/w==
 Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4haagf0mra-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ha470ab4g-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-edac@vger.kernel.org>; Wed, 14 Oct 2026 15:56:32 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2e93f266d20so10970105ad.3
-        for <linux-edac@vger.kernel.org>; Wed, 14 Oct 2026 08:56:32 -0700 (PDT)
+	for <linux-edac@vger.kernel.org>; Wed, 14 Oct 2026 15:56:38 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2e93f266d20so10970885ad.3
+        for <linux-edac@vger.kernel.org>; Wed, 14 Oct 2026 08:56:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791993392; x=1792598192; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=nRN5mwPXK5jua7t9LUgDQOMkK+R4yZYyk715f9CNhO0=;
-        b=jp672+6Zkhosq/ND2YWmwYTaPbVF5cFpfUs3m1bOs3AM2qfb+yh2728EYr2j9SkINn
-         Pum+GRsdrWNpdxhRJ9cz2xy5kJkAyh568n9EhUccdr9EdBfMv+tBHIicelNT4F54MIYJ
-         ArFLuKZk/Nl3HnrBlC2yAaNEnLmPr2XxTsCejevvJiIp9NftC5Fo/BUuQx0BOKeGyP9+
-         Cv+hAIzJG0GJnxPh9XPfKiCRNox2wcp9lYOH1H+LJ37ZWmwOZxChSSuEuCcFKj85BvcH
-         QO47lcFrKmcgEr0h478K+WhGBklhudr6nk1WSTkvLBC34x9OHl4RrumcvSAcBRhX+4oc
-         L7iw==
+        d=oss.qualcomm.com; s=google; t=1791993398; x=1792598198; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Q8w3Lw7DKmz55PdeZYxvJqbcSrA9JDoqVHNUMY9HxG0=;
+        b=ahonGwDcMwGpJ679ID//tm4lOZtnKDj36di3xtEWyLRF3noYnIW0BUIJlNMNJwnILr
+         pcI+L05PaWTwS2c8CAV2qTMXhgaPeXH6w9DEldLcV0m8MsxGGtUVS6GfKXYuxcQDDByp
+         g8WoNA1stkyP1n66gR1DjNJMK2lKssyhUzqCGy5nNdk25flAyFr7XrovrRiG4xv9dADj
+         FKUjfCxbH1UKVptscak3TdJwR5K3piDZKM50rESEIhOcZvyMCdXT7VQnqnAaI0HKN4Ns
+         venbHWXOXLFheagBM4P5wUAdiPHedLislawOD1xv/SuIbJy49kJ546EfXA11z5tKq8pL
+         9iZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791993392; x=1792598192;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=nRN5mwPXK5jua7t9LUgDQOMkK+R4yZYyk715f9CNhO0=;
-        b=ElwQZreQd5h4ey9/OwvLVCPQsIOA++oKRlJaSWzOdehZA2jB1aOfKZPQIiHchYY8fb
-         C77D/yHQMCYIfDzJeKulmYzW3QHk9rxPS6z3HvgoUlzhZIqY2x7JftWRduYYzJoLYUFp
-         ktEZxNRFA9phvLVVos5ELJT55ThvTsExdY7CPOazGELsyaxP7GFShN+wgKlrLiLfuuiK
-         T0zxjFZwYfi4J/kgyElbu/qYNxev+pDGFMB3MAIyGGp6ONFQSrcBiMKgHcMEV8jM13ns
-         /Jl85hzrw1GRMqFI9dclEC+Br5YeWhNTGbnfmSenWL2BoyieoI7YJsL1kWrXa/U47EBl
-         9IsQ==
-X-Forwarded-Encrypted: i=1; AKwUvByVTV6xqfKtGvXhGIUL1W6RM+fdLb5vxprLd4aw6ark0vEAMiGIcGLiQRXXsDYuB1uAM2bIWHOpxqIz@vger.kernel.org
-X-Gm-Message-State: AFq9FYIDrRkiD5zvMqu4p9vXtz2rqH/shK577rlsToVuNheELkMPL/xO
-	mcJ1a74cmpAupoJUo257tov4YX+WJfSxdMbpD+T6YSw9LAtMsBT7jVwTNfxJ0IKDSwhF0igFxSr
-	OQh3fIKI0kI+aV/iqZYqVeG6kCkAGBEH0gcUxliShkw5R90ntYuuqqdfH/31tNecn
-X-Gm-Gg: AYBFou1IeJpHYauol5H+nY06I8EV5bl+fHvXXBes7g/0RFI43VXRqsuOMWXXrTuOCDp
-	DqW7lyN6CVEz5k5T2y+hO0j5R7Yr2VLD0FWqxMkGqeZ9AyFYhKV13Phnfhhua1blTdTT+sEHlTC
-	Nfnk2voX63SSzRJMcPNHwrfmXx4bFnRDE65BSnwZJTfR+xCO7nqLt/P8+acDpuUXO3+2liBJ1wp
-	MqPJR9I6D9QGGI0OAq1+qgv6Yt0b0dzdDlcknb0qFvw9QtPkvCwzGL7kSA0vOhBnmVRfI+POi1X
-	shBpbnNVyvJydj22akhIeJX4DykpHEC68L/v16GaQJj8Fg9Ayou3MXfq+u8sdzF9AJt/AOvXIsb
-	1hROFshKWHWuoLphVHqZs47FCUMMwr1/Y/g==
-X-Received: by 2002:a17:902:e847:b0:2e5:e1e2:21fb with SMTP id d9443c01a7336-2e842ac8aa0mr158861415ad.37.1791993392135;
-        Wed, 14 Oct 2026 08:56:32 -0700 (PDT)
-X-Received: by 2002:a17:902:e847:b0:2e5:e1e2:21fb with SMTP id d9443c01a7336-2e842ac8aa0mr158857925ad.37.1791993382906;
-        Wed, 14 Oct 2026 08:56:22 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791993398; x=1792598198;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Q8w3Lw7DKmz55PdeZYxvJqbcSrA9JDoqVHNUMY9HxG0=;
+        b=R0b0pYEHyVCtD8G0arGN1w3TjIeo//kXp/rzMv12AO3Zj3B4BlQ+CwLrITTQ5vnW1p
+         onI9ffs9kB6OkgUAU9TgxCnGZoteo2AHaLabsOyVf0z1xpVbckxfE/RA3MkudqjKxm/f
+         AcPf0G3M6itjBb4i9TSJqqGs0vOd8jkqMeggzxZv6zr/4a0PN29zAGYnGa/yfqCFKTMy
+         mhMdPgcqYdSWfOG6nQOWlxRPzvJImliAR+zRjswHQN/kr1+R5sxxZhPqzHP+NLnu7B6c
+         nNXecfdT2zo65mwIv4tPsWf1ZYtICZeARtT2LfdfgYF47kaRQAQg6kxw8Of85xV8Wjm1
+         g9Ig==
+X-Forwarded-Encrypted: i=1; AKwUvBy0wgVjlt7CLXJFW+HCqO59XtFkiQBeO9er03RC2We/mkHy+9JuLay3zS3HOKAElRfKvXij3EgMaaos@vger.kernel.org
+X-Gm-Message-State: AFq9FYKxF6uw/HUaoHANqtWjkAF/0YTYyWJaoCaUsCblDS/eq4Mhx/N3
+	netY6+Wqju6ywpiXaVqMJoLHKj1rx6JHFC42LJVj971JBbNlmwfUF7617tiFm/9EZ+SweK4ngIa
+	uxoLW91KwBVHaLQ6ddmwrycXpBsm1RYGwAWlMSEJx7tXxfNO3vaMC17Gwwc0P6FMk
+X-Gm-Gg: AYBFou2qLN5zCCnCBJkWxY024jvyCK1ckIMZR77wYj6VVYfAOx5aeobVgYy0gerNQWl
+	Vo39Dyxp4Aca9xcSFtXZkgHh1dfAYuxu7UMT6C7nKgGfbnn0h5KjN+hiOdeG3BWwCnfnm8Ftonl
+	ueGAK4b/rHl018Wkr5XaExob0kWFZRtengyDd+4bkx54hCKpjTLlJk0uE+B7CK9ft9iEFbLIGor
+	6B5DiUTqEhIjuRxNQ8yOF1O+lQhehmsxEeBJptjg9VCJ+x7HzxaFDalZRyCP78fILBkaEllhmRt
+	mS4pO+kp43o2rOHhWzDuqjw79B9beVyWdvhHn8uSlhfuXnWp6gqQW4UV8DSKIHG9SiBjYJw7wnQ
+	t9WaxNd6vt5RaUSis1VttV0w0hsDCFcHSoA==
+X-Received: by 2002:a17:902:d4d2:b0:2e2:d8f7:9f54 with SMTP id d9443c01a7336-2e8429a648dmr136036425ad.19.1791993397959;
+        Wed, 14 Oct 2026 08:56:37 -0700 (PDT)
+X-Received: by 2002:a17:902:d4d2:b0:2e2:d8f7:9f54 with SMTP id d9443c01a7336-2e8429a648dmr136033535ad.19.1791993388546;
+        Wed, 14 Oct 2026 08:56:28 -0700 (PDT)
 Received: from hu-faiyazm-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8422e14f6sm71961375ad.69.2026.10.14.08.56.17
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8422e14f6sm71961375ad.69.2026.10.14.08.56.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 08:56:22 -0700 (PDT)
+        Wed, 14 Oct 2026 08:56:28 -0700 (PDT)
 From: Faiyaz Mohammed <faiyaz.mohammed@oss.qualcomm.com>
-Subject: [PATCH 0/4] edac: qcom: add DDR DRAM ECC reporting for Shikra
- (QCM2390)
-Date: Wed, 14 Oct 2026 21:26:15 +0530
-Message-Id: <20261014-master-v1-0-aba3cfcfbac9@oss.qualcomm.com>
+Date: Wed, 14 Oct 2026 21:26:16 +0530
+Subject: [PATCH 1/4] dt-bindings: cache: qcom,llcc: allow optional second
+ interrupt for LCP/SRP ECC
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -89,10 +91,9 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAB+mz2oC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDCyMT3dzE4pLUIt1EM2MLwyTzNFPjtDQloOKCotS0zAqwQdGxEH5xaVJ
- WanIJSLdSbS0AIWU//WoAAAA=
-X-Change-ID: 20260824-master-a6381b7f53ff
+Message-Id: <20261014-master-v1-1-aba3cfcfbac9@oss.qualcomm.com>
+References: <20261014-master-v1-0-aba3cfcfbac9@oss.qualcomm.com>
+In-Reply-To: <20261014-master-v1-0-aba3cfcfbac9@oss.qualcomm.com>
 To: Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konradybcio@kernel.org>,
         Conor Dooley <conor@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
@@ -105,72 +106,92 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
         Faiyaz Mohammed <faiyaz.mohammed@oss.qualcomm.com>
 X-Mailer: b4 0.15.2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDA2MyBTYWx0ZWRfX4ytZYo1+D23P
- sYAx4k+DwFnuWhMKaZ1V8Xw9GSo4ral/uIxBamJFTkgK6awUrfjQ0PWkhb3Q2Shs5jfjUrt3Z1N
- T+ACYXW7GmGk79ydmB35BGzLI2QXUF4QdgiTF667c3NoNOb0DT9XOcMKZJp0nKcEa8/e+IiD73Q
- WEFz4jq8hDUK7dajZlG1sr276M/YaoH+HF68S6ow8uTjNNvPRrM5XCvRUa0FCY5wehd5s7QpRwJ
- z4c0H8raB/Onz4GdIe+Q1qPWlInzlLWN6efM9AnHugKM56R9+eBFe+Izn5fRCIK+6vkY82ntRNp
- Q05I0z1HV6seJ0/86EmHaVSGwP39RvF2tGH1MADKw4YQnIEensh1hNt+cPdYtPtlRo0oMKwM+qf
- 3tagTxg6izLZNdDeEPROEuYLzaUDVTkIpVmTG2ldurPDhfYNKHXNZpS3IrJ/uZoJXk6btW+yIV6
- qhaNLNqhD6YcLRcpThA==
-X-Proofpoint-GUID: 45Zs8cCsAYPg6g-_UacOjZO9zxOqSszn
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDA2MyBTYWx0ZWRfXyfZpkAH6XtI1
- ms/+1Q6UdwhAjQ2UucqBjYeJq0jB2bBi28v+bbLaOFobAtcedfGRZEjWvunOh/NZ2jqFvN8FBa4
- dDgBkYbf8YXXf4g9f6vMyGjDu9gpxjY=
-X-Proofpoint-ORIG-GUID: 45Zs8cCsAYPg6g-_UacOjZO9zxOqSszn
-X-Authority-Analysis: v=2.4 cv=V/noQuni c=1 sm=1 tr=0 ts=6acfa630 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDA2MyBTYWx0ZWRfXzLwPS5B+W1Js
+ QHkkudNMX1dsFR+1xUJEYWa5rPgWnFnuoZfVzflTxDqah47WjWUnn2O27uka61ZgVIAgyzD/zPz
+ uxNLGLcE5B8lWY4L1qhfbuYJVqrVxeFHUCSldrmzgwurz3HPBBy/NBcUrSw8Jzubwq59AzawWtr
+ f07H4KOph0zZeHzTZU235Ze+k4IpE3fu96nw9EnMtqqW8HPjgaNFXb08YL7IMUFTXM5lknypHNV
+ 30UjZAfGABKwpm0avCCwq/JpSUzxyMeGBRRp6vtYXX0lMtPz+Ikbvk6D3Zjn9vghBsjEmBeZJbg
+ 3gDA++VqVZVICnCOxPYUg9Wf5ynf4NiHKS9tvIa4zx+hjxvLG38MEEm45WWo+QK81PcaIvgILWD
+ k4ggP0qTCQk8kOE3+EC+fA3NnAsQAecLlcnlpzxoaQkhGiOWY0VsJ8NUjqfTQVSqJ5uBqNBfQAc
+ /qfKgSmIbDiEcPZX+uQ==
+X-Proofpoint-GUID: Cl0jv0OIB6m90fdpvH5aeffHGia2itoo
+X-Authority-Analysis: v=2.4 cv=P6avFSAu c=1 sm=1 tr=0 ts=6acfa636 cx=c_pps
  a=JL+w9abYAAE89/QcEU+0QA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
  a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=28_99TRhucPTTWWXKPwA:9 a=QEXdDO2ut3YA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=EUspDBNiAAAA:8 a=whjmla-fUz_WVyb-YBQA:9 a=QEXdDO2ut3YA:10
  a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-ORIG-GUID: Cl0jv0OIB6m90fdpvH5aeffHGia2itoo
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDA2MyBTYWx0ZWRfX/2GmcHgdTgJL
+ 0fKqnDmhqIJtGoVdVPow9rdo2rLE2u3cjU+QzMyF3EFq49faF26lk1K6yqaut8PHM2yaSPoj29A
+ 4+b7xBETlEvPzkg9A7kdysrpQzfhWOk=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-10-13_01,2026-10-14_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 lowpriorityscore=0 impostorscore=0
- bulkscore=0 adultscore=0 clxscore=1011 phishscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
- definitions=main-2610140063
+ phishscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ suspectscore=0 clxscore=1011 impostorscore=0 malwarescore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610140063
 
-Add DDR DRAM ECC reporting for QCM2390 (Shikra) via the LLCC EDAC
-driver. The LCP/SRP block between the LLCC and DDR PHY signals CE/UE
-errors on a dedicated interrupt separate from the TRP/DRP cache ECC
-path.
+QCM2390 (Shikra) has an LCP/SRP block that signals DDR DRAM ECC errors
+on a dedicated interrupt line separate from the existing TRP/DRP cache
+ECC interrupt.
 
-Patch 1 updates the DT binding to allow an optional second interrupt,
-adds interrupt-names ("llcc-ecc", "llcc-lcp-ecc"), and enforces both
-are present for qcom,shikra-llcc.
-
-Patch 2 adds LCP/SRP register offsets to struct llcc_edac_reg_offset,
-populates them for QCM2390, and adds lcp_irq to struct llcc_drv_data.
-
-Patch 3 adds qcom_llcc_lcp_setup() to initialise the LCP block and
-llcc_lcp_ecc_irq_handler() to report per-bank CE/UE errors via EDAC.
-
-Patch 4 adds the second interrupt entry and interrupt-names to the
-Shikra LLCC DT node.
+Allow an optional second interrupt in the LLCC binding, add
+interrupt-names with "llcc-ecc" and "llcc-lcp-ecc", and enforce both
+are present when compatible is qcom,shikra-llcc.
 
 Signed-off-by: Faiyaz Mohammed <faiyaz.mohammed@oss.qualcomm.com>
 ---
-Faiyaz Mohammed (4):
-      dt-bindings: cache: qcom,llcc: allow optional second interrupt for LCP/SRP ECC
-      soc: qcom: llcc: add LCP/SRP DDR DRAM ECC register offsets
-      edac: qcom: add LCP/SRP DDR DRAM ECC support for Shikra
-      arm64: dts: qcom: shikra: add LCP/SRP ECC interrupt to LLCC node
+ .../devicetree/bindings/cache/qcom,llcc.yaml       | 26 +++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
- .../devicetree/bindings/cache/qcom,llcc.yaml       |  26 +++-
- arch/arm64/boot/dts/qcom/shikra.dtsi               |   4 +-
- drivers/edac/qcom_edac.c                           | 147 +++++++++++++++++++++
- drivers/soc/qcom/llcc-qcom.c                       |  45 ++++++-
- include/linux/soc/qcom/llcc-qcom.h                 |  13 ++
- 5 files changed, 231 insertions(+), 4 deletions(-)
----
-base-commit: cbf6c6b201561342d673223d1e59ef771c7a9dbf
-change-id: 20260824-master-a6381b7f53ff
+diff --git a/Documentation/devicetree/bindings/cache/qcom,llcc.yaml b/Documentation/devicetree/bindings/cache/qcom,llcc.yaml
+index 2141e5d4de63..3546cf7c2519 100644
+--- a/Documentation/devicetree/bindings/cache/qcom,llcc.yaml
++++ b/Documentation/devicetree/bindings/cache/qcom,llcc.yaml
+@@ -64,7 +64,17 @@ properties:
+     maxItems: 18
+ 
+   interrupts:
+-    maxItems: 1
++    minItems: 1
++    items:
++      - description: TRP/DRP LLCC cache ECC (ddrss_apps_interrupt[2])
++      - description: LCP/SRP DDR DRAM ECC (ddrss_apps_interrupt[1]), present
++          on platforms with an LCP/SRP block such as QCM2390
++
++  interrupt-names:
++    minItems: 1
++    items:
++      - const: llcc-ecc
++      - const: llcc-lcp-ecc
+ 
+   memory-region:
+     maxItems: 1
+@@ -234,6 +244,20 @@ allOf:
+             - const: llcc1_base
+             - const: llcc_broadcast_base
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: qcom,shikra-llcc
++    then:
++      properties:
++        interrupts:
++          minItems: 2
++        interrupt-names:
++          minItems: 2
++      required:
++        - interrupt-names
++
+   - if:
+       properties:
+         compatible:
 
-Best regards,
---  
-Faiyaz Mohammed <faiyaz.mohammed@oss.qualcomm.com>
+-- 
+2.34.1
 
