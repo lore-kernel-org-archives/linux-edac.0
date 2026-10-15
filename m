@@ -1,65 +1,65 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755AB36E484
-	for <linux-edac@vger.kernel.org>; Thu, 15 Oct 2026 15:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8CD3EAC75
+	for <linux-edac@vger.kernel.org>; Thu, 15 Oct 2026 15:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792078442; cv=none; b=Ncf1m9OnMFUQ4kyZoPw4wBeX/t1r37sfUnzpd9ei0ORQNy1pGHiJERCa+ziQTr0JKSh6hk9TUrXHFUBljUq60akYfJAIDAUzMp3mGBc2JyJJBeskv0RxwXHzjnO5socjU7V0ExTPDS+Vmz4xeCUvbu93sw/Q4QQsbXkmX/+hohE=
+	t=1792078442; cv=none; b=Bnf+hguL/pNgG9QXMeMLSfabP6ZehP6CmhiRmR0lSfSrZ2gAUNyrRaG6V64hpi+YTUGnbrjjvm6zk3567FG8NBG3fBl47bfAAOOEPsnjQbUWcIf5y03PIeWD8YHEnikbMRxyaJpaxUJOKRGvnbQWpOlCTP53n4auJ82oWjdpUTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1792078442; c=relaxed/simple;
-	bh=rpHWd7x4GPO1rBWYSWmWRVD+UwYDOxXOvGNDhCFJcSU=;
+	bh=Xg75wWV0Wkn1lUCmua4HAOXKJp5fSZzYvpL+GKbl8+M=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rjvXEAxL2L8TKcllW9X+EIdOQl3VurF43nsn5auRCZPA1xbrQlJyMhadf1hnS+D1Oh/+MXtKWCLzD7x9wetsTov+AIKbJKotuRRhG+KlrloHfOrD76kUzid2TWnNzxPdB0fwpfvFggywcWS20uFDTMiDApjjGMe8bIxEovOnGpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=FGaaKggm; arc=none smtp.client-ip=209.85.221.172
+	 MIME-Version; b=rA4GYpxEmkElk2Z82M1bJ5hAvaz4FnJcc8ZWNP1epU55tW3Lpa1FISRxbpIwydkfvgUKxU9+zT6uTGtmNWzEnzRdwUMwqQWcnbr1q8opjM+BeLLPS/VWUMMtgzMC34R9ZxyYkbMC2pZlmW+mZfzLLnHoZTx38N+Ad3lRnRekulA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=fwrZ6KHA; arc=none smtp.client-ip=209.85.217.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="FGaaKggm"
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5d9d503f859so1194445e0c.3
-        for <linux-edac@vger.kernel.org>; Thu, 15 Oct 2026 08:33:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="fwrZ6KHA"
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-7c33cc572e6so104605137.1
+        for <linux-edac@vger.kernel.org>; Thu, 15 Oct 2026 08:33:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1792078427; x=1792683227; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1792078425; x=1792683225; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=XxAI2LBfmW3xr29v/N2DJy+DieVEUynw79jHC0KaBOY=;
-        b=FGaaKggmtfWY2qCEm8/CvUXJf2mXgzuIg7vRKkvmJlQTH6XETemz8Cd7FfvXss6x+y
-         Yi57G1gxbknjcqEsfDPKRGdHmwzxS2Y5uh4J3AY2KlmGj8VaasuGe1+Cegpi7Rvsi8Io
-         LsO98hX71TaehI+r3zaq8ISGmUnz+I8nvP6/hhNd/K7aERhaN+ure1tk8jegP2RtTvNK
-         hOfRLJ/karCFb1WdLAS09fuUOzRsDK59rhE5XpkTiZLaw9z1rQD0C6Wz+uksjq+CuAFD
-         iJ2Af4XeSSBHu3xYYVjSbQOxztlo6KSydyS5e8lpp5XXkUpmuwIlGZJF2EV9Z6MOhbFG
-         X/MA==
+        bh=9R9JGD2gfMVINW++iTiT+sdv1KZ9FYj5h4fZmBgfwsA=;
+        b=fwrZ6KHAbXqBJXGKxzlx1KsnXLhJ6sJpXSMBnPa2hb7Ai8WFEcHEptexvd87J+cAZV
+         TxpAi6Y5VK+SVLPHYr1smwgEwWYawu2jtaehKCEUrq/Zozmv0n1pBxrJVcHNWNNKG75c
+         bIt3FGNvlCrYvQMoBtINogkcTjdjFWWLeEfVNCmIVpU8Q5gx5aYQivwvqG+F3OEAwyan
+         cmKBSbcDnKTX7fSWm9Ol/iKu2cWnoU3SWSzh3uacms0uamocgd9DBUjBkjcFnmWcecxQ
+         UihwRtPeO9bFXyJKpDDrVJJaPu7ZjBpPQdDxX4FE5rMCQNMq1j7CWLEnD2eB2i+Kola7
+         Le5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792078427; x=1792683227;
+        d=1e100.net; s=20260707; t=1792078425; x=1792683225;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=XxAI2LBfmW3xr29v/N2DJy+DieVEUynw79jHC0KaBOY=;
-        b=b+NaUjfZLl9XiYtHM60eR4tFO2ZYIKgAZvPS7yLo0u3fbBoH15B3HdTQl+NyaHPepx
-         UGH6G7IxDhxQKCeMixyTIlCtjQgQ0C5TP9PmoNpDEcgZqN2xMFCrc0peP5YPIvRMlVwu
-         xXe+NkcQq0CN8PsA10ZB4N5NRzAxf/M5uDw39lE9Q56uljcFetlu7hoHNHwqXt9aaLlm
-         2I4NzHx/6TiCc8zH6j4nxVv8bg0Kt3E+7oeFki4QFTtkX1SOjaz5H/aRJ8cceJmoqVAc
-         tTjLEqFaZbmO6hE21uW9CIad19RQ8SGfdpKx9mUzuuAKXXvZyzx4JdGkUQCkeSD/ReL0
-         eADA==
-X-Forwarded-Encrypted: i=1; AKwUvBwwPCdtkrKuiJkvGyTwer7atMJd1FWNYh+LbGWccgTdLVO96sIlMqTd6fZ848+fxyd+DR2UZX8+pRPY@vger.kernel.org
-X-Gm-Message-State: AFq9FYIe/VyWIydcDoln/JyA6a6VUQiqxacfiE8B5dIAbkosqdAmGC1Y
-	m7S6SfamQ6Iv1n5PyZK5x9prIKbBk0RXDWS0gIb70hwgbXa4l3ADsRY6k1PqYlA5Wfw=
-X-Gm-Gg: AYBFou2BUmCvWjAfO0QIwSON1Nw0ZjLnX5U93lsjDEBEXQpy5+joo339c7DxtGhTReQ
-	DupDzrUyNQqGbAqNqpk5G47jd9kWYD8t9WGgR7tetNH4ah5yU3pH7LZH+DrwpCxY414ZiAEfldT
-	sTjbk2gBg4WAVE79ndAvOrVnUW2pHNNSEoaE64qa1mn/Zc+zEP/vD9oi5ENDBHdvkoCgrnBACze
-	AoKMrwvuI6NJ0p5XUr2vl7gaCvL8j/6dP5ib+EhwHv50SiuHqz6wYb+qtOtPaQQOtgHbTJBWuSd
-	6garBu/JWF5JgM97sVu2fn96MncMPdc38eb4hszRb2jHdJlZwWs5/Pe2SqQvsJ6O0Fu0LQUVGiH
-	lJpdoEjFDO9vzkxo/wDondzDzzfIQhwvlBSDOtMcoSh81FUj/dsf2L6QQHpa/95o++r7/CRqjj9
-	1F35gs3+k5l9eJkqetUOX1x9p0ptIGK6ql2Ey07Od+8p/Bo99suRtcMkWbVT5mk+UJwtJHn0HVI
-	HUM8awENyOTj8FPaiqm9ZTUgcb8Xl6/aylb2vIu0TUFK1d1eeBTTVvy/XUte3zmCrg443Gq1bgC
-	u8fMp66Qw58lJtI1PLQ=
-X-Received: by 2002:a05:6102:3f12:b0:7c3:b15:a981 with SMTP id ada2fe7eead31-7cc17cf0534mr339488137.15.1792078427302;
-        Thu, 15 Oct 2026 08:33:47 -0700 (PDT)
+        bh=9R9JGD2gfMVINW++iTiT+sdv1KZ9FYj5h4fZmBgfwsA=;
+        b=EDh3WwC8FakYBU5wdjApsSctuhJYTanIfV2VtGFEAnUE1WqU3N/iCn29/BfVKGAJ1K
+         GxcLM2z7M3kOfwPuIK2yTWbZ1ff96z789ZSJ8f2NxaGoxKuJMMzLu3XOuN3OLOk20toN
+         Yji5y4Wdfrn01ayKvg+E9qftCc/umN5ew1Xh0dohfdLa2+U0iaCmppor7nc0OKZjOxRk
+         keZH0oy8HfI6dIfbB4Q571UjcUmkrDLbkWV4zqQNpGSVxubkG2CkhxO61r8VEfMOle34
+         dS0Jrg5m1EbbeZ1joCxgPUnf2XdvIX0jy9Q8MbmW5HA1Vld393JtptCPJTKAtBo1Lz8d
+         gp5Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzJc/1lHxy9GPgEm7SErXfY07V7gk5kBOq20ZPAw4tapMZkJoq+WB7BOuG86X8d8FWNVogU06Nh3my5@vger.kernel.org
+X-Gm-Message-State: AFq9FYJOp9Dqr1ijZ+zemoKJjlFaGJiLmjgzX7W2dsKtFFQSmDLRZLW5
+	eIUcl5umPuZ54RwjFFhMJvMdPloc7cgY+ZeZDLY5+wNxw506+B6zRqh4D9opJdQOwoo=
+X-Gm-Gg: AYBFou1HK/bWpnlkQSoJeTmPj+u7xMWBqzq8SAQkcHjcLQXE3R7LltqaBWm06Wat49u
+	dkoG0zZif2/B82sKAFo/4iqEOrPBs04HVBeQKcWy8L63v0r5Rxsw+74V+9K83XsQXg1g3+84ZJe
+	9bI34tmfv845OpcXURWTQ3cjmaObTOeHNOAe+Lqjx+fS7QmOblL0OE3Kkxw58DyNkq5MqhdUnae
+	3VGBGXRgdR6jRFWI2VXMcHpEt/REGPC2Q5TDEf9Tt2Bnu7pJOzUstFL8DCfQ3mNLFaVotqDJZcb
+	XbtcAv8XFnq7mUg9nrzl5W+osFHJiMrUSJ4uKLaO43Gz9V5Xf1ipvKNgqECIo7F/LImSBuXHCfJ
+	0emfI3RWmX2SrNyFQcWv0XH+rHpCgQTscYy2a5sjU0+3jYwxNHhvlQ/H3JMLpi7QVKko6+wFyun
+	hsev9D1kb5d5UT+8Fb0RMWEuOsgzKFbI1qGDl+xFoZjNMwqoDlb2CSs6ndMe0H7/rClXOTMyhy/
+	0BfafL5wbziwVuEmwh6Me5np15o/QK0M9zkDZqBDEYYBzAuPC/HHj3O3ylqn53kQEysOmWYily+
+	RdjDghaT/GQJqbK3PjM=
+X-Received: by 2002:a05:6102:292b:b0:7bd:ce85:b00f with SMTP id ada2fe7eead31-7cc18271943mr139071137.40.1792078424660;
+        Thu, 15 Oct 2026 08:33:44 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99003f66ad9sm12986347241.10.2026.10.15.08.33.46
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99003f66ad9sm12986347241.10.2026.10.15.08.33.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 08:33:46 -0700 (PDT)
+        Thu, 15 Oct 2026 08:33:44 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: kees@kernel.org,
 	rppt@kernel.org,
@@ -106,9 +106,9 @@ To: kees@kernel.org,
 	ridong.chen@linux.dev,
 	longman@redhat.com,
 	bsegall@google.com
-Subject: [PATCH v1 8/8] mm/vmstat: Avoid redundant per-CPU stat_threshold writes in refresh_zone_stat_thresholds()
-Date: Thu, 15 Oct 2026 11:33:31 -0400
-Message-ID: <20261015153331.1872641-9-pasha.tatashin@soleen.com>
+Subject: [PATCH v1 6/8] sched/deadline, topology: Avoid O(N^2) dl_server bandwidth walks during root_domain rebuilds
+Date: Thu, 15 Oct 2026 11:33:29 -0400
+Message-ID: <20261015153331.1872641-7-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
 In-Reply-To: <20261015153331.1872641-1-pasha.tatashin@soleen.com>
 References: <20261015153331.1872641-1-pasha.tatashin@soleen.com>
@@ -120,121 +120,277 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-During CPU hotplug, vmstat_cpu_online() and vmstat_cpu_dead() invoke
-refresh_zone_stat_thresholds() on every CPU transition. Currently,
-refresh_zone_stat_thresholds() first zeroes
-per_cpu_nodestats->stat_threshold across all online CPUs and all online
-nodes, and then unconditionally writes per_cpu_zonestats->stat_threshold
-and per_cpu_nodestats->stat_threshold inside the zone loop for every
-populated zone and every online CPU.
+Every CPU runqueue has a fair_server (and optionally an ext_server)
+deadline entity enabled by default. Whenever a root_domain is rebuilt on
+CPU hotplug or cpuset changes, partition_sched_domains_locked() currently
+performs three O(N^2) remote runqueue bandwidth updates across all N
+active CPUs (O(N^3) across sequential hotplug of N CPUs):
 
-However, calculate_normal_threshold(zone) only changes when
-fls(num_online_cpus()) changes (at powers of 2) and is clamped at 125
-for large normal zones (>= 16 GB) once num_online_cpus() >= 64.
-Unconditionally zeroing and rewriting every CPU's per-CPU stat_threshold
-on every hotplug step repeatedly dirties remote per-CPU cachelines with
-identical values (and briefly exposes stat_threshold == 0 on live CPUs).
+1. detach_destroy_domains() calls
+   cpu_attach_domain(NULL, &def_root_domain, i) -> rq_attach_root() ->
+   __dl_server_attach_root() for each of the N CPUs. Each call recomputes
+   cpumask_weight_and(rd->span, cpu_active_mask) twice and calls
+   __dl_add() -> __dl_update(), walking all active CPUs attached to
+   def_root_domain so far to update rq->dl.extra_bw, only for
+   def_root_domain to be detached milliseconds later.
 
-Compute pgdat_threshold across each node's populated zones first, hoist
-the per_cpu_nodestats->stat_threshold update out of the zone loop, and
-only write stat_threshold when the value actually changes.
+2. build_sched_domains() calls cpu_attach_domain(sd, d.rd, i) ->
+   rq_attach_root() -> __dl_server_attach_root() for each of the N CPUs,
+   performing another N*(N+1)/2 remote rq->dl.extra_bw updates using
+   intermediate partial span weights (1..N) that are immediately
+   discarded at the end of partition_sched_domains_locked().
+
+3. dl_rebuild_rd_accounting() -> dl_clear_root_domain() resets
+   rd->dl_bw.total_bw = 0 and cpu_rq(i)->dl.extra_bw = max_bw, and then
+   calls dl_server_add_bw(rd, i) -> __dl_add() -> __dl_update() in a
+   nested O(N^2) loop over rd->span with interrupts disabled.
+
+Remove the redundant __dl_server_attach_root() calls from rq_attach_root()
+(since partition_sched_domains_locked() always rebuilds root_domain
+accounting via dl_rebuild_rd_accounting() once domain attachment is
+complete), and replace the nested O(N^2) loop in dl_clear_root_domain()
+with a single O(N) accumulation pass and a single O(N) extra_bw update
+pass.
+
+Also provide a !CONFIG_CPUSETS implementation of
+dl_rebuild_rd_accounting() (using a lockless dl_prio(READ_ONCE(p->prio))
+pre-check before dl_add_task_root_domain(p)). Previously,
+dl_rebuild_rd_accounting() was a no-op stub when CONFIG_CPUSETS=n, which
+left root_domain rebuilds without SCHED_DEADLINE task bandwidth
+accounting and left inconsistent per-CPU extra_bw values computed from
+partial active CPU counts in rq_attach_root().
 
 2-socket, 480-CPU Intel Xeon 6985P-C (N=479, mean of 10 runs):
-  Offline:   3.37 s ->  3.09 s (-8.3%)
-  Online:    2.06 s ->  1.98 s (-3.9%)
-  Total:     5.43 s ->  5.07 s (-6.6%)
-  refresh_zone_stat_thresholds() (cpu479 offline / online):
-    1,158.9 us -> 135.3 us (-88.3%) / 1,468.2 us -> 128.6 us (-91.2%)
+  Offline:   5.15 s ->  3.88 s (-24.7%)
+  Online:    4.05 s ->  2.51 s (-38.0%)
+  Total:     9.20 s ->  6.39 s (-30.5%)
+  dl_clear_root_domain() / dl_rebuild_rd_accounting() (cpu479):
+    5,537.0 us -> 58.1 us (-99.0%) / 5,176.2 us -> 61.9 us (-98.8%)
 
 2-socket, 512-CPU AMD EPYC 9B45 (N=511, mean of 10 runs):
-  Offline:   2.34 s ->  2.30 s (-1.7%)
-  Online:    1.12 s ->  1.08 s (-3.6%)
-  Total:     3.46 s ->  3.38 s (-2.3%)
-  refresh_zone_stat_thresholds() (cpu511 offline / online):
-    104.6 us -> 50.7 us (-51.6%) / 109.3 us -> 53.5 us (-51.1%)
+  Offline:   3.26 s ->  2.77 s (-15.0%)
+  Online:    2.03 s ->  1.53 s (-24.6%)
+  Total:     5.29 s ->  4.30 s (-18.7%)
+  dl_clear_root_domain() / dl_rebuild_rd_accounting() (cpu511):
+    1,880.5 us -> 27.5 us (-98.5%) / 1,762.3 us -> 22.6 us (-98.7%)
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- mm/vmstat.c | 58 ++++++++++++++++++++++++++++-------------------------
- 1 file changed, 31 insertions(+), 27 deletions(-)
+ include/linux/cpuset.h         |  6 +--
+ include/linux/sched/deadline.h |  1 -
+ kernel/sched/deadline.c        | 89 +++++++++++++++++++++-------------
+ kernel/sched/sched.h           |  1 -
+ kernel/sched/topology.c        | 13 -----
+ 5 files changed, 56 insertions(+), 54 deletions(-)
 
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index cb57714539fb5..c671e9669b43b 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -280,41 +280,45 @@ void refresh_zone_stat_thresholds(void)
- 	int cpu;
- 	int threshold;
+diff --git a/include/linux/cpuset.h b/include/linux/cpuset.h
+index 914983387e955..8baa99308f49e 100644
+--- a/include/linux/cpuset.h
++++ b/include/linux/cpuset.h
+@@ -129,7 +129,7 @@ static inline int cpuset_do_page_mem_spread(void)
  
--	/* Zero current pgdat thresholds */
- 	for_each_online_pgdat(pgdat) {
--		for_each_online_cpu(cpu) {
--			per_cpu_ptr(pgdat->per_cpu_nodestats, cpu)->stat_threshold = 0;
--		}
--	}
-+		int pgdat_threshold = 0;
+ extern bool current_cpuset_is_being_rebound(void);
  
--	for_each_populated_zone(zone) {
--		struct pglist_data *pgdat = zone->zone_pgdat;
--		unsigned long max_drift, tolerate_drift;
-+		for (int z = 0; z < MAX_NR_ZONES; z++) {
-+			unsigned long max_drift, tolerate_drift;
+-extern void dl_rebuild_rd_accounting(void);
++void dl_rebuild_rd_accounting(void);
+ extern void rebuild_sched_domains(void);
  
--		threshold = calculate_normal_threshold(zone);
-+			zone = &pgdat->node_zones[z];
-+			if (!populated_zone(zone))
-+				continue;
+ extern void cpuset_print_current_mems_allowed(void);
+@@ -273,9 +273,7 @@ static inline bool current_cpuset_is_being_rebound(void)
+ 	return false;
+ }
  
--		for_each_online_cpu(cpu) {
--			int pgdat_threshold;
-+			threshold = calculate_normal_threshold(zone);
-+			/* Base nodestat threshold on the largest populated zone. */
-+			pgdat_threshold = max(threshold, pgdat_threshold);
+-static inline void dl_rebuild_rd_accounting(void)
+-{
+-}
++void dl_rebuild_rd_accounting(void);
  
--			per_cpu_ptr(zone->per_cpu_zonestats, cpu)->stat_threshold
--							= threshold;
-+			for_each_online_cpu(cpu) {
-+				s8 *pz = &per_cpu_ptr(zone->per_cpu_zonestats, cpu)->stat_threshold;
+ static inline void rebuild_sched_domains(void)
+ {
+diff --git a/include/linux/sched/deadline.h b/include/linux/sched/deadline.h
+index 273538200a445..6f03357f05c76 100644
+--- a/include/linux/sched/deadline.h
++++ b/include/linux/sched/deadline.h
+@@ -31,7 +31,6 @@ static inline bool dl_time_before(u64 a, u64 b)
  
--			/* Base nodestat threshold on the largest populated zone. */
--			pgdat_threshold = per_cpu_ptr(pgdat->per_cpu_nodestats, cpu)->stat_threshold;
--			per_cpu_ptr(pgdat->per_cpu_nodestats, cpu)->stat_threshold
--				= max(threshold, pgdat_threshold);
-+				if (*pz != threshold)
-+					*pz = threshold;
-+			}
-+
-+			/*
-+			 * Only set percpu_drift_mark if there is a danger that
-+			 * NR_FREE_PAGES reports the low watermark is ok when in fact
-+			 * the min watermark could be breached by an allocation
-+			 */
-+			tolerate_drift = low_wmark_pages(zone) - min_wmark_pages(zone);
-+			max_drift = num_online_cpus() * threshold;
-+			if (max_drift > tolerate_drift)
-+				zone->percpu_drift_mark = high_wmark_pages(zone) +
-+						max_drift;
- 		}
- 
--		/*
--		 * Only set percpu_drift_mark if there is a danger that
--		 * NR_FREE_PAGES reports the low watermark is ok when in fact
--		 * the min watermark could be breached by an allocation
--		 */
--		tolerate_drift = low_wmark_pages(zone) - min_wmark_pages(zone);
--		max_drift = num_online_cpus() * threshold;
--		if (max_drift > tolerate_drift)
--			zone->percpu_drift_mark = high_wmark_pages(zone) +
--					max_drift;
-+		for_each_online_cpu(cpu) {
-+			s8 *pn = &per_cpu_ptr(pgdat->per_cpu_nodestats, cpu)->stat_threshold;
-+
-+			if (*pn != pgdat_threshold)
-+				*pn = pgdat_threshold;
-+		}
+ struct root_domain;
+ extern void dl_add_task_root_domain(struct task_struct *p);
+-extern void dl_clear_root_domain(struct root_domain *rd);
+ extern void dl_clear_root_domain_cpu(int cpu);
+ /*
+  * Return whether moving DL task @p to @new_mask requires moving DL
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index 857dbe3519a86..01f2f24e3b814 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -1885,24 +1885,6 @@ void sched_init_dl_servers(void)
  	}
  }
  
+-void __dl_server_attach_root(struct sched_dl_entity *dl_se, struct rq *rq)
+-{
+-	u64 new_bw = dl_se->dl_bw;
+-	int cpu = cpu_of(rq);
+-	struct dl_bw *dl_b;
+-
+-	if (!dl_se->dl_bw_attached)
+-		return;
+-
+-	dl_b = dl_bw_of(cpu_of(rq));
+-	guard(raw_spinlock)(&dl_b->lock);
+-
+-	if (!dl_bw_cpus(cpu))
+-		return;
+-
+-	__dl_add(dl_b, new_bw, dl_bw_cpus(cpu));
+-}
+-
+ int dl_server_apply_params(struct sched_dl_entity *dl_se, u64 runtime, u64 period, bool init)
+ {
+ 	u64 old_bw = (init || !dl_se->dl_bw_attached) ? 0 :
+@@ -3448,18 +3430,22 @@ void dl_add_task_root_domain(struct task_struct *p)
+ 	raw_spin_unlock_irqrestore(&p->pi_lock, rf.flags);
+ }
+ 
+-static void dl_server_add_bw(struct root_domain *rd, int cpu)
++static void dl_server_sum_bw(int cpu, int cpus, u64 *total_bw, s64 *extra_bw)
+ {
+ 	struct sched_dl_entity *dl_se;
+ 
+ 	dl_se = &cpu_rq(cpu)->fair_server;
+-	if (dl_server(dl_se) && dl_se->dl_bw_attached && cpu_active(cpu))
+-		__dl_add(&rd->dl_bw, dl_se->dl_bw, dl_bw_cpus(cpu));
++	if (dl_server(dl_se) && dl_se->dl_bw_attached) {
++		*total_bw += dl_se->dl_bw;
++		*extra_bw -= (s32)dl_se->dl_bw / cpus;
++	}
+ 
+ #ifdef CONFIG_SCHED_CLASS_EXT
+ 	dl_se = &cpu_rq(cpu)->ext_server;
+-	if (dl_server(dl_se) && dl_se->dl_bw_attached && cpu_active(cpu))
+-		__dl_add(&rd->dl_bw, dl_se->dl_bw, dl_bw_cpus(cpu));
++	if (dl_server(dl_se) && dl_se->dl_bw_attached) {
++		*total_bw += dl_se->dl_bw;
++		*extra_bw -= (s32)dl_se->dl_bw / cpus;
++	}
+ #endif
+ }
+ 
+@@ -3480,26 +3466,32 @@ static u64 dl_server_read_bw(int cpu)
+ 	return dl_bw;
+ }
+ 
+-void dl_clear_root_domain(struct root_domain *rd)
++static void dl_clear_root_domain(struct root_domain *rd)
+ {
+-	int i;
++	u64 total_bw = 0;
++	s64 extra_bw = 0;
++	int i, cpus;
+ 
+ 	guard(raw_spinlock_irqsave)(&rd->dl_bw.lock);
+ 
+-	/*
+-	 * Reset total_bw to zero and extra_bw to max_bw so that next
+-	 * loop will add dl-servers contributions back properly,
+-	 */
+-	rd->dl_bw.total_bw = 0;
+-	for_each_cpu(i, rd->span)
+-		cpu_rq(i)->dl.extra_bw = cpu_rq(i)->dl.max_bw;
+-
+ 	/*
+ 	 * dl_servers are not tasks. Since dl_add_task_root_domain ignores
+ 	 * them, we need to account for them here explicitly.
+ 	 */
+-	for_each_cpu(i, rd->span)
+-		dl_server_add_bw(rd, i);
++	cpus = cpumask_weight_and(rd->span, cpu_active_mask);
++	if (cpus) {
++		for_each_cpu_and(i, rd->span, cpu_active_mask)
++			dl_server_sum_bw(i, cpus, &total_bw, &extra_bw);
++	}
++
++	rd->dl_bw.total_bw = total_bw;
++	for_each_cpu(i, rd->span) {
++		struct rq *rq = cpu_rq(i);
++
++		rq->dl.extra_bw = rq->dl.max_bw;
++		if (cpu_active(i))
++			rq->dl.extra_bw += extra_bw;
++	}
+ }
+ 
+ void dl_clear_root_domain_cpu(int cpu)
+@@ -3507,6 +3499,33 @@ void dl_clear_root_domain_cpu(int cpu)
+ 	dl_clear_root_domain(cpu_rq(cpu)->rd);
+ }
+ 
++#ifndef CONFIG_CPUSETS
++void dl_rebuild_rd_accounting(void)
++{
++	struct task_struct *g, *p;
++	u64 cookie = ++dl_cookie;
++	int cpu;
++
++	lockdep_assert_cpus_held();
++	lockdep_assert_held(&sched_domains_mutex);
++
++	rcu_read_lock();
++	for_each_possible_cpu(cpu) {
++		if (dl_bw_visited(cpu, cookie))
++			continue;
++
++		dl_clear_root_domain_cpu(cpu);
++	}
++	for_each_process_thread(g, p) {
++		/* Racy pre-check; dl_add_task_root_domain() rechecks under pi_lock. */
++		if (!dl_prio(READ_ONCE(p->prio)))
++			continue;
++		dl_add_task_root_domain(p);
++	}
++	rcu_read_unlock();
++}
++#endif
++
+ static void switched_from_dl(struct rq *rq, struct task_struct *p)
+ {
+ 	/*
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index b76e2cd695025..e76a6876ac4e8 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -418,7 +418,6 @@ extern void sched_init_dl_servers(void);
+ 
+ extern void fair_server_init(struct rq *rq);
+ extern void ext_server_init(struct rq *rq);
+-extern void __dl_server_attach_root(struct sched_dl_entity *dl_se, struct rq *rq);
+ extern int dl_server_apply_params(struct sched_dl_entity *dl_se,
+ 		    u64 runtime, u64 period, bool init);
+ extern int dl_server_attach_bw(struct sched_dl_entity *dl_se);
+diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+index 02c38089a80c9..fe7ecee041f5b 100644
+--- a/kernel/sched/topology.c
++++ b/kernel/sched/topology.c
+@@ -502,19 +502,6 @@ void rq_attach_root(struct rq *rq, struct root_domain *rd)
+ 	if (cpumask_test_cpu(rq->cpu, cpu_active_mask))
+ 		set_rq_online(rq);
+ 
+-	/*
+-	 * Because the rq is not a task, dl_add_task_root_domain() did not
+-	 * move the fair server bw to the rd if it already started.
+-	 * Add it now.
+-	 */
+-	if (rq->fair_server.dl_server)
+-		__dl_server_attach_root(&rq->fair_server, rq);
+-
+-#ifdef CONFIG_SCHED_CLASS_EXT
+-	if (rq->ext_server.dl_server)
+-		__dl_server_attach_root(&rq->ext_server, rq);
+-#endif
+-
+ 	rq_unlock_irqrestore(rq, &rf);
+ 
+ 	if (old_rd)
 -- 
 2.56.0.385.gd3acb90ef8-goog
 
