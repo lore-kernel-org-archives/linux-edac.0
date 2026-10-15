@@ -1,65 +1,65 @@
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FCF23A564
-	for <linux-edac@vger.kernel.org>; Thu, 15 Oct 2026 15:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755AB36E484
+	for <linux-edac@vger.kernel.org>; Thu, 15 Oct 2026 15:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792078439; cv=none; b=WjSMg6/zRsOYPoTbcqk7k+AJnxTYx7b6SBcQ2MOmLun7bCx8H+vtr2skxy+ATsXiFRNDkaLw++WMX0j/ru9BWg2PQ79H173Yo4uqK7LR/TaFiNq6Iz2kj2b53BntNCpSK0w3MIgEFvUZ0MQwFTBCwWhqC8N80eI53ej//x2aa9k=
+	t=1792078442; cv=none; b=Ncf1m9OnMFUQ4kyZoPw4wBeX/t1r37sfUnzpd9ei0ORQNy1pGHiJERCa+ziQTr0JKSh6hk9TUrXHFUBljUq60akYfJAIDAUzMp3mGBc2JyJJBeskv0RxwXHzjnO5socjU7V0ExTPDS+Vmz4xeCUvbu93sw/Q4QQsbXkmX/+hohE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792078439; c=relaxed/simple;
-	bh=81o7s3CUvlSCXr3p0MxpjLPpSp0FVkEo/IZ61TiLCvo=;
+	s=arc-20240116; t=1792078442; c=relaxed/simple;
+	bh=rpHWd7x4GPO1rBWYSWmWRVD+UwYDOxXOvGNDhCFJcSU=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uTLHSyQkTOf9CVKW7WjVC2x2umApkqnvBnTSZ7kPD3TSRSlB1UT7dp5R+D1GFLM58uuVq8kj9H4W/ngJ4LU+rb2lErQhBynvybfJOyWkwL377Wda7PFsEjyPrDBLEufyMaG9zArrQtWDthyV6X93T9akWFEhfAkb9OHEunItjWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=YpDIp1L2; arc=none smtp.client-ip=209.85.217.45
+	 MIME-Version; b=rjvXEAxL2L8TKcllW9X+EIdOQl3VurF43nsn5auRCZPA1xbrQlJyMhadf1hnS+D1Oh/+MXtKWCLzD7x9wetsTov+AIKbJKotuRRhG+KlrloHfOrD76kUzid2TWnNzxPdB0fwpfvFggywcWS20uFDTMiDApjjGMe8bIxEovOnGpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=FGaaKggm; arc=none smtp.client-ip=209.85.221.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="YpDIp1L2"
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-7bec5112765so986492137.1
-        for <linux-edac@vger.kernel.org>; Thu, 15 Oct 2026 08:33:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="FGaaKggm"
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5d9d503f859so1194445e0c.3
+        for <linux-edac@vger.kernel.org>; Thu, 15 Oct 2026 08:33:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1792078423; x=1792683223; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1792078427; x=1792683227; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=VRVjYPIptXeZue/0tQ2bv1jjJkRW9EshCpZbkUsbSi8=;
-        b=YpDIp1L2J2PuIF8czyfFdCPl2VjF+BXIkZE1r3RFgK6YXxABxwPTaSDkkRxegqUSFv
-         aFHfv/8yeZqOPDi8K/GIaoyML7Laq5UvClwfOoDFacDWWpkPEn9G50Nyv04LtjL7nxFB
-         HPCZRocDNyZVhqDfPsBkNYHaUR9qKsdcdfd2gQwN4a55aqxCG+aUIC8Us2vgKak/zUPq
-         WRVUidU6MC8yurOWpCxfCrZ0CM/rRxNn5SyxMtKUC5blFKQk65aUESIXZWfRFcbZlwi9
-         uKpi3ZkPyikOhycN1HsAZ+2orqu2231lyqtvSwXKoIXPm4U5aYix5XFkE96UW3TiiIdi
-         dxVA==
+        bh=XxAI2LBfmW3xr29v/N2DJy+DieVEUynw79jHC0KaBOY=;
+        b=FGaaKggmtfWY2qCEm8/CvUXJf2mXgzuIg7vRKkvmJlQTH6XETemz8Cd7FfvXss6x+y
+         Yi57G1gxbknjcqEsfDPKRGdHmwzxS2Y5uh4J3AY2KlmGj8VaasuGe1+Cegpi7Rvsi8Io
+         LsO98hX71TaehI+r3zaq8ISGmUnz+I8nvP6/hhNd/K7aERhaN+ure1tk8jegP2RtTvNK
+         hOfRLJ/karCFb1WdLAS09fuUOzRsDK59rhE5XpkTiZLaw9z1rQD0C6Wz+uksjq+CuAFD
+         iJ2Af4XeSSBHu3xYYVjSbQOxztlo6KSydyS5e8lpp5XXkUpmuwIlGZJF2EV9Z6MOhbFG
+         X/MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792078423; x=1792683223;
+        d=1e100.net; s=20260707; t=1792078427; x=1792683227;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=VRVjYPIptXeZue/0tQ2bv1jjJkRW9EshCpZbkUsbSi8=;
-        b=PGjU+AZ0eOX+C3Lzq/TgDY6L7tMsDLAr1xxZZ7UeCo5SR6yZHDzAGGN+XXeRZyZUfl
-         z/8YJ6BLB48jn29DOkyYZXVAVdDqvCKQahH5v/w72gBDDb4Ep+AWaNkiV3UmX6KxxwrA
-         xbNuCuLwW8Mekyx/uiN1N95vhcBnoY4L/ZKdfQskE76fDwzdbrv51Wc+hc/MHmuJuMnc
-         lHwYtegCJTOL8b3P0baTN+aLueo0gaTT7lcpsL+EVKWn3kfm8yFvLLm7qUdSAQOdYhNu
-         bn6pb48AEMr5kXOvbgyW0RAu8fom9XMhDVJl8QDFniinOgWm9MNkNdxXx7V58bLCRSck
-         DLZg==
-X-Forwarded-Encrypted: i=1; AKwUvBwLHIVzitNuzh2HIiBi1H2UhcuE34DOL0ExVx0HoafotKOJ+fNQ8yXBde6s41hg7F5uizeFZRMz7JL7@vger.kernel.org
-X-Gm-Message-State: AFq9FYIL1yzydJHyRoLznW7yid95Hc9NGaf+nOHb5NljsAmWUo9UPC1O
-	C3bdwQmsRs6dIY0+WeEP0GUM4BjBENc15XJmJZvVj3zi8JxlHQc6HInGgr/GpOI/MPo=
-X-Gm-Gg: AYBFou2Js3UkbUbBJqK6X1UQ0zQXaB98Myp8oee9IdaIICn+Zl+nZ3E8QD9gA9YmdIA
-	LHaiXDRMghbcR9rUguaL4qtToRA8Tl+pyqTBZ7S/mE5+GQ/f3UkfsfmGxpDBBdf9Sn6/3Evz1hS
-	/gkJ0upbU2kp6+Uw5SN8ksDgM50sckFTTw5DZ7TaTgVaRx88FgZJPY5xmvH/dufg4/Rk0doSX2m
-	tAa46w4qdKAcncx36kCOsPBynFStrxEJW2HzOouMV31gPHS1a+gUjzR0E1mfvYlg3EVf1lGWFcS
-	0aUAp+xoJJzZSMNbPf9XsyE7nltFZcfAroJk2U5v9VJxIQA4p9YhJUjo5mZwQT/+xBfwd3hHAFQ
-	xFSJ2RZGYMLJMy9Mv1Y4MluLQFlmY2y8p00VW2heweTLUHnzHvtl5sJ3coO6J2uS9hcvqBlT1MW
-	LAFAiR54lhI0rZBk8riA+VZezwpHGh6bouMzEXcBbWF2Q3/WuLzH9+KQANsfJxbCplwxVaCdPG9
-	LIywoOcZ0Y3Bg3dI0mY9sPHGJReQvsoe23pxqNn7cgoUVdaT2FhpEOfOlG0mB2DsiZfTq2jMFoj
-	Qcb2qjGN7nddJZWlL+8=
-X-Received: by 2002:a05:6102:4427:b0:7a7:19aa:8a88 with SMTP id ada2fe7eead31-7cb3750190amr5949566137.35.1792078423308;
-        Thu, 15 Oct 2026 08:33:43 -0700 (PDT)
+        bh=XxAI2LBfmW3xr29v/N2DJy+DieVEUynw79jHC0KaBOY=;
+        b=b+NaUjfZLl9XiYtHM60eR4tFO2ZYIKgAZvPS7yLo0u3fbBoH15B3HdTQl+NyaHPepx
+         UGH6G7IxDhxQKCeMixyTIlCtjQgQ0C5TP9PmoNpDEcgZqN2xMFCrc0peP5YPIvRMlVwu
+         xXe+NkcQq0CN8PsA10ZB4N5NRzAxf/M5uDw39lE9Q56uljcFetlu7hoHNHwqXt9aaLlm
+         2I4NzHx/6TiCc8zH6j4nxVv8bg0Kt3E+7oeFki4QFTtkX1SOjaz5H/aRJ8cceJmoqVAc
+         tTjLEqFaZbmO6hE21uW9CIad19RQ8SGfdpKx9mUzuuAKXXvZyzx4JdGkUQCkeSD/ReL0
+         eADA==
+X-Forwarded-Encrypted: i=1; AKwUvBwwPCdtkrKuiJkvGyTwer7atMJd1FWNYh+LbGWccgTdLVO96sIlMqTd6fZ848+fxyd+DR2UZX8+pRPY@vger.kernel.org
+X-Gm-Message-State: AFq9FYIe/VyWIydcDoln/JyA6a6VUQiqxacfiE8B5dIAbkosqdAmGC1Y
+	m7S6SfamQ6Iv1n5PyZK5x9prIKbBk0RXDWS0gIb70hwgbXa4l3ADsRY6k1PqYlA5Wfw=
+X-Gm-Gg: AYBFou2BUmCvWjAfO0QIwSON1Nw0ZjLnX5U93lsjDEBEXQpy5+joo339c7DxtGhTReQ
+	DupDzrUyNQqGbAqNqpk5G47jd9kWYD8t9WGgR7tetNH4ah5yU3pH7LZH+DrwpCxY414ZiAEfldT
+	sTjbk2gBg4WAVE79ndAvOrVnUW2pHNNSEoaE64qa1mn/Zc+zEP/vD9oi5ENDBHdvkoCgrnBACze
+	AoKMrwvuI6NJ0p5XUr2vl7gaCvL8j/6dP5ib+EhwHv50SiuHqz6wYb+qtOtPaQQOtgHbTJBWuSd
+	6garBu/JWF5JgM97sVu2fn96MncMPdc38eb4hszRb2jHdJlZwWs5/Pe2SqQvsJ6O0Fu0LQUVGiH
+	lJpdoEjFDO9vzkxo/wDondzDzzfIQhwvlBSDOtMcoSh81FUj/dsf2L6QQHpa/95o++r7/CRqjj9
+	1F35gs3+k5l9eJkqetUOX1x9p0ptIGK6ql2Ey07Od+8p/Bo99suRtcMkWbVT5mk+UJwtJHn0HVI
+	HUM8awENyOTj8FPaiqm9ZTUgcb8Xl6/aylb2vIu0TUFK1d1eeBTTVvy/XUte3zmCrg443Gq1bgC
+	u8fMp66Qw58lJtI1PLQ=
+X-Received: by 2002:a05:6102:3f12:b0:7c3:b15:a981 with SMTP id ada2fe7eead31-7cc17cf0534mr339488137.15.1792078427302;
+        Thu, 15 Oct 2026 08:33:47 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99003f66ad9sm12986347241.10.2026.10.15.08.33.42
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99003f66ad9sm12986347241.10.2026.10.15.08.33.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 08:33:42 -0700 (PDT)
+        Thu, 15 Oct 2026 08:33:46 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: kees@kernel.org,
 	rppt@kernel.org,
@@ -106,9 +106,9 @@ To: kees@kernel.org,
 	ridong.chen@linux.dev,
 	longman@redhat.com,
 	bsegall@google.com
-Subject: [PATCH v1 5/8] sched/topology: Avoid redundant O(N^3) group capacity walks and unused allocations in build_sched_domains()
-Date: Thu, 15 Oct 2026 11:33:28 -0400
-Message-ID: <20261015153331.1872641-6-pasha.tatashin@soleen.com>
+Subject: [PATCH v1 8/8] mm/vmstat: Avoid redundant per-CPU stat_threshold writes in refresh_zone_stat_thresholds()
+Date: Thu, 15 Oct 2026 11:33:31 -0400
+Message-ID: <20261015153331.1872641-9-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
 In-Reply-To: <20261015153331.1872641-1-pasha.tatashin@soleen.com>
 References: <20261015153331.1872641-1-pasha.tatashin@soleen.com>
@@ -120,411 +120,121 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-During sequential CPU hotplug on large systems, build_sched_domains() is
-invoked for every CPU offline and online step. Two bottlenecks in the
-domain construction path scale poorly with CPU count:
+During CPU hotplug, vmstat_cpu_online() and vmstat_cpu_dead() invoke
+refresh_zone_stat_thresholds() on every CPU transition. Currently,
+refresh_zone_stat_thresholds() first zeroes
+per_cpu_nodestats->stat_threshold across all online CPUs and all online
+nodes, and then unconditionally writes per_cpu_zonestats->stat_threshold
+and per_cpu_nodestats->stat_threshold inside the zone loop for every
+populated zone and every online CPU.
 
-1. On non-overlapping topology levels, all CPUs sharing a domain span
-   share the same circular ring of sched_group instances, and on
-   overlapping NUMA levels, groups with identical spans share
-   sched_group_capacity (sgc). However, init_sched_groups_capacity()
-   walks the entire group ring for every CPU in the domain and repeatedly
-   recomputes group_weight, cores (walking the group cpumask and clearing
-   cpu_smt_mask), and asym_prefer_cpu (O(N^3) bitmap operations per
-   hotplug step). Similarly, init_overlap_sched_group() recomputes
-   build_balance_mask() and cpumask_weight(sg_span) even when the shared
-   sgc was already initialized.
+However, calculate_normal_threshold(zone) only changes when
+fls(num_online_cpus()) changes (at powers of 2) and is clamped at 125
+for large normal zones (>= 16 GB) once num_online_cpus() >= 64.
+Unconditionally zeroing and rewriting every CPU's per-CPU stat_threshold
+on every hotplug step repeatedly dirties remote per-CPU cachelines with
+identical values (and briefly exposes stat_threshold == 0 on live CPUs).
 
-2. __sdt_alloc() and __sds_alloc() upfront-allocate a sched_group,
-   sched_group_capacity, and sched_domain_shared for every CPU in cpu_map
-   at every topology level, even though get_group() only uses the entry
-   for the first CPU of each child domain and d.sds is only used once per
-   LLC (plus at most once per SD_ASYM_CPUCAPACITY_FULL domain). All other
-   per-CPU allocations are immediately freed unused by
-   __free_domain_allocs().
-
-Cache group_weight, cores, and asym_prefer_cpu on struct
-sched_group_capacity so init_sched_groups_capacity() computes them once
-per shared group capacity, reuse already-initialized sgc instances in
-init_overlap_sched_group(), and allocate sdd->sg, sdd->sgc, and d->sds
-lazily on demand.
+Compute pgdat_threshold across each node's populated zones first, hoist
+the per_cpu_nodestats->stat_threshold update out of the zone loop, and
+only write stat_threshold when the value actually changes.
 
 2-socket, 480-CPU Intel Xeon 6985P-C (N=479, mean of 10 runs):
-  Offline:   9.85 s ->  5.15 s (-47.7%)
-  Online:    8.69 s ->  4.05 s (-53.4%)
-  Total:    18.54 s ->  9.20 s (-50.4%)
-  build_sched_domains() (cpu479 offline / online):
-    35.65 ms -> 10.39 ms (-70.9%) / 35.68 ms -> 9.58 ms (-73.2%)
+  Offline:   3.37 s ->  3.09 s (-8.3%)
+  Online:    2.06 s ->  1.98 s (-3.9%)
+  Total:     5.43 s ->  5.07 s (-6.6%)
+  refresh_zone_stat_thresholds() (cpu479 offline / online):
+    1,158.9 us -> 135.3 us (-88.3%) / 1,468.2 us -> 128.6 us (-91.2%)
 
 2-socket, 512-CPU AMD EPYC 9B45 (N=511, mean of 10 runs):
-  Offline:   4.51 s ->  3.26 s (-27.7%)
-  Online:    3.15 s ->  2.03 s (-35.6%)
-  Total:     7.66 s ->  5.29 s (-30.9%)
-  build_sched_domains() (cpu511 offline / online):
-    11.69 ms -> 5.61 ms (-52.0%) / 12.24 ms -> 5.84 ms (-52.3%)
+  Offline:   2.34 s ->  2.30 s (-1.7%)
+  Online:    1.12 s ->  1.08 s (-3.6%)
+  Total:     3.46 s ->  3.38 s (-2.3%)
+  refresh_zone_stat_thresholds() (cpu511 offline / online):
+    104.6 us -> 50.7 us (-51.6%) / 109.3 us -> 53.5 us (-51.1%)
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- kernel/sched/sched.h    |   9 ++
- kernel/sched/topology.c | 183 ++++++++++++++++++++++++----------------
- 2 files changed, 117 insertions(+), 75 deletions(-)
+ mm/vmstat.c | 58 ++++++++++++++++++++++++++++-------------------------
+ 1 file changed, 31 insertions(+), 27 deletions(-)
 
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index e656c7059bf86..b76e2cd695025 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -2261,6 +2261,15 @@ struct sched_group_capacity {
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index cb57714539fb5..c671e9669b43b 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -280,41 +280,45 @@ void refresh_zone_stat_thresholds(void)
+ 	int cpu;
+ 	int threshold;
  
- 	int			id;
- 
-+	/*
-+	 * Build-time cache shared by all groups using this sgc while
-+	 * build_sched_domains() runs; not maintained afterwards (e.g. by
-+	 * sched_update_asym_prefer_cpu()). Use the sched_group copies.
-+	 */
-+	unsigned int		group_weight;
-+	unsigned int		cores;
-+	int			asym_prefer_cpu;
-+
- 	unsigned long		cpumask[];		/* Balance mask */
- };
- 
-diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-index 0248227d983a7..02c38089a80c9 100644
---- a/kernel/sched/topology.c
-+++ b/kernel/sched/topology.c
-@@ -1259,32 +1259,49 @@ build_group_from_child_sched_domain(struct sched_domain *sd, int cpu)
- 	return sg;
- }
- 
--static void init_overlap_sched_group(struct sched_domain *sd,
--				     struct sched_group *sg)
-+static int init_overlap_sched_group(struct sched_domain *sd,
-+				    struct sched_group *sg)
- {
- 	struct cpumask *mask = sched_domains_tmpmask2;
- 	struct sd_data *sdd = sd->private;
--	struct cpumask *sg_span;
--	int cpu;
-+	struct cpumask *sg_span = sched_group_span(sg);
-+	struct sched_group_capacity *sgc;
-+	int cpu = cpumask_first(sg_span);
-+	struct sched_domain *first_sd = *per_cpu_ptr(sdd->sd, cpu);
-+
-+	sgc = *per_cpu_ptr(sdd->sgc, cpu);
-+	if (sgc && atomic_read(&sgc->ref) > 0 &&
-+	    first_sd && first_sd->child &&
-+	    cpumask_equal(sg_span, sched_domain_span(first_sd->child))) {
-+		atomic_inc(&sgc->ref);
-+		sg->sgc = sgc;
-+		return 0;
-+	}
- 
- 	build_balance_mask(sd, sg, mask);
- 	cpu = cpumask_first(mask);
- 
--	sg->sgc = *per_cpu_ptr(sdd->sgc, cpu);
--	if (atomic_inc_return(&sg->sgc->ref) == 1)
-+	sgc = *per_cpu_ptr(sdd->sgc, cpu);
-+	if (!sgc) {
-+		sgc = kzalloc_node(sizeof(*sgc) + cpumask_size(),
-+				   GFP_KERNEL, cpu_to_node(cpu));
-+		if (!sgc)
-+			return -ENOMEM;
-+		sgc->id = cpu;
-+		*per_cpu_ptr(sdd->sgc, cpu) = sgc;
-+	}
-+
-+	sg->sgc = sgc;
-+	if (atomic_inc_return(&sg->sgc->ref) == 1) {
- 		cpumask_copy(group_balance_mask(sg), mask);
--	else
-+		sg->sgc->capacity = SCHED_CAPACITY_SCALE * cpumask_weight(sg_span);
-+		sg->sgc->min_capacity = SCHED_CAPACITY_SCALE;
-+		sg->sgc->max_capacity = SCHED_CAPACITY_SCALE;
-+	} else {
- 		WARN_ON_ONCE(!cpumask_equal(group_balance_mask(sg), mask));
-+	}
- 
--	/*
--	 * Initialize sgc->capacity such that even if we mess up the
--	 * domains and no possible iteration will get us here, we won't
--	 * die on a /0 trap.
--	 */
--	sg_span = sched_group_span(sg);
--	sg->sgc->capacity = SCHED_CAPACITY_SCALE * cpumask_weight(sg_span);
--	sg->sgc->min_capacity = SCHED_CAPACITY_SCALE;
--	sg->sgc->max_capacity = SCHED_CAPACITY_SCALE;
-+	return 0;
- }
- 
- static struct sched_domain *
-@@ -1387,7 +1404,10 @@ build_overlap_sched_groups(struct sched_domain *sd, int cpu)
- 		sg_span = sched_group_span(sg);
- 		cpumask_or(covered, covered, sg_span);
- 
--		init_overlap_sched_group(sibling, sg);
-+		if (init_overlap_sched_group(sibling, sg)) {
-+			kfree(sg);
-+			goto fail;
-+		}
- 
- 		if (!first)
- 			first = sg;
-@@ -1489,6 +1509,25 @@ static struct sched_group *get_group(int cpu, struct sd_data *sdd)
- 		cpu = cpumask_first(sched_domain_span(child));
- 
- 	sg = *per_cpu_ptr(sdd->sg, cpu);
-+	if (!sg) {
-+		sg = kzalloc_node(sizeof(*sg) + cpumask_size(),
-+				  GFP_KERNEL, cpu_to_node(cpu));
-+		if (!sg)
-+			return NULL;
-+		sg->next = sg;
-+		*per_cpu_ptr(sdd->sg, cpu) = sg;
-+	}
-+
-+	if (!*per_cpu_ptr(sdd->sgc, cpu)) {
-+		struct sched_group_capacity *sgc;
-+
-+		sgc = kzalloc_node(sizeof(*sgc) + cpumask_size(),
-+				   GFP_KERNEL, cpu_to_node(cpu));
-+		if (!sgc)
-+			return NULL;
-+		sgc->id = cpu;
-+		*per_cpu_ptr(sdd->sgc, cpu) = sgc;
-+	}
- 	sg->sgc = *per_cpu_ptr(sdd->sgc, cpu);
- 
- 	/* Increase refcounts for claim_allocations: */
-@@ -1544,6 +1583,8 @@ build_sched_groups(struct sched_domain *sd, int cpu)
- 			continue;
- 
- 		sg = get_group(i, sdd);
-+		if (!sg)
-+			return -ENOMEM;
- 
- 		cpumask_or(covered, covered, sched_group_span(sg));
- 
-@@ -1577,27 +1618,40 @@ static void init_sched_groups_capacity(int cpu, struct sched_domain *sd)
- 	WARN_ON(!sg);
- 
- 	do {
--		int cpu, cores = 0, max_cpu = -1;
-+		int i, cores = 0, max_cpu = -1;
-+
-+		if (sg->group_weight)
-+			goto next;
-+
-+		if (sg->sgc->group_weight) {
-+			sg->group_weight = sg->sgc->group_weight;
-+			sg->cores = sg->sgc->cores;
-+			sg->asym_prefer_cpu = sg->sgc->asym_prefer_cpu;
-+			goto next;
-+		}
- 
- 		sg->group_weight = cpumask_weight(sched_group_span(sg));
- 
- 		cpumask_copy(mask, sched_group_span(sg));
--		for_each_cpu(cpu, mask) {
-+		for_each_cpu(i, mask) {
- 			cores++;
--			cpumask_andnot(mask, mask, cpu_smt_mask(cpu));
-+			cpumask_andnot(mask, mask, cpu_smt_mask(i));
- 		}
- 		sg->cores = cores;
- 
--		if (!(sd->flags & SD_ASYM_PACKING))
--			goto next;
--
--		for_each_cpu(cpu, sched_group_span(sg)) {
--			if (max_cpu < 0)
--				max_cpu = cpu;
--			else if (sched_asym_prefer(cpu, max_cpu))
--				max_cpu = cpu;
-+		if (sd->flags & SD_ASYM_PACKING) {
-+			for_each_cpu(i, sched_group_span(sg)) {
-+				if (max_cpu < 0)
-+					max_cpu = i;
-+				else if (sched_asym_prefer(i, max_cpu))
-+					max_cpu = i;
-+			}
-+			sg->asym_prefer_cpu = max_cpu;
- 		}
--		sg->asym_prefer_cpu = max_cpu;
-+
-+		sg->sgc->group_weight = sg->group_weight;
-+		sg->sgc->cores = sg->cores;
-+		sg->sgc->asym_prefer_cpu = sg->asym_prefer_cpu;
- 
- next:
- 		sg = sg->next;
-@@ -1871,7 +1925,8 @@ static void claim_allocations(int cpu, struct s_data *d)
- {
- 	struct sched_domain *sd;
- 
--	if (atomic_read(&(*per_cpu_ptr(d->sds, cpu))->ref))
-+	if (*per_cpu_ptr(d->sds, cpu) &&
-+	    atomic_read(&(*per_cpu_ptr(d->sds, cpu))->ref))
- 		*per_cpu_ptr(d->sds, cpu) = NULL;
- 
- 	for (sd = *per_cpu_ptr(d->sd, cpu); sd; sd = sd->parent) {
-@@ -1880,10 +1935,12 @@ static void claim_allocations(int cpu, struct s_data *d)
- 		WARN_ON_ONCE(*per_cpu_ptr(sdd->sd, cpu) != sd);
- 		*per_cpu_ptr(sdd->sd, cpu) = NULL;
- 
--		if (atomic_read(&(*per_cpu_ptr(sdd->sg, cpu))->ref))
-+		if (*per_cpu_ptr(sdd->sg, cpu) &&
-+		    atomic_read(&(*per_cpu_ptr(sdd->sg, cpu))->ref))
- 			*per_cpu_ptr(sdd->sg, cpu) = NULL;
- 
--		if (atomic_read(&(*per_cpu_ptr(sdd->sgc, cpu))->ref))
-+		if (*per_cpu_ptr(sdd->sgc, cpu) &&
-+		    atomic_read(&(*per_cpu_ptr(sdd->sgc, cpu))->ref))
- 			*per_cpu_ptr(sdd->sgc, cpu) = NULL;
- 	}
- }
-@@ -2678,8 +2735,6 @@ static int __sdt_alloc(const struct cpumask *cpu_map)
- 
- 		for_each_cpu(j, cpu_map) {
- 			struct sched_domain *sd;
--			struct sched_group *sg;
--			struct sched_group_capacity *sgc;
- 
- 			sd = kzalloc_node(sizeof(struct sched_domain) + cpumask_size(),
- 					GFP_KERNEL, cpu_to_node(j));
-@@ -2687,24 +2742,6 @@ static int __sdt_alloc(const struct cpumask *cpu_map)
- 				return -ENOMEM;
- 
- 			*per_cpu_ptr(sdd->sd, j) = sd;
--
--			sg = kzalloc_node(sizeof(struct sched_group) + cpumask_size(),
--					GFP_KERNEL, cpu_to_node(j));
--			if (!sg)
--				return -ENOMEM;
--
--			sg->next = sg;
--
--			*per_cpu_ptr(sdd->sg, j) = sg;
--
--			sgc = kzalloc_node(sizeof(struct sched_group_capacity) + cpumask_size(),
--					GFP_KERNEL, cpu_to_node(j));
--			if (!sgc)
--				return -ENOMEM;
--
--			sgc->id = j;
--
--			*per_cpu_ptr(sdd->sgc, j) = sgc;
- 		}
- 	}
- 
-@@ -2745,23 +2782,10 @@ static void __sdt_free(const struct cpumask *cpu_map)
- 
- static int __sds_alloc(struct s_data *d, const struct cpumask *cpu_map)
- {
--	int j;
--
- 	d->sds = alloc_percpu(struct sched_domain_shared *);
- 	if (!d->sds)
- 		return -ENOMEM;
- 
--	for_each_cpu(j, cpu_map) {
--		struct sched_domain_shared *sds;
--
--		sds = kzalloc_node(sizeof(struct sched_domain_shared),
--				GFP_KERNEL, cpu_to_node(j));
--		if (!sds)
--			return -ENOMEM;
--
--		*per_cpu_ptr(d->sds, j) = sds;
+-	/* Zero current pgdat thresholds */
+ 	for_each_online_pgdat(pgdat) {
+-		for_each_online_cpu(cpu) {
+-			per_cpu_ptr(pgdat->per_cpu_nodestats, cpu)->stat_threshold = 0;
+-		}
 -	}
--
- 	return 0;
- }
++		int pgdat_threshold = 0;
  
-@@ -2932,7 +2956,7 @@ static void adjust_numa_imbalance(struct sched_domain *sd_llc)
+-	for_each_populated_zone(zone) {
+-		struct pglist_data *pgdat = zone->zone_pgdat;
+-		unsigned long max_drift, tolerate_drift;
++		for (int z = 0; z < MAX_NR_ZONES; z++) {
++			unsigned long max_drift, tolerate_drift;
+ 
+-		threshold = calculate_normal_threshold(zone);
++			zone = &pgdat->node_zones[z];
++			if (!populated_zone(zone))
++				continue;
+ 
+-		for_each_online_cpu(cpu) {
+-			int pgdat_threshold;
++			threshold = calculate_normal_threshold(zone);
++			/* Base nodestat threshold on the largest populated zone. */
++			pgdat_threshold = max(threshold, pgdat_threshold);
+ 
+-			per_cpu_ptr(zone->per_cpu_zonestats, cpu)->stat_threshold
+-							= threshold;
++			for_each_online_cpu(cpu) {
++				s8 *pz = &per_cpu_ptr(zone->per_cpu_zonestats, cpu)->stat_threshold;
+ 
+-			/* Base nodestat threshold on the largest populated zone. */
+-			pgdat_threshold = per_cpu_ptr(pgdat->per_cpu_nodestats, cpu)->stat_threshold;
+-			per_cpu_ptr(pgdat->per_cpu_nodestats, cpu)->stat_threshold
+-				= max(threshold, pgdat_threshold);
++				if (*pz != threshold)
++					*pz = threshold;
++			}
++
++			/*
++			 * Only set percpu_drift_mark if there is a danger that
++			 * NR_FREE_PAGES reports the low watermark is ok when in fact
++			 * the min watermark could be breached by an allocation
++			 */
++			tolerate_drift = low_wmark_pages(zone) - min_wmark_pages(zone);
++			max_drift = num_online_cpus() * threshold;
++			if (max_drift > tolerate_drift)
++				zone->percpu_drift_mark = high_wmark_pages(zone) +
++						max_drift;
+ 		}
+ 
+-		/*
+-		 * Only set percpu_drift_mark if there is a danger that
+-		 * NR_FREE_PAGES reports the low watermark is ok when in fact
+-		 * the min watermark could be breached by an allocation
+-		 */
+-		tolerate_drift = low_wmark_pages(zone) - min_wmark_pages(zone);
+-		max_drift = num_online_cpus() * threshold;
+-		if (max_drift > tolerate_drift)
+-			zone->percpu_drift_mark = high_wmark_pages(zone) +
+-					max_drift;
++		for_each_online_cpu(cpu) {
++			s8 *pn = &per_cpu_ptr(pgdat->per_cpu_nodestats, cpu)->stat_threshold;
++
++			if (*pn != pgdat_threshold)
++				*pn = pgdat_threshold;
++		}
  	}
  }
  
--static void
-+static int
- init_sched_domain_shared(struct s_data *d, struct sched_domain *sd, int flags)
- {
- 	struct sched_domain_shared *sds = NULL;
-@@ -2954,6 +2978,13 @@ init_sched_domain_shared(struct s_data *d, struct sched_domain *sd, int flags)
- 	 */
- 	for_each_cpu(cpu, sched_domain_span(sd)) {
- 		sds = *per_cpu_ptr(d->sds, cpu);
-+		if (!sds) {
-+			sds = kzalloc_node(sizeof(*sds),
-+					   GFP_KERNEL, cpu_to_node(cpu));
-+			if (!sds)
-+				return -ENOMEM;
-+			*per_cpu_ptr(d->sds, cpu) = sds;
-+		}
- 
- 		if (!sds->alloc_flags ||
- 		    sd->span_weight == 1 ||
-@@ -2978,6 +3009,8 @@ init_sched_domain_shared(struct s_data *d, struct sched_domain *sd, int flags)
- 	 */
- 	atomic_set(&sd->shared->nr_busy_cpus, sd->span_weight);
- 	atomic_inc(&sd->shared->ref);
-+
-+	return 0;
- }
- 
- /*
-@@ -2993,25 +3026,24 @@ init_sched_domain_shared(struct s_data *d, struct sched_domain *sd, int flags)
-  * degenerate into a single-capacity group. The relevant edge cases are instead
-  * covered by the caveats above.
-  *
-- * Return true if this CPU's asym path claimed sd->shared, false otherwise.
-+ * Return 0 on success or if not claimed, -ENOMEM on allocation failure.
-  */
--static bool claim_asym_sched_domain_shared(struct s_data *d, int cpu)
-+static int claim_asym_sched_domain_shared(struct s_data *d, int cpu)
- {
- 	struct sched_domain *sd = *per_cpu_ptr(d->sd, cpu);
- 	struct sched_domain *sd_asym;
- 
- 	if (!sd)
--		return false;
-+		return 0;
- 
- 	sd_asym = sd;
- 	while (sd_asym && !(sd_asym->flags & SD_ASYM_CPUCAPACITY_FULL))
- 		sd_asym = sd_asym->parent;
- 
- 	if (!sd_asym || (sd_asym->flags & SD_NUMA))
--		return false;
-+		return 0;
- 
--	init_sched_domain_shared(d, sd_asym, SD_ASYM_CPUCAPACITY);
--	return true;
-+	return init_sched_domain_shared(d, sd_asym, SD_ASYM_CPUCAPACITY);
- }
- 
- static int __sched_domains_alloc_llc_id(void)
-@@ -3157,15 +3189,16 @@ build_sched_domains(const struct cpumask *cpu_map, struct sched_domain_attr *att
- 		if (!sd)
- 			continue;
- 
--		if (has_asym)
--			claim_asym_sched_domain_shared(&d, i);
-+		if (has_asym && claim_asym_sched_domain_shared(&d, i))
-+			goto error;
- 
- 		/* First, find the topmost SD_SHARE_LLC domain */
- 		while (sd->parent && (sd->parent->flags & SD_SHARE_LLC))
- 			sd = sd->parent;
- 
- 		if (sd->flags & SD_SHARE_LLC) {
--			init_sched_domain_shared(&d, sd, SD_SHARE_LLC);
-+			if (init_sched_domain_shared(&d, sd, SD_SHARE_LLC))
-+				goto error;
- 
- 			/*
- 			 * In presence of higher domains, adjust the
 -- 
 2.56.0.385.gd3acb90ef8-goog
 
