@@ -1,283 +1,299 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013059.outbound.protection.outlook.com [40.93.201.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A17175A85;
-	Thu, 15 Oct 2026 23:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792106273; cv=none; b=AqeEhkjx5l9Gr3p4j9lznzLQHMHcw82LM9gS33hveSQauT8s/l1H94aT06Z5w16ylDRAjbqreNkrguLI7FwimxOZqFxVOOmLo6ssrYapKND89O88AnvOUpMmTuc6lBVGl8YJ44OEhalv0XWfU00NXIrQOxviiwjF9tMiE5pMd+Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792106273; c=relaxed/simple;
-	bh=Iich2VyA9Yl56RfAzD+pgFuU2K921AKcJLk7Up8k2OQ=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=F6D+IYEbXvu4RYVjhFVfb7beYtlAjV7+q1fSfcAOc2TygknExQbG2hRPU2YgRQ4Hol0q9LVup8PQsYVzrzZuyVKXRn836LrMDHmMd0Mb8U3b/8Ma4HxMC/CPx83gfNG3VJZ9i6UhTrJqnIDDKPf7ThGnyjdH30UMGi/BR/1hNX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JIhFkpTb; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315E17404E;
+	Fri, 16 Oct 2026 06:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792131830; cv=fail; b=f92bF2WdvQA6J0g7LSMi/Scr6NV8HnlrzyZw3VOBbVEjFGzHhFGl9oLhCKfd5b9dStaDiIi1fEAvcTIHC9I2HD4dOc1Ntw55MKzDq4yvC9ZNBRzhFOHeJD+uPjE8HBPUYgBGD1s1fKxMlGHjSY0RI5u13Qy7grsAbb3fq3pGn64=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792131830; c=relaxed/simple;
+	bh=aVY8a21iCwbgz1vvzhOhWkt1cyBXwW+eJjyHY7PqzmQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=KlrEsHCjvrIN4GNdLLoI/uZeapLu51l9EA+WuLtYjWRH2mLhj4T9+Ho0kuIM+3CjFeOKkHJLhAMj+f1UNvZqEiY3GWDIRuRvzWqdeZDVs91YdiRxODTabrgmmf0eWMKVyx1UJCoPN5GUiYNZMwRRQVjJUq5+rIgXy4k5ChC12yM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=GZf7LFUz; arc=fail smtp.client-ip=40.93.201.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JIhFkpTb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792106272; x=1823642272;
-  h=message-id:subject:from:to:date:in-reply-to:references:
-   content-transfer-encoding:mime-version;
-  bh=Iich2VyA9Yl56RfAzD+pgFuU2K921AKcJLk7Up8k2OQ=;
-  b=JIhFkpTb0AdC8QP7jU5Fsu7GpYJ8UbvBX49SxVa/nlbpcPvXpG2DCCyK
-   9NM44/Y8ToReSFahy/dkhDfMrPaLDruOR4Umz4/LDhkrK/Te0aXZTbXbT
-   z3/ITogwGlQHGeG9PYrRyPHvhBAeK+rOjkHSZidmBnEExSeD9YM1ojCRU
-   93BMaEiXi4+ZQvVwhrzHO16MfKlRo9JqcmyL88AMF11h1bR/kOQpQPLjh
-   lLizr3Ryf8PWQjL+ZH/NR4VYHDE8X7PgqsPDVqeimpgwn4dljzBrcms3C
-   rXRDrQ+NbRoAjn1D7GP4Z0OsN/k+YGDxb+eHOlI74rOeUpM+aXxwHnF7G
-   g==;
-X-CSE-ConnectionGUID: +YjikdF0R4GbIcTZ2mDCrQ==
-X-CSE-MsgGUID: w7lGbnYgSmW1zcHh6CZheQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="781041"
-X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
-   d="scan'208";a="781041"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 16:17:51 -0700
-X-CSE-ConnectionGUID: QPDXIi4JQEuXWbbkvfN5YQ==
-X-CSE-MsgGUID: KujZTx+hRAChXpirRYufLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
-   d="scan'208";a="1904693"
-Received: from unknown (HELO [10.241.242.105]) ([10.241.242.105])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 16:17:49 -0700
-Message-ID: <1ec1aab8eabdad173ddef7483a940bfa3f6c3238.camel@linux.intel.com>
-Subject: Re: [PATCH v1 7/8] sched/topology: Avoid redundant percpu
- allocations and bitmap walks in build_sched_domains()
-From: Tim Chen <tim.c.chen@linux.intel.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>, kees@kernel.org, 
-	rppt@kernel.org, juri.lelli@redhat.com, nik.borisov@suse.com,
- tglx@kernel.org, 	vschneid@redhat.com, kprateek.nayak@amd.com,
- vincent.guittot@linaro.org, 	bp@alien8.de, thorsten.blum@linux.dev,
- cgroups@vger.kernel.org, 	tony.luck@intel.com, david@kernel.org,
- mingo@redhat.com, akpm@linux-foundation.org, 	linux-mm@kvack.org,
- seanjc@google.com, ljs@kernel.org, zhangguopeng@kylinos.cn, 
-	dietmar.eggemann@arm.com, mhocko@suse.com, vinicius.gomes@intel.com,
- tj@kernel.org, 	vbabka@kernel.org, linux-kernel@vger.kernel.org,
- peterz@infradead.org, 	surenb@google.com, hpa@zytor.com, x86@kernel.org,
- dmatlack@google.com, 	kexec@lists.infradead.org, pratyush@kernel.org,
- dave.hansen@linux.intel.com, 	rostedt@goodmis.org, gmonaco@redhat.com,
- jgross@suse.com, mgorman@suse.de, 	graf@amazon.com,
- linux-edac@vger.kernel.org, liam@infradead.org, 	ridong.chen@linux.dev,
- longman@redhat.com, bsegall@google.com
-Date: Thu, 15 Oct 2026 16:17:48 -0700
-In-Reply-To: <20261015153331.1872641-8-pasha.tatashin@soleen.com>
-References: <20261015153331.1872641-1-pasha.tatashin@soleen.com>
-	 <20261015153331.1872641-8-pasha.tatashin@soleen.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="GZf7LFUz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vrebuuRzkQ4MJu/AlPvXTlS3ygwTAxJd8L4kdZJ7CpIbjqo8dv5+cfJAmWQxxdUTTOd3tmOIPp+TLKCToxaPT527zRTartl1rTVTDk0JUZ8if4koqeiHtf2+2wEIVUekV90qdL6G/IC1YRKKd0OzB9lArCC+P5+EW+6ozwU075V8Lq4hVruqmlyDRT7Ll7y+kQD3o25p6shrVoyh3gs5CH5Kt7rWxm4ngF6nB6rozmDLA/kVd/a+6hF6medGYUvXoLsd/6WgwSqlq9E82FAM1tQ2nYU8X92Aq5zrLQp7M4ODXyKRhQSTub/tXMc6gkVERPXuDH9VvXHxfkKs0N+lag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=czSLFUGDMzAFLI3Pr/+hBd+9bUbci1aNuPRSFzs8ryQ=;
+ b=Y1uOZNmrZ3fIMggBT8fU4rTOGjaURlixroJtIZ5NUcI9iPzlwjjjsET0fGSJSfHgV9qIALNuU7TNcUupg3WfGWXhXyzJF2PT/iJqZ7ZTvQzuzbYLbNsU/xpeF7QHAl6wsC/VzaVklE8ojLAjPiyeE5ARhiZ7Iw4RqR0Ta9SbTZWlB5Tmhzi8pBpEN+3fLC1OGItEf+JWKRBYVpQSxu9m6RtZqmbuIOyLaG638dFdh+BysNYlDmEzcAncxDcIVO7evvYiyz/x1lDS+hs/758nvAql4spS3cFExhR/knqGCTLrqL5LeDcEoECAEb57bHUBOtTUDmm3oufSVrpu4vmCSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=soleen.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=czSLFUGDMzAFLI3Pr/+hBd+9bUbci1aNuPRSFzs8ryQ=;
+ b=GZf7LFUzS8MvemknUjhEgE4bhTlxpTZH9a35BqyZ7p8paUjfi46/VDQoIHBiERuKKQDRDx+qPbwsZdlF2uOPVEaVV+Psj8hKz8Uf8ZpHJ+UXIjgCHUVhmJU4l4hsEt53onvzDKskf8sXLBIUrNXhvkX89iSG/DkGUjGYF8/MYh8=
+Received: from BY3PR04CA0017.namprd04.prod.outlook.com (2603:10b6:a03:217::22)
+ by SA9PR12MB407125.namprd12.prod.outlook.com (2603:10b6:806:a6::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.20; Fri, 16 Oct
+ 2026 06:23:45 +0000
+Received: from EA8PEPF00000006.namprd05.prod.outlook.com
+ (2603:10b6:a03:217:cafe::3f) by BY3PR04CA0017.outlook.office365.com
+ (2603:10b6:a03:217::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.4 via Frontend Transport; Fri, 16
+ Oct 2026 06:23:45 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ EA8PEPF00000006.mail.protection.outlook.com (10.167.249.229) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.522.6 via Frontend Transport; Fri, 16 Oct 2026 06:23:45 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Fri, 16 Oct
+ 2026 01:23:38 -0500
+Received: from [10.136.45.168] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.53 via Frontend
+ Transport; Fri, 16 Oct 2026 01:23:28 -0500
+Message-ID: <b618f528-ba35-4fb3-881b-e0ca12bc9558@amd.com>
+Date: Fri, 16 Oct 2026 11:53:21 +0530
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 5/8] sched/topology: Avoid redundant O(N^3) group
+ capacity walks and unused allocations in build_sched_domains()
+To: Pasha Tatashin <pasha.tatashin@soleen.com>, <kees@kernel.org>,
+	<rppt@kernel.org>, <juri.lelli@redhat.com>, <nik.borisov@suse.com>,
+	<tglx@kernel.org>, <vschneid@redhat.com>, <vincent.guittot@linaro.org>,
+	<bp@alien8.de>, <thorsten.blum@linux.dev>, <cgroups@vger.kernel.org>,
+	<tony.luck@intel.com>, <david@kernel.org>, <mingo@redhat.com>,
+	<akpm@linux-foundation.org>, <linux-mm@kvack.org>, <seanjc@google.com>,
+	<ljs@kernel.org>, <zhangguopeng@kylinos.cn>, <dietmar.eggemann@arm.com>,
+	<mhocko@suse.com>, <vinicius.gomes@intel.com>, <tj@kernel.org>,
+	<vbabka@kernel.org>, <linux-kernel@vger.kernel.org>, <peterz@infradead.org>,
+	<surenb@google.com>, <hpa@zytor.com>, <x86@kernel.org>,
+	<dmatlack@google.com>, <tim.c.chen@linux.intel.com>,
+	<kexec@lists.infradead.org>, <pratyush@kernel.org>,
+	<dave.hansen@linux.intel.com>, <rostedt@goodmis.org>, <gmonaco@redhat.com>,
+	<jgross@suse.com>, <mgorman@suse.de>, <graf@amazon.com>,
+	<linux-edac@vger.kernel.org>, <liam@infradead.org>, <ridong.chen@linux.dev>,
+	<longman@redhat.com>, <bsegall@google.com>
+References: <20261015153331.1872641-1-pasha.tatashin@soleen.com>
+ <20261015153331.1872641-6-pasha.tatashin@soleen.com>
+Content-Language: en-US
+From: K Prateek Nayak <kprateek.nayak@amd.com>
+In-Reply-To: <20261015153331.1872641-6-pasha.tatashin@soleen.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: EA8PEPF00000006:EE_|SA9PR12MB407125:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9b6d24ad-fbb3-4d95-ce32-08df2b4e081a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|36860700016|82310400026|921020|11063799006|56012099006|4143699003|261009223027099003|18002099003|22082099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	cwyugd9Ar6kwce5wuyRcoWNsxU77MTwwjmePIXiPadVq2WbGRID6tG6CRm9pKlIzwlT5OO5aQoVIMkrXOY7NTPPTkFubpgsnE6PbXXmfG7EpGW4A8Bbh7Eqyirt60CzVeqYiqnUAdfgTY1s7NgJaJVirJ8MJQaQal7CXqeQZ19v/LiAWYBA1GVIrt2bCukyZVKCrvKMj50F+JyDfZ3d7h59LZ4+GYVeEnQoj/P40/hAk2MPNxQ1RB4hSv56PvFFXs3/4n3vnFecoRv4cog1SfFP/ep7qhGeRmRcevQcttZTbIu24uUSZRj2Y+aJZP/vI77Qkt/n3PB7ImHu1ZKFUEzZu7SwLMQ2gTui/lCIm2tKBa+V+iuh058K8NM7JMYCSmaCW34XyysIJu3+wCtbl5Ri8OC3/YkOn4F82TIWW81vdiqJEhdnrEnWnZKBAwx1/mO80pFNNkwxwxpbpiaMSTmLvTFw8DEC90srHmtHP9tW3WftLO+YWUdi6PTtw19cqyGmMPTlSG/ktJV0bcIievwy1snXrSR5E+jKYAOOxt+R66uiKQ4l9l9ON0OLFXxe5mNUGDyaDmxV9RPMFpqj3nrxeB1Dg1IJn5mY9o4DYK7WdqFibz607Ltz60UfPK5wr5C7ngi3ez7LBMgNq7mdvg0zJ2e2n7aQiDTgndrJibLwbiWac0kpHsapMrlnxjpzwBYLktMz2iQ1J47ulZc7pKs2qL4uBuMgTQRj8MCKq5OijHbwuYjeow6jlgyBLPumO
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(36860700016)(82310400026)(921020)(11063799006)(56012099006)(4143699003)(261009223027099003)(18002099003)(22082099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	/HaWa5VmaHTpxA2nn6kKUeGS9PCYyqO2z1eyacGJFLrydEv7+ujDqh5I94fqZ5Qo8mGXvd/Zlgj/sBR6sJKBxNtrQf0F1/oOpesFdtTd13QEYoOtOo692RMgxQ3IEJ4MxBAp91GoW2jprO0r7zydDh3ZauhZlHRCWTIUt4/Ho0b9/C6etvZbmPFx4MN8DydPxxxxMmx71idIp+dtUAP4s/AvfmujzMTjd08e+Bh2cRuWoUoqxTM58B22aT5QqhcMz+Mgg95fYKpJW5B8dMaRWDBN0g74kMHeHEhf4hkpjfPyRxaCBAnPQZbtihdDIQTy5BC6U8IJ+o2CX+WbzwZ6qCHQOQSFfIClq1H19ztV/+bA7Aq+8DOnm7XozfOWz7nfBTOjW8h1/Y0MJ4+ICCFp9K3SET7NB2pqqK1DFaTdMceGopHhJW0FsdDFuKjtMSEE
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 06:23:45.1969
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b6d24ad-fbb3-4d95-ce32-08df2b4e081a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	EA8PEPF00000006.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA9PR12MB407125
 
-On Thu, 2026-10-15 at 11:33 -0400, Pasha Tatashin wrote:
-> During CPU hotplug, build_sched_domains() is invoked on every CPU
-> activation and deactivation. Profiling build_sched_domains() on a
-> 480-CPU Intel Xeon 6985P-C and a 512-CPU AMD EPYC 9B45 shows several
-> sources of avoidable O(N^2) and O(N) work per step:
->=20
-> 1. build_sched_groups() and build_overlap_sched_groups() iterate over
->    every bit of sched_domain_span(sd) via for_each_cpu_wrap(i, span, cpu)
->    and check cpumask_test_cpu(i, covered) one CPU at a time, even after
->    entire child groups (e.g., 120-CPU NUMA nodes) have been added to
->    covered. Instead, track the remaining uncovered CPUs
->    (cpumask_copy(uncovered, span)), clear each built group's span with
->    cpumask_andnot(), and advance directly to the next uncovered CPU.
->=20
-> 2. __visit_domain_allocation_hell() and __free_domain_allocs() allocate
->    and free 3 * nr_levels + 2 temporary per-CPU pointer arrays via
->    alloc_percpu() / free_percpu() on every domain rebuild. Reuse the
->    per-CPU pointer arrays across domain rebuilds under
->    sched_domains_mutex, clearing entries in __free_domain_allocs() and
->    only freeing the topology-level arrays when sched_domain_topology is
->    replaced in sched_init_numa() / sched_reset_numa().
+Hello Pasha,
 
-sched_domains_mutex does not protect the free:
-
-[snip]
-
->  #ifdef CONFIG_NUMA
-> +static void __sdt_free_percpu(void)
-> +{
-> +	struct sched_domain_topology_level *tl;
-> +
-> +	for_each_sd_topology(tl) {
-> +		struct sd_data *sdd =3D &tl->data;
-> +
-
-sched_init_numa() and sched_reset_numa() are called from
-sched_update_numa(), which runs from sched_cpu_activate() and
-sched_cpu_deactivate() without sched_domains_mutex. The free is safe
-because every domain builder holds at least cpus_read_lock(), and
-sched_update_numa() runs under the hotplug write lock.=C2=A0
-
-Please fix the changelog and add lockdep_assert_cpus_held()
-in __sdt_free_percpu(), so a future caller cannot break this without a warn=
-ing.
-
-
-
-> +		free_percpu(sdd->sd);
-> +		sdd->sd =3D NULL;
-> +		free_percpu(sdd->sg);
-> +		sdd->sg =3D NULL;
-> +		free_percpu(sdd->sgc);
-> +		sdd->sgc =3D NULL;
-> +	}
-> +}
-> +
->  static int cpu_numa_flags(void)
->  {
->  	return SD_NUMA;
-> @@ -2449,6 +2483,7 @@ void sched_init_numa(int offline_node)
->  	/*
->  	 * Copy the default topology bits..
->  	 */
-> +	__sdt_free_percpu();
->  	for (i =3D 0; sched_domain_topology[i].mask; i++)
->  		tl[i] =3D sched_domain_topology[i];
-> =20
-> @@ -2507,6 +2542,7 @@ static void sched_reset_numa(void)
->  		kfree(masks);
->  	}
->  	if (sched_domain_topology_saved) {
-> +		__sdt_free_percpu();
->  		kfree(sched_domain_topology);
->  		sched_domain_topology =3D sched_domain_topology_saved;
->  		sched_domain_topology_saved =3D NULL;
-> @@ -2708,17 +2744,23 @@ static int __sdt_alloc(const struct cpumask *cpu_=
-map)
->  	for_each_sd_topology(tl) {
->  		struct sd_data *sdd =3D &tl->data;
-> =20
-> -		sdd->sd =3D alloc_percpu(struct sched_domain *);
-> -		if (!sdd->sd)
-> -			return -ENOMEM;
-> +		if (!sdd->sd) {
-> +			sdd->sd =3D alloc_percpu(struct sched_domain *);
-> +			if (!sdd->sd)
-> +				return -ENOMEM;
-> +		}
-> =20
-> -		sdd->sg =3D alloc_percpu(struct sched_group *);
-> -		if (!sdd->sg)
-> -			return -ENOMEM;
-> +		if (!sdd->sg) {
-> +			sdd->sg =3D alloc_percpu(struct sched_group *);
-> +			if (!sdd->sg)
-> +				return -ENOMEM;
-> +		}
-> =20
-> -		sdd->sgc =3D alloc_percpu(struct sched_group_capacity *);
-> -		if (!sdd->sgc)
-> -			return -ENOMEM;
-> +		if (!sdd->sgc) {
-> +			sdd->sgc =3D alloc_percpu(struct sched_group_capacity *);
-> +			if (!sdd->sgc)
-> +				return -ENOMEM;
-> +		}
-> =20
-
-Keeping the arrays also means every slot must be NULL when a build=20
-starts. Patch 5 depends on that: get_group(),=20
-init_overlap_sched_group() and init_sched_domain_shared() treat a NULL=20
-slot as "not allocated yet", and the overlap fast path treats=20
-"sgc->ref > 0" as "set up in this build". An old pointer would pass
-these checks and be used without a warning.
-
-The rule holds today, but nothing says so. It also depends on builds
-never filling a slot outside cpu_map, because the clearing loops only
-visit cpu_map. Please write this down and check it, for example in
-__sdt_alloc():
-
-
->  		for_each_cpu(j, cpu_map) {
->  			struct sched_domain *sd;
-
-Maybe add
-
-        /*
-         * The slot arrays are kept between builds. Every slot for a CPU
-         * in cpu_map must be NULL here; lazy allocation treats NULL as
-         * "not allocated in this build". claim_allocations() and
-         * __sdt_free()/__sds_free() clear the slots, but only for
-         * cpu_map, so a build must not fill slots outside cpu_map.
-         */
-                for_each_cpu(j, cpu_map) {
-                        struct sched_domain *sd;
-
-                        WARN_ON_ONCE(*per_cpu_ptr(sdd->sd, j) ||
-                                     *per_cpu_ptr(sdd->sg, j) ||
-                                     *per_cpu_ptr(sdd->sgc, j));
-
-
-
-> @@ -2748,30 +2790,36 @@ static void __sdt_free(const struct cpumask *cpu_=
-map)
-> =20
->  			if (sdd->sd) {
->  				sd =3D *per_cpu_ptr(sdd->sd, j);
-> -				if (sd && (sd->flags & SD_NUMA))
-> -					free_sched_groups(sd->groups, 0);
-> -				kfree(*per_cpu_ptr(sdd->sd, j));
-> +				if (sd) {
-> +					if (sd->flags & SD_NUMA)
-> +						free_sched_groups(sd->groups, 0);
-> +					kfree(sd);
-> +					*per_cpu_ptr(sdd->sd, j) =3D NULL;
-> +				}
->  			}
-> =20
-> -			if (sdd->sg)
-> +			if (sdd->sg) {
->  				kfree(*per_cpu_ptr(sdd->sg, j));
-> -			if (sdd->sgc)
-> +				*per_cpu_ptr(sdd->sg, j) =3D NULL;
-> +			}
-> +			if (sdd->sgc) {
->  				kfree(*per_cpu_ptr(sdd->sgc, j));
-> +				*per_cpu_ptr(sdd->sgc, j) =3D NULL;
-> +			}
->  		}
-> -		free_percpu(sdd->sd);
-> -		sdd->sd =3D NULL;
-> -		free_percpu(sdd->sg);
-> -		sdd->sg =3D NULL;
-> -		free_percpu(sdd->sgc);
-> -		sdd->sgc =3D NULL;
->  	}
+On 10/15/2026 9:03 PM, Pasha Tatashin wrote:
+> diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+> index 0248227d983a7..02c38089a80c9 100644
+> --- a/kernel/sched/topology.c
+> +++ b/kernel/sched/topology.c
+> @@ -1259,32 +1259,49 @@ build_group_from_child_sched_domain(struct sched_domain *sd, int cpu)
+>         return sg;
 >  }
-> =20
-> +static struct sched_domain_shared * __percpu *sched_domains_sds;
-> +
->  static int __sds_alloc(struct s_data *d, const struct cpumask *cpu_map)
+> 
+> -static void init_overlap_sched_group(struct sched_domain *sd,
+> -                                    struct sched_group *sg)
+> +static int init_overlap_sched_group(struct sched_domain *sd,
+> +                                   struct sched_group *sg)
 >  {
+>         struct cpumask *mask = sched_domains_tmpmask2;
+>         struct sd_data *sdd = sd->private;
+> -       struct cpumask *sg_span;
+> -       int cpu;
+> +       struct cpumask *sg_span = sched_group_span(sg);
+> +       struct sched_group_capacity *sgc;
+> +       int cpu = cpumask_first(sg_span);
+> +       struct sched_domain *first_sd = *per_cpu_ptr(sdd->sd, cpu);
+> +
+> +       sgc = *per_cpu_ptr(sdd->sgc, cpu);
+> +       if (sgc && atomic_read(&sgc->ref) > 0 &&
+> +           first_sd && first_sd->child &&
+> +           cpumask_equal(sg_span, sched_domain_span(first_sd->child))) {
+> +               atomic_inc(&sgc->ref);
+> +               sg->sgc = sgc;
+> +               return 0;
+> +       }
 
-and maybe similar check=20
 
-        for_each_cpu(j, cpu_map)
-                WARN_ON_ONCE(*per_cpu_ptr(d->sds, j));
+This insanely specific check perhaps can be something like:
 
-> -	d->sds =3D alloc_percpu(struct sched_domain_shared *);
-> -	if (!d->sds)
-> -		return -ENOMEM;
-> +	if (!sched_domains_sds) {
-> +		sched_domains_sds =3D alloc_percpu(struct sched_domain_shared *);
-> +		if (!sched_domains_sds)
-> +			return -ENOMEM;
-> +	}
-> +	d->sds =3D sched_domains_sds;
-> =20
->  	return 0;
+diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+index 06cc9f6397bd..a7d7a3b51c71 100644
+--- a/kernel/sched/topology.c
++++ b/kernel/sched/topology.c
+@@ -1203,6 +1203,33 @@ int group_balance_cpu(struct sched_group *sg)
+  */
+ 
+ 
++/* Find the group_balance_cpu() */
++static int find_group_balance_cpu(struct sched_domain *sd, struct sched_group *sg)
++{
++	const struct cpumask *sg_span = sched_group_span(sg);
++	struct sd_data *sdd = sd->private;
++	struct sched_domain *sibling;
++	int i;
++
++	for_each_cpu(i, sg_span) {
++		sibling = *per_cpu_ptr(sdd->sd, i);
++
++		/*
++		 * Can happen in the asymmetric case, where these siblings are
++		 * unused. The mask will not be empty because those CPUs that
++		 * do have the top domain _should_ span the domain.
++		 */
++		if (!sibling->child)
++			continue;
++
++		/* If we would not end up here, we can't continue from here */
++		if (cpumask_equal(sg_span, sched_domain_span(sibling->child)))
++			return i;
++	}
++
++	return nr_cpu_ids;
++}
++
+ /*
+  * Build the balance mask; it contains only those CPUs that can arrive at this
+  * group and should be considered to continue balancing.
+@@ -1212,17 +1239,19 @@ int group_balance_cpu(struct sched_group *sg)
+  * can fully construct this using the sched_domain bits (which are already
+  * complete).
+  */
+-static void
+-build_balance_mask(struct sched_domain *sd, struct sched_group *sg, struct cpumask *mask)
++static void build_balance_mask(int group_balance_cpu,
++			       struct sched_domain *sd,
++			       struct sched_group *sg,
++			       struct cpumask *mask)
+ {
+ 	const struct cpumask *sg_span = sched_group_span(sg);
+ 	struct sd_data *sdd = sd->private;
+ 	struct sched_domain *sibling;
+-	int i;
++	int i = group_balance_cpu;
+ 
+ 	cpumask_clear(mask);
+ 
+-	for_each_cpu(i, sg_span) {
++	for_each_cpu_from(i, sg_span) {
+ 		sibling = *per_cpu_ptr(sdd->sd, i);
+ 
+ 		/*
+@@ -1281,7 +1310,17 @@ static int init_overlap_sched_group(struct sched_domain *sd,
+ 	struct cpumask *sg_span;
+ 	int cpu;
+ 
+-	build_balance_mask(sd, sg, mask);
++	cpu = find_group_balance_cpu(sd, sg);
++	if (WARN_ON_ONCE(cpu >= nr_cpu_ids))
++		return -ENOENT;
++
++	sg->sgc = *per_cpu_ptr(sdd->sgc, cpu);
++	if (sg->sgc && atomic_read(&sg->sgc->ref)) {
++		atomic_inc(&sg->sgc->ref);
++		return 0;
++	}
++
++	build_balance_mask(cpu, sd, sg, mask);
+ 	cpu = cpumask_first(mask);
+ 
+ 	sg->sgc = *per_cpu_ptr(sdd->sgc, cpu);
+---
+
+We just find the first CPU and reuse the scg. Otherwise, build the
+balance mask.
+
+With those changes ...
+
+> 
+>         build_balance_mask(sd, sg, mask);
+>         cpu = cpumask_first(mask);
+> 
+> -       sg->sgc = *per_cpu_ptr(sdd->sgc, cpu);
+> -       if (atomic_inc_return(&sg->sgc->ref) == 1)
+> +       sgc = *per_cpu_ptr(sdd->sgc, cpu);
+> +       if (!sgc) {
+> +               sgc = kzalloc_node(sizeof(*sgc) + cpumask_size(),
+> +                                  GFP_KERNEL, cpu_to_node(cpu));
+> +               if (!sgc)
+> +                       return -ENOMEM;
+> +               sgc->id = cpu;
+> +               *per_cpu_ptr(sdd->sgc, cpu) = sgc;
+> +       }
+> +
+> +       sg->sgc = sgc;
+> +       if (atomic_inc_return(&sg->sgc->ref) == 1) {
+
+... we can be sure this is a new sgc and just do an
+atomic_set(&sg->sgc->ref, 1) here and initialize the rest of the
+fields.
+
+Thoughts?
+
+>                 cpumask_copy(group_balance_mask(sg), mask);
+> -       else
+> +               sg->sgc->capacity = SCHED_CAPACITY_SCALE * cpumask_weight(sg_span);
+> +               sg->sgc->min_capacity = SCHED_CAPACITY_SCALE;
+> +               sg->sgc->max_capacity = SCHED_CAPACITY_SCALE;
+> +       } else {
+>                 WARN_ON_ONCE(!cpumask_equal(group_balance_mask(sg), mask));
+
+Do note this check will be lost with the optimization for the
+fast-path case but that should be okay(?)
+
+> +       }
+> 
+> -       /*
+> -        * Initialize sgc->capacity such that even if we mess up the
+> -        * domains and no possible iteration will get us here, we won't
+> -        * die on a /0 trap.
+> -        */
+> -       sg_span = sched_group_span(sg);
+> -       sg->sgc->capacity = SCHED_CAPACITY_SCALE * cpumask_weight(sg_span);
+> -       sg->sgc->min_capacity = SCHED_CAPACITY_SCALE;
+> -       sg->sgc->max_capacity = SCHED_CAPACITY_SCALE;
+> +       return 0;
 >  }
+-- 
+Thanks and Regards,
+Prateek
 
-
-Thanks.
-
-Tim
