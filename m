@@ -1,231 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8065349CA;
-	Fri, 16 Oct 2026 17:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6441925BC;
+	Sat, 17 Oct 2026 04:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792171576; cv=none; b=SPfMTf/8bP9GVAWmPfogoMgKRl2GP4Kp1Z/5zChKqVsaB4lo7jWXCJ3c5c+SRG9+e2MjrDw8/PRMSiHgpguETjITb7ypaUt5DWLoWzwTJq0LJpTe5q1YcVmI5ZTbX4QeP219JV88xNv5D5BBfUh5S8eTBX1lW6bBw9UALxCFYV8=
+	t=1792210980; cv=none; b=Bxt0XP3Cd986/nAOw+sqx26ERPmgIZgUu3vMyxLYY5DjFPTJgo6VSO+PWSwEei9O7UN4KBNXHsQES75AbfTOpGjLmKQe0udLafnlA3f+YMCYZjQmMzrKxSHS5U+9saQcTEQWKHBxXvB63XKMax0e6pblDuq7Ds1KuWXizt86W4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792171576; c=relaxed/simple;
-	bh=7/Ypo8HXoPhqe0tOudB/GpG79nEQuR+mWQGy9BzaOCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oYlkSMN23plX2XD7VSjyWE+s2a7fapuQK18Om+86pdV55HuUuGwPMhGoNZngwRyxSSH/lDmB09Te6Mht2DspWV3zsHqXMrpxCfN5EH5vVipxKF7urSQbAxcZ3OffXY1Di7TGfGfSXvwWij19sJ/+bT2hviJ52MA34quw0RusYuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d+kL7cwR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792210980; c=relaxed/simple;
+	bh=R+SpqW4MZ48QJKzzDNXKrEGl63U9IRkjWNCl0O/GHmo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P5k/uu/Z6itUnYFZoLvWRWSJQFcma77wZ62F3vPVB8CzhSUSpnGOe1nHb9tY4f/uhI8/a2Hc2qNR9/tYKW+tgV9pHVWrsou6+Ix3hIAx+Px/7eaTMu7YdLydZKSue1gndBdusGcpEUtV0phDw19zBwg44kxhWTssM7s5lFmnJd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=GqdIvXw8 reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d+kL7cwR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF65B1F000C4;
-	Fri, 16 Oct 2026 17:26:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792171575;
-	bh=ds77SXosasjtMVQTiI+LOMaZdzFU2/HluRX2Mznn/fE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=d+kL7cwR5U1A+HE8FSFooseFBDTkfzAE6Fnf5OMHk1apxjLszudLlwZJ9QCmz9cqt
-	 1GRUux95OYIyByMntRs5NeR0hvR5tqaptfdjkBRxmKxFCxpoz58prj4OcaCVjeGIis
-	 qOsD/ichywzR8r0NtQ0T2F1fHJx19sM6a+5JJgSVyQQx7MoLT8zv419ezq6jRYds1r
-	 PHkFC+EMvDBRUD1hMMpbve83N0VdzWV7cd5fsgabVvlXvEwICdMDaJZD7jAgj8AywX
-	 WKi4knJnoDNmXT2VgCTwuezNOdoeQYaME7P0CVnrdrLfeSSzcfFiN/6p7zWwoPB0u/
-	 Ddprk6r1FUN1w==
-Date: Fri, 16 Oct 2026 18:26:08 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Faiyaz Mohammed <faiyaz.mohammed@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
- <konradybcio@kernel.org>, Conor Dooley <conor@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Manivannan
- Sadhasivam <mani@kernel.org>, Borislav Petkov <bp@alien8.de>, Tony Luck
- <tony.luck@intel.com>, Conor Dooley <conor+dt@kernel.org>, Abel Vesa
- <abelvesa@kernel.org>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-edac@vger.kernel.org
-Subject: Re: [PATCH 3/4] edac: qcom: add LCP/SRP DDR DRAM ECC support for
- Shikra
-Message-ID: <20261016182608.65bae12d@jic23-hlaptop>
-In-Reply-To: <20261014-master-v1-3-aba3cfcfbac9@oss.qualcomm.com>
-References: <20261014-master-v1-0-aba3cfcfbac9@oss.qualcomm.com>
-	<20261014-master-v1-3-aba3cfcfbac9@oss.qualcomm.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="GqdIvXw8"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5F26540E03BE;
+	Sat, 17 Oct 2026 04:22:48 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
+	reason="fail (body has been altered)" header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id TUYCDTo08E0I; Sat, 17 Oct 2026 04:22:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1792210965; bh=kDZQQH7hqxy27MFGHbhtcoKGmXL6dyq5YBHj2HXhVsg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GqdIvXw8GTcynBcaSSC/jLrsVdzfNLOypcTTmoIwMf4sELi6zAZUEq4RUL7XO9Bdi
+	 INSw2oxapHOv8JbF1PLl5soo1PDG3N/iOeI9YwzyLwCxNz49ofvnllEmK0CH5A0Omf
+	 qhLRS+KI1XsQSIFc0G3UpzgQ8PghjJYGVchptViY07Zmc5UwyuvTkTAoZ5vxZBaGcf
+	 5mSDWvNBC6EfMgkQYfASvtkS20GTucP7ZD8b7Xguil5cuovBsJcioh8LnvPN61e8Eh
+	 VxMHFHEMn9Xe4IrDDSJECr0x474sJskG8+ZvZY+o9Q9EQjzn/iYPX6aEv14opfDXUr
+	 9W9MUV5vjCbCFhVApkXOYaI5EhZjmNMeP++uiI/BbAJ3GvG5oVIoGcvMRr2T8bWHFx
+	 QGEq9SbkwSRMkBQWykPO+OXotKuPWoo4pFHQRv6L/sf3kjsEtJTP0pQpSRIhdTGpxW
+	 hacx1YYlDs4iVyTz5UXdxbZu/pZxrJj+ED6rhLq5cbAcNOBNhO9yuwviFagaMyVFbR
+	 7SqDUlNhzLELw24/JqoPGRxXkDhAg3D4TeLaj/zOQrZKKFng+ChN8Z8pPy5v/Vsho6
+	 ixdTKO+Zns8y1Rg3Ae24/T6z0Mk0b4/ODtaBCYZHWhfGf0LpaHYp5AligPDxps8vTB
+	 1gv5ItyVg++gFtiJQrOP8WBY=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4471840E01B4;
+	Sat, 17 Oct 2026 04:22:08 +0000 (UTC)
+Date: Fri, 16 Oct 2026 21:22:04 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Shiju Jose <shijujose2008@gmail.com>
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
+	Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	ashok.raj@oss.qualcomm.com, jic23@kernel.org, linuxarm@huawei.com,
+	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
+	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+	gthelen@google.com, wschwartz@amperecomputing.com,
+	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
+	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
+	wanghuiqiang@huawei.com
+Subject: Re: [PATCH v23 0/2] ACPI: Add support for ACPI RAS2 feature table
+Message-ID: <20261017042204.GAatL37AhysV7BZBod@fat_crate.local>
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260807055952.GIanV0WDlB9-eP9VdV@fat_crate.local>
+ <CAG4KcRJcpLREkbmOEEw7nGD+_PNOd+fWHkODqfWo1M8hmxA_Bg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAG4KcRJcpLREkbmOEEw7nGD+_PNOd+fWHkODqfWo1M8hmxA_Bg@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 14 Oct 2026 21:26:18 +0530
-Faiyaz Mohammed <faiyaz.mohammed@oss.qualcomm.com> wrote:
+On Sun, Aug 09, 2026 at 05:21:35PM +0100, Shiju Jose wrote:
+> > +static int ras2_update_patrol_scrub_params_cache(struct ras2_mem_ctx=
+ *ras2_ctx)
+> > +{
+> [ ... ]
+> > + if  (ioread32(&ps_sm->params.flags) & RAS2_PS_FLAG_SCRUB_RUNNING) {
+> > + ras2_ctx->od_scrub =3D true;
+> > + ras2_ctx->base =3D ioread64(&ps_sm->params.actl_addr_range[0]);
+> > + ras2_ctx->size =3D ioread64(&ps_sm->params.actl_addr_range[1]);
+> > + } else {
+> > + ras2_ctx->od_scrub =3D false;
+> > + }
+> > +
+> > + return 0;
+> > +}
+> Does this logic misidentify a pre-existing background scrub as a demand
+> scrub?
+> If the platform firmware has background scrubbing enabled prior to driv=
+er
+> initialization,
 
-> Add qcom_llcc_lcp_setup() to enable LCP/SRP interrupt routing when
-> firmware has not pre-configured it, and llcc_lcp_ecc_irq_handler() to
-> report per-bank correctable and uncorrectable DDR DRAM ECC errors.
-> 
-> LCP/SRP setup is skipped when ecc_irq_configured is set (e.g. Shikra,
-> where DSF firmware handles IRQ routing). A missing lcp_irq is
-> non-fatal; TRP/DRP ECC reporting continues unaffected.
-> 
-> Signed-off-by: Faiyaz Mohammed <faiyaz.mohammed@oss.qualcomm.com>
-Trivial stuff only inline.
+First of all, when and how can that even happen?
 
-> ---
->  drivers/edac/qcom_edac.c | 147 +++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 147 insertions(+)
-> 
-> diff --git a/drivers/edac/qcom_edac.c b/drivers/edac/qcom_edac.c
-> index f3da9385ca0d..b4f7b2493650 100644
-> --- a/drivers/edac/qcom_edac.c
-> +++ b/drivers/edac/qcom_edac.c
+How can it happen that the platform has enabled background scrubbing befo=
+re
+the driver loads?
 
->  /* Clear the error interrupt and counter registers */
->  static int
->  qcom_llcc_clear_error_status(int err_type, struct llcc_drv_data *drv)
-> @@ -334,6 +366,92 @@ static void llcc_ecc_check(struct edac_device_ctl_info *edev_ctl)
->  	llcc_ecc_irq_handler(0, edev_ctl);
->  }
->  
-> +/*
-> + * Handler for the optional LCP/SRP DDR DRAM ECC interrupt
-> + * (ddrss_apps_interrupt[1]).  The LCP/SRP registers live in each LLCC
-> + * instance's address space, so iterate over all banks and read status
-> + * per-instance.  Broadcast-write the clear after the full loop, mirroring
-> + * the TRP/DRP handler pattern.
-> + */
-> +static irqreturn_t llcc_lcp_ecc_irq_handler(int irq, void *edev_ctl)
-> +{
-> +	struct edac_device_ctl_info *edac_dev_ctl = edev_ctl;
-> +	struct llcc_drv_data *drv = edac_dev_ctl->dev->platform_data;
-> +	const struct llcc_edac_reg_offset *reg = drv->edac_reg_offset;
-> +	irqreturn_t irq_rc = IRQ_NONE;
-> +	u32 intr_status, err_status, clr_reg;
-> +	int i, ret;
-> +
-> +	/* Iterate over banks: LCP/SRP status registers are per-LLCC instance */
-> +	for (i = 0; i < drv->num_banks; i++) {
-	for (int i = 0;
+And if that behind the driver enabling is legitimate, the driver should l=
+oad
+and ask the hw what scrubbing is currently enabled and mirror that in its
+internal structures tracking those settings, right?
 
-Fine in modern kernel code and makes scope more explicit.
+I haven't looked in detail yet so perhaps you're doing it already. I need=
+ to
+clean up that code first, though, because it is very hard to read.
 
-> +		ret = regmap_read(drv->regmaps[i], reg->lcp_srp_interrupt_status,
+> ioread32() will read RAS2_PS_FLAG_SCRUB_RUNNING. Because
+> the driver's internal bg_scrub state is initialized to false, this assu=
+mes
+> the active scrub is a demand scrub and sets od_scrub =3D true.
+> Would this prevent the user from controlling hardware memory scrubbing =
+via
+> sysfs, since writing to enable_background might return -EBUSY and
+> writing to enable_demand might return -EOPNOTSUPP?
+>=20
+> Shiju:  This is not a valid comment.
+> Please find a description from the spec.ACPI spec 6.5 RAS2
+> Table 5.87: Parameter Block Structure for PATROL_SCRUB:
+> Flags (OUTPUT) : The platform returns this value in response to
+> GET_PATROL_PARAMETERS:
+> Bit [0]: Will be set if memory scrubber is already running for address
+> range specified in =E2=80=9CActual Address
 
-I'd use a local variable to hold the regmap pointer.
+Which memory scrubber? The background one?
 
-> +				  &intr_status);
-> +		if (ret)
+> Range=E2=80=9D.Bits [31:1]: Reserved, must be zero.
+>=20
+>  ioread32(&ps_sm->params.flags) & RAS2_PS_FLAG_SCRUB_RUNNING
+>  ACPI spec 6.5 RAS2 Table 5.87: Parameter Block Structure for PATROL_SC=
+RUB
+>   Field: Flags (OUTPUT): bit[0] - returns status for demand scrub only,
 
-A read fail, without any logging seems unwise as you may have just jumped the
-error. 
+You lost me here. Where is that stated in that table 5.87?
 
-> +			continue;
-> +
-> +		intr_status &= LCP_SB_ECC_ERROR | LCP_DB_ECC_ERROR;
-> +		if (!intr_status)
-> +			continue;
-> +
-> +		irq_rc = IRQ_HANDLED;
-> +
-> +		ret = regmap_read(drv->regmaps[i], reg->lcp_srp_ecc_error_status1,
-> +				  &err_status);
-> +		if (ret) {
-> +			edac_printk(KERN_ERR, EDAC_LLCC,
-> +				    "LCP/SRP error status read failed for bank%u: %d\n",
-> +				    i, ret);
-> +			continue;
-> +		}
-> +
-> +		if (intr_status & LCP_DB_ECC_ERROR) {
-> +			u32 db_cnt = FIELD_GET(LCP_DB_ERR_COUNT_MASK, err_status);
-> +
-> +			edac_printk(KERN_CRIT, EDAC_LLCC,
-> +				    "LCP/SRP DDR DRAM Double-bit ECC error in bank%u: count=%u status=0x%08x\n",
-> +				    i, db_cnt, err_status);
-> +			edac_device_handle_ue(edac_dev_ctl, 0, i,
-> +					      "LCP/SRP DDR DRAM uncorrectable error");
-> +		}
-> +
-> +		if (intr_status & LCP_SB_ECC_ERROR) {
-> +			u32 sb_cnt = FIELD_GET(LCP_SB_ERR_COUNT_MASK, err_status);
-> +
-> +			edac_printk(KERN_WARNING, EDAC_LLCC,
-> +				    "LCP/SRP DDR DRAM Single-bit ECC error in bank%u: count=%u status=0x%08x\n",
-> +				    i, sb_cnt, err_status);
-> +			edac_device_handle_ce(edac_dev_ctl, 0, i,
-> +					      "LCP/SRP DDR DRAM correctable error");
-> +		}
-> +	}
-> +
-> +	if (irq_rc != IRQ_HANDLED)
-> +		return irq_rc;
-> +
-> +	clr_reg = reg->lcp_srp_interrupt_clear ?
-> +			reg->lcp_srp_interrupt_clear :
-> +			reg->lcp_srp_interrupt_status;
-> +
-> +	if (clr_reg) {
-> +		ret = regmap_write(drv->bcast_regmap, clr_reg,
-> +				   LCP_SB_ECC_ERROR | LCP_DB_ECC_ERROR);
-> +		if (ret)
-> +			edac_printk(KERN_ERR, EDAC_LLCC,
-> +				    "LCP/SRP interrupt clear failed: %d\n", ret);
-> +	}
-> +
-> +	if (reg->lcp_srp_ecc_error_cntr_clear) {
-> +		ret = regmap_write(drv->bcast_regmap,
-> +				   reg->lcp_srp_ecc_error_cntr_clear,
-> +				   DRP_TRP_CNT_CLEAR);
-> +		if (ret)
-> +			edac_printk(KERN_ERR, EDAC_LLCC,
-> +				    "LCP/SRP counter clear failed: %d\n", ret);
-> +	}
-> +
-> +	return irq_rc;
-> +}
-> +
->  static int qcom_llcc_edac_probe(struct platform_device *pdev)
->  {
->  	struct llcc_drv_data *llcc_driv_data = pdev->dev.platform_data;
-> @@ -372,6 +490,8 @@ static int qcom_llcc_edac_probe(struct platform_device *pdev)
->  			edac_op_state = EDAC_OPSTATE_INT;
->  			goto irq_done;
->  		}
-> +		dev_warn(dev, "failed to request LLCC ECC irq %d: %d, falling back to polling\n",
-> +			 ecc_irq, rc);
->  	}
->  
->  	/* Fall back to polling mode otherwise */
-> @@ -386,6 +506,33 @@ static int qcom_llcc_edac_probe(struct platform_device *pdev)
->  		return rc;
->  	}
->  
-> +	/*
-> +	 * Set up LCP/SRP DDR DRAM ECC after the EDAC device is published.
-> +	 * Skip hardware routing setup if firmware already configured IRQ
-> +	 * propagation (irq_configured); only request the IRQ handler.
-> +	 * Guard on a non-zero lcp_srp_interrupt_enable offset to confirm
-> +	 * this LLCC variant actually has an LCP/SRP block.
-> +	 */
-> +	if (llcc_driv_data->lcp_irq > 0 &&
-> +	    llcc_driv_data->edac_reg_offset->lcp_srp_interrupt_enable) {
-> +		if (!llcc_driv_data->ecc_irq_configured) {
-> +			rc = qcom_llcc_lcp_setup(llcc_driv_data,
-> +						 llcc_driv_data->bcast_regmap);
-> +			if (rc) {
-> +				dev_warn(dev, "LCP/SRP interrupt setup failed: %d\n", rc);
+Confused just like the AI :)
 
-> +				goto lcp_done;
-> +			}
-> +		}
-> +		rc = devm_request_irq(dev, llcc_driv_data->lcp_irq,
-> +				      llcc_lcp_ecc_irq_handler,
-> +				      0, "llcc_lcp_ecc", edev_ctl);
-> +		if (rc)
-> +			dev_warn(dev,
-> +				 "failed to request LCP ECC irq %d: %d, DDR DRAM ECC reporting disabled\n",
-> +				 llcc_driv_data->lcp_irq, rc);
-> +	}
-> +lcp_done:
-> +	rc = 0;
->  	platform_set_drvdata(pdev, edev_ctl);
->  
->  	return rc;
-> 
+The rest later.
 
+--=20
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
