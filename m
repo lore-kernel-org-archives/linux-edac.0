@@ -1,137 +1,216 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4950B37BE64;
-	Sat, 17 Oct 2026 16:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792254894; cv=none; b=crPlWhcVaRfPv/q7qYyRvLT0I7c5+s+C64mdePzv+SIh7KpFlM6LiEM1owSGwRiyrQJz99oFsZB3rsicIksP1xbqdein+j538bAfQNeTJtzIOubEeuVE8L7zStYU+Uw+zrkf3Q0c9GyiCNv4evbaLWgJd9XXfEpbYv5OoQH7j7c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792254894; c=relaxed/simple;
-	bh=+ZGylb3y7feP0pdp6zbcgqFSZsaKuHJG3gq4El7x5rA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y0B2OMzlDxOPP7IUrBoI0AnrhtYXowDczixZ+VTJXFSFo7w6+JsFWXB5EDDetaNuuY3w4JYnm8wFWzUVVnKsk55J9j8WHC82GGOGVZjbPErLvKYf9ovIQscA9Szb3TOw+kqMiGL5zglMgwRMKmkQzsmndZdTgoqpnEySrM2VXAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AYoCep99; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB513BAD9B
+	for <linux-edac@vger.kernel.org>; Sat, 17 Oct 2026 19:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792264584; cv=pass; b=Smqhpt02rf632vg1xqMEtYcWCpaS6r0u6anoOZOowAL9WSGWSsX12RfC6ZBRHfFHJiqS/zxLwsbAgIiNF65LyLm7ZLCY5le95+NgTzNtxU0Vo7lwsTdKG5U1DQAhLNrcBAn1BBoLiA+3oznR8s/Ggf/Zz2Eg7M67C/sbesYmE50=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792264584; c=relaxed/simple;
+	bh=Z4OyXcJagBnFQn/ViOZVUwTX8x9tggUpZX39gqflrPo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ghkOwsPbU4MoygOnEuSFb62tk0RAxhjWttATQh5Sufpp9SRhND/IBtz98E1ScbxDFcoeGtnB2ieCoollkEtOfPUktsFASiiG5Xs6VHFFjaPZbXKfMtFMzRUncNJMtvlio9dhdjsojngMjQWn2ELWiU0VTQEWslO7R6aWJvHS2qs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ABzC3x+e; arc=pass smtp.client-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AYoCep99"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B6251F000C5;
-	Sat, 17 Oct 2026 16:34:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792254893;
-	bh=Hh6UEvYqRhRZQkJlh69N8w4f1D/rdwQus7PrUPI2PbE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AYoCep99Jxdz05YBX3raQQtxCxsn23eZ6yJDkOQgIIVpAC4kd4WTUDeJLkw8yCkhi
-	 hYTHeQ+mI+D/tH9J4W0hac1t7/n9Dxin9GW+19MUa1wMYUzUxePPWQAmD7CiXTe9bI
-	 d5Ic2ok0lY5/1NW6bDFthyO6olAr2IaqGOsRvbvkQZ1QpT8R6wIYFbCs24ovAqZhDo
-	 TkEYsDniTOsrSaNtXo8BRYJ2MYwz0jJAHNg7RbxidrglL1PDqwZQznRjBJzfr6JLTA
-	 +TYSmxg0viwRUGEeXpCWUt09PK1BSqF3jRW/mnWY6zPgPFA/BNzMrr6rdzFkzwEnJQ
-	 KZd7NQaw5tPTQ==
-Date: Sat, 17 Oct 2026 18:34:49 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Faiyaz Mohammed <faiyaz.mohammed@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Conor Dooley <conor@kernel.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org
-Subject: Re: [PATCH 2/4] soc: qcom: llcc: add LCP/SRP DDR DRAM ECC register
- offsets
-Message-ID: <20261017-spiffy-shapeless-caiman-d658a6@quoll>
-References: <20261014-master-v1-0-aba3cfcfbac9@oss.qualcomm.com>
- <20261014-master-v1-2-aba3cfcfbac9@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ABzC3x+e"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-6cfed5dd083so652611eaf.1
+        for <linux-edac@vger.kernel.org>; Sat, 17 Oct 2026 12:16:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792264582; cv=none;
+        d=google.com; s=arc-20260327;
+        b=CwBAz4EZAJjJqo7yymRnjJp9ldpxWChJT5Y95x30/CYPi4MfN3lqmqhO7lA0B9wAVb
+         SDbL2vQLJJLKNdCMsBUNKhGD+X0hUOiEARnEU5KK6ZC1lOoff/2wk9um1LES4pegl9PK
+         Rss2T/D9m59BO10wjiHtdAll4VwZOo0PZThUgMJEfSGDVWnEH+MPkGA+H6sBJWFQm5Df
+         9HDpVYOIL7NttIw88qgvzwBpptZDpmqd8HIawXpm7DSYs4mAavpHnjmIVrni0UD35mIY
+         HkJcVoKjG0AgUNwlrIynr5uz0iiHXmi5vbBu+4sraf/XhqPwZrJ80y1aGUTphkxAuZrd
+         WKsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3kpX1qw8aI9g0XRNJfIyX0LLMiylk567EvCY0vBBCeU=;
+        fh=0VXQRj+GcQ3QGifZ/TPO08zNNo69IEJkDabH9j+6IXI=;
+        b=h0gfQZp2xeFTRlWLE/blvt3Vz35Qr5IJr/Qtdgb2tbailZ/jYI+EK4Kbwpx20khNlb
+         PdId+2luiktX9KAe0zgtBgrUmvFYMCGX47x0Ehpmjj1NQrIXroSOZzBAGmo3vlpCflzm
+         a/rS2vCS0Wb1UsfQ6WEtMj5zpiRE3OwENJyZRfwPIAG7ncYOwhVs3WxSk4qnmOQO3yP6
+         RdCKCrvTkcKoKJpRiAoV8PH+PVcKWiEE+LfC4wc3WFKteem2pRWngppcC3bnMLvgmixM
+         RKqTBdv3HAbxIya/ZPHldcwi+Xhq+gLmiJ2oU+IorrtF3O9tacUXAvNpdqjkiRJf+9Nl
+         aHbg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792264582; x=1792869382; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3kpX1qw8aI9g0XRNJfIyX0LLMiylk567EvCY0vBBCeU=;
+        b=ABzC3x+eqbR9370JWhcy+T35IkvABJwTI4joPbmTSu7XFYvG5o/9IkZlIZwYpDD9Ei
+         U1/HbNyEDc1xvAbClcNOLOU/m0sTG01fPTXr+Bo+az0/sWMECqQvYcINioieCFNpZM1E
+         2P1TppDcHBLVUdPfOweBsEf6mW/hwx44wXFZxy9lFMvxAvKTkQkXeww057yXhK2ETdd+
+         X/GCmboLnIaA/YXk/9kY9b/WvLyphOOkKrOSry/MtWCxDojcJ+5NxYDcb4QZRpBUofxt
+         IklrOF/FWd71zmPkP79swdjfepFXjAlsOKExtFYs2/f/1GuWf2wguRJXuJS2jUVMUSNv
+         /cMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792264582; x=1792869382;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3kpX1qw8aI9g0XRNJfIyX0LLMiylk567EvCY0vBBCeU=;
+        b=hD6XW+zr9GUEQNkBOXhC6jjBvKDdSy10peIbJgQCJn98xyUR8/vyDrtm/+/K+4UXyp
+         eitMiwdIDd0zSlFvmNZa3NbHLgoFVPceAEP6oKxMl/6Ag/e8kQWUzvX/99eX00ZI/zP+
+         s0EY7nIFjvIXblcYT6f0e92mL2BOxoiemcuz1Z3TUWT00vyji0Cbn1t9YcfZpU6VaAX3
+         +pbpyZ/9KTgd8DvoD3L3nIqFI4xBQR/H9NIGyjMkfrWO2DRtDEOnpfGqKgyaA3Vp7mya
+         Y0JmtjwUlYpCD8j6kQAPGVTO0AJRlc6cny6dDrJXP2bpep9kxjOvR1wZ17/i8Elv6G/H
+         c4fw==
+X-Forwarded-Encrypted: i=1; AKwUvByZdNJdCER8KPkDqAhephMf+KbkgxulcbvS4SlkrrYABq2vSAPLE4cB2Udq6Rz3Q0O1kmr9qZKqxMc8@vger.kernel.org
+X-Gm-Message-State: AFq9FYJlJczr3Q9TuFk5xiBwpPbFYV3GLd2Iq5kNGtVJYuKwgl0LIGg8
+	BSpwzDv/Af9AnT9AYTPLRJW6kEHsOnuqiO5RSykZZ3nok0Zl632YSzqp+fR3Vwf7A4eolULWrHR
+	26F11X89yognWZWOT4DWT/2lKf1yibr8=
+X-Gm-Gg: AYBFou1EWo/pXXdHtS3Efc8TwoMNiCnx0s9HLfsROpXFOPWvLszP/mKC1AeFEJS3m57
+	TUqeKF8vvyM1xS0r4i0AfaPwRywQgg9wiojEWaZnyLUWZHUKIIHGQfKOjmOAWEmqjEPPuaYjMMP
+	9hattn0fgYz50k5x2FUs5rgbp50FewTM8HxhzX7/IlMt5qtkEgHS7rMl+ZkdmvRsKKkuQ4TC8oK
+	FhWJbz7WBrnpi4nPg346KTmifAGDGbIknB0VVKal33F9ASf3AHSbQc3NbrWBM6Bf4LVHe7UoltL
+	j/w2K4u8QZ0jUylsE3V/mulTPOFYgbSOYYCenAxooLCbQDLops0NXQQ=
+X-Received: by 2002:a05:6820:208d:b0:702:96cf:69ae with SMTP id
+ 006d021491bc7-70357f996a6mr2222268eaf.73.1792264581908; Sat, 17 Oct 2026
+ 12:16:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261014-master-v1-2-aba3cfcfbac9@oss.qualcomm.com>
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260807055952.GIanV0WDlB9-eP9VdV@fat_crate.local> <CAG4KcRJcpLREkbmOEEw7nGD+_PNOd+fWHkODqfWo1M8hmxA_Bg@mail.gmail.com>
+ <20261017042204.GAatL37AhysV7BZBod@fat_crate.local>
+In-Reply-To: <20261017042204.GAatL37AhysV7BZBod@fat_crate.local>
+From: Shiju Jose <shijujose2008@gmail.com>
+Date: Sat, 17 Oct 2026 20:16:09 +0100
+X-Gm-Features: AclHuK9ltyMIoKi-tNdGjK3uKrWCnIWl5RP71EvNz5XG4osLNZC_K9K1LqvUxuM
+Message-ID: <CAG4KcR+9mHBBOpAw=_kN5Smd+KNCA=5-Fd5nkFgVRi5XC7Yf-A@mail.gmail.com>
+Subject: Re: [PATCH v23 0/2] ACPI: Add support for ACPI RAS2 feature table
+To: Borislav Petkov <bp@alien8.de>
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org, 
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	tony.luck@intel.com, lenb@kernel.org, Yazen.Ghannam@amd.com, 
+	mchehab@kernel.org, ashok.raj@oss.qualcomm.com, jic23@kernel.org, 
+	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com, 
+	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, naoya.horiguchi@nec.com, 
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com, 
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com, 
+	gthelen@google.com, wschwartz@amperecomputing.com, wbs@os.amperecomputing.com, 
+	nifan.cxl@gmail.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com, 
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com, 
+	wanghuiqiang@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 14, 2026 at 09:26:17PM +0530, Faiyaz Mohammed wrote:
-> Add LCP/SRP ECC register offsets to struct llcc_edac_reg_offset and
-> create llcc_lcp_srp_edac_reg_offset for QCM2390, leaving the shared
-> llcc_v2_1_edac_reg_offset table unchanged. Switch shikra_cfg to the
-> new table so other platforms with the same block can reuse it.
-> 
-> Add lcp_irq to struct llcc_drv_data and retrieve the optional second
-> interrupt in qcom_llcc_probe(), propagating non-absence errors so the
-> driver defers correctly.
-> 
-> Signed-off-by: Faiyaz Mohammed <faiyaz.mohammed@oss.qualcomm.com>
-> ---
->  drivers/soc/qcom/llcc-qcom.c       | 45 ++++++++++++++++++++++++++++++++++++--
->  include/linux/soc/qcom/llcc-qcom.h | 13 +++++++++++
->  2 files changed, 56 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/soc/qcom/llcc-qcom.c b/drivers/soc/qcom/llcc-qcom.c
-> index d7a42a8040a1..39e0da14b36d 100644
-> --- a/drivers/soc/qcom/llcc-qcom.c
-> +++ b/drivers/soc/qcom/llcc-qcom.c
-> @@ -4509,6 +4509,41 @@ static const struct llcc_edac_reg_offset llcc_v2_1_edac_reg_offset = {
->  	.drp_ecc_db_err_syn0 = 0x52120,
->  };
->  
-> +static const struct llcc_edac_reg_offset llcc_lcp_srp_edac_reg_offset = {
-> +	.trp_ecc_error_status0 = 0x20344,
-> +	.trp_ecc_error_status1 = 0x20348,
-> +	.trp_ecc_sb_err_syn0 = 0x2034c,
-> +	.trp_ecc_db_err_syn0 = 0x20370,
-> +	.trp_ecc_error_cntr_clear = 0x20440,
-> +	.trp_interrupt_0_status = 0x20480,
-> +	.trp_interrupt_0_clear = 0x20484,
-> +	.trp_interrupt_0_enable = 0x20488,
-> +
-> +	/* LLCC Common registers */
-> +	.cmn_status0 = 0x3400c,
-> +	.cmn_interrupt_0_enable = 0x3401c,
-> +	.cmn_interrupt_1_enable = 0x3402c,
-> +	.cmn_interrupt_2_enable = 0x3403c,
-> +
-> +	/* LLCC DRP registers */
-> +	.drp_ecc_error_cfg = 0x50000,
-> +	.drp_ecc_error_cntr_clear = 0x50004,
-> +	.drp_interrupt_status = 0x50020,
-> +	.drp_interrupt_clear = 0x50028,
-> +	.drp_interrupt_enable = 0x5002c,
-> +	.drp_ecc_error_status0 = 0x520f4,
-> +	.drp_ecc_error_status1 = 0x520f8,
-> +	.drp_ecc_sb_err_syn0 = 0x520fc,
-> +	.drp_ecc_db_err_syn0 = 0x52120,
-> +
-> +	/* LCP/SRP DDR DRAM ECC registers */
-> +	.lcp_srp_ecc_error_cntr_clear = 0x59004,
-> +	.lcp_srp_ecc_error_status1 = 0x59010,
-> +	.lcp_srp_interrupt_status = 0x59070,
-> +	.lcp_srp_interrupt_clear = 0x59074,
-> +	.lcp_srp_interrupt_enable = 0x59078,
-> +};
-> +
->  static const struct llcc_edac_reg_offset llcc_v6_edac_reg_offset = {
->  	.trp_ecc_error_status0 = 0x47448,
->  	.trp_ecc_error_status1 = 0x47450,
-> @@ -4767,7 +4802,7 @@ static const struct qcom_llcc_config shikra_cfg[] = {
->  		.sct_data	= shikra_data,
->  		.size		= ARRAY_SIZE(shikra_data),
->  		.reg_offset	= llcc_v2_1_reg_offset,
-> -		.edac_reg_offset = &llcc_v2_1_edac_reg_offset,
-> +		.edac_reg_offset = &llcc_lcp_srp_edac_reg_offset,
->  		.irq_configured = true,
->  	},
->  };
-> @@ -5798,7 +5833,13 @@ static int qcom_llcc_probe(struct platform_device *pdev)
->  	if (drv_data->ecc_irq < 0 && drv_data->ecc_irq != -ENXIO)
->  		return dev_err_probe(&pdev->dev, drv_data->ecc_irq,
->  				     "failed to get IRQ resource\n");
-> -
-> +	if (cfg->edac_reg_offset && cfg->edac_reg_offset->lcp_srp_interrupt_enable) {
-> +		drv_data->lcp_irq = platform_get_irq_optional(pdev, 1);
+On Sat, Oct 17, 2026 at 5:22=E2=80=AFAM Borislav Petkov <bp@alien8.de> wrot=
+e:
+>
+> On Sun, Aug 09, 2026 at 05:21:35PM +0100, Shiju Jose wrote:
+> > > +static int ras2_update_patrol_scrub_params_cache(struct ras2_mem_ctx=
+ *ras2_ctx)
+> > > +{
+> > [ ... ]
+> > > + if  (ioread32(&ps_sm->params.flags) & RAS2_PS_FLAG_SCRUB_RUNNING) {
+> > > + ras2_ctx->od_scrub =3D true;
+> > > + ras2_ctx->base =3D ioread64(&ps_sm->params.actl_addr_range[0]);
+> > > + ras2_ctx->size =3D ioread64(&ps_sm->params.actl_addr_range[1]);
+> > > + } else {
+> > > + ras2_ctx->od_scrub =3D false;
+> > > + }
+> > > +
+> > > + return 0;
+> > > +}
+> > Does this logic misidentify a pre-existing background scrub as a demand
+> > scrub?
+> > If the platform firmware has background scrubbing enabled prior to driv=
+er
+> > initialization,
+>
+> First of all, when and how can that even happen?
+>
+> How can it happen that the platform has enabled background scrubbing befo=
+re
+> the driver loads?
+Firmware can start the background scrubbing before the driver loads.
 
-Why do you exactly require interrupt-names?
+>
+> And if that behind the driver enabling is legitimate, the driver should l=
+oad
+> and ask the hw what scrubbing is currently enabled and mirror that in its
+> internal structures tracking those settings, right?
+Yes .This is done in the ras2_mem_drv_probe() by calling
+ret =3D ras2_update_patrol_scrub_params_cache(ras2_ctx);
 
-Best regards,
-Krzysztof
+>
+> I haven't looked in detail yet so perhaps you're doing it already. I need=
+ to
+> clean up that code first, though, because it is very hard to read.
+>
+> > ioread32() will read RAS2_PS_FLAG_SCRUB_RUNNING. Because
+> > the driver's internal bg_scrub state is initialized to false, this assu=
+mes
+> > the active scrub is a demand scrub and sets od_scrub =3D true.
+> > Would this prevent the user from controlling hardware memory scrubbing =
+via
+> > sysfs, since writing to enable_background might return -EBUSY and
+> > writing to enable_demand might return -EOPNOTSUPP?
+> >
+> > Shiju:  This is not a valid comment.
+> > Please find a description from the spec.ACPI spec 6.5 RAS2
+> > Table 5.87: Parameter Block Structure for PATROL_SCRUB:
+> > Flags (OUTPUT) : The platform returns this value in response to
+> > GET_PATROL_PARAMETERS:
+> > Bit [0]: Will be set if memory scrubber is already running for address
+> > range specified in =E2=80=9CActual Address
+>
+> Which memory scrubber? The background one?
+Hi Boris,
 
+demand scrubbing. Please see the reply below for more details.
+
+>
+> > Range=E2=80=9D.Bits [31:1]: Reserved, must be zero.
+> >
+> >  ioread32(&ps_sm->params.flags) & RAS2_PS_FLAG_SCRUB_RUNNING
+> >  ACPI spec 6.5 RAS2 Table 5.87: Parameter Block Structure for PATROL_SC=
+RUB
+> >   Field: Flags (OUTPUT): bit[0] - returns status for demand scrub only,
+>
+> You lost me here. Where is that stated in that table 5.87?
+>
+> Confused just like the AI :)
+Please see three fields in the ACPI spec 6.5 RAS2 "Table 5.87:
+Parameter Block Structure for PATROL_SCRUB"
+
+"Requested Range(INPUT)"  & "Actual Address Range (OUT-PUT)"  -
+(Description) "If OSPM requests default scrubbing through Bit 0 of
+the Configure patrol scrubbing (background scrubbing) field, then
+"this field must be ignored" by the platform".
+
+Note: This states that both "address range" fields are valid for
+demand scrubbing only.
+
+Flags (OUTPUT) - (Description)The platform returns this value in
+response to GET_PATROL_PARAMETERS:
+Bit [0]: Will be set if memory scrubber is already running for address
+range specified in =E2=80=9CActual Address
+Range=E2=80=9D.
+Note:  This states that  Bit [0]: of the "Flags" field is valid for
+demand scrubbing only.
+
+Thanks,
+Shiju
+>
+> The rest later.
+>
+> --
+> Regards/Gruss,
+>     Boris.
+>
+> https://people.kernel.org/tglx/notes-about-netiquette
