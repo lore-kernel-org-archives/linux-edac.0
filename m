@@ -1,292 +1,158 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012020.outbound.protection.outlook.com [52.101.53.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8422E2663
-	for <linux-edac@vger.kernel.org>; Sun, 18 Oct 2026 14:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792334755; cv=none; b=jMBhPkj90r6kLInjUrQF3gyIaOIbfcI4CUqpL7Ri5O9w2WzWshrCRPBvjFge27tir/OBmSi3PHxctBh16zvXAI0H5Rt1Lozsqv0c1Yk8Xvx9WwsIXl9hkm8YKZm/HRiYyrhYXty/JauoxmhmkwXMU01ArMulvbKbHIc+OpFBopI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792334755; c=relaxed/simple;
-	bh=v8DScQa1iwxgqKw5XjPDjOk1xceI0OuFRljZc+m4qx8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q/jvNWAu1swZg/KUNlz15XYLy2qj83i9BlM0iKXvGWi0Fy9hAW0NO4IytuUfrxm01bjMURhBdy2Ml0rkv6yKoYKBAD+AskySRRZ++eXSLtjkyD0ZhRwtMfUI3t4FtlHMffQrqNXSlNlAGFIJU/e/Xwj2YzNUg0u0oexWG9Tujys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=bryBJDYA; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A3943B4BF;
+	Sun, 18 Oct 2026 22:34:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792362889; cv=fail; b=Aok/ugcGtqdqMkvT7Y5A3fcaXr6cFSjFi+lD3aCJ2vRQz4dw1/pbzr5poBPMaDTpY6uQIvQv4AEEKQ6EDd/gqJ14kgnlRlzHEe5OeGGbwZ5XZOeX/Ktg0UJKXpEKuwns7P266boRSPu3cBMV9fhlI3EuGCHbvJLl8rqdzObM27g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792362889; c=relaxed/simple;
+	bh=3hpIDkD8DoO4ulR9InHd+sRHEqFqM67YDMlnoLRO9MM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=CyzN2KIEMFTSMHXP5jA0wZnewcZeCqUYGZx9LZCK8o7SnvheOQ3oUTpk15efzVn5tEq+i4c9o02DrtPALQvWPKFsaek6LAHMGc7qEIOhZbAmiTk4GrNyCBn9vWROIEOEgAVbUKeaZxgBKBC4Js+xlIDDmkKd421KtpDuWciJ32c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=fS1qLaAg; arc=fail smtp.client-ip=52.101.53.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="bryBJDYA"
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5e519c39196so385476e0c.3
-        for <linux-edac@vger.kernel.org>; Sun, 18 Oct 2026 07:45:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1792334753; x=1792939553; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vFOddHII9QlG0Yo7oJ9Fyf6IJ70eJag/SjOu44LBvf8=;
-        b=bryBJDYAON9+upSxJC+6akyJnXPLqzamw7CVk1ivR4q+Ws9Qi7Mv1+sd17RS11/FGL
-         627lXCve16TaHFOav+63LUOOEtWTrNYHUiBscup44Drw4mYH7te1A4Vn9AV9moza92iF
-         r8dq1NQjZg492EezgSKPDbOEBEdJ7jBUZgBB86D3sw5AF0EozboETb4Q8pV5OuHlIRpV
-         MQKtcP2f2z3EEhoqv5H9EgUgHFAXc2vgVW46NkieGI9pte1q9eT3dXUYhc+PtbB2clsx
-         MLSTqEAPNso9tjqIgl0LG/LBRZxhMZbS1ft5o4iXX7frgNG/xqa/0hUjMdiFextpfr4X
-         3DwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792334753; x=1792939553;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=vFOddHII9QlG0Yo7oJ9Fyf6IJ70eJag/SjOu44LBvf8=;
-        b=RLCuH//8TNq/JEj4VahLF+5L3BKbTNW0jGCJUQ9odvFGE8sdTRgnng51frB8CIYK61
-         y2Bzbi2uEXsWXlrhwprl7GCmRcizSZGi5eX91mZEzPF1fMdRa2kCeOeON77rOIOWsUyo
-         5g+qD310+lKdsyEN7OtJ5AhHJGrqCnr7WLWRW12ofB8AmoXz3DRINl/wZV/ns63IeFkQ
-         lYFa6enwEqSjB2/sM927HDDXzOiZ1WWYAWmFlz6cpxdpbvgiNQ5j2nI/0qsU8dxmhcyW
-         iwAbVEkQvlwCdxhIljE8WQRhMccMG8Oo+qtW6KQhohaulJKom5mR2SmC/bPvKwo6t6Pj
-         qWSw==
-X-Forwarded-Encrypted: i=1; AKwUvBy1MmjPOe4Osl9juQAa8evuVOZN6NOhgLBSg9QbNbV3coSGahpDAe8uozvbRq9fuK+5plae1wOz9luR@vger.kernel.org
-X-Gm-Message-State: AFq9FYLK4FiglOtqoVcrVe73gsrW60SUjyTpFzxQMjf/5XKLyOcVrVO1
-	jA/gESH/jxud5pE3FK7TEt4aNsLF4HZKbkUgh3svlAo28VytM4ypkutxzB8aBZcwsbY=
-X-Gm-Gg: AYBFou1ZY+byUP6ksFJ0knuswuesExeIYfXdqZ3cnOezkUZXhTYaRYo+GHU7Y/reFsO
-	vqY6m4k5Pzjd+YbmWCb/+IpS2Ao/3GXYdvyGI6hhy6lPYGQYM/m5RdEH2F9KJ1nlpSrEThbXd13
-	+EUQ1ouA0Im07Me5+HKhwBrHlqpWK2ribl7rKyzEoBwjqZiHsgEWcFzAzKfKp10zQw5kN3ESHtd
-	J582PmYAJ3Y4TOwDIUljfzxygiddpK3KsDFKSvQJr88JQ/jMIdxrAOoZTdFBVT3T7RUpKWpbmJ8
-	raDcRIef3l10LyN/DmPkM36LiDK5b+QUIta8eGNzw3JVAvDXr623PNlT1Teo+Bilfaxf2UjH6PW
-	U7lqNi8h8szC6zVuICz2furpDUSDG10d6XUOnmbaERpA3i7ql7MBFl8WCMubAZOnwBlq4Adaybh
-	wAlJxSvzyj0Y3ORGmw1/+9olBmm6CFVyc8ayJL6xQ7jzsjz57cYe+DxAxLQbkwcUVgSAgc53GUd
-	WuZv8+WP6RzO2tiTJdmLaWa+CqKMdxXzqorpEewaQkrzNkLvH9xuDnBZJdsJyxwHGhAy7p7LP8=
-X-Received: by 2002:a05:6122:548:b0:5ea:c6c1:8dd4 with SMTP id 71dfb90a1353d-5eac6c19257mr145098e0c.5.1792334752976;
-        Sun, 18 Oct 2026 07:45:52 -0700 (PDT)
-Received: from google.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eaca7cc59asm244808e0c.5.2026.10.18.07.45.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 07:45:52 -0700 (PDT)
-Date: Sun, 18 Oct 2026 10:45:51 -0400
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Tim Chen <tim.c.chen@linux.intel.com>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, kees@kernel.org,
-	rppt@kernel.org, juri.lelli@redhat.com, nik.borisov@suse.com,
-	tglx@kernel.org, vschneid@redhat.com, kprateek.nayak@amd.com,
-	vincent.guittot@linaro.org, bp@alien8.de, thorsten.blum@linux.dev,
-	cgroups@vger.kernel.org, tony.luck@intel.com, david@kernel.org,
-	mingo@redhat.com, akpm@linux-foundation.org, linux-mm@kvack.org,
-	seanjc@google.com, ljs@kernel.org, zhangguopeng@kylinos.cn,
-	dietmar.eggemann@arm.com, mhocko@suse.com, vinicius.gomes@intel.com,
-	tj@kernel.org, vbabka@kernel.org, linux-kernel@vger.kernel.org,
-	peterz@infradead.org, surenb@google.com, hpa@zytor.com,
-	x86@kernel.org, dmatlack@google.com, kexec@lists.infradead.org,
-	pratyush@kernel.org, dave.hansen@linux.intel.com,
-	rostedt@goodmis.org, gmonaco@redhat.com, jgross@suse.com,
-	mgorman@suse.de, graf@amazon.com, linux-edac@vger.kernel.org,
-	liam@infradead.org, ridong.chen@linux.dev, longman@redhat.com,
-	bsegall@google.com
-Subject: Re: [PATCH v1 7/8] sched/topology: Avoid redundant percpu
- allocations and bitmap walks in build_sched_domains()
-Message-ID: <atTbn7WhHtK52vCi@google.com>
-References: <20261015153331.1872641-1-pasha.tatashin@soleen.com>
- <20261015153331.1872641-8-pasha.tatashin@soleen.com>
- <1ec1aab8eabdad173ddef7483a940bfa3f6c3238.camel@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="fS1qLaAg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZdzRz/IBhsFn4oy1QFowaVJFrBxd/3ll92mvzAMLFTw5Oowd8W9sU651H4taYsmKSZs1mFXKEiI3ecREkNRXa9NcJZkX4SlqDPG6ZISjp6OTB6yKWB2FdRQBn4QReyKCSODtcw8OLnbOPELw5VpBmXfoZhPmI1CCf310xFDzGQUP4NHIiFYRQOvQwyPlhqWq5nIXpFKY0nK7m5k/1ADeCCPBAQZz8Dtt+OrI5nbyGzWPNLX14fTVK4yGg0Tpht19pqkl0s9MW0A+OORH1yXLRYRBEJnsDylSqSv8K+H3tD4dF17F4e+i8zbWXelrqipIp9OzcdH6QfGpxTTdODk+BA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4a4j2pNPnSXRX9dHxZuvvNjzRnRppdlNSC1SH42xuI8=;
+ b=prrnKY0zDitWerHTVqwW786rm4oZ/1ZSPRbqw8FGrBjYCE7nQcg4Gn4Qo4tUdKv61ah7f8N75DxHZvt1zzs4OY8BxYR/p0x+0kjY2tlWDbrCDEN3OXp8RBUystCr5kVXpdR8IZsW92mHiwvrQuMNVXagKs1K7G0b7Nf0SmTcRlWUngd4wdj00JPuaR9DN5SaIIuW2jN1o4Z2vcwgRe3Apl6FFMoThsz2W7zEq5/raTogFqzOncWbWgLMRMVBYmvCj9sBSfq4P1vwOQB5X1kwYccpBYSrwjTp3romKIhKdX6lavjKdA/YycNfhUAPl/PT4Ov0spmLu6SryohC+Gl93Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4a4j2pNPnSXRX9dHxZuvvNjzRnRppdlNSC1SH42xuI8=;
+ b=fS1qLaAgR7DE3gzU+NcnDFMRK34Zr3Bn2w8CEhYkkOwOGkzLJqRfV1FgHUOxEynCUgW+7m+iSXG1t/YfO8ITkcYRi5oppSSSMkmgmsr+UFtxZeF7aGAxqyVXrWTOQugw70NnEpEkO2/pnX02ZNMOgUoTBYEYnCVLVjV6rbiFX2M=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6374.namprd12.prod.outlook.com (2603:10b6:8:a3::18) by
+ PH0PR12MB8776.namprd12.prod.outlook.com (2603:10b6:510:26f::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Sun, 18 Oct
+ 2026 22:34:43 +0000
+Received: from DM4PR12MB6374.namprd12.prod.outlook.com
+ ([fe80::af35:a7a6:6ca:7fcf]) by DM4PR12MB6374.namprd12.prod.outlook.com
+ ([fe80::af35:a7a6:6ca:7fcf%5]) with mapi id 15.21.0522.017; Sun, 18 Oct 2026
+ 22:34:43 +0000
+Date: Sun, 18 Oct 2026 18:34:31 -0400
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Guixiong Wei <weiguixiong@bytedance.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Muralidhara M K <muralidhara.mk@amd.com>,
+	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] EDAC/mce_amd: Add missing long names for SMCA bank types
+Message-ID: <20261018223431.GA3236@yaz-khff2.amd.com>
+References: <20261009020447.90758-2-weiguixiong@bytedance.com>
+ <20261012140330.GC15198@yaz-khff2.amd.com>
+ <20261017195145.GAatPR0dQVZGEMHglh@fat_crate.local>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261017195145.GAatPR0dQVZGEMHglh@fat_crate.local>
+X-ClientProxiedBy: BN9PR03CA0760.namprd03.prod.outlook.com
+ (2603:10b6:408:13a::15) To DM4PR12MB6374.namprd12.prod.outlook.com
+ (2603:10b6:8:a3::18)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1ec1aab8eabdad173ddef7483a940bfa3f6c3238.camel@linux.intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|PH0PR12MB8776:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad943df3-7b20-4c69-4916-08df2d680114
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|11063799006|4143699003|56012099006|10067099003|22082099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	N4bE2rM0OL+Q9JhzrGg+9LJcFUp7BKS0QYSNKXvywQsmu2LGOJyC/LnB35IG2luEpb731RZQL0RrOpfGFC+WLdYqBdWj+onLvpKDVUhjVAHUcCvsu1Zvm0CjoJP01nZ4Bh4F8yltx9JGUDj2SJMHTzhL66YUrf+kOq7QVvG9uWDu0QsjGhEiYVpqZtQqIxE5F1E45BZIX5c+esrPPPhDC+6PPV6jriV6LIY44O9UMkcTStk34TfE+6Z/ANBBqBwmlTzv0D50Jyj/kkt8iILi3bWImRXVSEUlY0AbzixFYiXd77UDPaSBS5uQdDRWcFoOJ7IOD/h4FxRZHXoX2YBlBYtme9EDt7oN/5naLmKZ4P1dc6FJyHifEFG0HMK5OBdxWGHF28PCPCDlcidM8f9HfcJdrvthHUnm9K93AsQQDkUswC4vS2OIK7B9cM5LenQ3AR2n7jxQ73CZi8lro9Ti3yjYNBvTBVC+zGeeSkwonqEI9a/zj/1CPsXshRJ8S7AxZzp5/1CnwpZbYLLmdG+IMSanUvD9BeEI5UzEcykIhINPmsJc1lrdfvRQxJ5ra5mxHQpYa3L16FNZgrUVAGWVqKbAFuZBIV+umcxE4vxbHP97yxDzT5g70YnFKBgWKuG30iIvQ0JIcbvMUEmhhn8U25Mk8ZcywmnU7roiS/Z6jn4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(11063799006)(4143699003)(56012099006)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?4uePBsuLb9TkB9DsuRg7KVAPGwsKKyybLwCoL+ONXESA/3HXD8tEFZnGH1/V?=
+ =?us-ascii?Q?+dFp3WrPzgIxoGIvb2rEbg+70c58NEW9ugMyzPQi8UdaY2Tc8dsco7C2zYpW?=
+ =?us-ascii?Q?DzZ8ZNikwCRn1ihvIOb0uSrcUwo5Gtrf4XFEINEYW/pyxT5puI9PIQdzdBuq?=
+ =?us-ascii?Q?Wuu5YcfMe/os9xTtSB1auknlOt/q+cSX4+j+s3STjK4MvJ0alfLXZP+sTEU3?=
+ =?us-ascii?Q?YbCGTQRiZXJNa/HPmX49hMGz8kz2TPKiMhf2LGfN+Xdz6sybcchwv9Ro8Njx?=
+ =?us-ascii?Q?CmVEka2WUHwVcR/zWcxQUAXjv9kY0JLUr+RO530MrGpk+/H5hO2fbXmeh8eY?=
+ =?us-ascii?Q?rq3QMnii9lm9mmQEawmScURcL6K3QHqs64ZB2kG+/gBn7jQ/iYRDl0+QPHxP?=
+ =?us-ascii?Q?QqBBkotzXm+pdzzOszD5pZmj5fKkYA+/xpE6zGXl9zof1/Pj1sidWu/Yp7eJ?=
+ =?us-ascii?Q?TlsXdrY7FDCJXT8ncILxlC2zQO9ok7Tld7JI1hdsv8B0ELLkuKSHmjHPjbyN?=
+ =?us-ascii?Q?6NF3KkPT3WKbTZi1BTA+qVfOwrMRzU0z+fMCzdigPonWE/dSc5DrH7becACq?=
+ =?us-ascii?Q?A0Fde0/nYGfAINgwlgaxU1oA6+AMUkSxRLKBFS/CfBM5HWEJsfsDkkfH/WpX?=
+ =?us-ascii?Q?mhaGaw7l27+CG9JSYL0TksCbnul+He1R8nohc59A2KULoB1drGCrEyi49jnx?=
+ =?us-ascii?Q?owYqloKxEUr3P9dBhiGLOGuTMZRmw3nSpESSBJTHX/NKBlwjIF4R5G7PbXfy?=
+ =?us-ascii?Q?bT2IffWY3NGmACSNcLgOFY/6zu//KD9bWPeOvnLjhypay6lZ9orILpQTIogq?=
+ =?us-ascii?Q?Oxq3e2y1H6uAJ+V5paZVsXM5fzzSoDGE1wdXSGGMIikZId7gF7DkJ5lkTFYj?=
+ =?us-ascii?Q?dXDax3+HlHJ/nC0NpXmXGx84drlBL0QgPn9kvyiy1eZOGBIHfqPe5MAknbuZ?=
+ =?us-ascii?Q?mXMHUA7KOHru/zpAx5k9LcHrwGhCU+v9KOAJByzxv99Cjdo75Q1BMmtaMlU1?=
+ =?us-ascii?Q?S3rnUnG/5F/veu46dBNxgKJV8kpQDBsLiKtoIsbTk/lacAXbuV91jYecI89H?=
+ =?us-ascii?Q?Hig0AHbgsYLUw3+TgSvxLklIyQ+OOsm13AzrUJdK79wxnhISUYy7v48TeYsJ?=
+ =?us-ascii?Q?X/ZGP71cXMXjUGUFrF1SNzbb031JP7hTsHxR0SBmFFgTuFbOPw2KktcS4M/l?=
+ =?us-ascii?Q?GANXzXzWulZrQyw8VT2QgAdyd9YISLLtqBFmWQTFurHSCVOONX4wgGIKrwgh?=
+ =?us-ascii?Q?Cy5hnTw+HkjjD7cVaC1nXFyhCezMZWtfuNnEh3xor7Ftsf2MsmuaXVC8LiIh?=
+ =?us-ascii?Q?K0XgcoXfOHznoDLUXmXB9GpNEjxRxRUMLtAdUkB/Od0glSFwTP6KS7xkl4p/?=
+ =?us-ascii?Q?ghiNjznxM/aCEUuwuhxs/qweQ55XTB2qbbOcoRxVbJZYSsF6Yo3nRD3zKefT?=
+ =?us-ascii?Q?NcGpgizXHblg7mCsqy7uPfXqmcM2JvUljD6QYeBxEoknzB4PUqiIj43uYnyI?=
+ =?us-ascii?Q?0iFroTuVY4wfYce+XZgZyTpaRyJmXkoZ/CN3mAzD8/GNeRlgyR3ZhBcbC7Dd?=
+ =?us-ascii?Q?keDmPKXugCbdbpDkeFL6h1R2KUB9GRnx+SzhitWUJ1hmQKDZgTVmm3cMndBG?=
+ =?us-ascii?Q?pvrzZAAA9H0pGjemCKF/lFXon3THfPjkmoKRTBLnyfWyKxO3x2+piEeV26+y?=
+ =?us-ascii?Q?ShPYflfWBwFlscSEyha9t97W2wkjPtK8YcbQuxvf9yYmUIXJ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad943df3-7b20-4c69-4916-08df2d680114
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2026 22:34:43.0061
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ivJ2nItBCGsA0zw4j9KBVvmB+3CSZJ/W79NaM2vzbPBLZbHLGv/DOCxE1fIBTe0w9CVbQ07QRyWf0e+XHY4OWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8776
 
-On 10-15 16:17, Tim Chen wrote:
-> On Thu, 2026-10-15 at 11:33 -0400, Pasha Tatashin wrote:
-> > During CPU hotplug, build_sched_domains() is invoked on every CPU
-> > activation and deactivation. Profiling build_sched_domains() on a
-> > 480-CPU Intel Xeon 6985P-C and a 512-CPU AMD EPYC 9B45 shows several
-> > sources of avoidable O(N^2) and O(N) work per step:
-> > 
-> > 1. build_sched_groups() and build_overlap_sched_groups() iterate over
-> >    every bit of sched_domain_span(sd) via for_each_cpu_wrap(i, span, cpu)
-> >    and check cpumask_test_cpu(i, covered) one CPU at a time, even after
-> >    entire child groups (e.g., 120-CPU NUMA nodes) have been added to
-> >    covered. Instead, track the remaining uncovered CPUs
-> >    (cpumask_copy(uncovered, span)), clear each built group's span with
-> >    cpumask_andnot(), and advance directly to the next uncovered CPU.
-> > 
-> > 2. __visit_domain_allocation_hell() and __free_domain_allocs() allocate
-> >    and free 3 * nr_levels + 2 temporary per-CPU pointer arrays via
-> >    alloc_percpu() / free_percpu() on every domain rebuild. Reuse the
-> >    per-CPU pointer arrays across domain rebuilds under
-> >    sched_domains_mutex, clearing entries in __free_domain_allocs() and
-> >    only freeing the topology-level arrays when sched_domain_topology is
-> >    replaced in sched_init_numa() / sched_reset_numa().
+On Sat, Oct 17, 2026 at 12:51:45PM -0700, Borislav Petkov wrote:
+> On Mon, Oct 12, 2026 at 10:03:30AM -0400, Yazen Ghannam wrote:
+> > These were intentionaly left out as it as it seems users have been
+> > moving to user space decode tools.
 > 
-> sched_domains_mutex does not protect the free:
+> You're making the old mistake:
 > 
-> [snip]
+> a. a naked MCE record in dmesg, you have to open the PPRs and actually decode
+> it by hand. Or use a tool but most of the time, that tool is not updated with
+> the latest error definitions, and you need the exact machine info in order for
+> the tool to decode properly, yadda yadda...
 > 
-> >  #ifdef CONFIG_NUMA
-> > +static void __sdt_free_percpu(void)
-> > +{
-> > +	struct sched_domain_topology_level *tl;
-> > +
-> > +	for_each_sd_topology(tl) {
-> > +		struct sd_data *sdd = &tl->data;
-> > +
+> b. Get a fully decoded error string in dmesg.
 > 
-> sched_init_numa() and sched_reset_numa() are called from
-> sched_update_numa(), which runs from sched_cpu_activate() and
-> sched_cpu_deactivate() without sched_domains_mutex. The free is safe
-> because every domain builder holds at least cpus_read_lock(), and
-> sched_update_numa() runs under the hotplug write lock. 
-> 
-> Please fix the changelog and add lockdep_assert_cpus_held()
-> in __sdt_free_percpu(), so a future caller cannot break this without a warning.
-
-I will update the changelog to note that __sdt_free_percpu() is serialized 
-against domain rebuilds by the CPU hotplug lock, and add
-lockdep_assert_cpus_held() to __sdt_free_percpu().
-
-> > +		free_percpu(sdd->sd);
-> > +		sdd->sd = NULL;
-> > +		free_percpu(sdd->sg);
-> > +		sdd->sg = NULL;
-> > +		free_percpu(sdd->sgc);
-> > +		sdd->sgc = NULL;
-> > +	}
-> > +}
-> > +
-> >  static int cpu_numa_flags(void)
-> >  {
-> >  	return SD_NUMA;
-> > @@ -2449,6 +2483,7 @@ void sched_init_numa(int offline_node)
-> >  	/*
-> >  	 * Copy the default topology bits..
-> >  	 */
-> > +	__sdt_free_percpu();
-> >  	for (i = 0; sched_domain_topology[i].mask; i++)
-> >  		tl[i] = sched_domain_topology[i];
-> >  
-> > @@ -2507,6 +2542,7 @@ static void sched_reset_numa(void)
-> >  		kfree(masks);
-> >  	}
-> >  	if (sched_domain_topology_saved) {
-> > +		__sdt_free_percpu();
-> >  		kfree(sched_domain_topology);
-> >  		sched_domain_topology = sched_domain_topology_saved;
-> >  		sched_domain_topology_saved = NULL;
-> > @@ -2708,17 +2744,23 @@ static int __sdt_alloc(const struct cpumask *cpu_map)
-> >  	for_each_sd_topology(tl) {
-> >  		struct sd_data *sdd = &tl->data;
-> >  
-> > -		sdd->sd = alloc_percpu(struct sched_domain *);
-> > -		if (!sdd->sd)
-> > -			return -ENOMEM;
-> > +		if (!sdd->sd) {
-> > +			sdd->sd = alloc_percpu(struct sched_domain *);
-> > +			if (!sdd->sd)
-> > +				return -ENOMEM;
-> > +		}
-> >  
-> > -		sdd->sg = alloc_percpu(struct sched_group *);
-> > -		if (!sdd->sg)
-> > -			return -ENOMEM;
-> > +		if (!sdd->sg) {
-> > +			sdd->sg = alloc_percpu(struct sched_group *);
-> > +			if (!sdd->sg)
-> > +				return -ENOMEM;
-> > +		}
-> >  
-> > -		sdd->sgc = alloc_percpu(struct sched_group_capacity *);
-> > -		if (!sdd->sgc)
-> > -			return -ENOMEM;
-> > +		if (!sdd->sgc) {
-> > +			sdd->sgc = alloc_percpu(struct sched_group_capacity *);
-> > +			if (!sdd->sgc)
-> > +				return -ENOMEM;
-> > +		}
-> >  
-> 
-> Keeping the arrays also means every slot must be NULL when a build 
-> starts. Patch 5 depends on that: get_group(), 
-> init_overlap_sched_group() and init_sched_domain_shared() treat a NULL 
-> slot as "not allocated yet", and the overlap fast path treats 
-> "sgc->ref > 0" as "set up in this build". An old pointer would pass
-> these checks and be used without a warning.
-> 
-> The rule holds today, but nothing says so. It also depends on builds
-> never filling a slot outside cpu_map, because the clearing loops only
-> visit cpu_map. Please write this down and check it, for example in
-> __sdt_alloc():
-> 
-> 
-> >  		for_each_cpu(j, cpu_map) {
-> >  			struct sched_domain *sd;
-> 
-> Maybe add
-> 
->         /*
->          * The slot arrays are kept between builds. Every slot for a CPU
->          * in cpu_map must be NULL here; lazy allocation treats NULL as
->          * "not allocated in this build". claim_allocations() and
->          * __sdt_free()/__sds_free() clear the slots, but only for
->          * cpu_map, so a build must not fill slots outside cpu_map.
->          */
->                 for_each_cpu(j, cpu_map) {
->                         struct sched_domain *sd;
-> 
->                         WARN_ON_ONCE(*per_cpu_ptr(sdd->sd, j) ||
->                                      *per_cpu_ptr(sdd->sg, j) ||
->                                      *per_cpu_ptr(sdd->sgc, j));
+> What is better: a) or b) ?
 > 
 
-Sure, I will add the comment, and WARN_ON_ONCE.
+"a" is better.
 
-> > @@ -2748,30 +2790,36 @@ static void __sdt_free(const struct cpumask *cpu_map)
-> >  
-> >  			if (sdd->sd) {
-> >  				sd = *per_cpu_ptr(sdd->sd, j);
-> > -				if (sd && (sd->flags & SD_NUMA))
-> > -					free_sched_groups(sd->groups, 0);
-> > -				kfree(*per_cpu_ptr(sdd->sd, j));
-> > +				if (sd) {
-> > +					if (sd->flags & SD_NUMA)
-> > +						free_sched_groups(sd->groups, 0);
-> > +					kfree(sd);
-> > +					*per_cpu_ptr(sdd->sd, j) = NULL;
-> > +				}
-> >  			}
-> >  
-> > -			if (sdd->sg)
-> > +			if (sdd->sg) {
-> >  				kfree(*per_cpu_ptr(sdd->sg, j));
-> > -			if (sdd->sgc)
-> > +				*per_cpu_ptr(sdd->sg, j) = NULL;
-> > +			}
-> > +			if (sdd->sgc) {
-> >  				kfree(*per_cpu_ptr(sdd->sgc, j));
-> > +				*per_cpu_ptr(sdd->sgc, j) = NULL;
-> > +			}
-> >  		}
-> > -		free_percpu(sdd->sd);
-> > -		sdd->sd = NULL;
-> > -		free_percpu(sdd->sg);
-> > -		sdd->sg = NULL;
-> > -		free_percpu(sdd->sgc);
-> > -		sdd->sgc = NULL;
-> >  	}
-> >  }
-> >  
-> > +static struct sched_domain_shared * __percpu *sched_domains_sds;
-> > +
-> >  static int __sds_alloc(struct s_data *d, const struct cpumask *cpu_map)
-> >  {
-> 
-> and maybe similar check 
-> 
->         for_each_cpu(j, cpu_map)
->                 WARN_ON_ONCE(*per_cpu_ptr(d->sds, j));
+The same "is not updated with the latest error definitions" applies to
+the kernel.
 
-I will add the comment and the WARN_ON_ONCE() checks in
-both __sdt_alloc() and __sds_alloc() for v2.
+And it's usually easier to update tools than patch the kernel (and also
+deal with backporting, etc.).
+
+In any case, this patch isn't about error descriptions. It's only about
+adding the names for some bank types.
+
+The bank types were added three years ago. AFAIK, the missing names
+haven't been an issue. So I'm curious if this patch is actually fixing a
+problem. If so, then that's fine.
 
 Thanks,
-Pasha
+Yazen
+
+
