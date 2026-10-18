@@ -1,73 +1,73 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4D74C6527
-	for <linux-edac@vger.kernel.org>; Sun, 18 Oct 2026 13:58:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DA34CB8B1
+	for <linux-edac@vger.kernel.org>; Sun, 18 Oct 2026 14:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792331908; cv=none; b=W++rnvjyVinvwUZ8ckIHy6HtLAa2jWVxXgy6ZCMPjlvrmJ7PqxWDaMNvQLchodoVXIn6zU3oTpIuVu3SjA/k3O/DM6vE9ctdn+hJiQEE7IpVoQeomMT6nW0GuBII0U5agQ3FgeujvY7w8F0X3nzIpbh84it/7r63GDeoqX2GXfo=
+	t=1792334126; cv=none; b=kFDpyqIppiBbYhwXufxlyw5tlXOPX825CxVmLjurLB2DWtKwrwgE6rs8Z0+MVCJvgAxeSt4wjG5keBo4nxJiZRBYkUM7XK8JG49A128ptSIKai4Z8oAMBs5ZTUPx2RDj02hMoeYyEDzX+nE0tSjidDAncndxN6v9PZCkXiJ1Wdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792331908; c=relaxed/simple;
-	bh=IwHavXJVs5lyTOCcn+pET+ahPXOw4vfy6zPC2ELLFdk=;
+	s=arc-20240116; t=1792334126; c=relaxed/simple;
+	bh=eO/WpemlM+38Ff3MAOTaRXXs7vCFrZAkH1w0zKId17o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cRTU9PffhW6tTVHQlKg3ojOxzsd6mmJF5TF6FIA4WIlVZZz/8YgXXT7CdI3O+1wF/9/Xno1O6umYM+NS+70cAk3wT2IP8BqrmdCrAYrxq/dkmhXkfWdxvhsC/UAWD4hHTOTSl61nHxV71kRrHTgij6QSvWBqBNb9H//3de34Kbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=PZMI4w2M; arc=none smtp.client-ip=209.85.221.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=f0AscP3XLgwbvqDSrXw8H5suIL8US/wfwGoxHS9/lh6kTf9BY2CzoElNoGu7FVMnscw/qjhsHp3teM308hp39Ngyglz2ymuFn7hSVIzMxy8k0wKUOopxWspYrslIbHPOvDffDAvfyzWBtn6NObnG+uJZGiIlYvoRL3tE/+fKCFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=aSWciVD4; arc=none smtp.client-ip=209.85.221.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="PZMI4w2M"
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5eab93a9862so162394e0c.0
-        for <linux-edac@vger.kernel.org>; Sun, 18 Oct 2026 06:58:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="aSWciVD4"
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5eaa1b5b84aso1822696e0c.0
+        for <linux-edac@vger.kernel.org>; Sun, 18 Oct 2026 07:35:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1792331906; x=1792936706; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1792334122; x=1792938922; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ayMWfGshO3UNwVYFCcSN2BNh422miW8cad5xrtcnUvg=;
-        b=PZMI4w2MQRZzUU9IeVIa38517zEmudcio4i+U+Rm7RBsKFrLnnc7KXRC2kSh3EA3bu
-         K+DCOu8JjEzqnsxTysqWYUb2KU22ydIvG/HeV2q31xT6HylIqghGEsypGHngXgdjm7Cz
-         SSx1awLt0YgW4pIXDtfIFCb79/sB8O+lfASlhuBb8/5kw8Zthi8BDbx0dATSOs42d2PP
-         bG7NeKlNyfvVrizMWXJiftjgsHiS3BOZqo+Ep4RWC/nqOkDveesjVCmz18fqvtD9f+Jb
-         vXLd1lmmXu2FuwpzWOgeDPlDu2EvO20KZ3glq82KNmw7yb8nqpyOdQZ9aC7mPiuT4gMy
-         SlIQ==
+        bh=briTVmjslxeUx0FiA5Z2sKc9bXZYk9yUUpEJ168UtpQ=;
+        b=aSWciVD4IV1q+u8Q3JHXyxEIQBwuvcBnjcZO+f/tCQcq6MvWVWVkYhNGa7xaa8eOXM
+         c5FHTgzAarXx+tmW6rxcpjNvpn63B8ZXq0WDD2HPLB1YHOlTvq0QCZ+tpm1rnSpY/TB8
+         fo+UT0ittGvD3X5GjSAh+6blce9s/s6KXI1xW6rebtERI7q4ymwj1Z2CgHZL+piBb9tq
+         C//btUX2M5Tj62Svbnq0sUNzyRqSSL8J9wcd3GZq/Mmt1rRDjHDF6V1+ip6hYMyLoKfK
+         DZr5CKQutHZ6x9BIyEo9DlfqbHqCcOCt2BT+PkII97QnzL3LcbLEb6rb65iKcQGs+E1M
+         nNDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792331906; x=1792936706;
+        d=1e100.net; s=20260707; t=1792334122; x=1792938922;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ayMWfGshO3UNwVYFCcSN2BNh422miW8cad5xrtcnUvg=;
-        b=20vV3fBxtQBtdS3gC89SJscRfK5r7H4FLwJTTb87tkyF2aKOfw65d+O/I99zsN0Y5W
-         CsGvRl94CigRCYAMCD+c/Gy+H26nimDRaaJss5CNwfVnNCUatDMJnD4pVHMpWykaoA8D
-         btikw+d31nUapJoX8xWBZo6UNhT5nSIhmtcsERRPp9fMVpWWJvojA7h3TcOtLXZRshA6
-         sfoA5dDNn25iHAztB0EMCQyqpAVPrkGHuyr7W/+d6x7ysoPzBlj9D4RIPgdVBl6T1ztM
-         b/n36q6/1C9KjWjSCCpIuORNMxm8KmWBSO7lz6pZjSDAhl/SAWZur8lXzZzhAv3ZaJWM
-         zF1g==
-X-Forwarded-Encrypted: i=1; AKwUvBzHoizhDyaNwOCwHk/62OcxPTPs8gmXQzHe6K3bCgpdXEnUyVy4QCdhD9KS8fyWALwJBaQb7QvlKKe7@vger.kernel.org
-X-Gm-Message-State: AFq9FYKnVZZLB+XI4+iqaqQIA/Ucov6Qht+TQsFfqfLMymkYyTqGGBrN
-	EM2JeuRqjXMBLRGWbGwcMjU76JOA/PSuaBp7aZdWgCc6bt2yeD+IHlK4RiQu5+xG5/0=
-X-Gm-Gg: AYBFou1HDxKCPFvc6lq8taFy5Ds5RkTLZ6hocqP1Uj2uGwPkkjBNwv4x0aq3X3x0Uct
-	OHiraCn+sZZmk1h89FTpEO3XRXbXz1utpjiAZKKfmscZV/TmN5wqNOkkxPA25FNVEjqLW12tjz7
-	D8spq24XYPQ8c5KC6twVWFV9FK6OP/D38LS4WDJBBpChfUgomnHODboGQdmOQfSS+iAT3+Ugzyl
-	TitaRn0woph3/PpR1CyaFRrKmAY2DALBssB0sU5STTjbgrEDKvTU+6zgo9fSr2BLtqseBpJYBNh
-	b3QWiqJyJXBsraQIRYvQP7SK6SgUsNKumvpaPpymnCCpI41lGMBYU4PqTOjbTHB31FlWW2ffbR4
-	MLCAs+YIOXe3TvAnIyK+mTRMl6k2CuWP4N1OY872SbgwOKZlMzO3RdXMDBqfubCWrpHqqRc0iKE
-	V4zZPYcVDIUMd1deI95/U01t9Ktqbfm0pWZeGyHpf7bcztCiBtCGU3lXZAQpoJmPLyMQawPq6Hw
-	B7R0wiuY3s4AVbUS3/ecCtfUSyYtP7lAu2HKLfEc8eaq314yUkP/Iwrpsc5/jOHAWjJ7cnDgVs=
-X-Received: by 2002:a05:6102:5809:b0:7a7:19aa:f0d4 with SMTP id ada2fe7eead31-7cc36af7150mr1191922137.33.1792331906038;
-        Sun, 18 Oct 2026 06:58:26 -0700 (PDT)
+        bh=briTVmjslxeUx0FiA5Z2sKc9bXZYk9yUUpEJ168UtpQ=;
+        b=VXACh3I4drBEGNKTqadNMIuPOH97pICYmzGr4vuI8I8feM0F2yqiTDJgjesD10CpFN
+         byT1qdbUpzuYtys7hvidQ8ZPoyeYYPw3EY3ccTR3EPFRJLlOcSL475O2qSJ+miAU/I0q
+         FJo8ve0fWasClBZyU6wb3FpaCIWlP4hFvXF5Joj4XFJOfiKiCiOx/o7bmch8wS9rWs/K
+         mz91OAy7mo2NCAGXNP0puNyAl77wIJ/jWPyheq42BuXs5JrPsB8yt323+PWAu0eykxO/
+         hivv10AvRlka9DLD+LfCQbLQWhQD2UBKLZZHfM4Xqc2bg0Ve7FyIfkov0u3ffoeAfO5p
+         MfUw==
+X-Forwarded-Encrypted: i=1; AKwUvByS3iGW/bOGvAWWH0PMP14thOM0Cb68fX8LftzSv4vb95QZFLNuPER4cBU0OF8hByQZ8xlIwtaRP6gk@vger.kernel.org
+X-Gm-Message-State: AFq9FYJHG0HGij4m+SVz972Mf2jOlWzAoCGzl9QwRTVDGMa86R7+w3cT
+	cXIheW49KRBa3STmSOjtZx8k8W8/aUyvvCc35RwIc3tgsezyZL92vkM1zafw0E3K+54=
+X-Gm-Gg: AYBFou1DcuuW+cMR+mAslI29MK+HH5LmBg3Zkl3t+7oxa1zVkXyO7gWDv9DNNTmOofF
+	Rjy10sz98SD9Blq4Ffcpp65S1mXetJg2OBJJIdDpYqLoJho6E7Z1hF8vhls4OOtDR9OCXGNEZTt
+	csSZ5HAMSsv3YMaVEpiKQfNo8+GeEpyqiaNvZ4ICYxh8gIb++J2cYaAxbI9w18dp9xSLuoLHO45
+	NkMaqf6dVTXOkd49y59FxZ+QefcTndNZ4Z062K6tLZVaI99euFVPRumRZNV7dkzzSsVjmnDJaj/
+	TbzJgg5OUt4bBAtp+AcCZwE2YeT6BAiMUAEM1AWGNUBAh5NfcO41K3ILC0FsHMoOeTx54BQ2/Ps
+	Dj0VU5zZzUnVbcI2SOqoUN9/OVtFSiBu4sJOb319e6UjYKpwfh6hnV41QKNrhRgEUGKVE/snx5m
+	Tlt/DeZE2DmuRQxAejG2qbF4yWsrzYPOrHRv8tXNfbxP0H7GwtahiPkRe0+1iOl6m5TAseRJGQw
+	yy17q2pX3Vd7gvKB0duTY5gbmo6YPcLHCLSXTNbH2IiFHoYpArhh3BcASALWrB9GbBe+U8BwuE=
+X-Received: by 2002:ac5:c64e:0:b0:5ea:ca0a:374d with SMTP id 71dfb90a1353d-5eaca0a3bd0mr42477e0c.17.1792334122018;
+        Sun, 18 Oct 2026 07:35:22 -0700 (PDT)
 Received: from google.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9908366328dsm6405154241.12.2026.10.18.06.58.24
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eac20d6aa6sm1663781e0c.7.2026.10.18.07.35.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 06:58:25 -0700 (PDT)
-Date: Sun, 18 Oct 2026 09:58:24 -0400
+        Sun, 18 Oct 2026 07:35:20 -0700 (PDT)
+Date: Sun, 18 Oct 2026 10:35:19 -0400
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: "Luck, Tony" <tony.luck@intel.com>
+To: K Prateek Nayak <kprateek.nayak@amd.com>
 Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, kees@kernel.org,
 	rppt@kernel.org, juri.lelli@redhat.com, nik.borisov@suse.com,
-	tglx@kernel.org, vschneid@redhat.com, kprateek.nayak@amd.com,
-	vincent.guittot@linaro.org, bp@alien8.de, thorsten.blum@linux.dev,
-	cgroups@vger.kernel.org, david@kernel.org, mingo@redhat.com,
+	tglx@kernel.org, vschneid@redhat.com, vincent.guittot@linaro.org,
+	bp@alien8.de, thorsten.blum@linux.dev, cgroups@vger.kernel.org,
+	tony.luck@intel.com, david@kernel.org, mingo@redhat.com,
 	akpm@linux-foundation.org, linux-mm@kvack.org, seanjc@google.com,
 	ljs@kernel.org, zhangguopeng@kylinos.cn, dietmar.eggemann@arm.com,
 	mhocko@suse.com, vinicius.gomes@intel.com, tj@kernel.org,
@@ -79,11 +79,12 @@ Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, kees@kernel.org,
 	gmonaco@redhat.com, jgross@suse.com, mgorman@suse.de,
 	graf@amazon.com, linux-edac@vger.kernel.org, liam@infradead.org,
 	ridong.chen@linux.dev, longman@redhat.com, bsegall@google.com
-Subject: Re: [PATCH v1 0/8] x86, sched, mm: Speed up CPU hotplug on large
- systems
-Message-ID: <atTQgM72TWSFZ0AX@google.com>
+Subject: Re: [PATCH v1 5/8] sched/topology: Avoid redundant O(N^3) group
+ capacity walks and unused allocations in build_sched_domains()
+Message-ID: <atTZJ6Q3vTjvDjgG@google.com>
 References: <20261015153331.1872641-1-pasha.tatashin@soleen.com>
- <atFGxagFo50iG6IS@agluck-desk3>
+ <20261015153331.1872641-6-pasha.tatashin@soleen.com>
+ <b618f528-ba35-4fb3-881b-e0ca12bc9558@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -92,47 +93,199 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <atFGxagFo50iG6IS@agluck-desk3>
+In-Reply-To: <b618f528-ba35-4fb3-881b-e0ca12bc9558@amd.com>
 
-On 10-15 14:33, Luck, Tony wrote:
-> On Thu, Oct 15, 2026 at 11:33:23AM -0400, Pasha Tatashin wrote:
-> >    - Patch 3 bounds cmci_rediscover() on CPU teardown. Currently,
-> >      cmci_rediscover() broadcasts an IPI via on_each_cpu() to all online
-> >      CPUs, serializing them on cmci_discover_lock while reading up to 32
-> >      MCA MSRs. Because any disabled MCA bank is shared at most with an
-> >      SMT sibling, L2 cluster peer, or die/package peer, probing a single
-> >      online topology peer via smp_call_function_single() (or returning
-> >      immediately when no shared banks were orphaned) reduces 479-CPU
-> >      offline time on Intel from 11.42 s to 9.63 s (-15.7%) and total time
-> >      from 22.50 s to 20.74 s (-7.8%).
+On 10-16 11:53, K Prateek Nayak wrote:
+> Hello Pasha,
 > 
-> I took this series for a spin on a timy 2-socket Icelake (36 cores, 72
-> threads per socket). My test was to just offfline/online the 72 logical
-> CPUs on socket 1, and I saw some good speedups:
+> On 10/15/2026 9:03 PM, Pasha Tatashin wrote:
+> > diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+> > index 0248227d983a7..02c38089a80c9 100644
+> > --- a/kernel/sched/topology.c
+> > +++ b/kernel/sched/topology.c
+> > @@ -1259,32 +1259,49 @@ build_group_from_child_sched_domain(struct sched_domain *sd, int cpu)
+> >         return sg;
+> >  }
+> > 
+> > -static void init_overlap_sched_group(struct sched_domain *sd,
+> > -                                    struct sched_group *sg)
+> > +static int init_overlap_sched_group(struct sched_domain *sd,
+> > +                                   struct sched_group *sg)
+> >  {
+> >         struct cpumask *mask = sched_domains_tmpmask2;
+> >         struct sd_data *sdd = sd->private;
+> > -       struct cpumask *sg_span;
+> > -       int cpu;
+> > +       struct cpumask *sg_span = sched_group_span(sg);
+> > +       struct sched_group_capacity *sgc;
+> > +       int cpu = cpumask_first(sg_span);
+> > +       struct sched_domain *first_sd = *per_cpu_ptr(sdd->sd, cpu);
+> > +
+> > +       sgc = *per_cpu_ptr(sdd->sgc, cpu);
+> > +       if (sgc && atomic_read(&sgc->ref) > 0 &&
+> > +           first_sd && first_sd->child &&
+> > +           cpumask_equal(sg_span, sched_domain_span(first_sd->child))) {
+> > +               atomic_inc(&sgc->ref);
+> > +               sg->sgc = sgc;
+> > +               return 0;
+> > +       }
 > 
-> 	offline: 4.833s -> 3.17s
-> 	online: 6.157s -> 3.796s
 > 
-> I noticed that your cmci_rediscover() improvements mean even better
-> offline performance if you work from high to low CPU numbers as the
-> shared banks are assigned to the lowest numbered CPU within the sharing
-> topology domain. So working from high to low avoids creating as many
-> orphan banks that then need to find new owners.
+> This insanely specific check perhaps can be something like:
 > 
-> 	reverse order offline: 2.984s
+> diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+> index 06cc9f6397bd..a7d7a3b51c71 100644
+> --- a/kernel/sched/topology.c
+> +++ b/kernel/sched/topology.c
+> @@ -1203,6 +1203,33 @@ int group_balance_cpu(struct sched_group *sg)
+>   */
+>  
+>  
+> +/* Find the group_balance_cpu() */
+> +static int find_group_balance_cpu(struct sched_domain *sd, struct sched_group *sg)
+> +{
+> +	const struct cpumask *sg_span = sched_group_span(sg);
+> +	struct sd_data *sdd = sd->private;
+> +	struct sched_domain *sibling;
+> +	int i;
+> +
+> +	for_each_cpu(i, sg_span) {
+> +		sibling = *per_cpu_ptr(sdd->sd, i);
+> +
+> +		/*
+> +		 * Can happen in the asymmetric case, where these siblings are
+> +		 * unused. The mask will not be empty because those CPUs that
+> +		 * do have the top domain _should_ span the domain.
+> +		 */
+> +		if (!sibling->child)
+> +			continue;
+> +
+> +		/* If we would not end up here, we can't continue from here */
+> +		if (cpumask_equal(sg_span, sched_domain_span(sibling->child)))
+> +			return i;
+> +	}
+> +
+> +	return nr_cpu_ids;
+> +}
+> +
+>  /*
+>   * Build the balance mask; it contains only those CPUs that can arrive at this
+>   * group and should be considered to continue balancing.
+> @@ -1212,17 +1239,19 @@ int group_balance_cpu(struct sched_group *sg)
+>   * can fully construct this using the sched_domain bits (which are already
+>   * complete).
+>   */
+> -static void
+> -build_balance_mask(struct sched_domain *sd, struct sched_group *sg, struct cpumask *mask)
+> +static void build_balance_mask(int group_balance_cpu,
+> +			       struct sched_domain *sd,
+> +			       struct sched_group *sg,
+> +			       struct cpumask *mask)
+>  {
+>  	const struct cpumask *sg_span = sched_group_span(sg);
+>  	struct sd_data *sdd = sd->private;
+>  	struct sched_domain *sibling;
+> -	int i;
+> +	int i = group_balance_cpu;
+>  
+>  	cpumask_clear(mask);
+>  
+> -	for_each_cpu(i, sg_span) {
+> +	for_each_cpu_from(i, sg_span) {
+>  		sibling = *per_cpu_ptr(sdd->sd, i);
+>  
+>  		/*
+> @@ -1281,7 +1310,17 @@ static int init_overlap_sched_group(struct sched_domain *sd,
+>  	struct cpumask *sg_span;
+>  	int cpu;
+>  
+> -	build_balance_mask(sd, sg, mask);
+> +	cpu = find_group_balance_cpu(sd, sg);
+> +	if (WARN_ON_ONCE(cpu >= nr_cpu_ids))
+> +		return -ENOENT;
+> +
+> +	sg->sgc = *per_cpu_ptr(sdd->sgc, cpu);
+> +	if (sg->sgc && atomic_read(&sg->sgc->ref)) {
+> +		atomic_inc(&sg->sgc->ref);
+> +		return 0;
+> +	}
+> +
+> +	build_balance_mask(cpu, sd, sg, mask);
+>  	cpu = cpumask_first(mask);
+>  
+>  	sg->sgc = *per_cpu_ptr(sdd->sgc, cpu);
+> ---
 > 
-> I haven't looked into the code yet. But the general direction seems
-> good.
+> We just find the first CPU and reuse the scg. Otherwise, build the
+> balance mask.
 
-Thank you for the data, and your point about the ordering is spot on. 
-However, once single-thread performance is adequate, my end goal is to 
-parallelize the operation so the number of CPUs won't significantly 
-affect the total time it takes to remove them and add them back to the 
-scheduler. This is crucial for the live update work, as transferring CPUs 
-to Caretaker is part of the brownout, and in some configurations, the 
-blackout of the live update process.
+Yes, this is cleaner, thank you.
 
+> 
+> With those changes ...
+> 
+> > 
+> >         build_balance_mask(sd, sg, mask);
+> >         cpu = cpumask_first(mask);
+> > 
+> > -       sg->sgc = *per_cpu_ptr(sdd->sgc, cpu);
+> > -       if (atomic_inc_return(&sg->sgc->ref) == 1)
+> > +       sgc = *per_cpu_ptr(sdd->sgc, cpu);
+> > +       if (!sgc) {
+> > +               sgc = kzalloc_node(sizeof(*sgc) + cpumask_size(),
+> > +                                  GFP_KERNEL, cpu_to_node(cpu));
+> > +               if (!sgc)
+> > +                       return -ENOMEM;
+> > +               sgc->id = cpu;
+> > +               *per_cpu_ptr(sdd->sgc, cpu) = sgc;
+> > +       }
+> > +
+> > +       sg->sgc = sgc;
+> > +       if (atomic_inc_return(&sg->sgc->ref) == 1) {
+> 
+> ... we can be sure this is a new sgc and just do an
+> atomic_set(&sg->sgc->ref, 1) here and initialize the rest of the
+> fields.
+> 
+> Thoughts?
+
++1, Since sgc is lazily allocated on demand in this patch, reaching 
+the slow path guarantees we are initializing it for the first time.
+
+> >                 cpumask_copy(group_balance_mask(sg), mask);
+> > -       else
+> > +               sg->sgc->capacity = SCHED_CAPACITY_SCALE * cpumask_weight(sg_span);
+> > +               sg->sgc->min_capacity = SCHED_CAPACITY_SCALE;
+> > +               sg->sgc->max_capacity = SCHED_CAPACITY_SCALE;
+> > +       } else {
+> >                 WARN_ON_ONCE(!cpumask_equal(group_balance_mask(sg), mask));
+> 
+> Do note this check will be lost with the optimization for the
+> fast-path case but that should be okay(?)
+
+Yes, that is fine: find_group_balance_cpu() already verifies that 
+sg_span equals sched_domain_span(sibling->child) for cpu.
+
+I will fold this into v2.
+
+Thanks,
 Pasha
 
 > 
-> -Tony
+> > +       }
+> > 
+> > -       /*
+> > -        * Initialize sgc->capacity such that even if we mess up the
+> > -        * domains and no possible iteration will get us here, we won't
+> > -        * die on a /0 trap.
+> > -        */
+> > -       sg_span = sched_group_span(sg);
+> > -       sg->sgc->capacity = SCHED_CAPACITY_SCALE * cpumask_weight(sg_span);
+> > -       sg->sgc->min_capacity = SCHED_CAPACITY_SCALE;
+> > -       sg->sgc->max_capacity = SCHED_CAPACITY_SCALE;
+> > +       return 0;
+> >  }
+> -- 
+> Thanks and Regards,
+> Prateek
+> 
