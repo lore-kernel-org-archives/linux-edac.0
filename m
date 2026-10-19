@@ -1,40 +1,42 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B21D4C846A
-	for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 14:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D64E4D1F87
+	for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 14:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792421054; cv=none; b=Lp1oJcd9UIQxG6DvVU2f6TomKQI8W58zOwuQ5nagHt8pM6S7rVcC0PhUTXP86ODjg8cqzAIFCkw4K7rM6TlBYtF8p1NaDR2w/TM9lb5SgvkRuy9l1Ct3bk6y9Fu9ZzNSq51HMzH8Obx7dfm33hQcY0H7Limjvvkj1UaSWg3mcRk=
+	t=1792421061; cv=none; b=sYfaWtF2o4FAc1gH/Bt+EPnQ7lW6fgnwwUDgZP80nJLyFtnmdQ61acpa5IlTAnYk0mkPnQ3cDiMg3Lub4H9quE24nrTklDSc6+Pa1p3gjubx4SO3bVjwpCAcTW20zYr12tskRijYVwRrAfx89qDfKqJKr/FL5QFUb4ExxIpeQ24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792421054; c=relaxed/simple;
-	bh=a9qUpHSrVbpwYKSd6ylV0Jh4XUZfn8tQ8ofbyzD6pN0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=PqnGxYR4S6ikid0zMFe99RfU3lnn0VhLCAnw83QdjZfFikAaPExNzXrBiV325AE3WHJkjQ1K4+2i42irMsB8fAANJyLlPTjnpp63wcS03DC526SWBq5HBcvcip8Ii+AksF2F4eITUbHqLzy+BtxCxl8D912FjCSLfx0ZPDLorFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bv56tb87; arc=none smtp.client-ip=185.246.84.56
+	s=arc-20240116; t=1792421061; c=relaxed/simple;
+	bh=DmO0O2dRv9MTdJBb07f31mKx2vPQz/W9pdKFXGq3N6c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=HZ0UROCrQkdj4tZ2L70P0tzA1+WeRBUl7b5L2bQKGfRu0BGZlKMyImSdS32g18/1hdot6Wcd5wThQEORHN48/cNVUlOsWLPvN3Z2YKGvEcXGqo2Z6e/3ybE3v68cTajVWThicNVTKRgekS73OyuIgc1XqPdng+fLV1lChHxGw4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Puy3+NJW; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bv56tb87"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Puy3+NJW"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 0A45F1A126A;
-	Mon, 19 Oct 2026 14:44:11 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id EDDE3C5CD59;
+	Mon, 19 Oct 2026 14:45:15 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D140660582;
-	Mon, 19 Oct 2026 14:44:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3432010328C00;
-	Mon, 19 Oct 2026 16:44:01 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D06D360582;
+	Mon, 19 Oct 2026 14:44:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2B15210328D5A;
+	Mon, 19 Oct 2026 16:44:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1792421045; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=Pe3ZWwtYKswZmK4MHa4IzVwtiUbu38EtFJGOtnMqhtk=;
-	b=bv56tb87jHVu4cNGJdEKZ+ARP66prMN3hq2UmSswBN/qbRo6aSslgGZlU0G6/9N78wk5V0
-	ksAj3O3OznxJRS1xkE2JqBzqbC6UOx8P8YrS1xxWn0K3nFYTF50jWzCZ+HSYEW5EJTDXtX
-	SJ95G6khL8iQcgWFUlNB/RcVO61iLUvFwKjeko+nxVGZx1zvXrDlXAn333ZIgF5L+ek6NA
-	ROLHnmPk9QzbZuQ1lYW90qtJ82IBEct3ALB4sFhyMt1YkDGge0pr26ghkLdwCpjJP3ID8W
-	qmLbeUAHS7ndFKPo3PLsttXEcIdD0vR8JB5HyY83/5xeY5VkqRzzjruIn5hvAQ==
+	t=1792421052; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=S1lkipbHNbs7GuDexNjAVcya4EV2X5eb41MjTrEAfkM=;
+	b=Puy3+NJWWezCI1q8fsTwITM0D3DoEPM3fJQTBrZ+ur1dahc0frFcrG0lzcvHc0Y5BADOTN
+	NEa4CE3OSKahrz4tIMKRAQVoqpy3kDZAZ2zeExHSmz09feZjRwFjO5bFKzBfDQRgBscAxi
+	P3SxJwBO9H2wxCR5kfgdMjPK2TGGGK4cuVglyh2J7OGWpJhmD44yIr9Fbb0TpjAAAjwzrz
+	JSYMHCiqVcRScrVge91piRTbz3WjjFirr427B2rz/okJTV4pnjT656CvwSMTvishGnMsFj
+	kfjmiYHOPyGmTvxaREM+6BpjzUcTxhuw239I+ERgGVqK2NVj2CxSXmWj2mRd/A==
 From: Paul Louvel <paul.louvel@bootlin.com>
-Subject: [PATCH v7 0/3] Add Renesas RZ/N1x EDAC driver
-Date: Mon, 19 Oct 2026 16:43:24 +0200
-Message-Id: <20261019-paul-v7-3-rc1-edac-v7-0-84c76c6d7595@bootlin.com>
+Date: Mon, 19 Oct 2026 16:43:25 +0200
+Subject: [PATCH v7 1/3] dt-bindings: edac: cdns,ddr-edac: add Cadence DDR
+ EDAC
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -43,13 +45,9 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5XQTWrDMBAF4KsEr6syo39n1XuULqSR1KikcbAT0
- xJ890oJFAe7hSwH5n3zmEszxD7HodluLk0fxzzk7lAG87RpaOcO75HlUOaGA9fQomZHd96z0TD
- BekIWgyOGSZo2tTqRMk0JHvuY8tcVfX27zcPZf0Q6Valu7PJw6vrv69UR696/B0ZkwAIIbS23g
- nv34rvutM+HZ+o+q3cLc/ln2ICPwpBEh/YuXPuNfN7ArCK8IEkpiyAwQIoPNahhTyhBo8ZItGw
- gZg24WEVEQZQVaMkJ6Z14qEEN+2BBSac8Wlg2kPMGdhWRBZFa6kIYctQuEfWLIIBaRVRByiccJ
- OTS00oTPUNw/Re6IDxh0IknI4O/R6Zp+gEe6umm2AIAAA==
-X-Change-ID: 20260916-paul-v7-3-rc1-edac-1f479f96fc57
+Message-Id: <20261019-paul-v7-3-rc1-edac-v7-1-84c76c6d7595@bootlin.com>
+References: <20261019-paul-v7-3-rc1-edac-v7-0-84c76c6d7595@bootlin.com>
+In-Reply-To: <20261019-paul-v7-3-rc1-edac-v7-0-84c76c6d7595@bootlin.com>
 To: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
@@ -63,158 +61,112 @@ Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  "Paul Louvel (Schneider Electric)" <paul.louvel@bootlin.com>, 
  Wolfram Sang <wsa+renesas@sang-engineering.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792421040; l=5031;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792421040; l=2885;
  i=paul.louvel@bootlin.com; s=20260313; h=from:subject:message-id;
- bh=a9qUpHSrVbpwYKSd6ylV0Jh4XUZfn8tQ8ofbyzD6pN0=;
- b=3eYKCEkZmc6rkZFyLA8w/aoQ++497fxN9zWG+xmRV4QY+apJ5EZaniCsbqK6Gq1Z9UvtfkGpi
- NJCCQ6frY1wDjsqBMxoare1BuiI+ajgLxfiwdWpw2xvYTiqc8KmBYYg
+ bh=DmO0O2dRv9MTdJBb07f31mKx2vPQz/W9pdKFXGq3N6c=;
+ b=yB+W7GInWXWXYZqNCQLUW8fXbI0C2myCGNt+veMeHWGlDFe4E/OAiCHtCgiE6LzwScl0ZPF9c
+ 1ZbwLKw4C0zDmJviTUnUvDJfeK20KQCKAZ8D5qDXJYB8qB86P1+nqQD
 X-Developer-Key: i=paul.louvel@bootlin.com; a=ed25519;
  pk=eLW50NT18UAvUT5cAcYf88zNbBCZDLFXuptpyLVhVIU=
 X-Last-TLS-Session-Version: TLSv1.3
 
-The Cadence memory controller found on Renesas RZ/N1x SoCs supports ECC
-with SECDED.
+Add the Cadence EDAC dt binding.
+The memory controller optionally supports ECC SECDED with DDR2/DDR3
+memory.
 
-The memory controller found on the r9a06g032 supports at most a single
-DIMM of DDR2/3, up to 2GB.
-
-Add the EDAC driver for this memory controller, and the relevant
-device-tree binding. Also add the EDAC node to the existing r9a06g032
-SoC base device-tree.
-
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Signed-off-by: Paul Louvel (Schneider Electric) <paul.louvel@bootlin.com>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 ---
-Changes in v7:
-- Patch 2: fixed weird formatting of cdns_ddr_ctrl_of_match.
-- Patch 3: did not sync trailers added in v5. Added Reviewed-By of Rob Herring.
-- Link to v6: https://patch.msgid.link/20261013-paul-v7-3-rc1-edac-v6-0-2f1d6f2f74db@bootlin.com
+ .../devicetree/bindings/edac/cdns,ddr-edac.yaml    | 61 ++++++++++++++++++++++
+ MAINTAINERS                                        |  6 +++
+ 2 files changed, 67 insertions(+)
 
-Changes in v6:
+diff --git a/Documentation/devicetree/bindings/edac/cdns,ddr-edac.yaml b/Documentation/devicetree/bindings/edac/cdns,ddr-edac.yaml
+new file mode 100644
+index 000000000000..9414cb9c59b9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/edac/cdns,ddr-edac.yaml
+@@ -0,0 +1,61 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/edac/cdns,ddr-edac.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Cadence DDR EDAC
++
++maintainers:
++  - Paul Louvel <paul.louvel@bootlin.com>
++
++description:
++  The Cadence DDR supports DDR2 and DDR3 memory with or without ECC.
++  The bootloader must configure ECC mode in the memory controller.
++
++  The memory controller supports SECDED (single bit error correction, double bit
++  error detection). ECC scrubbing has to be done via software.
++
++properties:
++  compatible:
++    items:
++      - const: renesas,r9a06g032-ddr-edac # RZ/N1D
++      - const: cdns,ddr-edac
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: DDR controller clock
++      - description: APB internal bus clock
++
++  clock-names:
++    items:
++      - const: ddrc
++      - const: pclk
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/r9a06g032-sysctrl.h>
++
++    memory-controller@4000d000 {
++      compatible = "renesas,r9a06g032-ddr-edac", "cdns,ddr-edac";
++      reg = <0x4000d000 0x1000>;
++      interrupts = <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
++      clocks = <&sysctrl R9A06G032_CLK_DDRC>, <&sysctrl R9A06G032_HCLK_DDRC>;
++      clock-names = "ddrc", "pclk";
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3a19da74d00c..60db3734df5b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5760,6 +5760,12 @@ L:	linux-mm@kvack.org
+ S:	Maintained
+ F:	tools/testing/selftests/cachestat/test_cachestat.c
+ 
++CADENCE DDR EDAC DRIVER
++M:	Paul Louvel <paul.louvel@bootlin.com>
++L:	linux-edac@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/edac/cdns,ddr-edac.yaml
++
+ CADENCE MIPI-CSI2 BRIDGES
+ M:	Maxime Ripard <mripard@kernel.org>
+ L:	linux-media@vger.kernel.org
 
-- Patch 2:
-
-  - Sorted the includes alphabetically. I have also ran a check with
-    IWYU and, after careful checking, there is no superfluous header.
-
-  - cdns_get_mem_sz() helper inlined into cnds_setup_mc().
-
-  - Debugfs helpers built unconditionally with no-op stubs if debugfs is
-    not selected.
-
-  - Port command channel error reporting removed since it does not
-    belong to an EDAC driver.
-
-  - Removed useless comments.
-
-  - Renamed macro prefix to CDNS_* instead of CDNS_DDR_*. Also indented
-    all the macros definition at the same level.
-
-  - Dropped cnds_ prefix to the private structure.
-
-  - Shortened interrupt unmasking into a single macro to shorten line
-    column length.
-
-  - OR'ing flags to detect type of errors in irq handler.
-
-- Link to v5: https://patch.msgid.link/20261005-paul-v7-3-rc1-edac-v5-0-140a0f124bc0@bootlin.com
-
-Changes in v5:
-
-- Patch 1:
-
-    - Reworded commit title.
-
-    - Dropped unused label.
-
-    - Switch to plain flow scalar for description.
-
-    Note: keeping cdns,ddr-edac compatible after Krzysztof's comment.
-
-- Patch 2:
-
-    - Setup IRQ after allocating and registering the device to EDAC
-      core.
-
-    - Explicitly free the interrupt line with devm_free_irq() to avoid
-      any UAF before releasing MC.
-
-- Link to v4: https://patch.msgid.link/20260928-paul-v7-3-rc1-edac-v4-0-4646a5b7cac9@bootlin.com
-
-Changes in v4:
-- Patch 1 and 3: drop the RZN1 family compatible, as requested by Geert.
-- Patch 2:
-
-    - Instead of using FIELD_MODIFY macro that expect a compile-time
-      constant mask, use binary operators instead. Note that the new
-      code is doing exactly what FIELD_MODIFY do, minus the error if
-      cdns_rmw() is not inlined.
-
-    - Use a spinlock instead of mutex since the locked region will be
-      really fast to execute. Only lock it once for two register rmw.
-
-    - Use edac_debugfs_* facility instead of sysfs attributes. Use a
-      separate "bits" and "inject" file instead of just a single file.
-      This is better since clients can read the previously set syndrome.
-
-    - Cleaned up the probe function in separate functions. Use a remove
-      function instead of registering custom devm action. Use a goto for
-      resources cleaning.
-
-    - Mask all interrupts before un-registering the memory controller.
-
-- Link to v3: https://patch.msgid.link/20260924-paul-v7-3-rc1-edac-v3-0-bd8054a5b180@bootlin.com
-
-Changes in v3:
-- Patch 2:
-
-    - Added trailing newline to end message.
-
-    - Forgot mutex_init() in probe...
-
-    - Registering the MC at the end of the probe.
-
-- Link to v2: https://patch.msgid.link/20260924-paul-v7-3-rc1-edac-v2-0-bc1406161ecc@bootlin.com
-
-Changes in v2:
-- Patch 2:
-
-    - FIELD_MODIFY() is always called with a compile-time constant mask
-      in this driver. I see no problem here.
-
-    - Use devm_clk_get_enabled() so the driver does not need to store
-      struct clk_bulk_data outside the stack space.
-      Clocks are not manipulated outside of probe.
-
-    - Introduced a mutex for rmw operations in inject_ctrl_store() sysfs
-      callback. Rename drv to priv in cdns_rmw().
-
-    - Return IRQ_NONE if the stat int register is empty.
-
-    - I see no reason to follow Sashiko last remark on this patch.
-      Is an unhandled interrupt a big deal in this case ?
-
-- Link to v1: https://patch.msgid.link/20260924-paul-v7-3-rc1-edac-v1-0-70be37c41a18@bootlin.com
-
----
-Paul Louvel (3):
-      dt-bindings: edac: cdns,ddr-edac: add Cadence DDR EDAC
-      EDAC/cadence: Add Cadence DDR EDAC driver
-      ARM: dts: renesas: r9a06g032: add EDAC node
-
- .../devicetree/bindings/edac/cdns,ddr-edac.yaml    |  61 ++++
- MAINTAINERS                                        |   7 +
- arch/arm/boot/dts/renesas/r9a06g032.dtsi           |   9 +
- drivers/edac/Kconfig                               |  10 +
- drivers/edac/Makefile                              |   1 +
- drivers/edac/cadence_edac.c                        | 379 +++++++++++++++++++++
- 6 files changed, 467 insertions(+)
----
-base-commit: d9f39b2c0579f313d14954a9ec584511c543aab5
-change-id: 20260916-paul-v7-3-rc1-edac-1f479f96fc57
-
-Best regards,
---  
-Paul Louvel, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+-- 
+2.56.0
 
