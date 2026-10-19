@@ -1,65 +1,66 @@
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537A630EF7E
-	for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 01:14:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA88B311977
+	for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 01:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792372495; cv=none; b=qf9Sq89/Zb2J9OTa6O5i75oVst1YPa/bPxukFfpLxFJefs1FQrME+SuSJS4HJBy7uYD9FEmqyF6ESZldr5sbmwbg88M82LeeguoOjina0KihZ714mCBBPX+VN5fUcwjlVzWWXKILoQyP62cIxhYoW3BqeiV65V0ginyeFgzSSfw=
+	t=1792372498; cv=none; b=j6K2TRn7n79BctCAzeooA2bd8JNWC4/SgGcHPw1KH7yxGEjdOn5fBCi21O8JLgU73lRpMBCsB9wDqFFNZuZBVudspc1gMQcLhLpWHEXh9AXlkpKVhmN3umSDrDynjeawIhcW4iCi33+no9cBr6ddEzBd2/x4rDKuHDdrUG3xVxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792372495; c=relaxed/simple;
-	bh=MjziIp9HYumm33wp7eGvStS8U10QD8NX473m/jxckec=;
+	s=arc-20240116; t=1792372498; c=relaxed/simple;
+	bh=fBWRLRNFXx1jULKjcR84Zfp5/L4R5O4BrM1N22Cd79c=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dusC6hKZD64GWHyLZvOiUB+U/MG8iZ6VhKsqlDjiAbmA1041X4zZSIBW0tKRZZcWaCKF6MmN4BMq4ubs2CInGbIKwxKfhgvtFdPZMsr4EnvVSbTdBaE4u8FecYyp+F3JuNEllE+wPqywFz7BF7k3+utORjSGQ9CK/NhDvCjOx6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=H6winlpS; arc=none smtp.client-ip=209.85.222.43
+	 MIME-Version:Content-Type; b=EjSRrCCnReI5xC6FNvW/nH4s4rMpdtqlo7tVPo69/L/+phQrag1VeyQbN3a1z6FjCtPT3aHkjkNlizbynV+foRMAQM4XxnmgiOq4lWuia+uUsecFX6FvjHL21i2CvSk9d5WTra/ZDj9eA5GMHCYvy5Q0K170SAY8hTWQ50+GBIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=TtiyUY+W; arc=none smtp.client-ip=209.85.221.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="H6winlpS"
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-988bb309c2bso866499241.1
-        for <linux-edac@vger.kernel.org>; Sun, 18 Oct 2026 18:14:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="TtiyUY+W"
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5ea969fafeeso627352e0c.0
+        for <linux-edac@vger.kernel.org>; Sun, 18 Oct 2026 18:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1792372493; x=1792977293; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Cpnp3yMFelG0fvds3XdN1g7x4e9nS7OKWWPDPS530n8=;
-        b=H6winlpSr+2NMDzblkRqAPbFFGaxkpvMQru8EVdwnlni9Ct740dXHTBe5BCI+jn34K
-         4nFhwkDbkxTM+5u1ZkWvv8vqDU6D9S43ucJsDQmTlKI0Smi1fH6PIBPrir6EIw3ljOiQ
-         22Zqy+GKv5HdYHmiMZKKn8SU78KZRCdwJB3BztHsRla/RCzel+N0FTngglln+sjrsKAX
-         EMi8ISBmgjp40o04mJhM5Qwis8CyS0zKn2sG959OUqujQE7Qt/w8u3M6XB+0tqaz4xOd
-         Sht0TS72FN41F5Eoilo2iBLLTTonr8js2/X6V1hEsl9SKMqFr/jc1jFGgiqfoswbg2zZ
-         viEA==
+        d=soleen.com; s=google; t=1792372495; x=1792977295; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=r5Uh0UovwmV8EFz8GLwox5sAAEwyuEzq/FgIh/SpVjc=;
+        b=TtiyUY+W3wKdAl1zxH7RF3/wmZikaG7G3SqMM10WVJqn++e5zRQ+cV6W/VAzLtJez/
+         cYxrDo7k1/fiqUG06SZZKTQ+GTRcas650A8MqFOjxqjaXnT4OCPKTN3QeSvy8WJRgA8T
+         RiCvxZghTE6hgczYvffYnj+h6LotNFwEyO597c4Ep5rlSItA7eKkIa3/aJOcY/vamIM6
+         JtnyONA8lcZpjzG7C9TkbVPl63JCN+QU9vkpjJX3jk2gKgOPj/+RGRluhPj1vLA8bL4g
+         SmvOMwDA2u2QaI9aw7PW/AMDLFTTU0l1ucT+tlPOzDRcHnh9kT9s6TiaYfBg8rkyVbxA
+         r8ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792372493; x=1792977293;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=Cpnp3yMFelG0fvds3XdN1g7x4e9nS7OKWWPDPS530n8=;
-        b=SIjJ+CAv2Ixp5CGr3o/vz33M1myNUPRveWNOmouhys93GAPgwgwAwTsXcH7m621y9r
-         kLzGtAh6sxjqx9g2s8xVbfR7UeIsj8aV4t/y1kI0Oe4jJlGtb3lOmJPZbtJYHk8c3JUU
-         7M8vmAzTMwTiBXsryObzsQ92irRNr429DJM2inC9pbGDZIUW1dZGfUXz8pnb4lL1ByQm
-         Z/ucwWAUuq4opPNpVrlEiJQPey36b8e4t7Qw3ipedjZqdo0PkcGSdrjqGSKQrDEd1wJi
-         SOg7qpF2JsE+QHxxVQUk0OYzpK6bUaLUmIK6FHcczHAWf2DJOo7J4L8vHShy2W0Nk7Y3
-         CM5A==
-X-Forwarded-Encrypted: i=1; AKwUvBy4uYvKqrh4O2GWMGb4ja7EaPtkkRiQaGwU8JFnrXqoEYgz2kAzpeJAQktROu4z1kk/6JdzOub/+BBv@vger.kernel.org
-X-Gm-Message-State: AFq9FYLJCjO/3gvjoBRzkwPyGRTxzXf0q9L2pcSsjca+e/UseXQQRt0f
-	emRNeFocQ3JtpMSIxUZKsNIwNenE8CyGXJnyfHqqexxG8rAWm2W7XbbPVdi8gEo9aDk=
-X-Gm-Gg: AYBFou3uWRzvuTjq8SHZGvfnITKkcmb389EK1vnAiNmgWya4Nh2YT0DGmKo2cOWPWr3
-	cO6pjdDAoRv3NI34Ts76cXrGAALCwB/t+3LKx6OlKRjCll1Ykza9ReE/EcUiLQOyssg3NA+p0G+
-	nYO980wxJeMgZDvPGMS+szhbbSRUJajyDYI543SYcVu4Wzcidt/EQuAdFCNt/foXRelpsw3CNXu
-	XeILwHo2cUnckzy6bArns3hkguj5DZRBewNaHVXfCv/LdK/bbSFbpvUfZg4PH4Ote+XkBI6aJCi
-	CZPLFGQRjvvz8zAimWlZfOSO1gIVIzDQQ+QBdPQFJ6rLQfDzds+lRDFG3WZ8gIkCNIfHLVIjk1o
-	6UK3P9kER1WZrkb7LyddPrsvrHHN7x78NS4qvtxPPe4wkAkqu+3hMu8ykIHG0/1/Ppaes/T1Q5t
-	YseQ/xwp8nBm87FXH6xvhYHAH88sciyLT3bNu5++U3FKWZcYcEodQm9rAk8KBcKb+EWw/IlgeVW
-	NrmBDj9aHa7sai42xDE0k5fIrQKOaehlpliqUuRhVxIohAHM882fRcI1Pto4s0v61C9t3KccONK
-	uwis5PCGopcrHtXSxPc=
-X-Received: by 2002:a05:6102:290d:b0:7c7:f976:ea9c with SMTP id ada2fe7eead31-7cc369118cfmr2079452137.13.1792372493221;
-        Sun, 18 Oct 2026 18:14:53 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792372495; x=1792977295;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=r5Uh0UovwmV8EFz8GLwox5sAAEwyuEzq/FgIh/SpVjc=;
+        b=N2m6LjGCgYaP+rtD7YqJZIyCDMDIyvuz3SGYeaJ6CBHqW9Rx/A2S2mzf/7FAbc6O6V
+         Ltx+V7S3zN6cFiTeg/D/wOw8wlVp3yX2AcRtic9q5I4ZUsUrUaFDz4hjvbFdL5qplI4J
+         o8EuOIAejLhBpFRxPXXJOi7IcFNydfVu1npbi+HV+6G/GcBxXCKfsraBLg5G5I+t46LU
+         HST4ULTFlVMp4oEIS9bjhgVdlHOaBS49HLZParm9rHYEGNWfJZmCxm/o8kWskE64y6b8
+         UKjafGpy77R2DrgUyHezqvun5Fv4uOqZMFHYVK4vACFncJK+5DA3S9qyEwFNMVrzPKxy
+         nnnA==
+X-Forwarded-Encrypted: i=1; AKwUvBwAtr4+6pp8IXGEYjFE1lv0y+EbkIjbSQtzcUWROf1bWG1hi0fggjDTAYEq95o4Rfsx7eVDBRTdpqd7@vger.kernel.org
+X-Gm-Message-State: AFq9FYKRBlfV6STi/9ovhpooL7XuF6p/qwL9hHJ/Lgo95vGBwBj8/hyx
+	MYyRs8q/YlhhJW8K1lWxFyuxcf8X4tTVaOclRWGik2FlSbdmSg18K0o/ueEWcBaA1iU=
+X-Gm-Gg: AYBFou1hi2dupigm0eNl8L5V58q550Uky/acRXtgXEce7xDvqdeoOwRLdNy5IM46V0l
+	Seu/9RPQBci3EPKc325wL070R8uoX5UX98XxusuRGz3E+DTybi3AHiy9/ItrbJgpBFeLLADQZQO
+	yd4HCjs040eR9qy0QBzRPf+IVBPAicxgLa6Dm01YcAKHKFZhlEP+jKnzEyAQnPQmIQvCORORjVX
+	e5Hzb1uD9JbnxF4RELbsk83dtTyAawRtdcLscef17iTRlAxgv7JYRjTz+mT/NrwJ/zwEk3/lQq6
+	BTyMJqJ4oPq+PWmaOw7898h5bi3KYHA8imxCUOqjfrR1RHKi8+/MxcvrbQPW4m3Gn1O1tUKbILT
+	pnc9IXxiTMoPCKT6FbvVOwTxWVhGtLghclEHVo7geBL/PEX6kVCclXKWxnDsnU1dx4dl7ffrKPt
+	nfyo3t9nQS78sHLKj2hpMHX79Xyq31Lr4LGFHInHwyLFhg4s+XXMpqv3vIv1KrVHqxS42kImVKH
+	/duJ51fcw2nFDySdriEtQlELF2PQ4d7uTfgw6RvV2aFTrNWkLgcipc20zWp6RHIMkHMv48rqMHe
+	6zQ6lecT0qlYF/oqci8=
+X-Received: by 2002:a05:6122:10e7:b0:5e7:e3f9:1322 with SMTP id 71dfb90a1353d-5eaaa4183dbmr1605940e0c.9.1792372495503;
+        Sun, 18 Oct 2026 18:14:55 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ea9b474b2asm8039142e0c.4.2026.10.18.18.14.52
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ea9b474b2asm8039142e0c.4.2026.10.18.18.14.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 18:14:52 -0700 (PDT)
+        Sun, 18 Oct 2026 18:14:54 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: kees@kernel.org,
 	rppt@kernel.org,
@@ -106,9 +107,9 @@ To: kees@kernel.org,
 	blum@kernel.org,
 	longman@redhat.com,
 	bsegall@google.com
-Subject: [PATCH v2 1/8] x86/realmode: Remove unnecessary WBINVD from AP startup trampoline
-Date: Sun, 18 Oct 2026 21:14:39 -0400
-Message-ID: <20261019011446.834487-2-pasha.tatashin@soleen.com>
+Subject: [PATCH v2 2/8] x86/smp: Remove unnecessary WBINVD from mwait_play_dead()
+Date: Sun, 18 Oct 2026 21:14:40 -0400
+Message-ID: <20261019011446.834487-3-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.56.0.176.g3575e65682-goog
 In-Reply-To: <20261019011446.834487-1-pasha.tatashin@soleen.com>
 References: <20261019011446.834487-1-pasha.tatashin@soleen.com>
@@ -118,66 +119,115 @@ List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-trampoline_start executes WBINVD in 16-bit real mode before switching to
-protected mode. This WBINVD was originally added in the 1990s for
-Sequent NUMA-Q hardware (as noted by the comment in trampoline_32.S:
-"Needed for NUMA-Q should be harmless for others"), whose cross-quad
-caches came up non-coherent prior to OS initialization. Sequent NUMA-Q
-support (CONFIG_X86_NUMAQ) was removed in commit b5660ba76b41
-("x86, platforms: Remove NUMAQ").
+When a logical CPU goes offline via mwait_play_dead(), it executes
+WBINVD before entering the MWAIT loop. On processors with large shared
+last-level caches (such as Intel Xeon 6985P-C with 504 MB L3 per
+socket), each WBINVD takes ~85-115 ms, flushes and invalidates the
+entire socket's shared caches, and stalls the physical core (including
+any online SMT sibling on that core) for the duration of the flush.
 
-Per the Intel SDM (Vol. 3A, Table 10-1, note 2) and AMD APM, the INIT
-IPI used to wake secondary CPUs preserves cache contents and leaves
-CR0.CD and CR0.NW unchanged (0, as already enabled by firmware or the
-kernel). Neither sev_es_trampoline_start nor trampoline_start64
-executes WBINVD.
+mwait_play_dead() places the logical processor into an architectural
+MWAIT C-state—the same hardware C-states entered by intel_idle during
+normal idle without executing WBINVD—where C-states deeper than C1/C1E
+flush core-private L1/L2 caches to the coherent LLC on C-state entry
+and maintain cache coherency while the package remains powered.
 
-On modern multi-core processors with large shared last-level caches
-(such as 504 MB shared L3 per socket on Intel Xeon 6985P-C), WBINVD is
-not harmless: each execution flushes and invalidates the entire
-coherence domain's caches and takes ~85-115 ms per CPU while disturbing
-active workloads on online CPUs.
+As long as at least one CPU sharing the same LLC on the package remains
+online, system-wide cache flushes (wbinvd_on_all_cpus()), system sleep,
+and kexec will still flush that shared LLC via the online CPU(s).
+However, when the last online CPU in an LLC goes offline, no online CPU
+remains to service wbinvd_on_all_cpus() or flush the package before
+S3/S4 power removal. Similarly, if the target MWAIT state is C1/C1E
+(which does not flush core-private caches) or cache_state_incoherent is
+set (e.g., SME), the CPU must flush its caches before entering MWAIT.
 
-Remove the obsolete WBINVD from trampoline_start.
+Skip WBINVD in mwait_play_dead() when entering a C-state deeper than
+C1/C1E while another CPU sharing the same package and LLC remains
+online (unless cache_state_incoherent is set).
 
 2-socket, 480-CPU Intel Xeon 6985P-C (N=479, mean of 10 runs):
-  Offline:  40.40 s -> 40.46 s
-  Online:   65.83 s -> 11.14 s (-83.1%)
-  Total:   106.23 s -> 51.60 s (-51.4%)
+  Offline:  40.46 s -> 11.42 s (-71.8%)
+  Online:   11.14 s -> 11.08 s (-0.5%)
+  Total:    51.60 s -> 22.50 s (-56.4%)
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- arch/x86/realmode/rm/trampoline_32.S | 2 --
- arch/x86/realmode/rm/trampoline_64.S | 1 -
- 2 files changed, 3 deletions(-)
+ arch/x86/kernel/smpboot.c | 46 +++++++++++++++++++++++++++++++++------
+ 1 file changed, 39 insertions(+), 7 deletions(-)
 
-diff --git a/arch/x86/realmode/rm/trampoline_32.S b/arch/x86/realmode/rm/trampoline_32.S
-index 3fad907a179f..14e56ea95416 100644
---- a/arch/x86/realmode/rm/trampoline_32.S
-+++ b/arch/x86/realmode/rm/trampoline_32.S
-@@ -30,8 +30,6 @@
+diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
+index ba01a9e919b7..0dccd2f927bb 100644
+--- a/arch/x86/kernel/smpboot.c
++++ b/arch/x86/kernel/smpboot.c
+@@ -1414,10 +1414,28 @@ void play_dead_common(void)
+ 	local_irq_disable();
+ }
  
- 	.balign	PAGE_SIZE
- SYM_CODE_START(trampoline_start)
--	wbinvd			# Needed for NUMA-Q should be harmless for others
--
- 	LJMPW_RM(1f)
- 1:
- 	mov	%cs, %ax	# Code and data in the same place
-diff --git a/arch/x86/realmode/rm/trampoline_64.S b/arch/x86/realmode/rm/trampoline_64.S
-index 14d9c7daf90f..e5a3f03d6221 100644
---- a/arch/x86/realmode/rm/trampoline_64.S
-+++ b/arch/x86/realmode/rm/trampoline_64.S
-@@ -60,7 +60,6 @@
- 	.balign	PAGE_SIZE
- SYM_CODE_START(trampoline_start)
- 	cli			# We should be safe anyway
--	wbinvd
+-/*
+- * We need to flush the caches before going to sleep, lest we have
+- * dirty data in our caches when we come back up.
+- */
++static bool mwait_play_dead_needs_wbinvd(unsigned int eax_hint)
++{
++	unsigned int cpu = smp_processor_id();
++	u32 pkg_id = topology_physical_package_id(cpu);
++	u32 llc_id = per_cpu_llc_id(cpu);
++	unsigned int i;
++
++	if (cpuhp_tasks_frozen || MWAIT_HINT2CSTATE(eax_hint) < 2 ||
++	    llc_id == BAD_APICID || this_cpu_read(cache_state_incoherent)) {
++		return true;
++	}
++
++	for_each_online_cpu(i) {
++		if (topology_physical_package_id(i) == pkg_id &&
++		    per_cpu_llc_id(i) == llc_id) {
++			return false;
++		}
++	}
++
++	return true;
++}
++
+ void __noreturn mwait_play_dead(unsigned int eax_hint)
+ {
+ 	struct mwait_cpu_dead *md = this_cpu_ptr(&mwait_cpu_dead);
+@@ -1426,15 +1444,29 @@ void __noreturn mwait_play_dead(unsigned int eax_hint)
+ 	md->status = CPUDEAD_MWAIT_WAIT;
+ 	md->control = CPUDEAD_MWAIT_WAIT;
  
- 	LJMPW_RM(1f)
- 1:
+-	wbinvd();
++	/*
++	 * Entering MWAIT C-states deeper than C1/C1E/C2 writes back and
++	 * invalidates core-private L1/L2 caches into the shared LLC before
++	 * power-gating the core. While the CPU is still in C0 prior to MWAIT,
++	 * its L1/L2 caches remain coherent and snoop external cache flushes,
++	 * and once in MWAIT its L1/L2 caches are empty and all dirty lines
++	 * reside in the shared LLC. Thus, as long as at least one CPU sharing
++	 * this LLC remains online, any concurrent or subsequent
++	 * wbinvd_on_all_cpus(), system sleep, or kexec will flush the shared
++	 * LLC to memory.
++	 *
++	 * Only flush here during system sleep (cpuhp_tasks_frozen), when
++	 * entering C1/C1E/C2, when the last online CPU in the LLC goes
++	 * offline, or if the CPU's cache state is marked incoherent (e.g. SME).
++	 */
++	if (mwait_play_dead_needs_wbinvd(eax_hint))
++		wbinvd();
+ 
+ 	while (1) {
+ 		/*
+ 		 * The CLFLUSH is a workaround for erratum AAI65 for
+ 		 * the Xeon 7400 series.  It's not clear it is actually
+ 		 * needed, but it should be harmless in either case.
+-		 * The WBINVD is insufficient due to the spurious-wakeup
+-		 * case where we return around the loop.
+ 		 */
+ 		mb();
+ 		clflush(md);
 -- 
 2.56.0.176.g3575e65682-goog
 
