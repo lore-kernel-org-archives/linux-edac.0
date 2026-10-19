@@ -1,65 +1,65 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB962F2619
-	for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 01:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15AC431716D
+	for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 01:15:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792372509; cv=none; b=d3JYY/al2gawi8zRcoQT/ejSf4HrOF0ZJXU6KgW+ZDw+Wz/37y3etjWlLf1XvdTghbcbWg89qTlAszepOoK+3eGe/xiD+bcVlcTeg9N0DBUQwE5BIdTZNaSOOoqJH1mVPTqfYJe7gNm1IhzA9JUCYGz9ebMj6GMFZjxmLmETqNA=
+	t=1792372509; cv=none; b=aiC0XlhVrjP3GITrW0BrNyRndk7YknL60E4JsodhfKoh8o4SyK/len79FCGtR3jihyma7fqUYLZ84EH4bzZx7DkmBAMrL7AyrdkFu/Pt/do9xV61yg0NpdIxPJ3ydQloafTvLPN5k8UJpt8KuxT9qxxSSg9Q3hqSe4EPxdDk3Ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1792372509; c=relaxed/simple;
-	bh=1dTkByrcgDmsfb6ZwowQ9ilpEPQjcySb7S7SITSyFjg=;
+	bh=14ryJnvi6rjektoJ876WQLnpIfHvyyh4TUy1vTc5MRA=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mysL2dDtLnJ0C12pgJzH8VgFpzDw9ft6ecXn6UpchEwuElE6lEOBIqv7Mh+ckGke3OBoAvuCJclLZjN82v8CjWYpSzZRAIj7lIaX9pbMGH+C/fAPXsb5pxtJ3k6cmTZfbM9sd9aAhn10QIkoFtezM85b3byEytWYAMwff2tqVLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Yy1UjT5m; arc=none smtp.client-ip=209.85.217.48
+	 MIME-Version; b=dVTaojVkwOauUYunrzCnZsxCjPn+qhByiobhxCbOPVUVpbbljiHc+DXz2sYMb+pYw4B6U6htssFPlv6opYG8ThmxdS+yi8DVgVM/wPno4B4GFjgXWH1KSx6sCHlpfSiOUpFocwWfJFPcpebU1e0c3KCWtyNmYZrr/3nEnWOLb1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=FAr9Oyzt; arc=none smtp.client-ip=209.85.221.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Yy1UjT5m"
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-7cc0e865dd1so477513137.1
-        for <linux-edac@vger.kernel.org>; Sun, 18 Oct 2026 18:15:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="FAr9Oyzt"
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5eaa1b5b84aso2118788e0c.0
+        for <linux-edac@vger.kernel.org>; Sun, 18 Oct 2026 18:15:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1792372500; x=1792977300; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1792372506; x=1792977306; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=z5LyhpH+32vicnnX5+Nfrq1TH+85hwwraSFoho5291M=;
-        b=Yy1UjT5mYqOt+a/p+XRFqAoHKcRWRNnnJ+GpIGz+6SBZqGRFKReI2GuBRalEevraNH
-         UINSDEJGXy2ctXEsx1pcDajhOq6zgkwtu+jW3lhjgpnAfsyvpEOoeNhU8Pjo280A9y43
-         iDm2MyeIsWlnmOk7Lg4HVrQI/ul3QlUwO2dSDLIfYZ0J7mM0zSNJ6JuAWjO1hPtY47qi
-         fmdKE72EF11q5im90PmqJbAAJPfodnXyCj+vamfKSF97wPkHtC1vTrljYQKY9bogTA6A
-         PGs2HfxgPAC43iEflq7gKqIcNMa8i3Js/WmhiU2a7FnPpPRo60Sj4LR5MKLco0HZmaJT
-         D6BQ==
+        bh=j7TMpawWNRts1XohqXN2q0I/cO8xOP35tsLvrs3bwC0=;
+        b=FAr9OyztZ73yVOdl4inOd+GlitnM53jRDwiB3UHgyTsJZmpxUfcZDudgPY4+nupRbk
+         rn+qRWu9HK37Kmnr2k1bathDwREd6luofs9kLmqTv2qj2j94AWZ31tWXdybUiT8wLCCb
+         2+hiTAqajXSW1xmE/T+7OrFMnF+HiRnBZaDSdBk7L+HBOmYe9vZdFr64H8PWjBSy1mmb
+         SuXJmC0vHoPhjGClxRGqS331Q+J1SNvUsFz4cyWstfTlHzKdt9I/c5Xi/N9ll3VAFrt8
+         FQHVsEG1mFmOXizD9Oll109KwB/DtqpNR4Rjwl9LqnlF+piflAbcmRNaZMNRNIGR5BMF
+         qdAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792372500; x=1792977300;
+        d=1e100.net; s=20260707; t=1792372506; x=1792977306;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=z5LyhpH+32vicnnX5+Nfrq1TH+85hwwraSFoho5291M=;
-        b=n/eGYFoZrNvmZf9/w8WCFu/8hdiBPR8G10GshTUQGDJC/vTRfhsiaToFCFtfeonyyV
-         DRbuh5LiYzpPBMjWbgb9wmxlemwfsGu6tnuRHILcZy1iU0O32QpF2pTwNWWtwPiFTMt/
-         BjoCL0nYyOIBe8T8kwgmLe9suJtOdZdY9Zspo0Y+eKNtQ4jKyhZojNE+6ThPzEh9edj+
-         Yuq+elAk3EkwaZYWaOW7OJKB0PQjpmfIv0KB0yHzAH1E7c4MQF1UjntcWWnQ/3aHE8h7
-         NWUm3xL6l015rkTUr0nTagmOfGswLj/MXlMx0NOA6Tu5BB0WimVgGC62O7EHkGPr9+3o
-         3yIw==
-X-Forwarded-Encrypted: i=1; AKwUvBz+6m0NXhp49TWQCbso3r0MC0AIJVdWTwp+N6wXmUiPtqON44gTxo7n0jgVckQ9CV9lmgIgp6fWONor@vger.kernel.org
-X-Gm-Message-State: AFq9FYLIkDjQbzeyd0X9jO9SnXJ5Ihn+mZn0AqhShBVKq6brMDshmSw5
-	WChuxQ0Wgr/y68wExtUyUcIC0vTjzY+OESgIb9TswnJFAN8AxCsmkjOh9S7/flFNBrM=
-X-Gm-Gg: AYBFou21bBEkOMNZ2SYZ6eICESeumiCFTp+kgT+AqZlInqjXwdupq3/WMxE7daS6+Oj
-	mQM1u/fhKutoDbCTGMX1ie4nP0tGt2YmJWBhAnskoWQz3k+clVvnh6HxW3TErSlX/mbVjnSlV9t
-	xAEy+3r7KxXz/3wNWT61uL/DMSOmWeI2bBYNQJoTRPv2WSzfoNc4tKFjJcdl6ZERrP3Zrq30wOv
-	b8P7+i+O031Qu/BBrlIrSU/FitWM7UT55Hj3MuWR5OS36+Pf+HyQIZ26+HlkqfTyM4pM1tbSAtj
-	nLg4knkLh7E6ZmR8rv1zTIlIPBhQHi+SSeXrGtGdeyefnkUHjbEnALrjg9fCAgmu27LixF1f8sT
-	rB1unEl9v96l9VLPHD7sa4ArxQrmvJ0+1w1eBP+I/R5knZgxJ9MiRD/klfMtNp5EVx/WxRg5oqw
-	BeiPVddOqn3BfkPyuEmHRfz9EPl8M8Nfln6r/E0TNcGxrp1L5+RoJ/vmJcuSJvBMDzkU4HmxQHw
-	YD2gXAa5hQAaDtEy/OSnCRweZeECWJGKY789MGW/XRFYul2ndYP2uPzqrnPypsEfVuTSfrDupDq
-	Cw1XleGFm4E0IaqbWLluVlFSp5/LIg==
-X-Received: by 2002:a05:6102:419e:b0:7c3:6466:3155 with SMTP id ada2fe7eead31-7cc36aa4af1mr1518608137.33.1792372499968;
-        Sun, 18 Oct 2026 18:14:59 -0700 (PDT)
+        bh=j7TMpawWNRts1XohqXN2q0I/cO8xOP35tsLvrs3bwC0=;
+        b=hIqKV/QKUsHUThZrz70H9926Y1a9TxkOwfDgR9gLduCht71YTgUiZu4Am/gzKM5fzQ
+         ZJHxJHErjcA7uTlqL7ZQF3aqZdf8EtodO191zwEHimoMDcFE43JPBam6gmkdFtJ6FKmd
+         0SBUOgGUz4EoYHd2x8Q2xcD9dVkQWIc3QTVrrN0fPceOQEP/AECOVTGUwCeZaCYACsyf
+         5y4HnkNcB0SbPtsi+g/FlPVxveZ6qQhHPpVwMMAhNt53JonxLAc34fpzkbnSRIVUb6A5
+         Ij50Iz4nv7mlKtAtyvD+7GRDafSMpPrXkJ/s1TaCmUPqW0bM7Kzkn0xZ9IdmzRZJzn9i
+         WzXg==
+X-Forwarded-Encrypted: i=1; AKwUvByijtia8/MgXpKOCbYoqhL6HxFK56rT3sRiXOsmGvSymekmds73udfEXFpH71Yaj5YeU9Rx3L9blrpG@vger.kernel.org
+X-Gm-Message-State: AFq9FYJxeEXcc49TNsUJA+142ONR0/mLfZmzcG0G2FsAh35MbypjnskU
+	iv2pqo8JmRu4b+p2MkqKpAK0M8PKojgXHG+QTaSqMAEDW839Cz25JVU7TwLh5cAuGjM=
+X-Gm-Gg: AYBFou28mFPCYYQB3iOb7KTpjCL4K7HdOvL+4iQClrQG6EfmvTQs08mu0otypYESyY+
+	w4cXfTIu8NB8kMVb0TB5gIU9kcJQ7dERVijeLMB9R5ebFA3fGKxtY+Bsz+UOHOvzJltd2juJU1Z
+	GzTqTH4TykLCjfuCbqVVZ7WatHKPjkoFMthJO32o/EXkRDNcCJO0Di4ShxOdhqnWRIBrmU/f3dd
+	24ydljCSu+TK586aiPtRCWze/JckSVRE3x8qSgyAya92LfTjJGDyRoS7pnlUyv+kNnp0HPBeD5O
+	PJbTpiDhK4blSIf8qSA8PP+YrnvwrtJoWQL5QZdBSULlCuo3QFTPZckt+srz6Bbilxe9CMvvg8N
+	p/Rzs4/G98SUSmSMIQdvt8Fqpi0+2lYb83BOU1NfbpMoq1YmX5lE3IuEAnBZoPxvteJm+9IYVtO
+	2lUNva0959PWFnxIFE2IteVwDmVIz3qumijyaOgMQJ35xlopo/hNwbsfyzXMf+A7lz42VBWXDaP
+	fOZiKoUT1Q1neW/Ftzm4uBZFduZ0OFqs5tRAi+nFAwQ52oWw0RY2yLTTfXmchGNa5F32So1JEES
+	dVH+OOE9U3XQqVhrTOc=
+X-Received: by 2002:a05:6122:4f9a:b0:5ea:c984:5ad4 with SMTP id 71dfb90a1353d-5eac9845f53mr360485e0c.2.1792372505877;
+        Sun, 18 Oct 2026 18:15:05 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ea9b474b2asm8039142e0c.4.2026.10.18.18.14.57
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ea9b474b2asm8039142e0c.4.2026.10.18.18.15.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 18:14:58 -0700 (PDT)
+        Sun, 18 Oct 2026 18:15:04 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: kees@kernel.org,
 	rppt@kernel.org,
@@ -106,9 +106,9 @@ To: kees@kernel.org,
 	blum@kernel.org,
 	longman@redhat.com,
 	bsegall@google.com
-Subject: [PATCH v2 4/8] x86/cacheinfo, mtrr: Skip stop_machine rendezvous in cache_ap_online() when MTRRs match
-Date: Sun, 18 Oct 2026 21:14:42 -0400
-Message-ID: <20261019011446.834487-5-pasha.tatashin@soleen.com>
+Subject: [PATCH v2 7/8] sched/topology: Avoid redundant percpu allocations and bitmap walks in build_sched_domains()
+Date: Sun, 18 Oct 2026 21:14:45 -0400
+Message-ID: <20261019011446.834487-8-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.56.0.176.g3575e65682-goog
 In-Reply-To: <20261019011446.834487-1-pasha.tatashin@soleen.com>
 References: <20261019011446.834487-1-pasha.tatashin@soleen.com>
@@ -120,145 +120,414 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a single CPU is brought online at runtime
-(cache_aps_delayed_init == false), cache_ap_online() unconditionally
-calls stop_machine_from_inactive_cpu() to rendezvous all online CPUs
-while the incoming AP runs cache_cpu_init() to disable caches
-(CR0.CD = 1, plus wbinvd() when X86_FEATURE_SELFSNOOP is not set),
-reprogram MTRRs via mtrr_generic_set_state(), and re-enable caches.
+During CPU hotplug, build_sched_domains() is invoked on every CPU
+activation and deactivation. Profiling build_sched_domains() on a
+480-CPU Intel Xeon 6985P-C and a 512-CPU AMD EPYC 9B45 shows several
+sources of avoidable O(N^2) and O(N) work per step:
 
-During initial boot (cache_aps_init()) and across warm CPU offline/online
-cycles, the AP's hardware MTRR MSRs have already been programmed to match
-the saved mtrr_state. Stopping all online CPUs in stop_machine (and
-flushing caches on the AP) when the AP's MTRRs already match mtrr_state
-is unnecessary.
+1. build_sched_groups() and build_overlap_sched_groups() iterate over
+   every bit of sched_domain_span(sd) via for_each_cpu_wrap(i, span, cpu)
+   and check cpumask_test_cpu(i, covered) one CPU at a time, even after
+   entire child groups (e.g., 120-CPU NUMA nodes) have been added to
+   covered. Instead, track the remaining uncovered CPUs
+   (cpumask_copy(uncovered, span)), clear each built group's span with
+   cpumask_andnot(), and advance directly to the next uncovered CPU.
 
-Add mtrr_generic_state_matches() to compare the local CPU's
-MSR_MTRRdefType, variable MTRR ranges, and fixed MTRR ranges against
-mtrr_state (including k8_check_syscfg_dram_mod_en() on AMD), and check it
-on the AP in cache_ap_online() before invoking
-stop_machine_from_inactive_cpu(). If the hardware MTRRs already match
-mtrr_state, initialize PAT locally on the AP and return.
+2. __visit_domain_allocation_hell() and __free_domain_allocs() allocate
+   and free 3 * nr_levels + 2 temporary per-CPU pointer arrays via
+   alloc_percpu() / free_percpu() on every domain rebuild. Reuse the
+   per-CPU pointer arrays across domain rebuilds (serialized by
+   sched_domains_mutex), clearing entries in __free_domain_allocs() and
+   only freeing the topology-level arrays when sched_domain_topology is
+   replaced in sched_init_numa() / sched_reset_numa() (serialized
+   against domain rebuilds by the CPU hotplug lock).
+
+3. sd_init() already computes sd_weight = cpumask_weight(sd_span), so
+   initialize sd->span_weight directly in sd_init() and reuse
+   child->span_weight in get_group() instead of recomputing
+   cpumask_weight() across all domains and groups.
+
+4. Reuse the first LLC sibling's computed llc_bytes in alloc_sd_llc()
+   and sched_update_llc_bytes().
 
 2-socket, 480-CPU Intel Xeon 6985P-C (N=479, mean of 10 runs):
-  Offline:   9.63 s ->  9.85 s
-  Online:   11.11 s ->  8.69 s (-21.8%)
-  Total:    20.74 s -> 18.54 s (-10.6%)
-  cache_ap_online() (cpu479 online):
-    7,704.0 us -> 4.7 us (-99.94%)
+  Offline:   3.88 s ->  3.37 s (-13.1%)
+  Online:    2.51 s ->  2.06 s (-17.9%)
+  Total:     6.39 s ->  5.43 s (-15.0%)
+  build_sched_domains() (cpu479 offline / online):
+    7.91 ms -> 3.96 ms (-50.0%) / 7.51 ms -> 4.26 ms (-43.3%)
 
 2-socket, 512-CPU AMD EPYC 9B45 (N=511, mean of 10 runs):
-  Offline:   4.53 s ->  4.51 s (-0.4%)
-  Online:    3.92 s ->  3.15 s (-19.6%)
-  Total:     8.45 s ->  7.66 s (-9.3%)
-  cache_ap_online() (cpu511 online):
-    1,354.6 us -> 6.4 us (-99.53%)
+  Offline:   2.77 s ->  2.34 s (-15.5%)
+  Online:    1.53 s ->  1.12 s (-26.8%)
+  Total:     4.30 s ->  3.46 s (-19.5%)
+  build_sched_domains() (cpu511 offline / online):
+    6.55 ms -> 3.04 ms (-53.7%) / 5.28 ms -> 3.20 ms (-39.4%)
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- arch/x86/include/asm/mtrr.h        |  2 ++
- arch/x86/kernel/cpu/cacheinfo.c    |  7 +++++
- arch/x86/kernel/cpu/mtrr/generic.c | 49 ++++++++++++++++++++++++++++++
- 3 files changed, 58 insertions(+)
+ kernel/sched/topology.c | 171 ++++++++++++++++++++++++++++------------
+ 1 file changed, 122 insertions(+), 49 deletions(-)
 
-diff --git a/arch/x86/include/asm/mtrr.h b/arch/x86/include/asm/mtrr.h
-index 76b95bd1a405..0527e216808c 100644
---- a/arch/x86/include/asm/mtrr.h
-+++ b/arch/x86/include/asm/mtrr.h
-@@ -61,6 +61,7 @@ extern int amd_special_default_mtrr(void);
- void mtrr_disable(void);
- void mtrr_enable(void);
- void mtrr_generic_set_state(void);
-+bool mtrr_generic_state_matches(void);
- #  else
- static inline void guest_force_mtrr_state(struct mtrr_var_range *var,
- 					  unsigned int num_var,
-@@ -106,6 +107,7 @@ static inline int mtrr_trim_uncached_memory(unsigned long end_pfn)
- #define mtrr_disable() do {} while (0)
- #define mtrr_enable() do {} while (0)
- #define mtrr_generic_set_state() do {} while (0)
-+static inline bool mtrr_generic_state_matches(void) { return true; }
- #  endif
+diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+index b5dec7f486b5..33210fd9dc2c 100644
+--- a/kernel/sched/topology.c
++++ b/kernel/sched/topology.c
+@@ -917,9 +917,15 @@ static bool alloc_sd_llc(const struct cpumask *cpu_map,
+ 			top_llc = parent;
  
- #ifdef CONFIG_COMPAT
-diff --git a/arch/x86/kernel/cpu/cacheinfo.c b/arch/x86/kernel/cpu/cacheinfo.c
-index 13ed16527905..64796d5b34fd 100644
---- a/arch/x86/kernel/cpu/cacheinfo.c
-+++ b/arch/x86/kernel/cpu/cacheinfo.c
-@@ -770,6 +770,13 @@ static int cache_ap_online(unsigned int cpu)
- 	if (!memory_caching_control || get_cache_aps_delayed_init())
- 		return 0;
- 
-+	if (!(memory_caching_control & CACHE_MTRR) ||
-+	    mtrr_generic_state_matches()) {
-+		if (memory_caching_control & CACHE_PAT)
-+			pat_cpu_init();
-+		return 0;
-+	}
+ 		if (top_llc->flags & SD_SHARE_LLC) {
++			int first = cpumask_first(sched_domain_span(top_llc));
 +
+ 			sd->llc_max = max_lid + 1;
+ 			sd->llc_counts = p;
+-			sd->llc_bytes = get_effective_llc_bytes(i, top_llc);
++			/* All CPUs in top_llc share the same LLC size and weight. */
++			if (first < i)
++				sd->llc_bytes = (*per_cpu_ptr(d->sd, first))->llc_bytes;
++			else
++				sd->llc_bytes = get_effective_llc_bytes(i, top_llc);
+ 		} else {
+ 			/* avoid memory leak */
+ 			kfree(p);
+@@ -1018,12 +1024,20 @@ void sched_update_llc_bytes(const struct cpumask *cpus)
+ 	 * own LLC domain to scale its share of the physical cache.
+ 	 */
+ 	for_each_cpu(i, cpus) {
++		int first;
++
+ 		sdp = rcu_dereference_sched_domain(per_cpu(sd_llc, i));
+ 		if (!sdp)
+ 			continue;
+ 
+ 		sd = rcu_dereference_sched_domain(cpu_rq(i)->sd);
+-		if (sd)
++		if (!sd)
++			continue;
++
++		first = cpumask_first(sched_domain_span(sdp));
++		if (first < i)
++			sd->llc_bytes = rcu_dereference_sched_domain(cpu_rq(first)->sd)->llc_bytes;
++		else
+ 			sd->llc_bytes = get_effective_llc_bytes(i, sdp);
+ 	}
+ 
+@@ -1370,19 +1384,18 @@ build_overlap_sched_groups(struct sched_domain *sd, int cpu)
+ {
+ 	struct sched_group *first = NULL, *last = NULL, *sg;
+ 	const struct cpumask *span = sched_domain_span(sd);
+-	struct cpumask *covered = sched_domains_tmpmask;
++	struct cpumask *uncovered = sched_domains_tmpmask;
+ 	struct sd_data *sdd = sd->private;
+ 	struct sched_domain *sibling;
+ 	int i;
+ 
+-	cpumask_clear(covered);
++	cpumask_copy(uncovered, span);
+ 
+-	for_each_cpu_wrap(i, span, cpu) {
++	for (i = cpu; i < nr_cpu_ids;
++	     i = cpumask_next(i, uncovered),
++	     i = i < nr_cpu_ids ? i : cpumask_first(uncovered)) {
+ 		struct cpumask *sg_span;
+ 
+-		if (cpumask_test_cpu(i, covered))
+-			continue;
+-
+ 		sibling = *per_cpu_ptr(sdd->sd, i);
+ 
+ 		/*
+@@ -1395,8 +1408,10 @@ build_overlap_sched_groups(struct sched_domain *sd, int cpu)
+ 		 * Domains should always include the CPU they're built on, so
+ 		 * check that.
+ 		 */
+-		if (!cpumask_test_cpu(i, sched_domain_span(sibling)))
++		if (!cpumask_test_cpu(i, sched_domain_span(sibling))) {
++			__cpumask_clear_cpu(i, uncovered);
+ 			continue;
++		}
+ 
+ 		/*
+ 		 * Usually we build sched_group by sibling's child sched_domain
+@@ -1438,7 +1453,7 @@ build_overlap_sched_groups(struct sched_domain *sd, int cpu)
+ 			goto fail;
+ 
+ 		sg_span = sched_group_span(sg);
+-		cpumask_or(covered, covered, sg_span);
++		cpumask_andnot(uncovered, uncovered, sg_span);
+ 
+ 		if (init_overlap_sched_group(sibling, sg)) {
+ 			kfree(sg);
+@@ -1579,12 +1594,13 @@ static struct sched_group *get_group(int cpu, struct sd_data *sdd)
+ 		cpumask_copy(sched_group_span(sg), sched_domain_span(child));
+ 		cpumask_copy(group_balance_mask(sg), sched_group_span(sg));
+ 		sg->flags = child->flags;
++		sg->sgc->capacity = SCHED_CAPACITY_SCALE * child->span_weight;
+ 	} else {
+ 		cpumask_set_cpu(cpu, sched_group_span(sg));
+ 		cpumask_set_cpu(cpu, group_balance_mask(sg));
++		sg->sgc->capacity = SCHED_CAPACITY_SCALE;
+ 	}
+ 
+-	sg->sgc->capacity = SCHED_CAPACITY_SCALE * cpumask_weight(sched_group_span(sg));
+ 	sg->sgc->min_capacity = SCHED_CAPACITY_SCALE;
+ 	sg->sgc->max_capacity = SCHED_CAPACITY_SCALE;
+ 
+@@ -1604,25 +1620,24 @@ build_sched_groups(struct sched_domain *sd, int cpu)
+ 	struct sched_group *first = NULL, *last = NULL;
+ 	struct sd_data *sdd = sd->private;
+ 	const struct cpumask *span = sched_domain_span(sd);
+-	struct cpumask *covered;
++	struct cpumask *uncovered;
+ 	int i;
+ 
+ 	lockdep_assert_held(&sched_domains_mutex);
+-	covered = sched_domains_tmpmask;
++	uncovered = sched_domains_tmpmask;
+ 
+-	cpumask_clear(covered);
++	cpumask_copy(uncovered, span);
+ 
+-	for_each_cpu_wrap(i, span, cpu) {
++	for (i = cpu; i < nr_cpu_ids;
++	     i = cpumask_next(i, uncovered),
++	     i = i < nr_cpu_ids ? i : cpumask_first(uncovered)) {
+ 		struct sched_group *sg;
+ 
+-		if (cpumask_test_cpu(i, covered))
+-			continue;
+-
+ 		sg = get_group(i, sdd);
+ 		if (!sg)
+ 			return -ENOMEM;
+ 
+-		cpumask_or(covered, covered, sched_group_span(sg));
++		cpumask_andnot(uncovered, uncovered, sched_group_span(sg));
+ 
+ 		if (!first)
+ 			first = sg;
+@@ -1911,16 +1926,21 @@ static int __sdt_alloc(const struct cpumask *cpu_map);
+ static void __sds_free(struct s_data *d, const struct cpumask *cpu_map);
+ static int __sds_alloc(struct s_data *d, const struct cpumask *cpu_map);
+ 
++static struct sched_domain * __percpu *sched_domains_sd;
++
+ static void __free_domain_allocs(struct s_data *d, enum s_alloc what,
+ 				 const struct cpumask *cpu_map)
+ {
++	int j;
++
+ 	switch (what) {
+ 	case sa_rootdomain:
+ 		if (!atomic_read(&d->rd->refcount))
+ 			free_rootdomain(&d->rd->rcu);
+ 		fallthrough;
+ 	case sa_sd:
+-		free_percpu(d->sd);
++		for_each_cpu(j, cpu_map)
++			*per_cpu_ptr(d->sd, j) = NULL;
+ 		fallthrough;
+ 	case sa_sd_shared:
+ 		__sds_free(d, cpu_map);
+@@ -1942,9 +1962,12 @@ __visit_domain_allocation_hell(struct s_data *d, const struct cpumask *cpu_map)
+ 		return sa_sd_storage;
+ 	if (__sds_alloc(d, cpu_map))
+ 		return sa_sd_shared;
+-	d->sd = alloc_percpu(struct sched_domain *);
+-	if (!d->sd)
+-		return sa_sd_shared;
++	if (!sched_domains_sd) {
++		sched_domains_sd = alloc_percpu(struct sched_domain *);
++		if (!sched_domains_sd)
++			return sa_sd_shared;
++	}
++	d->sd = sched_domains_sd;
+ 	d->rd = alloc_rootdomain();
+ 	if (!d->rd)
+ 		return sa_sd;
+@@ -2072,6 +2095,7 @@ sd_init(struct sched_domain_topology_level *tl,
+ 
+ 		.last_balance		= jiffies,
+ 		.balance_interval	= sd_weight,
++		.span_weight		= sd_weight,
+ 
+ 		/* 50% success rate */
+ 		.newidle_call		= 512,
+@@ -2212,6 +2236,24 @@ void __init set_sched_topology(struct sched_domain_topology_level *tl)
+ }
+ 
+ #ifdef CONFIG_NUMA
++static void __sdt_free_percpu(void)
++{
++	struct sched_domain_topology_level *tl;
++
++	lockdep_assert_cpus_held();
++
++	for_each_sd_topology(tl) {
++		struct sd_data *sdd = &tl->data;
++
++		free_percpu(sdd->sd);
++		sdd->sd = NULL;
++		free_percpu(sdd->sg);
++		sdd->sg = NULL;
++		free_percpu(sdd->sgc);
++		sdd->sgc = NULL;
++	}
++}
++
+ static int cpu_numa_flags(void)
+ {
+ 	return SD_NUMA;
+@@ -2502,6 +2544,7 @@ void sched_init_numa(int offline_node)
  	/*
- 	 * Ideally we should hold mtrr_mutex here to avoid MTRR entries
- 	 * changed, but this routine will be called in CPU boot time,
-diff --git a/arch/x86/kernel/cpu/mtrr/generic.c b/arch/x86/kernel/cpu/mtrr/generic.c
-index 67cf69f24b00..8760a7b4dc38 100644
---- a/arch/x86/kernel/cpu/mtrr/generic.c
-+++ b/arch/x86/kernel/cpu/mtrr/generic.c
-@@ -981,6 +981,55 @@ void mtrr_generic_set_state(void)
+ 	 * Copy the default topology bits..
+ 	 */
++	__sdt_free_percpu();
+ 	for (i = 0; sched_domain_topology[i].mask; i++)
+ 		tl[i] = sched_domain_topology[i];
+ 
+@@ -2560,6 +2603,7 @@ static void sched_reset_numa(void)
+ 		kfree(masks);
+ 	}
+ 	if (sched_domain_topology_saved) {
++		__sdt_free_percpu();
+ 		kfree(sched_domain_topology);
+ 		sched_domain_topology = sched_domain_topology_saved;
+ 		sched_domain_topology_saved = NULL;
+@@ -2761,21 +2805,38 @@ static int __sdt_alloc(const struct cpumask *cpu_map)
+ 	for_each_sd_topology(tl) {
+ 		struct sd_data *sdd = &tl->data;
+ 
+-		sdd->sd = alloc_percpu(struct sched_domain *);
+-		if (!sdd->sd)
+-			return -ENOMEM;
++		if (!sdd->sd) {
++			sdd->sd = alloc_percpu(struct sched_domain *);
++			if (!sdd->sd)
++				return -ENOMEM;
++		}
+ 
+-		sdd->sg = alloc_percpu(struct sched_group *);
+-		if (!sdd->sg)
+-			return -ENOMEM;
++		if (!sdd->sg) {
++			sdd->sg = alloc_percpu(struct sched_group *);
++			if (!sdd->sg)
++				return -ENOMEM;
++		}
+ 
+-		sdd->sgc = alloc_percpu(struct sched_group_capacity *);
+-		if (!sdd->sgc)
+-			return -ENOMEM;
++		if (!sdd->sgc) {
++			sdd->sgc = alloc_percpu(struct sched_group_capacity *);
++			if (!sdd->sgc)
++				return -ENOMEM;
++		}
+ 
++		/*
++		 * The slot arrays are kept between builds. Every slot for a CPU
++		 * in cpu_map must be NULL here; lazy allocation treats NULL as
++		 * "not allocated in this build". claim_allocations() and
++		 * __sdt_free()/__sds_free() clear the slots, but only for
++		 * cpu_map, so a build must not fill slots outside cpu_map.
++		 */
+ 		for_each_cpu(j, cpu_map) {
+ 			struct sched_domain *sd;
+ 
++			WARN_ON_ONCE(*per_cpu_ptr(sdd->sd, j) ||
++				     *per_cpu_ptr(sdd->sg, j) ||
++				     *per_cpu_ptr(sdd->sgc, j));
++
+ 			sd = kzalloc_node(sizeof(struct sched_domain) + cpumask_size(),
+ 					GFP_KERNEL, cpu_to_node(j));
+ 			if (!sd)
+@@ -2801,30 +2862,41 @@ static void __sdt_free(const struct cpumask *cpu_map)
+ 
+ 			if (sdd->sd) {
+ 				sd = *per_cpu_ptr(sdd->sd, j);
+-				if (sd && (sd->flags & SD_NUMA))
+-					free_sched_groups(sd->groups, 0);
+-				kfree(*per_cpu_ptr(sdd->sd, j));
++				if (sd) {
++					if (sd->flags & SD_NUMA)
++						free_sched_groups(sd->groups, 0);
++					kfree(sd);
++					*per_cpu_ptr(sdd->sd, j) = NULL;
++				}
+ 			}
+ 
+-			if (sdd->sg)
++			if (sdd->sg) {
+ 				kfree(*per_cpu_ptr(sdd->sg, j));
+-			if (sdd->sgc)
++				*per_cpu_ptr(sdd->sg, j) = NULL;
++			}
++			if (sdd->sgc) {
+ 				kfree(*per_cpu_ptr(sdd->sgc, j));
++				*per_cpu_ptr(sdd->sgc, j) = NULL;
++			}
+ 		}
+-		free_percpu(sdd->sd);
+-		sdd->sd = NULL;
+-		free_percpu(sdd->sg);
+-		sdd->sg = NULL;
+-		free_percpu(sdd->sgc);
+-		sdd->sgc = NULL;
  	}
  }
  
-+bool mtrr_generic_state_matches(void)
-+{
-+	struct msr val;
-+	unsigned int i;
++static struct sched_domain_shared * __percpu *sched_domains_sds;
 +
-+	if (!cpu_feature_enabled(X86_FEATURE_MTRR))
-+		return true;
+ static int __sds_alloc(struct s_data *d, const struct cpumask *cpu_map)
+ {
+-	d->sds = alloc_percpu(struct sched_domain_shared *);
+-	if (!d->sds)
+-		return -ENOMEM;
++	int j;
 +
-+	rdmsrq(MSR_MTRRdefType, val.q);
-+	if ((val.l & MTRR_DEF_TYPE_TYPE) != mtrr_state.def_type ||
-+	    ((val.l & MTRR_DEF_TYPE_ENABLE) >> MTRR_STATE_SHIFT) != mtrr_state.enabled)
-+		return false;
-+
-+	for (i = 0; i < num_var_ranges; i++) {
-+		struct mtrr_var_range *vr = &mtrr_state.var_ranges[i];
-+
-+		rdmsrq(MTRRphysBase_MSR(i), val.q);
-+		if ((vr->base_lo & ~MTRR_PHYSBASE_RSVD) != (val.l & ~MTRR_PHYSBASE_RSVD) ||
-+		    (vr->base_hi & ~phys_hi_rsvd) != (val.h & ~phys_hi_rsvd))
-+			return false;
-+
-+		rdmsrq(MTRRphysMask_MSR(i), val.q);
-+		if ((vr->mask_lo & ~MTRR_PHYSMASK_RSVD) != (val.l & ~MTRR_PHYSMASK_RSVD) ||
-+		    (vr->mask_hi & ~phys_hi_rsvd) != (val.h & ~phys_hi_rsvd))
-+			return false;
++	if (!sched_domains_sds) {
++		sched_domains_sds = alloc_percpu(struct sched_domain_shared *);
++		if (!sched_domains_sds)
++			return -ENOMEM;
 +	}
++	d->sds = sched_domains_sds;
 +
-+	if (mtrr_state.have_fixed) {
-+		u64 *saved = (u64 *)mtrr_state.fixed_ranges;
-+		int block = -1, range;
-+
-+		/*
-+		 * Ensure MtrrFixDramModEn is clear so fixed MTRR reads do not
-+		 * expose K8 RdMem/WrMem bits and cause false mismatches.
-+		 */
-+		k8_check_syscfg_dram_mod_en();
-+
-+		while (fixed_range_blocks[++block].ranges) {
-+			for (range = 0; range < fixed_range_blocks[block].ranges; range++) {
-+				rdmsrq(fixed_range_blocks[block].base_msr + range, val.q);
-+				if (val.q != *saved++)
-+					return false;
-+			}
-+		}
++	for_each_cpu(j, cpu_map)
++		WARN_ON_ONCE(*per_cpu_ptr(d->sds, j));
+ 
+ 	return 0;
+ }
+@@ -2836,10 +2908,11 @@ static void __sds_free(struct s_data *d, const struct cpumask *cpu_map)
+ 	if (!d->sds)
+ 		return;
+ 
+-	for_each_cpu(j, cpu_map)
++	for_each_cpu(j, cpu_map) {
+ 		kfree(*per_cpu_ptr(d->sds, j));
++		*per_cpu_ptr(d->sds, j) = NULL;
 +	}
-+
-+	return true;
-+}
-+
- /**
-  * generic_set_mtrr - set variable MTRR register on the local CPU.
-  *
+ 
+-	free_percpu(d->sds);
+ 	d->sds = NULL;
+ }
+ 
+@@ -2863,6 +2936,7 @@ static struct sched_domain *build_sched_domain(struct sched_domain_topology_leve
+ 			cpumask_or(sched_domain_span(sd),
+ 				   sched_domain_span(sd),
+ 				   sched_domain_span(child));
++			sd->span_weight = cpumask_weight(sched_domain_span(sd));
+ 		}
+ 
+ 	}
+@@ -3213,7 +3287,6 @@ build_sched_domains(const struct cpumask *cpu_map, struct sched_domain_attr *att
+ 	/* Build the groups for the domains */
+ 	for_each_cpu(i, cpu_map) {
+ 		for (sd = *per_cpu_ptr(d.sd, i); sd; sd = sd->parent) {
+-			sd->span_weight = cpumask_weight(sched_domain_span(sd));
+ 			if (sd->flags & SD_NUMA) {
+ 				if (build_overlap_sched_groups(sd, i))
+ 					goto error;
 -- 
 2.56.0.176.g3575e65682-goog
 
