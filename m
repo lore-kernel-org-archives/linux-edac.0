@@ -1,120 +1,116 @@
-Received: from va-1-113.ptr.blmpb.com (va-1-113.ptr.blmpb.com [209.127.230.113])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D7833F8C4
-	for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 02:16:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A182836B913;
+	Mon, 19 Oct 2026 04:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792376213; cv=none; b=YtPjcOfI6shHxQgqfEfpuJLDB5+YvARnBICBh1fW1LzXpVuJXwznuOTzsvvWmSlOHVwmNnqZGpZi8uaPwJ5CxQ6PVY0AJJx3x/plC5/N56M0ncWyHKzPlpv+sNp7VB0LLDpsX3TmfI+Dcm6uLPXKNImrUznahpOdvsEV+q19jAA=
+	t=1792383319; cv=none; b=V0rMqVuBPSaRm1yGSUaeI2ovhbrWnNSqAJ7q2KIn1HcVPQ4k1fIjPAMXUsRZY+l4Ccq49UeKFeHgBoEqQA+E64xgrG/+V03xpl+FMTKBOBuSV3fY9IjjGbl5quq4o4NVLoWlAowalXOcFcU7VLyThGUmTo2mg1rGHTuLN522ETI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792376213; c=relaxed/simple;
-	bh=p6Yk20CJcylgrXxAJQUEvRF0p7sAsIT5anlc/D4U6qc=;
-	h=Message-Id:Subject:From:Content-Type:Date:Cc:Mime-Version:
-	 In-Reply-To:References:To; b=EX9XyTYhN3pKRNtLZgVZfgpV55icqgHHiXMB5PsqBlGLMXqQYdAzIMwXHELh0wYwqFOWIXVVKiTij4SyNRJPO2WArS1FsMUdYEFQOin8yZOSAURs327Lnxpz0mUfuHArYTfG6XEc2pF53sEfBvi+UtRFeRwrLYQ/pzgJNAbKNjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=SH5qAhvK; arc=none smtp.client-ip=209.127.230.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1792383319; c=relaxed/simple;
+	bh=TrUgULCObwvAj6sB827ol0DTcAdZxmFbjyO8N2F1jUY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iiN0ZaL59pjeEF9adcDP+64OJM07Fh6pdFXHoiBKbywlG8iCI5I3K3WM0ReWem9aemElmWVOaEdfoiwTBBjDpzUoNPHe4telijA9dPyceRJCK0oM+3OivOxpU3IwyLq7CLofd9z4JEKhZtyLzdkK+fhX6i3WkNm1C+FB8Jbzkus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=krQRunRK; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="SH5qAhvK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1792376197; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=p6Yk20CJcylgrXxAJQUEvRF0p7sAsIT5anlc/D4U6qc=;
- b=SH5qAhvK0qs86QvmpYhBiy84VJnUttawWGKeJEwEgSeKwRtCs0dRR1LENGF7PazCdxedNg
- b1C7BjnzGo9N7tu1x/TdZqUayHcQ6oxf8sSgZeULMg4eO66LaK5gHAaZ3s3X3Ptekj6el+
- RsQ5lClDHLdagvurPqrMCW4mPJ2NoC2Ne0MQtBkJhUOGRlz5yZuLiy7n0vAiSQWbDR0BRS
- oOlPUKcGx5G3X5u3Fp/I5qQBAhOWqzxRtaHt4LQTlxHh5KLhwxjBoDPObKtnvzrdDQKLsO
- Jtg7bkIY5WN5/q0vCi3n/kzb36/Dth8DXs5qu+VpD5+Heen4XjattJ9wVL8OrQ==
-Message-Id: <451788d5e97cba38274e663d2b7952c593e959be.461d4034.890c.4720.915c.a7839a9cc59e@bytedance.com>
-Subject: Re: [PATCH] EDAC/mce_amd: Add missing long names for SMCA bank types
-From: "Guixiong Wei" <weiguixiong@bytedance.com>
-X-Lms-Return-Path: <lba+16ad57d83+19f2f5+vger.kernel.org+weiguixiong@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 19 Oct 2026 10:16:32 +0800
-Cc: "Borislav Petkov" <bp@alien8.de>, "Tony Luck" <tony.luck@intel.com>, 
-	"Muralidhara M K" <muralidhara.mk@amd.com>, <linux-edac@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>, 
-	"Guixiong Wei" <weiguixiong@bytedance.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="krQRunRK"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D5B6740E015B;
+	Mon, 19 Oct 2026 04:15:11 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ErKCFo8JYxqO; Mon, 19 Oct 2026 04:15:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1792383308; bh=p7h+Wad+pyLNKMyu/1QoznQu9hqJDkJyBcK35tN0uCU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=krQRunRKTqK6d2hTGjOH7yn/uQLDHxmKKlr1aGOby1aaVDc3GQrHaj1IbHWOFlLpQ
+	 T0aQX0GmkWvWAFeSOegTniHGVsARBfFAB06fcbjuLrWPhIKC/oAX7Bl601zhD8ndNq
+	 ptyxCShUW2IE9OxOjox9vj5EQMH1EUUctJ2JrLryVXfJ2dV6U9hoowGqsxUAxz9nZ7
+	 b8/vjju9uRSXpWyG0+CVSObizaWmtlropor31KW9i7tzRE0Z5aZEpEjEOKu4sYvDgX
+	 MlHm5C5wZcM+6vPu+wG5g7WynB++k1HYbh8B4mEwhJiTNThdlr0MSohDfmpmAh4gD3
+	 iyIu+YfaXIYay+jjre1VSA+hD5Rp5W4+Cf0O1E1baJaIVH4Fh00se5dOdIn/FjZZ8f
+	 x9IAGu5v8nRy7U82DAPnJGWcEto1cmy0Y7wrdvheY+mSWJfVs/GWse7sW+GdrOlMP1
+	 7ukpv+FOUfYnAl/Twyohy2+MffdW2FXFdcg0WMVznkid71/QccRVzn+MK8mNW1TLiw
+	 AicMdVAv7J5PoXdnDUeE0PXklFDbyX+au9v0CfMXAD70lX/nXv7mFSGiQuM0KDy90M
+	 9XuIeljxPNEzFtqGVD9zd+gQm/o9UaoecMe/PHoqwnbBVuPeUYOCdfvvvCMIh1un+a
+	 1RBQnMXpnN4JqWjZTLBCi1W4=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 465DE40E021A;
+	Mon, 19 Oct 2026 04:14:23 +0000 (UTC)
+Date: Sun, 18 Oct 2026 21:14:20 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: kees@kernel.org, rppt@kernel.org, juri.lelli@redhat.com,
+	nik.borisov@suse.com, tglx@kernel.org, vschneid@redhat.com,
+	kprateek.nayak@amd.com, vincent.guittot@linaro.org,
+	jpoimboe@kernel.org, cgroups@vger.kernel.org, tony.luck@intel.com,
+	david@kernel.org, mingo@redhat.com, akpm@linux-foundation.org,
+	linux-mm@kvack.org, seanjc@google.com, ljs@kernel.org,
+	zhangguopeng@kylinos.cn, dietmar.eggemann@arm.com, mhocko@suse.com,
+	vinicius.gomes@intel.com, vbabka@kernel.org,
+	linux-kernel@vger.kernel.org, peterz@infradead.org,
+	surenb@google.com, hpa@zytor.com, x86@kernel.org,
+	dmatlack@google.com, tim.c.chen@linux.intel.com,
+	kexec@lists.infradead.org, pratyush@kernel.org,
+	dave.hansen@linux.intel.com, rostedt@goodmis.org,
+	gmonaco@redhat.com, jgross@suse.com, mgorman@suse.de,
+	graf@amazon.com, linux-edac@vger.kernel.org, liam@infradead.org,
+	ridong.chen@linux.dev, blum@kernel.org, longman@redhat.com,
+	bsegall@google.com
+Subject: Re: [PATCH v2 0/8] x86, sched, mm: Speed up CPU hotplug on large
+ systems
+Message-ID: <20261019041420.GCatWZHINJx7DIhXSP@fat_crate.local>
+References: <20261019011446.834487-1-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-In-Reply-To: <20261018223431.GA3236@yaz-khff2.amd.com>
-References: <20261009020447.90758-2-weiguixiong@bytedance.com> <20261012140330.GC15198@yaz-khff2.amd.com> <20261017195145.GAatPR0dQVZGEMHglh@fat_crate.local>
-	<20261018223431.GA3236@yaz-khff2.amd.com>
-Content-Transfer-Encoding: quoted-printable
-To: "Yazen Ghannam" <yazen.ghannam@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261019011446.834487-1-pasha.tatashin@soleen.com>
 
+On Sun, Oct 18, 2026 at 09:14:38PM -0400, Pasha Tatashin wrote:
+> For live update we require a fast CPU online and offline capability.
+> However, sequentially offlining and onlining all application processors
+> on modern high-core-count x86 servers exposes a series of hardware and
+> algorithmic bottlenecks across arch/x86, the scheduler topology builder,
+> deadline bandwidth accounting, and vmstat.
 
-> From: "Yazen Ghannam"<yazen.ghannam@amd.com>
-> Date:=C2=A0 Mon, Oct 19, 2026, 06:35
-> Subject:=C2=A0 Re: [PATCH] EDAC/mce_amd: Add missing long names for SMCA =
-bank types
-> To: "Borislav Petkov"<bp@alien8.de>
-> Cc: "Guixiong Wei"<weiguixiong@bytedance.com>, "Tony Luck"<tony.luck@inte=
-l.com>, "Muralidhara M K"<muralidhara.mk@amd.com>, <linux-edac@vger.kernel.=
-org>, <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-> On Sat, Oct 17, 2026 at 12:51:45PM -0700, Borislav Petkov wrote:
-> > On Mon, Oct 12, 2026 at 10:03:30AM -0400, Yazen Ghannam wrote:
-> > > These were intentionaly left out as it as it seems users have been
-> > > moving to user space decode tools.
-> >=C2=A0
-> > You're making the old mistake:
-> >=C2=A0
-> > a. a naked MCE record in dmesg, you have to open the PPRs and actually =
-decode
-> > it by hand. Or use a tool but most of the time, that tool is not update=
-d with
-> > the latest error definitions, and you need the exact machine info in or=
-der for
-> > the tool to decode properly, yadda yadda...
-> >=C2=A0
-> > b. Get a fully decoded error string in dmesg.
-> >=C2=A0
-> > What is better: a) or b) ?
-> >=C2=A0
->=C2=A0
-> "a" is better.
->=C2=A0
-> The same "is not updated with the latest error definitions" applies to
-> the kernel.
->=C2=A0
-> And it's usually easier to update tools than patch the kernel (and also
-> deal with backporting, etc.).
->=C2=A0
-> In any case, this patch isn't about error descriptions. It's only about
-> adding the names for some bank types.
->=C2=A0
-> The bank types were added three years ago. AFAIK, the missing names
-> haven't been an issue. So I'm curious if this patch is actually fixing a
-> problem. If so, then that's fine.
+From: Documentation/process/submitting-patches.rst
 
-I found this while reviewing decode_smca_error(), rather than from
-an observed MCE or a user report. In particular, I was looking at:
+"Don't get discouraged - or impatient
+------------------------------------
 
-=C2=A0=C2=A0 =C2=A0 =C2=A0=C2=A0 pr_emerg(HW_ERR "%s Ext. Error Code: %d",
-=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 smca_get_long=
-_name(bank_type), xec);
+After you have submitted your change, be patient and wait.  Reviewers are
+busy people and may not get to your patch right away.
 
-For SMCA_MA_LLC, SMCA_USR_DP and SMCA_USR_CP, the corresponding
-smca_long_names[] entries are unset, so smca_get_long_name() returns
-NULL. The %s conversion would therefore print "(null)" instead of
-the bank name.
+Once upon a time, patches used to disappear into the void without comment,
+but the development process works more smoothly than that now.  You should
+receive comments within a week or so; if that does not happen, make sure
+that you have sent your patches to the right place.  Wait for a minimum of
+						     ^^^^^^^^^^^^^^^^^^^^^			
 
-That was what prompted the patch. I had assumed those entries were
-an oversight; the intention was to make the existing log output
-show the bank names.
+one week before resubmitting or pinging reviewers - possibly longer during
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Regarding Boris's earlier comment, I agree that the Cc: stable tag
-was not justified here and will drop it.
+busy times like merge windows."
 
-Thanks for the feedback.
++ the merge window just opened.
 
-Guixiong
->=C2=A0
-> Thanks,
-> Yazen
->=C2=A0
+So stop the spamming please.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
