@@ -1,103 +1,246 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210B45A3592;
-	Mon, 19 Oct 2026 14:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792421066; cv=none; b=eyxHWmcdyDEPHFKX6885i78mRnFNkFSvPWNN2YD8kW0LUDLoXfAi6UyE+BQR/h3wn1SjRitZ7nJBtwbomn0EE8fdYBxGaUBECAmuqkhZqy7JkXs1IUUw/zvmzEfeoXRTuQDiNNfpXNToLt4C4couB6rKVhFhY6tMcr5qYEC4sqs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792421066; c=relaxed/simple;
-	bh=M50cgOBy/LauGa0pGoFBLyHKSyVtAgLQdzrWGmCAWp8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FXk0dSjolP+3xi5VMALZQbN9Mz+p3Vc9htAu9Q8sOa3AUCvoMvg9yZtgqgYipluFVxBjRp5ngGJIsyyCJELlFsEUtjcFxI/wCJ0Q3LYwxCUUtcMqP9EIiL5vl0Xc7a6G1xilVpZP1cHEprJL3n6Hvh+dIOeaGLE2S1ZzXbaHcoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jL1wVhbo; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792421861;
+	b=fbBaSA4hWZ2zyIIPGEFU59zYDxUJ+zgkeC3ZZGJOiOFkMiso7OaBNjlnNogT+8TUywDp
+	 9kJXdDhEm+cVunAO/XUqZ90L7i+piosiyVShYxnFauH6mQolSBRVW55j2bMoE1xsdM8a/
+	 +WCwH+zFum9R7SEPKRrYrbHN5O08mX1Zlxqh2C/3rg5ffqfg1Dp75gnhwlxhgmfMLNmA8
+	 ARLUmIaPVbuJjantD8MUQJfZtHq4PLKKnRh5Cxdjz6g6e845zaqtiwKr9j12jQmtJHPJ+
+	 82CLztwnmTA11QZHsshNXas7R+CbAQpejocWSR5aHFmDPcOoh1YXaESlshveXfcXnCw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792421861;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=jb1csYS041OQkRUmll6dd69CLnrWmFEl4dVYrmHtRAU=;
+	b=qS8WGsZHJgNZ2Isnxg/lP4AxJVdGsCAoblID7kYMKtCVYhHuwNcRIccf2aReiwctFZsB
+	 9sO+pgTbz1UhSnZZ3oQ9OkiNJSaLc7jzgM6U8lp3xO2f++tTGAqDMXw0AJCoJpE2qx40U
+	 y6Vr7Pxk6ujjZT2fJxbJ0wCUTztj5q7zf1qPiB0qu1vUtXCgSkWM27OaKHhzDQAvUW3zz
+	 w1OUC9i6TD/S+7brJNFHK3ZYYCSzu7jGmWUM90Hzm8Vvi+8Nr212ESm0EUn9zWWyU40bG
+	 eLyqfZ+902tcsEZjBf+25Cahb1iRgBwslrtgAjaEpX7N8FByq0QpLeiZv665OX5xVsg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=gKgqD6z5;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDA6160740BA;
+	Mon, 19 Oct 2026 14:57:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EDA6160740BA
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jL1wVhbo"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id B4F60C5CD5B;
-	Mon, 19 Oct 2026 14:45:21 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 9993360582;
-	Mon, 19 Oct 2026 14:44:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5FDA610328D3B;
-	Mon, 19 Oct 2026 16:44:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1792421062; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=xH0gEgoLRWaLsp635rB2jonezfltFGPWmAbpMXeeiOk=;
-	b=jL1wVhbo9M+I0bcruq5q6iCzf+vaN3qXBgpv6gKJCSChx2p52y6CbU9qFIGx1dc05v05Oz
-	ggmzmmfRbKXUc7SwYxfqJj86ooN2PbuCxo9Ek/lXpkQ8c+u4tOjiaBC3qlOXp7v3VkpK2+
-	dCSGurDjswzEUgn4Nrqm8xl9C6B9Yvq5/ZVlveAnSzIZfKV8lmyj4vbaHI6w3DkYmZ1f4V
-	A8UnbCd2naDtFspeSjdsbSR04gYnDcbc+whbfuFmhaqSciuUepo7eH/DNZ3t0Qv785Qqvk
-	37vNJaPiUVf9HYbvgkOiMabFrMDp0r/imnnNmHxexCKpLd3/cWX3n9s0Pz8r5g==
-From: Paul Louvel <paul.louvel@bootlin.com>
-Date: Mon, 19 Oct 2026 16:43:27 +0200
-Subject: [PATCH v7 3/3] ARM: dts: renesas: r9a06g032: add EDAC node
-Precedence: bulk
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=gKgqD6z5
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D434E1EA6;
+	Mon, 19 Oct 2026 07:57:29 -0700 (PDT)
+Received: from e135073.nice.Arm.com (e135073.arm.com [10.34.111.131])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 239C93F673;
+	Mon, 19 Oct 2026 07:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1792421853; bh=rFQ3QLuKff7vtlNW+Ur6AcpokK+E1Tl4p+PypJsyh/k=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=gKgqD6z5TyPQLzUtRIFI01FrJpTwkRcyF+muszFRAoPszG94P+njdbUoMt9YNeckJ
+	 OFKy6SWNcoYvVHsuuyWT3yoqSutdQqsTJ1HEjbqr3kjyx6ELSG1AnQpHPTBZGRoAVg
+	 PnDsG4BkJan0/3EQZ20xOSQyBiOun5+QFpm+ZclU=
+From: Pierre Gondois <pierre.gondois@arm.com>
+To: linux-kernel@vger.kernel.org
+Cc: James Morse <james.morse@arm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Pierre Gondois <pierre.gondois@arm.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shuai Xue <xueshuai@linux.alibaba.com>,
+	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+	Pawel Chmielewski <pawel.chmielewski@intel.com>,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	Breno Leitao <leitao@debian.org>,
+	Dan Williams <djbw@kernel.org>,
+	Terry Bowman <terry.bowman@amd.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Morduan Zang <zhangdandan@uniontech.com>,
+	linux-acpi@vger.kernel.org,
+	linux-edac@vger.kernel.org,
+	acpica-devel@lists.linux.dev
+Subject: [PATCH 4/6] cper: add helpers to handle Memory Error Section 2
+Date: Mon, 19 Oct 2026 16:56:11 +0200
+Message-ID: <20261019145643.1877246-5-pierre.gondois@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261019145643.1877246-1-pierre.gondois@arm.com>
+References: <20261019145643.1877246-1-pierre.gondois@arm.com>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
+List-Post: <mailto:linux-edac@vger.kernel.org>
+List-Help: <mailto:linux-edac+help@vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
+List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
+Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261019-paul-v7-3-rc1-edac-v7-3-84c76c6d7595@bootlin.com>
-References: <20261019-paul-v7-3-rc1-edac-v7-0-84c76c6d7595@bootlin.com>
-In-Reply-To: <20261019-paul-v7-3-rc1-edac-v7-0-84c76c6d7595@bootlin.com>
-To: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-edac@vger.kernel.org, devicetree@vger.kernel.org, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, 
- Herve Codina <herve.codina@bootlin.com>, 
- "Paul Louvel (Schneider Electric)" <paul.louvel@bootlin.com>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792421040; l=1057;
- i=paul.louvel@bootlin.com; s=20260313; h=from:subject:message-id;
- bh=M50cgOBy/LauGa0pGoFBLyHKSyVtAgLQdzrWGmCAWp8=;
- b=r8ZMJOImRgqEPTGLesAcBvG1dlQkFjPOtp+af7z33pYiw/wziqOJuhfVrYWyYefhgT80FY9uO
- z7wG6lnbLieBAwrzA45E5IQBnc1E5vmHSqW4q5fX88FGxp1P1LWMZvb
-X-Developer-Key: i=paul.louvel@bootlin.com; a=ed25519;
- pk=eLW50NT18UAvUT5cAcYf88zNbBCZDLFXuptpyLVhVIU=
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
-Add EDAC node to the SoC base device tree file.
+Add separate location and printing helpers for Memory Error
+Section 2:
+- cper_mem_err2_location()
+- cper_dimm_err2_location()
+- cper_print_mem2()
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Signed-off-by: Paul Louvel (Schneider Electric) <paul.louvel@bootlin.com>
+Similar functions/logic exists for Memory Error Section (1),
+but require a compact version of the record. To avoid relying
+and propagating a non-standard record format, the new functions
+diretly rely on struct cper_sec_mem_err2.
+
+Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
 ---
- arch/arm/boot/dts/renesas/r9a06g032.dtsi | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/firmware/efi/cper.c | 108 ++++++++++++++++++++++++++++++++++++
+ include/linux/cper.h        |   3 +
+ 2 files changed, 111 insertions(+)
 
-diff --git a/arch/arm/boot/dts/renesas/r9a06g032.dtsi b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-index 19c9bce0a26d..8152464d4e6b 100644
---- a/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-@@ -164,6 +164,15 @@ dmamux: dma-router@a0 {
- 			};
- 		};
+diff --git a/drivers/firmware/efi/cper.c b/drivers/firmware/efi/cper.c
+index 06b4fdb59917..5c9b832b67a1 100644
+--- a/drivers/firmware/efi/cper.c
++++ b/drivers/firmware/efi/cper.c
+@@ -445,6 +445,106 @@ static void cper_print_mem(const char *pfx, const struct cper_sec_mem_err *mem,
+ 		printk("%s%s\n", pfx, rcd_decode_str);
+ }
  
-+		edac: memory-controller@4000d000 {
-+			compatible = "renesas,r9a06g032-ddr-edac", "cdns,ddr-edac";
-+			reg = <0x4000d000 0x1000>;
-+			interrupts = <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&sysctrl R9A06G032_CLK_DDRC>, <&sysctrl R9A06G032_HCLK_DDRC>;
-+			clock-names = "ddrc", "pclk";
-+			status = "disabled";
-+		};
++int cper_mem_err2_location(const struct cper_sec_mem_err2 *mem, char *msg)
++{
++	u32 len, n;
 +
- 		udc: usb@4001e000 {
- 			compatible = "renesas,r9a06g032-usbf", "renesas,rzn1-usbf";
- 			reg = <0x4001e000 0x2000>;
-
++	if (!msg)
++		return 0;
++
++	n = 0;
++	len = CPER_REC_LEN;
++	if (mem->validation_bits & CPER_MEM2_VALID_NODE)
++		n += scnprintf(msg + n, len - n, "node:%d ", mem->node);
++	if (mem->validation_bits & CPER_MEM2_VALID_CARD)
++		n += scnprintf(msg + n, len - n, "card:%d ", mem->card);
++	if (mem->validation_bits & CPER_MEM2_VALID_MODULE)
++		n += scnprintf(msg + n, len - n, "module:%d ", mem->module);
++	if (mem->validation_bits & CPER_MEM2_VALID_RANK_NUMBER)
++		n += scnprintf(msg + n, len - n, "rank:%u ", mem->rank);
++	if (mem->validation_bits & CPER_MEM2_VALID_BANK)
++		n += scnprintf(msg + n, len - n, "bank:%d ", mem->bank);
++	if (mem->validation_bits & CPER_MEM2_VALID_BANK_GROUP)
++		n += scnprintf(msg + n, len - n, "bank_group:%d ",
++			       mem->bank >> CPER_MEM_BANK_GROUP_SHIFT);
++	if (mem->validation_bits & CPER_MEM2_VALID_BANK_ADDRESS)
++		n += scnprintf(msg + n, len - n, "bank_address:%d ",
++			       mem->bank & CPER_MEM_BANK_ADDRESS_MASK);
++	if (mem->validation_bits & CPER_MEM2_VALID_DEVICE)
++		n += scnprintf(msg + n, len - n, "device:%u ", mem->device);
++	if (mem->validation_bits & CPER_MEM2_VALID_ROW)
++		n += scnprintf(msg + n, len - n, "row:%u ", mem->row);
++	if (mem->validation_bits & CPER_MEM2_VALID_COLUMN)
++		n += scnprintf(msg + n, len - n, "column:%u ", mem->column);
++	if (mem->validation_bits & CPER_MEM2_VALID_BIT_POSITION)
++		n += scnprintf(msg + n, len - n, "bit_position:%u ",
++			       mem->bit_pos);
++	if (mem->validation_bits & CPER_MEM2_VALID_REQUESTOR_ID)
++		n += scnprintf(msg + n, len - n, "requestor_id:0x%016llx ",
++			       mem->requestor_id);
++	if (mem->validation_bits & CPER_MEM2_VALID_RESPONDER_ID)
++		n += scnprintf(msg + n, len - n, "responder_id:0x%016llx ",
++			       mem->responder_id);
++	if (mem->validation_bits & CPER_MEM2_VALID_TARGET_ID)
++		n += scnprintf(msg + n, len - n, "target_id:0x%016llx ",
++			       mem->target_id);
++	if (mem->validation_bits & CPER_MEM2_VALID_CHIP_ID)
++		n += scnprintf(msg + n, len - n, "chip_id:%d ",
++			       mem->chip_id);
++
++	return n;
++}
++EXPORT_SYMBOL_GPL(cper_mem_err2_location);
++
++int cper_dimm_err2_location(const struct cper_sec_mem_err2 *mem, char *msg)
++{
++	u32 len, n;
++	const char *bank = NULL, *device = NULL;
++
++	if (!msg || !(mem->validation_bits & CPER_MEM2_VALID_MODULE_HANDLE))
++		return 0;
++
++	len = CPER_REC_LEN;
++	/* SMBIOS handles are 16 bits; never truncate a Section 2 handle. */
++	if (mem->mem_dev_handle <= U16_MAX)
++		dmi_memdev_name(mem->mem_dev_handle, &bank, &device);
++	else
++		pr_warn(FW_WARN "Memory Error Section 2 module handle 0x%x exceeds SMBIOS range\n",
++			mem->mem_dev_handle);
++	if (bank && device)
++		n = snprintf(msg, len, "DIMM location: %s %s ", bank, device);
++	else
++		n = snprintf(msg, len,
++			     "DIMM location: not present. DMI handle: 0x%.8x ",
++			     mem->mem_dev_handle);
++
++	return n;
++}
++EXPORT_SYMBOL_GPL(cper_dimm_err2_location);
++
++static void cper_print_mem2(const char *pfx, const struct cper_sec_mem_err2 *mem)
++{
++	char rcd_decode_str[CPER_REC_LEN];
++
++	if (mem->validation_bits & CPER_MEM2_VALID_ERROR_STATUS)
++		printk("%serror_status: %s (0x%016llx)\n", pfx,
++		       cper_mem_err_status_str(mem->error_status), mem->error_status);
++	if (mem->validation_bits & CPER_MEM2_VALID_PA)
++		printk("%sphysical_address: 0x%016llx\n", pfx, mem->physical_addr);
++	if (mem->validation_bits & CPER_MEM2_VALID_PA_MASK)
++		printk("%sphysical_address_mask: 0x%016llx\n", pfx,
++		       mem->physical_addr_mask);
++	if (cper_mem_err2_location(mem, rcd_decode_str))
++		printk("%s%s\n", pfx, rcd_decode_str);
++	if (mem->validation_bits & CPER_MEM2_VALID_ERROR_TYPE)
++		printk("%serror_type: %u, %s\n", pfx, mem->error_type,
++		       cper_mem_err_type_str(mem->error_type));
++	if (mem->validation_bits & CPER_MEM2_VALID_STATUS)
++		printk("%sstatus: 0x%02x\n", pfx, mem->status);
++	if (cper_dimm_err2_location(mem, rcd_decode_str))
++		printk("%s%s\n", pfx, rcd_decode_str);
++}
++
+ static const char * const pcie_port_type_strs[] = {
+ 	"PCIe end point",
+ 	"legacy PCI end point",
+@@ -650,6 +750,14 @@ cper_estatus_print_section(const char *pfx, struct acpi_hest_generic_data *gdata
+ 				       gdata->error_data_length);
+ 		else
+ 			goto err_section_too_small;
++	} else if (guid_equal(sec_type, &CPER_SEC_PLATFORM_MEM2)) {
++		struct cper_sec_mem_err2 *mem_err = acpi_hest_get_payload(gdata);
++
++		printk("%ssection_type: memory error 2\n", newpfx);
++		if (gdata->error_data_length >= sizeof(*mem_err))
++			cper_print_mem2(newpfx, mem_err);
++		else
++			goto err_section_too_small;
+ 	} else if (guid_equal(sec_type, &CPER_SEC_PCIE)) {
+ 		struct cper_sec_pcie *pcie = acpi_hest_get_payload(gdata);
+ 
+diff --git a/include/linux/cper.h b/include/linux/cper.h
+index ed355b240685..a466cba4fd61 100644
+--- a/include/linux/cper.h
++++ b/include/linux/cper.h
+@@ -656,6 +656,9 @@ void cper_print_proc_ia(const char *pfx,
+ int cper_mem_err_location(struct cper_mem_err_compact *mem, char *msg);
+ int cper_dimm_err_location(struct cper_mem_err_compact *mem, char *msg);
+ 
++int cper_mem_err2_location(const struct cper_sec_mem_err2 *mem, char *msg);
++int cper_dimm_err2_location(const struct cper_sec_mem_err2 *mem, char *msg);
++
+ struct acpi_hest_generic_status;
+ void cper_estatus_print(const char *pfx,
+ 			const struct acpi_hest_generic_status *estatus);
 -- 
-2.56.0
+2.43.0
 
