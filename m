@@ -1,84 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792434850;
-	b=5R1f2a1fojBJbnzGGucc5hafy6x5IV/QdJIM36chvi1Kn6gkZE0phhX9IYIftrMT7zEr
-	 i82GLL+dEzp0qvDtdgCykUXGv6WgAcUSHaXDYxol9geqow2cedxmsfCQ3peeoypghPAvK
-	 1LmlX4O1cVikqqu3nfHH2Z75rDmPA5qi+gEsewEbfLqGZRUw4PoZ/V5UHeNvuvQlyBrS2
-	 v29a8wvWe3xVWYq61oWbWS0Pki8Gjayo6IdT+MkAPBiDyyVr8ZkfytacKokN6iMD7B4D5
-	 jEU/13PHCNFb3unYqjr/omBxM5NQU0S0JSOmTUAlF8LchlZtMG5+vuI8pC4gg/DZD+g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792434850;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
-	bh=VOD5WV6JaRXrgzqNWUFEhdhLw9KZTPaqTGo8V7P+ZtU=;
-	b=X2nYKGZ3RtCFx0832ajiuvxS4t8B26whgRiGksu3MoO1IAD5CajYGHZU/ERQczOu3t87
-	 jHYa6Rhr8hLWOnS9id29WbAL2mPLNDRoV4qGRHA4gvsupVArRlGAd8SZ1S6USgSe/LTNA
-	 ADqddVs+SSWm5KT9rfPXb5I4nfAZX/EKxyRDFpnXVvt6KM6Ms+rdi7num5R8++ZWRpd8j
-	 mLdySvOqEPV8tFe66MMD9pzj5vgtkf/rU3aH0F7mPcaMPC560mi0WmPtUQeYiXR7kOV2f
-	 0iJN4MT6iXu6CiHSddU5mmODfQ5Vk3Gl2zj2IIPiT5nWRlpEJAwCyDgRTOfwfvmar5A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=adrianschlegel.com;
-	spf=none smtp.mailfrom=adrianschlegel.com;
-	dkim=pass header.d=adrianschlegel-com.20251104.gappssmtp.com header.i=@adrianschlegel-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b="hG/nB1t/";
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.15
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792435357;
+	b=H54KbSjDxzf4nJ8qZOODU2mjQ09vNrtWa8Yyu/VV/3O38ebjU4y6s/cvNx7TKGZkA5ka
+	 fYbkW/9VS11Q5qUjVsnRU1mpj/jWZLeQeHqdGg9mlxn0gdpfTXg9jqCPtwhJoIs7Ucjtq
+	 biW0xs6jjUi4qjYuvlSuViQP4Y15753EkNFQh4YAVygJTpiyYg1aeapVzCdn02alP3x71
+	 LuVaeSHPCQUbWwwdI9+Bk7CuaASqwhqgzWDd1+dO0QMwUZCF95DVdgB7DxxMVZIbGw8VM
+	 uFxV+b9kxjBbdwFlmlXPIRsWVFae0NNhvxMwoDn6xTAip4USp0fQ1EQHzJj2dWjil3Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792435357;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=O0/VYkXEIyWNDLU66nfUqanWJBrmo78SmdwQEdxnnCk=;
+	b=jAFsy5+2PRa0sOPMVs7/Chrt/sanpZ0AyT02DYQ9wNk71yNXZHPcM9bxxxUXwDZLDHnL
+	 jhLzS4t1M9QwSwOTd+jnBbTWUdAQb0glyUNtf1fPFDKFLm3dOYj7xPNcU1eTmViEjMzNe
+	 WnGqa2EjPApusrv0TUlrKRzbPZ/r6/UOpMTWeooTvx4gAQyOVMvTrg9i6ogIKqzZZLLlr
+	 8bbU2r0mwBY0skzBxozomDPrF7mQT7ujNQSYKiusYHQAdmgCFGTzPi6Ok9inq4zUKV2kr
+	 HtKpnTxv4umtYa5E+y5AJr6wBonUZ9wsMQ4zO7nCF4VN18HntZQrcmnml8kcwy+0nuQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=kZlm5W7w;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.15
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011015.outbound.protection.outlook.com [52.101.57.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03C3606A320
-	for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 18:34:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B03C3606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=adrianschlegel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=adrianschlegel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B9E606A31F;
+	Mon, 19 Oct 2026 18:42:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24B9E606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=adrianschlegel-com.20251104.gappssmtp.com header.i=@adrianschlegel-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=hG/nB1t/
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49d05d51553so16984265e9.2
-        for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 11:34:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=adrianschlegel-com.20251104.gappssmtp.com; s=20251104; t=1792434848; x=1793039648; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=VOD5WV6JaRXrgzqNWUFEhdhLw9KZTPaqTGo8V7P+ZtU=;
-        b=hG/nB1t/LCdP73RiVqbj/yEJ+CCZpJrJ8H0jRdeEe8J2nf4dozVEjGkosf8BFMHa2n
-         Crlx33chm3oolEpgiI5j5iwKl4WRpZcvDDIw3p2Uug4VOx2AZ1x68v9TSl94c3eB6wtn
-         stzSmYntl7/E9FTYqzX7pUrnnnYiHONoiqz93nty8CjUFTr6Rvo74wyI1rKJXCNRo1kv
-         u1Idx07K5l9Prge0+jKZMYsnjhklEFmMEPGKtr8MCincbz3J/rpsKbDesUik5QlxTcv9
-         p3hmOUIcfmYEKNXhQUmLyJpP/Ry5ibioq/D5RVT2yqNm9R0E7aVDZhoKJSXOiGX3zvDM
-         o0XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792434848; x=1793039648;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VOD5WV6JaRXrgzqNWUFEhdhLw9KZTPaqTGo8V7P+ZtU=;
-        b=VrbyMCXaBBWJm4b7dKsoijkknWIIhwVEbwxgVM1y6Z1w58QCx4rIniBJNPvajgKzLY
-         FiKKYYoUfwPdh9Asn7QDZqN8rarD3xCqSW/HBCRuFphI2tVko/UUO6RC12fPXRBmpaw8
-         jwPUOYJ+UZ6rUJosjyBxQ0jiUHGgicxZJUZzLZ4X+xafaYcH+3Goh1Q0Of0CNvQqDpin
-         qyMP7DwYYxq4SuLisBt+CQ5OGmVN+KNOmsKJgNm1iWI4i4I7p4zTPLc+YTZQrlDx0uko
-         dYLZ+Jk+OXJh7yMsO9xcYpqUxYdwPQtpVmdbrxEjqdaJWi5avD1+RBDQxGQwps5v5s/1
-         r76A==
-X-Forwarded-Encrypted: i=1; AKwUvByc83OcPciuvI+zC5j77Niz5kE5PzrY3ob92Ieu0geOXLB+LFR+8jswLyUE+yf0e7y+sCRErH4RDUer@vger.kernel.org
-X-Gm-Message-State: AFq9FYLaGk0GQE1N+xALfP0Pxm1DMcMY9MU9LO6NNROcRPKvYdqLpw/5
-	ktN/HVmFKO4iHWyNkCnTjprt6S5R63lpeXmJ/BmsNW3+pQ2ABIJcadjM1dfDf4lk4g==
-X-Gm-Gg: AYBFou1/n463CXz37x/qSEDF/VkviPmYCXXJ11Fm1E1O64zJa6qKfB9fXfDAACyfMEc
-	/XA7dLhPUHE07O0/mQkuhUiIyBRd2AJOUdB3I2AC/lYpWPmT5LyQpi0wy7d57ZN5PF1jzhrssD5
-	57IHSh37XuoIndRML4osr74/1Qy8MPQx7szeZPXNbtcK0u9M/On/9Tvudevd++5wgFxWGo/6Lbr
-	7Ks6aCMzpJRXNWuVzvkjh34bTIZAJXSBpbHFO/nYtfV/GP0ncws5dHFNMsHJw0vjav+iJ3Hk5V5
-	24gMi7Y5ZNNKkqlpBh2T7DEulVeFRKEu3j/qXPRNSba3Pel+B+73F9jMHRzK0DKWz0B62nIlWoQ
-	AYOjfB5OrjI+AJiN1IsiE9wyOOJEFUWtU9ocOosZwcEwqUOsz6wF8w4pqAAuvobElWE0N5G443W
-	0kviD2ajRL6vVR7IoyxN4OZ+swJYVYZryKqeOcoWspi3zfXDgw/PNTD1yGc97ZS9vgfm4blLb6P
-	KrlslXRtXKxqffYcrA2tgnj4U2UvYw2vOYiMJmc/wqGrhRW4wm1btU0YgnucA6hDIUMSWNurzTJ
-	bXTHwN8AjHdN
-X-Received: by 2002:a05:600c:e549:20b0:4a1:811c:8078 with SMTP id 5b1f17b1804b1-4a1d7624601mr112174505e9.26.1792434847726;
-        Mon, 19 Oct 2026 11:34:07 -0700 (PDT)
-Received: from localhost (2001-67c-10ec-2886-8000--14b7.net6.ethz.ch. [2001:67c:10ec:2886:8000::14b7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2ca3597sm10959075e9.2.2026.10.19.11.34.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 11:34:07 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=kZlm5W7w
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eZ/NU3gM/YTbgJ6qq8XyjTxKPwmVRIHxkWOX50XZjhmZLVphBzQTPZ80cFDVP2nGV3Znfpp6mplPNj4nxLcqD7S3GF9qbGotyxmwnvczX3MUXhx0p5kuL8By0XtE2//e8WsOYbdZgaaQVyGPqe5sRKI9tVmFBBy9HQU09Gt1jdPWdHNWdOZYarwDuNSVvh4NEeF75NyvAyHZ7UCCZfGy1bZJrALNNCutuGnoi6a0ZTthxOIx/HrDjdwhj45P0rkTXevUCjtpLPz06Sf6UhSGCVkqxH514M/4CnGepXZvSX9yLV9ATx0rLzUIppeGdqmNoPm62NpMIVXbyXqaz63aog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O0/VYkXEIyWNDLU66nfUqanWJBrmo78SmdwQEdxnnCk=;
+ b=J8kpWeNYi73GBPos4rFEBM2Th+ZJy7cXQ+UiqbvU8V524ZXDECGL2/4V+9AYl5fJlgkqOijsOHlNhuIEakmtOaKdByS0GWWwnmR9rcgxnKDWsp9i5tSeV2ELAJP+3whYs6HzXeCyIY7jsrPX1ATYlqDtdLLMKOJ+jv+tMxZb4pT0rZfSamAP5Q9TzbdkpMuzZiE3EQBbVQQNabBYdaAoDkJWDONsQ/llvMThymzbq3W8jrwwE1Zo2Bdw8+7ltOEZr0P5ALzFwevzCKu0+fTZno3PCCWwxcxXjyC4mlJiMH3uTA7Fa70e/glFu5KqtBbUDaJe4yBj756lZjE4p7BQLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O0/VYkXEIyWNDLU66nfUqanWJBrmo78SmdwQEdxnnCk=;
+ b=kZlm5W7wOlPJT1kyFu4q5mQzDk3DGLx+yBTG1r5NiZYqnk0FZ86+6pG42aJL71R9h5PaY4g8uNQhVdhCV7V9H8ml9Ux+GCRLTMkPVEMR2pzmkIC8ejJnf5GsXCcdjz/A8C2CapwyJbSMYmwHYJl4Prz9Bq7XRz9IrpZ8229QWdU=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6374.namprd12.prod.outlook.com (2603:10b6:8:a3::18) by
+ PH7PR12MB7794.namprd12.prod.outlook.com (2603:10b6:510:276::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Mon, 19 Oct
+ 2026 18:42:32 +0000
+Received: from DM4PR12MB6374.namprd12.prod.outlook.com
+ ([fe80::af35:a7a6:6ca:7fcf]) by DM4PR12MB6374.namprd12.prod.outlook.com
+ ([fe80::af35:a7a6:6ca:7fcf%5]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
+ 18:42:32 +0000
+Date: Mon, 19 Oct 2026 14:42:18 -0400
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: Adrian Schlegel <me@adrianschlegel.com>
+Cc: tony.luck@intel.com, bp@alien8.de, x86@kernel.org,
+	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sohil.mehta@intel.com
+Subject: Re: [PATCH v3] x86/mce: Do not treat cache hierarchy errors as
+ memory errors
+Message-ID: <20261019184218.GB144824@yaz-khff2.amd.com>
+References: <20261003222012.19685-1-me@adrianschlegel.com>
+ <20261012193305.38931-1-me@adrianschlegel.com>
+ <20261019153207.GA144824@yaz-khff2.amd.com>
+ <DM914GO4A8WW.Q7YN7ISOQJJI@adrianschlegel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM914GO4A8WW.Q7YN7ISOQJJI@adrianschlegel.com>
+X-ClientProxiedBy: BL1PR13CA0372.namprd13.prod.outlook.com
+ (2603:10b6:208:2c0::17) To DM4PR12MB6374.namprd12.prod.outlook.com
+ (2603:10b6:8:a3::18)
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -87,38 +98,79 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 19 Oct 2026 20:34:06 +0200
-Message-Id: <DM914GO4A8WW.Q7YN7ISOQJJI@adrianschlegel.com>
-Cc: <tony.luck@intel.com>, <bp@alien8.de>, <x86@kernel.org>,
- <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <sohil.mehta@intel.com>
-Subject: Re: [PATCH v3] x86/mce: Do not treat cache hierarchy errors as
- memory errors
-From: "Adrian Schlegel" <me@adrianschlegel.com>
-To: "Yazen Ghannam" <yazen.ghannam@amd.com>, "Adrian Schlegel"
- <me@adrianschlegel.com>
-X-Mailer: aerc 0.22.0
-References: <20261003222012.19685-1-me@adrianschlegel.com>
- <20261012193305.38931-1-me@adrianschlegel.com>
- <20261019153207.GA144824@yaz-khff2.amd.com>
-In-Reply-To: <20261019153207.GA144824@yaz-khff2.amd.com>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|PH7PR12MB7794:EE_
+X-MS-Office365-Filtering-Correlation-Id: dc56b835-82c7-413a-f157-08df2e10bbfa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|56012099006|4143699003|11063799006|261009223027099003|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	RLpSC9UjsDpvUMWfvIhVlKjYE13m6wu7xWp7UA3RUivVZo+J0/HGFABajeg/h+FlBg54m2K9MamuB8MgPC/ZgK38TnVoTmC4akZowHXKfn28qkGBpPJgM0Rsdh2aLiJhO7IrI/tmUI8db87rL9MAsXURL2jLAbnL0Vpr0GEjKJk0ZEM3vg1PY8CwJZWmFXmRuE1T03OCYSfZW8L049z8I73OykJ978/D8YiTHnoZ3Buv/z+klVXKJxpC6aezpUJzjwyd5ZfEv4cnVw5wPhBLpjgD6bf7JYOjO9msCK0Iz6UCHfxSFegBvYkV0CBjTCX+Avk3p/1RJr2jvjCo/k/9pJS6Qsdfkgm1yInKWRf6+wigA0aNMq8d4fwyx9mtgZlvR6OT0uuwkErmZTgqrvumhV2osh9xj1j6xIFcFoLjOv86VU/Pz3fEMR94zLYavqV6lsAxJw/3mBPxGAdcyv/y/1RiihN68LNkWgT0CM+/xJDSBmnZ4J2FJ5DZUtv/0w8RJzFmnKqLQF/gSaupQfQYgFhP0h7y5ChH8GlgJSB89VSobVluDeQRbenY1L6t+zq/A5Za7VmZ8uDXpVlH1iupxeTMm7bbYpD7sPaMPuo7etp2OhE/72xq6l0UImSFJN1t
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(56012099006)(4143699003)(11063799006)(261009223027099003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?CBUT3E/fFXcG6ddQkC0ENi6kXAD/MWUbrGnk981nlmblyvo/v5L7xm1S3R4t?=
+ =?us-ascii?Q?VdIVnXw3VuKnWDSvC42Y5edxFlnrBxdQ5jJf6TfB7RedNM92eK3sNc8I/yDe?=
+ =?us-ascii?Q?uY0DmNhEWKovdAqIySpzoncLfjb/G1ZSHkSwkDEKHm2wTDTyNSf3xyDje6rb?=
+ =?us-ascii?Q?MTyyreU9df+7KHZOWkNpc28T8tPFLNe6DuVdHxMAckom8CUe/wj0/pc7KI9j?=
+ =?us-ascii?Q?b0Qyr6rGMwVnXowjACMLK8KniKhn76v8ynnk32p03hZFhzlj6+7N+qktBKQj?=
+ =?us-ascii?Q?doJdvaGmPdqkELlfOdcngCF7L57Z62wA7188cEb5JActqNz+oIaJ+zEbVfPI?=
+ =?us-ascii?Q?T1raY6lbdGn7/EtwZSAlS6kuRtVmnJ6cgchFLg5L7ZYuIhV2eWVUdEkNfZMq?=
+ =?us-ascii?Q?dqyYEiJw8o7hvjBztmTkoMcMLG4GV4Fc22Aph1cUpwGZfH4LZLJRi20xYE1J?=
+ =?us-ascii?Q?Oh0tuaI+6KH0ghDKpkrGKe+n8mi4VcbziT3mK5uNsBmu47izbc3RsABGpJ/i?=
+ =?us-ascii?Q?TuN32Zv5KdRIqZ7G/afqGtLGvzGbW54MqmifbdJsgNG4pEsS9PJYr+yZWg7G?=
+ =?us-ascii?Q?B6p0IYQPeuyjPUK9S3ufobHy5gsnnuvIFpEIU7kdvzIxbMl50o38PdvuRQM5?=
+ =?us-ascii?Q?J6kCV5VxZ8qHoIw2+usbcOWSNFVpnrxbx0664VdDxKUyvqxpUq9bYUZecq1J?=
+ =?us-ascii?Q?vnGpOpcHoeLlKLUBV8647WGE9y/i3Xy7uioNFR0LJ/wK84CdlVnz6UU8jWj8?=
+ =?us-ascii?Q?CYkz5QpcIuUbDXs6i0ExcHdHDJnBObbdd/i/vjU4riX1b3IZ0+OjWe9IUOyp?=
+ =?us-ascii?Q?Z/Kv3uH/yzHcISplt3RmfUc7OWbcA5B4f3HmC5r3cnK+2XEJlpE/f9kCcNoh?=
+ =?us-ascii?Q?8kfom6iLKEIliG8+icEq05XBvcabnB0EC9IXmZ/iv2N6v6PQBCfMVuo6IxWS?=
+ =?us-ascii?Q?O0ObkBcNiLkWqRsv2AolOBi9DHTPaCOSIMK6+A2Xma1KwZh66kQmjkmlIETu?=
+ =?us-ascii?Q?4lhAMnWOd1slKBrsX2hPOH/QH8M2Qr7HcFucun3KT8BufownV3du/Tc/BgMJ?=
+ =?us-ascii?Q?1oFI2dsMs1Mb5TwJYIuNGeb+56fWn5PDf82OJmYstfXhkxsN7NyDRqKi6DcT?=
+ =?us-ascii?Q?LKHPDip4y7DdS5tT5x1JPZyAjxY8K8cIm/r5AZm7yKVJgxlT8YCI8Fv5jHPw?=
+ =?us-ascii?Q?l9Q+OsUKSeqVrZY8VDRd4olYhTgQBfnc/TLzTqUDHvFru+Z+2AaERQyeXc//?=
+ =?us-ascii?Q?jLiQYYCkwdUFqvXN1lIpqcpZefuipKqt1hAuRghE8fTI4XqXyLSWL/Nec4Zb?=
+ =?us-ascii?Q?4Zi80HJKIpW6ROe2XZinoXZJgnnH9u6KoKC+6Rx7i3Jbg/njNvOH5Urt4iWA?=
+ =?us-ascii?Q?64CI6DA3Q0nUUk2xnU7uqetxAiXnPndb+FJPhOzAvsUdRVWdEXohC/Erbkob?=
+ =?us-ascii?Q?hLBdEUmv6HJnG6joW9rWNqQXlDfisckvOsNK2j41vZjp6OWla11Qe+V8XXjn?=
+ =?us-ascii?Q?/lRnc69/Ni60b+fJD4ueUBR+boBn9bRd7Xs/2IzqATAQKDjyuejwIBrSGQ9G?=
+ =?us-ascii?Q?JOktP/igqukGtGjW38os+fzMLFbZgseaPa99E3G04Ulc51urtZmcRC5vHWCH?=
+ =?us-ascii?Q?EDrKhusNjfd0aJbfejvPYGO/68gebGlDrdm8NVb00BCU6MDJz7CpwsdyujVh?=
+ =?us-ascii?Q?9pDkMngFE47hxBjH9xBSGHpxBYjjO5GNf0Zici7ellm6CvSB?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc56b835-82c7-413a-f157-08df2e10bbfa
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 18:42:31.9667
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3pSIuNmh1bQHTmRGw4y0/3CgvnwV0pOzg9RDwW5I/m94rVq0MeTSAUhGyvt0XGWAIyy2cAd+gSs1q/YZUHYYCQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7794
 
-On Mon Oct 19, 2026 at 5:32 PM CEST, Yazen Ghannam wrote:
-> The SDM also mentions "Extended Memory Errors". I guess these were left
-> out before, but should they be included?
+On Mon, Oct 19, 2026 at 08:34:06PM +0200, Adrian Schlegel wrote:
+> On Mon Oct 19, 2026 at 5:32 PM CEST, Yazen Ghannam wrote:
+> > The SDM also mentions "Extended Memory Errors". I guess these were left
+> > out before, but should they be included?
+> 
+> I don't think so, since from what I can tell from the Intel SDM (Memory
+> Controller and Extended Memory Errors), extended memory errors use the
+> same encoding as normal memory errors, but report errors in memory that
+> is used as a cache, similar to what cache hierarchy errors do.
+> 
+> I also found this thread, where Tony made the same point:
+> https://lore.kernel.org/all/SJ1PR11MB60831E048B544C83E845D907FC8DA@SJ1PR11MB6083.namprd11.prod.outlook.com/
+> 
 
-I don't think so, since from what I can tell from the Intel SDM (Memory
-Controller and Extended Memory Errors), extended memory errors use the
-same encoding as normal memory errors, but report errors in memory that
-is used as a cache, similar to what cache hierarchy errors do.
+Ah okay, makes sense.
 
-I also found this thread, where Tony made the same point:
-https://lore.kernel.org/all/SJ1PR11MB60831E048B544C83E845D907FC8DA@SJ1PR11M=
-B6083.namprd11.prod.outlook.com/
+Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
 
-Best,
-Adrian
+Thanks,
+Yazen
 
