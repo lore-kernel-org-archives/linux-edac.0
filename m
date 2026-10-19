@@ -1,92 +1,142 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.16
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792423944;
-	b=R1gtCLbMqmLZbCTeqgQ6stAAgGXvydRj4m+ALMn5SA5DJDBIOvfrZOW6198t0m403v5R
-	 Qk27arsvPmF594x2xDy3gTjUXveWcVaQi18wGznKc0hDQ1fj8p4C2dj6XJnllkXzL1PFt
-	 COM/Yu/wTytCoUSdFa8EzJOPr9Na+pErtYG27GMZTe9NGnqN3RjI71X0tQr8RuhIhA2rV
-	 IiOIhPzSOZE6dC5m12KuGFluVbVfbq+ghgK/8bObnbeGfcA0I1XYWz/6u4Do+8AxeIJDF
-	 zvLZjgAviUbiYN7ohKrvfhr1aF78AxL2ZWWWhKEhupOM92Q+BRJBUb1yttZ0cqbWECQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792423944;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=jde15ou7R0k8LrJfCU+fm+pTujf3oBTXmQNQKKrVi6w=;
-	b=g2Gz8Pod54zWOc2Dv42hucQBxbK55w69Bb3gcuQR0Ii2ULz5grapdesuIXYZvY6Fxtzx
-	 +MLeA79hBbUcSNpbuveqJodMe0Tx/PMiPGrGkobdilQ5BFUHLbWIKnzbiMe+O+1uMS0om
-	 M4rZjdCijXHqedZ47y4UcsTHfl6i4T4lOT3n2JNPHVU8Ad8xWmvlP5DiY971CGkrPbNQu
-	 dc2q/jdgtWhMwHU1cbsVbDvfZnwclLdtELA9CxcRFEXsybeH1T5lbBrgwCBWu16VOsRFZ
-	 /5y+9vzFZRaKODio2CosbcK2arD1Uro4e2bKgvHnaju4z41DcX7NNaoAogHZEDIZEFw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=GX3xUvj7;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.16
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011016.outbound.protection.outlook.com [52.101.52.16])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792427818;
+	b=EJSimFGTrTRSe4tEHcG76DU/eU9ikb6tkdLB5kyO4uFHSNeazKPZokRsq6M8UfmPY5Qj
+	 C1WdV7IzEOMxs2vTsuxc0cDEJjC4C1MQFJzkFYcEeKWPA75bcLr6zYhFE2D5Apf0P1wIs
+	 p0880OZlAjylPEhtpM0RY/AsfVyAhS6byt5cc3/RwUy8vYScBm78Qup2xnFJrjt9hLcAd
+	 kWMo39yxXSBTjsWE0X+rtsukv3CcrGSE1N0EjaeWrcsAPS4Aw3uyBAYGTpDJjGVSjDKrh
+	 H1G72IUsZ/HsNjv7UaQ2VnoOwY+jl6dpdgwgkBnWK3kmjqeb0gw8Qof+C9ZITJXcnZw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792427818;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=uTVSO8ab0jQ/KjHFQURA4S+jRgewRPU6KcTy4l+JKt4=;
+	b=0CZNLOt7W2/K3jXO6Y2yAisDBqX2NytZqYsi1KtOnBF89VgEOny0FA1hISphEdiEc8ym
+	 Qq6/nNuwpO08HzT0mYAIbxVhdwwAzOMGIYBN5EQZk8ihHwfSTSOgCLSah9uRVRbK7mtcj
+	 hYQt1rmFZ9zEwGK0B4LQpUkruzvq/4KNkwunel+IBnnwQysnr0MI5r6vC1+k7+db4kDjo
+	 /Jp2xsb2xwQy37UBMgS3/z+DVQsOrLBEDzJLfPlTnPT/aClnHSEV1Q/SuFkm2dJXUeO31
+	 Ugqiy7MDwCd4VQgMp6x7iRZoS0WbWFKLrzVc5kfJnEEvvkJTOc6mpDdg165Qzh7UQ/Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=azHp1q7f;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=G2Z2JlTn;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F7F60705EC;
-	Mon, 19 Oct 2026 15:32:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7F7F60705EC
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D45606A31D
+	for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 16:36:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72D45606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=GX3xUvj7
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ot0/WkA+Eh2+DkXUHu3dN6kHNf867YHpCtrsgWSS8gjLF44TqHcnrErfPrx4H+ESw2XynyD5ijH+fuoDwdiAqtKZoTxxSS8oDTWdTWmmJ4j7B0uucnAIURwUd55UnDq55abEAM6pEjdJ+mPb17/rahcrhC+P/LUj/fjaXm53YUJ6Hb2+bcRrJXdvS8NYr6Lqma/AvS68x6rl54IpfhCsx07csE+WAq87I1wb4sKa77G/ddsr4pKsZfG0ytL3seu2LqR6gsHHgKjFy2RTwHLAX6aT6DmZmp+jntsY3f2x/utp6jAH1w4BFzbQcOO6yd6/8Uhn0alk7aikrxWSgC8pUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jde15ou7R0k8LrJfCU+fm+pTujf3oBTXmQNQKKrVi6w=;
- b=sJiqDn3nH5YdEtzUgMm10z+Rldmz3Jvjv4T6oYExHNaqJ3O9rSmjI+m+8ZrOXlWx6sZ+4a0o831qeDhtEO5Ye3l1/qhJbgrxf9Ycm2P4Lq5PdO+baGIGmb9UApItIuxu2LLH7gRdlUA8XPQsvYmNLpxwd2+nJGmIyXyvCetuCUD+BzMU52AWbkWlBS6zD61LaK+5HAyp+RBmjs+9Um7ymR5v00NooKADJFJ5N86WvJM/fFeu7LmlA99SblE1Nn5Dd34KOsv8I4pncJJTVU59TlRHAiAP0yXRImbLUqkX31K8PPhwCX0n3dvLZEWi/UVF56J/n4eW9FNQVMaLQ0VXmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jde15ou7R0k8LrJfCU+fm+pTujf3oBTXmQNQKKrVi6w=;
- b=GX3xUvj72f/Qz2Hn3NFsUZ4+2ZHI9590lYBVvWAFyZ8rUNEPLe9wICA8gawffuOiY1u0/HJJAVIlvOhOAaQTsLnb6jS2XKzIq08/VRa/EzBYsI9n5eHXedgmW2w1rv+XZPYjSAfYJiXmfAbS19ESCAUms8tJkhPVUUFyufcucYE=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6374.namprd12.prod.outlook.com (2603:10b6:8:a3::18) by
- SN7PR12MB7156.namprd12.prod.outlook.com (2603:10b6:806:2a7::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.14; Mon, 19 Oct
- 2026 15:32:17 +0000
-Received: from DM4PR12MB6374.namprd12.prod.outlook.com
- ([fe80::af35:a7a6:6ca:7fcf]) by DM4PR12MB6374.namprd12.prod.outlook.com
- ([fe80::af35:a7a6:6ca:7fcf%5]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
- 15:32:17 +0000
-Date: Mon, 19 Oct 2026 11:32:07 -0400
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-To: Adrian Schlegel <me@adrianschlegel.com>
-Cc: tony.luck@intel.com, bp@alien8.de, x86@kernel.org,
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] x86/mce: Do not treat cache hierarchy errors as
- memory errors
-Message-ID: <20261019153207.GA144824@yaz-khff2.amd.com>
-References: <20261003222012.19685-1-me@adrianschlegel.com>
- <20261012193305.38931-1-me@adrianschlegel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261012193305.38931-1-me@adrianschlegel.com>
-X-ClientProxiedBy: SA1P222CA0168.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:3c3::14) To DM4PR12MB6374.namprd12.prod.outlook.com
- (2603:10b6:8:a3::18)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=azHp1q7f;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=G2Z2JlTn
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69JFOwDU035975
+	for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 16:36:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	uTVSO8ab0jQ/KjHFQURA4S+jRgewRPU6KcTy4l+JKt4=; b=azHp1q7fFlayj682
+	T/VARjrDTiPkCoAzbrEhkv5N4zr9RyByqFCSUaojW32+2aUJK1SkDMuw39ScaRKc
+	OnvAmeMXBTQdg/azB3dFJt2fog+F/NLMl9/aubFu74LcqLgotTAuJ+rKPqBvWIqN
+	6NvzGdqW8yQ/ru2SjpIwNuGOPnJT+qOPA6NJCVLDqN/NHp3tyEZQlayHYaDfWx4S
+	uy0S/gBW7qBIXOj3IBUTkQ5jFZhu8Zz1ngzQ/PnSDPjzx9eDTmFTQgkKkYBS6hzc
+	me0gddDb9T/COwyB/Mn8kWfh156r5vLsUaygLKEOgNSYwhBqu65yYt3uvUWtSx4K
+	aLcSXw==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hdf47j8cw-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 16:36:56 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-3592749a017so2381290eec.1
+        for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 09:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1792427816; x=1793032616; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=uTVSO8ab0jQ/KjHFQURA4S+jRgewRPU6KcTy4l+JKt4=;
+        b=G2Z2JlTnCQObFnglXbWhjlwKZbzzNZSy9LvfaWBKq+nU/9ftzJ8i3tNYCMiBENuf8N
+         HG/0Be72qS8GdVSSg5Qr3uchXfRrNlRkVfj0chISzazgA1malT9mtZHNzfYUheJucrm2
+         YngrLpm0GGW9wu97gpSBywoI5fIsGARfoPWHYZ6muMHoJ6dKJCWruZWyRL+eU9VGJgej
+         6Ac6TdqK7AVwUnEU9zbabhfyGHqNOplEke98+U1L3BgaAl7B5kvVwbS0130xXnSoplmo
+         8GfJsqXzQfrfT8EpyQ5992MBHVlbID18PiIfVoH5U774oj6N9r6kS3eeysBVRHNHEUeX
+         IiSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792427816; x=1793032616;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uTVSO8ab0jQ/KjHFQURA4S+jRgewRPU6KcTy4l+JKt4=;
+        b=OE57AAo8ErMwgCflD5TdS3ctD+Dbb3yVQc0E2LSbLaYxdiwgOw6CCnmO9EGeHyP3Mj
+         JbJlI2Ztw2HsXAkyxCa+LdygwhSCU5A2Jt9hRuqmp837LFKbdJeu2C7YOUW9n5YQGmjN
+         Wa6iXIqEfBpdFLGr2Fqibj/pgwB//iDXMnvXL9oMQrgRaThnuGFNyURTKCzitoiHnL+f
+         6+TekjMMJZz76vHRJsCqgs1qHZ1h1rRM2lGpQaHIqXxO0BjA8STGBjZIWJRBkXgM+tb0
+         VsKLcdTt5pSIx8t44g3RNsJeAf76pk42MUNSaRwXLG1jC7GHsGSJiK8z5OAF/o9gqlTk
+         yL0A==
+X-Forwarded-Encrypted: i=1; AKwUvBzx9Rw+kZL49LdNRSS08KR91wYvbzs07vnlM7XlQ1yuBv+se9mlIB4lIr/wF+HNw7Itsis0jRzuSpcX@vger.kernel.org
+X-Gm-Message-State: AFq9FYJqFCHLx/HDACH1c4zxh8oEUuL8DQk8xI5AB0OVpLKIt1rG2eIU
+	cOm440U2cSThS581S/r4msCjwbIPOt3CbEOJC4eMAN2Hil5DSIvG/2mHz43vyyN9AvztrQNJ9ct
+	rJuXQi5HPD1StKPL2bxk1jxDqHrOnU1l38N3uIwqE57iYushYAkYwyoCZIh7gAZmW
+X-Gm-Gg: AYBFou3CkTD0QF636RVVS0qIEtSkTqY/K3imneOVkzn3OP/wqxpmte4+ARxagDiUUa0
+	h1EC6nsQiICttr/l2NpzaJmlV1VRrANzk9tr5NJDyFTLcspyjkPA2kNEu/GkezRlOW1G+bKsDnW
+	KzIWcyJqVWXrsEP2ocQoohBFWR53qvY6+4qpPPQMbl5ua0aCXVuk7JjSP9d7G5nNwuaKsDC8vIw
+	WQqIfEdrvnyKBPSxWfagfJKfpJEACXyxP2aLexixsdFTZ9ISVnzZrFysFbtIQFtkvq4786GtVI4
+	s6yE2lJl7sJlNuugqDkvyniWfvTubAM4rNgz5etsJuwv3TKU/tvxmcGzVoAqBsUV6CmRDrQdRzK
+	h0yA+WHbBXfdWRzpiIAV7VdRWE7TIoibYnwWmd/wwlls=
+X-Received: by 2002:a05:7300:f0c3:b0:35f:ab1:4792 with SMTP id 5a478bee46e88-3602d6e460dmr15502764eec.6.1792427815632;
+        Mon, 19 Oct 2026 09:36:55 -0700 (PDT)
+X-Received: by 2002:a05:7300:f0c3:b0:35f:ab1:4792 with SMTP id 5a478bee46e88-3602d6e460dmr15502724eec.6.1792427814904;
+        Mon, 19 Oct 2026 09:36:54 -0700 (PDT)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3608219f838sm33529919eec.19.2026.10.19.09.36.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 09:36:54 -0700 (PDT)
+Date: Mon, 19 Oct 2026 09:36:48 -0700
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Pierre Gondois <pierre.gondois@arm.com>
+Cc: linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
+        Mark
+ Brown <broonie@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, Len
+ Brown <lenb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>, Borislav Petkov
+ <bp@alien8.de>,
+        Hanjun Guo <guohanjun@huawei.com>,
+        Mauro Carvalho Chehab
+ <mchehab@kernel.org>,
+        Shuai Xue <xueshuai@linux.alibaba.com>,
+        Maciej
+ Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+        Pawel Chmielewski
+ <pawel.chmielewski@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        "Fabio M.
+ De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+        Breno Leitao
+ <leitao@debian.org>, Terry Bowman <terry.bowman@amd.com>,
+        Dan Williams
+ <djbw@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+        Morduan Zang
+ <zhangdandan@uniontech.com>, linux-acpi@vger.kernel.org,
+        linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev
+Subject: Re: [PATCH 1/6] ACPI: extlog: fix extlog_mem_event build issue
+Message-ID: <20261019093648.00002db2@oss.qualcomm.com>
+In-Reply-To: <20261019145643.1877246-2-pierre.gondois@arm.com>
+References: <20261019145643.1877246-1-pierre.gondois@arm.com>
+	<20261019145643.1877246-2-pierre.gondois@arm.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -96,123 +146,94 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|SN7PR12MB7156:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97d5b57f-a186-4ce0-9551-08df2df62853
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|18002099003|22082099003|10067099003|11063799006|260925022911599003|260925021911599003|261009223027099003|4143699003|260925021311599003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	S5qI8+AyqSqyP/n2zv3m5r5PcJz58owgwa4hVQv/Y+w1FeWRkG5kDMa2VT7BeG903kmh1ADPx2oGdOIbyF1hZ5Djp8mWs7hyTVurXjL+nT09i5lpmyUjtTMxS37wi5JsZZLJBVzJCbXpZ+H7iC1eun13FWibpljWEava6nMu7OaIj/daZ969DN3SnmRuq+SIHk/lcgXX8nH3VHg7w+ALCFMHAO/cAh9MbgNCU68CZ/2NTRY5wMWsCr2idyQ/Ez39gtapRl4/qIKAolVBujsHiB2arnkeg/7P1DQSpCGuoZeVRoBtnNJDx4fJs2Y5btra1S1bSh5Oc97sactYQR5QhY4xHM2vi1jkY4u4o30oabsZ6dwXgQk9BDAeaClOoGn98uH0bVGXp7ZjjrcK7DmN8di4cmXAAhzfhT4Jh5p1y5JH+QWmNMFMA/Lk9Xwpd6ZvntDwK3d4UIXdrklNKcR4NpKIHp48pwG2X/12g1oLtSQdSol3O3ZH8thHvT09VAhzyLXRyRLnBEfBTb0zOXZUpr6GeHyeIFWbxNrcNMFe/Bm7/fRtnuGu4iyjHn5kVw3jYbvhLNYtduPk80PHyVlZnBpYStQ+IwAYl9lv36TfwyI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(18002099003)(22082099003)(10067099003)(11063799006)(260925022911599003)(260925021911599003)(261009223027099003)(4143699003)(260925021311599003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0Gw/nseeeZM/vD9kAZNZ5zVE0MqACGwN/OHJSqOqevlKjaIZwo9NSh1o9+VN?=
- =?us-ascii?Q?cEyONTY56fGeeUvBc4ewUDNCJTJCbnptPhrp0ffgl8q06+tnT9WnO53iAg8k?=
- =?us-ascii?Q?OerLcWIHuTKnJpt0b5CyUrTmLVBP+flEp6JVhFX7AnFWkays9V1XC65U6Ia8?=
- =?us-ascii?Q?IXpUOm+Gr40YeW74BStFGh8s3eyZdbqk9ZhMcRenKDJtFjXR5w3zllxon9H0?=
- =?us-ascii?Q?eE770oJaSauRxFIbqH6lrG5XbJ/3xDuvBUXXN10HAriAVpXM9ynTjrPuFSx7?=
- =?us-ascii?Q?tpjnhVhFJTk44mLgI2d3xK1iYBSPDwU+ugsmqZMisAoIAOPZz5f6NheHME54?=
- =?us-ascii?Q?tAFQBkEW5LDidCQAMjjP3IVRSZ7GKELaafYY8fLICm6BJDzKtOLIbK/Xq2CB?=
- =?us-ascii?Q?Mci9eL0+1FCWixClVqu5g6EhExy5il8BepgEufJuE+Db4OGraM705IVuJbt6?=
- =?us-ascii?Q?xGsHw1VlgSxVtfLwnr3wixmbQJt2oJDaclHrUOadBGPhDx3aT+WyQmWqblbf?=
- =?us-ascii?Q?5I4d5b6LWnJYsAOEmnPNZz+Y9FFL7xWhdmKYZluRC1hooOPNPKtCEAHAKx6W?=
- =?us-ascii?Q?tTodsWhDtkISmFWNTJB0aGMipSP4dHihpKE01Ev3g4QnlXNZvu1NbfDPl4Zp?=
- =?us-ascii?Q?zFexy32r2oCnqf+DIt19Kk9vv7MQm8AcGUcCnNAuE3X+Qy2vuWurQt/nDNXq?=
- =?us-ascii?Q?/wwYhmeVjN+dfMufILvxpeTemh2+6Xj6ZDtcjn8kEZXKRNyZE/7fDVqscqgO?=
- =?us-ascii?Q?jpBBILwBzXbNE2ZOCd8LiEIHHtfZd56X0DRO8PA3p96f0Ztx2SLbE5lSlEnH?=
- =?us-ascii?Q?SFYLfbftEmUZBMMy2V+CLQpqX7lFKmI0TKFttl3Z2wqtQI9a3yxu1VNKWNAe?=
- =?us-ascii?Q?0eNeRTvbBaWi5Cza29O8HKxFhJFDdu58TIEO5nxebIjLXWHKWqrDEQx28s/F?=
- =?us-ascii?Q?iM8mkjZXUZcbgD44sH8VatmRKL03dG7QunAVvizJikqSMutIPUDTvaachBrT?=
- =?us-ascii?Q?+DSUOIUzbO+lgZTi0I4CXw0uHRH5q2Yzf5QjmbhLZHqCs6DNINoDlwhDlO2j?=
- =?us-ascii?Q?Y8fb7SBtL/mMRD2U51ljOxct5zkng+5I43IiRXE6ATKrM5vUON1Ch8ayGy+I?=
- =?us-ascii?Q?cq6aN6LWXCOXy4/qD8vnL0Ny2UVrWgBWLt+CdsV9sx0Z4zTfUc7E/wrlEZDI?=
- =?us-ascii?Q?AkpybUdlxL0wXYdMdQg+DXvJiqDg6zdDbTC/GK2VBSHsRKFYuJCg3DPpVPrg?=
- =?us-ascii?Q?8tS+pwbTzoGdoY05VBNVYJ+q01N9oJ6JX07E3K1l6xUTdvlhbD6bY6vNC3ZU?=
- =?us-ascii?Q?XvzNKXAFfhSWZkz7fTyhZEV2yjmjHHmAqTEFCR4qAuRZOPlB9yXWvmgvyMgs?=
- =?us-ascii?Q?H8ee227tFai66WTXtQUtsmWwPwksiF06ke/ykpBVZZYSAbk52BP70azN9/FX?=
- =?us-ascii?Q?OOGn1lx4ByXfgikjlKpICTC75n7Os5KvUG08NC13YtEtB+5nuL2/EbviTCpv?=
- =?us-ascii?Q?QWW/qi82c3VBi2kPVU1qwWjSGBMyL+ohEdY0fWQNrjxbZSeC9wbWBqX3zHbv?=
- =?us-ascii?Q?trRrFTWVMkSBf7o0t8h7xmimeFbogLCevR6m5nb4eF5hRlvipmfRphoBoZ5E?=
- =?us-ascii?Q?sBz0k8TffCkY8tLnPXofzjCThZTbpDyEn/qGf2PIvtKB2Gk4TA2vTnLEptlf?=
- =?us-ascii?Q?i+9L4qIaXCFdRJ13nPDvZRHOdaXbK6g1gA9nFBxE/Zac5fRQ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97d5b57f-a186-4ce0-9551-08df2df62853
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 15:32:17.3932
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RDWwhjg35QIt8Pj/ff9kz5lFB88fp3mSSVVzstqQCsE4TF3q1GhaQq5g1QoRnnP1oiqYgtoS6VRcZ2ro62eq0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7156
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: lLtg4yJs-URV6MwtNQkkT5i9IPxdL8tX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE5MDA2NiBTYWx0ZWRfX7Yw9MAE6nXyc
+ 53Gk0DOyv+1nn+sIVvUJeCmB2frF+e1n1tgp2AJf2fYm3RLe6M56hZ8SpqRTGDNfipaM/aMsCKN
+ U3mwOcW93bRGhJjCJFaqbiIUf7MfMO631YvC8dMHnNRTYCsV6+9Uq/dtSM7Awj8wKTl4BjqzVA5
+ CETaEoBvL9fd9MWw/AsiinjF/j+ksbdG80PkoS3YQFat/ouVpJzd07O+Up3el99g9P4i9UWQRU4
+ qU4FCzfzt4mRkrvDV6D/ROjVwPBmKxXbGLjdRUDnyPWHcjrYqOmyzIobA2eXV5tShsSjYJmurte
+ TKEYtEq6kTJJA4LBYv30JL1ENu3zJ33ME2z+pe3TMckOwtQzKF6tuOAnY7MCJ/e1XGE9s91/ksF
+ ftAV29guzzbF2F7wW10sEKnREBnzQQaZ9R6HQMMkd7kurT0qdAUpn4zfa2qF0DMN9z8EII1STaL
+ bGB+6e1tFbpW1y4Wxuw==
+X-Proofpoint-GUID: lLtg4yJs-URV6MwtNQkkT5i9IPxdL8tX
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE5MDA2NiBTYWx0ZWRfX0JaqWriW1QPf
+ xhgIjtoV8gtY++9wpo5mLmItgaNinnhaTrIP2Y1prMeostaNwTXLg4bBznN5BqXQoCz3HW9YVhP
+ MFcccHp8w+7mYFqWPyJq5zD4Bcva/PE=
+X-Authority-Analysis: v=2.4 cv=cLt1IVeN c=1 sm=1 tr=0 ts=6ad64728 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=7CQSdrXTAAAA:8 a=crxqeblGBJ-rV0e4J-MA:9 a=CjuIK1q_8ugA:10
+ a=scEy_gLbYbu1JhEsrz4S:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-19_05,2026-10-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0 phishscore=0 spamscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 bulkscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
+ definitions=main-2610190066
 
-On Mon, Oct 12, 2026 at 09:33:05PM +0200, Adrian Schlegel wrote:
-> On Intel and Zhaoxin, mce_is_memory_error() also returns true for cache
-> hierarchy errors. All callers expect it to report memory errors only.
+On Mon, 19 Oct 2026 16:56:08 +0200
+Pierre Gondois <pierre.gondois@arm.com> wrote:
+
+> With CONFIG_ACPI_EXTLOG=n and with the following command:
+> make -j4 drivers/acpi/acpi_extlog.o drivers/acpi/
 > 
-> The CEC uses it to count corrected DRAM errors. A corrected cache error
-> only names the cache line that was affected, not a faulty DRAM page.
-> With a faulty CPU core, the CEC therefore soft-offlines healthy pages.
-> On an i9-9900K this caused about 500 soft-offline attempts per hour.
+> trace_extlog_mem_event() is not defined. Add a extlog_mem_err_event()
+> wrapper to fix the build issue.
 > 
-> Report only memory controller errors on Intel and Zhaoxin, as is
-> already done for AMD.
-> 
-> Fixes: fa92c5869426 ("x86, mce: Support memory error recovery for both UCNA and Deferred error in machine_check_poll")
-> Signed-off-by: Adrian Schlegel <me@adrianschlegel.com>
+> Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
+
+I'm lost.  This file is normally only built if
+CONFIG_ACPI_EXTLOG is not = "n" so how do you get to this code.
+Ah you are forcing build of a file...
+
+If you do need to do this sort of ifdefery it belongs in a header with
+the function cleanly stubbed rather than in here.
+
+Anyhow, far as I can tell this doesn't make any sense for
+upstream.
+
+J
+
 > ---
-> v3:
-> - Shorten and wrap commit message (Boris, Tony)
-> - Refer to the SDM section by name instead of number (Tony)
+>  drivers/acpi/acpi_extlog.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
 > 
-> v2:
-> - Fix mce_is_memory_error() itself instead of adding a CEC-local helper (Tony)
-> - v1: https://lore.kernel.org/r/20260927151904.30524-1-me@adrianschlegel.com
-> 
-> Tested with mce-inject (sw) in a VM with an Intel CPU model. A corrected
-> cache error (status 0xcc5ffc0000100179) is no longer counted and its
-> page stays online. A corrected memory controller error (status
-> 0x8c0000000000009f) is still counted and its page soft-offlined.
-> 
->  arch/x86/kernel/cpu/mce/core.c | 18 +++++-------------
->  1 file changed, 5 insertions(+), 13 deletions(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-> index ab469605f..54ed053fa 100644
-> --- a/arch/x86/kernel/cpu/mce/core.c
-> +++ b/arch/x86/kernel/cpu/mce/core.c
-> @@ -540,21 +540,13 @@ bool mce_is_memory_error(struct mce *m)
->  	case X86_VENDOR_INTEL:
->  	case X86_VENDOR_ZHAOXIN:
->  		/*
-> -		 * Intel SDM Volume 3B - 15.9.2 Compound Error Codes
-> +		 * Intel SDM Volume 3B "Compound Error Codes".
->  		 *
-> -		 * Bit 7 of the MCACOD field of IA32_MCi_STATUS is used for
-> -		 * indicating a memory error. Bit 8 is used for indicating a
-> -		 * cache hierarchy error. The combination of bit 2 and bit 3
-> -		 * is used for indicating a `generic' cache hierarchy error
-> -		 * But we can't just blindly check the above bits, because if
-> -		 * bit 11 is set, then it is a bus/interconnect error - and
-> -		 * either way the above bits just gives more detail on what
-> -		 * bus/interconnect error happened. Note that bit 12 can be
-> -		 * ignored, as it's the "filter" bit.
-> +		 * Memory controller errors have an MCACOD of 000F 0000 1MMM CCCC:
-> +		 * bit 7 set, bits 8-11 and 13-15 clear. Bit 12 is the "filter"
-> +		 * bit and is ignored.
->  		 */
-> -		return (m->status & 0xef80) == BIT(7) ||
-> -		       (m->status & 0xef00) == BIT(8) ||
-> -		       (m->status & 0xeffc) == 0xc;
-> +		return (m->status & 0xef80) == BIT(7);
+> diff --git a/drivers/acpi/acpi_extlog.c b/drivers/acpi/acpi_extlog.c
+> index 7ad3b36013cc..e764d61f71ca 100644
+> --- a/drivers/acpi/acpi_extlog.c
+> +++ b/drivers/acpi/acpi_extlog.c
+> @@ -180,6 +180,15 @@ extlog_cxl_cper_handle_prot_err(struct cxl_cper_sec_prot_err *prot_err,
+>  #endif
+>  }
 >  
+> +static void
+> +extlog_mem_err_event(struct cper_sec_mem_err *mem, u32 err_seq,
+> +		     const guid_t *fru_id, const char *fru_text, u8 sev)
+> +{
+> +#if defined(CONFIG_ACPI_EXTLOG) || defined(CONFIG_ACPI_EXTLOG_MODULE)
+> +	trace_extlog_mem_event(mem, err_seq, fru_id, fru_text, sev);
+> +#endif
+> +}
+> +
+>  static int extlog_print(struct notifier_block *nb, unsigned long val,
+>  			void *data)
+>  {
+> @@ -229,8 +238,9 @@ static int extlog_print(struct notifier_block *nb, unsigned long val,
+>  			struct cper_sec_mem_err *mem = acpi_hest_get_payload(gdata);
+>  
+>  			if (gdata->error_data_length >= sizeof(*mem))
+> -				trace_extlog_mem_event(mem, err_seq, fru_id, fru_text,
+> -						       (u8)gdata->error_severity);
+> +				extlog_mem_err_event(mem, err_seq, fru_id,
+> +						     fru_text,
+> +						     (u8)gdata->error_severity);
+>  		} else if (guid_equal(sec_type, &CPER_SEC_CXL_PROT_ERR)) {
+>  			struct cxl_cper_sec_prot_err *prot_err =
+>  				acpi_hest_get_payload(gdata);
 
-The SDM also mentions "Extended Memory Errors". I guess these were left
-out before, but should they be included?
-
-Thanks,
-Yazen
