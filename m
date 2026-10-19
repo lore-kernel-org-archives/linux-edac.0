@@ -1,78 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792442428;
-	b=Hc41nLw0N5yruAOz9D+6gx5hz4IwXtDNpKHnhCEE72hta3KK8NJ5BpOU66Z+DIGDxbZL
-	 lz35NJAu701oMnESytYy7+7RYHFz2sa1IuZumda/qrUxsVnTeU0rgTsGryWPxLpmfCLfh
-	 eNLJQHRApmZKJt5rD7inCF4XFHvR3+Y9usRZCqaRZHEEylHUJTelFjfAbfQHfiKMR7uFl
-	 pBdPB27pQ6BNSnblZbMWzVY4cg2vswM5iFoHqbUMSmpSMUGybCz6j7zlZnxe6xWezzCAU
-	 tLYdx9/ssd/FlBcXiYTkQkICmY+X8nrwOq+yDeANwptWbVnP6TX3NKUz0sAvP1w5dMA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792442428;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=2/7A38RNtD7RQ/YyFo6ODsiOAHnMtbezT9OG2lOi13g=;
-	b=uSjVfvOwQGIdOG5/kkNtdbDoRSzdyU0+VdKcPlRVIQY2y6njOK00yi8cDzOCyV5mljyA
-	 rZt+CaQhlPHBNwzTEkMU+pHUKrVER477LusgKbH4WrRhWMixueBDxrz41CDrGlVDLO2J+
-	 1xuTyQqsXnqn5wqc7Zo5ikyyUvaeYKDKY4HKYEGVvlnGhc6XD00m2etczEspubtQqkyhK
-	 dlCe8PZt103KFw+rurPcKIvirBK3qB8wteWUZSBPawFVY2SFJWvrNNNGd9VbXVuEEmS/w
-	 0u4m4D7MxfJ6FI3OzUh2cNAkIZp0M9HHgo/6ez7cXo4Ue7XchWpLXceRl6/3liu1oaQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=R9RL4vxr;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4355B606A31C;
-	Mon, 19 Oct 2026 20:40:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4355B606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.196.68
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792442564;
+	b=1Hn9oWWp4trqlqf7wq84urPcj6THiIs0Jktdimqb5EjkhiNS5CJ8PIV5KErmnJxaIp+m
+	 a7SBQbAg4XNoNPwlM9KsjGeugL3GgbbvdtCEGzkXI88wmffp2TkdOIVA/eg4IzoGNmtJk
+	 uxtjHR2PbDX2AC+KL922ntuSVui+zHYyO72P3+JjuvdsjgnoV8IGG0pMQ6sTVZRmXzbbl
+	 tmdGh20OEDQNyH/9qxfNsXmwi8AXMqRNWu6oZkzF16+ky9D9jDMVe7VtmKO9Yj9fZO9oi
+	 ea8t6vIMas7NbGQWcMIx0hoIp8zXPfXRAFXTZ5aJD0a++cvpFiUUZmSzK8pMzw77NcA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792442564;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy:X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=ROatlRj3KVZS45TZhoeX32KVNPsI65bWTE8jl/FBo5U=;
+	b=rlBJv8LaJarIZl5IPKW+bLhP7HYTY8xhFa1VRfPtgaOn1anpftjXhtXybeR1TAQlJEQf
+	 +aBSBYMN9G7DvmPt6TzquQlXOeCwBsrvB0wteOKmBtT8/z9P7z1kKoAratGPtWStYQIYF
+	 aGBTwJslHxl3zOj0SYg3Neotlj6DCXjSPyuTkiNtvTbI+bZ6JaFzTDUVc2XkW4359+plk
+	 Q/pjuNjjbD9V/Cq61+fDWerIZFTOQCKUmmkNG8Rqca34BB3xy8etMPc7reHkEiMKTQYRZ
+	 sNHGL3caQP7dMev9O59VBTJFwrbdldxactvo9CjnIk4+ApCeyncho45N8V3vtzMhAXA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=BOkMjzUL;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.196.68
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013068.outbound.protection.outlook.com [40.93.196.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1FE606A31D;
+	Mon, 19 Oct 2026 20:42:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A1FE606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=R9RL4vxr
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 97C1720E3;
-	Mon, 19 Oct 2026 13:40:18 -0700 (PDT)
-Received: from e135073.arm.com (unknown [10.57.53.5])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 244DE3F673;
-	Mon, 19 Oct 2026 13:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1792442421; bh=mZdsZZ0eMnFYwFad0DranBP838NOpNxdeiDGOK0U3Nw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=R9RL4vxrXA/kXCqTFAOPXOCh/FTqLTtZp8lxKbhtF6PiMlu3pfNy3OM6DNSfq4Nd1
-	 aGjqqL1irL5mcb6WJZeC4U8CXreAj8ylH2tnF/l24uUBmyvQu8IzdCQDfHY/yYjixW
-	 33OT3QU241AQhslqOlqYFUEmPmH8imvqQb/2pj1g=
-From: Pierre Gondois <pierre.gondois@arm.com>
-To: linux-kernel@vger.kernel.org
-Cc: James Morse <james.morse@arm.com>,
-	Mark Brown <broonie@kernel.org>,
-	Pierre Gondois <pierre.gondois@arm.com>,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shuai Xue <xueshuai@linux.alibaba.com>,
-	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
-	Pawel Chmielewski <pawel.chmielewski@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
-	Breno Leitao <leitao@debian.org>,
-	Dan Williams <djbw@kernel.org>,
-	Terry Bowman <terry.bowman@amd.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Morduan Zang <zhangdandan@uniontech.com>,
-	linux-acpi@vger.kernel.org,
-	linux-edac@vger.kernel.org,
-	acpica-devel@lists.linux.dev
-Subject: [PATCH v2 6/6] ACPI: extlog: add Memory Error Section 2 trace event
-Date: Mon, 19 Oct 2026 22:38:45 +0200
-Message-ID: <20261019203915.2019037-7-pierre.gondois@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261019203915.2019037-1-pierre.gondois@arm.com>
-References: <20261019203915.2019037-1-pierre.gondois@arm.com>
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=BOkMjzUL
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qn6GqDvubyo9B5piUdmOdri/tx5Z1mRRTygJ21Kk0XEgu/btUouKk1o4D2i5hpZtqLHcGcCNpmNTyE6NJ4iAUs7yVlwu2ULar/KwGCkHOvB02TxShrN/GI3Zj0u6oXxrfqKbrNVgeXRYcVKpFsBtAVjFAMCr+t4eccqyLf/dXg8Hoeb0Sd5tFzFtNjPJYOx01tLEfhr5Qs4KPStljanywT3/O9lB6/YpCT+uAkgwAh/X69VWEkMCtgT8Z8Ys1rJ/1dbTw+0qXZ7y0gyvxvWfndPzeV6rZsZu3IT/S8ogEgfhuDcOpp9I0XmrWhEaLyPdMCJu4aeqoDcOaD2Uz+hU6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ROatlRj3KVZS45TZhoeX32KVNPsI65bWTE8jl/FBo5U=;
+ b=ojsXNGcWi3ojplGdYbpUd8jhuu0lJW2JkhI4TwNuoSFMbVmeLRyv4RK3rYa8PoDUGIZeNqHUtKJwrF4X62pYniCDVLNEy1qwNlrqGo7GNyzrHHRu/OaJfYKB1W0pz8ZWGU4mdUwDbxkIJf6s47TH0dCtDzhJZtZRmm4AMtVao5iSdnDDxpPomKc82QmG7VgyXD/ipwSnWaimVQ/7CR3D8qV9NiQBAPRep9Tix+viG8T+2DTDeb7PDj9Z7XsWCE7FYh74Bh95Sbk86qnQQrARNxvGDKaKdxfojZV4QXXH8E+WbAZwXytZULxv9Y8W9MoNKzt9pHyU6qEoXnKCCPgz/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ROatlRj3KVZS45TZhoeX32KVNPsI65bWTE8jl/FBo5U=;
+ b=BOkMjzULRARpRn5xZ1s2oWGkKXbz3XJ1/iXAo5veZ7Nt6HEKSYixlW/ATU1SvzGVOC6z6bhWvS5MpgwsBwM31AwL+ShjVeucoFNrzLmJPqLcqHsHwO/V5WIsErol+tiuv5TMVWy+DhTYDt7VMiD1pk9ec5ItnG40zxsTaGvDK1w=
+Received: from PH8PR02CA0044.namprd02.prod.outlook.com (2603:10b6:510:2da::9)
+ by SN7PR12MB6838.namprd12.prod.outlook.com (2603:10b6:806:266::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Mon, 19 Oct
+ 2026 20:42:39 +0000
+Received: from PH5PEPF0000002B.namprd04.prod.outlook.com
+ (2603:10b6:510:2da:cafe::3c) by PH8PR02CA0044.outlook.office365.com
+ (2603:10b6:510:2da::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.496.5 via Frontend Transport; Mon, 19
+ Oct 2026 20:42:39 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ PH5PEPF0000002B.mail.protection.outlook.com (10.167.243.5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.522.6 via Frontend Transport; Mon, 19 Oct 2026 20:42:39 +0000
+Received: from quartz-7b1chost (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Mon, 19 Oct
+ 2026 15:42:40 -0500
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: <bp@alien8.de>, <linux-edac@vger.kernel.org>
+CC: <linux-kernel@vger.kernel.org>, Yazen Ghannam <yazen.ghannam@amd.com>
+Subject: [PATCH] EDAC/amd64: Use the UMC bank's AMD Node ID on Zen6
+Date: Mon, 19 Oct 2026 15:42:28 -0500
+Message-ID: <20261019204228.1053516-1-yazen.ghannam@amd.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -83,161 +104,71 @@ List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH5PEPF0000002B:EE_|SN7PR12MB6838:EE_
+X-MS-Office365-Filtering-Correlation-Id: d1106ddb-de10-446e-6c20-08df2e21841f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|36860700016|23010399003|1800799024|18002099003|10067099003|11063799006|261009223027099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	JGQufdWZuoarneHcviCaZkRsdGAj0pxW5QSvGQS4OBu+KlBol7G7BSYYv0iXHitJi1Su8f9X5NYfKMEuayDXTpmL5BbepwaUrd0F+5526d/wL9uGBDUjmXt/Cdg49nJQrzPcvX8gL7K2zkcR5vH+b1gZsjGZ3DFzxg6ZeF+XFL2qjPImtoPeOhoJ5MfY5BUnVhJ6QP8TgJCBNZ+PuzdMWv5LRlBhKRgyEUuWhN0zhCweLhv8r/Yvnl7RahrEM+qbTnuZUVkNEaxXDVHAR9B5PYbCCwCuwZrs91ORhPlYhDOdecHPIA3WHSxkDwxAwlhOmOz4xVFLftwgMNdxQQNndQD6lQiI3xZ55SaeiKY+9AulRs+Sukn24B7ybJD4rlRF6ee5J+GcNKlDBN3vMmCDcvcrWqtoTRr67DnZaT2iyL7wPF7jWVa5/sA8VZ4FrWxCPBDA1BEQt68um8ZJhDV3iIl5qGC4jOzkEmkFNVuvZGSzqHakXlajPuDEJfRap3ZZ/SIci/AxD/JtO7Vbr2uQS+w/TxW7gXZTMQcbDW5VdmpKPUuO60EEJP+/Y7Z/lKY9Is1+bp0aCW04Zo1BYsqirVxjQz6nGH0W9tv/ZoB8L8TXnOBlz7vfitHzJ9udx874fIJR3F9PAhz+65efy9p0NiHlZ/7pNw85LWecfP9Nrn2iPzCafHmHlVWL1MV01lCTriKLqE5vsBdXTF1BtlddWg==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700016)(23010399003)(1800799024)(18002099003)(10067099003)(11063799006)(261009223027099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	u/CIM9ob3En1b/FFU4fOqPVhk4ZmnPqLlqUxA00VL158NIblMdzN1Dx4IqgHn22eS4bVFTDgJtRfhcJ8zYDMkK5HGSW8oiEbX6AktS97aYsAwH2WkN7ywNKZ0z0mPxREIagZEi/OuRg639bngcXZVfQO93I9PpYZYTNIHsxSzMph247gzjKVO24WXJMN7JGxw6+98BaWlZ2Q0VNLoidiI/uYVH2xDSXyNbvwOpvav847194hF8zyNv3dBZOogUdS8bjgdT3g3koubYoXOSX+6PxrJcFyKqZZfjoqMl/9czxSqHnRfW5KhwU4t/d/xRMDNQhzhXrfJZLkbnZB9va5umHbSlmVTFZpy09jKUNGbvit2vEI7SbV2ymENxY9y8FpSJrd/JpLHLkxGcg32spD7WFQiJGezRbBRvopZMEf333G+MWCHe7t7Y9IqfvYVbrQ
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 20:42:39.4223
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1106ddb-de10-446e-6c20-08df2e21841f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	PH5PEPF0000002B.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6838
 
-Add a separate handling for Memory Error Section 2 trace events.
-The fields of the record are individually printed so userspace
-can discover the layout more dynamically if a new field is added.
+decode_dram_ecc() is given the AMD Node ID of the CPU that reported the
+error. This is the node of the CPU managing the MCA bank, not the node
+of the bank itself.
 
-Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
+On Zen6 systems, a UMC MCA bank may be managed by a CPU on a different
+AMD Node. The error is then decoded and logged against the wrong memory
+controller.
+
+MCA_IPID[InstanceIdHi] holds the global AMD Node ID of the bank. Use it
+directly on Zen6 systems.
+
+Fixes: 6fffa38c4c44 ("EDAC/amd64: Add support for AMD family 1Ah-based newer models")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
 ---
- drivers/acpi/acpi_extlog.c |   6 +++
- drivers/ras/ras.c          |   1 +
- include/ras/ras_event.h    | 102 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 109 insertions(+)
+ drivers/edac/amd64_edac.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/acpi/acpi_extlog.c b/drivers/acpi/acpi_extlog.c
-index 7ad3b36013cc..9e4d16e06244 100644
---- a/drivers/acpi/acpi_extlog.c
-+++ b/drivers/acpi/acpi_extlog.c
-@@ -231,6 +231,12 @@ static int extlog_print(struct notifier_block *nb, unsigned long val,
- 			if (gdata->error_data_length >= sizeof(*mem))
- 				trace_extlog_mem_event(mem, err_seq, fru_id, fru_text,
- 						       (u8)gdata->error_severity);
-+		} else if (guid_equal(sec_type, &CPER_SEC_PLATFORM_MEM2)) {
-+			struct cper_sec_mem_err2 *mem = acpi_hest_get_payload(gdata);
-+
-+			if (gdata->error_data_length >= sizeof(*mem))
-+				trace_extlog_mem2_event(mem, err_seq, fru_id, fru_text,
-+						      	(u8)gdata->error_severity);
- 		} else if (guid_equal(sec_type, &CPER_SEC_CXL_PROT_ERR)) {
- 			struct cxl_cper_sec_prot_err *prot_err =
- 				acpi_hest_get_payload(gdata);
-diff --git a/drivers/ras/ras.c b/drivers/ras/ras.c
-index 03df3db62334..c6b14202a5e9 100644
---- a/drivers/ras/ras.c
-+++ b/drivers/ras/ras.c
-@@ -111,6 +111,7 @@ subsys_initcall(ras_init);
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index 0c0d11c72925..7adb79c658af 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -1044,6 +1044,10 @@ static int fixup_node_id(int node_id, struct mce *m)
+ 	/* MCA_IPID[InstanceIdHi] give the AMD Node ID for the bank. */
+ 	u8 nid = (m->ipid >> 44) & 0xF;
  
- #if defined(CONFIG_ACPI_EXTLOG) || defined(CONFIG_ACPI_EXTLOG_MODULE)
- EXPORT_TRACEPOINT_SYMBOL_GPL(extlog_mem_event);
-+EXPORT_TRACEPOINT_SYMBOL_GPL(extlog_mem2_event);
- #endif
- EXPORT_TRACEPOINT_SYMBOL_GPL(mc_event);
- EXPORT_TRACEPOINT_SYMBOL_GPL(non_standard_event);
-diff --git a/include/ras/ras_event.h b/include/ras/ras_event.h
-index fdb785fa4613..0c0dbe068dc8 100644
---- a/include/ras/ras_event.h
-+++ b/include/ras/ras_event.h
-@@ -74,6 +74,108 @@ TRACE_EVENT(extlog_mem_event,
- 		  &__entry->fru_id,
- 		  __get_str(fru_text))
- );
++	/* The managing CPU may be on a different AMD Node than the bank. */
++	if (cpu_feature_enabled(X86_FEATURE_ZEN6))
++		return nid;
 +
-+/*
-+ * Memory Error Section 2 exposes each field separately so userspace can
-+ * discover its layout. Validation bits use the UEFI Section 2 assignments.
-+ */
-+TRACE_EVENT(extlog_mem2_event,
-+	TP_PROTO(const struct cper_sec_mem_err2 *mem,
-+		 u32 err_seq,
-+		 const guid_t *fru_id,
-+		 const char *fru_text,
-+		 u8 sev),
-+
-+	TP_ARGS(mem, err_seq, fru_id, fru_text, sev),
-+
-+	TP_STRUCT__entry(
-+		__field(u32, err_seq)
-+		__field(u8, sev)
-+		__field_struct(guid_t, fru_id)
-+		__string(fru_text, fru_text)
-+		__field(u64, validation_bits)
-+		__field(u64, error_status)
-+		__field(u64, physical_addr)
-+		__field(u64, physical_addr_mask)
-+		__field(u16, node)
-+		__field(u16, card)
-+		__field(u16, module)
-+		__field(u16, bank)
-+		__field(u32, device)
-+		__field(u32, row)
-+		__field(u32, column)
-+		__field(u32, rank)
-+		__field(u32, bit_pos)
-+		__field(u8, chip_id)
-+		__field(u8, error_type)
-+		__field(u8, status)
-+		__field(u64, requestor_id)
-+		__field(u64, responder_id)
-+		__field(u64, target_id)
-+		__field(u32, mem_array_handle)
-+		__field(u32, mem_dev_handle)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->err_seq = err_seq;
-+		__entry->sev = sev;
-+		__entry->fru_id = *fru_id;
-+		__assign_str(fru_text);
-+		__entry->validation_bits = mem->validation_bits;
-+		__entry->error_status = mem->error_status;
-+		__entry->physical_addr = mem->physical_addr;
-+		__entry->physical_addr_mask = mem->physical_addr_mask;
-+		__entry->node = mem->node;
-+		__entry->card = mem->card;
-+		__entry->module = mem->module;
-+		__entry->bank = mem->bank;
-+		__entry->device = mem->device;
-+		__entry->row = mem->row;
-+		__entry->column = mem->column;
-+		__entry->rank = mem->rank;
-+		__entry->bit_pos = mem->bit_pos;
-+		__entry->chip_id = mem->chip_id;
-+		__entry->error_type = mem->error_type;
-+		__entry->status = mem->status;
-+		__entry->requestor_id = mem->requestor_id;
-+		__entry->responder_id = mem->responder_id;
-+		__entry->target_id = mem->target_id;
-+		__entry->mem_array_handle = mem->mem_array_handle;
-+		__entry->mem_dev_handle = mem->mem_dev_handle;
-+	),
-+
-+	TP_printk("{%u} %s error: validation_bits: 0x%llx "
-+		  "error_status: 0x%llx physical_addr: 0x%llx "
-+		  "physical_addr_mask: 0x%llx node: %u card: %u "
-+		  "module: %u bank: %u device: %u row: %u column: %u "
-+		  "rank: %u bit_pos: %u chip_id: %u error_type: %u "
-+		  "status: 0x%x requestor_id: 0x%llx responder_id: 0x%llx "
-+		  "target_id: 0x%llx mem_array_handle: 0x%x "
-+		  "mem_dev_handle: 0x%x FRU: %pUl %.20s",
-+		  __entry->err_seq, cper_severity_str(__entry->sev),
-+		  __entry->validation_bits,
-+		  __entry->error_status,
-+		  __entry->physical_addr,
-+		  __entry->physical_addr_mask,
-+		  __entry->node,
-+		  __entry->card,
-+		  __entry->module,
-+		  __entry->bank,
-+		  __entry->device,
-+		  __entry->row,
-+		  __entry->column,
-+		  __entry->rank,
-+		  __entry->bit_pos,
-+		  __entry->chip_id,
-+		  __entry->error_type,
-+		  __entry->status,
-+		  __entry->requestor_id,
-+		  __entry->responder_id,
-+		  __entry->target_id,
-+		  __entry->mem_array_handle,
-+		  __entry->mem_dev_handle,
-+		  &__entry->fru_id, __get_str(fru_text))
-+);
- #endif
+ 	if (smca_get_bank_type(m->extcpu, m->bank) != SMCA_UMC_V2)
+ 		return node_id;
  
- /*
+
+base-commit: 0489f2176209b710890096699c4b869f1db91df4
 -- 
-2.43.0
+2.55.0
 
