@@ -1,77 +1,120 @@
-Received: from out28-193.mail.aliyun.com (out28-193.mail.aliyun.com [115.124.28.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-1-113.ptr.blmpb.com (va-1-113.ptr.blmpb.com [209.127.230.113])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B447353A95;
-	Mon, 19 Oct 2026 01:54:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D7833F8C4
+	for <linux-edac@vger.kernel.org>; Mon, 19 Oct 2026 02:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792374866; cv=none; b=P2Hb7dr6RyggQbsHqHE0zAyWsQmJ97JGALFcW616qMMcYsxhKJUGMi10FzGG8l+vb9cq42Dt8P1lm6QObQrS/eIuaukmiocWJbJCn1ytuy38y+CzzMxCdVrHgo+bkr1MY8MCV5WRfN+D2W43aRpbYJMc3Mt4ZebkFC389zDzxdw=
+	t=1792376213; cv=none; b=YtPjcOfI6shHxQgqfEfpuJLDB5+YvARnBICBh1fW1LzXpVuJXwznuOTzsvvWmSlOHVwmNnqZGpZi8uaPwJ5CxQ6PVY0AJJx3x/plC5/N56M0ncWyHKzPlpv+sNp7VB0LLDpsX3TmfI+Dcm6uLPXKNImrUznahpOdvsEV+q19jAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792374866; c=relaxed/simple;
-	bh=8vjHJeYZsJVSDI+E8mHJdGuyJxa8mzSi7S72x5z3vgw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xce01tIyyeGh7whUbBy+qm9XqOp1U/NCgEwAGLGvMkDemtZ4yvJmih1l12D9rLnb7JNxsv9218vZDLKzTgBG1ORGJzUTX6L+XINyTLHD+N0lOLbmY1Pio4v8KBh5KlaU5GhABzL679kzaUA9bZNNQhExLcJhsVO5WL8so5j0E2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=115.124.28.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.1033654|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_enroll_verification|0.0289942-0.0041458-0.96686;FP=5558288521628470933|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033022149254;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.jjc-LXz_1792374847;
-Received: from 172.18.24.170(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.jjc-LXz_1792374847 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Mon, 19 Oct 2026 09:54:10 +0800
-Message-ID: <ee5dbd51-0318-431d-a7b3-31a6859b1331@open-hieco.net>
-Date: Mon, 19 Oct 2026 09:54:07 +0800
+	s=arc-20240116; t=1792376213; c=relaxed/simple;
+	bh=p6Yk20CJcylgrXxAJQUEvRF0p7sAsIT5anlc/D4U6qc=;
+	h=Message-Id:Subject:From:Content-Type:Date:Cc:Mime-Version:
+	 In-Reply-To:References:To; b=EX9XyTYhN3pKRNtLZgVZfgpV55icqgHHiXMB5PsqBlGLMXqQYdAzIMwXHELh0wYwqFOWIXVVKiTij4SyNRJPO2WArS1FsMUdYEFQOin8yZOSAURs327Lnxpz0mUfuHArYTfG6XEc2pF53sEfBvi+UtRFeRwrLYQ/pzgJNAbKNjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=SH5qAhvK; arc=none smtp.client-ip=209.127.230.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="SH5qAhvK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1792376197; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=p6Yk20CJcylgrXxAJQUEvRF0p7sAsIT5anlc/D4U6qc=;
+ b=SH5qAhvK0qs86QvmpYhBiy84VJnUttawWGKeJEwEgSeKwRtCs0dRR1LENGF7PazCdxedNg
+ b1C7BjnzGo9N7tu1x/TdZqUayHcQ6oxf8sSgZeULMg4eO66LaK5gHAaZ3s3X3Ptekj6el+
+ RsQ5lClDHLdagvurPqrMCW4mPJ2NoC2Ne0MQtBkJhUOGRlz5yZuLiy7n0vAiSQWbDR0BRS
+ oOlPUKcGx5G3X5u3Fp/I5qQBAhOWqzxRtaHt4LQTlxHh5KLhwxjBoDPObKtnvzrdDQKLsO
+ Jtg7bkIY5WN5/q0vCi3n/kzb36/Dth8DXs5qu+VpD5+Heen4XjattJ9wVL8OrQ==
+Message-Id: <451788d5e97cba38274e663d2b7952c593e959be.461d4034.890c.4720.915c.a7839a9cc59e@bytedance.com>
+Subject: Re: [PATCH] EDAC/mce_amd: Add missing long names for SMCA bank types
+From: "Guixiong Wei" <weiguixiong@bytedance.com>
+X-Lms-Return-Path: <lba+16ad57d83+19f2f5+vger.kernel.org+weiguixiong@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 19 Oct 2026 10:16:32 +0800
+Cc: "Borislav Petkov" <bp@alien8.de>, "Tony Luck" <tony.luck@intel.com>, 
+	"Muralidhara M K" <muralidhara.mk@amd.com>, <linux-edac@vger.kernel.org>, 
+	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>, 
+	"Guixiong Wei" <weiguixiong@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/7] x86/hygon: Add Family 0x18 DF node enumeration
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: Borislav Petkov <bp@alien8.de>,
- Mario Limonciello <mario.limonciello@amd.com>, Pu Wen <puwen@hygon.cn>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Tony Luck <tony.luck@intel.com>, x86@kernel.org, linux-edac@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261009090111.151878-1-wanglin@open-hieco.net>
- <20261009090111.151878-2-wanglin@open-hieco.net>
- <20261017145226.GA359037@yaz-khff2.amd.com>
-Content-Language: en-US
-From: Lin Wang <wanglin@open-hieco.net>
-In-Reply-To: <20261017145226.GA359037@yaz-khff2.amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+In-Reply-To: <20261018223431.GA3236@yaz-khff2.amd.com>
+References: <20261009020447.90758-2-weiguixiong@bytedance.com> <20261012140330.GC15198@yaz-khff2.amd.com> <20261017195145.GAatPR0dQVZGEMHglh@fat_crate.local>
+	<20261018223431.GA3236@yaz-khff2.amd.com>
+Content-Transfer-Encoding: quoted-printable
+To: "Yazen Ghannam" <yazen.ghannam@amd.com>
 
-Hi Yazen,
 
-On 10/17/2026 10:52 PM, Yazen Ghannam wrote:
->> +EXPORT_SYMBOL_GPL(hygon_pci_dev_to_df_node);
->> +
-> These exported functions don't have any callers in this set.
-> 
-> This issue was mentioned in the last revision for a different function.
-> But the guidance should be followed in general.
+> From: "Yazen Ghannam"<yazen.ghannam@amd.com>
+> Date:=C2=A0 Mon, Oct 19, 2026, 06:35
+> Subject:=C2=A0 Re: [PATCH] EDAC/mce_amd: Add missing long names for SMCA =
+bank types
+> To: "Borislav Petkov"<bp@alien8.de>
+> Cc: "Guixiong Wei"<weiguixiong@bytedance.com>, "Tony Luck"<tony.luck@inte=
+l.com>, "Muralidhara M K"<muralidhara.mk@amd.com>, <linux-edac@vger.kernel.=
+org>, <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
+> On Sat, Oct 17, 2026 at 12:51:45PM -0700, Borislav Petkov wrote:
+> > On Mon, Oct 12, 2026 at 10:03:30AM -0400, Yazen Ghannam wrote:
+> > > These were intentionaly left out as it as it seems users have been
+> > > moving to user space decode tools.
+> >=C2=A0
+> > You're making the old mistake:
+> >=C2=A0
+> > a. a naked MCE record in dmesg, you have to open the PPRs and actually =
+decode
+> > it by hand. Or use a tool but most of the time, that tool is not update=
+d with
+> > the latest error definitions, and you need the exact machine info in or=
+der for
+> > the tool to decode properly, yadda yadda...
+> >=C2=A0
+> > b. Get a fully decoded error string in dmesg.
+> >=C2=A0
+> > What is better: a) or b) ?
+> >=C2=A0
+>=C2=A0
+> "a" is better.
+>=C2=A0
+> The same "is not updated with the latest error definitions" applies to
+> the kernel.
+>=C2=A0
+> And it's usually easier to update tools than patch the kernel (and also
+> deal with backporting, etc.).
+>=C2=A0
+> In any case, this patch isn't about error descriptions. It's only about
+> adding the names for some bank types.
+>=C2=A0
+> The bank types were added three years ago. AFAIK, the missing names
+> haven't been an issue. So I'm curious if this patch is actually fixing a
+> problem. If so, then that's fine.
 
-I'll keep the node helpers local and remove their public declarations,
-stubs and exports until they have in-tree users.
+I found this while reviewing decode_smca_error(), rather than from
+an observed MCE or a user report. In particular, I was looking at:
 
->> +		return ret;
->> +	}
->> +
-> Have you considered cases where the cache build fails but that are
-> expected?
-> 
-> We've had similar issues recently like this related to virtualization.
-> 
-> In summary: this failure is a true issue on bare metal, so the user
-> should be warned. But the failure is expected within a guest VM.
+=C2=A0=C2=A0 =C2=A0 =C2=A0=C2=A0 pr_emerg(HW_ERR "%s Ext. Error Code: %d",
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 smca_get_long=
+_name(bank_type), xec);
 
-Agreed. I'll avoid warning when a guest does not expose DF devices,
-while keeping the warning for failures on bare metal. The error
-returns and cleanup will remain unchanged.
+For SMCA_MA_LLC, SMCA_USR_DP and SMCA_USR_CP, the corresponding
+smca_long_names[] entries are unset, so smca_get_long_name() returns
+NULL. The %s conversion would therefore print "(null)" instead of
+the bank name.
 
-Thanks for the review.
+That was what prompted the patch. I had assumed those entries were
+an oversight; the intention was to make the existing log output
+show the bank names.
 
-Lin
+Regarding Boris's earlier comment, I agree that the Cc: stable tag
+was not justified here and will drop it.
+
+Thanks for the feedback.
+
+Guixiong
+>=C2=A0
+> Thanks,
+> Yazen
+>=C2=A0
