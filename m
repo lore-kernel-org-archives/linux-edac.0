@@ -1,74 +1,64 @@
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A182836B913;
-	Mon, 19 Oct 2026 04:15:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59483B38AD;
+	Mon, 19 Oct 2026 04:19:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792383319; cv=none; b=V0rMqVuBPSaRm1yGSUaeI2ovhbrWnNSqAJ7q2KIn1HcVPQ4k1fIjPAMXUsRZY+l4Ccq49UeKFeHgBoEqQA+E64xgrG/+V03xpl+FMTKBOBuSV3fY9IjjGbl5quq4o4NVLoWlAowalXOcFcU7VLyThGUmTo2mg1rGHTuLN522ETI=
+	t=1792383567; cv=none; b=SRfUSCk5jJbJMqOpGnhsgKx01uHL1s3eWgjhBTC+3NtIlxz8BZKKt6knv6nDv9CzhhV4yKON0gcLENtjYb1rKMDmfp6QOba4WHNgkli2pmoyJG7/9M/2y9aEpZ4H1YR8cRjVD+MmLLnqAEMXGAW2o/UXqobN92dFVFrf7xm/Qj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792383319; c=relaxed/simple;
-	bh=TrUgULCObwvAj6sB827ol0DTcAdZxmFbjyO8N2F1jUY=;
+	s=arc-20240116; t=1792383567; c=relaxed/simple;
+	bh=Hniv5Rxo4Srf/AQP3ouchkZsDzCPDxDuv4EWUbI2HuY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iiN0ZaL59pjeEF9adcDP+64OJM07Fh6pdFXHoiBKbywlG8iCI5I3K3WM0ReWem9aemElmWVOaEdfoiwTBBjDpzUoNPHe4telijA9dPyceRJCK0oM+3OivOxpU3IwyLq7CLofd9z4JEKhZtyLzdkK+fhX6i3WkNm1C+FB8Jbzkus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=krQRunRK; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=RiYd+e77StT7B4RTyEsKaxIWZSaog+if53mfxkVS29zXm1f0IiarxxYWAuCrHJMqkVndfCJ7T6XaJQ42j0UIwTLT+0yWFcFiew+NYEJocaF9m29AAYdzHaF5zQMn1uyQO+0RP5mOcvWQvPpW9icksBf/5XLiTn9tGw0LTkUi4Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=HsQcTih0; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="krQRunRK"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="HsQcTih0"
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D5B6740E015B;
-	Mon, 19 Oct 2026 04:15:11 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id AD69340E02A8;
+	Mon, 19 Oct 2026 04:19:22 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
 	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ErKCFo8JYxqO; Mon, 19 Oct 2026 04:15:08 +0000 (UTC)
+	with ESMTP id xbL_rZk8CS-o; Mon, 19 Oct 2026 04:19:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1792383308; bh=p7h+Wad+pyLNKMyu/1QoznQu9hqJDkJyBcK35tN0uCU=;
+	t=1792383559; bh=m4C6NDAdLfTLYUdsWad3uh+TsP43kSzO0JJ54T+8QwA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=krQRunRKTqK6d2hTGjOH7yn/uQLDHxmKKlr1aGOby1aaVDc3GQrHaj1IbHWOFlLpQ
-	 T0aQX0GmkWvWAFeSOegTniHGVsARBfFAB06fcbjuLrWPhIKC/oAX7Bl601zhD8ndNq
-	 ptyxCShUW2IE9OxOjox9vj5EQMH1EUUctJ2JrLryVXfJ2dV6U9hoowGqsxUAxz9nZ7
-	 b8/vjju9uRSXpWyG0+CVSObizaWmtlropor31KW9i7tzRE0Z5aZEpEjEOKu4sYvDgX
-	 MlHm5C5wZcM+6vPu+wG5g7WynB++k1HYbh8B4mEwhJiTNThdlr0MSohDfmpmAh4gD3
-	 iyIu+YfaXIYay+jjre1VSA+hD5Rp5W4+Cf0O1E1baJaIVH4Fh00se5dOdIn/FjZZ8f
-	 x9IAGu5v8nRy7U82DAPnJGWcEto1cmy0Y7wrdvheY+mSWJfVs/GWse7sW+GdrOlMP1
-	 7ukpv+FOUfYnAl/Twyohy2+MffdW2FXFdcg0WMVznkid71/QccRVzn+MK8mNW1TLiw
-	 AicMdVAv7J5PoXdnDUeE0PXklFDbyX+au9v0CfMXAD70lX/nXv7mFSGiQuM0KDy90M
-	 9XuIeljxPNEzFtqGVD9zd+gQm/o9UaoecMe/PHoqwnbBVuPeUYOCdfvvvCMIh1un+a
-	 1RBQnMXpnN4JqWjZTLBCi1W4=
+	b=HsQcTih0LnyYEIQVxNe/gnMNQrSpTpB7nzTAlePZAVEj7hCxsipn6tlLuMrfalsl2
+	 7eiU3QcXeCJ9dF7n3wJq7vInGY2wO/fSD44OMgnKiEIuFHEztuTTfGw/SRVZ/eohjs
+	 v5qDpB5F0dV/C/MDrI28axozW1kDtOzwSr9Gh1CNH3feF0uajtZgt1teyDkQhswGjj
+	 /3QpHO+smvC0DBQ+BaTodkqhfdry9poWt/W4LVzkntYECAQP7xUo7OiOL6TE8ZM+7C
+	 PUYbspn1DVsaTYVSEEENGHD8KO8GDRCj1YBM5iO+KCEMAo9yaghlTUhMi74wfYuylJ
+	 /FWS9bePFKGbgIb91k6hsSrFromh6S9iDieKfFGQzGwghLsP/COrvmIzhfd930n7Us
+	 wwJiQjh2HI/apvEeomPQL+S+PIQzKP0XxVXDEMNSCE78ssx4eWyWsuZcjn4tzkmWmZ
+	 u1KzechXTvuil4bsDrkELsQGUcFTNs1I6f/ufXeWTLo+YotOBFJXiL5mnQD/tyJFpg
+	 jEsNc5/nb+R/4a0gDxabbl4FEv7de7GXvaQk9o68NnoEZL+ohheXs40ksO7Yne+HJw
+	 xQQgpik7JiC2TSsPOIoW7CjB8KTuJgA4ubIWlbSku1Yf9WFpsDQPg0kzDogboIycSj
+	 vc0HHYT/oHROSSAqJvIFT3bc=
 Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 465DE40E021A;
-	Mon, 19 Oct 2026 04:14:23 +0000 (UTC)
-Date: Sun, 18 Oct 2026 21:14:20 -0700
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2703F40E021A;
+	Mon, 19 Oct 2026 04:19:12 +0000 (UTC)
+Date: Sun, 18 Oct 2026 21:19:09 -0700
 From: Borislav Petkov <bp@alien8.de>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: kees@kernel.org, rppt@kernel.org, juri.lelli@redhat.com,
-	nik.borisov@suse.com, tglx@kernel.org, vschneid@redhat.com,
-	kprateek.nayak@amd.com, vincent.guittot@linaro.org,
-	jpoimboe@kernel.org, cgroups@vger.kernel.org, tony.luck@intel.com,
-	david@kernel.org, mingo@redhat.com, akpm@linux-foundation.org,
-	linux-mm@kvack.org, seanjc@google.com, ljs@kernel.org,
-	zhangguopeng@kylinos.cn, dietmar.eggemann@arm.com, mhocko@suse.com,
-	vinicius.gomes@intel.com, vbabka@kernel.org,
-	linux-kernel@vger.kernel.org, peterz@infradead.org,
-	surenb@google.com, hpa@zytor.com, x86@kernel.org,
-	dmatlack@google.com, tim.c.chen@linux.intel.com,
-	kexec@lists.infradead.org, pratyush@kernel.org,
-	dave.hansen@linux.intel.com, rostedt@goodmis.org,
-	gmonaco@redhat.com, jgross@suse.com, mgorman@suse.de,
-	graf@amazon.com, linux-edac@vger.kernel.org, liam@infradead.org,
-	ridong.chen@linux.dev, blum@kernel.org, longman@redhat.com,
-	bsegall@google.com
-Subject: Re: [PATCH v2 0/8] x86, sched, mm: Speed up CPU hotplug on large
- systems
-Message-ID: <20261019041420.GCatWZHINJx7DIhXSP@fat_crate.local>
-References: <20261019011446.834487-1-pasha.tatashin@soleen.com>
+To: Guixiong Wei <weiguixiong@bytedance.com>
+Cc: Yazen Ghannam <yazen.ghannam@amd.com>, Tony Luck <tony.luck@intel.com>,
+	Muralidhara M K <muralidhara.mk@amd.com>,
+	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] EDAC/mce_amd: Add missing long names for SMCA bank types
+Message-ID: <20261019041909.GDatWaPatyL2pHDLKo@fat_crate.local>
+References: <20261009020447.90758-2-weiguixiong@bytedance.com>
+ <20261012140330.GC15198@yaz-khff2.amd.com>
+ <20261017195145.GAatPR0dQVZGEMHglh@fat_crate.local>
+ <20261018223431.GA3236@yaz-khff2.amd.com>
+ <451788d5e97cba38274e663d2b7952c593e959be.461d4034.890c.4720.915c.a7839a9cc59e@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -77,37 +67,13 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261019011446.834487-1-pasha.tatashin@soleen.com>
+In-Reply-To: <451788d5e97cba38274e663d2b7952c593e959be.461d4034.890c.4720.915c.a7839a9cc59e@bytedance.com>
 
-On Sun, Oct 18, 2026 at 09:14:38PM -0400, Pasha Tatashin wrote:
-> For live update we require a fast CPU online and offline capability.
-> However, sequentially offlining and onlining all application processors
-> on modern high-core-count x86 servers exposes a series of hardware and
-> algorithmic bottlenecks across arch/x86, the scheduler topology builder,
-> deadline bandwidth accounting, and vmstat.
+On Mon, Oct 19, 2026 at 10:16:32AM +0800, Guixiong Wei wrote:
+> Regarding Boris's earlier comment, I agree that the Cc: stable tag
+> was not justified here and will drop it.
 
-From: Documentation/process/submitting-patches.rst
-
-"Don't get discouraged - or impatient
-------------------------------------
-
-After you have submitted your change, be patient and wait.  Reviewers are
-busy people and may not get to your patch right away.
-
-Once upon a time, patches used to disappear into the void without comment,
-but the development process works more smoothly than that now.  You should
-receive comments within a week or so; if that does not happen, make sure
-that you have sent your patches to the right place.  Wait for a minimum of
-						     ^^^^^^^^^^^^^^^^^^^^^			
-
-one week before resubmitting or pinging reviewers - possibly longer during
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-busy times like merge windows."
-
-+ the merge window just opened.
-
-So stop the spamming please.
+You don't have to resend - I'll fix it up.
 
 -- 
 Regards/Gruss,
