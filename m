@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792493004;
-	b=a6zar/iRdKYcgLyoyqw3AfToVYMpV2y04w4KdmdrUKbehQyc5R3MiRQwOSOBJITIVpiQ
-	 OcYsuD18DWRuylumcNvWnv36AIYYWkWgKU/ybOC1Gm5RWjh+ZhqS6mnKP9VrPJbIs/Phi
-	 7ejCpl+YBnj+GtH1bfF6M8UzclTfuMT8yq6lRy3wc/I2rx77wJMgyqsIyVlyxoRaUhOId
-	 12h5+HiZUwG57Z4egAvc//xQFCN/OHifp6nAT7LXhpAtipzegu0CqLcFfZh6U9FKtWzA0
-	 4Wkdr1M8z+c/AEDk5mIKphvtCowdPc3SJYs3my5wPljctpOX1n6DaeRhqZNkrgQUZJw==
+	t=1792493005;
+	b=lfglBbh7eTmP2OcZ/slsxKrAscdeSErsO+UdoYcHd9oB8nKoqqlDs0oXJsq+OFfkN7OT
+	 nRYZj8f3nZLnQPEQ5iN1Udip/9aHjM7T540xHbYdpv+iFCi1A9769w/OskM6ZZNVHs1k4
+	 hSj8E0kcy+EwvnZYXrqUr3oquPIOJsJBlkIZd18BX3DzRCjvk5IXWKDJYgSjbArJsRNgk
+	 aEE42JXz0PwIbzFOQiaXaBdp9sRNTgPuKwixiuvTz+pSl6nrrClI4jQEcS7EQJBYd6Gku
+	 eQZLk781fZgr7fOE/rhZbOArA9m/kbqkh6alWMSGQUjhhTiQPeWp5oX0qpwYQzuQx9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792493004;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792493005;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=lQ4MX1q3rcBPurkumbq9wX+jGqxuJWd5pa2EGbSUiwo=;
-	b=Mx0Am1U5qeAF1aJnQCk4rl+MCXOdzV3F5pjWI9T8umlbDTzqJa8F8ABKwZXnlQBBOSCn
-	 Zrs9cx4aD00+qQUzNRt0lrvnxLdATIAKAbNrr/oqDASwma/hOmW1uWLqEj7pSCH90rQoc
-	 yoK4HK28ytoryL2pimqRX/N9a3mP/z+Yzy1pEn/vJQQ8ZLj12gOJXMpMm+a90nGxB0h5u
-	 s+GpAAIGq0svoYuK8lrM9Xo51I7gLHO3yru3qh5kfWiFYdqjcmhVByR1+PjKPoR2J5pw1
-	 FE1BjB7EaFVO9nWBfPOienJtN/ddeg4/TRUv6zMsSydOzgvyJBmYr+68vshClorG4EQ==
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=3NNeDfISu2gpg9ZYXN0W5UQrgwObRlFXGjX8CXeq/qY=;
+	b=SML39I8Es5CoDI+S1j/4eNQDGhC0fMKHD6B/xOzp/re3PTeTSsi4EfXspf451OPw5Gum
+	 Hk7tBLKnp4QKVcY/zHawv6RfV2nUTk4Iz+xW+TxSGViMPsYjGytPVhzk1KEA23HrkMoDd
+	 EUBxn15GKaNvSdGaXbDvXP6GS8fGy/H14KZ45lI8Ud9JnhaG61XnOr/xO2SYf9H9jegnX
+	 Y3epDX7c0rLqjjd4vi8ewKkRdyXxUw9T903dJs6o0jzv36A01+ESvFJdXtfcBSwQhurcy
+	 wGNvZn1vg1AEG0czIuQoQgapYRuJ2A7atqPs2p8IIwjaYnQ4R9NZTYZqQfk1w2jWo6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=tAqvAXBD;
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ZzXPp+cy;
+	arc=none smtp.remote-ip=209.85.128.50
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5915E606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8314606A31B
 	for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 10:43:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5915E606A31E
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8314606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=tAqvAXBD
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48e0d885929so2345232f8f.3
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ZzXPp+cy
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a01933b584so21891515e9.0
         for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 03:43:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google; t=1792493003; x=1793097803; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=lQ4MX1q3rcBPurkumbq9wX+jGqxuJWd5pa2EGbSUiwo=;
-        b=tAqvAXBDr/tOE0oK3xG+YS2QBJXWWvsH27HOWsIhflocjfg4a8C2jGn7YUazKwqFnR
-         BC7zgRK8PDlLAbhcIEB6UXhWi8JWSNQjakR592BsMoSrFtssKw2BJS2u7Q21Z3IlWwU6
-         9VNjTgDGmaX3Y4+iL07BFMHtDoRtfJH2JjJShzWfplttxQ2dvODPD2Ena9/6F9sG6mu6
-         +c5N6A9bLNYDG1zLsjGaD3HNpMyYBovhwfCk7uB33jnWVT6D11tca6djWmWwsghvLuCr
-         z5DydR0W7mWmoZyZTwFRA/ZLeeweBf4d/nxVSNIwvmPh1A+i/SqldEDsSHnvZ+kMLfCR
-         6M+w==
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3NNeDfISu2gpg9ZYXN0W5UQrgwObRlFXGjX8CXeq/qY=;
+        b=ZzXPp+cy41nzog4uYXELR07dErtQdAt2dRqel2MX+ZlFIuveZcY7EB/6DSX2DUNnZ4
+         Er6f3BP9FSukzBuL6qeel0gKztr2l4KIDKlzXjTXSUOp3ul+iXWR8preCUJMBIkQrIYO
+         Am4u7Jor1Qohq556qHf8bHdrlLJty29rO+2xhuGs9VMvqYna7HjzzmeTW6s7tq+/22xI
+         Q8sdXhEVb7gCtAwISqRRknnpuua9VQ98bX5DSI9D/j+bqsMh0pEQMtGAE2ppB7t/HIBq
+         WVGrHorHi2Yt00AEzy9WlCsTGYAYYUw/wbOOQjI8XgisYmay7MxJ0p2ces6DSYgrZGM5
+         rOnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1792493003; x=1793097803;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=lQ4MX1q3rcBPurkumbq9wX+jGqxuJWd5pa2EGbSUiwo=;
-        b=zwTOWv2vBa5eVqQ7gcTfjh9VOo8hkoQf4LfOgeFql6JaH63X8dA+0Us/OHAQHe7af6
-         Wcyn9ODDElH0JmcTW3SfHAOP4ufAh5KS62JN3JRgndFhFicaaPArxueSAc/434IZZWYw
-         dDLFo+jTXWLe/EiRfjC/IhMKsvTHdG3aF9/bRA/4R2MrQTQsIhsVhWOKG9OhDlKuG6IN
-         c+kE9u7BqCf+S/ThPaoWGcgjGKtLO4le2G56jJgzj7/HSqPHtyQsmPPN8z2cHVZpXdEN
-         BhSaNj3LGE+R6GaDIcfh1ZGDffm+ufORlB/wwps7CKvJmYYCD6xpHwl/EVoNoGeDLco4
-         Ie2w==
-X-Forwarded-Encrypted: i=1; AKwUvBwnZGzE+GwN0se3/cFfPT+4oM0Yg8s03X4RG5f+eFzQ+N9Dx04J6C0j3P8NTcwXpbNIbwqfMtMDHRe+@vger.kernel.org
-X-Gm-Message-State: AFq9FYJsWp/Na44nvUlHlT2PDfUvrb6NNjUlknRgxXLJL7TYY/40b/Jx
-	X1vWJTbwTCuvm3lJbXVUXQZnh5AJmzrYK8Eduap6eZfP+9iNA11TikrJ3ngNmSiLmFs=
-X-Gm-Gg: AYBFou0knkMlCX1dWRf7vlSAggxPSa0GywiGeKtWz7yjqHLsUtt+P//9mJoeXqSyFHJ
-	0GbeOtOXwr2eGgGiA0UXttyKw6Tv7YchPDRtBjuVoU94/OrYffS+f1X8hZgMEeVRfwSLbgI0BGi
-	7+mopEZAEeOPGk6j5FZw4hxKqZKfgdwmUqdBk9K+udauLvBuXYS2IXjKRemQ5iD7CiSayuzl7Po
-	NqRHeONVQE8+w8Qnvn/dvCqyojADs3LQen6k1mJ+yBZ+NqZjtAX9Tg3Fz/RX9fgpgmYju7bW89i
-	vsyTFLO0srXppQEOi7AAm9PXN0foPfnc9SIQru8vnkkN9m7WReghzkKt9oTzFPPabpQNSj6kszQ
-	behLk5k7McLOla+U5yB5WxwqRh0fU+sNR+GWQAGFvCLkVOemhTfq5q3eAkYPav0e+cDQ9VP9+7S
-	kXCrSb8+KDpfR5gdeD7bSjSgeF5bqthcuWa0LEiCW/lzWZqes0oKBBMgl4iiVrV3LhSMr8Fw==
-X-Received: by 2002:a05:6000:46cd:b0:48d:f014:63ee with SMTP id ffacd0b85a97d-48e07bbc7d5mr13979635f8f.20.1792493002522;
-        Tue, 20 Oct 2026 03:43:22 -0700 (PDT)
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3NNeDfISu2gpg9ZYXN0W5UQrgwObRlFXGjX8CXeq/qY=;
+        b=VXFDBgI0HdPc3ZwR7DAq8h9tS67kNmGQWKKwAq03MYG/iXyuW/0cCHQ90mtGnyNwEk
+         3K9Ljn5iJracO8mKMCum16FFIFFAz+XqojrxUS1lAsS5a6Jb94MdFZsJUQha96KVX4y0
+         ZZn3vp7i8WrRw+CXOptdXdV/WnchT10QeD/LaXK7/ytV2IdcSPRBXQKewpBIRu3tq8eq
+         fX6m/1LqGJyNuLtykFQl3VP8yN3zEXxDzcFCCKZgi8CZ2sTTHgBy/ABXMfpYm+EmlTHG
+         qhYj6JWMX9lrRobK0gvMMyPPpE8LnGYdvhCrZi9P59jckCUR1eL8p8ESnP6dW20G7J/O
+         tQMw==
+X-Forwarded-Encrypted: i=1; AKwUvBzmL/vhn2PqtjSRm2Yhyooj709IffygN/tkMwiJSHXRKY9jL2zaqYm1kmVyCwo6ZNxrQZs2K9oITZpw@vger.kernel.org
+X-Gm-Message-State: AFq9FYL29GlltxMamDpfcMfZeidv0sDZ3u+6h4YUOJoxRxQAYy/PUm8/
+	4dEK+eZlDpH2RJeWM99ptdLXZzdNJunJLoNIQWxPYVk8S3j5E0LMArXzOvzToxX5xDY=
+X-Gm-Gg: AYBFou0uYbFvkWtVu8MvwSLDTNol6YrlyABI9wN+74zlZCVr8mgu2fiGw324s3AJjg2
+	FA4J809Uxw3Wqbk7Wy21X0wc2AvkGcqKlyDHfGrBAdWv/dV9fbj4DXcuG0kl0sbs9rmB9YjnVoU
+	7YP5FqUT8Z5XVcz+PVz/M29nY8uHjuM2ByWPlq/OK1kkltEKKUuQookX/XPRMZ3dX8HXrBaUJ0T
+	2hwI65AKFIXFF9kyN5yXXnR1q7MHYvbqxkbiKgLT9/8tY3I7IqxxXu1Osann7d8L7i8PW4QWDQU
+	1vNY03ARqlSgK5fE/z7Jc+kvnZN8xNIjYxaiAtcySDyElB/MQYz20M6Dr0880NmNEm0OMSg8jVE
+	aB/OOLsCrP1sg2XD61k9Hn+56R4YEY3q78gAX91kKcS1SZ8LlZaMXFpx8b4vNWZDBnpUl/+60Jm
+	gEmohEgyEn+SGIiwG7B8UDnCVHXBVysRLXfFCUSnXIRSfei6A8cYLfIqo3WnRldlUhc603ao7UA
+	QVBBDxT
+X-Received: by 2002:a05:600c:608e:b0:4a1:e08e:46b5 with SMTP id 5b1f17b1804b1-4a1e08e4871mr157389645e9.16.1792493003076;
+        Tue, 20 Oct 2026 03:43:23 -0700 (PDT)
 Received: from draig.lan ([185.124.0.158])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d80fb69sm4788951f8f.18.2026.10.20.03.43.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1ce325107sm289903195e9.3.2026.10.20.03.43.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 20 Oct 2026 03:43:21 -0700 (PDT)
 Received: from draig.lan (localhost [IPv6:::1])
-	by draig.lan (Postfix) with ESMTP id 57CA35F915;
+	by draig.lan (Postfix) with ESMTP id 37ED55F8DC;
 	Tue, 20 Oct 2026 11:43:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -125,12 +125,10 @@ Cc: Bibo Mao <maobibo@loongson.cn>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	qemu-riscv@nongnu.org,
 	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 01/23] accel: introduce KVMAccelClass and KVMCPUOps
-Date: Tue, 20 Oct 2026 11:42:55 +0100
-Message-ID: <20261020104320.3686723-2-alex.bennee@linaro.org>
+Subject: [PATCH 00/23] kvm: introduce KVMCPUOps
+Date: Tue, 20 Oct 2026 11:42:54 +0100
+Message-ID: <20261020104320.3686723-1-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261020104320.3686723-1-alex.bennee@linaro.org>
-References: <20261020104320.3686723-1-alex.bennee@linaro.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -140,110 +138,106 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Introduce a new class derived from AccelCPUClass. It only exists to to
-contain the new KVMCPUOps which will allow for a QOM-ified access to
-what was previously kvm_arch_foo direct linking. This anticipates a
-world where we have a KVM interface capable of launching multiple
-architectures.
+There is a world coming where we can have a KVM interface which
+supports multiple architectures. The old style approach of using
+linking to resolve per arch kvm_arch_foo handlers won't scale and is
+also slightly antithetical to the flexible not-quite object orientated
+way we do things in QEMU.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- include/accel/kvm/cpu-ops.h | 53 +++++++++++++++++++++++++++++++++++++
- accel/kvm/kvm-accel-ops.c   |  9 +++++++
- 2 files changed, 62 insertions(+)
+Taking TCGCpuOps as a reference this implements KVMCpuOps as the
+shared function dispatcher for CPU specific KVM operations.
+
+A couple of open questions:
+
+  - should we consider some sort of shared AccelInfo region for
+  CPUState instead of a bunch of mutually unused bits
+  - how can we improve coverage of KVM testing?
+
+The main driver for writing:
+
+  Message-ID: <20261019192704.3220373-1-alex.bennee@linaro.org>
+  Date: Mon, 19 Oct 2026 20:26:45 +0100
+  Subject: [PATCH v3 00/19] testing/next: functional testing updates for gdb (pre-PR)
+  From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+
+was so I could be sure the KVMCpuOps where properly working. I don't
+think we have that much that exercises KVM in our CI system anyway
+because most runners don't give access to HW virtualisation. I have
+tested this on:
+
+  - x86_64 (on my dev box)
+  - aarch64 (on my personal dev box and the aarch64 ci machine)
+  - s390x (on devcloud instance, same as the s390x runner)
+
+Notably I wasn't able to test the riscv64, loongarch64 or ppc64
+behaviour. I do have access to the OSUL ppc runner but it doesn't
+support nested virt and testing on that machine needs some love anyway
+(see #3207).
+
+Anyway I await your discussion ;-)
+
+Alex.
+
+Alex Bennée (23):
+  accel: introduce KVMAccelClass and KVMCPUOps
+  target/i386: wire up empty KVMAccelCPUClass
+  target/ppc: wire up empty KVMAccelCPUClass
+  target/riscv: wire up empty KVMAccelCPUClass
+  target/arm: wire up empty KVMAccelCPUClass
+  target/s390x: wire up empty KVMAccelCPUClass
+  target/loongarch: wire up empty KVMAccelCPUClass
+  accel/kvm: port kvm_arch_pre_run to KVMCPUOps
+  accel/kvm: port kvm_arch_post_run to KVMCPUOps
+  accel/kvm: port kvm_arch_handle_exit to KVMCPUOps
+  accel/kvm: port kvm_arch_process_async_events to KVMCPUOps
+  accel/kvm: port kvm_arch_[put|get]_registers to KVMCPUOps
+  accel/kvm: port kvm_arch_pre_create_vcpu to KVMCPUOps
+  accel/kvm: port kvm_arch_init_vcpu to KVMCPUOps
+  accel/kvm: port kvm_arch_destroy_vcpu to KVMCPUOps
+  accel/kvm: port kvm_arch_vpcu_id to KVMCPUOps
+  accel/kvm: port kvm_arch_update_guest_debug to KVMCPUOps
+  accel/kvm: port kvm_arch_[insert|remove]_hw_breakpoints to KVMCPUOps
+  accel/kvm: remove TARGET_KVM_HAVE_GUEST_DEBUG
+  accel/kvm: port kvm_arch_stop_on_emulation_error to KVMCPUOps
+  accel/kvm: port kvm_arch_on_sigbus_vcpu to KVMCPUOps
+  accel/kvm: cache KVMCPUOps
+  accel/kvm: remove redundant ops checks for kvm_get_cpu_ops
+
+ docs/specs/acpi_hest_ghes.rst           |   3 +-
+ configs/targets/aarch64-softmmu.mak     |   1 -
+ configs/targets/i386-softmmu.mak        |   1 -
+ configs/targets/loongarch64-softmmu.mak |   1 -
+ configs/targets/ppc-softmmu.mak         |   1 -
+ configs/targets/ppc64-softmmu.mak       |   1 -
+ configs/targets/riscv64-softmmu.mak     |   1 -
+ configs/targets/s390x-softmmu.mak       |   1 -
+ configs/targets/x86_64-softmmu.mak      |   1 -
+ include/accel/kvm/cpu-ops.h             | 171 ++++++++++++++++++++++
+ include/hw/core/cpu.h                   |   3 +
+ include/system/kvm.h                    |  42 +-----
+ include/system/kvm_int.h                |   2 -
+ target/i386/kvm/kvm_i386.h              |  20 +++
+ accel/kvm/kvm-accel-ops.c               |  13 +-
+ accel/kvm/kvm-all.c                     | 183 +++++++++++++++++-------
+ accel/tcg/cpu-exec.c                    |   2 +-
+ hw/i386/kvm/xen_evtchn.c                |   6 +-
+ hw/intc/openpic_kvm.c                   |   4 +-
+ hw/intc/spapr_xive_kvm.c                |  10 +-
+ hw/intc/xics_kvm.c                      |   6 +-
+ target/arm/kvm.c                        |  96 +++++++------
+ target/i386/kvm/kvm-cpu.c               |  26 +++-
+ target/i386/kvm/kvm.c                   |  42 +++---
+ target/loongarch/cpu.c                  |   8 +-
+ target/loongarch/kvm/kvm.c              |  96 ++++++-------
+ target/ppc/kvm.c                        |  75 +++++-----
+ target/riscv/kvm/kvm-cpu.c              |  95 +++++-------
+ target/s390x/kvm/kvm.c                  |  89 +++++++-----
+ 29 files changed, 628 insertions(+), 372 deletions(-)
  create mode 100644 include/accel/kvm/cpu-ops.h
 
-diff --git a/include/accel/kvm/cpu-ops.h b/include/accel/kvm/cpu-ops.h
-new file mode 100644
-index 00000000000..662d0c553c7
---- /dev/null
-+++ b/include/accel/kvm/cpu-ops.h
-@@ -0,0 +1,53 @@
-+/*
-+ * KVM CPU-specific operations
-+ *
-+ * Copyright 2026 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef ACCEL_KVM_CPU_OPS_H
-+#define ACCEL_KVM_CPU_OPS_H
-+
-+#include "qom/object.h"
-+#include "hw/core/cpu.h"
-+#include "accel/accel-cpu-target.h"
-+
-+/**
-+ * struct KVMCPUOps - Target-specific per-vCPU operations for KVM
-+ */
-+typedef struct KVMCPUOps {
-+} KVMCPUOps;
-+
-+#define TYPE_KVM_ACCEL_CPU "kvm-accel-cpu"
-+
-+/**
-+ * struct KVMAccelCPUClass - KVM-specific accelerator CPU class
-+ *
-+ * @parent_class: The parent #AccelCPUClass
-+ */
-+typedef struct KVMAccelCPUClass {
-+    AccelCPUClass parent_class;
-+
-+    const KVMCPUOps *cpu_ops;
-+} KVMAccelCPUClass;
-+
-+DECLARE_CLASS_CHECKERS(KVMAccelCPUClass, KVM_ACCEL_CPU, TYPE_KVM_ACCEL_CPU)
-+
-+/**
-+ * kvm_get_cpu_ops - Retrieve the KVMCPUOps table for a CPU
-+ * @cpu: The #CPUState
-+ *
-+ * Returns: A pointer to the active #KVMCPUOps, or NULL if the CPU class does
-+ *          not have an attached KVM accelerator class.
-+ */
-+static inline const KVMCPUOps *kvm_get_cpu_ops(const CPUState *cpu)
-+{
-+    if (cpu->cc->accel_cpu) {
-+        KVMAccelCPUClass *kacc = KVM_ACCEL_CPU_CLASS(cpu->cc->accel_cpu);
-+        return kacc->cpu_ops;
-+    }
-+    return NULL;
-+}
-+
-+#endif /* ACCEL_KVM_CPU_OPS_H */
-diff --git a/accel/kvm/kvm-accel-ops.c b/accel/kvm/kvm-accel-ops.c
-index 47244d33f7d..445d7d7f545 100644
---- a/accel/kvm/kvm-accel-ops.c
-+++ b/accel/kvm/kvm-accel-ops.c
-@@ -18,6 +18,7 @@
- #include "qemu/main-loop.h"
- #include "exec/cpu-common.h"
- #include "accel/accel-cpu-ops.h"
-+#include "accel/kvm/cpu-ops.h"
- #include "system/kvm.h"
- #include "system/kvm_int.h"
- #include "system/runstate.h"
-@@ -121,8 +122,16 @@ static const TypeInfo kvm_accel_ops_type = {
-     .abstract = true,
- };
- 
-+static const TypeInfo kvm_accel_cpu_type = {
-+    .name = TYPE_KVM_ACCEL_CPU,
-+    .parent = TYPE_ACCEL_CPU,
-+    .class_size = sizeof(KVMAccelCPUClass),
-+    .abstract = true,
-+};
-+
- static void kvm_accel_ops_register_types(void)
- {
-     type_register_static(&kvm_accel_ops_type);
-+    type_register_static(&kvm_accel_cpu_type);
- }
- type_init(kvm_accel_ops_register_types);
 -- 
 2.47.3
 
