@@ -1,120 +1,142 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792495304;
-	b=yZ9ENJc0Bh4z88a/NfmaRBwNkYNyXXHiECkDlEnwVurfBjNU64WfLf5o5tU4Btfu8Ywa
-	 DfYcI/ewwy+15w61qDi1ypBP0CucnJOqKlpPUD0XxXotySHr2yCwJxM7NOD73Ah8rF1K0
-	 pNt8P8lao7ON1AWivd80Yb99c6g1cLmZVVKQNmych6uKcvn4fg3fnuu54Wf2Bq48CCN7R
-	 yUWeXZt012tdhraaH3WTZm1NVL5XaY3GL51JOsDV+jKkIuc4kDul8/N9DKtyMOM9lL9Os
-	 mtGSW4rHfCJ0ZHAA+nZV6QKUndmI8aIY8v4xtwRszM3kLTuDbso9rzDdGuOSWc4vijQ==
+	t=1792516185;
+	b=eg3OvR6wXPut4tl7IFAhcjxzSDh7uzyck4jL0vCP4dBHhj4FWh738/pmMo9m+Ttk96eh
+	 ndZrJUzkP+g1WjSNe4V+/Ek2ey0kENc3wfZkdNDX6Nq7/9aSIC0AdqiW3lH1vz2e0YmfC
+	 CrfO2iSNdxf9TJX1u4G1LZeO66e3VgFPi5XcxceLAGJ7SAhePKAij1BZ82T983sysDbrH
+	 iPwh18xoGoNfyMIXsiFDY3Zqw7ycjHO3woLCVqf9+11Tkq2YDJI1OwLL1a6RSLrZopn6V
+	 zSRK2xMGOo5ZSj8SYMi3iQhAbIwUPXgnKnMdENdj2TpbA3TvJfCHXkSuwUtb5oqlmNw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792495304;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:From:To:Cc:Subject:In-Reply-To:References:User-Agent:Date:
-	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=2/y6WVmeqG1OPwYNPz9215YT6b6rVbd6ecgXKvSOZTs=;
-	b=KO0Cd7nUqCxRBYyxQpeXq1BPhyc+wr6+eNUOWo0o+shj1oAAYsG9fkqOEF/HONnB7RV5
-	 hpW9pFos7gprH1zvZjlfkvye2Ncqsai1u+FAbYtaeruESVs+jG8wy4eILbt3DJ46K7VX6
-	 F4/9LQXD4sIosa4wS3LuiiaUVFyBwJcRR6fX37TAMYtoPHU3RbpREpVbVZ7/zX+xViEss
-	 nerhslNdZyX5KR1CFzG01t9MGRRzM63SL6rbFEKXC7/3TL+/ysP5YjF1KZ7bOH1QlMrZr
-	 FjkdVvrI7QJO/i7pR7sN1Z6bcf5mNGvz1HR8ISe5xEMRBU1bOkF7zz/ct347EnDe8EA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792516185;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=ohKpVZsSLKBqP3rLFRPbU8Ml4RClO3TAOr5rDUCda/w=;
+	b=4BGPfm5D3K+eFqJPo1utpFfNMQKYk/Po+VCBVwzfYxKsax5VhZtDkJOsCYbx6GGo+8Gf
+	 p1NP8MnFwj/yeK3AfZUjbPDp+s7rMF/mAXt4im5MBcNi165rO7lWS0rKYRXrg46H/D+Gg
+	 WDL681ybsEARNbhv/oIvjERjnKLi6mCpkwdX4gCGJZ6eKHPp4GK0B2G3wQC+qxoZjjd+b
+	 ovLHYlSJP0tNb06y9OrIpPC69r/wo2IzFI3hqXD427t2YMLn/WS8/VpB7Z2UDf4BMN/F0
+	 v/LLSJZQ4xgVnkSyPVlLIIASwe/7zj3+KpvcKl+V+JheHIXzEQrfHT2taiKPUDQOdHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linaro.org;
-	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=RiwJHvUV;
-	arc=none smtp.remote-ip=209.85.128.47
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="Q/srjOz3";
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Nfnimphx;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97AD606A31B
-	for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 11:21:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D97AD606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3880606A332
+	for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 17:09:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3880606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=RiwJHvUV
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a1698ea378so23459305e9.2
-        for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 04:21:43 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Q/srjOz3;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Nfnimphx
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69KGuHka2229907
+	for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 17:09:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ohKpVZsSLKBqP3rLFRPbU8Ml4RClO3TAOr5rDUCda/w=; b=Q/srjOz30TRKb0h+
+	4i5NmNJzhXLuqckNdw/mg0I4BdzGglVTPPTqazzLFsx/Egq97m2DlLg9ue++z7ip
+	6WVn7ZjlY/g7VfeucNdjyKyQZBNhpJucWzQD5lIZza3YJBHioVSU/aQsJG5snWE+
+	Im9EeDhgIeH6Tr6y7/Qg5R1Kx+t3F746jDmWcVzfNxurlDL8JrmGFSL4mbP/TR6Z
+	aQTdpZjm32+Rfs1bQ91lVPuoYRNQ+jDPXKIX7UfBMgGyReFum7adrZOaF813VB8E
+	Zsna3eTyugakMRuQrPgQRVqqJkEknK00/GysSDNSK6Mzns/CW3C2UlGAMBjbAmPT
+	68aWnQ==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hdw5n3ktp-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 17:09:43 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-30c0d568830so7539284eec.1
+        for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 10:09:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1792495302; x=1793100102; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :user-agent:references:in-reply-to:subject:cc:to:from:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=2/y6WVmeqG1OPwYNPz9215YT6b6rVbd6ecgXKvSOZTs=;
-        b=RiwJHvUV335arP0w8a4uYXaRSGgJJ3NqJCtkkypxMh9I/USL00r7JjMyxqc3Yyariq
-         012H2VDxqAlvIdfULqGGjY8z4bOgSYy0erHii68tJx2V4VsNE6iRT5gytWULEcjkgMbp
-         MkempUjquas+Mp9sNClOQVIoWjg9ImHbOGp/uKwQnTtQZ2ugY3mRCabzqNjGwXiU0Iox
-         YY7UslHIWjsmWYYTp0QiaBMd61Z1Hgt4NY7JRXDM3uf5M67UtZrfm2gNnJweSgm2xJyq
-         3BZ0CfysWrBlinVHuHgTygQtDuXBMfwG6KKxb+QmFdV/96b4oSR72UA0TRjRYWniOB3v
-         q5xw==
+        d=oss.qualcomm.com; s=google; t=1792516183; x=1793120983; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=ohKpVZsSLKBqP3rLFRPbU8Ml4RClO3TAOr5rDUCda/w=;
+        b=NfnimphxzgfsO/GkUvcaO4SumU3i9GpUDe4RfT6pGXGqUBtDmLwb+DW1MbhTST0ekv
+         WCPZb7Z9LZeKWrSovuhSbww/g7nd+4s6N+CWpMjqlBw6eOR0yA64jTFZamVdhpevlTI5
+         341I7ZpmY+wQxmjT/YD6ujimF8Q2Rn3O5Um5DnDToAjWLwQhjjJzRs7LrwNvMUqsVJfS
+         w6kWPm7REJdUtdjUael+6OQleEH0XekiZoA85/AEA2L/z+4lq9fVmXmV5JtfgqfufZJk
+         GsmrgQ1MoiMMXhpj8t+yyEk1K7IVpZuLW1vyxgMgPYuvrMMSme4n9I8fkS5hyB2FCKQF
+         3BdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792495302; x=1793100102;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :user-agent:references:in-reply-to:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1792516183; x=1793120983;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2/y6WVmeqG1OPwYNPz9215YT6b6rVbd6ecgXKvSOZTs=;
-        b=YVKrhjqMBKFM0BgpUX15uF6NwQK89tCK0jZCL38bpfs7uGFpY3a5k+Igx0lWvW2KmR
-         wzFnc3D1J2EgN1uS5fb7MkXhWBzUZFSmzjCoPO3IcKthEuwZnzgg0izeezX/A/0R4Uh8
-         qog3QXHw+BOcR8fvuzPfmoAUxwgubwkg4wHtYWUDdlHiSFffN7vFsUl3jBffuoxIHTdD
-         5Y7Vp4p4nDV7HhaPtQ8sGAE18MTHlAWgAYjdldtQoyEXniDpYCBa+sZM9GQbrJBvg+5Q
-         m+tVO8eNghHNFn50zApNjP3Wqe973jypApX33OamEfyghjDPrs3t3kthFfboYMblOo7J
-         o9MA==
-X-Forwarded-Encrypted: i=1; AKwUvBzPGi+LwsgVqohV+NLBE8kaAoJjkr22IAv4PvQwqTUDtzltZrLSHrx6vgImglhbOpYmzJ4gJV5LTrmp@vger.kernel.org
-X-Gm-Message-State: AFq9FYJhN4qpUlm5K0i65+iSq4E5ZyhYhOITjqYEeHfDOOmGcBRYp4hp
-	vnOpDSIu43f3ixwZ0fg1uew2Wg0U5bdUDXPpk2VSFU152rRQ+EewwReofZthJaKMAow=
-X-Gm-Gg: AYBFou02bTz/UWlvg109kRlr5mXPIefb/pE5dD22/Ezy7gtiTfWPGYMZoseRCJKG3xd
-	28MNZqebCO5txMFtloQkAWKRmzg+pCDSGfyl7lenygc4qJtVYIDwlWrx0epd2I9Sp7nMqDJSMvb
-	5EAj1jlLXScRm85QdeMgWCIAbG/8P6FYh/WXWrQiY0WqjhSO5wkSj2O/VNcaJMBABrGm1bq2C/Y
-	IVzBZ8yr4SgG/I9NLS6zkSl8bT2kMVv2qMsSA006zc/O60HRVDt3JnkkeW7UMEYuGn/NxpVYDT9
-	n8x5lmHvs1Hcl7BcoBcSyUrkBYODzRUPWcp4BO6VN02S+s4hN1WIFBe9Ux/SSyZr0+yUVrk95bB
-	s6Cvhi/JTkTi2NRYGZOfwDiJOVhxlwgr/kRJwMB4KzDYhTd3XFwZWbZjrC8XHm+i9JmGxbz0TM5
-	NDCkGxIHFQ0nCINFnsrP8X/gfduBbNX1GPGh7JWRq533FZBT9tx/deyK7L/e24B0IwuyT6/A==
-X-Received: by 2002:a05:600c:c166:b0:4a1:f736:79f3 with SMTP id 5b1f17b1804b1-4a1f7367b83mr24851065e9.5.1792495302093;
-        Tue, 20 Oct 2026 04:21:42 -0700 (PDT)
-Received: from draig.lan ([185.124.0.158])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f8016c93sm29458585e9.5.2026.10.20.04.21.41
+        bh=ohKpVZsSLKBqP3rLFRPbU8Ml4RClO3TAOr5rDUCda/w=;
+        b=yHqeosGkSXIsviQmF2h0qbKL2TS8NxHdxt2jjlU6ffu7v20CNGddJYyQMPY3zC8XIl
+         3wzdkd9Pl99bBJw+XfDPw65BeMCCfU1CBLZYmD4kHauj75tI3hThAcJle6M2+a/MHBdd
+         /TflAnYh5IkCPNVt7UoBnkLGqlqqV97tEnEHkvKbMxX0ydRBykQBSh5V1qpmN3Xe5PSX
+         PkVcIdUZbyI6BPF56u+ISByb6n33zsYMk/E23rpa4Rs+A93PPkm1sZ0IV/8Sxs4HcZMB
+         75mvLSPTUK021TbQrR3ku9uBX4nQq8I+xaRD2Juv5pv7e0J0wDq4MV9R/m2roL4myF0g
+         sDFg==
+X-Forwarded-Encrypted: i=1; AKwUvBw5XXkEXrXqttrywDMNzHPVnCszb4QF/rC665iGkXK6jsOtNy6M5GlXoFKqfPDkeHZAXhol6QUs39Y7@vger.kernel.org
+X-Gm-Message-State: AFq9FYJW9ArSKgcXPDXmrsD0rDuVYMHrIqXmpWdJ4EcamdzC1Y3K9e2t
+	AbXoeSq/+PN1U/9Qdn/LGd+yY/vgsKI91gRbD+cDtrV8+RMRqQI+GXZGptFcuJAqL3yjwnL1/2c
+	1uOeg0TgoHu8Nts8Xuf1QyRrIXVeWbUGoYntomfcHOxehBZStf+/C2dwmiQcifZkU
+X-Gm-Gg: AYBFou0tmoRVL1vfoRcU/nbKSCYkGPa3CASP3lgTc2Rf7M7X8whBz2aWnD42YMyoe3P
+	ZXS2kroK9fAA1wqILkIfv7U33+Me7EokOftn0Syu2MqJ5I34++cfI5WCQ784McD03+uo4NZMqve
+	frBDidCK2PSX4ZXeRXq1V5/58eDIAe3gU0P+19EMIM76dkNYIjn/P4Q8v6JWxppSBb6C9e/uDHZ
+	P1fHNj9xTlQxcBoCSkbWsbFgfY2vL0pm56H6WLqu8MASJua0f+Acbl8Xs2emLdolLv+jhESMId+
+	O2xcm1BRbu1gkiuP7YebPWsyJ8zfem/0V9/NZ97mTFQ4LmKyv89gav1KU/wX1A4MrU9ee14/+Wh
+	3e9nRkPwf3NkkNdQW7jJSRelCXKEAs+xrOon7NvkM7w8=
+X-Received: by 2002:a05:7300:10d:b0:351:1e89:66ab with SMTP id 5a478bee46e88-361a0e85fc5mr16354987eec.7.1792516182369;
+        Tue, 20 Oct 2026 10:09:42 -0700 (PDT)
+X-Received: by 2002:a05:7300:10d:b0:351:1e89:66ab with SMTP id 5a478bee46e88-361a0e85fc5mr16354944eec.7.1792516181614;
+        Tue, 20 Oct 2026 10:09:41 -0700 (PDT)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3673b1d0ab7sm123492eec.0.2026.10.20.10.09.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 04:21:41 -0700 (PDT)
-Received: from draig (localhost [IPv6:::1])
-	by draig.lan (Postfix) with ESMTP id 7919C5F8DC;
-	Tue, 20 Oct 2026 12:21:40 +0100 (BST)
-From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Bibo Mao <maobibo@loongson.cn>,  Christian Borntraeger
- <borntraeger@linux.ibm.com>,  Ilya Leoshkevich <iii@linux.ibm.com>,
-  Alistair Francis <alistair.francis@wdc.com>,  Richard Henderson
- <richard.henderson@linaro.org>,  Daniel Henrique Barboza
- <daniel.barboza@oss.qualcomm.com>,  Paolo Bonzini <pbonzini@redhat.com>,
-  Eric Farman <farman@linux.ibm.com>,  Song Gao <17746591750@163.com>,
-  Harsh Prateek Bora <harshpb@linux.ibm.com>,  David Hildenbrand
- <david@kernel.org>,  Bernhard Beschow <shentey@gmail.com>,  Halil Pasic
- <pasic@linux.ibm.com>,  Nicholas Piggin <npiggin@gmail.com>,  Paul Durrant
- <paul@xen.org>,  =?utf-8?Q?Bj=C3=B6rn?= Walk <bwalk@linux.ibm.com>,  Jiaxun
- Yang
- <jiaxun.yang@flygoat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@oss.qualcomm.com>,  Palmer Dabbelt <palmer@dabbelt.com>,
-  qemu-s390x@nongnu.org,  David Woodhouse <dwmw2@infradead.org>,  Liu
- Zhiwei <zhiwei_liu@linux.alibaba.com>,  qemu-ppc@nongnu.org,  Marcelo
- Tosatti <mtosatti@redhat.com>,  kvm@vger.kernel.org,  qemu-arm@nongnu.org,
-  linux-edac@vger.kernel.org,  Glenn Miles <milesg@linux.ibm.com>,  Chao
- Liu <chao.liu@processmission.com>,  Cornelia Huck <cohuck@redhat.com>,
-  Gautam Menghani <gautam@linux.ibm.com>,  Xianglai Li
- <lixianglai@loongson.cn>,  Pierrick Bouvier
- <pierrick.bouvier@oss.qualcomm.com>,  Chinmay Rath <rathc@linux.ibm.com>,
-  "Michael S. Tsirkin" <mst@redhat.com>,  Matthew Rosato
- <mjrosato@linux.ibm.com>,  Amit Machhiwal <amachhiw@linux.ibm.com>,  Zhao
- Liu <zhao1.liu@intel.com>,  Weiwei Li <liwei1518@gmail.com>,  Peter
- Maydell <peter.maydell@linaro.org>,  Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>,  qemu-riscv@nongnu.org
-Subject: Re: [PATCH 00/23] kvm: introduce KVMCPUOps
-In-Reply-To: <20261020104320.3686723-1-alex.bennee@linaro.org> ("Alex
-	=?utf-8?Q?Benn=C3=A9e=22's?= message of "Tue, 20 Oct 2026 11:42:54 +0100")
-References: <20261020104320.3686723-1-alex.bennee@linaro.org>
-User-Agent: mu4e 1.14.4; emacs 30.1
-Date: Tue, 20 Oct 2026 12:21:40 +0100
-Message-ID: <87se2039dn.fsf@draig.linaro.org>
+        Tue, 20 Oct 2026 10:09:41 -0700 (PDT)
+Date: Tue, 20 Oct 2026 10:09:37 -0700
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Pierre Gondois <pierre.gondois@arm.com>
+Cc: linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
+        Mark
+ Brown <broonie@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, Len
+ Brown <lenb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>, Borislav Petkov
+ <bp@alien8.de>,
+        Hanjun Guo <guohanjun@huawei.com>,
+        Mauro Carvalho Chehab
+ <mchehab@kernel.org>,
+        Shuai Xue <xueshuai@linux.alibaba.com>,
+        Maciej
+ Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+        Pawel Chmielewski
+ <pawel.chmielewski@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        "Fabio M.
+ De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+        Breno Leitao
+ <leitao@debian.org>, Terry Bowman <terry.bowman@amd.com>,
+        Dan Williams
+ <djbw@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+        Morduan Zang
+ <zhangdandan@uniontech.com>, linux-acpi@vger.kernel.org,
+        linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev
+Subject: Re: [PATCH v2 4/6] EDAC/ghes: Extract error report initialization
+Message-ID: <20261020100937.00000d06@oss.qualcomm.com>
+In-Reply-To: <20261019203915.2019037-5-pierre.gondois@arm.com>
+References: <20261019203915.2019037-1-pierre.gondois@arm.com>
+	<20261019203915.2019037-5-pierre.gondois@arm.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -124,20 +146,157 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: uPzM98kFqPaKYz05RVcjsXkmaFQg6Hm1
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIwMDA2OCBTYWx0ZWRfX7m+Kk3jblUiD
+ WOKY9UMR2u1CpZh+ioGIw8onOwhAtKav6r4qkYT/qggZaaAUGsBPyQUffVqWtOUhsv2Y7A0wK7g
+ nx4UrJrZrp1lZjE//flTch5bBqWplfQ=
+X-Proofpoint-ORIG-GUID: uPzM98kFqPaKYz05RVcjsXkmaFQg6Hm1
+X-Authority-Analysis: v=2.4 cv=A5z5rKWG c=1 sm=1 tr=0 ts=6ad7a057 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=7CQSdrXTAAAA:8 a=rxnY8KSqnLZGKI4wGMoA:9 a=CjuIK1q_8ugA:10
+ a=scEy_gLbYbu1JhEsrz4S:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIwMDA2OCBTYWx0ZWRfX7sFQRF7eUCfH
+ I1c+p3wXdGwufovKpQb1GmlD7NwlP6h7rlW/5Fptyu6RNyhCGzpp1x+2qtUEfbII7r3RZ3P6vNb
+ IgrgRMwj/uAG2dk+WI07Eogo5+ZcVN7L90bMogF9582UKPN1rX6KSg0Cc5pvzsUgUl5LLLofPkJ
+ 1C5fAqSbojWG6SjTtLRA4dYL4r+2tLQoA+brVyewb1b2iv/G0Kij8gF2DwkC18MIQzm3XtJX8If
+ n8ubtXYiMb8W8O7nBh5dQYYqCDB+8fXu5C24VXuUet5N44g1IcqVQvWz2qxgb8Bh0FG/ciZJfFH
+ F0m+C5xF+qpMEEHujbWW4ZghJaI585kRx7D0/rKLv0T415g0sih6mwRYVn0VyHuqoAcslXDaZIo
+ 8bM8emZVucaSW2Lf0uccNsDg+Ap1qotrX0F9K1GcPOSHs9i7oH7by81KP379q4zJxmkcsJYR/Ym
+ CLMIG4rM1LfS1UNjzsQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-20_03,2026-10-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 adultscore=0 priorityscore=1501 suspectscore=0
+ phishscore=0 spamscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610200068
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+On Mon, 19 Oct 2026 22:38:43 +0200
+Pierre Gondois <pierre.gondois@arm.com> wrote:
 
-> There is a world coming where we can have a KVM interface which
-> supports multiple architectures. The old style approach of using
-> linking to resolve per arch kvm_arch_foo handlers won't scale and is
-> also slightly antithetical to the flexible not-quite object orientated
-> way we do things in QEMU.
+> Extract a ghes_edac_init_error() function to prepare for
+> Memory Error Section 2 support (and re-usage).
+> 
+> Also use a guard in the caller ghes_edac_report_mem_error()
+> function for code simplification.
+> 
+> Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
+> ---
+>  drivers/edac/ghes_edac.c | 66 +++++++++++++++++++++-------------------
+>  1 file changed, 35 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
+> index d80c88818691..b90150c67f4b 100644
+> --- a/drivers/edac/ghes_edac.c
+> +++ b/drivers/edac/ghes_edac.c
+> @@ -267,37 +267,14 @@ static int print_mem_error_other_detail(const struct cper_sec_mem_err *mem, char
+>  	return n;
+>  }
+>  
+> -static int ghes_edac_report_mem_error(struct notifier_block *nb,
+> -				      unsigned long val, void *data)
+> +/* Caller must hold ghes_lock. */
+> +static struct edac_raw_error_desc *
+> +ghes_edac_init_error(struct ghes_pvt *pvt, unsigned long sev)
 
-In case it's not obvious I intended the prefix to be RFC as it needs
-discussion ;-)
+Slightly unusual to have an init function that doesn't directly take the thing
+being initialized. I'd pass it in. The clearly of pvt->msg and pvt->other_detail
+is also a bit of a surprise for a function that claims to be initializing something
+else so I'd do those outside of the helper.
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Or maybe rename helper to something like
+ghes_edac_fill_error_from_pvt() 
+Not sure that really conveys the modification of pvt data hidden in here though.
+
+Perhaps this refactor was a bad suggestion from me and better to just duplicate
+the code.  What do ACPI maintainers think?
+
+
+
+>  {
+> -	struct cper_sec_mem_err *mem_err = (struct cper_sec_mem_err *)data;
+> -	struct cper_mem_err_compact cmem;
+> -	struct edac_raw_error_desc *e;
+> -	struct mem_ctl_info *mci;
+> -	unsigned long sev = val;
+> -	struct ghes_pvt *pvt;
+> -	unsigned long flags;
+> -	char *p;
+> -
+> -	/*
+> -	 * We can do the locking below because GHES defers error processing
+> -	 * from NMI to IRQ context. Whenever that changes, we'd at least
+> -	 * know.
+> -	 */
+> -	if (WARN_ON_ONCE(in_nmi()))
+> -		return NOTIFY_OK;
+> -
+> -	spin_lock_irqsave(&ghes_lock, flags);
+> -
+> -	pvt = ghes_pvt;
+> -	if (!pvt)
+> -		goto unlock;
+> -
+> -	mci = pvt->mci;
+> -	e = &mci->error_desc;
+> +	struct edac_raw_error_desc *e = &pvt->mci->error_desc;
+>  
+>  	/* Cleans the error report buffer */
+> -	memset(e, 0, sizeof (*e));
+> +	memset(e, 0, sizeof(*e));
+>  	e->error_count = 1;
+>  	e->grain = 1;
+>  	e->msg = pvt->msg;
+> @@ -323,6 +300,36 @@ static int ghes_edac_report_mem_error(struct notifier_block *nb,
+>  		e->type = HW_EVENT_ERR_INFO;
+>  	}
+>  
+> +	return e;
+> +}
+> +
+> +static int ghes_edac_report_mem_error(struct notifier_block *nb,
+> +				      unsigned long val, void *data)
+> +{
+> +	struct cper_sec_mem_err *mem_err = (struct cper_sec_mem_err *)data;
+> +	struct cper_mem_err_compact cmem;
+> +	struct edac_raw_error_desc *e;
+> +	struct mem_ctl_info *mci;
+> +	struct ghes_pvt *pvt;
+> +	char *p;
+> +
+> +	/*
+> +	 * We can do the locking below because GHES defers error processing
+> +	 * from NMI to IRQ context. Whenever that changes, we'd at least
+> +	 * know.
+> +	 */
+> +	if (WARN_ON_ONCE(in_nmi()))
+> +		return NOTIFY_OK;
+> +
+> +	guard(spinlock_irqsave)(&ghes_lock);
+> +
+> +	pvt = ghes_pvt;
+> +	if (!pvt)
+> +		return NOTIFY_OK;
+> +
+> +	mci = pvt->mci;
+> +	e = ghes_edac_init_error(pvt, val);
+> +
+>  	edac_dbg(1, "error validation_bits: 0x%08llx\n",
+>  		 (long long)mem_err->validation_bits);
+>  
+> @@ -375,9 +382,6 @@ static int ghes_edac_report_mem_error(struct notifier_block *nb,
+>  
+>  	edac_raw_mc_handle_error(e);
+>  
+> -unlock:
+> -	spin_unlock_irqrestore(&ghes_lock, flags);
+> -
+>  	return NOTIFY_OK;
+>  }
+>  
+
