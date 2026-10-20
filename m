@@ -1,85 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1792493013;
-	b=1cRjuvuqb26QaCsSgTwNZMVlomav2xr4JrtsR5R7CB+fTK0uOhx9GeRHxpsTilTtXuKg
-	 3tGdCxD09jRT5ilJP+53SygtTv3uo13Ss9OMqHm4zrOM3Aqsdhjz8aDhvVBC/w4xArxTx
-	 jNYfaBQOZmsK44kGwQakCsaDpjgeqMiQ2s90MejTxkOPO17DzWBQ/jCPs5h43sPWUC39v
-	 9Y+wFHfH1v7S6t7rjrzSxcc7OQrmeD90E0QCxOYblqyv55pOy7aFh4dSuiDdWC+dNi7e8
-	 srZYHU+g+pAMYr3ZqSvULenjLDZGDogKRn3K0NKNG7lH9ToJoy7zz9/V31GeTC6N9Gw==
+	b=VvWBqtqY6vkTk0bBAGBQmQRtW9MJz41FUOF4r0YxdcP6PhGtCXaHRAGKPc7cWsKqec8m
+	 h2P9uG7IyJCHN8cfhwuVn4K69BEjZ8ls8HCXKeBf7awZmH8/5cmhWaDvjfRCkyzolOQZW
+	 rArW7PRJOgsSVkiS/QZHvXSEFPwiU67liRv55OvCTUNcZw+zKonoPnwMVsEO4BQ/fnqMb
+	 o++i5OIAZd9Tr932XPleCXnm1Fix2uEgdeEhgVnDckL549J+Tt1UtiKFxViMHskhSjjEv
+	 ucAI9Dh+nyDrLCObLKDm4hs1zn7XWs18tRVTLFq+7HwCK8va/uyCR0v3SJ5KSltOQpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792493013;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
 	 References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=XaCIspnOiGUcI2BoHO8g5A8hP2lh454sdkCiT2j/ODo=;
-	b=nfrxPidFr2QG2WJV5z+7YDHMRx98rwnCFHCdTDMisaacRO/QM7l6RbO8W5P6BlkvCE6J
-	 2z7ecSxV4Ydfe0PDpJC5BjX44S9jyLR071lW5VLRfdWLv9qAX/jiZ9BV5+JCKsa2crNXR
-	 SGlqy8aL2Ji2abyjj56Njsr7JwjugleKpEoxVfnSba4DtQnulNXUP50e0peghMjo+EwnF
-	 cIErLEugGFXIurLt2UMZ50d3XOogkJeqKrq9k0ecWstGbfTc9a3Xr3EuX43Ptt7jJzIzA
-	 /T+3aYVDNKU1kQH0S+V21R19BdRbQLIckrtkcY+s6/bR04cPuRoSrnQTOV5PisxsyaA==
+	bh=Pr/rnTmIAiW1szyi9rDm/oGmteEimjJL3z+DQYflDO4=;
+	b=DpRVITJ+W13/9f4nnD7WYwVKaKk2MTqEaY/TCIz3En6aYvQfFzweyYrYwKYX236fCe5G
+	 dt9uctR7RdmKfvNKs1Pv4Ub3cjRhN8It1yuKnSbiyzHWdovjfkyQm9uASJcEKtt7JNTqj
+	 u+wPTzDsvZahQJ4Ho07ZlIeXHhkck/I4pnX4KLhmMOjaEgYR7L6U3IoUY9K14I2UA+aXs
+	 Fsd77QFPWdqKPHIv4c0yG+k1voXSNS81V/kZ6pz3VF1pwKdNAkGEw8mOph5rqa7lLAir2
+	 CdWYfLy7tVXa6CWOAPyjRhokkEtV83/GjnqP3sRBsy6SlyAlMnSpz7PuQbTOgiwQ3Ig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=VokRk0Y1;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=rIU5heL+;
+	arc=none smtp.remote-ip=209.85.128.41
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163B860A263F
-	for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 10:43:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 163B860A263F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DFE960A383A
+	for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 10:43:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6DFE960A383A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=VokRk0Y1
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48df4e9d2d4so1959784f8f.3
-        for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 03:43:27 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=rIU5heL+
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso31429285e9.1
+        for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 03:43:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1792493006; x=1793097806; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1792493007; x=1793097807; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=XaCIspnOiGUcI2BoHO8g5A8hP2lh454sdkCiT2j/ODo=;
-        b=VokRk0Y1gKvX4VO3g6pF3zWMHz7nHc1tNeJ9Pqla4fbm4HbiniRNFrHhahAWd/MmnB
-         +S3uLh12U6Tu86YpCDXwF5A5mNVvMKtO0wNxR6T4JaWacAKnKVrwQgfm6sGgN3dJJ6d1
-         C/czJp4rTYVm2c2gV4sYo4o3tAF4+c/qVCYcciPTXAtdTpbLthK9fhPvAOHpJ6tpdz69
-         Hpj9i8DFB3PC8SFT6G7GfNcGvXm+W8luYIjF2rxOzn6726Ibsn06viZBTyRVRQBk5Lfy
-         fmaRiIov7JgWWQXsn8w5+8EbsJtvXrTGVkaGnzynlGTgn9/02lD8X3N5GxrqERgIyS4M
-         vmiw==
+        bh=Pr/rnTmIAiW1szyi9rDm/oGmteEimjJL3z+DQYflDO4=;
+        b=rIU5heL+NM7YQkrSz7+m4vkxplwC96mNSrg8zym0rErF8BprEy/hWAixgjz/wPCSEz
+         nf5SA54Og0sKEckOzstGeDlwveCM4NxykGk4wx068z5TudDgwF6fKT65S1T4sp+b3uup
+         vw45DlkS4tth30HT7KiOdDch3+uyS1ew5PHopT2kwcVPp5U2ZE22Uv773OkJ0Q89crXj
+         /OTDqEjzQ/hWa7tchtLTe+en2ba0HUzTM8o2WuHbilNifVo4YP+KI6RiLadNcTmRQk9x
+         7DcGy/DFzlHHms2APjJxhqPXXzhW/zchiXpx6P6AmVZhnl2zUGa0Sld2IF2qC4JhVikW
+         epTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792493006; x=1793097806;
+        d=1e100.net; s=20260707; t=1792493007; x=1793097807;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=XaCIspnOiGUcI2BoHO8g5A8hP2lh454sdkCiT2j/ODo=;
-        b=Wf/V53Ufkzx1brytfc6+4VMAA1GDkan7hCqdYd54Y2kSo+U2hIX4xIc5Sf3R0y8mSM
-         7HFeDhyYuUkJVQbvZqYA1D/yV7a3RKm7kgVcSBDoTHcPhqqfRSjwhnWALumbE/WX59wK
-         CRESzD3lQoiRy/h7WuY25Z2OBi5yXuH7pWbNDa3jR7QegVL2JZQP7yM5H/cdPeVVZxKl
-         hIy9REvfxaP5WlQV/6OqP4iamXxZ9gkVnw1X/42nTFdHD/YZ6a7mo584tsgpn5/LR25G
-         ZONMfsfExW+24F5bSr+lv28pTe9FAH/lEFrXBU+mT0XWRdWp65MD3HsalltLRcGwFRU3
-         WjeA==
-X-Forwarded-Encrypted: i=1; AKwUvBz2l2YMqgnmtU5xOsPNEdJcsk1HzDA2FinfilWLDZNICItkJpxJc64gTpdhO4dztBW8emdn6HBR7tpV@vger.kernel.org
-X-Gm-Message-State: AFq9FYIacocPZdN8tiFEgymNOEcmKqrq7C+bSxiUQdPqX0J4X+s/aGRZ
-	TsTATqUUpc6jmu5p6DXD/VtpM2NrPxqrrFP1/uBkIj3L/8J22+v/d3di8/7hbVXBprc=
-X-Gm-Gg: AYBFou12qejWflnU8eU7Es9YimgjTGaklE+H8ycdi9IfBGQeYBnJ/PatA3e6462BoxI
-	g8GJuWGe1xboQYORDl8Bz6fLODclK8S2QIxXyREcmeR3fK2UlC6m305XDRUwE5ES4a3E3bymwwr
-	/Caf7VEVQW2kPPrhO0+hUgkR+xmUzE1WX6S4u1MXwM2iYiiIyzoN0cZyphARVkg8jnDtVrakQJi
-	+lLiszABDovq5A5VLrSX3so65precIXt29Lz2KfW1/i5nEs0+6/WPfytdxaEzjzgUMBNi9iDr9B
-	k3pzzvassynyiHB1+cRIVJenzwU9X7wZFr8nHHtnb5boTqAod07IkM2Dy9nvDqGKShntrinCD56
-	nm5q4ZADEuA0sin7h4WAv4WZ8WcwQzHFVZFnJnLk2qaTBRhE2/l54dE+/rRg7akf6fFkjvWkNBK
-	mTJLXuDsTjcubk9ZQsUV2FpBiFaNA2SZa2LDmL5zji8DI6DwNlDSYKZgtimDH5cT0s6RE7ZVQEv
-	rh5NKdw
-X-Received: by 2002:adf:e001:0:10b0:48d:f876:f370 with SMTP id ffacd0b85a97d-48e1bdf80a0mr4553512f8f.48.1792493006379;
+        bh=Pr/rnTmIAiW1szyi9rDm/oGmteEimjJL3z+DQYflDO4=;
+        b=vs26xOKPWkqCEVL1Z1NeuSEdXE3CINUmuj44OF65Pow/kuwcUQftaRYG3l6AHVMU56
+         niEKUFPOIk7cUmoJy7MIo9U8lBPzXIekzDlDH9FiaCiGDTG1hsBLeWNEyUONvdfz50gt
+         laftgfePwhNbBoTGnVM/sFdamDQVnOha930lKq8pHB71q4gX/U1CwIB5wp1HOAnw+aQE
+         IUVim+0OjQ7LJ5EoFKLx4Oh1PIBIXeeJdoQDafMgWh2NezXZO14a7NlwXOVkE7zSElvV
+         tG8IZ+DoId17rlT4/guR9KCu8yBCDcg68NA9tCD+ka+tgh8aFLYiCZG29gowgg67fcrO
+         +KEg==
+X-Forwarded-Encrypted: i=1; AKwUvBwh/YlxgS6iZ3m8iDq075SbLwK678OR5KMlCG9/T4BFMennVlq/iWVr3DBsTjDONSHtgnnFAaIEetzR@vger.kernel.org
+X-Gm-Message-State: AFq9FYIDjZ+5yXP50hquzv6thCygWt7Es/SJtrS+SeCOgg99UCxH/Pe2
+	yYvVabLBBvqWmBbItxI3IcbcnB+57UbVEqoz/vSf+aE8jwOZK+/j4cJ39fkYqLRsYpM=
+X-Gm-Gg: AYBFou3kjBCfGchylozfsY0Qq64ZY2Ioz4yN70AYwZAqyVH/QDfq1DA3OmmoujOTRwX
+	SGBkNk5AtPnbxEJUGf29o4rClr6D/yj+NHi9xk0Rx3KSCby5ri1FrLWpPplQCcUkPYkahl2a2A2
+	kJg1PtBgiv1uqew42ZvenralL2sqg0NTFMzTaDfpNtB+SE86zzVv0yusgz6/Hs4Nh/i+ZhmT4cL
+	PJn2U1E09Xqoy9VS0gbjkMGDiY3C8razuioGTMcux+M1w+l51Qf03hyMDzKNOA0qpIM0deA4MRW
+	DmVNpFhsfbl6usgU5YR0KXbkmYBdYn+hBMP1XFmWMZGWKwmPc0YoCPO8E88oNgwGxHTur8Qj01B
+	eieIP8/jvsEAg+kbelWDuf0DfbT4YrqXnBV+A0iB/VtPNe8qkq8hO3+LUt4xAjxfLQgI5ohC+N0
+	KBvGdNwoNHGONVYvGKk2YKE5QHYe18zCAPLDxIToX1NzskRtW5YcZRTvYHCGGvUmtD88yZU6U=
+X-Received: by 2002:a05:600c:8b43:b0:4a1:83f0:7c8a with SMTP id 5b1f17b1804b1-4a1d75ad072mr215240945e9.1.1792493006718;
         Tue, 20 Oct 2026 03:43:26 -0700 (PDT)
 Received: from draig.lan ([185.124.0.158])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d820714sm5176611f8f.35.2026.10.20.03.43.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2d1e8ebsm57351065e9.3.2026.10.20.03.43.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 20 Oct 2026 03:43:24 -0700 (PDT)
 Received: from draig.lan (localhost [IPv6:::1])
-	by draig.lan (Postfix) with ESMTP id 871EE5FB54;
+	by draig.lan (Postfix) with ESMTP id 4DE6B5FB4A;
 	Tue, 20 Oct 2026 11:43:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -126,9 +125,9 @@ Cc: Bibo Mao <maobibo@loongson.cn>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	qemu-riscv@nongnu.org,
 	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 09/23] accel/kvm: port kvm_arch_post_run to KVMCPUOps
-Date: Tue, 20 Oct 2026 11:43:03 +0100
-Message-ID: <20261020104320.3686723-10-alex.bennee@linaro.org>
+Subject: [PATCH 08/23] accel/kvm: port kvm_arch_pre_run to KVMCPUOps
+Date: Tue, 20 Oct 2026 11:43:02 +0100
+Message-ID: <20261020104320.3686723-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261020104320.3686723-1-alex.bennee@linaro.org>
 References: <20261020104320.3686723-1-alex.bennee@linaro.org>
@@ -144,198 +143,233 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Again not all arches do something for this so default to set
-MEMTXATTRS_UNSPECIFIED for any potential MMIO we might handle next.
+Port our first function. As a number of arches don't do anything at
+this point they become nops and the call becomes optional.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/accel/kvm/cpu-ops.h | 8 ++++++++
- include/system/kvm.h        | 2 --
- target/i386/kvm/kvm_i386.h  | 1 +
- accel/kvm/kvm-all.c         | 6 +++++-
- target/arm/kvm.c            | 3 ++-
- target/i386/kvm/kvm-cpu.c   | 1 +
- target/i386/kvm/kvm.c       | 2 +-
- target/loongarch/kvm/kvm.c  | 5 -----
- target/ppc/kvm.c            | 5 -----
- target/riscv/kvm/kvm-cpu.c  | 5 -----
- target/s390x/kvm/kvm.c      | 5 -----
- 11 files changed, 18 insertions(+), 25 deletions(-)
+ include/accel/kvm/cpu-ops.h | 11 +++++++++++
+ include/system/kvm.h        |  1 -
+ target/i386/kvm/kvm_i386.h  |  1 +
+ accel/kvm/kvm-all.c         |  7 ++++++-
+ accel/tcg/cpu-exec.c        |  2 +-
+ target/arm/kvm.c            |  3 ++-
+ target/i386/kvm/kvm-cpu.c   |  1 +
+ target/i386/kvm/kvm.c       |  2 +-
+ target/loongarch/kvm/kvm.c  |  4 ----
+ target/ppc/kvm.c            |  4 ----
+ target/riscv/kvm/kvm-cpu.c  |  4 ----
+ target/s390x/kvm/kvm.c      |  4 ----
+ 12 files changed, 23 insertions(+), 21 deletions(-)
 
 diff --git a/include/accel/kvm/cpu-ops.h b/include/accel/kvm/cpu-ops.h
-index 2c04fa5adf5..e74081eb133 100644
+index 662d0c553c7..2c04fa5adf5 100644
 --- a/include/accel/kvm/cpu-ops.h
 +++ b/include/accel/kvm/cpu-ops.h
-@@ -23,9 +23,17 @@ struct kvm_run;
-  *           that need to inject pending events (e.g. x86 NMI/SMI) or verify
-  *           injected exceptions (e.g. ARM external data aborts).
-  *           May be NULL if the target does not require pre-run handling.
-+ * @post_run: Optional callback executed immediately after the KVM_RUN ioctl
-+ *            returns in the vCPU thread loop. Used by architectures to
-+ *            inspect or process hardware registers/flags (e.g. x86 APIC/TPR
-+ *            or ARM timer interrupt synchronization) and return the
-+ *            #MemTxAttrs to use for handling MMIO exits.
-+ *            May be NULL if the target does not require post-run handling,
-+ *            in which case MEMTXATTRS_UNSPECIFIED is assumed.
+@@ -13,10 +13,19 @@
+ #include "hw/core/cpu.h"
+ #include "accel/accel-cpu-target.h"
+ 
++struct kvm_run;
++
+ /**
+  * struct KVMCPUOps - Target-specific per-vCPU operations for KVM
++ *
++ * @pre_run: Optional callback executed immediately prior to entering the
++ *           KVM_RUN ioctl in the vCPU thread loop. Used by architectures
++ *           that need to inject pending events (e.g. x86 NMI/SMI) or verify
++ *           injected exceptions (e.g. ARM external data aborts).
++ *           May be NULL if the target does not require pre-run handling.
   */
  typedef struct KVMCPUOps {
-     void (*pre_run)(CPUState *cpu, struct kvm_run *run);
-+    MemTxAttrs (*post_run)(CPUState *cpu, struct kvm_run *run);
++    void (*pre_run)(CPUState *cpu, struct kvm_run *run);
  } KVMCPUOps;
  
  #define TYPE_KVM_ACCEL_CPU "kvm-accel-cpu"
+@@ -25,6 +34,8 @@ typedef struct KVMCPUOps {
+  * struct KVMAccelCPUClass - KVM-specific accelerator CPU class
+  *
+  * @parent_class: The parent #AccelCPUClass
++ * @cpu_ops: Target-specific KVM operations table. Must be non-NULL when
++ *           KVM acceleration is initialized for the target CPU.
+  */
+ typedef struct KVMAccelCPUClass {
+     AccelCPUClass parent_class;
 diff --git a/include/system/kvm.h b/include/system/kvm.h
-index e9d7b86ea4a..82785d37600 100644
+index d29624034cb..e9d7b86ea4a 100644
 --- a/include/system/kvm.h
 +++ b/include/system/kvm.h
-@@ -333,8 +333,6 @@ extern const KVMCapabilityInfo kvm_arch_required_capabilities[];
+@@ -333,7 +333,6 @@ extern const KVMCapabilityInfo kvm_arch_required_capabilities[];
  
  void kvm_arch_accel_class_init(ObjectClass *oc);
  
--MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run);
--
- int kvm_arch_handle_exit(CPUState *cpu, struct kvm_run *run);
+-void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run);
+ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run);
  
- int kvm_arch_process_async_events(CPUState *cpu);
+ int kvm_arch_handle_exit(CPUState *cpu, struct kvm_run *run);
 diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
-index 218ae8f09ce..6fb1da6a40c 100644
+index 2b653442f4d..218ae8f09ce 100644
 --- a/target/i386/kvm/kvm_i386.h
 +++ b/target/i386/kvm/kvm_i386.h
-@@ -34,6 +34,7 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp);
+@@ -33,6 +33,7 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp);
+ 
  int kvm_get_vm_type(MachineState *ms);
  void kvm_arch_reset_vcpu(X86CPU *cs);
- void x86_kvm_pre_run(CPUState *cpu, struct kvm_run *run);
-+MemTxAttrs x86_kvm_post_run(CPUState *cpu, struct kvm_run *run);
++void x86_kvm_pre_run(CPUState *cpu, struct kvm_run *run);
  void kvm_arch_after_reset_vcpu(X86CPU *cpu);
  void kvm_arch_do_init_vcpu(X86CPU *cs);
  uint32_t kvm_arch_get_supported_cpuid(KVMState *env, uint32_t function,
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 4dca5467f4a..41229774068 100644
+index db8fba53f33..4dca5467f4a 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -3500,7 +3500,11 @@ int kvm_cpu_exec(CPUState *cpu)
-          * as true, cpu->exit_request will always read as true.
-          */
+@@ -55,6 +55,8 @@
  
--        attrs = kvm_arch_post_run(cpu, run);
-+        if (ops->post_run) {
-+            attrs = ops->post_run(cpu, run);
-+        } else {
-+            attrs = MEMTXATTRS_UNSPECIFIED;
+ #include "hw/core/boards.h"
+ #include "system/stats.h"
++#include "accel/accel-cpu-target.h"
++#include "accel/kvm/cpu-ops.h"
+ 
+ /* This check must be after config-host.h is included */
+ #ifdef CONFIG_EVENTFD
+@@ -3451,6 +3453,7 @@ out_unref:
+ 
+ int kvm_cpu_exec(CPUState *cpu)
+ {
++    const KVMCPUOps *ops = kvm_get_cpu_ops(cpu);
+     struct kvm_run *run = cpu->kvm_run;
+     int ret, run_ret;
+ 
+@@ -3474,7 +3477,9 @@ int kvm_cpu_exec(CPUState *cpu)
+             }
+         }
+ 
+-        kvm_arch_pre_run(cpu, run);
++        if (ops->pre_run) {
++            ops->pre_run(cpu, run);
 +        }
+         /* Corresponding store-release is in cpu_exit. */
+         if (qatomic_load_acquire(&cpu->exit_request)) {
+             trace_kvm_interrupt_exit_request();
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 5b4bca5084f..4d2a0aefe89 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -758,7 +758,7 @@ void tcg_kick_vcpu_thread(CPUState *cpu)
+      * Ensure cpu_exec will see the reason why the exit request was set.
+      * FIXME: this is not always needed.  Other accelerators instead
+      * read interrupt_request and set exit_request on demand from the
+-     * CPU thread; see kvm_arch_pre_run() for example.
++     * CPU thread; see KVMCPUOps::pre_run for example.
+      */
+     qatomic_store_release(&cpu->exit_request, true);
  
- #ifdef KVM_HAVE_MCE_INJECTION
-         if (unlikely(have_sigbus_pending)) {
 diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index 4475fd1a9d9..d5f9b7c088c 100644
+index 7a3c957c3a5..4475fd1a9d9 100644
 --- a/target/arm/kvm.c
 +++ b/target/arm/kvm.c
-@@ -1404,7 +1404,7 @@ static void arm_kvm_pre_run(CPUState *cs, struct kvm_run *run)
-     }
+@@ -1377,7 +1377,7 @@ static bool kvm_arm_verify_ext_dabt_pending(ARMCPU *cpu)
+     return false;
  }
  
--MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
-+static MemTxAttrs arm_kvm_post_run(CPUState *cs, struct kvm_run *run)
+-void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
++static void arm_kvm_pre_run(CPUState *cs, struct kvm_run *run)
  {
-     ARMCPU *cpu;
-     uint32_t switched_level;
-@@ -2667,6 +2667,7 @@ void arm_gic_cap_kvm_probe(GICCapability *v2, GICCapability *v3)
+     ARMCPU *cpu = ARM_CPU(cs);
+     CPUARMState *env = &cpu->env;
+@@ -2666,6 +2666,7 @@ void arm_gic_cap_kvm_probe(GICCapability *v2, GICCapability *v3)
+ }
  
  static const KVMCPUOps arm_kvm_cpu_ops = {
-     .pre_run = arm_kvm_pre_run,
-+    .post_run = arm_kvm_post_run,
++    .pre_run = arm_kvm_pre_run,
  };
  
  static void kvm_cpu_accel_class_init(ObjectClass *oc, const void *data)
 diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-index eab5ab46d45..64af85cd113 100644
+index 9de107a18d5..eab5ab46d45 100644
 --- a/target/i386/kvm/kvm-cpu.c
 +++ b/target/i386/kvm/kvm-cpu.c
-@@ -236,6 +236,7 @@ static void kvm_cpu_instance_init(CPUState *cs)
+@@ -235,6 +235,7 @@ static void kvm_cpu_instance_init(CPUState *cs)
+ }
  
  static const KVMCPUOps x86_kvm_cpu_ops = {
-     .pre_run = x86_kvm_pre_run,
-+    .post_run = x86_kvm_post_run,
++    .pre_run = x86_kvm_pre_run,
  };
  
  static void kvm_cpu_accel_class_init(ObjectClass *oc, const void *data)
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index e9bcda70dac..a1b91d502f0 100644
+index da922f72d71..e9bcda70dac 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -5995,7 +5995,7 @@ static void kvm_rate_limit_on_bus_lock(void)
-     }
+@@ -5898,7 +5898,7 @@ int kvm_arch_get_registers(CPUState *cs, Error **errp)
+     return ret;
  }
  
--MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
-+MemTxAttrs x86_kvm_post_run(CPUState *cpu, struct kvm_run *run)
+-void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
++void x86_kvm_pre_run(CPUState *cpu, struct kvm_run *run)
  {
      X86CPU *x86_cpu = X86_CPU(cpu);
      CPUX86State *env = &x86_cpu->env;
 diff --git a/target/loongarch/kvm/kvm.c b/target/loongarch/kvm/kvm.c
-index b8fb2094062..192538c0aa9 100644
+index 4bc08f195ed..b8fb2094062 100644
 --- a/target/loongarch/kvm/kvm.c
 +++ b/target/loongarch/kvm/kvm.c
-@@ -1517,11 +1517,6 @@ int kvm_arch_irqchip_create(KVMState *s)
+@@ -1517,10 +1517,6 @@ int kvm_arch_irqchip_create(KVMState *s)
      return kvm_check_extension(s, KVM_CAP_DEVICE_CTRL);
  }
  
--MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
+-void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
 -{
--    return MEMTXATTRS_UNSPECIFIED;
 -}
 -
- int kvm_arch_process_async_events(CPUState *cs)
+ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
  {
-     return cs->halted;
+     return MEMTXATTRS_UNSPECIFIED;
 diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 17b16e33881..5ef4722cd6f 100644
+index 8e9328beeb9..17b16e33881 100644
 --- a/target/ppc/kvm.c
 +++ b/target/ppc/kvm.c
-@@ -1336,11 +1336,6 @@ int kvmppc_set_interrupt(PowerPCCPU *cpu, int irq, int level)
+@@ -1336,10 +1336,6 @@ int kvmppc_set_interrupt(PowerPCCPU *cpu, int irq, int level)
      return 0;
  }
  
--MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
+-void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
 -{
--    return MEMTXATTRS_UNSPECIFIED;
 -}
 -
- int kvm_arch_process_async_events(CPUState *cs)
+ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
  {
-     return cs->halted;
+     return MEMTXATTRS_UNSPECIFIED;
 diff --git a/target/riscv/kvm/kvm-cpu.c b/target/riscv/kvm/kvm-cpu.c
-index 8575e673811..9580b6c1b20 100644
+index b3fa0548c8a..8575e673811 100644
 --- a/target/riscv/kvm/kvm-cpu.c
 +++ b/target/riscv/kvm/kvm-cpu.c
-@@ -1640,11 +1640,6 @@ int kvm_arch_process_async_events(CPUState *cs)
+@@ -1640,10 +1640,6 @@ int kvm_arch_process_async_events(CPUState *cs)
      return 0;
  }
  
--MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
+-void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
 -{
--    return MEMTXATTRS_UNSPECIFIED;
 -}
 -
- bool kvm_arch_stop_on_emulation_error(CPUState *cs)
+ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
  {
-     return true;
+     return MEMTXATTRS_UNSPECIFIED;
 diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-index 827816e5b98..ad1145c4ec1 100644
+index 69e49b7d151..827816e5b98 100644
 --- a/target/s390x/kvm/kvm.c
 +++ b/target/s390x/kvm/kvm.c
-@@ -984,11 +984,6 @@ void kvm_arch_update_guest_debug(CPUState *cpu, struct kvm_guest_debug *dbg)
+@@ -984,10 +984,6 @@ void kvm_arch_update_guest_debug(CPUState *cpu, struct kvm_guest_debug *dbg)
      }
  }
  
--MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
+-void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
 -{
--    return MEMTXATTRS_UNSPECIFIED;
 -}
 -
- int kvm_arch_process_async_events(CPUState *cs)
+ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
  {
-     return cs->halted;
+     return MEMTXATTRS_UNSPECIFIED;
 -- 
 2.47.3
 
