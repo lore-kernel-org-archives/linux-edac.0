@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792493005;
-	b=h+8DkQgtptKpvArt9khXMdpWI2GJqbrfQAUv8zg6RyZhOBfFevs00+aOCDgQGlYWWJhd
-	 XiYqnz8f15oPx7KRNVlsC/U0WXH0J33eHljAFFJXtODCSnhvFWgKvaGXVA/09mRjEk6ic
-	 9avbaOx7S63/C3X7/dnjqZL0/spdkcOYIki8Hd2CHsL5on1mOc1yUFUXobeWlRAjTDVDH
-	 h6EBieUVudYjAvZGsskq4Q2nT8KTjOoJRmqjj8v5xehrD+UkJtsaHyasU4DciP0k3yM1o
-	 fHVJkJLuSjfAteOTUre0RgvKIFJQdCDLZbLzBwJ2qMY3Bi0EvkqL2vh+376bb8iZS9g==
+	t=1792493006;
+	b=R1fon32knGQz0gVx/17ySqM4oSkE5VJDfV7tQO6lr4dI4Bj2SYOBpsOWDkFQ5cL10Msh
+	 VCjtrL3GkKo63zn8q5HbVKEC0qmXPE1Yw5dZdt8GkRfoLZ2tazA4TEcp+rbzzdvev/zRE
+	 Xzgk2qgtoDVfucel75mFSFtO+oU6zbaym516tABLo+lC6XIXJty77SX9wjBKoEGeh5Sdz
+	 /cpu+d8394fVkvVJjFNvuKsizeF+vd64kOK/zZpnuxoNgc63zPWNVhzJeleSJ0QRj4wzL
+	 iSE71LG8H/crg7y8XOLv9FQOZuAWrrv8HDWaY7es12AOxNBWnDLFakJbXp6W1UwVPXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792493005;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792493006;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
 	 References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=EQ7gfcnpJP7Ud8+3W5PCJuKE2nJX2Z7vYXXp9omA0HY=;
-	b=s6v+nvQ1fywnXEomeLciZJMKoon9HzNgvzvfZktVLQ2wGRzkSHkcyrUqRY7anPfIT9Rt
-	 /kg9p4LrxwZEP/uAuJCnT84oAJobWkNat9ERAPzYCu9IXjTYVwul6NYDgYIz9yzPEDZzR
-	 p7rJBxT5LYdF95A+4x2zEaP456NsjIJw85KWcUyqIku7RVbnfkWz1sPBySj+ylKC1figx
-	 ph3s59uns//Fg/hgEY8uUsoX40+ZKFqSH/EVLzUfijGAL4jzCy+06fahAw1oV/p9vWmxL
-	 WIssR1ZO9vpKSbHTyTp+OXFxq2/i0wkvrs7OUF7RgvjkYVYt2bzdj913h6gan+jQW9Q==
+	bh=W1YwD7IMkeAO6OcLReHpxRqQRfDPA/W1esQDN17JAFU=;
+	b=fbTcAeM/zQyoa1XO2avZsooPuSOhKc1eHL1bgcJFouwXEm+xGWrQn1RUUPOuLhsGvxX1
+	 9v17/mFJauqu1DjdgEws9eh52YKfRNNMZDszgwGETtduetDuJq+xgOdLbSCKfTxaRds48
+	 F43dpiOZzfgVF9qNZpnaAoZPWzWbm7ioIuNveoy4Y27we5z0W+xh9Lg1XwbG0SlxXvIk9
+	 uTShs8nefI5ZwDDXRelb9rKGlPTbgAxUJifiX9Qe2k9OKzxMvxHlTAzVM9aVIrcxgocDh
+	 n5LiGOCMrFVvMNqXcE7K2gQ218Gr2xnH4/MKAOMz8SLK29gs/zdJwI0W9qtGP9NTvDg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=DRoOkJDR;
-	arc=none smtp.remote-ip=209.85.221.47
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b="qZM4G/5F";
+	arc=none smtp.remote-ip=209.85.221.46
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48967606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE7760A2600
 	for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 10:43:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48967606A330
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDE7760A2600
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=DRoOkJDR
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48e011d370dso2515746f8f.0
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=qZM4G/5F
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48b0584ad71so2205982f8f.0
         for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 03:43:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google; t=1792493004; x=1793097804; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=EQ7gfcnpJP7Ud8+3W5PCJuKE2nJX2Z7vYXXp9omA0HY=;
-        b=DRoOkJDRgFzpR4HTZMMJtbttWE1M6q1lQM1iGVoVztA6H66KrPWe4nXokQ9jzwU39I
-         AqxH0F8MJFlrWUW1+Ommc6OSy3m8GiQ98tkHX3CNO137TUscoMwZ4VIGnUNWDDC/3pTE
-         WO6qThtDAJfjMLLhouqdn8Pf2n0Z+0li8O3PGlWodlbAIPVwUfJztlsfrE/zGRCOqIF8
-         zhgTO6/dv51Tj3r2MqoXc3vgTZnBuWt1EEemnyr8qzZUU6j320skgX4P0GfH3MewKLmE
-         DhthAG3/US1MxJJJiLaN2PqZjWxAYRyUK4wTwITs+elCq/YdXdmz0rkWaC3ZYSC3SNk/
-         muWQ==
+        bh=W1YwD7IMkeAO6OcLReHpxRqQRfDPA/W1esQDN17JAFU=;
+        b=qZM4G/5FfFiYqI3Zl8+wv61PamEQz1bh9Tf1xQ4U8zlaurI/j97gARE8Sps/bNQYVz
+         8fY1XG8bA10fbmxbuqa6kBxbs4yUYGW4D6yHdEfkCA9fWRfe6MoZ2GjWpQwExsyFIttD
+         EU3gg4rmUDocEyfDc3KOlrs0FiPpElF8C4ySLSXjYRzJl2lxul+SnBcDNVl9sM+EXpDJ
+         YRnLqqMLQj3snHDy/IStiHag4S6g0Qw9ckgXgjgYe2mRdiC2Rsa+05S4K1mHeMMP4g5+
+         YAJR6lylWJURnDa5az7cKbppE/dkmPja9v4UDVXDn9lhOSUsppTcyrRftbRQevKkFO/Y
+         ow6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1792493004; x=1793097804;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=EQ7gfcnpJP7Ud8+3W5PCJuKE2nJX2Z7vYXXp9omA0HY=;
-        b=uRW4xaRQagb+MtuLjdlbINBDWh33GjWs/SQ9GH+SBqmIn2Q3tBkBrGWKb/avsjAaTv
-         P6ijr8R82JMU0Mllxqyze8f+x0AuNpFxcPcLHbYlSH9+U2A6GV2yqkx8hq3wfgqalYJm
-         fza8II2++P4Q0HsqJP/ISysAetnQWeNnS43vuvURJ/DVytIb4RRg8ylfK1U9BUg33LDM
-         47ImD/pzbTnmUHMbI2bpwb9pTW54A4uSvCRzA+9MdGuQy4UuI/dyj/dLjvLQJYprD85v
-         hJJipWeBQErKlYmM8i2Mzqd8g5DTgA4D3cKa5rc42SASsWaJSNjQ/D5f+rjfd0tpmsS0
-         Bhyw==
-X-Forwarded-Encrypted: i=1; AKwUvBxYPjLy673rVY8vr+GCwDVMbgm5dYKQwbbFenykZGLHNHvbw2iUKrKX8pM+AXOTKmnJFKM262aJB16K@vger.kernel.org
-X-Gm-Message-State: AFq9FYIinlsHEU4ONSJl2MUVTQlKODCOaYKJE0VQYwKX7isVNId/r3x8
-	HWvKOoBcBlp55W5PyvWmWHXJvf8h4pbwBPaQwf+FVnxb8LL+JORHVD+LWFhC/8r+lJo=
-X-Gm-Gg: AYBFou0Czh3gBvk+2yROknGbKbFP6yRcROiJVGtjOIByAGFWdyx8XTdscQaterVE2ph
-	zLFLTEAAECBFRURVmju3AssO+YMvvL+JUj0SkSf6rjVTbF9KpQtMFbSnIY9VuR6kxXaX5YL4ich
-	3JoCOxqb2J48Yd5xIejVUwnItCY6z8p75NcoMXVU82Tq4HvI++qFRf3A5Po+mVPIQsTK4H8Y6v5
-	aO1ryx3Bl7QLZZXdct4NWI8GgjohXfvio0G75F3WTN0C1BmUYcMIxEL0qVbcQmEUGUby8FZl3nz
-	S9e2EkaoJggaSNOrIm31upS4BKwtaFfGpiyN8vHLcgwOeyAJrPNKbT4vHpI49/VGiwRcorXPkBp
-	uI1huW0Op9jk7Z/BaEADNnEA8cp2KSlHnMKRxkOe93wrJCwCDjvNqaIik2L8J9Q3RW183XBGDdX
-	nW8r5gkXzXVFdHe19LopA+61L+ULCaiwtxuzsN6iNFpFWNubFF44cY9JrzrnsO9pU+KvQqGko=
-X-Received: by 2002:a05:6000:607:b0:48d:f58f:c91 with SMTP id ffacd0b85a97d-48e07bb5919mr21536746f8f.19.1792493003575;
-        Tue, 20 Oct 2026 03:43:23 -0700 (PDT)
+        bh=W1YwD7IMkeAO6OcLReHpxRqQRfDPA/W1esQDN17JAFU=;
+        b=bMv0OjWj+83A0j8ZVDXD7fSjt+5S6xqzo2qINMhl4k+6bd8FsanQb4xH8FW1KjKi7G
+         rDX3ljk+1PE5ISkfjaiv2q5eOmLRqXxnzZ+tWKMWU0H+FdkI7wri/+KvBeFfV3hs3F8c
+         MXDN3eVcOf9cY52BYR7UDtqag0EKc2+do8+UAznx8uT1gAgbjOEIZUIt9yST4iMdBrTM
+         Lf8i60FtA33exGKiZb0cTAFfuhM4AFqkysNJvdniFjQLekKYxrJ64WPhaX4fOzh/xvXg
+         6mxrZZYXnR7T1b4R9GqLNkYmCHowGLkB+yn5EsXywUewSVHVOpo7P9rKzF4Ly2VbkE16
+         C2+g==
+X-Forwarded-Encrypted: i=1; AKwUvBznmBWRTlsZKdLIS3WKLqSr7D9U6A8SAVfX1pvfxbTS2QYWbVMCDtFXFTNIYF6lmPN7xFWHQFZn0HUh@vger.kernel.org
+X-Gm-Message-State: AFq9FYJi1l/jIGyRLGtVyg6y4n15Pcy83Tz+wItp5gWaWkcwYPut+T48
+	aUMPH8WnJSODwz8IEgXENFdhZFCfOhPscfGW/58XLMn3QMYgqPdJjQd0NgxL7go403Q=
+X-Gm-Gg: AYBFou3bQERYndg8jYrj3IEqWYQtsMcX8RnyTCUACx5LN+x3v2UJho5q1nqyht1Mmgc
+	XpmOfUAhw5WlLooY5OPCndkpT1Y1xUImIRCzTpWvzyYA3tUT8AGSba869FndXqAC7+CYu6b1Rpk
+	Or3nlCQY/yemAz8jJbb4/qRN9PsWldRCO7+oWWfQ1PYeYfb130am/rjlPfcxrmqffabDek6H3rF
+	gdBSB/poIZRgElCOIFo6jOttawdLZlf1gnoeFfGEpvS+fv01AzXQdLbz2srxiJA/GHl22GCV03o
+	/GhNBnC6mgNRd6Q2BIYNXXNoFrWlJPRGADncZvj6IPFwTzRg3jy4f7S3Jc3nYq+cLKLd7em5++0
+	pELs+qH/IXL2p6f5D9ezeMrrN7DeZjq1thrN4uED+89+GMY4xr3pM7TOE1vV+EM8drCJdNCu9lu
+	haubQ2CLu6XITRSyN4K0Tx0ruuqmOT5fSMafc4y9vp7b0Sa+NAY0jh1jijWmqi+pTOw90oPg==
+X-Received: by 2002:a05:600c:8b6f:b0:4a1:d307:d578 with SMTP id 5b1f17b1804b1-4a1d75e6d1amr197176025e9.11.1792493004251;
+        Tue, 20 Oct 2026 03:43:24 -0700 (PDT)
 Received: from draig.lan ([185.124.0.158])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d820822sm5769631f8f.34.2026.10.20.03.43.21
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2c9e9c3sm56999645e9.3.2026.10.20.03.43.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 20 Oct 2026 03:43:21 -0700 (PDT)
 Received: from draig.lan (localhost [IPv6:::1])
-	by draig.lan (Postfix) with ESMTP id 92FE85F9E2;
+	by draig.lan (Postfix) with ESMTP id B08A65FA43;
 	Tue, 20 Oct 2026 11:43:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -125,9 +125,9 @@ Cc: Bibo Mao <maobibo@loongson.cn>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	qemu-riscv@nongnu.org,
 	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 03/23] target/ppc: wire up empty KVMAccelCPUClass
-Date: Tue, 20 Oct 2026 11:42:57 +0100
-Message-ID: <20261020104320.3686723-4-alex.bennee@linaro.org>
+Subject: [PATCH 04/23] target/riscv: wire up empty KVMAccelCPUClass
+Date: Tue, 20 Oct 2026 11:42:58 +0100
+Message-ID: <20261020104320.3686723-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261020104320.3686723-1-alex.bennee@linaro.org>
 References: <20261020104320.3686723-1-alex.bennee@linaro.org>
@@ -147,26 +147,26 @@ We will fill in the functions in future commits.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/ppc/kvm.c | 8 +++++++-
+ target/riscv/kvm/kvm-cpu.c | 8 +++++++-
  1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 8e89a6c665c..8e9328beeb9 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -50,6 +50,7 @@
- #include "system/kvm_int.h"
- #include "system/kvm.h"
+diff --git a/target/riscv/kvm/kvm-cpu.c b/target/riscv/kvm/kvm-cpu.c
+index 45ad5e1525a..b3fa0548c8a 100644
+--- a/target/riscv/kvm/kvm-cpu.c
++++ b/target/riscv/kvm/kvm-cpu.c
+@@ -33,6 +33,7 @@
+ #include "cpu.h"
+ #include "trace.h"
  #include "accel/accel-cpu-target.h"
 +#include "accel/kvm/cpu-ops.h"
- 
- #include CONFIG_DEVICES
- 
-@@ -3080,17 +3081,22 @@ void kvm_arch_accel_class_init(ObjectClass *oc)
- {
+ #include "hw/pci/pci.h"
+ #include "exec/memattrs.h"
+ #include "system/address-spaces.h"
+@@ -2195,18 +2196,23 @@ void riscv_kvm_cpu_finalize_features(RISCVCPU *cpu, Error **errp)
+     kvm_riscv_destroy_scratch_vcpu(&kvmcpu);
  }
  
-+static const KVMCPUOps ppc_kvm_cpu_ops = {
++static const KVMCPUOps riscv_kvm_cpu_ops = {
 +};
 +
  static void kvm_cpu_accel_class_init(ObjectClass *oc, const void *data)
@@ -174,8 +174,9 @@ index 8e89a6c665c..8e9328beeb9 100644
      AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
 +    KVMAccelCPUClass *kacc = KVM_ACCEL_CPU_CLASS(oc);
  
-     acc->cpu_target_realize = kvmppc_cpu_realize;
-+    kacc->cpu_ops = &ppc_kvm_cpu_ops;
+     acc->cpu_instance_init = kvm_cpu_instance_init;
+     acc->cpu_target_realize = kvm_cpu_realize;
++    kacc->cpu_ops = &riscv_kvm_cpu_ops;
  }
  
  static const TypeInfo kvm_cpu_accel_type_info = {
