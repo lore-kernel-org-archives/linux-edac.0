@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792493006;
-	b=R1fon32knGQz0gVx/17ySqM4oSkE5VJDfV7tQO6lr4dI4Bj2SYOBpsOWDkFQ5cL10Msh
-	 VCjtrL3GkKo63zn8q5HbVKEC0qmXPE1Yw5dZdt8GkRfoLZ2tazA4TEcp+rbzzdvev/zRE
-	 Xzgk2qgtoDVfucel75mFSFtO+oU6zbaym516tABLo+lC6XIXJty77SX9wjBKoEGeh5Sdz
-	 /cpu+d8394fVkvVJjFNvuKsizeF+vd64kOK/zZpnuxoNgc63zPWNVhzJeleSJ0QRj4wzL
-	 iSE71LG8H/crg7y8XOLv9FQOZuAWrrv8HDWaY7es12AOxNBWnDLFakJbXp6W1UwVPXA==
+	t=1792493007;
+	b=TpKMJ741iXa8zxKvTPuvjf6fyEf74dcmiw6zeFfOgeydV12R4lzbtly/SyHO2AHWt327
+	 0oWWzlgR1Gi/rXLcEOm3e+LxFrOvJZKdgPsfYZcARYGT0V77SYbhvytQbx6NF6/hS6bnN
+	 bSjKTvqHmuTyRBInlfzCIeprrLFctGfrqQURmObZbhgQsa7sxRG2WF0I/nUTKJgBkHYOK
+	 UpajXoMmauO/hL2TjX1miEBzwD8zK+X2cGk/Cm2y6uE9GbzN9ZT2zkddhXgtgdtmpvfKa
+	 WfJ8rmCA118/Y4PVcWH1eNgIdr0ie+2isJsWiKsI5A5QNkEMgi9mY6Rc+fgsbocCFYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792493006;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792493007;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
 	 References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=W1YwD7IMkeAO6OcLReHpxRqQRfDPA/W1esQDN17JAFU=;
-	b=fbTcAeM/zQyoa1XO2avZsooPuSOhKc1eHL1bgcJFouwXEm+xGWrQn1RUUPOuLhsGvxX1
-	 9v17/mFJauqu1DjdgEws9eh52YKfRNNMZDszgwGETtduetDuJq+xgOdLbSCKfTxaRds48
-	 F43dpiOZzfgVF9qNZpnaAoZPWzWbm7ioIuNveoy4Y27we5z0W+xh9Lg1XwbG0SlxXvIk9
-	 uTShs8nefI5ZwDDXRelb9rKGlPTbgAxUJifiX9Qe2k9OKzxMvxHlTAzVM9aVIrcxgocDh
-	 n5LiGOCMrFVvMNqXcE7K2gQ218Gr2xnH4/MKAOMz8SLK29gs/zdJwI0W9qtGP9NTvDg==
+	bh=clY0Exi/Fk2cbqeICRgpqzcE6k7M0cr1lXEHsMtE1Ok=;
+	b=Tk1F/O+Dw48luMzgKIOGzMtBc3NpoNd2CjYcRQEIFEjbrk336YR33LJLzvVKIRWlsbEO
+	 NuZ7kHDOatgaqWlmp0NUmh+tAunERjyVH9sHOFAFGGaeA4g4rFA6Rd+tx5EttKqyuRLZw
+	 VKW4lHAdCxAAgFHI4WYwGCmEF+NRbUv0IEFxoTJX0rXVSYjBzf+i1r8aMPWulrHQmXAkB
+	 9UFkT6ymdaiZLknwue9SIgibn5pGbZl11N8vyEN8b4goN9cUndiP6b96oFV8BoibgS1we
+	 APfnDjqMNi0oU8B9mLXMRz/fzupHkUUjuOW9iKgMLWWSlMEt4Mb9dEtFh3lKgORe5GQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b="qZM4G/5F";
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=FcuRUPpw;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE7760A2600
-	for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 10:43:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDE7760A2600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D3060A2611
+	for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 10:43:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5D3060A2611
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=qZM4G/5F
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48b0584ad71so2205982f8f.0
-        for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 03:43:25 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=FcuRUPpw
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a1d75f2f11so21504575e9.3
+        for <linux-edac@vger.kernel.org>; Tue, 20 Oct 2026 03:43:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1792493004; x=1793097804; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1792493005; x=1793097805; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=W1YwD7IMkeAO6OcLReHpxRqQRfDPA/W1esQDN17JAFU=;
-        b=qZM4G/5FfFiYqI3Zl8+wv61PamEQz1bh9Tf1xQ4U8zlaurI/j97gARE8Sps/bNQYVz
-         8fY1XG8bA10fbmxbuqa6kBxbs4yUYGW4D6yHdEfkCA9fWRfe6MoZ2GjWpQwExsyFIttD
-         EU3gg4rmUDocEyfDc3KOlrs0FiPpElF8C4ySLSXjYRzJl2lxul+SnBcDNVl9sM+EXpDJ
-         YRnLqqMLQj3snHDy/IStiHag4S6g0Qw9ckgXgjgYe2mRdiC2Rsa+05S4K1mHeMMP4g5+
-         YAJR6lylWJURnDa5az7cKbppE/dkmPja9v4UDVXDn9lhOSUsppTcyrRftbRQevKkFO/Y
-         ow6g==
+        bh=clY0Exi/Fk2cbqeICRgpqzcE6k7M0cr1lXEHsMtE1Ok=;
+        b=FcuRUPpwx2+HLMhUTJDbV+mwJ67egmBifbmTT6KVKS/dVEC/yxvulpEIe3WyG7g5iy
+         Dtbio+pgy3tsg0gwQbxBez07+z645Ycoj2ySMABaujiG/kzCAME1WyLys/0Y+bWy3Dzt
+         v+tFMJwAhnKFFZxb6MTSzZPR7uj99YfV6u6vQLxqs62mU6alQyL4RlDJ/m69m0wkbbfr
+         dcq2ADQDR2mQ5Zm3KW0mW0AZFpKdOLjMvSFQ5SP3xuzB6jKzU5fQ2GZO+UBNGxSZTFy0
+         Mj/GnfT9oxWlhjTIng/6uyVMywryY0Sihw7Yq999fy/7FaQZ20XFchvrkcHoJHGAy237
+         8JTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792493004; x=1793097804;
+        d=1e100.net; s=20260707; t=1792493005; x=1793097805;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=W1YwD7IMkeAO6OcLReHpxRqQRfDPA/W1esQDN17JAFU=;
-        b=bMv0OjWj+83A0j8ZVDXD7fSjt+5S6xqzo2qINMhl4k+6bd8FsanQb4xH8FW1KjKi7G
-         rDX3ljk+1PE5ISkfjaiv2q5eOmLRqXxnzZ+tWKMWU0H+FdkI7wri/+KvBeFfV3hs3F8c
-         MXDN3eVcOf9cY52BYR7UDtqag0EKc2+do8+UAznx8uT1gAgbjOEIZUIt9yST4iMdBrTM
-         Lf8i60FtA33exGKiZb0cTAFfuhM4AFqkysNJvdniFjQLekKYxrJ64WPhaX4fOzh/xvXg
-         6mxrZZYXnR7T1b4R9GqLNkYmCHowGLkB+yn5EsXywUewSVHVOpo7P9rKzF4Ly2VbkE16
-         C2+g==
-X-Forwarded-Encrypted: i=1; AKwUvBznmBWRTlsZKdLIS3WKLqSr7D9U6A8SAVfX1pvfxbTS2QYWbVMCDtFXFTNIYF6lmPN7xFWHQFZn0HUh@vger.kernel.org
-X-Gm-Message-State: AFq9FYJi1l/jIGyRLGtVyg6y4n15Pcy83Tz+wItp5gWaWkcwYPut+T48
-	aUMPH8WnJSODwz8IEgXENFdhZFCfOhPscfGW/58XLMn3QMYgqPdJjQd0NgxL7go403Q=
-X-Gm-Gg: AYBFou3bQERYndg8jYrj3IEqWYQtsMcX8RnyTCUACx5LN+x3v2UJho5q1nqyht1Mmgc
-	XpmOfUAhw5WlLooY5OPCndkpT1Y1xUImIRCzTpWvzyYA3tUT8AGSba869FndXqAC7+CYu6b1Rpk
-	Or3nlCQY/yemAz8jJbb4/qRN9PsWldRCO7+oWWfQ1PYeYfb130am/rjlPfcxrmqffabDek6H3rF
-	gdBSB/poIZRgElCOIFo6jOttawdLZlf1gnoeFfGEpvS+fv01AzXQdLbz2srxiJA/GHl22GCV03o
-	/GhNBnC6mgNRd6Q2BIYNXXNoFrWlJPRGADncZvj6IPFwTzRg3jy4f7S3Jc3nYq+cLKLd7em5++0
-	pELs+qH/IXL2p6f5D9ezeMrrN7DeZjq1thrN4uED+89+GMY4xr3pM7TOE1vV+EM8drCJdNCu9lu
-	haubQ2CLu6XITRSyN4K0Tx0ruuqmOT5fSMafc4y9vp7b0Sa+NAY0jh1jijWmqi+pTOw90oPg==
-X-Received: by 2002:a05:600c:8b6f:b0:4a1:d307:d578 with SMTP id 5b1f17b1804b1-4a1d75e6d1amr197176025e9.11.1792493004251;
-        Tue, 20 Oct 2026 03:43:24 -0700 (PDT)
+        bh=clY0Exi/Fk2cbqeICRgpqzcE6k7M0cr1lXEHsMtE1Ok=;
+        b=U6YPQvLtdCeV4XKBtkojKwZk4VtyAQeMxTWG7WfNmv/SyZ5A6RGJb60FPweEXPhOzd
+         fjKTeo5IQCU1irqneIrGVuxj9T3flN/3qZie9XZbmXHsnB9tAapaa6lAV325GyVOEeD2
+         7eOVyEkYCDYTCjaxoY0Bz2F4zh0VI7RTzE7yy5X90nEv6UJc0nH3JRQVdoaUZYnttOJC
+         CQAUIWQwSLLr1yCIMggub6OaJY8XWx29vMVVq/FtOeKiZ6LsCq9rDERjHTIo6su+mF2s
+         5vTX6Y6QijaYT9sEpLuZHSn/Y3Nm8R/gjJRroAHwmISF5aFjjJWk5/RrpDb2R4S9z5uN
+         Lo4A==
+X-Forwarded-Encrypted: i=1; AKwUvBwTF9sVFwOdBnmL0JzgG9hK9HRvYe3Qe+fAYE1lyKnJUdmFMOJvV3Folem3sBdh+CARjDipC2NgMzkq@vger.kernel.org
+X-Gm-Message-State: AFq9FYK9SYde5rtU3viKKVJXeuXgUv6ZEJs0gGgncmqhfWotLLQs3Djo
+	/K+5MFWMNakBQl3hiLZ1D9Gg1Pg/eriOQmjWsjqiPseN+NQCDXldyfwv7CkwKXvxt5k=
+X-Gm-Gg: AYBFou2NgoTHajUvTgHUc6Eec+o72r3GtKG3kconDTOhMoAdg6rzRid1wWHexzG62C1
+	tG7XCeII94aqb+Wh8f76e6r+YFueqQiAs7kntYGOXtOcvk9889BSoOQmIFPfvTuJC4vBA2CXXyj
+	trmPztyGZxnIlHsq5c06MlgAY2JnL2pPUylHADk5HYC7Oyao6KdPIK6q5GjrLJoQQrtZQRYIWsN
+	OdLH7kwP7IJQChN9kMC59HJgh9Hje7pHxN8N+2g9jn0jgMB0RP7OF5mzVesbyG6s4fJOdS7X32q
+	yJRIXjFP4q3PhcNXolmOobnz9yUYl3b+wnTgBYx3Nt2u9DkHMGH1bbq3enL3DQKey5n3S1KxD5x
+	0gA/eFUNS0kULFgZqEBZpZgH/TPI8h1bV2MgQqRvCyDC8WZ4DXG3HQwl952qVIZOeq7rSEna3Hv
+	q8qsLfUezcmHHXu8I3fx9LEqzrl6lDmgiY+TgEMCQB2lO48cg1ZrEtbU6RoX/U9XV+cbH1KA==
+X-Received: by 2002:a05:600c:3513:b0:4a1:a39b:e75b with SMTP id 5b1f17b1804b1-4a1d7607560mr224796055e9.21.1792493005376;
+        Tue, 20 Oct 2026 03:43:25 -0700 (PDT)
 Received: from draig.lan ([185.124.0.158])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2c9e9c3sm56999645e9.3.2026.10.20.03.43.21
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2cc809csm64722745e9.8.2026.10.20.03.43.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 03:43:21 -0700 (PDT)
+        Tue, 20 Oct 2026 03:43:24 -0700 (PDT)
 Received: from draig.lan (localhost [IPv6:::1])
-	by draig.lan (Postfix) with ESMTP id B08A65FA43;
+	by draig.lan (Postfix) with ESMTP id EA3605FAB3;
 	Tue, 20 Oct 2026 11:43:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -125,9 +125,9 @@ Cc: Bibo Mao <maobibo@loongson.cn>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	qemu-riscv@nongnu.org,
 	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 04/23] target/riscv: wire up empty KVMAccelCPUClass
-Date: Tue, 20 Oct 2026 11:42:58 +0100
-Message-ID: <20261020104320.3686723-5-alex.bennee@linaro.org>
+Subject: [PATCH 06/23] target/s390x: wire up empty KVMAccelCPUClass
+Date: Tue, 20 Oct 2026 11:43:00 +0100
+Message-ID: <20261020104320.3686723-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261020104320.3686723-1-alex.bennee@linaro.org>
 References: <20261020104320.3686723-1-alex.bennee@linaro.org>
@@ -147,46 +147,49 @@ We will fill in the functions in future commits.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/riscv/kvm/kvm-cpu.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ target/s390x/kvm/kvm.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/target/riscv/kvm/kvm-cpu.c b/target/riscv/kvm/kvm-cpu.c
-index 45ad5e1525a..b3fa0548c8a 100644
---- a/target/riscv/kvm/kvm-cpu.c
-+++ b/target/riscv/kvm/kvm-cpu.c
-@@ -33,6 +33,7 @@
- #include "cpu.h"
- #include "trace.h"
- #include "accel/accel-cpu-target.h"
+diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+index dc67e848864..69e49b7d151 100644
+--- a/target/s390x/kvm/kvm.c
++++ b/target/s390x/kvm/kvm.c
+@@ -52,6 +52,8 @@
+ #include "hw/s390x/s390-virtio-ccw.h"
+ #include "hw/s390x/s390-hypercall.h"
+ #include "target/s390x/kvm/pv.h"
++#include "accel/accel-cpu-target.h"
 +#include "accel/kvm/cpu-ops.h"
- #include "hw/pci/pci.h"
- #include "exec/memattrs.h"
- #include "system/address-spaces.h"
-@@ -2195,18 +2196,23 @@ void riscv_kvm_cpu_finalize_features(RISCVCPU *cpu, Error **errp)
-     kvm_riscv_destroy_scratch_vcpu(&kvmcpu);
- }
+ #include CONFIG_DEVICES
  
-+static const KVMCPUOps riscv_kvm_cpu_ops = {
+ #define kvm_vm_check_mem_attr(s, attr) \
+@@ -2655,3 +2657,26 @@ int kvm_s390_topology_set_mtcr(uint64_t attr)
+ void kvm_arch_accel_class_init(ObjectClass *oc)
+ {
+ }
++
++static const KVMCPUOps s390x_kvm_cpu_ops = {
 +};
 +
- static void kvm_cpu_accel_class_init(ObjectClass *oc, const void *data)
- {
-     AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
++static void kvm_cpu_accel_class_init(ObjectClass *oc, const void *data)
++{
 +    KVMAccelCPUClass *kacc = KVM_ACCEL_CPU_CLASS(oc);
- 
-     acc->cpu_instance_init = kvm_cpu_instance_init;
-     acc->cpu_target_realize = kvm_cpu_realize;
-+    kacc->cpu_ops = &riscv_kvm_cpu_ops;
- }
- 
- static const TypeInfo kvm_cpu_accel_type_info = {
-     .name = ACCEL_CPU_NAME("kvm"),
- 
--    .parent = TYPE_ACCEL_CPU,
++
++    kacc->cpu_ops = &s390x_kvm_cpu_ops;
++}
++
++static const TypeInfo kvm_cpu_accel_type_info = {
++    .name = ACCEL_CPU_NAME("kvm"),
 +    .parent = TYPE_KVM_ACCEL_CPU,
-     .class_init = kvm_cpu_accel_class_init,
-     .abstract = true,
- };
++    .class_init = kvm_cpu_accel_class_init,
++    .abstract = true,
++};
++
++static void kvm_cpu_accel_register_types(void)
++{
++    type_register_static(&kvm_cpu_accel_type_info);
++}
++type_init(kvm_cpu_accel_register_types);
 -- 
 2.47.3
 
