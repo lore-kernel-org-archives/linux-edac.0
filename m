@@ -1,57 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792679852;
-	b=LbDaLXV3H2x2V/ZNIWmP14zxDIfy7m3ZWoY/YuyEyL7yXUT2CrxXSKlTuf2jtEJ3VosY
-	 VrlSpq7pYPF0kIgtadzr8s+HgkWKNe8YndO7x0WdDyR0VExK0Cp3Wal7t0kmODAoUyjOw
-	 8rljHhoDGe9Uk42mW4lfhqRF312y7LGzmJuJfLmQm0t3CkEhvRwwOoZn3H7oq2AEgdZfz
-	 GJwAgIMH+zQz0wa/EN4LuQzgvrhiIQ/LsvtZr8FvfQo90ZtsOhXsODE1H8AuezJ1IcCDr
-	 umQl+xOspSlL2LQz1jQ+uVI+gQQeRWu/ISgTKBvwDm7BE41WClfnOgx/C20qwnUTGgg==
+	t=1792696128;
+	b=gAzRer2o9KVM4g1EJva8LYbF8nb3swrS8jCISQZgh528O7yT6IeCSz+70krq+pPTM7uB
+	 zuCzaJ8o2e7n1+qrAzDWtY2FDsW7Cudecg7iG4FlXXonNoLuUNurtGJqM0Qd0cHfjOY0u
+	 H38XL0IGNgN9JYc/952KWngEi6NAVeT+tiONXtGN6zRGJ7bxQgstEDzCxCzecMZjV5pvx
+	 DCm2ZZ5gXKaTpSjI92HHcfe0ljVUFic/PWEQyS16fT2VnT/SvSMh7r/bEFevxGOPSbxDY
+	 jqardBHUffGwlJlgOt56iYyqplkZpjR2XsoYKnl5232zoG+IcWi+hifglf+KH7oKmAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792679852;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=wtteTU/FEEjNn69nM9CCNjF8Rj/1ujGjiCLiAnepc0E=;
-	b=2SiGJ+1AGe4RuCJpsAXJ4IMQfo3yU4VlqcbsTiVMhyeDH9l3irhjBIY8rAZj3KrkIcdb
-	 BGamlLGfwUW0iW0QudoWaH2tqwrk4bSZwYnAgk8ti9twzdUyqa9Tnrrtsv+l640t51/Lk
-	 GroGf54iBKeIcIfvl0fiQw/mQGRjlFeA348jfA/pdIvhmeRy1TPJNttz853U5p/mip4oH
-	 h4klko+iI9+3YJRGduAfQ46E/K5hj8vMrhOG4ypKlzn9BenNstUDQCLAmLIFjTIlyXdVg
-	 6yNKGeBQPCVXJ3QtiNpuuqEadXwj33bqAY7HeNKDyFaYgXK+4OV0W0lUgUBTPst55Fw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792696128;
+	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=d+IRbs3FeqA37fXeROEiKyHno8d9zy8yIxQWW2C+tuY=;
+	b=JmIKmJR8KnyC42JPEbfmLU7Snkmx4rtboSa3rbx4JcWk5Y7iRKO6h2hb/yZMkwNAceCv
+	 /98+11dRCBLrf6jXRDtmG2ZYpsJFtjnF0tmYwyGUZc7TNKi2hQ78wD0pos3C+o1n9ChsI
+	 TnoqFHsbPhXeDCeuhfHjbkIl0iizPsid76uZQEIH9RRNXAK+WAQg3hwQ83d/Oj8T93Z91
+	 vUeFx1u9EHnoR299j7Vh/JP5oplz+js4emsd9KdJRFzv0hG7JQFhn0T+bRQc+LAUJyOnh
+	 3CdcyeYgyLZZTAMqBJ1IrM6qsWShh7yznkjeCg+Bs4BQXLjqo9sfQ+RiPrRaNvzRzQQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IlkbcnKb;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=alien8.de;
+	spf=pass smtp.mailfrom=alien8.de;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=hMx3kx2u;
+	arc=none smtp.remote-ip=65.109.113.108
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DECD606A319;
-	Thu, 22 Oct 2026 14:37:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163DB606A31A;
+	Thu, 22 Oct 2026 19:08:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 163DB606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IlkbcnKb
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB16A1F000C1;
-	Thu, 22 Oct 2026 14:37:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792679851;
-	bh=wtteTU/FEEjNn69nM9CCNjF8Rj/1ujGjiCLiAnepc0E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IlkbcnKbK0eBCdyQ3kaluKcD0zoRw33EeYnWrhPm6KN+VYrGfkO6mkt4J+9wPvaVV
-	 pl2a/L2d0sFfdUNgGVed8CrsvU5KxkBIBjFt2JgG1s+ogVbr3pXDhKCrwpcN9AGkBa
-	 6lim+1tg+V0WIJPXN3mzRxP6REguI08LJCicTiw20zlBg35gjMSLv3eiNdrDeX5SPC
-	 z0IPcLaRxcVryABuJpEcvUR39NvOBRUd2yVRKat0c7PDXVHGxJapX/eiObrpprbq0i
-	 E/CKrJlDsKUmTWrL3YB1wu8VhcOM6vpg+WhaULR5pKjNrRRaRFcu79BR/AmuFW0pgX
-	 QWJOhFJUGRg4Q==
-Date: Thu, 22 Oct 2026 09:37:30 -0500
-From: Rob Herring <robh@kernel.org>
-To: Rama devi Veggalam <rama.devi.veggalam@amd.com>
-Cc: bp@alien8.de, tony.luck@intel.com, michal.simek@amd.com,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-	devicetree@vger.kernel.org, james.morse@arm.com, mchehab@kernel.org,
-	rric@kernel.org, git@amd.com
-Subject: Re: [PATCH v4 1/3] dt-bindings: edac: xlnx,versal-ddrmc: Add
- xlnx,versal-xilsem compatible
-Message-ID: <20261022143730.GA1287910-robh@kernel.org>
-References: <1792587442-2794880-1-git-send-email-rama.devi.veggalam@amd.com>
- <1792587442-2794880-2-git-send-email-rama.devi.veggalam@amd.com>
+	dkim=pass (4096-bit key, unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=hMx3kx2u
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2540740E016C;
+	Thu, 22 Oct 2026 19:08:43 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id QVTxtbd_px1P; Thu, 22 Oct 2026 19:08:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1792696120; bh=d+IRbs3FeqA37fXeROEiKyHno8d9zy8yIxQWW2C+tuY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hMx3kx2u5Yv12yYwRnZIj8ko41SrEY0/Bo24yD1IkaXB3w0Cduv/+/mZALYiTB1c7
+	 ljjfmrxGeDxztfA7wvUouPo7jX29EoogFB3E4lCS4jQ8D52zyU62aHlDAlJAs1GO5X
+	 Gqyg+Csp7RMyGnOeVI1L0OJodlzLQ52GA0ajToo8k+DBUjpRRzVsi3eMUWjfAQxNwp
+	 3LmFfL6H1eDU1EDO9Ixj6jX0p1x/ThQfPKXHEpNgFUAS7Qn20cMOD715Lbw3XO79FH
+	 adaQ3dlCrkNZu+IcSTHZW849r7wmXSICNIF2yl9TYCzQTodWgcYqKuJBX9Da/xeyt9
+	 DzDAvwtI6/PwCNVaCM4TMMWNNt5jvXQ0yt4AUTbQ+NEeWMwAO8+k9Vx8kguPHk58m0
+	 FFlWKMwpgsJQ6J97aAdrFKQcAN0N9Fe5Dbpf1LWhd1gGcpBbP0SreR2Nqj9i/SDHcO
+	 vsl9S1wNoXpSLNG8/60rkaFfEQRl6oPrWD2YwB/c4H0lX77G2c6dNVEqTMmS1sirxw
+	 y0QmbcRQjNu3D+20Vx9kkvi43ZRkuM08HJvV4Hs5BqhipIVG6y+Z2+nuBkCWqZUxzl
+	 Ukr+sL/72S9yWdkXaQBA3XEatB4/zUgEqiORrYh0k+vVOYPPG6qhkuxpYgRIrtxFts
+	 3ZcV3/WTjJYy2zQ0cM0Xzm+Q=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5237B40E029E;
+	Thu, 22 Oct 2026 19:08:24 +0000 (UTC)
+Date: Thu, 22 Oct 2026 12:08:21 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Ryan Chen <ryan_chen@aspeedtech.com>
+Cc: Stefan Schaeckeler <sschaeck@cisco.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Tony Luck <tony.luck@intel.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	Borislav Petkov <bp@suse.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v5 0/9] Add Aspeed AST2700 SDRAM EDAC support
+Message-ID: <20261022190821.GAatpfJYsT2fqKhk3T@fat_crate.local>
+References: <20261007-edac-v5-0-5c31fc5df4cf@aspeedtech.com>
+ <TY2PPF5CB9A1BE6C09C55652B1A6AA68725F2652@TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -61,130 +90,52 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1792587442-2794880-2-git-send-email-rama.devi.veggalam@amd.com>
+In-Reply-To: <TY2PPF5CB9A1BE6C09C55652B1A6AA68725F2652@TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com>
 
-On Wed, Oct 21, 2026 at 06:27:20PM +0530, Rama devi Veggalam wrote:
-> Add the "xlnx,versal-xilsem" compatible string for the Versal
-> XilSEM (Xilinx Soft Error Mitigation) hardware block.
-> 
-> XilSEM runs as part of the Platform Loader and Manager (PLM) on the
-> PMC and detects (and optionally corrects) soft errors in Versal
-> Configuration Memory, notifying error events to user applications.
-> 
-> The new compatible string only needs a single register region and
-> does not use reg-names or interrupts, so the schema gates these
-> requirements per compatible string.
-> 
-> Signed-off-by: Rama devi Veggalam <rama.devi.veggalam@amd.com>
-> ---
-> Changes in v4:
-> - Added a new "xlnx,versal-xilsem" compatible string to the existing
->   xlnx,versal-ddrmc-edac.yaml binding, gated via allOf/if-then so
->   DDRMC and XilSEM requirements (reg, reg-names, interrupts) are
->   validated independently per compatible string.
-> 
-> Changes in v3:
-> - Merged XilSEM edac with Versal Edac
-> 
-> Changes in v2:
-> - Changed "xlnx,versal-xilsem-edac" to constant
-> - Removed "compatible: in required section
-> - Removed "|" in description
-> - Removed "items" in compatible
-> - Fixed indentation in examples
-> - Updated title and description
-> ---
->  .../memory-controllers/xlnx,versal-ddrmc-edac.yaml | 64 +++++++++++++++++++---
->  1 file changed, 57 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/memory-controllers/xlnx,versal-ddrmc-edac.yaml b/Documentation/devicetree/bindings/memory-controllers/xlnx,versal-ddrmc-edac.yaml
-> index 12f8e9f..b5dc320 100644
-> --- a/Documentation/devicetree/bindings/memory-controllers/xlnx,versal-ddrmc-edac.yaml
-> +++ b/Documentation/devicetree/bindings/memory-controllers/xlnx,versal-ddrmc-edac.yaml
-> @@ -4,25 +4,35 @@
->  $id: http://devicetree.org/schemas/memory-controllers/xlnx,versal-ddrmc-edac.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: Xilinx Versal DDRMC (Integrated DDR Memory Controller)
-> +title: Xilinx Versal DDRMC (Integrated DDR Memory Controller) and XilSEM EDAC
->  
->  maintainers:
->    - Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
->    - Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>
-> +  - Rama Devi Veggalam <rama.devi.veggalam@amd.com>
->  
->  description:
->    The integrated DDR Memory Controllers (DDRMCs) support both DDR4 and LPDDR4/
->    4X memory interfaces. Versal DDR memory controller has an optional ECC support
->    which correct single bit ECC errors and detect double bit ECC errors.
->  
-> +  Xilinx Versal Soft Error Mitigation (XilSEM) is part of the Platform Loader
-> +  and Manager (PLM) which is loaded into and runs on the Platform Management
-> +  Controller (PMC). XilSEM is responsible for detecting and optionally
-> +  correcting soft errors in Configuration Memory of Versal. Whenever an error
-> +  is detected, be it correctable or uncorrectable, XilSEM notifies the errors
-> +  to user applications via the firmware's event notification interface,
-> +  rather than a devicetree-described interrupt.
-> +
->  properties:
->    compatible:
-> -    const: xlnx,versal-ddrmc
-> +    enum:
-> +      - xlnx,versal-ddrmc
-> +      - xlnx,versal-xilsem
->  
->    reg:
-> -    items:
-> -      - description: DDR Memory Controller registers
-> -      - description: NOC registers corresponding to DDR Memory Controller
-> +    minItems: 1
-> +    maxItems: 2
->  
->    reg-names:
->      items:
-> @@ -35,8 +45,39 @@ properties:
->  required:
->    - compatible
->    - reg
-> -  - reg-names
-> -  - interrupts
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: xlnx,versal-ddrmc
-> +    then:
-> +      properties:
-> +        reg:
-> +          items:
-> +            - description: DDR Memory Controller registers
-> +            - description: NOC registers corresponding to DDR Memory Controller
-> +        reg-names:
-> +          items:
-> +            - const: base
-> +            - const: noc
-> +      required:
-> +        - reg-names
-> +        - interrupts
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: xlnx,versal-xilsem
-> +    then:
-> +      properties:
-> +        reg:
-> +          items:
-> +            - description: XilSEM (Soft Error Mitigation) register region
-> +        reg-names: false
-> +        interrupts: false
+On Thu, Oct 22, 2026 at 09:52:36AM +0000, Ryan Chen wrote:
+> Hello Boris,
+> 	Just a gentle ping on this series.
+> 	Any feedback would be appreciated.
+> 	Please let me know if there is anything I should address or revise.
 
-These 2 devices have absolutely 0 properties in common. It makes no 
-sense to share a binding doc.
+Lemme give you the spiel since you're new :)
 
-Rob
+From: Documentation/process/maintainer-tip.rst
+
+Merge window
+^^^^^^^^^^^^
+
+Please do not expect large patch series to be handled during the merge
+window or even during the week before.  Such patches should be submitted in
+mergeable state *at* *least* a week before the merge window opens.
+Exceptions are made for bug fixes and *sometimes* for small standalone
+drivers for new hardware or minimally invasive patches for hardware
+enablement.
+
+During the merge window, the maintainers instead focus on following the
+upstream changes, fixing merge window fallout, collecting bug fixes, and
+allowing themselves a breath. Please respect that.
+
+The release candidate -rc1 is the starting point for new patches to be
+applied which are targeted for the next merge window.
+
+---
+
+While you're waiting, you could read
+
+https://docs.kernel.org/process/submitting-patches.html
+https://docs.kernel.org/process/development-process.html
+
+and you could even help out and review some patches yourself. That would be
+the most awesome help you could give to folks, and it would be very much
+appreciated by maintainers who are drowning in patches.
+
+Thanks.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
