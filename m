@@ -1,154 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=2 smtp.remote-ip=52.101.69.66
-ARC-Seal: i=3; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792652888;
-	b=GLK6KyKb5IHlHI0pcwG9nGlJRnzJ8kyrXjcQbA/b4XCGtv1N421Y2yx8imB5k3F9I9re
-	 PgxsEXrzQnDqKYW5b3dvQBxW5a3muZIA894b5FsEYi6pGv7WTDJTIlXkfPRKBPwoUeMp1
-	 pR/y+ROqSvm4R+wo/vKUlbYFNwVFt3H/ohYI7amNy7NdIqn60dkBRSU5Q7cOOXbxCPWl5
-	 Z0bn4W0bAMqNX/w5tPegKMfWtCoF45kYUwXSPr8wz2dFSMPZVgBc2xDm0rlhtZKVQWvcn
-	 aMIE1jPiggO/E3LcvoCn22ptmSYtDR+ZOVGG3NkDAMRAQHE0osQpjLInsGAU3zOCHjw==
-ARC-Message-Signature: i=3; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792652888;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:
-	 DKIM-Signature:Authentication-Results-Original:Received:Received:
-	 Message-ID:Date:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-ClientProxiedBy:MIME-Version:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
-	 x-checkrecipientrouted:NoDisclaimer:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam-Untrusted:
-	 X-Microsoft-Antispam-Message-Info-Original:
-	 X-Forefront-Antispam-Report-Untrusted:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-EOPAttributedMessage:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStripped:
-	 X-MS-PublicTrafficType:X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=B7wd/Gi2j/nfsCtmMPCLQuvF3H358IuX30uGA0uWjHk=;
-	b=RiSOHA7/rDXNrzeXweVtpAQsHfQL+N1pNajlpQFrHlk+JNc4M4+zJsBKcJczqkw+NO02
-	 piQfrYCori5N85AhyBJOAF1ib38o/GhUw87nAwy4xlqvz2KUcGw2KcWJT6NJfQtB4nyxV
-	 RCV03uDh/cIy9082PuayZbA6gqScdRe7Zc42KBurE/1jLzvC1lbaGBj2uSOizL5tQf0sQ
-	 Z1Wtn1epSQusLwOZq/QZGivqlJovxbD3ayM6zNJrc1ALEy88Yk2Y1sMCMPOVA7GUg9bjt
-	 aiRg5fUJYK7Z8/1p9XGEje6vjfoM2jd1WnYINzKi5mWWCnLd685Z+aoEmtN/MOiQ1Bw==
-ARC-Authentication-Results: i=3; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b="fH2u/URs";
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b="fH2u/URs";
-	arc=pass header.oldest-pass=2 smtp.remote-ip=52.101.69.66
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010066.outbound.protection.outlook.com [52.101.69.66])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.147
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792654959;
+	b=MZqo8wIcIcs+Y947csNd0fQ/NVnQkvhBfKzV1hxAT0Ib03P8YE8MyZPerwlv/Hp37TId
+	 cF88+Zp75EhJv8EaYgU2Lc492qaS7SO5NKZROguZS8yhPvjhhEx82S9qVukFytvWSIr0o
+	 nx3olJ2Qi6S1ZiTcZEiossWhppduhlOcbLeC2ONlpXDNZm/zF1DWoADA/Z6J99hmi5+Gt
+	 hszzl2hEPgmqEOaWPF4b45jpwTLURRNP8wTjYPKL9h8mulHsvbqKjj9B0MqLwfxlt36+m
+	 YW8OhsbMzi6CSs+4L8JkGNLNBNmuCxn850OwHoo6ChpoNSqWkrMFI68ESo8zYRMztSg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792654959;
+	h=DMARC-Filter:X-Alimail-AntiSpam:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=obScU5I5RUu3uwnFxTTtkM5jVp7zoFKkL/1RNZMqQ/U=;
+	b=pH/Wq1kwmPGSECN55drBbUAvr8HQoOAeq36dQKHB3RZE4rCzPiDCrH9ZrjIlUhyDcLea
+	 +Se4uK4cP6c9HTJnsxkgD9BvRoOaaCgHFSXvSD26d3cUXHf4bg8w/1dWbMTbTQlb+bNkw
+	 MxzUFh+kADeGXFCvu3yBNK4NR/HYfmmkdtk8r/QLf7+gAsCZYhYuB1OcdpP7x8GUUN5Tx
+	 2Bm30TA0y4rihbgAdZeyDaYvXQ496k6nj0A01Ajglkt+mj7CePChyMYPtyumOghAoXGV4
+	 Mm7/Ievurn1DIxb+1r0UrhgTpfBi5dN1JITk8tO7SoupdbX45G1mCNuWN8B0rrP2pWw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=open-hieco.net;
+	spf=pass smtp.mailfrom=open-hieco.net;
+	arc=none smtp.remote-ip=115.124.28.147
+Received: from out28-147.mail.aliyun.com (out28-147.mail.aliyun.com [115.124.28.147])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CDB2606A319;
-	Thu, 22 Oct 2026 07:08:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CDB2606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=fH2u/URs;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=fH2u/URs
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=UwLbD3V1bFyRZhHIMFI95mrUNzW89uPSpIf0qP/E4BVk+DUQbE9QuHdrtj9e2prNRid6gkTixGw6OJ4KtcTQbvxPoJv5RHp1DndSCIPMO7MeRaSgsfxZTxQ5kqmomiMzgas7Mxiriw5L1zbEeuKeu+JcLnvlMCVFXKolPPxrZbh/ot2VzaF468nlF49Tz5secqcyS7otjMRQlecXuLel2a7HYE45jTm+FUfiIIhzpQTSomA9SiFqgxI721XYmQ4qNvkPfLTAThkAlYpg7Szt3zZ3wrUaelZ/goU6doGAXmAYEZnYvxzXCxvKzBU+qLpYWxHsDash1fNwK4/wR5hHNQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B7wd/Gi2j/nfsCtmMPCLQuvF3H358IuX30uGA0uWjHk=;
- b=M8clJCdJbK0Z+VZOHHr42mnvLNUZz9W0lETZfEsy5Q4yGJvmudF/CiK3527PfbL6qf+CSLQzKK2g0FdSMD7BPmE+To4WZeG0mPyOw7rLIoHeTFpm8ArmWUlf/Sa504UtG0smwG/dzRHTC8dPOLfYEKVimOxnRnSuvFAsUQVkaWXlj295PnUXQ2Ps+w816mcfErYGOtuDmp1A/sjhDpYpc8Vi2k/S5rv1lVIi0BG0su0K3oI/znte3eHx2WprmWUNReNxzKVAe/aJ3B9VRxebN0asPbuwbRih9cxrL4i4e5MaUlInaElV/aekU5QGlg0N9T/OfJ6+cTMB6z8ukllDQQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=oss.qualcomm.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B7wd/Gi2j/nfsCtmMPCLQuvF3H358IuX30uGA0uWjHk=;
- b=fH2u/URsZ/84JSziAST6bc+SV91ID4vOCXv0MVz+Vm78d62Uw9gjXKrF33IBXP7qOV7jL5Blc2M9JQQYDeWEw3Rj0v/hXn0OtLgbqeMdsuLXUPvNTGgeGT90hXyMIFss4iuQarapUY0NlTLi+XviNz0wY22Uv8I9HvUbGQFd7/I=
-Received: from PR3P195CA0005.EURP195.PROD.OUTLOOK.COM (2603:10a6:102:b6::10)
- by AS8PR08MB6373.eurprd08.prod.outlook.com (2603:10a6:20b:33a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Thu, 22 Oct
- 2026 07:08:02 +0000
-Received: from MAD0EPF000008AB.eurprd04.prod.outlook.com
- (2603:10a6:102:b6:cafe::4e) by PR3P195CA0005.outlook.office365.com
- (2603:10a6:102:b6::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.546.16 via Frontend Transport; Thu,
- 22 Oct 2026 07:08:01 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- MAD0EPF000008AB.mail.protection.outlook.com (10.167.241.183) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.546.15
- via Frontend Transport; Thu, 22 Oct 2026 07:08:01 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QOIti4oi1u8IpW42j2r3ZOj+aVkgEn7E4ouPllAeBl0sLAJIUYVPrm2Zjtxoglt7NzIToasc0C0qppE6uaVRzLOfdcu2SqPqNEZ1bxXttO+D2W0pObTZ/sKLYVEi0PdqNszrq8Y4AquiqO8LoGJkkATvyTkY9iPe3o0ZR48XyR0Cg9QtUj2jSPEJvhEFs+w6j1TTX+Ck894drmYf5SDXLsQxStddfrd4qM5CS7deGCQS0LfBnEz/6R96q9kiYLumtoIrEho0JynsET/5pJmGGuh39m+5FREINTJR5qEPHUQPc3D0gmGygInDzfbvABHod+CZhPsmNrLVXg70xUR5RQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B7wd/Gi2j/nfsCtmMPCLQuvF3H358IuX30uGA0uWjHk=;
- b=yfQkH3/vxXMdPpjrXhDOkO7N86Gdnr19H2U86qWfVXG2s6UxD+NdPQGiyQ4AXoLRLBPzAoYRek66ACWIhMZTxYtTNtSsbKT/TMvXSP1/qAx6G+Rr3BdHg0QlTcXtbJ9rabXLiRzVBJnoAQi4zZrtUXKqhYtcBtdxP6z6zNC5wjF/qkCtQj/x+MtMf9TslBi5hOLt/Hxm7g5ZPk6tNonADqIenM5iewkxgYp52VsRl3TFA4P/wCcZQA18x4npIBeUHnCCvFaE2cuQIo2h9y5gd3euIMMd0orb3tu6jerUOUkVPtdCrxJDAu/oGVwMzoo0yYfzVd2L1RRxgsEXeJHeNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B7wd/Gi2j/nfsCtmMPCLQuvF3H358IuX30uGA0uWjHk=;
- b=fH2u/URsZ/84JSziAST6bc+SV91ID4vOCXv0MVz+Vm78d62Uw9gjXKrF33IBXP7qOV7jL5Blc2M9JQQYDeWEw3Rj0v/hXn0OtLgbqeMdsuLXUPvNTGgeGT90hXyMIFss4iuQarapUY0NlTLi+XviNz0wY22Uv8I9HvUbGQFd7/I=
-Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
- signed) header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from BESPR08MB999898.eurprd08.prod.outlook.com
- (2603:10a6:b10:109::23) by DU0PR08MB8164.eurprd08.prod.outlook.com
- (2603:10a6:10:3ef::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Thu, 22 Oct
- 2026 07:07:27 +0000
-Received: from BESPR08MB999898.eurprd08.prod.outlook.com
- ([fe80::d62a:5300:bc89:9f62]) by BESPR08MB999898.eurprd08.prod.outlook.com
- ([fe80::d62a:5300:bc89:9f62%6]) with mapi id 15.21.0546.012; Thu, 22 Oct 2026
- 07:07:27 +0000
-Message-ID: <0817615d-5e96-4a3a-b39e-3e5d1b88e716@arm.com>
-Date: Thu, 22 Oct 2026 09:07:25 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/6] CPER: Add Memory Error Section 2 support
-To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Cc: linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
- Mark Brown <broonie@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Len Brown <lenb@kernel.org>, Tony Luck <tony.luck@intel.com>,
- Borislav Petkov <bp@alien8.de>, Hanjun Guo <guohanjun@huawei.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Shuai Xue <xueshuai@linux.alibaba.com>,
- Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
- Pawel Chmielewski <pawel.chmielewski@intel.com>,
- Dave Jiang <dave.jiang@intel.com>,
- "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
- Breno Leitao <leitao@debian.org>, Dan Williams <djbw@kernel.org>,
- Terry Bowman <terry.bowman@amd.com>, Ard Biesheuvel <ardb@kernel.org>,
- Morduan Zang <zhangdandan@uniontech.com>, linux-acpi@vger.kernel.org,
- linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev
-References: <20261019203915.2019037-1-pierre.gondois@arm.com>
- <20261020101048.00000186@oss.qualcomm.com>
-Content-Language: en-US
-From: Pierre Gondois <pierre.gondois@arm.com>
-In-Reply-To: <20261020101048.00000186@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PA7P264CA0277.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:373::9) To BESPR08MB999898.eurprd08.prod.outlook.com
- (2603:10a6:b10:109::23)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D512C606A323;
+	Thu, 22 Oct 2026 07:42:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D512C606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07436259|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.0158118-0.000374529-0.983814;FP=14063471130722452730|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033071099199;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.jn83zWs_1792654946;
+Received: from localhost.localdomain(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.jn83zWs_1792654946 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Thu, 22 Oct 2026 15:42:27 +0800
+From: Lin Wang <wanglin@open-hieco.net>
+To: Borislav Petkov <bp@alien8.de>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Cc: Pu Wen <puwen@hygon.cn>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	x86@kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v8 1/7] x86/hygon: Add Family 0x18 DF node enumeration
+Date: Thu, 22 Oct 2026 15:42:11 +0800
+Message-ID: <20261022074218.667049-2-wanglin@open-hieco.net>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261022074218.667049-1-wanglin@open-hieco.net>
+References: <20261022074218.667049-1-wanglin@open-hieco.net>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -158,88 +64,730 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	BESPR08MB999898:EE_|DU0PR08MB8164:EE_|MAD0EPF000008AB:EE_|AS8PR08MB6373:EE_
-X-MS-Office365-Filtering-Correlation-Id: c8215d87-53ca-497e-ed5b-08df300b35ba
-X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|366016|1800799024|23010399003|7416014|376014|18002099003|22082099003|10067099003|261021121427099003|4143699003|261009223027099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info-Original:
- KwFu6HJcceQp9V47iprTbKDIYJFr/Cg2T2d/5q3JRZlNLR4N1mcYS1+mOv4bjaf1aS1n5P2dXTZ5Out5CS+5nNJp92DPo886bmtFkHzJzye12RhZtq55eRvtpyh7W8PRvL0IVWYnrCGJHxjeHMxsAWk4VkVsAqfzyjbBk6AJ7wPrMIBTY+mqaPPHmb4q3A8eTN49Lymf9eiYTcpQGtw067Qk1S4dCbIDtyHN58cMh1Sk4/djSH0lEg9SpecjeR8Fe6AA3Ofk9vGpaEbaC2iYq5mlHOuIYClMRDX12IDsM65FkirFLpJyTOsJUy0IkGO7qKZCcz3Mo8pSrGm8fh4MQxMdW86dUJeqa/HimYg3HE5HLUTQhFJIQngkeBc+sndMB0jNizeJowMKGF7Z/Otvua4ETxxUU8xS34L0KEUELMKI6FDR+pUmhz2JNJF1eSq2cr8t01j5FJYNzsPtPoy7c/VoYKJDCB8fMfo9qt43O49uC4Vho5H3Cfv/UKVwD2iUWzjBWhTgy5guMHcPOW5V2gTScwgELDHQe9OfZ8EPKFPGpmUv+4PioKakg06T2thP6WvqfIDlHETIHHgK39INmILmoVSFIKEfLc5Kcs8adtvHmrZKtJ5s1BnD59SL+XLeWy073jNVScPEKWyR9bkcwjZE6W8TjPG71Rtj8Odu2+c=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BESPR08MB999898.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(7416014)(376014)(18002099003)(22082099003)(10067099003)(261021121427099003)(4143699003)(261009223027099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- NsjEppnfwzAFMVm2QfutG+Iu8GX/syjNA6OXab/gEfXqE/l4a7zdsO1troNwaERbdf4Jo+iaX8omjf4OJR90+H/fddiAWMN8wRoLIRD1+opNyZI+Y/R8Ns9IjcOwTBSvM7YIv3LvAgdLss6MlE8lEa15Wmps6S+9BC3IU5dNw0SnbatZGCT28Ix34qw4lfhA68kAHWCQv82YPKEpUte+9nJdkSlSBhpfl2DDC1NsPUd+iBsm62tHBXtQMfww+XXuGnGgWFHAGqnp+ciyx3GEvFquieMI4tDkK/2Qt+kgntCeYIhq7JegQLEw4b+S18jfLyoIYOnBmkEMhfKXHqs7Yg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8164
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- MAD0EPF000008AB.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	ada6b0e5-c43a-4dbc-1d18-08df300b2104
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|14060799003|35042699022|36860700016|82310400026|23010399003|56012099006|4143699003|11063799006|261009223027099003|10067099003|18002099003|22082099003|261021121427099003;
-X-Microsoft-Antispam-Message-Info:
-	awm7nhIa1W28/wHBR1R3y0Cn7pdNOTCy89Qk+Xs57TJ7hbbGu3Ms6vHIQYikWWqr+d6ZB1z/skCYmrHyNW4cImHgYY7q+ad28v2yzIt+GJ/+qTRKNVCdzHEU2Hj++7Q3kU7ZG5jGSNmn2yvU0Egwl8wI6OV8NbQy7sPM+qQpoFjVW5yEdyoQFUglrJFXO56Kpgj+XzcYgASdrOc/B0yr17pLLW5PgXKdIx8JG/Gs3ASFXmer03Pud2x4joPuyVwemu+9hf/8mM1ogJ1eC+PXDPWllYuPjzMmqCP2NUTO0D1jAvZdLiWe9Q5oH3WXVZFYXItHR/QcRC5Xg7+wnZsJ1aG4I37NecV381MXGc9mOJ1gg//OkOwPwxMylk0KYaNnWGVG2hf3P/ivkD38049XTyGhlfrS+1tMCMErqwmK0Wu0OtxVxE2a597HGKO6KmGHWUlOFhI5I7tH8t0CTOjiZd6m84yX40XuexMjiSwTnnN68dHxpZysjPu/Yd5jkm3aNc/21HIxatFuT6gwrcujsY0am2dTVe9H3qXNBOQS9oZ4jjgte1QyXQ15qAtENcCbqoCsr3fq1LcNhUVU3KqI4rl7d0IWV5lqABe6OP+bb17RloFLvXdgz4z0sDhjJCwDe0tjbiNn3KF5s5lcsMV8/mKeCCz14b7/kjHZ3yOl0cbwC+51p9PbY69kdUikC7fEFYzWAjvkeMr+gKYJi3VORA==
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(14060799003)(35042699022)(36860700016)(82310400026)(23010399003)(56012099006)(4143699003)(11063799006)(261009223027099003)(10067099003)(18002099003)(22082099003)(261021121427099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	nDOA7uxl/NP+HAwZAhdm7ZuVdpt9zGz2zH6lUEPBk1LkGZp9AYyiNqhUeFidONNW90wi9302XGRD5EF7A4Ws+Yn1/ZkCH26P9RPv7/NESa+XBeQBMVong3rYxCtYgkq23Ltr4A7bhh2f+R8zK4r5bn1ndTJ7WTTYOgbKkzdK+mnpNl0JNyxCjMTf01IonhJ+QeTPcomV2b7Z67pOdN1vNWOAh/O7VH5v16x6EglVOSTJZnrFh4bUDctAwdkq721xyb4w1Wj5m+L1a/tcutzRFM9/FgMvo4FBbKbXZGcZAiyjgqBVcPSe2qKCjG8tLtX7oUgGWDXWoNRA09nVEp2g01gd49VgmLanWI3HZ7yQOrq6g4YZaWpGOIjsrm9crLjfRQjSRGgUu1g9jjPukbGwY/9WgcgeIzHM6e9i9405MZC6vdWbjVa6jWBrpSrMXr3j
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2026 07:08:01.2495
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8215d87-53ca-497e-ed5b-08df300b35ba
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MAD0EPF000008AB.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6373
+Content-Transfer-Encoding: 8bit
 
+The AMD node code locates function 3 for node N at PCI slot 0x18 + N.
+Hygon has no equivalent node-index-to-slot mapping: DF F3 devices are
+discovered by PCI ID and the PCI BDF is only an access point.
 
-On 10/20/26 19:10, Jonathan Cameron wrote:
-> On Mon, 19 Oct 2026 22:38:39 +0200
-> Pierre Gondois <pierre.gondois@arm.com> wrote:
->
->> The support is mostly duplicated from Memory Error Section handling.
->> Other than differences coming from the content of  Memory Error
->> Section 1 and 2, differences in the support are:
->>
->> - v2 do not rely on a compact "struct cper_mem_err_compact" struct.
->> This structure was used to support older versions of the Memory
->> Error Section (1). This is not needed for the new structure.
->>
->> - The compact version is also used by the tracing framework.
->> To avoid relying and propagating a non-standard record format,
->> through trace event (cf. extlog_mem event) the new trace event
->> prints each field individually.
->>
->> The last patch of the serie was only build-tested due to the
->> absence of relevant hardware. apei_mce_report_mem_error() and
->> arch_apei_report_mem_error() implementations were also removed since
->> last version.
->>
->> It will also require a proper handling from the rasdaemon. Applying
->> this last patch without rasdaemon support will silent the reports of
->> Memory Error Section 2 error, cf. ras_userspace_consumers() check.
-> Hi Pierre,
->
-> I'd slow down a bit.  We are mid merge window and convention is normally
-> one version a week or so anyway.  Better to gather up feedback from
-> a number of folk and spin only one revision to cover it all.
->
-Hello Jonathan,
+Enumerate Hygon DF devices by PCI ID and read their identities from DF
+registers. Build a dense node cache with Core and DDR Dies (CDDs) before
+I/O Dies (IODs), providing node counts, identity and PCI function lookups.
 
-Ok sure, as the v1 was reviewed quickly I thought there was a chance
-of having the serie accepted quickly aswell. I ll wait a bit more.
+Guests may expose a supported CPU model without DF devices. Suppress
+the cache-build warning for -ENODEV in guests; keep other initialization
+errors visible.
 
-Thanks for the review,
+The node lookup helpers remain local until Hygon consumers are added.
 
-Pierre
+Signed-off-by: Lin Wang <wanglin@open-hieco.net>
+---
+ MAINTAINERS                       |   7 +
+ arch/x86/Kconfig                  |   4 +
+ arch/x86/include/asm/hygon/node.h |  41 ++
+ arch/x86/kernel/Makefile          |   1 +
+ arch/x86/kernel/hygon_node.c      | 599 ++++++++++++++++++++++++++++++
+ 5 files changed, 652 insertions(+)
+ create mode 100644 arch/x86/include/asm/hygon/node.h
+ create mode 100644 arch/x86/kernel/hygon_node.c
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0e9fe9c2a39b..76df7669972e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12182,6 +12182,13 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
+ F:	drivers/input/touchscreen/hycon-hy46xx.c
+ 
++HYGON NODE DRIVER
++M:	Lin Wang <wanglin@open-hieco.net>
++L:	linux-kernel@vger.kernel.org
++S:	Maintained
++F:	arch/x86/include/asm/hygon/node.h
++F:	arch/x86/kernel/hygon_node.c
++
+ HYGON PROCESSOR SUPPORT
+ M:	Pu Wen <puwen@hygon.cn>
+ L:	linux-kernel@vger.kernel.org
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 644ad02f7c9c..c08a9f052d9e 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -3085,6 +3085,10 @@ config AMD_NODE
+ 	def_bool y
+ 	depends on CPU_SUP_AMD && PCI
+ 
++config HYGON_NODE
++	def_bool y
++	depends on CPU_SUP_HYGON && PCI
++
+ endmenu
+ 
+ menu "Binary Emulations"
+diff --git a/arch/x86/include/asm/hygon/node.h b/arch/x86/include/asm/hygon/node.h
+new file mode 100644
+index 000000000000..8cabbbdcf96a
+--- /dev/null
++++ b/arch/x86/include/asm/hygon/node.h
+@@ -0,0 +1,41 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/* Hygon Family 0x18 Data Fabric (DF) node interfaces */
++#ifndef _ASM_X86_HYGON_NODE_H
++#define _ASM_X86_HYGON_NODE_H
++
++#include <linux/types.h>
++
++/* DF function indices supported by hygon_node_get_func(). */
++#define HYGON_DF_F3	3
++#define HYGON_DF_F4	4
++
++/*
++ * Hygon Core and DDR Dies (CDDs) start at DFID 4. Each CDD contains
++ * CPU cores and UMCs. I/O Dies (IODs) occupy DFIDs 0-3.
++ */
++#define HYGON_CDD_DFID_BASE	4
++
++/**
++ * enum hygon_node_type - DF node type, derived from DFID
++ * @HYGON_NODE_IOD: I/O die (DFID < HYGON_CDD_DFID_BASE); no UMC.
++ * @HYGON_NODE_CDD: Core and DDR Die (DFID >= HYGON_CDD_DFID_BASE);
++ *                  contains CPU cores and UMC controllers.
++ */
++enum hygon_node_type {
++	HYGON_NODE_IOD = 0,
++	HYGON_NODE_CDD = 1,
++};
++
++/**
++ * struct hygon_node_info - DF node information
++ * @socket_id: Physical socket ID, F1x200[30:28]
++ * @dfid:      Data Fabric ID, model-dependent source
++ * @type:      HYGON_NODE_CDD or HYGON_NODE_IOD
++ */
++struct hygon_node_info {
++	u8			socket_id;
++	u8			dfid;
++	enum hygon_node_type	type;
++};
++
++#endif /* _ASM_X86_HYGON_NODE_H */
+diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
+index 31f46fd00527..b8430e5e53fb 100644
+--- a/arch/x86/kernel/Makefile
++++ b/arch/x86/kernel/Makefile
+@@ -136,6 +136,7 @@ obj-$(CONFIG_HPET_TIMER) 	+= hpet.o
+ 
+ obj-$(CONFIG_AMD_NB)		+= amd_nb.o
+ obj-$(CONFIG_AMD_NODE)		+= amd_node.o
++obj-$(CONFIG_HYGON_NODE)	+= hygon_node.o
+ obj-$(CONFIG_DEBUG_NMI_SELFTEST) += nmi_selftest.o
+ 
+ obj-$(CONFIG_KVM_GUEST)		+= kvm.o kvmclock.o
+diff --git a/arch/x86/kernel/hygon_node.c b/arch/x86/kernel/hygon_node.c
+new file mode 100644
+index 000000000000..6a5278f8e5ca
+--- /dev/null
++++ b/arch/x86/kernel/hygon_node.c
+@@ -0,0 +1,599 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Hygon Family 0x18 Data Fabric node enumeration
++ *
++ * A DF instance exposes sibling PCI functions in one slot. Function 3
++ * is the misc device used for enumeration, function 4 is the link
++ * device, and functions 1 and 5 provide the socket and DF identity.
++ *
++ * Enumerate F3 devices by PCI ID, validate their F4 siblings, read each
++ * node's socket ID and DFID, and validate the enumerated socket set
++ * against SocketPresent. Sort the nodes into a dense cache with Core
++ * and DDR Dies (CDDs) before I/O Dies (IODs), then by socket ID and
++ * DFID.
++ */
++
++#define pr_fmt(fmt) "hygon_node: " fmt
++
++#include <linux/bitfield.h>
++#include <linux/bitops.h>
++#include <linux/cpufeature.h>
++#include <linux/init.h>
++#include <linux/pci.h>
++#include <linux/pci_ids.h>
++#include <linux/processor.h>
++#include <linux/slab.h>
++#include <linux/sort.h>
++
++#include <asm/cpu_device_id.h>
++#include <asm/hygon/node.h>
++
++/*
++ * DF register offsets used for node identity discovery.
++ *
++ * F1x200 (SystemCfg) -- present on all supported models:
++ *   [30:28]  MySocketId    - hardware socket ID
++ *   [23:20]  MyDieId       - die ID (equals DFID on some models, see below)
++ *
++ * F5x180 (FabricBlockInstanceInformation3_CS) -- used on Model 06h-08h:
++ *   [19:16]  DFID          - Data Fabric ID for UMC/SMN addressing
++ *
++ * DFID source by model:
++ *   Model 04h/05h:  F1x200[23:20] (MyDieId == DFID)
++ *   Model 06h-08h:  F5x180[19:16] (MyDieId != DFID, different numbering)
++ */
++#define DF_F1_SYSTEM_CFG	0x200
++#define DF_F5_FABRIC_ID		0x180
++
++#define DF_F1_SOCKET_ID		GENMASK(30, 28)
++#define DF_F1_DIE_ID		GENMASK(23, 20)
++#define DF_F1_SOCKET_PRESENT	GENMASK(7, 0)
++#define DF_F5_DFID		GENMASK(19, 16)
++
++/* DF function numbers for sibling device access (internal use). */
++#define DF_F1	1
++#define DF_F5	5
++
++/* PCI device IDs used only by Hygon DF node discovery. */
++#define PCI_DEVICE_ID_HYGON_18H_DF_F3		0x1463
++#define PCI_DEVICE_ID_HYGON_18H_DF_F4		0x1464
++#define PCI_DEVICE_ID_HYGON_18H_M04H_DF_F1	0x1491
++#define PCI_DEVICE_ID_HYGON_18H_M04H_DF_F3	0x1493
++#define PCI_DEVICE_ID_HYGON_18H_M04H_DF_F4	0x1494
++#define PCI_DEVICE_ID_HYGON_18H_M05H_DF_F1	0x14b1
++#define PCI_DEVICE_ID_HYGON_18H_M05H_DF_F3	0x14b3
++#define PCI_DEVICE_ID_HYGON_18H_M05H_DF_F4	0x14b4
++#define PCI_DEVICE_ID_HYGON_18H_M06H_DF_F5	0x14b5
++
++/*
++ * Cached identity for one DF instance. After sorting, CDDs occupy
++ * nodes[0..num_cdd-1].
++ *
++ * The PCI BDF is the access point for a DF node, not its identity.
++ * The socket ID and DFID, read from DF registers, together identify
++ * the node in hardware.
++ */
++struct df_node {
++	struct pci_dev	*misc;
++	struct pci_dev	*link;
++	u8		socket_id;
++	u8		dfid;
++	bool		is_cdd;
++};
++
++struct df_node_cache {
++	struct df_node	*nodes;
++	u16		num_nodes;
++	u16		num_cdd;
++	u16		num_sockets;
++};
++
++struct df_id {
++	u8	socket_id;
++	u8	dfid;
++};
++
++/* DF sibling device IDs used to read node identity. */
++struct df_cfg {
++	u16	f1_id;
++	u16	f5_id;
++};
++
++/* DF misc (F3) device IDs for all supported Hygon Family 0x18 models. */
++static const struct pci_device_id df_misc_ids[] = {
++	{ PCI_DEVICE(PCI_VENDOR_ID_HYGON, PCI_DEVICE_ID_HYGON_18H_DF_F3) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_HYGON, PCI_DEVICE_ID_HYGON_18H_M04H_DF_F3) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_HYGON, PCI_DEVICE_ID_HYGON_18H_M05H_DF_F3) },
++	{}
++};
++
++/* DF link (F4) device IDs for supported models. */
++static const struct pci_device_id df_link_ids[] = {
++	{ PCI_DEVICE(PCI_VENDOR_ID_HYGON, PCI_DEVICE_ID_HYGON_18H_DF_F4) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_HYGON, PCI_DEVICE_ID_HYGON_18H_M04H_DF_F4) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_HYGON, PCI_DEVICE_ID_HYGON_18H_M05H_DF_F4) },
++	{}
++};
++
++static const struct df_cfg m04_df_cfg __initconst = {
++	.f1_id	= PCI_DEVICE_ID_HYGON_18H_M04H_DF_F1,
++};
++
++static const struct df_cfg m05_df_cfg __initconst = {
++	.f1_id	= PCI_DEVICE_ID_HYGON_18H_M05H_DF_F1,
++};
++
++static const struct df_cfg m06_m08_df_cfg __initconst = {
++	.f1_id	= PCI_DEVICE_ID_HYGON_18H_M05H_DF_F1,
++	.f5_id	= PCI_DEVICE_ID_HYGON_18H_M06H_DF_F5,
++};
++
++static const struct x86_cpu_id df_cpuids[] __initconst = {
++	X86_MATCH_VENDOR_FAM_MODEL(HYGON, 0x18, 0x04, &m04_df_cfg),
++	X86_MATCH_VENDOR_FAM_MODEL(HYGON, 0x18, 0x05, &m05_df_cfg),
++	X86_MATCH_VENDOR_FAM_MODEL(HYGON, 0x18, 0x06, &m06_m08_df_cfg),
++	X86_MATCH_VENDOR_FAM_MODEL(HYGON, 0x18, 0x07, &m06_m08_df_cfg),
++	X86_MATCH_VENDOR_FAM_MODEL(HYGON, 0x18, 0x08, &m06_m08_df_cfg),
++	{}
++};
++
++static struct df_node_cache df_cache;
++
++/*
++ * Iterate Hygon PCI devices, returning the next one that matches @ids.
++ * Follows the pci_get_device() convention: @from is consumed (its
++ * reference is dropped) and the returned device has an elevated
++ * reference count.
++ */
++static struct pci_dev * __init next_df_dev(struct pci_dev *from, const struct pci_device_id *ids)
++{
++	while ((from = pci_get_device(PCI_VENDOR_ID_HYGON, PCI_ANY_ID, from))) {
++		if (pci_match_id(ids, from))
++			return from;
++	}
++
++	return NULL;
++}
++
++/*
++ * Find the DF link (function 4) sibling of a DF misc (function 3)
++ * device. Both functions share the same PCI bus and slot.
++ */
++static struct pci_dev * __init get_link(struct pci_dev *misc)
++{
++	struct pci_dev *link;
++
++	link = pci_get_domain_bus_and_slot(pci_domain_nr(misc->bus),
++					   misc->bus->number,
++					   PCI_DEVFN(PCI_SLOT(misc->devfn),
++						     HYGON_DF_F4));
++	if (!link)
++		return NULL;
++
++	if (!pci_match_id(df_link_ids, link)) {
++		pci_dev_put(link);
++		return NULL;
++	}
++
++	return link;
++}
++
++static const struct df_cfg * __init get_df_cfg(void)
++{
++	const struct x86_cpu_id *id = x86_match_cpu(df_cpuids);
++
++	return id ? (const void *)id->driver_data : NULL;
++}
++
++/*
++ * Read a config register from a DF sibling function on the same PCI
++ * slot as @misc. Only functions 1 (F1, SystemCfg) and 5 (F5,
++ * FabricId) are supported.
++ */
++static int __init read_df_reg(struct pci_dev *misc, u8 func, int offset, u32 *value)
++{
++	const struct df_cfg *cfg;
++	struct pci_dev *sibling;
++	u16 expected_device;
++	int err;
++
++	cfg = get_df_cfg();
++	if (!cfg)
++		return -ENODEV;
++
++	if (func == DF_F1) {
++		expected_device = cfg->f1_id;
++
++		/*
++		 * Model 05h uses the M04H F1 device ID when F3 does not use
++		 * the M05H device ID.
++		 */
++		if (boot_cpu_data.x86_model == 0x5 &&
++		    misc->device != PCI_DEVICE_ID_HYGON_18H_M05H_DF_F3)
++			expected_device = PCI_DEVICE_ID_HYGON_18H_M04H_DF_F1;
++	} else if (func == DF_F5) {
++		expected_device = cfg->f5_id;
++	} else {
++		return -EINVAL;
++	}
++
++	if (!expected_device)
++		return -ENODEV;
++
++	sibling = pci_get_domain_bus_and_slot(pci_domain_nr(misc->bus),
++					      misc->bus->number,
++					      PCI_DEVFN(PCI_SLOT(misc->devfn),
++							func));
++	if (!sibling)
++		return -ENODEV;
++
++	if (sibling->vendor != PCI_VENDOR_ID_HYGON ||
++	    sibling->device != expected_device) {
++		pci_dev_put(sibling);
++		return -ENODEV;
++	}
++
++	err = pci_read_config_dword(sibling, offset, value);
++	pci_dev_put(sibling);
++
++	if (err) {
++		pr_warn("error reading %04x:%02x:%02x.%u offset 0x%x\n",
++			pci_domain_nr(misc->bus), misc->bus->number,
++			PCI_SLOT(misc->devfn), func, offset);
++		return pcibios_err_to_errno(err);
++	}
++
++	/* Do not parse a PCI error response as DF identity. */
++	if (PCI_POSSIBLE_ERROR(*value)) {
++		pr_warn("error response reading %04x:%02x:%02x.%u offset 0x%x\n",
++			pci_domain_nr(misc->bus), misc->bus->number,
++			PCI_SLOT(misc->devfn), func, offset);
++		return -ENODEV;
++	}
++
++	return 0;
++}
++
++/*
++ * Read the hardware identity for one DF misc device from its sibling
++ * functions.
++ *
++ * Supported models expose F1x200 (SystemCfg): socket_id from [30:28] and a
++ * die identifier (MyDieId) from [23:20].
++ * On Model 06h-08h MyDieId differs from the DFID used by UMC and SMN
++ * addressing, so an additional F5x180 (FabricId) read obtains the DFID
++ * from [19:16].
++ *
++ * The boot CPU model selects the DF register layout for all instances.
++ */
++static int __init read_df_id(struct pci_dev *misc, struct df_id *id)
++{
++	const struct df_cfg *cfg = get_df_cfg();
++	u32 reg;
++	int ret;
++
++	if (!cfg)
++		return -ENODEV;
++
++	ret = read_df_reg(misc, DF_F1, DF_F1_SYSTEM_CFG, &reg);
++	if (ret)
++		return ret;
++
++	id->socket_id = FIELD_GET(DF_F1_SOCKET_ID, reg);
++	id->dfid = FIELD_GET(DF_F1_DIE_ID, reg);
++
++	/* Read DFID from F5x180 on models that provide an F5 sibling. */
++	if (cfg->f5_id) {
++		ret = read_df_reg(misc, DF_F5, DF_F5_FABRIC_ID, &reg);
++		if (ret)
++			return ret;
++		id->dfid = FIELD_GET(DF_F5_DFID, reg);
++	}
++
++	return 0;
++}
++
++/*
++ * Read the system-wide SocketPresent mask from F1x200[7:0].
++ *
++ * SocketPresent is system-wide rather than per-node. Read it once from
++ * the first DF misc device. A zero mask is invalid on supported models.
++ */
++static int __init read_socket_present(struct pci_dev *misc, u8 *socket_present)
++{
++	u32 reg;
++	int ret;
++
++	ret = read_df_reg(misc, DF_F1, DF_F1_SYSTEM_CFG, &reg);
++	if (ret)
++		return ret;
++
++	*socket_present = FIELD_GET(DF_F1_SOCKET_PRESENT, reg);
++	if (!*socket_present) {
++		pr_warn("SocketPresent is zero\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static void __init release_nodes(struct df_node *nodes, u16 count)
++{
++	u16 i;
++
++	for (i = 0; i < count; i++) {
++		pci_dev_put(nodes[i].misc);
++		pci_dev_put(nodes[i].link);
++	}
++
++	kfree(nodes);
++}
++
++/*
++ * Walk all DF misc (F3) devices and read per-node identity (socket_id,
++ * dfid) from each, collecting them into a flat array. The system-wide
++ * SocketPresent mask is sampled once, and the enumerated socket set is
++ * validated against it; socket IDs must also be dense (0..N-1).
++ */
++static int __init collect_nodes(struct df_node_cache *cache)
++{
++	u8 observed_socket_mask = 0, socket_present_mask = 0;
++	struct pci_dev *misc = NULL, *link = NULL;
++	u16 capacity = 0, count = 0;
++	struct df_node *nodes;
++	int ret;
++
++	while ((misc = next_df_dev(misc, df_misc_ids)))
++		capacity++;
++
++	if (!capacity)
++		return -ENODEV;
++
++	nodes = kzalloc_objs(*nodes, capacity);
++	if (!nodes)
++		return -ENOMEM;
++
++	while ((misc = next_df_dev(misc, df_misc_ids))) {
++		struct df_id id;
++
++		link = get_link(misc);
++		if (!link) {
++			ret = -ENODEV;
++			goto fail_put_devs;
++		}
++
++		ret = read_df_id(misc, &id);
++		if (ret)
++			goto fail_put_devs;
++
++		/* SocketPresent is system-wide, so sample it once. */
++		if (!count) {
++			ret = read_socket_present(misc, &socket_present_mask);
++			if (ret)
++				goto fail_put_devs;
++		}
++
++		if (count >= capacity) {
++			ret = -ENODEV;
++			goto fail_put_devs;
++		}
++
++		nodes[count].misc = pci_dev_get(misc);
++		nodes[count].link = link;
++		link = NULL;
++		nodes[count].socket_id = id.socket_id;
++		nodes[count].dfid = id.dfid;
++		nodes[count].is_cdd = (id.dfid >= HYGON_CDD_DFID_BASE);
++		count++;
++
++		observed_socket_mask |= BIT(id.socket_id);
++	}
++
++	if (count != capacity) {
++		pr_warn("DF enumeration changed: expected %u nodes, got %u\n",
++			capacity, count);
++		ret = -ENODEV;
++		goto fail;
++	}
++
++	/*
++	 * Every populated socket must contribute at least one enumerated DF
++	 * misc device. SocketPresent is guaranteed to be non-zero.
++	 */
++	if (observed_socket_mask != socket_present_mask) {
++		pr_warn("SocketPresent mismatch: observed=0x%x present=0x%x\n",
++			observed_socket_mask, socket_present_mask);
++		ret = -EINVAL;
++		goto fail;
++	}
++
++	cache->nodes = nodes;
++	cache->num_nodes = count;
++	cache->num_sockets = hweight8(socket_present_mask);
++
++	if (socket_present_mask != GENMASK(cache->num_sockets - 1, 0)) {
++		pr_warn("sparse socket IDs not supported (SocketPresent=0x%x)\n",
++			socket_present_mask);
++		ret = -EINVAL;
++		goto fail;
++	}
++
++	return 0;
++
++fail_put_devs:
++	pci_dev_put(link);
++	pci_dev_put(misc);
++fail:
++	release_nodes(nodes, count);
++	cache->nodes = NULL;
++	cache->num_nodes = 0;
++	cache->num_sockets = 0;
++	return ret;
++}
++
++/*
++ * Sort CDD nodes before IOD nodes, then order by hardware
++ * (socket_id, dfid).
++ */
++static int __init node_cmp(const void *a, const void *b)
++{
++	const struct df_node *left = a, *right = b;
++
++	if (left->is_cdd != right->is_cdd)
++		return right->is_cdd - left->is_cdd;
++
++	if (left->socket_id != right->socket_id)
++		return (int)left->socket_id - right->socket_id;
++
++	return (int)left->dfid - (int)right->dfid;
++}
++
++static int __init sort_and_classify(struct df_node_cache *cache)
++{
++	u16 i;
++
++	sort(cache->nodes, cache->num_nodes, sizeof(*cache->nodes),
++	     node_cmp, NULL);
++
++	cache->num_cdd = 0;
++
++	for (i = 0; i < cache->num_nodes; i++) {
++		const struct df_node *node = &cache->nodes[i];
++
++		if (i) {
++			const struct df_node *prev = &cache->nodes[i - 1];
++
++			if (node->socket_id == prev->socket_id &&
++			    node->dfid == prev->dfid) {
++				pr_warn("duplicate DF node: socket=%u dfid=%u\n",
++					node->socket_id, node->dfid);
++				return -EINVAL;
++			}
++		}
++
++		if (node->is_cdd)
++			cache->num_cdd++;
++	}
++
++	if (!cache->num_cdd)
++		return -ENODEV;
++
++	return 0;
++}
++
++static int __init build_cache(void)
++{
++	struct df_node_cache cache = { };
++	int err;
++
++	err = collect_nodes(&cache);
++	if (err)
++		return err;
++
++	err = sort_and_classify(&cache);
++	if (err)
++		goto fail;
++
++	df_cache = cache;
++
++	return 0;
++
++fail:
++	release_nodes(cache.nodes, cache.num_nodes);
++	return err;
++}
++
++static u16 __maybe_unused hygon_node_num(void)
++{
++	return df_cache.num_nodes;
++}
++
++static u16 __maybe_unused hygon_cdd_num(void)
++{
++	return df_cache.num_cdd;
++}
++
++static int __maybe_unused hygon_node_get_info(u16 node, struct hygon_node_info *info)
++{
++	const struct df_node *n;
++
++	if (!info)
++		return -EINVAL;
++
++	if (!df_cache.nodes)
++		return -ENODEV;
++
++	if (node >= df_cache.num_nodes)
++		return -EINVAL;
++
++	n = &df_cache.nodes[node];
++	info->socket_id = n->socket_id;
++	info->dfid = n->dfid;
++	info->type = n->is_cdd ? HYGON_NODE_CDD : HYGON_NODE_IOD;
++	return 0;
++}
++
++/* Return a referenced DF device; the caller must call pci_dev_put(). */
++static __maybe_unused struct pci_dev *hygon_node_get_func(u16 node, u8 func)
++{
++	if (!df_cache.nodes)
++		return NULL;
++
++	if (node >= df_cache.num_nodes)
++		return NULL;
++
++	switch (func) {
++	case HYGON_DF_F3:
++		return pci_dev_get(df_cache.nodes[node].misc);
++	case HYGON_DF_F4:
++		return pci_dev_get(df_cache.nodes[node].link);
++	default:
++		return NULL;
++	}
++}
++
++/* Map any sibling PCI function to its dense DF node index. */
++static int __maybe_unused hygon_pci_dev_to_df_node(struct pci_dev *pdev)
++{
++	u16 i;
++
++	if (!pdev)
++		return -EINVAL;
++
++	if (!df_cache.nodes)
++		return -ENODEV;
++
++	for (i = 0; i < df_cache.num_nodes; i++) {
++		struct pci_dev *misc = df_cache.nodes[i].misc;
++
++		if (pci_domain_nr(misc->bus) == pci_domain_nr(pdev->bus) &&
++		    misc->bus->number == pdev->bus->number &&
++		    PCI_SLOT(misc->devfn) == PCI_SLOT(pdev->devfn))
++			return i;
++	}
++
++	return -ENODEV;
++}
++
++static int __init df_node_init(void)
++{
++	int ret;
++
++	if (!get_df_cfg())
++		return 0;
++
++	ret = build_cache();
++	if (ret) {
++		if (ret != -ENODEV || !cpu_feature_enabled(X86_FEATURE_HYPERVISOR))
++			pr_warn("DF node cache build failed: %d\n", ret);
++		return ret;
++	}
++
++	pr_info("%u DF nodes (%u CDDs, %u IODs) across %u sockets\n",
++		df_cache.num_nodes, df_cache.num_cdd,
++		df_cache.num_nodes - df_cache.num_cdd,
++		df_cache.num_sockets);
++
++	return 0;
++}
++fs_initcall(df_node_init);
+-- 
+2.43.0
 
