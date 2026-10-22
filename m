@@ -1,39 +1,39 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.219
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792654959;
-	b=vRUVjEUkVLUmPSLURBEhGopyJqQ3yMbNGK/1+31yQz99BAWm54QUsrh/nRslAn3oIc5e
-	 U54kA9NjCMBKCaJFnta5CeQ6W5miFLMUiD2jEl3o0MB2qBx8LHaJLJCWDPocnqyrIW0Jo
-	 ULcHGkTc7ZCt1ZGgKeTdDHRvmiP33zpabwg8JDRno4WKmY1IPMeF/j740IMx06bnT8y4K
-	 OrxlFPV386baLQZPerNhDdri3x0Dny82lDFQvlHWhIXb18eInnbygOKA+Sihm/Dplw3tT
-	 vR+alq190FxWWUx27v1HvCpecGqZ8chVY2lRkpD2LLCwdowzDPu7mUcMClTViN4DaGQ==
+	t=1792654960;
+	b=qI4Bqd6py3qod9doR//jSuxOMys9Yt6gJrfHdCFMTDZJ/WpPIowFzRqNyS2iTAyAJGtr
+	 RnY/aLtVbyjN2SLUvVGaeGKIwYpSOibmS0FEIY3jyBOPHmyIG2KKSZDjnx/CpdotwRh3+
+	 Vp2QmH+AuPMuFzeqU1xi3FwC0rQoKbXGK48muQ/j7mkoV1CUO5CXLxzyQhbGmNtjwz1EV
+	 ulej4H+znMsXmY/LIl2OcGLcU/W4mGdlD9XqL0BnFDRtDAShkjYh6bXODv5gPl2152JLm
+	 XsZhENHFu0t7/4xZaZR7cowJjR9VURegae6BH/gIevwIirXK26Y3nUEZyqLQxPOQsxg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792654959;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792654960;
 	h=DMARC-Filter:X-Alimail-AntiSpam:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=d2K13RWcRE06nwzeDIJTbD96p6W1W8vKVpLl7tYs9Po=;
-	b=O9luuDV3us9KHiqmVSlt6XDV9UYBXxChNkHjTxaj8pWNdFBqUC5FTBRRUOszJOqC+3D2
-	 h5D8UOLmJJzBKzc0zTbyFqok/S35V4asop9c12031UuryzK/WBtsPzO52yEZhjg+YBCBc
-	 USGbq6vyBPAehXgDGZBaXAZe9CvLe/DHjsXY4GKx3WM4CxIieqErrdiq12US93kpoWwnO
-	 BZOgCU0hquyKQTXgkBMSjAzVDD7UnnuzpUv+3MYmllmYQq32cUggJagzfQM9+s66Fq4B6
-	 mu+zTloWIukMrivV9ksE9RRIAsqZAQLmJh8FqhZY0ht99c5MuzGcWlU+ur7ioXPQq1A==
+	bh=5bscZzYbNdNozNQz2i6rpQrEehAPtJuDNBdUBH2QEig=;
+	b=svkhdq/7r+5IQhcgpBY5awsllZmVoAQ4s1X/dy83iKc7u7vCmZ3OKHiuF7wZU++5IyQW
+	 pNXzDDfntJv9HrmdMI/jRJzin0pOporZY+l1W+rEdrApE/7GSSMC01A5DEZtDrIqedsEa
+	 +Dg0gYZc2h6EL+YsdP0g4x4NZaE0+bVamTY+QQULbMBm1tjNn9+lp8vXMPACRa/SpkonQ
+	 ZJaX4uE8TBOeYa4lA8J3Eh/MZLZvBu3BWi/SHRe23Obka7mARL1Q8RwZgJWfjeB5DbSLx
+	 LQc3R7g88U4mp1IPI+6zkqy0TlPd/PEbv7d+RWUGPxi1XpBerCkPiW/WOPIWFj/S5zg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=open-hieco.net;
 	spf=pass smtp.mailfrom=open-hieco.net;
-	arc=none smtp.remote-ip=115.124.28.172
-Received: from out28-172.mail.aliyun.com (out28-172.mail.aliyun.com [115.124.28.172])
+	arc=none smtp.remote-ip=115.124.28.219
+Received: from out28-219.mail.aliyun.com (out28-219.mail.aliyun.com [115.124.28.219])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF74606A325;
-	Thu, 22 Oct 2026 07:42:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DEF74606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3553606A320;
+	Thu, 22 Oct 2026 07:42:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3553606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.2085384|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0154444-0.0477482-0.936807;FP=3168551345189373651|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037034184;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.jn83zYz_1792654948;
-Received: from localhost.localdomain(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.jn83zYz_1792654948 cluster:ay29)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.1979483|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0220033-0.181048-0.796949;FP=3290717545082472337|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033040092104;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.jn83zaG_1792654949;
+Received: from localhost.localdomain(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.jn83zaG_1792654949 cluster:ay29)
           by smtp.aliyun-inc.com;
-          Thu, 22 Oct 2026 15:42:29 +0800
+          Thu, 22 Oct 2026 15:42:30 +0800
 From: Lin Wang <wanglin@open-hieco.net>
 To: Borislav Petkov <bp@alien8.de>,
 	Yazen Ghannam <yazen.ghannam@amd.com>,
@@ -49,9 +49,9 @@ Cc: Pu Wen <puwen@hygon.cn>,
 	linux-edac@vger.kernel.org,
 	linux-hwmon@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v8 3/7] EDAC/amd64: Stop matching Hygon CPUs
-Date: Thu, 22 Oct 2026 15:42:13 +0800
-Message-ID: <20261022074218.667049-4-wanglin@open-hieco.net>
+Subject: [PATCH v8 4/7] RAS/AMD/ATL: Match AMD CPUs only
+Date: Thu, 22 Oct 2026 15:42:14 +0800
+Message-ID: <20261022074218.667049-5-wanglin@open-hieco.net>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261022074218.667049-1-wanglin@open-hieco.net>
 References: <20261022074218.667049-1-wanglin@open-hieco.net>
@@ -66,45 +66,50 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-amd64_edac gets its node count and DF devices from the AMD northbridge
-cache. Since commit 49b96fc0dddc ("x86/amd_nb: Simplify function 3
-search"), the cache finds function 3 only at the fixed PCI slots
-0x18 + N. Hygon DF devices are not at those slots, so the cache is
-discarded on Hygon and amd64_edac_init() returns -ENODEV at its
-amd_nb_num() check.
+ATL matches Hygon through X86_FEATURE_SMCA and X86_FEATURE_ZEN, but
+relies on the AMD northbridge cache for its node count and F4 devices.
+The cache uses fixed PCI slots that do not represent the Hygon topology.
 
-Remove the Hygon match and the empty Family 0x18 case. MCE decoding
-in mce_amd.c is separate and unchanged. Hygon memory controller support
-will use the Hygon node interfaces in a separate series.
+The cache is therefore discarded before ATL can register its decoder,
+so excluding Hygon from these feature matches does not disable a
+working address translation path.
+
+Qualify both feature matches with the AMD vendor. Hygon address
+translation will use the Hygon node interfaces in a separate series.
 
 Signed-off-by: Lin Wang <wanglin@open-hieco.net>
 Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
 ---
- drivers/edac/amd64_edac.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/ras/amd/atl/core.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 0c0d11c72925..d10043a2d35f 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -3840,9 +3840,6 @@ static int per_family_init(struct amd64_pvt *pvt)
- 		}
- 		break;
+diff --git a/drivers/ras/amd/atl/core.c b/drivers/ras/amd/atl/core.c
+index d77dacdd4f56..fe84fc52c657 100644
+--- a/drivers/ras/amd/atl/core.c
++++ b/drivers/ras/amd/atl/core.c
+@@ -176,18 +176,17 @@ static void check_for_legacy_df_access(void)
+ }
  
--	case 0x18:
--		break;
--
- 	case 0x19:
- 		switch (pvt->model) {
- 		case 0x00 ... 0x0f:
-@@ -4120,7 +4117,6 @@ static const struct x86_cpu_id amd64_cpuids[] = {
- 	X86_MATCH_VENDOR_FAM(AMD,	0x15, NULL),
- 	X86_MATCH_VENDOR_FAM(AMD,	0x16, NULL),
- 	X86_MATCH_VENDOR_FAM(AMD,	0x17, NULL),
--	X86_MATCH_VENDOR_FAM(HYGON,	0x18, NULL),
- 	X86_MATCH_VENDOR_FAM(AMD,	0x19, NULL),
- 	X86_MATCH_VENDOR_FAM(AMD,	0x1A, NULL),
+ /*
+- * This library provides functionality for AMD-based systems with a Data Fabric.
++ * This library provides functionality for AMD systems with a Data Fabric.
+  * The set of systems with a Data Fabric is equivalent to the set of Zen-based systems
+  * and the set of systems with the Scalable MCA feature at this time. However, these
+  * are technically independent things.
+  *
+  * It's possible to match on the PCI IDs of the Data Fabric devices, but this will be
+- * an ever expanding list. Instead, match on the SMCA and Zen features to cover all
+- * relevant systems.
++ * an ever expanding list. Instead, match AMD CPUs with the SMCA and Zen features.
+  */
+ static const struct x86_cpu_id amd_atl_cpuids[] = {
+-	X86_MATCH_FEATURE(X86_FEATURE_SMCA, NULL),
+-	X86_MATCH_FEATURE(X86_FEATURE_ZEN, NULL),
++	X86_MATCH_VENDOR_FEATURE(AMD, X86_FEATURE_SMCA, NULL),
++	X86_MATCH_VENDOR_FEATURE(AMD, X86_FEATURE_ZEN, NULL),
  	{ }
+ };
+ 
 -- 
 2.43.0
 
