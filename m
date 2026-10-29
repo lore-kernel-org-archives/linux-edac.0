@@ -1,39 +1,38 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.98
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.146
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793252019;
-	b=eIpY3YFCoFommk93bnKoY2++k5/nt2Llh2mdYcfDLMOdik9aZ+nccCfahMCGeGjsq32A
-	 V4y88tiMLliV2R5WPlKRX4QeZTP9D6NDsQeqmpzerED+wgjGtln/puyZGr4eFHM8XBCpo
-	 uFpEe51epSWfPYAEFxLIs5oe416azs4UIK6p4gTyfvGZjALzSl8TW8gIzLm+uNFmtVAZC
-	 PGMieeDxpWdvbI1CSWygOJSwE1Ux+A+XhbyeuVq4teQVRBxjcST+YbMFQa8U8I1EvdqL4
-	 SXqsGNxHx8RjTMTgS1/8UdiOoNGc/OWz10QB/jFyv1IxZI9PtEoO5P4JBcB1+IoxnuA==
+	t=1793252017;
+	b=bAJT7Jg80v1CInRnIXv5exuJwJR2jUt0dwOva3VTsFWIEB4J6ZQXfLlDK42VmmusDi7F
+	 9LUpLUhtwuvEn4xU73a7+DYMZ4acpLinlrS04d+pP9O2234fWRMJcfcd+Zkt6kCPXp5wK
+	 uoKqavJUmaaeteyj/7Q6xYWYUWHsWt7Qhei1jlEJvx4bxNQCnx6w6YtIF/73y54DY6Jj7
+	 5IBhivTJOUkcSkmlajmR/OzFXU6ayz8xUSS6bhclw0PeQ2nZlYi4etkfSEuB1DvWBUgv+
+	 hc3DIygkHKIKKRZZBfuyQZfvmtrUhiV5mDXLPN0ppfCknk4ElDrPDsdZJy17ayt03fg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793252019;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793252017;
 	h=DMARC-Filter:X-Alimail-AntiSpam:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=5bscZzYbNdNozNQz2i6rpQrEehAPtJuDNBdUBH2QEig=;
-	b=igVMExTju/KXfAfrHgbVvxCzqHxk0z1vzd1SZ10RThsXgtLU5bv9UaMkbwoE5+O0Rk2q
-	 eBjqyM9aOgJI/XDT+LmZmV2kbdsNsRZ0uPELq1YBhzsBhMhpGVTU9RIkgHEksYzgLJayS
-	 EclObE319K4trpwHqycp/z2mU4Q/dd0Jct1pYKQbd+M/Gx9SlLgiroiNQloRV3gnPDMa7
-	 OUVlL3paEulH7Qdy4I6A3GAOIuhqTYJ9NYfo+3DGqZUS27Tetc6C97lfzUN9BtkueyXiJ
-	 rTvGQztSlyrDAqphlTVTdt8BZ/D9iAN1AKvc6oceK15dmpMC/+rxUe5MrcBGvY2D+Nw==
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=ZdfKxEkUXmu6o45dVPSi9qEOiO+wsW3QVJmqs32pXT8=;
+	b=SLDbUHG9SSc/6D+NQ7KJcRlrUKKyvQp/WD6Z2SXNucRcpzgZmiL5/SBJV6j6sil+cSyK
+	 rQpp/WHi26LNkJ2nHkRV3YPNR0CPnj9LR64gMaiSkimfh8lGctcdu/yHTd995PxZVFhrZ
+	 uBWbG9dTO55vwnblzwxC7dtPPCArgBuO7Gb0fVSQ3aqarqXG4OFLoaRhYZ16rFvuY/e1M
+	 DCCXiqtRH6Wfu4bT5n+wYZmMCKCJAlsynX0QsS9xQcZfsmrhh6dT/ufPAcvc4KvQf/IEF
+	 lNxNlE5OuFg/xe95BsTqvp6M3JAoUEPmMRD/N2iWTpjQrcxbqVEW/BChnsIDBZFaHyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=open-hieco.net;
 	spf=pass smtp.mailfrom=open-hieco.net;
-	arc=none smtp.remote-ip=115.124.28.98
-Received: from out28-98.mail.aliyun.com (out28-98.mail.aliyun.com [115.124.28.98])
+	arc=none smtp.remote-ip=115.124.28.146
+Received: from out28-146.mail.aliyun.com (out28-146.mail.aliyun.com [115.124.28.146])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08BC606A329;
-	Thu, 29 Oct 2026 05:33:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C08BC606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF8F606A31A;
+	Thu, 29 Oct 2026 05:33:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CF8F606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.1971605|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0220033-0.181048-0.796949;FP=3290717545082472085|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033045099153;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.js2Zbv._1793252007;
-Received: from localhost.localdomain(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.js2Zbv._1793252007 cluster:ay29)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.08433235|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.11656-0.0144573-0.868982;FP=7611162603862967515|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033025068124;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.js2ZblX_1793251997;
+Received: from localhost.localdomain(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.js2ZblX_1793251997 cluster:ay29)
           by smtp.aliyun-inc.com;
-          Thu, 29 Oct 2026 13:33:27 +0800
+          Thu, 29 Oct 2026 13:33:23 +0800
 From: Lin Wang <wanglin@open-hieco.net>
 To: Borislav Petkov <bp@alien8.de>,
 	Yazen Ghannam <yazen.ghannam@amd.com>,
@@ -47,12 +46,10 @@ Cc: Pu Wen <puwen@hygon.cn>,
 	x86@kernel.org,
 	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v9 4/7] RAS/AMD/ATL: Match AMD CPUs only
-Date: Thu, 29 Oct 2026 13:33:10 +0800
-Message-ID: <20261029053313.46323-5-wanglin@open-hieco.net>
+Subject: [PATCH v9 0/7] x86/hygon: Add Family 0x18 DF node enumeration and SMN access
+Date: Thu, 29 Oct 2026 13:33:06 +0800
+Message-ID: <20261029053313.46323-1-wanglin@open-hieco.net>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261029053313.46323-1-wanglin@open-hieco.net>
-References: <20261029053313.46323-1-wanglin@open-hieco.net>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -64,50 +61,53 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ATL matches Hygon through X86_FEATURE_SMCA and X86_FEATURE_ZEN, but
-relies on the AMD northbridge cache for its node count and F4 devices.
-The cache uses fixed PCI slots that do not represent the Hygon topology.
+v9 fixes the SMN root-array leak reported by Sashiko. Each DF node now
+holds its own PCI reference to its SMN root, so the temporary root table
+can be freed after setup. Config-space reservations are retained on
+success and released on failure.
 
-The cache is therefore discarded before ATL can register its decoder,
-so excluding Hygon from these feature matches does not disable a
-working address translation path.
+The scope is unchanged. The series adds Hygon Data Fabric (DF) node
+enumeration and SMN access. AMD NB/SMN initialization and EDAC/ATL
+matching are restricted to AMD CPUs. Hygon EDAC and ATL support will
+be submitted separately.
 
-Qualify both feature matches with the AMD vendor. Hygon address
-translation will use the Hygon node interfaces in a separate series.
+Tested v9 on a Family 0x18 Model 0x07 system with 2 sockets, 12 Core
+and DDR Dies (CDDs) and 4 I/O Dies (IODs).
 
-Signed-off-by: Lin Wang <wanglin@open-hieco.net>
-Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
----
- drivers/ras/amd/atl/core.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+Changes in v9:
 
-diff --git a/drivers/ras/amd/atl/core.c b/drivers/ras/amd/atl/core.c
-index d77dacdd4f56..fe84fc52c657 100644
---- a/drivers/ras/amd/atl/core.c
-+++ b/drivers/ras/amd/atl/core.c
-@@ -176,18 +176,17 @@ static void check_for_legacy_df_access(void)
- }
- 
- /*
-- * This library provides functionality for AMD-based systems with a Data Fabric.
-+ * This library provides functionality for AMD systems with a Data Fabric.
-  * The set of systems with a Data Fabric is equivalent to the set of Zen-based systems
-  * and the set of systems with the Scalable MCA feature at this time. However, these
-  * are technically independent things.
-  *
-  * It's possible to match on the PCI IDs of the Data Fabric devices, but this will be
-- * an ever expanding list. Instead, match on the SMCA and Zen features to cover all
-- * relevant systems.
-+ * an ever expanding list. Instead, match AMD CPUs with the SMCA and Zen features.
-  */
- static const struct x86_cpu_id amd_atl_cpuids[] = {
--	X86_MATCH_FEATURE(X86_FEATURE_SMCA, NULL),
--	X86_MATCH_FEATURE(X86_FEATURE_ZEN, NULL),
-+	X86_MATCH_VENDOR_FEATURE(AMD, X86_FEATURE_SMCA, NULL),
-+	X86_MATCH_VENDOR_FEATURE(AMD, X86_FEATURE_ZEN, NULL),
- 	{ }
- };
- 
+  - Free the temporary SMN root table and cache selected roots in the
+    DF nodes instead of a separate array. (Sashiko)
+  - Drop Reviewed-by from patch 7 because its root ownership changed.
+  - Rebase onto mainline with the k10temp Hygon removal included.
+
+Link: https://sashiko.dev/#/patchset/20261022074218.667049-1-wanglin%40open-hieco.net # Sashiko v8 review
+Link: https://lore.kernel.org/20261009090111.151878-1-wanglin@open-hieco.net # v7
+Link: https://lore.kernel.org/20261022074218.667049-1-wanglin@open-hieco.net # v8
+
+Lin Wang (7):
+  x86/hygon: Add Family 0x18 DF node enumeration
+  x86/hygon: Map CPU NodeIds to DF nodes
+  EDAC/amd64: Stop matching Hygon CPUs
+  RAS/AMD/ATL: Match AMD CPUs only
+  x86/amd_nb: Restrict the northbridge framework to AMD CPUs
+  x86/amd_node: Restrict SMN setup to AMD CPUs
+  x86/hygon: Add Family 0x18 SMN access
+
+ MAINTAINERS                       |   7 +
+ arch/x86/Kconfig                  |   4 +
+ arch/x86/include/asm/hygon/node.h |  41 ++
+ arch/x86/kernel/Makefile          |   1 +
+ arch/x86/kernel/amd_nb.c          |   6 +-
+ arch/x86/kernel/amd_node.c        |   6 +-
+ arch/x86/kernel/hygon_node.c      | 851 ++++++++++++++++++++++++++++++
+ drivers/edac/amd64_edac.c         |   4 -
+ drivers/ras/amd/atl/core.c        |   9 +-
+ 9 files changed, 914 insertions(+), 15 deletions(-)
+ create mode 100644 arch/x86/include/asm/hygon/node.h
+ create mode 100644 arch/x86/kernel/hygon_node.c
+
+base-commit: c339f4010dea8b0d754f84ace70cd1b089878ef8
 -- 
 2.43.0
 
