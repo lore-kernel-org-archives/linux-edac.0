@@ -1,38 +1,39 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.146
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.73
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793252017;
-	b=bAJT7Jg80v1CInRnIXv5exuJwJR2jUt0dwOva3VTsFWIEB4J6ZQXfLlDK42VmmusDi7F
-	 9LUpLUhtwuvEn4xU73a7+DYMZ4acpLinlrS04d+pP9O2234fWRMJcfcd+Zkt6kCPXp5wK
-	 uoKqavJUmaaeteyj/7Q6xYWYUWHsWt7Qhei1jlEJvx4bxNQCnx6w6YtIF/73y54DY6Jj7
-	 5IBhivTJOUkcSkmlajmR/OzFXU6ayz8xUSS6bhclw0PeQ2nZlYi4etkfSEuB1DvWBUgv+
-	 hc3DIygkHKIKKRZZBfuyQZfvmtrUhiV5mDXLPN0ppfCknk4ElDrPDsdZJy17ayt03fg==
+	b=mTtTn30XusbLdSPyRMd5CStSEPXvmUigRB3dlYsLQQ0Y4YixmN+MZI2F/zRtP9EOEslh
+	 mTaP4DGceNd+HbptpIxw7oP/n1EEZ15NeP9YfQvnDURjgSZbC+9v2+GJQC4tCDTZMJruG
+	 1LBbL7ER5vl93XRdWFVvcWc93QFuM3tb7MXeK8Wj23tjDRHIZNekL0raCNRXcHiBCWhDt
+	 4Doms4ytQSJhZI8EY398VjeCKBf4AijFOG+BwUMjEbMeHyhM8RQMxjyaAE+lM8aW8da6W
+	 WXTMjzKR82vRelq9lnJ/gh9hiZkiE67LvJyI3X3SK03i8zPF6ilR6KxcytTaCnIx1fw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793252017;
 	h=DMARC-Filter:X-Alimail-AntiSpam:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=ZdfKxEkUXmu6o45dVPSi9qEOiO+wsW3QVJmqs32pXT8=;
-	b=SLDbUHG9SSc/6D+NQ7KJcRlrUKKyvQp/WD6Z2SXNucRcpzgZmiL5/SBJV6j6sil+cSyK
-	 rQpp/WHi26LNkJ2nHkRV3YPNR0CPnj9LR64gMaiSkimfh8lGctcdu/yHTd995PxZVFhrZ
-	 uBWbG9dTO55vwnblzwxC7dtPPCArgBuO7Gb0fVSQ3aqarqXG4OFLoaRhYZ16rFvuY/e1M
-	 DCCXiqtRH6Wfu4bT5n+wYZmMCKCJAlsynX0QsS9xQcZfsmrhh6dT/ufPAcvc4KvQf/IEF
-	 lNxNlE5OuFg/xe95BsTqvp6M3JAoUEPmMRD/N2iWTpjQrcxbqVEW/BChnsIDBZFaHyA==
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=d2K13RWcRE06nwzeDIJTbD96p6W1W8vKVpLl7tYs9Po=;
+	b=UoiGvWF8EZ5awoJQdSU2Fy8kyPxiBcPl6Mk6Q5TPfX6j5uRNUcKH7KfdGRok5KsjKn6y
+	 wh3jb+nwFbq9QlvSCdfyYiNILf/fHrZUVqOc0fZs4yL/m+P/aZNrQ/ZR3eg7/kQ/j72CE
+	 OTf78NBZV8TDAFs0wxDM+A+IWTor4gHUbKJYsCsWFFNT3t3ceWLQqcCHGA1rZ7uaMDTZW
+	 G42W3fk1aLjZIe5coVNO/1Wdt8tqrYw6COhhT5aXCVBQBrQAizR6s6AzQUYt1OfjSVwsp
+	 0SJaAkGXWI5bRtLS5ArM+Stz23HSeHrdRg4u/ZFZOVKnWBbOgBTYrrBDq9PZa067syQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=open-hieco.net;
 	spf=pass smtp.mailfrom=open-hieco.net;
-	arc=none smtp.remote-ip=115.124.28.146
-Received: from out28-146.mail.aliyun.com (out28-146.mail.aliyun.com [115.124.28.146])
+	arc=none smtp.remote-ip=115.124.28.73
+Received: from out28-73.mail.aliyun.com (out28-73.mail.aliyun.com [115.124.28.73])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF8F606A31A;
-	Thu, 29 Oct 2026 05:33:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CF8F606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BB6606A31F;
+	Thu, 29 Oct 2026 05:33:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76BB6606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.08433235|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.11656-0.0144573-0.868982;FP=7611162603862967515|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033025068124;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.js2ZblX_1793251997;
-Received: from localhost.localdomain(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.js2ZblX_1793251997 cluster:ay29)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.2076944|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0154444-0.0477482-0.936807;FP=3168551345206150866|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033040092104;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.js2ZbuG_1793252006;
+Received: from localhost.localdomain(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.js2ZbuG_1793252006 cluster:ay29)
           by smtp.aliyun-inc.com;
-          Thu, 29 Oct 2026 13:33:23 +0800
+          Thu, 29 Oct 2026 13:33:27 +0800
 From: Lin Wang <wanglin@open-hieco.net>
 To: Borislav Petkov <bp@alien8.de>,
 	Yazen Ghannam <yazen.ghannam@amd.com>,
@@ -46,10 +47,12 @@ Cc: Pu Wen <puwen@hygon.cn>,
 	x86@kernel.org,
 	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v9 0/7] x86/hygon: Add Family 0x18 DF node enumeration and SMN access
-Date: Thu, 29 Oct 2026 13:33:06 +0800
-Message-ID: <20261029053313.46323-1-wanglin@open-hieco.net>
+Subject: [PATCH v9 3/7] EDAC/amd64: Stop matching Hygon CPUs
+Date: Thu, 29 Oct 2026 13:33:09 +0800
+Message-ID: <20261029053313.46323-4-wanglin@open-hieco.net>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261029053313.46323-1-wanglin@open-hieco.net>
+References: <20261029053313.46323-1-wanglin@open-hieco.net>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -61,53 +64,45 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-v9 fixes the SMN root-array leak reported by Sashiko. Each DF node now
-holds its own PCI reference to its SMN root, so the temporary root table
-can be freed after setup. Config-space reservations are retained on
-success and released on failure.
+amd64_edac gets its node count and DF devices from the AMD northbridge
+cache. Since commit 49b96fc0dddc ("x86/amd_nb: Simplify function 3
+search"), the cache finds function 3 only at the fixed PCI slots
+0x18 + N. Hygon DF devices are not at those slots, so the cache is
+discarded on Hygon and amd64_edac_init() returns -ENODEV at its
+amd_nb_num() check.
 
-The scope is unchanged. The series adds Hygon Data Fabric (DF) node
-enumeration and SMN access. AMD NB/SMN initialization and EDAC/ATL
-matching are restricted to AMD CPUs. Hygon EDAC and ATL support will
-be submitted separately.
+Remove the Hygon match and the empty Family 0x18 case. MCE decoding
+in mce_amd.c is separate and unchanged. Hygon memory controller support
+will use the Hygon node interfaces in a separate series.
 
-Tested v9 on a Family 0x18 Model 0x07 system with 2 sockets, 12 Core
-and DDR Dies (CDDs) and 4 I/O Dies (IODs).
+Signed-off-by: Lin Wang <wanglin@open-hieco.net>
+Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+---
+ drivers/edac/amd64_edac.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Changes in v9:
-
-  - Free the temporary SMN root table and cache selected roots in the
-    DF nodes instead of a separate array. (Sashiko)
-  - Drop Reviewed-by from patch 7 because its root ownership changed.
-  - Rebase onto mainline with the k10temp Hygon removal included.
-
-Link: https://sashiko.dev/#/patchset/20261022074218.667049-1-wanglin%40open-hieco.net # Sashiko v8 review
-Link: https://lore.kernel.org/20261009090111.151878-1-wanglin@open-hieco.net # v7
-Link: https://lore.kernel.org/20261022074218.667049-1-wanglin@open-hieco.net # v8
-
-Lin Wang (7):
-  x86/hygon: Add Family 0x18 DF node enumeration
-  x86/hygon: Map CPU NodeIds to DF nodes
-  EDAC/amd64: Stop matching Hygon CPUs
-  RAS/AMD/ATL: Match AMD CPUs only
-  x86/amd_nb: Restrict the northbridge framework to AMD CPUs
-  x86/amd_node: Restrict SMN setup to AMD CPUs
-  x86/hygon: Add Family 0x18 SMN access
-
- MAINTAINERS                       |   7 +
- arch/x86/Kconfig                  |   4 +
- arch/x86/include/asm/hygon/node.h |  41 ++
- arch/x86/kernel/Makefile          |   1 +
- arch/x86/kernel/amd_nb.c          |   6 +-
- arch/x86/kernel/amd_node.c        |   6 +-
- arch/x86/kernel/hygon_node.c      | 851 ++++++++++++++++++++++++++++++
- drivers/edac/amd64_edac.c         |   4 -
- drivers/ras/amd/atl/core.c        |   9 +-
- 9 files changed, 914 insertions(+), 15 deletions(-)
- create mode 100644 arch/x86/include/asm/hygon/node.h
- create mode 100644 arch/x86/kernel/hygon_node.c
-
-base-commit: c339f4010dea8b0d754f84ace70cd1b089878ef8
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index 0c0d11c72925..d10043a2d35f 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -3840,9 +3840,6 @@ static int per_family_init(struct amd64_pvt *pvt)
+ 		}
+ 		break;
+ 
+-	case 0x18:
+-		break;
+-
+ 	case 0x19:
+ 		switch (pvt->model) {
+ 		case 0x00 ... 0x0f:
+@@ -4120,7 +4117,6 @@ static const struct x86_cpu_id amd64_cpuids[] = {
+ 	X86_MATCH_VENDOR_FAM(AMD,	0x15, NULL),
+ 	X86_MATCH_VENDOR_FAM(AMD,	0x16, NULL),
+ 	X86_MATCH_VENDOR_FAM(AMD,	0x17, NULL),
+-	X86_MATCH_VENDOR_FAM(HYGON,	0x18, NULL),
+ 	X86_MATCH_VENDOR_FAM(AMD,	0x19, NULL),
+ 	X86_MATCH_VENDOR_FAM(AMD,	0x1A, NULL),
+ 	{ }
 -- 
 2.43.0
 
