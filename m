@@ -1,58 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.149
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793216711;
-	b=zZxqGAW0cA/Lk6nvT1oEM3jpo2BtCnTaETMD7DMhAapO4wLXI0RwKy6KqDydsn3nsBcV
-	 +QAPmAvvr7p7xo0h6TAlVcmrTwFSqpFNvb2AFSljiyCDjAZwyA7VMEcpiEV+W3blFVLWm
-	 6PJ7OThwboh3nwUpHuLkCYHsw4X7GfYB5pgf0c2pooYNEgxO65IEQ+WwlP9jYA/e1ePmZ
-	 V8EUvwrmV1ZzGcGzNPCF4Te/5NWrxLNqRU7D/coiIxPqnIg4z6o/URtQ4J92cjFlNgX1v
-	 nE2CKK5bDUx0Fh14vdqr83AxxJU2Igi0VsOgCOHryQEJgyOhezgMoWWIBtfK47DEMtQ==
+	t=1793252017;
+	b=3tAX6WdJuYVvOE993ek2Cxuv73Apxs/9TZsbzVIFWzb1cLJSTtSSHmsL2UlsWZkJrncX
+	 jWGxbwmgOWrsti5oAEr1hdnB2G6nVoFG36ASedKfEsO9bh2+nT32dmEg9ZWGYmv9AaBeb
+	 ZMPBMiwQYA8beZfF7Cwg8yHXN3InR7zNMC+qhSqtDDhXIYh+KHVNtJysQ/sG0yFOTEMqD
+	 WJtEOc/HFlbqPcu4hxFz8WrBNetY0POCWvUG/qMCkYJMvXq6dE8EssXx34CLEIt8y80rv
+	 YTCyaPHGmTeHhTAGSCC35gAi/5deHcU/yhH39x4CICKP82YGiC+HYswg176DbNq7ZBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793216711;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
-	 Date:Message-ID:MIME-Version:Content-Type;
-	bh=tek13fxJoZfjW2FSKbZ581rkWJyGs0cGl3iGenG4E+8=;
-	b=BUj1kq6FQ7I+g/cCnxflDTT5CHhboa5nzODsWH4viov+iQXXhu/nVRjYr+UB819+RxO6
-	 B/4acqgUdzRPl0j4T4FedmULWni5ZCeXYYL7IZGYL/dgBDjUO8fqidlZs8MvPJ4zd1pfk
-	 zQdzvLaG8ch9NzwXvbhKY04SZ900LKRFMvE6adSfWELGq1WukYfiTqkPCpkT4pPSHGOGl
-	 r3cIBUzSoHXAFfc0IPzw1CDQH5o1xbXpDHCOdsI9qHIdMbqDcK955RwU4USWqhP3vM22C
-	 lAvLgPA0aHaM/wesWXmd21IkzyPr19CN7nxk8r2Q1FwguQ+KDokdWEIBO1qpwa5Uzsg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793252017;
+	h=DMARC-Filter:X-Alimail-AntiSpam:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=3UDEKgZUPckUGfKZJ0o0xSTXDylJXQWn0mYSGDOxAlI=;
+	b=K4GrgU2rzR3wBb3+Qrdg7l+BwqmngIkyV2BitI2lzksb5X3TqTKiXZKfOSpCq8hTv7QE
+	 N/wdlXya1trUYnQLFfHqGm5nAtnOjNqSIQ4Vck6WEoB1FYJFdA59TF13M7EXu2kn3r7+T
+	 C5BpoHiXeYpk3DRxA9cux022MsKwrB4Cho15IDT6q4RJ+uv+Dunn1wNJnloHVY7XqShkw
+	 /E52yzaVM56sUBpDwU8/S5aOBnmO/AqtEdXxRa9l7zl8z6mK5uiozKY4jI1obCfyRQJmC
+	 dMakbzhwZD2f0L79CCM7VWC9y9EspxY1CI7GWpABL4w+91MZFCynhOnArR/sACEPvug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gWZmpme9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=open-hieco.net;
+	spf=pass smtp.mailfrom=open-hieco.net;
+	arc=none smtp.remote-ip=115.124.28.149
+Received: from out28-149.mail.aliyun.com (out28-149.mail.aliyun.com [115.124.28.149])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27D0606A31E;
-	Wed, 28 Oct 2026 19:45:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gWZmpme9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C16B01F01825;
-	Wed, 28 Oct 2026 19:45:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793216710;
-	bh=tek13fxJoZfjW2FSKbZ581rkWJyGs0cGl3iGenG4E+8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=gWZmpme9kTqFriY+QwQYxjoIGMEvLEbtMPuHJOgmvbAnl2lmsogNSuyup94RF9mpO
-	 bMPJbhaN2SsW474C+0CuzgTp91ty1oxwwcQB8f/dMmtJrAm75zS4EZRTNyDtB3HaAT
-	 nqsfwSchMCCy6EpHo1ujakNPIDfEJK2xpDPIUs/erB+6lqGAEHcupoqsJ98/Z1SMih
-	 T6BLteWNVnfOxTprBxOoXHC91wTbdsoq5OgfSxVonAR4RCvt6DbveEc9XhFyA5RcxL
-	 hbrhsmzuwjFWq+uJ2u7iWwG/TE8AdOBt47EodIyU2dX6i8i4X2Bu9l8wceNBg/VM14
-	 qewTRxKYbJptw==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: syzbot <syzbot+74de56995244fe32ffe2@syzkaller.appspotmail.com>,
- linux-kernel@vger.kernel.org, peterz@infradead.org,
- syzkaller-bugs@googlegroups.com, Tony Luck <tony.luck@intel.com>,
- linux-edac@vger.kernel.org
-Subject: [PATCH V2] x86/mce: Serialize sysfs controls against CPU hotplug
-In-Reply-To: <874iec22sf.ffs@fw13>
-References: <6a7ec39f.5b0d2c79.2ef4ef.0002.GAE@google.com>
- <87ik58la9w.ffs@fw13> <20260817235553.GAaoOfieqJBZTsAn3N@fat_crate.local>
- <20260818001840.GBaoOk4Mz_mmZYK2rK@fat_crate.local> <878q63lrqr.ffs@fw13>
- <874iec22sf.ffs@fw13>
-Date: Wed, 28 Oct 2026 20:45:07 +0100
-Message-ID: <87y0bhy5h8.ffs@fw13>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478CF606A31E;
+	Thu, 29 Oct 2026 05:33:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 478CF606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07469158|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.00447277-0.0011769-0.99435;FP=13836726345535406299|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037026024;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.js2ZbtK_1793252005;
+Received: from localhost.localdomain(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.js2ZbtK_1793252005 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Thu, 29 Oct 2026 13:33:26 +0800
+From: Lin Wang <wanglin@open-hieco.net>
+To: Borislav Petkov <bp@alien8.de>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Cc: Pu Wen <puwen@hygon.cn>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Tony Luck <tony.luck@intel.com>,
+	x86@kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v9 2/7] x86/hygon: Map CPU NodeIds to DF nodes
+Date: Thu, 29 Oct 2026 13:33:08 +0800
+Message-ID: <20261029053313.46323-3-wanglin@open-hieco.net>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261029053313.46323-1-wanglin@open-hieco.net>
+References: <20261029053313.46323-1-wanglin@open-hieco.net>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -62,193 +62,105 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 23 2026 at 11:18, Thomas Gleixner wrote:
-syzbot reported a NULL pointer dereference in the CPU hotplug code. It
-is caused by the lack of synchronizaton between CPU hotplug and MCE
-sysfs controls, which allows the sysfs controls to reenable not only the
-timer, but also the CMCI reporting on a CPU which is about to go out. A
-similar issue exists in the CPU online path where the timer can be
-enabled via sysfs control before the CPU runs the initialization of the
-timer.
+On bare-metal Hygon systems, CPUID 0x8000001E ECX[7:0] encodes a
+CPU's socket and local CDD ordinal. The value is sparse across sockets
+and cannot directly index the dense DF node cache.
 
-Prevent this by:
+Resolve the encoded socket and local ordinal against CDD entries in the
+cache, which are ordered by socket and DFID. The NodeId reported by
+CPUID in a guest may not describe the physical DF topology, so return
+-ENODEV in guests or when it does not identify an enumerated CDD.
 
-   1) Serializing the sysfs writes against CPU hotplug.
+Hygon EDAC and ATL support will use this mapping. Keep it local until
+that support is added.
 
-   2) Removing the redundant timer_setup() call in
-      __mcheck_cpu_init_timer(), which can end up in initializing an
-      active timer.
-
-   3) Splitting the hotplug callbacks into starting/dying and
-      online/offline parts.
-   
-      The starting/dying callbacks control the timer and the CMCI
-      setup/teardown. The online/offline callbacks handle the device
-      creation and teardown.
-
-This ensures that the sysfs operations always see consistent CPU online
-state and the timer and CMCI are shut down at the time when the CPU goes
-offline and re-enabled when the CPU starts without interfering with the
-sysfs operations.
-
-Fixes: 9af43b54ab45 ("x86, mce: sysfs entries for new mce options")
-Reported-by: syzbot+74de56995244fe32ffe2@syzkaller.appspotmail.com
-Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-Closes: https://lore.kernel.org/all/6a7ec39f.5b0d2c79.2ef4ef.0002.GAE@google.com
+Signed-off-by: Lin Wang <wanglin@open-hieco.net>
+Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
 ---
-V2: Use the seperate hotplug state as sashiko rightfully pointed out
-    that taking the sysfs mutex in the hotplug callback can deadlock
-    against the device creation/deletion.
----
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 50b1614968be..bcf4cba2b7ab 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -2091,7 +2091,6 @@ static void __mcheck_cpu_init_timer(void)
- {
- 	struct timer_list *t = this_cpu_ptr(&mce_timer);
+ arch/x86/kernel/hygon_node.c | 54 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+
+diff --git a/arch/x86/kernel/hygon_node.c b/arch/x86/kernel/hygon_node.c
+index 6a5278f8e5ca..03c723aab97e 100644
+--- a/arch/x86/kernel/hygon_node.c
++++ b/arch/x86/kernel/hygon_node.c
+@@ -24,6 +24,7 @@
+ #include <linux/processor.h>
+ #include <linux/slab.h>
+ #include <linux/sort.h>
++#include <linux/topology.h>
  
--	timer_setup(t, mce_timer_fn, TIMER_PINNED);
- 	mce_start_timer(t);
- }
- 
-@@ -2532,9 +2531,9 @@ static ssize_t set_bank(struct device *s, struct device_attribute *attr,
- 
- 	b->ctl = new;
- 
--	mutex_lock(&mce_sysfs_mutex);
-+	guard(cpus_read_lock)();
-+	guard(mutex)(&mce_sysfs_mutex);
- 	mce_restart();
--	mutex_unlock(&mce_sysfs_mutex);
- 
- 	return size;
- }
-@@ -2548,7 +2547,9 @@ static ssize_t set_ignore_ce(struct device *s,
- 	if (kstrtou64(buf, 0, &new) < 0)
- 		return -EINVAL;
- 
--	mutex_lock(&mce_sysfs_mutex);
-+	guard(cpus_read_lock)();
-+	guard(mutex)(&mce_sysfs_mutex);
-+
- 	if (mca_cfg.ignore_ce ^ !!new) {
- 		if (new) {
- 			/* disable ce features */
-@@ -2561,7 +2562,6 @@ static ssize_t set_ignore_ce(struct device *s,
- 			on_each_cpu(mce_enable_ce, (void *)1, 1);
- 		}
- 	}
--	mutex_unlock(&mce_sysfs_mutex);
- 
- 	return size;
- }
-@@ -2575,7 +2575,9 @@ static ssize_t set_cmci_disabled(struct device *s,
- 	if (kstrtou64(buf, 0, &new) < 0)
- 		return -EINVAL;
- 
--	mutex_lock(&mce_sysfs_mutex);
-+	guard(cpus_read_lock)();
-+	guard(mutex)(&mce_sysfs_mutex);
-+
- 	if (mca_cfg.cmci_disabled ^ !!new) {
- 		if (new) {
- 			/* disable cmci */
-@@ -2587,7 +2589,6 @@ static ssize_t set_cmci_disabled(struct device *s,
- 			on_each_cpu(mce_enable_ce, NULL, 1);
- 		}
- 	}
--	mutex_unlock(&mce_sysfs_mutex);
- 
- 	return size;
- }
-@@ -2602,10 +2603,9 @@ static ssize_t store_int_with_restart(struct device *s,
- 	if (check_interval == old_check_interval)
- 		return ret;
- 
--	mutex_lock(&mce_sysfs_mutex);
-+	guard(cpus_read_lock)();
-+	guard(mutex)(&mce_sysfs_mutex);
- 	mce_restart();
--	mutex_unlock(&mce_sysfs_mutex);
--
- 	return ret;
- }
- 
-@@ -2755,23 +2755,33 @@ static int mce_cpu_dead(unsigned int cpu)
+ #include <asm/cpu_device_id.h>
+ #include <asm/hygon/node.h>
+@@ -481,6 +482,44 @@ static int __init sort_and_classify(struct df_node_cache *cache)
  	return 0;
  }
  
--static int mce_cpu_online(unsigned int cpu)
-+static int mce_cpu_starting(unsigned int cpu)
- {
- 	struct timer_list *t = this_cpu_ptr(&mce_timer);
- 
--	mce_device_create(cpu);
--	mce_threshold_create_device(cpu);
- 	mce_reenable_cpu();
- 	mce_start_timer(t);
- 	return 0;
- }
- 
--static int mce_cpu_pre_down(unsigned int cpu)
-+static int mce_cpu_dying(unsigned int cpu)
- {
- 	struct timer_list *t = this_cpu_ptr(&mce_timer);
- 
- 	mce_disable_cpu();
- 	timer_delete_sync(t);
-+	return 0;
++#define NODE_ID_SOCKET	GENMASK(7, 4)
++#define NODE_ID_LOCAL	GENMASK(3, 0)
++
++/*
++ * Translate a Hygon Fam18h phys_node_id (CPUID 8000001E ECX[7:0]) to a
++ * dense DF CDD index. On supported models, CPUID reports this
++ * encoding:
++ *
++ *   phys_node_id = (socket_id << 4) | local_cdd_index_in_dfid_order
++ *
++ * The CDD region of df_cache.nodes[] is sorted by (socket_id, dfid), so
++ * return the index of the CDD whose socket_id matches and whose
++ * socket-local ordinal is @local.
++ *
++ * Return -ENODEV if the cache is unavailable or no CDD matches.
++ */
++static int phys_nid_to_df_node(unsigned int phys_nid)
++{
++	unsigned int socket, local, ordinal = 0;
++	u16 i;
++
++	socket = FIELD_GET(NODE_ID_SOCKET, phys_nid);
++	local  = FIELD_GET(NODE_ID_LOCAL, phys_nid);
++
++	if (!df_cache.nodes)
++		return -ENODEV;
++
++	for (i = 0; i < df_cache.num_cdd; i++) {
++		if (df_cache.nodes[i].socket_id != socket)
++			continue;
++
++		if (ordinal++ == local)
++			return i;
++	}
++
++	return -ENODEV;
 +}
 +
-+static int mce_cpu_online(unsigned int cpu)
-+{
-+	mce_device_create(cpu);
-+	mce_threshold_create_device(cpu);
-+	return 0;
-+}
-+
-+static int mce_cpu_pre_down(unsigned int cpu)
-+{
- 	mce_threshold_remove_device(cpu);
- 	mce_device_remove(cpu);
+ static int __init build_cache(void)
+ {
+ 	struct df_node_cache cache = { };
+@@ -533,6 +572,21 @@ static int __maybe_unused hygon_node_get_info(u16 node, struct hygon_node_info *
  	return 0;
-@@ -2834,6 +2844,14 @@ static __init int mcheck_init_device(void)
- 				mce_cpu_dead);
- 	if (err)
- 		goto err_out_mem;
+ }
+ 
++static int __maybe_unused cpu_to_df_node(unsigned int cpu)
++{
++	if (cpu >= nr_cpu_ids)
++		return -EINVAL;
++
 +	/*
-+	 * Invokes mce_cpu_starting() on all CPUs which are online when
-+	 * the state is installed.
++	 * The NodeId reported by CPUID in a guest may not describe the
++	 * physical DF topology.
 +	 */
-+	err = cpuhp_setup_state(CPUHP_AP_X86_MCE_STARTING, "x86/mce:starting",
-+				mce_cpu_starting, mce_cpu_dying);
-+	if (err < 0)
-+		goto err_out_starting;
- 
- 	/*
- 	 * Invokes mce_cpu_online() on all CPUs which are online when
-@@ -2849,6 +2867,9 @@ static __init int mcheck_init_device(void)
- 	return 0;
- 
- err_out_online:
-+	cpuhp_remove_state(CPUHP_AP_X86_MCE_STARTING);
++	if (cpu_feature_enabled(X86_FEATURE_HYPERVISOR))
++		return -ENODEV;
 +
-+err_out_starting:
- 	cpuhp_remove_state(CPUHP_X86_MCE_DEAD);
- 
- err_out_mem:
-diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
-index 1b6dba159bb2..6503cb8e7f0e 100644
---- a/include/linux/cpuhotplug.h
-+++ b/include/linux/cpuhotplug.h
-@@ -185,6 +185,7 @@ enum cpuhp_state {
- 	CPUHP_AP_HRTIMERS_DYING,
- 	CPUHP_AP_TICK_DYING,
- 	CPUHP_AP_X86_TBOOT_DYING,
-+	CPUHP_AP_X86_MCE_STARTING,
- 	CPUHP_AP_ARM_CACHE_B15_RAC_DYING,
- 	CPUHP_AP_ONLINE,
- 	CPUHP_TEARDOWN_CPU,
++	return phys_nid_to_df_node(topology_amd_node_id(cpu));
++}
++
+ /* Return a referenced DF device; the caller must call pci_dev_put(). */
+ static __maybe_unused struct pci_dev *hygon_node_get_func(u16 node, u8 func)
+ {
+-- 
+2.43.0
+
