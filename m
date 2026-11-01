@@ -1,89 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793541227;
-	b=5EZ7K+dKNfRBwUVuqCuMkgls3p1HTeiUUAO58lxNwpDuPqiyxXB1PlJG83VTSQcvAdbK
-	 c6aF9t3Z1lP9vn8JVFIQfD9VpMEyjS5P1HMsbhJljiglRCppvCm1bNQ7bQKs36nWCrny3
-	 2oUx45LJnxneJfzHyKO/BBQ9sSFUbS2y9Y4qzMlhGqghFA2FDRkjrluj67qyi5QY6QbH0
-	 xlC+5qgM4Uzrx+dSJIokeEhzFyHQWQr/xA4bNSowK8M9HMjW8/bQaRqiXNa1aH4ZspXK1
-	 pTzKs/erGp5zJpj0u+7yDaSt3VkZV/fJrUAVVhsDoAlnbxYlxwqA7M2qC/+k62G6Cuw==
+	t=1793576830;
+	b=0OjriHmByHwN1lM1tnRRR9yn5E4JRLNaX4Chg2aUItrYcvzUvKf873ntgSrJdUjA1w2U
+	 DLEVjeJBStk245vwiJaGX30FB2tibNLuzssH7tghvPw7CwuTIQ9UnUCDCUCjDgXd9tZuz
+	 pChVbsMMS8ojihVog+vDXu5NwCXdwCvDhROWZAHSQWd81eMbD6ICRX61Hyr0GzydN+gtW
+	 j+u77Iz341Fhaq4wd0tAJ6s5TwYrJYeidjD4eONxkr2nByORFeGkdjbz+YCL24H90eDui
+	 Qux5E22y+GdDYi8rx3Vmg4ph1VQC014TmWJvhG4SEpBYUBt/68ToCOBitI58lluK0oA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793541227;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=ByU4pbijH13SuxZHyk54Q+BWYd7sxBxb/2grL4zMyno=;
-	b=HN87Rx4wfxyXiszuILhP1qTruJF1nt6x++5RSmfDq7tKLtWdx0OAwLMGbFwBUlTZIEZv
-	 u3SD/EtCaEGGXGPS5nZvGaLSsibmF3Rf9NTidm8Y1gWfjq8ZgRiXWupA0NktZM3ywbgoy
-	 pJ8JiZAeIJ/taexdX61BzXCCFjL40il86g0r/AIbPPXVCkSCO46R8C85yEXOyDlmKwct1
-	 O0apLPYPI6kQAa9dvAuiHv9WPSZZiokKGZshW1pncxXFjsXtFDdhBzZUrWsuPuTHdb1Tc
-	 JaAP3Nn64liioYeApGnZRQxYPjLZITD+XIy45iSTODRctPcBKchfX6NNz8zlcHlN0rw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793576830;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=LKioqDMC3xU2l9aGKxQySOAbKbM1ak4QmbvG8jrOOtg=;
+	b=DL+WTBkj5YkKISvQIiiR8JefVvEdmfSwRPu2tXDepwEXWPKjmdivRR4kF3p8SNOSPAxQ
+	 7KdoppoBF5OlNnPcHWUmk8QPO4uIaR1VsMO4tY844faMeXT0fHDD9AIK6peBg/h5PnUWu
+	 nYR2JplxUMtAfAoW1iALTd6ndQrzf92mCDDiZjvZgQ8/bPBlpuNEC/RFGaRr2iI4hfW7h
+	 bSkvsT7H0DreTexwo59umrISo4qDcG2AT0YejmHE0zRgv5o0Aw0aW3G4jJIaxfEPav8G2
+	 Furjks4vKhPHh0UtPe3qZgai13Eo6HycGKKb6zDINB66hgX4id3vVPoJTrfY6jNPDOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=korea.ac.kr;
-	spf=pass smtp.mailfrom=korea.ac.kr;
-	dkim=pass header.d=korea.ac.kr header.i=@korea.ac.kr header.a=rsa-sha256 header.s=google header.b="kOnu/8id";
-	arc=none smtp.remote-ip=209.85.128.175
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=LPphV+Lg;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE2E606A324
-	for <linux-edac@vger.kernel.org>; Sun,  1 Nov 2026 13:53:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ECE2E606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=korea.ac.kr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=korea.ac.kr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE81606A324;
+	Sun,  1 Nov 2026 23:47:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0BE81606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=korea.ac.kr header.i=@korea.ac.kr header.a=rsa-sha256 header.s=google header.b=kOnu/8id
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-8b0ca1ebc8bso16648227b3.2
-        for <linux-edac@vger.kernel.org>; Sun, 01 Nov 2026 05:53:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=korea.ac.kr; s=google; t=1793541226; x=1794146026; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ByU4pbijH13SuxZHyk54Q+BWYd7sxBxb/2grL4zMyno=;
-        b=kOnu/8idxgf3nP98EBTacEr1UKbx35BwxgnGtNollZ1aNL6n5dpEi5sWp/f/dSodtl
-         WnC4uMqpd3Pa1wbIw//Q5UaXZ4jNzcrwsWcyOtDN35s1zbY4nEGGHX+VixqCaGX63erO
-         +D6bNiV3WNGOa5sU5oy1y9z1kw3J9ZAEYTHDZZf8QaEsS0iYi5zCfOZDkgg0FXJG9qlj
-         w7IWfLlonBAG0RgmP0T0VnUHO2Z/2SKpm/CzJFo+cys8vCRcw3D9aFbtnhgLw/OPUnM9
-         ReygVKilCXDpSlvP7wOa4QUioxS7utjQSIo+Tn2AH7h7vtMFDcc1xnzIaiVUap9tttZZ
-         ILuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793541226; x=1794146026;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ByU4pbijH13SuxZHyk54Q+BWYd7sxBxb/2grL4zMyno=;
-        b=Q18XNE8Px40wKXV7XZAR9vOTKlBE29H2LvygPnd8rt85cnId8/LDH07QYfo9oCrliy
-         7NWX7ZDo85SzhwhIMxRS/HEpBxF6iDQH9XDMQ3IL+DfB4jd/utbXpqFwgwF7+2nEmGuW
-         gZSUFlQqAtpSEpMJtsog+wHPEX1UPvfPxIthCXVgpOvrAFDlTj04S7VdJOjjV2LDrwun
-         rII8CDmpogViLt9dI/x0InCTtkjmfH/FyEn/BNlFA7QEYIZFDXtghrPtl2MbLXNd9fV4
-         SynJ/lNbMcS3PXbfgnMOPn46aMO6wla9xdeqpaQrFcwhDM6wAyLUcGtI0GJ24pApHfr0
-         h0lw==
-X-Gm-Message-State: APuU4Z9ryPo1bwvNXo6W/VjsQ4/z0hTpSBiaIKH58FSRfb8vmdLmZcTH
-	ZUJMiirVzVrHK7qYOOVWmvQH1iLiF9akxY+BNPgWGroXiiN6QltqltrpLvGxngz+bw==
-X-Gm-Gg: AYBFou2KLWzHmKs+oW5dqh0ApXqMFj2rbu2y27DAStoqhdipn/0TxG3st9c4GBYfpF9
-	+TRH97DqbiWroiqU3Ycd3oA/1u+SLajjRnJagiNxdH+LDC2qIccBtvuaL7hlVxTCGEh9qTdxQOj
-	TDJj9ZfDL2GVTYoiGdjPF7pU/jocp29tdV24w2pbbRIO3+0dEz4iXSH2X0LUJBVtPlJaVr3tcGc
-	cmimgNb6eGh62IWRz/WICqcRTCXyD9QwhpPvN0iWgfuFvOL/7XoXmNvQfSJBCxajYi3pCqmeTKk
-	++asU1yKRldVTogocm9wl459lLZkBtFneUUi1t7QOtN0c82UtDThJvBTCvBysUkUZoclmMcV1xB
-	L4r3w5zjib50P6+TXYck+DqmKepnfZP8l6d2aG/Adw51KbMAK496dokPnb8SSIOXzM7rkw7/AXO
-	pr/BAlLICRcZkoHE2JdMILDrsOBZ2zB9LAK97fi5i4uHFzI0jO40rZO6bg+iCDmJB6q/tiGdIdy
-	GLqTn4XaFiEPwImEsCYkb0UM79JM86GEemDZVw1DhWNv4FES8t/yU6sVAwWQPCFJDePhH0=
-X-Received: by 2002:a05:690c:e243:20b0:8ab:b98b:b77f with SMTP id 00721157ae682-8b2b67497aamr30646777b3.40.1793541225974;
-        Sun, 01 Nov 2026 05:53:45 -0800 (PST)
-Received: from s2lab05.. ([163.152.163.130])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b2b7125371sm36327097b3.11.2026.11.01.05.53.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 05:53:44 -0800 (PST)
-From: Ingyu Jang <ingyujang25@korea.ac.kr>
-To: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>
-Cc: linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ingyu Jang <ingyujang25@korea.ac.kr>
-Subject: [PATCH RESEND] RAS/CEC: Drop unneeded debugfs_create_*() return value checks
-Date: Sun,  1 Nov 2026 22:53:40 +0900
-Message-Id: <20261101135340.2197888-1-ingyujang25@korea.ac.kr>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=LPphV+Lg
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=LKioqDMC3xU2l9aGKxQySOAbKbM1ak4QmbvG8jrOOtg=; b=LPphV+LghTprV6ehsGNciQnupJ
+	dQPyNRGNdUQF2USg906mrHf2y3LE1TAheTIWsJpX6CLUAVh97ZX6Dy6y3kmTkPgFDeMGgkuke0/iV
+	yZAzGBiLg+wUx2oyqKQ0toh77y61dgxRMvOyVDY0DUg8ZEVNuY2SYgr9Y3v6BXwoLsBE5In2+QSy7
+	ImsKYVkRBaTeap7mQYkrhVvIOHtv7EX8J+1qsPl8ASq3ts3s7h/OtD7bcXs9SrkxR9Hwxpb/95bhp
+	bqUQLYvC8wtzY9+e/SL8ON3aAZ+t04Hl3FPu+EUO5HV0XYozF6gGnoz2alhj32DuxOiYsV1pLQbc0
+	uWGtvS/g==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xNfGO-0000000FGD8-2Jxa;
+	Sun, 01 Nov 2026 23:47:00 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: patches@lists.linux.dev
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-mips@vger.kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-watchdog@vger.kernel.org
+Subject: [PATCH v2 2/8] MIPS: Octeon: cvmx-helper: fix missing function prototype warning
+Date: Sun,  1 Nov 2026 15:46:51 -0800
+Message-ID: <20261101234657.1820661-3-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261101234657.1820661-1-rdunlap@infradead.org>
+References: <20261101234657.1820661-1-rdunlap@infradead.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -95,98 +71,41 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-debugfs_create_dir() and debugfs_create_file() return an error pointer
-on failure, never NULL. Per commit ff9fb72bc077 ("debugfs: return error
-values, not NULL"), callers do not need to check the return value.
+The missing function prototype is already in cvmx-helper-errata.h.
+Use that header file in cvmx-helper.c and cvmx-helper-errata.c
+to eliminate a build warning:
 
-Drop the dead NULL checks in create_debugfs_nodes() along with the now
-unused err label and local variables. Converting them to IS_ERR()
-instead would have exposed a regression: on a real debugfs failure
-(notably CONFIG_DEBUG_FS=n) the function would return -1, causing
-cec_init() to abort the entire CEC subsystem.
+arch/mips/cavium-octeon/executive/cvmx-helper-errata.c:49:6: warning: no previous prototype for '__cvmx_helper_errata_qlm_disable_2nd_order_cdr' [-Wmissing-prototypes]
+   49 | void __cvmx_helper_errata_qlm_disable_2nd_order_cdr(int qlm)
 
-The ras_get_debugfs_root() NULL check is kept; that helper has a
-NULL-returning fallback and is the legitimate "RAS debugfs root
-missing" gate.
-
-This patch supersedes an earlier proposal that converted the checks
-to IS_ERR().
-
-Link: https://lore.kernel.org/all/20260514193202.2397348-1-ingyujang25@korea.ac.kr
-Signed-off-by: Ingyu Jang <ingyujang25@korea.ac.kr>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
-Resending, as there has been no response since 2026-05-19.
-Rebased onto current mainline; no other changes.
+v2: no change
 
- drivers/ras/cec.c | 39 +++++++--------------------------------
- 1 file changed, 7 insertions(+), 32 deletions(-)
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: linux-mips@vger.kernel.org
 
-diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
-index 15f7f043c8efd..32c1be97bbd0d 100644
---- a/drivers/ras/cec.c
-+++ b/drivers/ras/cec.c
-@@ -480,7 +480,7 @@ DEFINE_SHOW_ATTRIBUTE(array);
- 
- static int __init create_debugfs_nodes(void)
- {
--	struct dentry *d, *pfn, *decay, *count, *array, *dfs;
-+	struct dentry *d, *dfs;
- 
- 	dfs = ras_get_debugfs_root();
- 	if (!dfs) {
-@@ -489,46 +489,21 @@ static int __init create_debugfs_nodes(void)
- 	}
- 
- 	d = debugfs_create_dir("cec", dfs);
--	if (!d) {
--		pr_warn("Error creating cec debugfs node!\n");
--		return -1;
--	}
- 
--	decay = debugfs_create_file("decay_interval", S_IRUSR | S_IWUSR, d,
--				    &decay_interval, &decay_interval_ops);
--	if (!decay) {
--		pr_warn("Error creating decay_interval debugfs node!\n");
--		goto err;
--	}
-+	debugfs_create_file("decay_interval", S_IRUSR | S_IWUSR, d,
-+			    &decay_interval, &decay_interval_ops);
- 
--	count = debugfs_create_file("action_threshold", S_IRUSR | S_IWUSR, d,
--				    &action_threshold, &action_threshold_ops);
--	if (!count) {
--		pr_warn("Error creating action_threshold debugfs node!\n");
--		goto err;
--	}
-+	debugfs_create_file("action_threshold", S_IRUSR | S_IWUSR, d,
-+			    &action_threshold, &action_threshold_ops);
- 
- 	if (!IS_ENABLED(CONFIG_RAS_CEC_DEBUG))
- 		return 0;
- 
--	pfn = debugfs_create_file("pfn", S_IRUSR | S_IWUSR, d, &dfs_pfn, &pfn_ops);
--	if (!pfn) {
--		pr_warn("Error creating pfn debugfs node!\n");
--		goto err;
--	}
-+	debugfs_create_file("pfn", S_IRUSR | S_IWUSR, d, &dfs_pfn, &pfn_ops);
- 
--	array = debugfs_create_file("array", S_IRUSR, d, NULL, &array_fops);
--	if (!array) {
--		pr_warn("Error creating array debugfs node!\n");
--		goto err;
--	}
-+	debugfs_create_file("array", S_IRUSR, d, NULL, &array_fops);
- 
- 	return 0;
--
--err:
--	debugfs_remove_recursive(d);
--
--	return 1;
- }
- 
- static int cec_notifier(struct notifier_block *nb, unsigned long val,
--- 
-2.34.1
+ arch/mips/cavium-octeon/executive/cvmx-helper-errata.c |    1 +
+ arch/mips/cavium-octeon/executive/cvmx-helper.c        |    1 +
+ 2 files changed, 2 insertions(+)
 
+--- linux-next-20261028.orig/arch/mips/cavium-octeon/executive/cvmx-helper.c
++++ linux-next-20261028/arch/mips/cavium-octeon/executive/cvmx-helper.c
+@@ -42,6 +42,7 @@
+ #include <asm/octeon/cvmx-spi.h>
+ #include <asm/octeon/cvmx-helper.h>
+ #include <asm/octeon/cvmx-helper-board.h>
++#include <asm/octeon/cvmx-helper-errata.h>
+ 
+ #include <asm/octeon/cvmx-pip-defs.h>
+ #include <asm/octeon/cvmx-asxx-defs.h>
+--- linux-next-20261028.orig/arch/mips/cavium-octeon/executive/cvmx-helper-errata.c
++++ linux-next-20261028/arch/mips/cavium-octeon/executive/cvmx-helper-errata.c
+@@ -37,6 +37,7 @@
+ 
+ #include <asm/octeon/octeon.h>
+ 
++#include <asm/octeon/cvmx-helper-errata.h>
+ #include <asm/octeon/cvmx-helper-jtag.h>
+ 
+ /**
