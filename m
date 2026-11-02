@@ -1,138 +1,125 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793638826;
-	b=B/uvCgsiRsz4cvu5YGjAwde0zcWPrd5J8ntKB9HkEH/db5u3IWnzknZUUKjus6tR4Vv7
-	 b3gIpcsD9zYov9IXd0U43dNHAsoLMDsk/M/8/KWft1H+xvqkezLzpidQzFCM21/CVDYOW
-	 bUvZWyVc7JhIylVNvzOIAD/SqjEZvyF10kFGoOi22uIl4ydYQ9JYulFfY0wwlgHF+fKvv
-	 2IjmHqd/rmzCswTUDnZTdBjkPge7viHxW60nKbEl1b17ctw+mFbOXDm+F6z038bALZm+u
-	 w9tvDFXNbE/01l0j3bm56XEkvxRLroztsUqwGuNdQFgxYhZ3w0IcSiy4sGhYlpZ0o5g==
+	t=1793651808;
+	b=oMags0UKu2kiSE0nqyDJbboCj+UNZo4NcuNnHFpW9puksng7leGOkWCrHWxL1aPbH1L2
+	 wuGOY1Rl5CqE+GwNMNlZ1OTGnRhyLXJuAZj5exPIBv1cnDHYGqF7weazVxk4tVmc+SHPq
+	 7rucnri8s4/Y2upaw+3fk9ZXWM2UYMLqFAzXHj/Ph3OLUfCOJ/KDg0OsJyPsopR5y0CNd
+	 JeC2Qb6ALDQwrfcC0QPuKVN89nNaSuRoL4pq4lyd/K63krtxAP4PRGfFlH9ptfkG+3lIo
+	 6WpJXJc0wu5dYrepwSD8I4nzB5vQB8iFY5Y9Mgto0nFXnz2hJJ4yMDjkN2iv4CIUhqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793638826;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793651808;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
 	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=XczOQ/PvC8peHst+FS7ZptxNtxHSEkyj/L5/XKB+zKY=;
-	b=ov5nvWqfTrgkY/FwuK0mlz2o8ygeJeUZGylAb4q3oxmr5ZYcWIklcVnmWYQTK+2c+UTw
-	 DxyxlgYWlMyBNoBNte2HI+ekJkGn4kf5zstKa7qkvGGVahB6zsIcVRtgRdrfYJSx6BLd3
-	 y4FZnXfMzfDYm1saCqITwEqFdcrdxOjcl2Bt/Q2vTGsFr4OmuDlCNX99dFe30shuF60y5
-	 p5SX6ufuSMgsEe9ETKsz/4+HxgqMEYC6fXgOHr+hSfMs0Bpnx2AYbqIlGFDE3YwLiRVBg
-	 F8n+8Yfu/EW54AJ1PfigwToDv6jSkb2kaohQoz8h11RmtooFHc+D1mxUN/5LDQOWtxw==
+	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=0dgvto+gtIB4dqOWraooa/QVMSNJoBJ+rpOpWN/Iitc=;
+	b=kUNbbmIEDAETsGl746iF/LyECl0M9Inn9Xipeu8DCMxnZNExvH+WgcsSUl4WsgaEFp/X
+	 DC08t8wyj3peQYPuO7UbLnTFOJqUF72kPPdz/x+XF6GYhBLl2J45SvcNjd4qP16px9ufj
+	 QBQbn2dtgHHtc7t9rL4lFn7QaDiRPHkNZh/kzCP42TikIDWfAVppJ9BTMK/ctoKcyhdXC
+	 OVY0BQ59dP2uLQxQvXrCc7mJxSLmZtW8RJukz22vUGiHCKc8842w9Tt+u/nT+pA1Djk0G
+	 Zj+S5Fx2LvZKBMMepMpu6nZi7as9wJYu7pmDPdp5hmOcfYXu3XqFmAbWjO3KRbB1ygA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=T5h8GHkY;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=K0om4fpv;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=RPWzfHtf;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XSt36b2D;
 	arc=none smtp.remote-ip=205.220.168.131
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A2E60AC6F2
-	for <linux-edac@vger.kernel.org>; Mon,  2 Nov 2026 17:00:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80A2E60AC6F2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6EA606A324
+	for <linux-edac@vger.kernel.org>; Mon,  2 Nov 2026 20:36:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E6EA606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=T5h8GHkY;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=K0om4fpv
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2GZ1kD1222807
-	for <linux-edac@vger.kernel.org>; Mon, 2 Nov 2026 17:00:25 GMT
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=RPWzfHtf;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XSt36b2D
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2K5ro03955548
+	for <linux-edac@vger.kernel.org>; Mon, 2 Nov 2026 20:36:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	XczOQ/PvC8peHst+FS7ZptxNtxHSEkyj/L5/XKB+zKY=; b=T5h8GHkYT7vrUwlC
-	/DP6m03zEakg9PIZv3mH9WI00gaWoGZTkZK+EAdlnFNkJRDZApwsc5PXlBcAFogE
-	KzBnsxTic6IO2K//BVCudRIC+HwZCEGonhE98IiYhdco1VaFYi86aie+5nUa+7FN
-	ucTSEtX+8HLwA0nQvifB4gNUCTdATapNpSfx12vjdNuHvKYcjjhSy73cLfIYr1zI
-	M5f+tp/KYjuTnoKld4xW0D46atgA3gd6Kts2o4TmVpgy1KvbI6V6Xk85fjYJ/XFv
-	1Ue07Cm6d1bXXxZxa200F3qgDcBQ6mAQOFlMhNvZPZusRemMAAwZmGzhXsmUUB8y
-	UtS0pA==
-Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com [74.125.82.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hpmf1tt1j-1
+	0dgvto+gtIB4dqOWraooa/QVMSNJoBJ+rpOpWN/Iitc=; b=RPWzfHtfJENBbipS
+	LKoDxoWUi403tokUQ+xVyD3QL/EsGwcNzV9+ooEbJOzm1xDPrXrqXWFyO3y/ScQt
+	M+mpoMePex/U6ctvHQpTymggJ37WQ3kDk2jOJBgHNMgQbvGcmuvPvfTcadxq6On5
+	DpsDkUwdXMzx7VhUjt/G+u68pO+9bT5r9/dmiBdEx+MJDSPAup3QluduNNcJ0AIX
+	7oWZPwftQBQnRzKDsuR1md4j9cGmWz/eXrnEMOXYLF/pD5/DhXGij/zr8TWKUIo9
+	4LWDrHW/lduu0mR27HxLL/3fnQ4xxEWzr8fTjGW7ZG/sPHBLzgLPqZel/qslFpVu
+	KfCTeA==
+Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hq081rcuf-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-edac@vger.kernel.org>; Mon, 02 Nov 2026 17:00:23 +0000 (GMT)
-Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-1ab289bb41eso1899073c88.1
-        for <linux-edac@vger.kernel.org>; Mon, 02 Nov 2026 09:00:23 -0800 (PST)
+	for <linux-edac@vger.kernel.org>; Mon, 02 Nov 2026 20:36:47 +0000 (GMT)
+Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-16bc6f3fdb1so3286096c88.0
+        for <linux-edac@vger.kernel.org>; Mon, 02 Nov 2026 12:36:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793638823; x=1794243623; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1793651807; x=1794256607; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=XczOQ/PvC8peHst+FS7ZptxNtxHSEkyj/L5/XKB+zKY=;
-        b=K0om4fpv5ds9/A6m4xc/pL7J/qOsz8/o+rA6WfMtRtBAppAB3bZy20Yi5erSTb1+gp
-         mSHorxX714RRIqD4MKNaS8pHIsAr1tYPLJpmuyqmkeObmZ47ocNfohLI240U0p+9NXyO
-         MBhsWT1HveIjhbpYtviPSQki7BkOTUclAiWXHdaefT0h1mrw+N7R3ebW2U7VfX8FtVzQ
-         eEAMddO28FKxd+JhnpqeoEz3A1nZvqVCZsSK3BXyhlGbtZ9cGQqVlKLWzWdg+HSRdJU0
-         1GH2/F4rsoebKD9VzlO5MT1TY9viHQpf2XeeYoi44e6nTbOjmrZkhFEZJli9OK0VspXE
-         Ecmg==
+        bh=0dgvto+gtIB4dqOWraooa/QVMSNJoBJ+rpOpWN/Iitc=;
+        b=XSt36b2DdiKxmCvAERLbbWyXX3pj6uV1+SUuc/kUH51UyDAFXUYMgNNRyymhkY2VwR
+         2MP+rSnDL8sK4/Jal3hLSOP6SZYWbQ75Az6NG5ZKzsMdxzxWsrfm8ek8rQYhHbYXnW85
+         SQaaAdCO2YD06ZUT0NSTyYp7kajMJO2J4Q0fZdAGsI04WBFHR1nZVC1RyZuZy3yBcEB/
+         2AkBXYozqFz4U5NU0ALBIbWeDD4Obu5Xl+KQ3skNVuVBM9phAwpBBIaAMboSpWMSMIbk
+         tRqZ5YEfShv9geYb3ErQUmCX8GYb7ApUnb2QLYtxcSpLXfsJ4gI8rOZI42grrYCwcVOq
+         KZpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793638823; x=1794243623;
+        d=1e100.net; s=20260707; t=1793651807; x=1794256607;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=XczOQ/PvC8peHst+FS7ZptxNtxHSEkyj/L5/XKB+zKY=;
-        b=Eb9O9XVg0rqoAmFbAX+NYFznQsCl71cR6XegMM6Bja3MOc8ZC7TVsFjp9tX29W4XGv
-         k0jMz/2M7i+/EPfjtQMDvoY4w/zAdzhP+Cm2TKIrq+uLH6rVNhcUAes0GB6TXJNSddag
-         YngI6lP0WPs+U1kw6sJPl46DGb+V34F69g1AayxDX0EuEMnwFwAB7P+Srgn4/NakqjzX
-         kVOjRI2sSxe/vgN/HP7GRCISKWT4mU9Syf9gp43x+FxQo8Mjs6Ke3f4/SnXgZmOlb/Ky
-         I/B0ZKSce4ImBkF2LNjR2YXDOFdiaioxKSNQrVs29kXJqMLok2yTNDq2EyaqsG4wtg32
-         7xeg==
-X-Forwarded-Encrypted: i=1; AKwUvBzJq72KiCZV4Xrf9JjgM1huEPYZDrniYydKyGCEyK2VRFj7o2Ch9u/IlxIuVB+E6y22o2kGpTqw1d+k@vger.kernel.org
-X-Gm-Message-State: AFq9FYKrC67ZfutUbtseefKgquS7q1eTZfRKbdN43NXmzv0nQgorbMB8
-	NLQFC8Mhr6gKxedB3Yrmyuv7gPi9Km1u+Buli1SQn9yUfEzHxnWEBiBkadPjA4BAwR7a+sY/mZ9
-	cvCVnLG+XJ0SML/Opg4Dcx2NPF8oAcPkjm/YkQ4KDg5tEFAbdmdCLY+dZtCpR0ZOB
-X-Gm-Gg: AYBFou3RZBQcvr1eH3pc6PDLtBFz7AijnXKbGeWpj8ovCglE/Ll1OcZ/dMpxVXpeHum
-	pPW2Qpbxds7LRAbpmJ2++kx/Yu46Tr4UMlVXk83ohqeTLdBk7L4eIWBv4i+DruqjO3AVMtfFuJT
-	uzJT7LTi6Czi6oH60jGmGk9xOHk4l7yI0jhuzyxN8iX+WS6faG75htqcmeP9vlUvwwjYvrJU2jC
-	TC7jvzMxaA+uF80WNqzSHir0KLrR8OgfWIlO65dJ1dI2ghuSc/HDISCPdt6yLCVKTzCbsrf3KV1
-	evAlSEgAt8QcRqbel/cQsTAlKtdrISfPgQs7kZqOjDY/YXsdas1rMzkYPQzQ7oZQVQOlbc0hIqo
-	lF/YHXLTW1b477tKfYaYT3gZCaawKNW5Nxj2NBEcJjOBEFI37jSj/RbkN+iahG4oaFMD7l8GqY/
-	oDMJPquFz0R0K/5RU6AJ4mMeByzjY=
-X-Received: by 2002:a05:701b:2511:b0:182:d0a8:d1a9 with SMTP id a92af1059eb24-1a93c6ccfa7mr17653435c88.0.1793638823038;
-        Mon, 02 Nov 2026 09:00:23 -0800 (PST)
-X-Received: by 2002:a05:701b:2511:b0:182:d0a8:d1a9 with SMTP id a92af1059eb24-1a93c6ccfa7mr17653381c88.0.1793638822341;
-        Mon, 02 Nov 2026 09:00:22 -0800 (PST)
+        bh=0dgvto+gtIB4dqOWraooa/QVMSNJoBJ+rpOpWN/Iitc=;
+        b=nmDdafISc77mvoyVgjb/VQEHGXnTiNr0UQRx5hMvQaZx7El557MT0vt8shGrDJhrsv
+         zReMx6tIxtajSoG3qjB/B6kGPPsaJZiFhhREitXjwdWTquVrjEy9IiV1ywljGKF+XVO+
+         XizhP5i8kU6w+MyIDbeDBkv0C7bsdY5MYMAgNoMvlytBiuUWcGpBIkq0g4unHke5ZT2U
+         ojSnQQpE9fARXQgxdydCTuOH6wRHIJKGB7oiGgS10UYUEoW3D1ZScm3zSof9DiJxHrxp
+         EKPabsHeqFcUIFBHvFBV7CTFBcAKe3kIRtzYRrcXvJZg78j5uVE5HQ/EJIDTxLlYB0hg
+         iRYA==
+X-Forwarded-Encrypted: i=1; AKwUvBxEad2Lo6M8NhT7njqHQmDS8ZsY0DhwP0eE1PRpCCS6uXGAZvpR4YUB2jbZJUKJpSE7eZO0cPz46IrN@vger.kernel.org
+X-Gm-Message-State: AFq9FYIf3jt9u6ww5VD/SLxVFgqmi0y1zY36zLwnjoeKcmWuFd2wxYTG
+	s6ThBQayfxUuujLg44DcTVOcrRQFPHsn3SljPvo/TTpNT8RZyGSw8dpX9e+75B8c5iccMdYITX7
+	cRM3SPdPmr5oPKIGahJCTF1CKm3pe9lvRwnKbIfAUcgZZsqCDX+kLMPKmqyEO+WVq
+X-Gm-Gg: AYBFou1fWzLso5xSmkkKwAe400eIWpRQv5cUe4l7g+FCOyLFazZPR3khcprTNe3vEUc
+	MF+sj8cMGXS9Qo0gEP4R6HJkCon3ZAfDtccXmQKheFPN74x4QBUKAN85tpzdYHa/01DO8s2cTVk
+	eg/fr25XvSfGpTOUIIbS/piQEhZhtMXYxTwBbEaLdURSWlRnWd3nLpjfqjTQAEOVM0K4PRxEyzl
+	mBZ9l7WG4kfLH5BEFrc1nNNDRsu7JM2iSh0TD5spsO0n7vGfoC1F+V7SJpXpPPeudQaoOiX4R9g
+	O/9Qo3gvdGtULs6qA0a0QlVwSboBQ/IE4unRqP25suDJcpSyvY7Sq5QRdkp7TOFvBFgSkg8KZcl
+	bHas6mfaUlXsf4XB94Q+gJEkpmLrf0RKksK8oPEglKF7/DecMuSlanMlZvUZP5hRqqmN04KHqXR
+	Yk5aWC/TIidf0OE75PwvFNzrH6yQ==
+X-Received: by 2002:a05:7022:7f13:b0:18d:5988:8d3 with SMTP id a92af1059eb24-1ad106817d8mr15772342c88.3.1793651806381;
+        Mon, 02 Nov 2026 12:36:46 -0800 (PST)
+X-Received: by 2002:a05:7022:7f13:b0:18d:5988:8d3 with SMTP id a92af1059eb24-1ad106817d8mr15772281c88.3.1793651805604;
+        Mon, 02 Nov 2026 12:36:45 -0800 (PST)
 Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac0e738445sm35752421c88.0.2026.11.02.09.00.18
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac192c27cdsm61679802c88.10.2026.11.02.12.36.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 09:00:21 -0800 (PST)
-Date: Mon, 2 Nov 2026 09:00:16 -0800
+        Mon, 02 Nov 2026 12:36:45 -0800 (PST)
+Date: Mon, 2 Nov 2026 12:36:42 -0800
 From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Pierre Gondois <pierre.gondois@arm.com>, Tony Luck
- <tony.luck@intel.com>,
-        Borislav Petkov <bp@alien8.de>, linux-acpi@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
-        "Rafael J.
- Wysocki" <rafael@kernel.org>, linux-edac@vger.kernel.org,
-        Vikram Sethi
- <vsethi@nvidia.com>,
-        Ashok Raj <ashok.raj@oss.qualcomm.com>,
-        James Morse
- <james.morse@arm.com>, Len Brown <lenb@kernel.org>,
-        Shuai Xue
- <xueshuai@linux.alibaba.com>,
-        Maciej Wieczor-Retman
- <maciej.wieczor-retman@intel.com>,
-        Pawel Chmielewski
- <pawel.chmielewski@intel.com>,
-        Breno Leitao <leitao@debian.org>, Ard
- Biesheuvel <ardb@kernel.org>,
-        wanghuiqiang@huawei.com
-Subject: Re: RFC: ACPI code first proposal, _OSC to negotiate use of Memory
- Section 2 CPER.
-Message-ID: <20261102090016.00006389@oss.qualcomm.com>
-In-Reply-To: <20261031120053.0141d7ab@foz.lan>
-References: <20261030143802.0000231d@oss.qualcomm.com>
-	<20261031120053.0141d7ab@foz.lan>
+To: "santino.wang" <santino.wang@mediatek.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <light.chen@mediatek.com>, <Fred-WY.Chen@mediatek.com>,
+        <arnab.layek@mediatek.com>, Tony Luck <tony.luck@intel.com>,
+        Borislav
+ Petkov <bp@alien8.de>, linux-edac@vger.kernel.org
+Subject: Re: [RFC PATCH 00/11] soc: mediatek: add a DRAM ECC error handling
+ driver
+Message-ID: <20261102123642.000044cf@oss.qualcomm.com>
+In-Reply-To: <20261102092334.138759-1-santino.wang@mediatek.com>
+References: <20261102092334.138759-1-santino.wang@mediatek.com>
 Organization: Qualcomm
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -144,168 +131,224 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: jE70iEHgIU364WmU8Ekes4SCn0Xp9gOt
-X-Authority-Analysis: v=2.4 cv=bNaDs/+Z c=1 sm=1 tr=0 ts=6ae8c1a7 cx=c_pps
- a=SvEPeNj+VMjHSW//kvnxuw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=VwQbUJbxAAAA:8 a=7CQSdrXTAAAA:8 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8
- a=36K0DMF89hYB-rcrs2oA:9 a=QEXdDO2ut3YA:10 a=Kq8ClHjjuc5pcCNDwlU0:22
- a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA2NyBTYWx0ZWRfXyHQPAeII3QXs
- U9abQAfXbNSUYRy3P4Dsy2T457B71vyqEL0PE8ZvWBc25eyIrk9V0vBKrbdeLLR1mIjgT7YANVf
- qMXLOKZWRSP4Mmn7BbXkIAnN27nYoDKxrvwuNlSBrWIiRICb7ufpAr3jjhuxKSr9YWRgUjiuTkx
- VptiI2tl4hBgZwwQBZwvHYZxB0TcPdgNEffVl+UfMTIkjaDKJQaiZFc05dWG5QL4uWjdsTPoBkB
- mm6W2tD70yfixgBYKzw5qV+HmnaqBg6/KCDXxRhAyQ86s7LiSO6e1pN0AO3td5MPcahr9lFH72h
- R3YrlYrzHWnwyRJyYMECzXIlkT7PLx74XzFKNtSj0kV+BLQJwBkb3dY3/Z+0FGhPyYzqAkplmBr
- h5MDZmXE6DTVEm3JzqOqS6JWys2l9o3dW5ozDF21ZCXaL5SuEu3uKIZ80WixJ0gSylvMDESQC3i
- JjuL0djdXQX2aD2v5Nw==
-X-Proofpoint-GUID: jE70iEHgIU364WmU8Ekes4SCn0Xp9gOt
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA2NyBTYWx0ZWRfXyrkI1N2P5FC5
- N8lR6Lh9BOlyjo1fhrEUUtjZ+/NBeaw5+c1VGoWRtOZ1tHr+ti+2NWiWHpIonIFZSHLiHvPqJr6
- 1IaV55ZqlfAL3Zj8b/oDHxqSxi2nMr8=
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA4MiBTYWx0ZWRfXzk1Ztw77wxmG
+ tBEXmnUh5UwFceDemOwBH5Fo8XUqjP/LAtakztTdVzDcfqyy57iKEexe6kWwlfev4iHJv2V9hgs
+ plPUALpX90gG1xwZ/2Q4PUF8axzqEGg=
+X-Proofpoint-ORIG-GUID: REC4Rtj5c-nfSwDyHkCNMeczJW4Z5DWH
+X-Authority-Analysis: v=2.4 cv=F73C5ahN c=1 sm=1 tr=0 ts=6ae8f45f cx=c_pps
+ a=JYo30EpNSr/tUYqK9jHPoA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=mpaa-ttXAAAA:8 a=m260jWFFa7gU3xnM47oA:9 a=CjuIK1q_8ugA:10
+ a=Fk4IpSoW4aLDllm1B1p-:22
+X-Proofpoint-GUID: REC4Rtj5c-nfSwDyHkCNMeczJW4Z5DWH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA4MiBTYWx0ZWRfX5frvuBBcFK0y
+ yMxo4CBg8nPeFz1UU5qkN0cAvgviOzhb2C2DIV8ak4Ffy79QCN5mfAEuY4ItvkQ4EWJWkP4a4EP
+ r10wPUMc4hrkc96pxqPOJB9XKUK6COUP1fTS/odO0e91eFc//U3RlzW2ZT4CefiB88Xeb5+vb2P
+ uKYtiv/ybjOuJKCDFuciq/NyQz1W3xysDXsGgab4eA9gAG74o3JD7oO5YV6QBova6cip7l7fOC6
+ /IOyj5xgpN2/fx/49vK8Jl4tMYnEc42y8N/UdP58MSPepnwWjR8rzhF7szvfIeZvvoizKX+LmvI
+ obzmMzyOEsDXlLBjhMxjXjo74oT52M3Hj1wOOy0XdEzm2BllBXMm6+S8Ul7bmVUUgYbOFpUHtbs
+ jgW9IMhQKP6MMp0orftvKH+2BcutDRTYw2hTClmxRppPib2LDkeoChcLy4KPtLBqQffoMfr9Qjv
+ licLl5bMEwUQeZRwTKg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-02_04,2026-11-02_03,2025-10-01_01
+ definitions=2026-11-02_06,2026-11-02_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0 phishscore=0
- priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1015 malwarescore=0
+ malwarescore=0 phishscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
+ clxscore=1015 impostorscore=0 adultscore=0 suspectscore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020067
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020082
 
-On Sat, 31 Oct 2026 12:00:53 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On Mon, 2 Nov 2026 17:23:22 +0800
+santino.wang <santino.wang@mediatek.com> wrote:
 
-> On Fri, 30 Oct 2026 14:38:02 -0700
-> Jonathan Cameron <jonathan.cameron@oss.qualcomm.com> wrote:
+> From: Santino Wang <santino.wang@mediatek.com>
 >=20
-> > Hi All,
-> >=20
-> > In the discussion of Pierre's patch #1 the question of how a firmware
-> > could know to send the newer Memory Error Section 2 CPER rather than the
-> > older record given it currently has no way of knowing what the OS suppo=
-rts.
-> >=20
-> > Having discussed the problem inside Qualcomm, we can to the same conclu=
-sion
-> > as in Pierre's thread - an _OSC is probably the easiest way to solve th=
-is.
-> > Andrei then drew up a code first ECN proposal.  The text is below, twea=
-ked
-> > for plain text rendering. Link to proposal #2
-> >=20
-> > Please draw the attention of others to this. Feedback welcome either on
-> > this thread, Pierre's thread or directly on the tianocore ticket. =20
->=20
-> This sounds to be the best approach on my eyes.
->=20
-> >=20
-> > thanks,
-> >=20
-> > Jonathan
-> >=20
-> >=20
-> > # Title: OS support for CPER Memory Error Section 2 records
-> > ## Status: Draft
-> > ## Document: ACPI Specification Version 6.6
-> > ## License: SPDX-License-Identifier: CC-BY-4.0
-> > ## Submitters: Qualcomm
-> >=20
-> > ## Summary of the change
-> > Reserves an additional Platform-Wide OSPM Capability bit to negotiate s=
-upported CPER
-> > record format for Memory Error Section (older MES vs newer and richer M=
-ES2).
-> > Memory Error Section 2 records are defined in UEFI 2.11, Section N.2.6 =
-(Appendix N, page
-> > 2171).
-> >=20
-> > ## Benefits of the change
-> > Memory Error Section 2 (MES2) records were added in UEFI Specification =
-2.11, yet no
-> > mechanism to negotiate OSPM support for the new record type (Linux kern=
-el support is still
-> > being added upstream at the moment).
-> >=20
-> > This change proposes using a new Platform-Wide OSPM Capability to negot=
-iate between
-> > firmware and the OS for enabling the new format. Until the added _OSC b=
-it is reported by
-> > OSPM, the older Memory Error Section records will be used. Although thi=
-s means a platform
-> > may in practice have to support generating both record formats, this is=
- seen as a better than
-> > always emitting old- and new- style records which would leave the
-> > deduplication/reconciliation up to OSPM.
-> >=20
-> > ## Impact of the change
-> > Platform firmware should only generate CPER MES2 records if OSPM declar=
-ed support for
-> > MES2 records. Otherwise, platform firmware should only generate the old=
-er MES records.
-> >=20
-> > ## Detailed description of the change [normative updates]
-> >=20
-> >=20
-> > 6.2.11.2 Platform-Wide OSPM Capabilities
-> > =E2=80=A6
-> >=20
-> > Table 6.13: Platform-Wide _OSC Capabilities DWORD 2
-> > +---------+--------------------------+---------------------------------=
------------------+
-> > | Bits    | Field Name               | Definition                      =
-                 |
-> > +---------+--------------------------+---------------------------------=
------------------+
-> > | =E2=80=A6       |                          |                         =
-                         |
-> > +---------+--------------------------+---------------------------------=
------------------+
-> > | 22      | Functional Fixed         | The OS sets this bit to indicate=
- support for     |
-> > |         | Hardware                 | the usage of Functional FixedHar=
-dware            |
-> > |         |                          | (FFixedHW) OperationRegions.    =
-                 |
-> > +---------+--------------------------+---------------------------------=
------------------+
-> > | 23      | CPER Memory Error        | The OS sets this bit to indicate=
- support for     |
-> > |         | Section 2 Support        | MES2 CPER records. If not set, O=
-S support for    |
-> > |         |                          | older CPER MES records is assume=
-d.               |
-> > +---------+--------------------------+---------------------------------=
------------------+
-> > | 31:24   |                          | Reserved (must be 0)            =
-                 |
-> > +---------+--------------------------+---------------------------------=
------------------+ =20
->=20
-> My only concern is that it may run out of bits soon if we use those
-> for each new incompatible types on CPER records.
+> On the MediaTek mt8992 SoC the DRAM controller (DRAMC) raises an interrup=
+t for
+> every corrected (CE) and uncorrectable (UCE) ECC error. The interrupt is
+> owned by the secure firmware (Arm Trusted Firmware at EL3). It reads the
+> DRAMC error registers, applies the error containment policy and the CE
+> storm protection, and hands the error to the OS firmware-first as an ACPI
+> GHES record in a buffer that UEFI describes in the HEST. The OS is
+> notified with an edge interrupt that the DSDT delivers through a Generic
+> Event Device and a Hardware Error Device (GSIV notification).
 
-I had the same concern.  Not sure we need to agree it on the code first sid=
-e of
-this proposal (as doesn't really affect implementation) but perhaps it makes
-sense to have a separate OSC for RAS features.  Alternative is that we end
-up with a top level _OSC number 2 when we run out of bits.
+So far this all sounds standard for asynchronous error reporting.
+I'm assuming you have a something else for synchronous consumption.
+=46rom a Linux side of things we just care that error record shows up
+and is signaled via GSIV (with normal Generic Event Device and Hardware
+Error Device in the DSDT I guess)
+
+>=20
+> The record carries a standard Platform Memory Error section and a
+> MediaTek vendor section with the raw DRAMC error registers.
+
+I'd like some details here on what those raw registers are bringing
+to the OS wrt to handling these errors.=20
+
+What extra info?  I see you have a subchannel in there, but Memory
+Error Section 2 brings that.  So why isn't this being reported
+as a standard CPER?
+
+> This series
+> adds the driver that consumes the vendor section through the existing
+> ghes_register_vendor_record_notifier() interface. No change to the GHES
+> core or to arm64 code is needed.
+
+Given a lot here doesn't sound mediatek specific it feels like it
+shouldn't necessarily be in the vendor defined path.  More discussion
+of why you have gone that way would be help.
+
+>=20
+> The driver
+>  - decodes the most severe error of a record and keeps counters, also
+>    across boots in EFI variables,
+
+Interesting.  How does this compare with just making it a userspace problem?
+Perhaps you can't do that for some reason but it would take a lot to
+convince me that it makes sense to have an upstream solution that relies
+on custom EFI variable path.
+
+>  - isolates pages with memory_failure(): immediately for a recoverable
+>    UCE on memory that Linux manages, and for a page whose corrected
+>    error count reaches a threshold (leaky bucket); memory owned by a
+>    device is only reported to its owner,
+
+This sounds standard, so I'm missing why you need a vendor driver for it.
+Please provides some more info.
+
+>  - lets in-kernel clients and user space (generic netlink, tracepoints)
+>    follow the events,
+
+Why your own netlink for this?  These are memory errors so I'd expect
+existing paths to be sufficient, or perhaps there to be a need to
+extend those as Pierre is doing with the Memory Error Section 2 series.
+
+>  - exposes the containment policy, the storm protection and per range
+>    severity overrides in sysfs and pushes them to the secure firmware
+>    through a vendor SMC call,
+
+The pushing of policy down to firmware is possibly something that needs
+a custom driver.  I need to think a bit more on that and check a few things.
+Input from Borislav or Tony might help here.
+
+>  - after a fatal UCE (GHES panic and reset), finds the error in the BERT
+>    of the next boot and reports it through the mc_event tracepoint.
+
+If this were using the standard records that should just work. What
+is missing that you need?
+
+>=20
+> The driver depends on firmware that is not part of this series: the
+> secure firmware provides the SMC interface used by patch 2 and writes the
+> vendor section decoded by patch 4. The firmware side (the TF-A and
+> edk2-platforms changes for the mt8992 SoC, plus the preloader that keeps
+> the error across the reset) is being developed in the vendor's BSP trees
+> and is not published yet.
+>=20
+> Open question for this RFC: is drivers/soc/mediatek the right place for a
+> driver that is built on GHES vendor records and a vendor SMC interface, or
+> would the maintainers prefer another location?
+
+You already got a reply on that. Almost nothing should ever go in drivers/s=
+oc
+and definitely not something RAS related. +CC linux-edac, Borislav and Tony.
+
+Anyhow, always interesting to discuss expanding what we do for
+memory error handling, so I'll be interested to see what other feedback
+this series gets.
+
+Thanks,
 
 Jonathan
 
-
 >=20
-> >=20
-> > [1] https://lore.kernel.org/all/20261019203915.2019037-1-pierre.gondois=
-@arm.com/
-> > [2] https://github.com/tianocore/edk2/issues/13430
-> >=20
-> >  =20
+> Testing: each patch builds with the arm64 defconfig plus
+> CONFIG_MTK_DRAM_ECC=3Dm on linux-next 20261030 (W=3D1, no warnings).
+> The series has been tested pre-silicon on a Palladium emulation platform.
 >=20
+> Santino Wang (11):
+>   soc: mediatek: dram-ecc: add the DRAM ECC driver skeleton
+>   soc: mediatek: dram-ecc: add the SMC interface to the secure firmware
+>   soc: mediatek: dram-ecc: add tracepoints
+>   soc: mediatek: dram-ecc: handle GHES vendor records from the firmware
+>   soc: mediatek: dram-ecc: add error counters and the address lists
+>   soc: mediatek: dram-ecc: keep error counters across boots
+>   soc: mediatek: dram-ecc: add containment policy and storm protection
+>   soc: mediatek: dram-ecc: add the corrected error leaky bucket
+>   soc: mediatek: dram-ecc: add a generic netlink event interface
+>   soc: mediatek: dram-ecc: report an uncorrectable error of the previous
+>     boot
+>   Documentation: ABI: add the sysfs attributes of the MediaTek DRAM ECC
+>     driver
 >=20
+>  .../ABI/testing/sysfs-class-mtk-dram-ecc      | 182 +++++++++
+>  MAINTAINERS                                   |  10 +
+>  drivers/soc/mediatek/Kconfig                  |   2 +
+>  drivers/soc/mediatek/Makefile                 |   1 +
+>  drivers/soc/mediatek/dram-ecc/Kconfig         |  19 +
+>  drivers/soc/mediatek/dram-ecc/Makefile        |   3 +
+>  drivers/soc/mediatek/dram-ecc/core/Makefile   |  20 +
+>  .../soc/mediatek/dram-ecc/core/addresses.c    |  88 ++++
+>  .../soc/mediatek/dram-ecc/core/addresses.h    |  13 +
+>  .../soc/mediatek/dram-ecc/core/bert_check.c   | 240 +++++++++++
+>  .../soc/mediatek/dram-ecc/core/bert_check.h   |  12 +
+>  drivers/soc/mediatek/dram-ecc/core/counters.c | 336 ++++++++++++++++
+>  drivers/soc/mediatek/dram-ecc/core/counters.h |  29 ++
+>  .../mediatek/dram-ecc/core/ghes_notifier.c    | 377 ++++++++++++++++++
+>  .../mediatek/dram-ecc/core/ghes_notifier.h    |  22 +
+>  drivers/soc/mediatek/dram-ecc/core/main.c     | 113 ++++++
+>  .../soc/mediatek/dram-ecc/core/mtk_dram_ecc.h |  27 ++
+>  .../dram-ecc/core/mtk_dram_ecc_event.h        |  47 +++
+>  drivers/soc/mediatek/dram-ecc/core/netlink.c  |  83 ++++
+>  drivers/soc/mediatek/dram-ecc/core/netlink.h  |  14 +
+>  .../dram-ecc/core/policy/address_range.c      | 120 ++++++
+>  .../dram-ecc/core/policy/containment.c        | 107 +++++
+>  .../dram-ecc/core/policy/leaky_bucket.c       | 277 +++++++++++++
+>  .../mediatek/dram-ecc/core/policy/policy.c    |  57 +++
+>  .../mediatek/dram-ecc/core/policy/policy.h    |  23 ++
+>  .../dram-ecc/core/policy/storm_protection.c   | 137 +++++++
+>  drivers/soc/mediatek/dram-ecc/core/smc.c      | 137 +++++++
+>  drivers/soc/mediatek/dram-ecc/core/smc.h      |  55 +++
+>  drivers/soc/mediatek/dram-ecc/core/trace.c    |   6 +
+>  drivers/soc/mediatek/dram-ecc/core/trace.h    | 119 ++++++
+>  include/uapi/linux/mtk_dram_ecc_netlink.h     |  44 ++
+>  31 files changed, 2720 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-class-mtk-dram-ecc
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/Kconfig
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/Makefile
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/Makefile
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/addresses.c
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/addresses.h
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/bert_check.c
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/bert_check.h
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/counters.c
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/counters.h
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/ghes_notifier.c
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/ghes_notifier.h
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/main.c
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/mtk_dram_ecc.h
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/mtk_dram_ecc_event=
+.h
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/netlink.c
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/netlink.h
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/policy/address_ran=
+ge.c
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/policy/containment=
+.c
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/policy/leaky_bucke=
+t.c
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/policy/policy.c
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/policy/policy.h
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/policy/storm_prote=
+ction.c
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/smc.c
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/smc.h
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/trace.c
+>  create mode 100644 drivers/soc/mediatek/dram-ecc/core/trace.h
+>  create mode 100644 include/uapi/linux/mtk_dram_ecc_netlink.h
 >=20
-> Thanks,
-> Mauro
 
