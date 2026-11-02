@@ -1,155 +1,158 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=40.93.201.22
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793623736;
-	b=o6/fYwUyqazkXvacsEa2OSCpwU1Efj+C9rCN6XsJmRshabczrVfOAh4BVPdskKd/73c8
-	 E4vEwyY8ESOxOik8Y+Q5U9beE7j1QilubUaBFzUFVsvzzn+XKOnGry6ObyDVc7V7gUOX5
-	 nL43UP/xxI4SXyzakn7SI4OL2Dv2R5px1NLFb+40Q1EeC7PONArWg4/5Pm1XLFZnGLno1
-	 G+JdSLBo8rjuGKGQc0kyz4v+bxPbznQHvF1L9VcDl8E0XuV7UyZt2/1Fu+NfzJ24iIFtw
-	 CXpRPjh7l8Z0Zda4T6hHcEGMomoe2REpdAR7H3AvTRsMpMSekuoOhwmSKM02JBPfkng==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793623736;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:
-	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=qdJXsuP7rjabUFjSysRo4k/nqwCEFw0sBdvW6M9cD74=;
-	b=ylFmYpzSdXvcNgNpcPYg1Jz8Z0uFRBGoeQgeSg6dnSgR8e0LVpzEY00Wg4cr1azIEx2x
-	 COQk27XhvWOuFgF/pxVTgbYFMNNV/aqpaS2Br0TGxoWaAnimTWk8AuAPQnU3fmixHQ0t2
-	 OYMJpLqf0107RTeitvnPtpvVJEG4nMCtMrZZ3C0Oat7nJEiuOMvhLs7CdbzT/h95IAXpG
-	 9Mj2zNz+42NohmVG32QJ/B2txt6glwkzFrWYkyBF8qLJDoc2jkpHiKjLbABPpeinAPwHP
-	 2RwXr5Uu6cY+yljCBh/cruIguSsIuiNyFB81O7JvF4P/dxfBNdQ+pL2N9r3Ey3lx6JA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=4zozMwcp;
-	arc=fail smtp.remote-ip=40.93.201.22
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013022.outbound.protection.outlook.com [40.93.201.22])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793638707;
+	b=3wScfKx4PclsuUxKVonbIywb1eu/0ysqCLfNGTULv/W7Q1XAJWw4l7HlYbhRAuR7afUi
+	 qm5q2VhUir/XSSxGIBvCK1rRiQCUJ9JUjQASJ2KznW6QCA1q0t9Kq7UMnxFpupvJD+j9n
+	 RCcLPObmpBEtfNztpMlNV+pD6y9DidoBpB+vnlqEjyu2paj2cMEySr9kI2qP3MnxJoPA0
+	 nf9WyZg6vixb2ALMYJptDCjq3DHNlvhgkmkl2QmTmhpS/oXQ/a/1SaPTGx4ipJ848Xe46
+	 SLZhVxsgR6N0sK88cA93Vjv2K8QCIYzMlGhNDC+RfY/ytrZvRCwmDrJ2Blshz7sZkig==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793638707;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=PzJGXubz8ItkEzPUWY/nEgW+2q4rBpwlu9LIiqUJd14=;
+	b=V3I9b5RPSi0EGkK1xmmA6yfMHRivLRj1XRWO50vMcCvDEfFIWy8+9C9kDt+YOuocuzUs
+	 /aBtV5S5X2gevl2djduOUgc+jniCr97OgsRCuLEBSsFpDHBbOBbA8O1OWzEhNjxIsCxjJ
+	 1DYrX5jp00sc84lTyJcVGYzUqOgZ4vs+WSPTJ9lQPtScZJ8p+ZK771XidN9QcDX3tpyCW
+	 wz27P5hK+5tOoDOqj9TMm7nHSPnEYeWmz+in5p7gs8Qzi7W2K8uQ3ToY2wbT5bMPsErpN
+	 S+vgZ8+QkaQMKFNscF34MoZeH2Uhhzjo4kbwhE6rNGXm7fzFDaLshn1mdom2QV5gPyA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=dUN+m8HR;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=jgUKC03J;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E6C606A329;
-	Mon,  2 Nov 2026 12:48:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07E6C606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4937F607BD21
+	for <linux-edac@vger.kernel.org>; Mon,  2 Nov 2026 16:58:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4937F607BD21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=4zozMwcp
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RzrTETZ0qsLqqM80qg+4KJuByMp/g71bUAz4is++P4rh7yX4M6eWvl+fRy2emqFYtKnuGRyDSrCHACIfW/vBKnyTtDQqlqiVBpGcnm6nwJQjQNk2V+72a5b4Fxi4E+TsAZnaYoNiqBJxwFinnTZ2tIi/b+TSLkE5X7LKDyTUPzUcaRgXT6b81u2pZpqO4JrFyEhpqVktDfokKqMevzEburPJUF+aU775kdfVw3NkdIbHwHHxMBAdnLOho/IzB4RQIpT4lDv7wg9H6lFmfxPr0eiArlXeigKA6klLlM6AFTgGieobYsz7hhfCXsqg9IZn4gs9rfbHDfg2I361pQxAKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qdJXsuP7rjabUFjSysRo4k/nqwCEFw0sBdvW6M9cD74=;
- b=AxB31+pBWQ33APx9nSGou4UlmHj/EKa/ZbkVaiWRhY2vAV/yK8DrdW8lafampm4RP4V1c5lo/W7lwfK/ZhXCkgp7BTky6LEoQqunDImwsP9Zo6aeX0CrPXSR2R5DAGYizSBhiLOVUuawFjALzA355S4j12fyrDktdCTa57N3MkfTpgmY4yM5kBLjVjkRg+ZlkL/8XuQW7nKNISITz3bZVVzCu7rgI//6K61tQGYJJyxoKZmoapqEgp8P6vNwNhEOlXk5A32EhE2omXIDCCuyL1/OtnjrE5lNn9mS80u9pZ7yre1zeYGdglSALQK3freW8SwVeP4buBhjFEaIWX3bow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qdJXsuP7rjabUFjSysRo4k/nqwCEFw0sBdvW6M9cD74=;
- b=4zozMwcpEXocz/e6dNZYku2ItSrLJdETYqcbzibTzxKmQEIJagPtemt4vuFs5C/on3+nWaI6fBdgUDkYeFiFM/8UvATj6TqxZBiKp5zXpoHl5lu0oKB7Ccgc08N3RgJ8TKlQIQDP+nSdyc1Aw2HA5JWCwutg9voddB46jol5S4k=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from LV5PR12MB9779.namprd12.prod.outlook.com (2603:10b6:408:301::14)
- by FT1PR12MB623484.namprd12.prod.outlook.com (2603:10b6:170:2e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
- 2026 12:48:52 +0000
-Received: from LV5PR12MB9779.namprd12.prod.outlook.com
- ([fe80::8ac8:e862:8ae9:9287]) by LV5PR12MB9779.namprd12.prod.outlook.com
- ([fe80::8ac8:e862:8ae9:9287%5]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
- 12:48:51 +0000
-Message-ID: <82ac95c0-2b11-45df-a6fc-c0888d58b2bb@amd.com>
-Date: Mon, 2 Nov 2026 13:48:40 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] dt-bindings: edac: xlnx,versal-ddrmc: Add
- xlnx,versal-xilsem compatible
-To: Borislav Petkov <bp@alien8.de>
-Cc: "Veggalam, Rama Devi" <rama.devi.veggalam@amd.com>,
- "Ghannam, Yazen" <Yazen.Ghannam@amd.com>, Rob Herring <robh@kernel.org>,
- "tony.luck@intel.com" <tony.luck@intel.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "james.morse@arm.com" <james.morse@arm.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>, "rric@kernel.org"
- <rric@kernel.org>, "git (AMD-Xilinx)" <git@amd.com>
-References: <1792587442-2794880-1-git-send-email-rama.devi.veggalam@amd.com>
- <1792587442-2794880-2-git-send-email-rama.devi.veggalam@amd.com>
- <20261022143730.GA1287910-robh@kernel.org>
- <20261026203920.GA696395@yaz-khff2.amd.com>
- <PH0PR12MB8125B27A7814A3818739C4B9CE6F2@PH0PR12MB8125.namprd12.prod.outlook.com>
- <b683fcbd-ae5b-416c-96e1-7b0d7146c468@amd.com>
- <20261029152549.GBauNlfeOlTwktwjYs@fat_crate.local>
- <9dd48bd6-70ce-49f1-b3cc-7cf8f49e995b@amd.com>
- <20261029162711.GCauNz378qqsVFtI6y@fat_crate.local>
-Content-Language: en-US
-From: Michal Simek <michal.simek@amd.com>
-Autocrypt: addr=michal.simek@amd.com; keydata=
- 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
- mpwx1d8=
-In-Reply-To: <20261029162711.GCauNz378qqsVFtI6y@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VIUP296CA0029.AUTP296.PROD.OUTLOOK.COM
- (2603:10a6:800:34d::19) To LV5PR12MB9779.namprd12.prod.outlook.com
- (2603:10b6:408:301::14)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=dUN+m8HR;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=jgUKC03J
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2GYstu1222685
+	for <linux-edac@vger.kernel.org>; Mon, 2 Nov 2026 16:58:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	PzJGXubz8ItkEzPUWY/nEgW+2q4rBpwlu9LIiqUJd14=; b=dUN+m8HRQemx+JdO
+	1Kq3YwsYqp2TrSKgPY3P1b0kRCoBuWIs3Jmhjw9Q8gtZ1DVoVEYtMHmPpysXpt4w
+	2jye2Swznblo03xfDawI44V2DSeCGRIdhtk4c0QMmUvnt7CubrvLmcqHad7A9dI2
+	l47x1f43RQlT/GnjWbzy6uWjN/f/oHGSzef/u4Pb3y5VnoRGgwYBKLGfSOTrU3A8
+	GKjFkluaUCa64y+XRLVyOFPp0OUmNFrLg5VOQZqarjK5ejjJB8Ll0yFQHZut9DES
+	2geDkoysbL7Qgq9sBB+kIlBDsfPg3EM1adQ/FoU5j/rLejnBs7mADF+8eDk0jcbc
+	0DSp1Q==
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hpmf1tst2-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-edac@vger.kernel.org>; Mon, 02 Nov 2026 16:58:21 +0000 (GMT)
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-36a190c53a3so4394110eec.0
+        for <linux-edac@vger.kernel.org>; Mon, 02 Nov 2026 08:58:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793638701; x=1794243501; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=PzJGXubz8ItkEzPUWY/nEgW+2q4rBpwlu9LIiqUJd14=;
+        b=jgUKC03J1qarY0z2tMlQ+AQIMT7+TGTKktzZXZdn9i9PTXj12XBUa+Ml1slAzDHPoK
+         2sbO6VEwN6BDayzFHVe/o4s2CJ5Brr3tU/6AfDnASg9/bCsIFT+t1M35aWE4AygS7TXr
+         fE32PjksDn7lITqgfGyGAi+s5jNI4lm0GP7k/fX2xHXPTpVJjo+VdFCYWrwamJpPlnSO
+         no5xLZZF9TGa+Luabiq+Xr9PZTxM96ZAL7hTx0ZiFtsrIsj3/SmYW4wg/WEjeyzDqroZ
+         L2m8D0a6eEKz+sGU6jK7vnr4EpTAdzxZlqhRHL+qtxD8eR5w9269dXyl0eSo+aJq1/d/
+         E22g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793638701; x=1794243501;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PzJGXubz8ItkEzPUWY/nEgW+2q4rBpwlu9LIiqUJd14=;
+        b=RKDo4UXs4ZXEUyvYH430vX4XCWhxH/D22M5QgPj0Uo5K5aLYRDsi/HJ40tZfnb/QWp
+         9Ro45WMPZDP4vzFXrfyQOFZN5bZsYQE+zUa4jPtu866jCPWF3vemDWQVOdqhJaubSdxn
+         8JyGfQrHqY4Zz1x92uh/dc4Ai3BRvP91XVG/pp6VhgGdje5r3wouf03LDVzNqo2OPkkz
+         bbCyolOF/uC1Y/wuFuT4csgr3zLx/IOS35KeeHdQItcXVFvxwkwcfgDLM52jO8PLiloa
+         DMjdQAXGgffFhZkAzJsVBPA+cX1HGPAfaL/BCaT5LVl9xBXW/L9WfFqXlHY6MogayUUe
+         4U9A==
+X-Forwarded-Encrypted: i=1; AKwUvBx6sfcOtaanAq+sapW7WUFr3pB/5vWIxkux2mcEDyqp0xUd+95XCoIv+E43OElKrCQne+vgZ+X+y12N@vger.kernel.org
+X-Gm-Message-State: AFq9FYLOsySu2mJOBeHX7reYYbgpU61p1F9BSCP29KfGMtNCe3/rsZJd
+	U24zrQ9UoccT6eKDk1ibQifHPUuN0mcfCzkVTQj0NN2w2HgjSZHKdU2GyEuAjTIBIaoNFOLe00w
+	F5j8PRq/Z5EWPUCg/CstK3wgJXsu6vyI3OmDLuGbN65vTfVYalldB53v+HF5RZHgY
+X-Gm-Gg: AYBFou0G9EywZMMp+Zn15QIBwQm8iQG1dDasMSHhDieTdSV86NSoaHUVJlX7mSDM7xk
+	j37Hp25ij4hxXxkCKz2YVpINhkJlM4c0E0CwyAzj8UhZ+9D+sBJvo3NReBm6iOoFzDdpuDVHJ6M
+	uVdsyM4QNKYSIUAQ/fDP1FFvTfzULPthZkq11/3u1r/bXorgWqfjH++HD5Tnj61sXv4MY3Hat1D
+	i1ZLqSRYbgT3MwRD3wm8ACqbTMG3+VizeUxUGmM9wzvvDAKH5ljKZnygeHKTw6/EGTsDQpngI/g
+	E2E5yzfl4Fyhg/X9YMr3i33U/bSPofYMqyzm3Qc524KRU5Uw6cvPm/rZ39xbXxIqUpyqCh4Vpte
+	3lbTaFxm036cJVPQuxcDAMHlOV3O0R61ISPgzAcXFOpVH5MklSZDYzKIdWZdm0tmKJRs4d33TGS
+	b2WKwVyB6nvYTIwsia9Db5tsZ1VLc=
+X-Received: by 2002:a05:693c:864d:10b0:362:2e2f:c261 with SMTP id 5a478bee46e88-36a3b5fdb1bmr19288528eec.27.1793638700560;
+        Mon, 02 Nov 2026 08:58:20 -0800 (PST)
+X-Received: by 2002:a05:693c:864d:10b0:362:2e2f:c261 with SMTP id 5a478bee46e88-36a3b5fdb1bmr19288478eec.27.1793638699826;
+        Mon, 02 Nov 2026 08:58:19 -0800 (PST)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a4291e38fsm44938189eec.15.2026.11.02.08.58.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 08:58:19 -0800 (PST)
+Date: Mon, 2 Nov 2026 08:58:15 -0800
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Pierre Gondois <pierre.gondois@arm.com>
+Cc: Ashok Raj <ashok.raj@oss.qualcomm.com>,
+        Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>,
+        Tony Luck <tony.luck@intel.com>, Borislav
+ Petkov <bp@alien8.de>,
+        linux-kernel@vger.kernel.org, James Morse
+ <james.morse@arm.com>,
+        Mark Brown <broonie@kernel.org>,
+        "Rafael J. Wysocki"
+ <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+        Mauro Carvalho Chehab
+ <mchehab@kernel.org>,
+        Shuai Xue <xueshuai@linux.alibaba.com>,
+        Maciej
+ Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+        Pawel Chmielewski
+ <pawel.chmielewski@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        "Fabio M.
+ De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+        Breno Leitao
+ <leitao@debian.org>, Dan Williams <djbw@kernel.org>,
+        Terry Bowman
+ <terry.bowman@amd.com>, Ard Biesheuvel <ardb@kernel.org>,
+        Morduan Zang
+ <zhangdandan@uniontech.com>, linux-acpi@vger.kernel.org,
+        linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev,
+        Ashok Raj
+ <ashoraj@qti.qualcomm.com>
+Subject: Re: [PATCH v2 0/6] CPER: Add Memory Error Section 2 support
+Message-ID: <20261102085815.00002239@oss.qualcomm.com>
+In-Reply-To: <3718c5fa-88de-471b-89f5-4cba15975a49@arm.com>
+References: <20261019203915.2019037-1-pierre.gondois@arm.com>
+	<20261020101048.00000186@oss.qualcomm.com>
+	<0817615d-5e96-4a3a-b39e-3e5d1b88e716@arm.com>
+	<20261023142621.00007051@oss.qualcomm.com>
+	<20261024003917.283b890d@foz.lan>
+	<20261023170405.000060b8@oss.qualcomm.com>
+	<at0rs4parlHFGI7k@hu-ashoraj-lv.qualcomm.com>
+	<43301529-f169-493c-bc59-fa08b77e1ef3@arm.com>
+	<20261030081941.000040e7@oss.qualcomm.com>
+	<fdbce441-921f-4ef9-9c57-0685706cdf89@arm.com>
+	<20261030144013.0000320e@oss.qualcomm.com>
+	<3718c5fa-88de-471b-89f5-4cba15975a49@arm.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -159,189 +162,226 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV5PR12MB9779:EE_|FT1PR12MB623484:EE_
-X-MS-Office365-Filtering-Correlation-Id: 077f5fe1-cb65-4889-653e-08df38dfa58a
-X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|7416014|1800799024|366016|11063799006|4143699003|56012099006|261028144727099003|261009223027099003|261021123027099003|261026140227099003|261022115727099003|261022105027099003|261026121527099003|261022075727099003|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	HBFZmeuDWKCZKxNWXQOjkYKNkYj7ob2AT5Q1DSyWxWBt2rCvPtQwWMrC1M6Nwti/HH0ZPDZ5yARjJZ8Nsyoifa6Ps+NM90f4SNMvGwj+b2MV935G5MvlN7rM9OMz+oPA8YKCkA1V8L96jo74iO0dr9bFmCu1a1WFKCR1NahXXLyoa/knHUr11oUi38SilESE/TN6YqFDcyoh0sG9V+thUPX/IORmxn4IG6syOoG2xQAlTXke97NN5vnaD4BK26wkn3ztsYkk68zCM0tnB9oO/NPnBmB0qondvLuZLgX7ktqZzwE79BA1X/i6njTskeG1QtxRkYr6jsm0iCgszBzNlari1nRcijS3jjVFGuaKAs6yH4a65qd44KKe4Iri/KwWH32hgZ0hLPXoq40lb+0B07YtLocVWH6P2DmT8ZcHSXbrUEJ72Y3nuqrKwbIay0MGB7ilu/7lkeSQzhlyJd5KQvPK2AWKn8yqY7fEeHfLtj4t0oyaswxi43rJmkiDKbck97Luc8FfYOQz5amE1K6KWRYamOIZ+ycnEJpm3EawaDxSZkRQ4he3qE5dQ8U9orIk80hNOjsckulQ7YdHI7uUXdXSuCEuU29vovvVHBQV9KeUmUsVvR0qiLPpPAFdeLNuV2UUZR/FqPxRsB4RJfKLtL5/RNRHp33QcLZu6r+Lmos=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV5PR12MB9779.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(1800799024)(366016)(11063799006)(4143699003)(56012099006)(261028144727099003)(261009223027099003)(261021123027099003)(261026140227099003)(261022115727099003)(261022105027099003)(261026121527099003)(261022075727099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Z1IrbEx4d2lVWTBabC9xanZHeXlaTjhBVytGSlJkcE9zZUJzM082ZTRQNmZ1?=
- =?utf-8?B?ejN2RTVPb1dPYS9aVE9MejRoUGhYWUxxSXJBamJaVVdXaERyOTYrbmNaUU1T?=
- =?utf-8?B?RVV6TTE4bTVFYTFoZVB1dzJZeEhINjlEM2IvTk8xalhPSktLZ1U1OENxYjBn?=
- =?utf-8?B?UFRJaDl3RTNlSmozaUh2TkpuTm44VEdCcWc1dS84RmxpYjVEZ3ZUcmpUNFpv?=
- =?utf-8?B?TUJ4anVMUWVxandjb09zVEN4YWVOSVM5ZElYZDBuL3lkeG9PVm82Ymp4SVRE?=
- =?utf-8?B?a25teTloeW9SMFRiUnBQQUM0a0c5d05YUmlwb3N0VnZSOWJmVXJ1d1BGejFB?=
- =?utf-8?B?NU5FL2R3aHR4SXBhYUVIVlNoOHlDUEVPeHJZTnFyMEhqT2JMdFhRZWZrb0l4?=
- =?utf-8?B?QStaditrYk5DdlFXRWNDUFdyOGxEN0RsMzBidUhCTnpISzhJaFcwRmJaKzBy?=
- =?utf-8?B?d2VFanEzWG1IQkNuQTg2Z2hsQ3YrZ2VnUHZIYTZCVmp0WHhpSlFlTEt5ZFJJ?=
- =?utf-8?B?YURNd2Z1TDV5RVVWYTVySFc0LzZ6ZUJ0RDdEMHAzaXpDZVZJa1FHOW1MMzNu?=
- =?utf-8?B?NDVtcGNRTm5Ib1RKbXl1bC9uYzZXVE5UdDdSUk5EaDVZZnZyekRjd3JGZktG?=
- =?utf-8?B?dXRGMWwwc0grWnRXWlJkbU15S1hEYXhxb0Q1RG85VVZMUEdqVmNvcG9nTVhi?=
- =?utf-8?B?dGFscXFUUXRDZXBzNWpmQk94Y2c5ZGVpVHNUcmU0cHNwR1M2WndROFhBVWpy?=
- =?utf-8?B?VURMMkNkSnZBbE54MDBnTm9LZXRaRCs0bFFRU2JDTzcrcVQrVnEyUllCVjlI?=
- =?utf-8?B?V2s1dDFrOEowajByMTBqNVh5K3A1dTZKM3BYcTBVbjZNREhNZEx2U1RsQkFP?=
- =?utf-8?B?ZDFVK3luNkxiV1F0dWxib0lTTEVaSXhiSEJuNXlXSVFRNy9mcnp0L3JpQVF2?=
- =?utf-8?B?bkxYLytMNWlDUTh3Rk13M21UNW9CQ0srUUFrYXplVGxsLzBXVmNGY1NjRVNL?=
- =?utf-8?B?TjRyZzBGUkFyOStXWVZ4R3ZjOFh3UVpVanhkMkRnY3BueEdjeDBJTmpaZVNh?=
- =?utf-8?B?YXRMdDhHM3lpWTNHNnU5THFJVXF6ek84Nm05bk5tdG5sVXEzNWN0aVBuK1NC?=
- =?utf-8?B?MlZ0Vm0vbFMybzVEZklneHBMNUVSRy93d2ZjcFVOT0dGcW54WEF6WERuaHpx?=
- =?utf-8?B?d1dhbnJGYzByNHZlN1FXeWxObGdXT0h4UWhmZ1o3cXRPTFdURVRhdGcyamlY?=
- =?utf-8?B?YlloNEN0RU9XZ3kraC81TWNJN1hvb2M3M1ZrMmV4OVlZK3I0YVFPOFMxNXd2?=
- =?utf-8?B?S0dUN1lGSys5ck8rN1F2V3NjZVpLWlVVQXNoL1REbVNjMkpUQTVGR0dkc21x?=
- =?utf-8?B?RHR4M2RENmh6SGFJemFPVHlHZ25McFN1amZZMExhUng3QmNITXFEZkdEdG5R?=
- =?utf-8?B?Sjk5SUhWOVVlZHRsajhtejlXRlhEN3hEWitRWE9HM3FpMG13MTdTM00wUlRQ?=
- =?utf-8?B?ZWRQYjA3V3AzRlRJTHlOZFF5aXllYTdTZEdNd3RFMkN3YUxnQUFERDRrOXBn?=
- =?utf-8?B?akszVHRZRkxDN1dmUnU5SHhuSjk3ZmYvdmg5T0RBQy9ENDJCQXJ0U3NDMzR4?=
- =?utf-8?B?dURyVCtJbUd0Y3JuMWx0ZTFROUJwZjhOMmh5bzZQL2hxSnpJZDRud2ppdFFY?=
- =?utf-8?B?Y2VJTGlFY3ptcXNZdWRLeGZuUUhycERWYnZkN0Jma05udWRqT09lcThYd0JN?=
- =?utf-8?B?Mi9ja0tRTDN4OXl4OFRacUpuUlMzek4wbFBjbFZVNzdNOEEwN1hLVDhIamti?=
- =?utf-8?B?QS9FYXRVZXduQ0ZvYkRINVZDYm5laHdvQ0hCb05IQUhQYXpsMzJhZ0VkRGRz?=
- =?utf-8?B?aUk5L2dUM1JFOTBxRTlScSt1dXhtWUI3emF0clhIZTJQRUI2cmFJSGt1c21r?=
- =?utf-8?B?Ykg4Q0E1akdjNk9BdHFsaFAwUlowTmZ4ZnFnaHFPbTdjRmo4RjN2alNpUUFu?=
- =?utf-8?B?YmtuRXdic28xSGxta2FzQnRBeXVYajliVC81bkpkcko4U1lYYzFuK2M0WjAr?=
- =?utf-8?B?VWU3MUxxRVJGN1ExQW0raUlUNk0rVnVBY2V6VFlObm4xQkdRSmxDaUZaTkw1?=
- =?utf-8?B?K3hkNlUzLzZUUmpOcE4xWXJ3NUZjMDJ4TDRGUDk3amEwWWRsMUpKNS9LSWFQ?=
- =?utf-8?B?S1cxMU8xeThWSk4wREwrcmhGL2krdmRMcTBJNUNmQytnSlI0VGt5ZUQ1M09j?=
- =?utf-8?B?ZlJ4QzFGaGdqSmIvQnBKeStNVWZUUi9oRDlSVks4QjdkUU45U2V2Q0hkQWNK?=
- =?utf-8?B?SEVYSGl0VjZtV2VOYjBjLzNCTFIrampYZk9rcjJlTzcvRGdBR0pXZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 077f5fe1-cb65-4889-653e-08df38dfa58a
-X-MS-Exchange-CrossTenant-AuthSource: LV5PR12MB9779.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 12:48:51.7955
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TxMbHsdFxP4I/TzQHFXQWmUtcYftVQ61CnlW2OYeuPTWiC+pgDREzW6xBagZcG4C
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FT1PR12MB623484
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-ORIG-GUID: fGcWVWshVE2cjYd2fjENITpw8Tts3YXO
+X-Authority-Analysis: v=2.4 cv=bNaDs/+Z c=1 sm=1 tr=0 ts=6ae8c12d cx=c_pps
+ a=Uww141gWH0fZj/3QKPojxA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=8nJEP1OIZ-IA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=7CQSdrXTAAAA:8 a=eIcoSznhEi4KaPes0yMA:9
+ a=wPNLvfGTeEIA:10 a=PxkB5W3o20Ba91AHUih5:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA2NyBTYWx0ZWRfX3fDiLcZDJjKR
+ VGZasTgRwQMEET2CSDnPMjdLNqUW0qTaN+/rsMZMLbN/pT5PyylJM0LHr7X8aKMYuV5e11om33v
+ puJ6GTVdeIVS5CrpbV7TST44sUe/bnRhQ0Nqq7/bl03IW7tadSfR62E5K+iFEou1U92kXhQfSJa
+ W2gnU7i5DxPVV4nTOeZiMezKuDupKH/Dc2biHPgJnLLG/mQs7bR2gKWv3idON/vcIXPk3PVc2BC
+ rf4JAORL6hrzxQm4LU7vH0NFLC+KBAwUDWtfiQS5CMxgGNWx1Odo5i7L+2RK4cr3SPtfVPzEF2u
+ uT8uRsoOgdXZ/yoFQrAH+iaZ2t70RLp7MRDG6g9SGdcp8zPiTQISg63VPZh+iih1fqsKUsBal53
+ zaghBZAtu9VaOCr5HlPURkkNBkR7FKFY4GOMPXWU2myM5f6rgFPyZ3RKL0poh8SNoSRo7o67cnH
+ rOwK70LQsWpDpVjJwUg==
+X-Proofpoint-GUID: fGcWVWshVE2cjYd2fjENITpw8Tts3YXO
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA2NyBTYWx0ZWRfXzbH9M+vb96WX
+ 01ZUCOchdnkvb7EL56kLEP10b9/Osbmkwv+e/k2AvIXOtsQqQ4mB1aT+buhNSXflpaMhhshhEp5
+ wXd0rJOEFu/NmJFCBer1HASAMojWeOQ=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-02_04,2026-11-02_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0 phishscore=0
+ priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1015 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020067
 
+On Mon, 2 Nov 2026 12:33:16 +0100
+Pierre Gondois <pierre.gondois@arm.com> wrote:
 
+> On 10/30/26 22:40, Jonathan Cameron wrote:
+> > On Fri, 30 Oct 2026 18:16:06 +0100
+> > Pierre Gondois <pierre.gondois@arm.com> wrote:
+> > =20
+> >> On 10/30/26 16:19, Jonathan Cameron wrote: =20
+> >>> On Fri, 30 Oct 2026 12:51:47 +0100
+> >>> Pierre Gondois <pierre.gondois@arm.com> wrote:
+> >>>    =20
+> >>>> On 10/25/26 00:05, Ashok Raj wrote: =20
+> >>>>> On Fri, Oct 23, 2026 at 05:04:05PM -0700, Jonathan Cameron wrote: =
+=20
+> >>>>>> On Sat, 24 Oct 2026 00:40:33 +0200
+> >>>>>> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> >>>>>>       =20
+> >>>>>>> On Fri, 23 Oct 2026 14:26:21 -0700
+> >>>>>>> Jonathan Cameron <jonathan.cameron@oss.qualcomm.com> wrote:
+> >>>>>>>       =20
+> >>>>>>>> On Thu, 22 Oct 2026 09:07:25 +0200
+> >>>>>>>> Pierre Gondois <pierre.gondois@arm.com> wrote:
+> >>>>>>>>           =20
+> >>>>>>>>> On 10/20/26 19:10, Jonathan Cameron wrote: =20
+> >>>>>>>>>> On Mon, 19 Oct 2026 22:38:39 +0200
+> >>>>>>>>>> Pierre Gondois <pierre.gondois@arm.com> wrote:
+> >>>>>>>>>>              =20
+> >>>>>>>>>>> The support is mostly duplicated from Memory Error Section ha=
+ndling.
+> >>>>>>>>>>> Other than differences coming from the content of  Memory Err=
+or
+> >>>>>>>>>>> Section 1 and 2, differences in the support are:
+> >>>>>>>>>>>
+> >>>>>>>>>>> - v2 do not rely on a compact "struct cper_mem_err_compact" s=
+truct.
+> >>>>>>>>>>> This structure was used to support older versions of the Memo=
+ry
+> >>>>>>>>>>> Error Section (1). This is not needed for the new structure.
+> >>>>>>>>>>>
+> >>>>>>>>>>> - The compact version is also used by the tracing framework.
+> >>>>>>>>>>> To avoid relying and propagating a non-standard record format,
+> >>>>>>>>>>> through trace event (cf. extlog_mem event) the new trace event
+> >>>>>>>>>>> prints each field individually.
+> >>>>>>>>>>>
+> >>>>>>>>>>> The last patch of the serie was only build-tested due to the
+> >>>>>>>>>>> absence of relevant hardware. apei_mce_report_mem_error() and
+> >>>>>>>>>>> arch_apei_report_mem_error() implementations were also remove=
+d since
+> >>>>>>>>>>> last version.
+> >>>>>>>>>>>
+> >>>>>>>>>>> It will also require a proper handling from the rasdaemon. Ap=
+plying
+> >>>>>>>>>>> this last patch without rasdaemon support will silent the rep=
+orts of
+> >>>>>>>>>>> Memory Error Section 2 error, cf. ras_userspace_consumers() c=
+heck. =20
+> >>>>>>>>>> Hi Pierre,
+> >>>>>>>>>>
+> >>>>>>>>>> I'd slow down a bit.  We are mid merge window and convention i=
+s normally
+> >>>>>>>>>> one version a week or so anyway.  Better to gather up feedback=
+ from
+> >>>>>>>>>> a number of folk and spin only one revision to cover it all.
+> >>>>>>>>>>              =20
+> >>>>>>>>> Hello Jonathan,
+> >>>>>>>>>
+> >>>>>>>>> Ok sure, as the v1 was reviewed quickly I thought there was a c=
+hance
+> >>>>>>>>> of having the serie accepted quickly aswell. I ll wait a bit mo=
+re.
+> >>>>>>>>>
+> >>>>>>>>> Thanks for the review,
+> >>>>>>>>>
+> >>>>>>>>> Pierre
+> >>>>>>>>>             =20
+> >>>>>>>> A general question that came up in a related thread with one of
+> >>>>>>>> our RAS architects. How does firmware decide what to send?  As f=
+ar as
+> >>>>>>>> I can tell firwmare has no way to know whether the OS understand=
+s the CPER
+> >>>>>>>> Memory Section 2.
+> >>>>>>>>
+> >>>>>>>> So options that come to mind.
+> >>>>>>>> 1. Firmware must send a CPER with both Memory Section and Memory=
+ Section 2. =20
+> >>>>>>> Please don't do this: this would require either Kernespace or use=
+rspace to
+> >>>>>>> discard one of the reports, only if the other one is there, which=
+ can be
+> >>>>>>> tricky. Could be done more easily at userspace, but only if some =
+database
+> >>>>>>> support is enabled, but, at least on rasdaemon, this is an option=
+al module. =20
+> >>>>>> Good. That confirms my view that is horrible. =20
+> >>>>> Hi Jonathan,
+> >>>>>
+> >>>>> I agree that an _OSC capability is the right long-term solution.
+> >>>>>
+> >>>>> Firmware should select one native CPER format based on OS support, =
+rather
+> >>>>> than emit both Section 1 and Section 2 and leave deduplication to t=
+he OS
+> >>>>> or userspace.
+> >>>>>
+> >>>>> For a Section 2-capable kernel, we may still avoid a second GHES no=
+tifier
+> >>>>> chain: preserve the existing struct cper_sec_mem_err * contract and=
+ give
+> >>>>> it a lossy Section 1 projection of a Section 2 record. The conversi=
+on must
+> >>>>> translate validation bits and clear validity for values that cannot=
+ be
+> >>>>> represented, rather than truncate them. =20
+> >>>> I understand we might want to emit a new extlog_mem2_event and a los=
+sy
+> >>>> extlog_mem_event for legacy userspace, but I'm not sure to follow how
+> >>>> you want to do it.
+> >>>>
+> >>>> Do you suggest that we only need one notifier (ghes_report_mem_chain)
+> >>>> and that we should not add ghes_report_mem2_chain ? This would mean
+> >>>> that the .notifier_call (=3D ghes_edac_report_mem_error) should hand=
+le
+> >>>> both cper_sec_mem_err/cper_sec_mem_err2 struct.
+> >>>>
+> >>>> Another solution would be to keep the ghes_report_mem2_chain,
+> >>>> which would be responsible of creating the lossy v1 struct and
+> >>>> triggering the original ghes_report_mem_chain. =20
+>=20
+> [1] Not sure about the outcome of the above.
 
-On 10/29/26 17:27, Borislav Petkov wrote:
-> On Thu, Oct 29, 2026 at 05:12:44PM +0100, Michal Simek wrote:
->> With Versal Gen 2 which is still under development I can imagine that we can
->> design it in a way that we say that we won't allow any MMIO interface and
->> only firmware interface will be used and firmware itself will integrate all
->> edacs in the system and export it via the same API. Then we will have only
->> one single driver for the whole platform and it depends only on firmware
->> which functionality is going to be exported to Linux. Which is IMHO model
->> which you would like to see.
-> 
-> I appreciate the intention to make it saner but ARM is insane by definition in
-> that regard. You have IP blocks which can be built in in all kinds of
-> platforms and sw needs to mimick that. For some EDAC drivers we even have .c
-> compilation units which get linked into each platform which supports them.
-> 
-> We would usually do that when you have too many EDAC wrapper drivers loading
-> on the system and them needing to talk to each other. Which the subsystem
-> hasn't really planned on supporting.
-> 
-> But if the wrappers can be relatively independent, we can do the simple
-> thing and do a separate wrapper for each. No biggie.
-It is completely independent.
+Needs input from the RAS maintainers etc - particularly on x86.
 
-Regarding platform data versus DT which Yazen mentioned. I have played with it 
-and pretty much it would look like this from firmware instantiation point of 
-view. (active_platform_fw_data - already holds SOC specific hooks that's why 
-they can be reused that zynqmp_pm_get_family_info() in edac is not needed.)
+>=20
+> >>>>    =20
+> >>>>> That preserves legacy EDAC consumers, but cannot carry all Section =
+2 data.
+> >>>>> Updated userspace needs the native Section 2 payload through a
+> >>>>> full-fidelity path, such as the existing GUID-tagged raw CPER event.
+> >>>>>
+> >>>>> This does mean an updated userspace listener may receive both the l=
+egacy
+> >>>>> EDAC summary and the raw Section 2 record for the same firmware err=
+or.
+> >>>>> They are two kernel views, not two firmware reports. We should ther=
+efore
+> >>>>> add a shared GHES record/section ID to both events, so userspace can
+> >>>>> correlate them reliably; address and timestamp are not sufficient.
+> >>>>>
+> >>>>> So _OSC solves firmware selection for old versus new kernels, while=
+ a
+> >>>>> Section 1 projection plus the raw payload handles legacy versus upd=
+ated
+> >>>>> consumers on a new kernel.
+> >>>>>
+> >>>>> Thoughts? =20
+> >>>> This will put more burden on the firmware, but this seems the right
+> >>>> thing to do. I ll share the thread with the group working more close=
+ly
+> >>>> on the architecture aswell, =20
+> >>> We have will have a code first proposal for the _OSC part shortly. Ju=
+st going
+> >>> through internal review.  I'll make sure you + others here are on the=
+ +CC. =20
+> >> Ok thanks,
+> >> If you can also also add Mark Brown <broonie@kernel.org>
+> >> =20
+> > https://lore.kernel.org/linux-acpi/20261030143802.0000231d@oss.qualcomm=
+.com/
+> >
+> > I started a new thread so it wasn't too buried. =20
+>=20
+> Thanks !
+>=20
+> Just to be sure, the _OSC=A0discussion should not prevent this patchset
+> to proceed right ? I think there is only [1] which I m not sure about the
+> outcome otherwise,
 
-+static const struct resource versal_xilsem_res[] = {
-+       DEFINE_RES_MEM(0xf2014050, 0xc4),
-+};
-+
-  static const struct platform_fw_data platform_fw_data_versal = {
-         .family_code = PM_VERSAL_FAMILY_CODE,
-+       .xilsem_name = "versal-xilsem",
-+       .xilsem_res = versal_xilsem_res,
-  };
+It doesn't prevent this going forwards, but reality is I think no platform
+is going to surface any Memory Section 2 errors until we have the _OSC. =20
 
-  static const struct platform_fw_data platform_fw_data_versal_net = {
-         .family_code = PM_VERSAL_NET_FAMILY_CODE,
-+       .xilsem_name = "versal-net-xilsem",
-+       .xilsem_res = versal_xilsem_res,
-  };
+It should be a trivial addition though to pop the _OSC assuming we get
+it in the spec.
 
-+static void zynqmp_firmware_add_xilsem(struct device *dev)
-+{
-+       const struct platform_fw_data *data = active_platform_fw_data;
-+       u32 cfg[4];
-+       int ret;
-+
-+       if (!data->xilsem_name || IS_ERR_OR_NULL(em_dev))
-+               return;
-+
-+       ret = zynqmp_pm_xilsem_read_cfg(0, cfg);
-+       if (ret)
-+               return;
-+
-+       xilsem_dev = platform_device_register_resndata(dev, data->xilsem_name,
-+                                                      PLATFORM_DEVID_NONE,
-+                                                      data->xilsem_res, 1, 
-NULL, 0);
-+       if (IS_ERR(xilsem_dev))
-+               dev_warn(dev, "XilSEM register fail with error %ld\n",
-+                        PTR_ERR(xilsem_dev));
-+}
-+
-  static int zynqmp_firmware_probe(struct platform_device *pdev)
-  {
-         struct device *dev = &pdev->dev;
-@@ -2345,6 +2372,8 @@ static int zynqmp_firmware_probe(struct platform_device *pdev)
-                         dev_err_probe(&pdev->dev, PTR_ERR(em_dev), "EM register 
-fail with error\n");
-         }
+thanks,
 
-+       zynqmp_firmware_add_xilsem(&pdev->dev);
-+
-         return of_platform_populate(dev->of_node, NULL, NULL, dev);
-  }
+Jonathan
 
+>=20
+> Regards,
+>=20
+> Pierre
+>=20
 
-Edac driver would have
-
-
-+static const struct xsem_cfg versal_xsem_cfg = {
-+       .sw_event_node_id = VERSAL_EVENT_ERROR_SW_ERR,
-+       .cram_ce_mask = XPM_VERSAL_EVENT_ERROR_MASK_XSEM_CRAM_CE_5,
-+       .cram_ue_mask = XPM_VERSAL_EVENT_ERROR_MASK_XSEM_CRAM_UE_6,
-+       .npi_ue_mask = XPM_VERSAL_EVENT_ERROR_MASK_XSEM_NPI_UE_7,
-+};
-+
-+static const struct xsem_cfg versal_net_xsem_cfg = {
-+       .sw_event_node_id = VERSAL_NET_EVENT_ERROR_SW_ERR,
-+       .cram_ce_mask = XPM_VERSAL_NET_EVENT_ERROR_MASK_XSEM_CRAM_CE,
-+       .cram_ue_mask = XPM_VERSAL_NET_EVENT_ERROR_MASK_XSEM_CRAM_UE,
-+       .npi_ue_mask = XPM_VERSAL_NET_EVENT_ERROR_MASK_XSEM_NPI_UE,
-+};
-
-+static const struct platform_device_id xsem_edac_id_table[] = {
-+       { "versal-xilsem", (kernel_ulong_t)&versal_xsem_cfg },
-+       { "versal-net-xilsem", (kernel_ulong_t)&versal_net_xsem_cfg },
-+       { }
-+};
-+MODULE_DEVICE_TABLE(platform, xsem_edac_id_table);
-+
-  static struct platform_driver xilinx_xsem_edac_driver = {
-         .driver = {
-                 .name = "xilinx-xilsem-edac",
-         },
-+       .id_table = xsem_edac_id_table,
-         .probe = xsem_edac_probe,
-         .remove = xsem_edac_remove,
-  };
-
-No zynqmp_pm_get_family_info() calls and no DT binding.
-
-Please let me know which way do you prefer.
-
-Thanks,
-Michal
