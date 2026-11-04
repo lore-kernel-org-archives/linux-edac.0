@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793813166;
-	b=KFbjl+qIcOvfncK2aJNJGYN1xPoT12b4POIB00QqNKBWeA+OBTnDZrQ57ncE8etiIzQq
-	 PJchODY+HP/OxFp48RIApUET5TvppZkJR3KVvKdrMdQbvATPxH9ip6LKnwa1/mjm9D5Kr
-	 zdlXfUvWHBNCL3E4iG/BFoPSIh0HhQK/gN8kZ3tJwnNVA04QuEfiCFf399+v10MOwD2kh
-	 9H9mKGj4Pxjd35IuSYsh+vlTyZvDp1Ui2V28aM6pI6Ne4G4Tte87C7TSt/Kv2SUb+acYK
-	 hxd0m+Lv3z3xXisojRsgvR+/VTQHxzK/zVerXETs1PL//fQxm4pRjm3cZS3PxjeRyqQ==
+	t=1793814729;
+	b=oQVFQU0jyc2o0V7UhZXuwgElziGZejM0GwL4u3vitdsWH4HRAowSKz2bwQ4sQsjbduxm
+	 S5uVta9b+wCcNg9LiEMVV4mCfh7jda/wb6O6tiFGT1YA2Thp415k87GaRE173b3yxcAQ6
+	 ysLBHz84kG429rTosVQSY/mIVzHTSqyr5a42OZzFfW0VmTCa3OVEGBNeTusr3RJ5HHZYW
+	 +aQOCtb/cAHxCjrhONfgi32KXky7Yg2RpQIDO9W2kHoHuOVPkQzn0hNv9OeZAgdBfT07F
+	 qtN/O6bp4nTi00B/s9EbJAdci7qnvE5AIpBw1XK/CV23u/ttaOQorcfs8pdNcG9+Cvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793813166;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793814729;
 	h=Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To:X-Cookie;
-	bh=x9ff6M0sp5VgSXGtim1j8WATytOjQDQzXjDY2PMCYn4=;
-	b=z2b7StmoojIMJC8gNZU/LhhGYCHwX8vppCCTpQ0WgAYNP/owv0KpPmIByd6UxG+JEaM5
-	 SCTDIdFkgRZTFVqCQjKPlqxHHdcx1X59S7knUHcXQqHO22MgeXTobwnJjoWyOUhmoAPnT
-	 zPWkH/S9wPXEvWtessbnCs7NsOZiKS1yxm9BuyN0rchce15E8NFfB2sJ709G6Ad8RT7+k
-	 RwXQJlOgTYXQ1Nq3SRTVJ7JtX/Ciutk79tC4GmN69wkMbwMd/0Hq3nd+k6tmLGQoRI0fL
-	 Do08OdxMfzT5qmLjr3U/A/DSUgYydtmuKvJZ3ke/SNvZvDFqyYy3p0oNefbgx4Es/Bg==
+	bh=ac1TdzMdRVAfu/3pdJwOc0sC5HEYhrnVimqwcvhMZuY=;
+	b=nq3/BN/r/GoFzzuEPTbQqKtFNjLWNLIpdWJbV17pc28U2dnSOkMFkybW68jlvc2m3UUV
+	 Pp4y5++f9imWxZFP23VZ5VQX/9RCLNyc2if2lSEuqKD8fuN0NsAbg6NgO00l6VNDZ5c4G
+	 QyMAWWcJPri9WZdVlq8l/SgPyvTdzw7WSH/o5yb+5W96WR83Gp8UauJjuVTLZswavYudz
+	 YaofRNdEqd2VcZqyq5Bghlh/JoKTbE6KFGRjZPpAIgrgPTHERDpWlU+KQE420fkycjhfi
+	 Pisbuit1GbdBN3T5iADWQrhoB/DsavntJmqVu7Fo0nGeAq4spCDUOfoYaLSDo679KnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63458606A32F;
-	Wed,  4 Nov 2026 17:26:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 640CF1F00A02;
-	Wed,  4 Nov 2026 17:26:01 +0000 (UTC)
-Date: Wed, 4 Nov 2026 17:25:58 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22D46071F41;
+	Wed,  4 Nov 2026 17:52:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E57251F000C1;
+	Wed,  4 Nov 2026 17:51:51 +0000 (UTC)
+Date: Wed, 4 Nov 2026 17:51:45 +0000
 From: Mark Brown <broonie@debian.org>
 To: Pierre Gondois <pierre.gondois@arm.com>
 Cc: linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
@@ -40,16 +40,17 @@ Cc: linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
 	Pawel Chmielewski <pawel.chmielewski@intel.com>,
 	Dave Jiang <dave.jiang@intel.com>,
 	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
-	Breno Leitao <leitao@debian.org>,
-	Terry Bowman <terry.bowman@amd.com>, Dan Williams <djbw@kernel.org>,
+	Breno Leitao <leitao@debian.org>, Dan Williams <djbw@kernel.org>,
+	Terry Bowman <terry.bowman@amd.com>,
 	Ard Biesheuvel <ardb@kernel.org>,
 	Morduan Zang <zhangdandan@uniontech.com>,
 	linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org,
 	acpica-devel@lists.linux.dev
-Subject: Re: [PATCH v3 3/7] cper: add helpers to handle Memory Error Section 2
-Message-ID: <6016f3f4-7bf7-4b71-9b8f-06a7f31095b0@sirena.org.uk>
+Subject: Re: [PATCH v3 6/7] ACPI: APEI: add separate Memory Error Section 2
+ handlers
+Message-ID: <94b213b2-dabc-46b4-8d21-a5dc8e8e51bb@sirena.org.uk>
 References: <20261104110355.1437249-1-pierre.gondois@arm.com>
- <20261104110355.1437249-4-pierre.gondois@arm.com>
+ <20261104110355.1437249-7-pierre.gondois@arm.com>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -60,64 +61,78 @@ List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YNGke8jv/OA0HEod"
+	protocol="application/pgp-signature"; boundary="8UKtglv2OUYLjMwF"
 Content-Disposition: inline
-In-Reply-To: <20261104110355.1437249-4-pierre.gondois@arm.com>
+In-Reply-To: <20261104110355.1437249-7-pierre.gondois@arm.com>
 X-Cookie: All rights reserved.
 
 
---YNGke8jv/OA0HEod
+--8UKtglv2OUYLjMwF
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 04, 2026 at 12:03:11PM +0100, Pierre Gondois wrote:
-> Add separate location and printing helpers for Memory Error
-> Section 2:
-> - cper_mem_err2_location()
-> - cper_dimm_err2_location()
-> - cper_print_mem2()
+On Wed, Nov 04, 2026 at 12:03:14PM +0100, Pierre Gondois wrote:
+> Add dedicated GHES and EDAC callbacks for Memory Error Section 2
+> records. Use a separate GHES notifier chain so existing consumers
+> continue to receive legacy memory error sections.
 
-> +int cper_dimm_err2_location(const struct cper_sec_mem_err2 *mem, char *msg)
+> @@ -1008,6 +1021,16 @@ static void ghes_do_proc(struct ghes *ghes,
+> =20
+>  			arch_apei_report_mem_error(sev, mem_err);
+>  			queued |=3D ghes_handle_memory_failure(gdata, sev, sync);
+> +		} else if (guid_equal(sec_type, &CPER_SEC_PLATFORM_MEM2)) {
+> +			struct cper_sec_mem_err2 *mem_err =3D acpi_hest_get_payload(gdata);
+> +
+> +			if (gdata->error_data_length < sizeof(*mem_err)) {
+> +				pr_warn(FW_WARN "Memory Error Section 2 length is too small\n");
+
+The v1 code uses pr_warn_ratelimited() which seems sensible.
+
+> +static int ghes_edac_report_mem_error2(struct notifier_block *nb,
+> +				       unsigned long val, void *data)
 > +{
-> +	u32 len, n;
-> +	const char *bank = NULL, *device = NULL;
+> +	struct cper_sec_mem_err2 *mem_err =3D data;
+> +	struct edac_raw_error_desc *e;
+> +	struct mem_ctl_info *mci;
+> +	struct ghes_pvt *pvt;
+> +	char *p;
+
+> +	/* Memory error location, mapped on e->location */
+> +	p =3D e->location;
+> +	p +=3D cper_mem_err2_location(mem_err, p);
 > +
-> +	if (!msg || !(mem->validation_bits & CPER_MEM2_VALID_MODULE_HANDLE))
-> +		return 0;
+> +	if (mem_err->validation_bits & CPER_MEM2_VALID_MODULE_HANDLE) {
+> +		struct dimm_info *dimm =3D NULL;
 > +
-> +	/* SMBIOS handles are 16 bits; never truncate a Section 2 handle. */
-> +	if (mem->mem_dev_handle <= U16_MAX)
-> +		dmi_memdev_name(mem->mem_dev_handle, &bank, &device);
-> +	else
-> +		pr_warn(FW_WARN "Memory Error Section 2 module handle 0x%x exceeds SMBIOS range\n",
-> +			mem->mem_dev_handle);
+> +		p +=3D cper_dimm_err2_location(mem_err, p);
 
-Should this be rate limited?
+Do we need to raise the size of e->location?  It's 256 bytes and
+there's an awful ot of potential fields that could be decoded here,
+including some with 64 bit IDs.
 
-> +	len = CPER_REC_LEN;
-> +	if (bank && device)
-> +		n = snprintf(msg, len, "DIMM location: %s %s ", bank, device);
-> +	else
-> +		n = snprintf(msg, len,
-> +			     "DIMM location: not present. DMI handle: 0x%.8x ",
-> +			     mem->mem_dev_handle);
+> +		if (mem_err->mem_dev_handle <=3D U16_MAX)
+> +			dimm =3D find_dimm_by_handle(mci, mem_err->mem_dev_handle);
+> +		else
+> +			pr_warn(FW_WARN "Memory Error Section 2 module handle 0x%x exceeds SM=
+BIOS range\n",
+> +				mem_err->mem_dev_handle);
 
-Shouldn't this be scnprintf(), especially in the first case where the
-strings come from the firmware?
+There's an equivalent print in cper_dimm_err2_location().
 
---YNGke8jv/OA0HEod
+--8UKtglv2OUYLjMwF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrraqYACgkQJNaLcl1U
-h9AajAf/W7R0CEUqtpIYoBl2hZk1nuGn9tkyTqfdf9mJWE4vi9igIzfRMj75lpki
-tgacOw5Dggxv6jSV6YoNll9CUeJy9h+OUFf/N7/IRFO1R/EpdtFJZjX3sX8AlKwS
-2OgJFjrKBU6Ei4+9hKoUYr4eWuibp+zZ+0FOgT75l3jk1ro+VFnums5/kmsutjVd
-ysMyZPaUj8HMLzqXnx3Zf/pmDG0NHukEAC02hPy/QqPNGhD2o+OzXLTW5jwH83zh
-5yVaCX18ZoN+E6dWl2Ii+I+6XjJV/wDxfqnZcOnPv76KYsLQidPRqywHwHMz+Tt6
-HZHePjuzQwwJJiWOhDhb+xKVIOXocA==
-=6Yex
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrrcLAACgkQJNaLcl1U
+h9Cbiwf8CL414tJA0b71RDfEqi+/59cDTX6lTkzXJzKGchYn2YCqF5pNEgaNIP4L
+U8b9QzaaMJSQ7bwzHIZ8op0nj/yMBG47ggbuj0DEweeu9004HssW1o0DS3epuFps
+ccL0B2DpwfoqfNtKL/N4kwTzZgZGEwxF1jJ02Up4H/nQ3DoX4D0h0SExGpJK/Aqo
+pb9cDiTpII+1YMP8bw1Sd4CihbraxI30q313c4CCMkSDUGq85NLYZ4K85IwwATZF
+Y2+bX8uL1Hd5jm+xsPTrDOdtT40Wr/mMUAKa0IxlzDCK3kGoYXlMeoYm7e1HI4KO
+Oce91tEKWOpPveVa1U3hVyyHRvJI7w==
+=0wR+
 -----END PGP SIGNATURE-----
 
---YNGke8jv/OA0HEod--
+--8UKtglv2OUYLjMwF--
