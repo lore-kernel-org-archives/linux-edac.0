@@ -1,143 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.71.155.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793739655;
-	b=bqnBz+X1baM5JQj5PlGDctGFT5EjuaGs/KZNnEhZyFGPTYkTukPIsFU59WEqqFIuyXi4
-	 uFf/EtuGv21RICn2oLR+VSb/+vsn6UgeZ9fxqlUZGZ1wheRGUMXtHS3JtSiBaCmi61x+n
-	 XrU/5qS+Hlv0AVLRgK3sHyZhGoK9t+MSRUj93vjKWHB0/qbU6ZMLZrSujGOUgamsKOj9a
-	 tkKEdnxWAZsur/7Cvut5rPRMumeUwRKSHljgfKU9ZavXcT+bjpqmCuNREPb8k3kTuEQg8
-	 PHyyXfIxGbz0LDboW6Z/JHNzKrYgVKMipKIq7FJNW26Cra8AAs2ZCp2fe49IZPfwQTw==
+	t=1793759623;
+	b=aP8Z7UUhDtyMZaX9lwpzPkvep/t48JY3GLdASoglFkZ5nUvyUio45lcv5oNOJ8Ckllfi
+	 xCqDWmgYgMBpZkrscwhscC+rhopb0KDwiuytYT/j+Ad7F6PDzfKyimtsrbB+Vle84vBJl
+	 YC6CzzZUyrOBKR2K1cesuVbBf8KcXqDP89SuKhlMPiyxXnatf1hpaIw1ErW5txXbhxYzK
+	 Xe8rhn0TBt3TiUPm7Ds7sPRyVIrmxaIRlrSJjiw8nFFC6UojqH9LCXM2hpwg/PP4A2B/e
+	 6VTMzxou925tCVd8OkhIHomLGfTAO2daXADGZlAwnS2DYW1t/rm2v805Wre7L337gcw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793739655;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
-	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=8+TGSDQ9SyPrcH/PQA7dWzaDsqGof4ZchVSIqxBGMHE=;
-	b=Xakfav1qdB2foZm4WmLAX/ggzcuwWyfsrRVTjNHmU4AyNwD8as1kvC7xZ16N5l2BvyMU
-	 TzzXeUc2bof5cbMBfkact78FbpAArNA55rR7zxAvxEBFt3u1Lem7i6j8KPeQSEYVNFnX7
-	 QIFFzFkDeOQh7WKXTWPcY6MHXqiVFhY3NxYCQ3wEITibVBe37pueHMyrD3TbZfekG+79A
-	 RFEdKbuO38HDZqMNvGjEOi6/tFw95Qo7hKCvUXkp6Oo3ife8MPgOww1KrYpmvAD76eHGP
-	 JEvXx8wzv2wBi0H6GmftMFOZk/5hGa/Dd6vyYn2X4+ZzL2cVUXej7YdSZTwestmSnmg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793759623;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-HM-Tid:X-HM-MType:
+	 X-HM-Spam-Status:DKIM-Signature;
+	bh=eY0Q9HA7pjCQ/pDaWyN7RMHY7mPH1auvFiWqQI/rL40=;
+	b=vlazXE1eBwI7ajLU+5qnlHSXGLrLEQX5PmEcsNNYTwbdf4jeMM4MT46WtGpD7rSA1xJE
+	 ekEcbcMXDpNULOc1Ay4AqV7fnvEFsRAsx53XeHvMer7PkeoP1abKHb54VVecZP9lNiPlQ
+	 5quj4ZMx5yywxWOlfo7kTlnBvMC76IAEq5J2c1M+vWGGTY1f6+cymBpW7YvqIxMoTXNvj
+	 mkgEIopT6On5purdmf5kqCj0U6Ck7PDTzP3z8QJvj6StHdOn+KOfNbhVDOp1oerTS+YLb
+	 sjpC6AZEGWIl3Tgs7VNMoFPPShbZMy4eRVHrwqB4SYOS4O/gtHhrZsJ5ZOLn19uEJmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=DQDZ6Ikd;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=g9E+gh9W;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dmarc=pass header.from=mail.sdu.edu.cn;
+	spf=pass smtp.mailfrom=mail.sdu.edu.cn;
+	dkim=pass header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=d5wJrp2n;
+	arc=none smtp.remote-ip=101.71.155.101
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF79C606A337
-	for <linux-edac@vger.kernel.org>; Tue,  3 Nov 2026 21:00:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF79C606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C138606A31B;
+	Wed,  4 Nov 2026 02:33:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C138606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.sdu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.sdu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=DQDZ6Ikd;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=g9E+gh9W
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3IZCo0057202
-	for <linux-edac@vger.kernel.org>; Tue, 3 Nov 2026 21:00:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	8+TGSDQ9SyPrcH/PQA7dWzaDsqGof4ZchVSIqxBGMHE=; b=DQDZ6IkdTD4TfR4h
-	QABB8e7VWCWMVOZKatz5cG2ZupT8OhMFcFFMfNvjLbnU2huxsEnt9PzMbYcmwcKM
-	rcXOmWW9SJO1ALJ4CZePlEKys80gzfsq2L2grwlmh8AUlKdVFXWJir5s4L6f0XDE
-	EUukTfuK7BC61i0YYggix5dQibhKnM6eZNfv4Vu/fgiZ+J2DUHawdtOILn+DByLj
-	UzT2IVNmZdakkqpm6UABaWZwMTxa+cmy0E4TEJNLcGvFrCN1x/YAsGJSh/3sOklz
-	6liZgZJpwvdrivGuzDimPxa0mduchuvgSs0uBLsNzGIkFNKmnm4941/e76DqSYCO
-	k87QCg==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hqkgp92j8-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-edac@vger.kernel.org>; Tue, 03 Nov 2026 21:00:46 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-3692c5b061bso12316471eec.1
-        for <linux-edac@vger.kernel.org>; Tue, 03 Nov 2026 13:00:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793739646; x=1794344446; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=8+TGSDQ9SyPrcH/PQA7dWzaDsqGof4ZchVSIqxBGMHE=;
-        b=g9E+gh9WOr1y+hZ6ZkhOEwDoltB1mXoy48+bWDVg4Kp+hdmwP7XL3bxvAhNQIyDtkc
-         sP0CnnJ9P5krTnb3PWknKl7VpjEn1Ts5jY+iuT0MuMDnqubIeQmeVhReXetxOB/PDXHg
-         KN2V+uQq3RWujTy3qfpM2brSEzC9mWGp2nBkHchaXgSlZrwq16RDpACMGdBNo7DjyXtf
-         dP9FVy0hi2rahnzDy9VoopWqMvVchUK7N106prWd/tQmusB/Zhugomy98bZMNhKQqp46
-         NeXMNiW8zr3hXSAgjTpBbwlKuef4L/DemYPHk454Szw4DJXBlvjEVyfp7Z2wwhlGJePp
-         8WCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793739646; x=1794344446;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8+TGSDQ9SyPrcH/PQA7dWzaDsqGof4ZchVSIqxBGMHE=;
-        b=pXkV0kyTvGBA3yTSatTwktfRr55WwHm2HIhweCEjXfkeA6j30vN16bluSRG/9q9nJs
-         k87GXF3kiJ2sURHCeX12r8E65hfKDaAupt0vfZ0xuu8AKMEimAuLp6vAdbMkt8RnVJuh
-         UXwiWDpjrlYZa8vFZncsQBZO077c6dJsBi+aAFN9s54B0MeZa6uRN0DlNi74bDMp0uLr
-         PHeam/MrH0cQQU7yV3HI1mxQW77neKHEucvA6TPvmFfVBfcnTlg1oFpiC/GU3USR88q8
-         1CzrgNSp1gipMY1dQ20KEY2VQl5NuTkFg2BVE1T9y8yih084IrfWZCKCjkw5TmgQIL4D
-         Oo6A==
-X-Forwarded-Encrypted: i=1; AKwUvBzHbfWv3YoKvVtSEB17OwEs4dGozaOSQcg+H/gd6iy+skoUcmgiKheRcYmORxIa94rFX09eugBM3Kaf@vger.kernel.org
-X-Gm-Message-State: APuU4Z+3cef8/WQs05VrlIE57YXWoB1cWbYzAtLdD95poYc97AMXv2i8
-	XlY1+6mWJ1TAJGKr16XC1Pc/PNc2V+Zvs94NQHCTDxm+JL503jTEZ0juPS/GmCMtWhj/pvWvdlT
-	HsGrrh/Tq3UKEHo8b1Ky1/9Uu4VuOuxDei3fg0Ua6gPZGumfmM9lIiohuXNs2bTVf
-X-Gm-Gg: AYBFou3Dh605+j7WZwYW8iwldN3o9j5CLAEYXFM4i6s1yw9iXpw19xeoLScQ1S+GLsF
-	excXyWYSxrElDEkv1vb26I3blJiK6b4pQ14yIVaHnagmigR1PppOiAj0eOPF5xUtY1gbRyZtFkP
-	wfz0C4/GAYE/wkW5myHBgTwSYTKN7fK7xvdZgEK3XhWen/cW6c2wMFzgTZchoWhR4Unm0fCD26n
-	vPrmqI2ZqDmecJP1Y8un7f1OrFt1bqXSc2dsCmKldNHW8FmI7awWgQdPrxctXzOFo9xoHIN2ccC
-	24EPJ6d8di+3VYmHpq0HGVTUu0YPuqzcKg0HbO8ziwwREyK1g+DMJe4SYW9wwowIbucP10Z/NHW
-	GLz54ZMLJcYquV9UKo0HmItnNDxA1zhW+S1kSAu6/ZSGj2nxZSxYFx2CizR3LXjUVvQeFOB/Gct
-	Y0wHwn93v8SLevgAvdqXZinkAuhg==
-X-Received: by 2002:a05:693c:83cf:10b0:36a:1427:3933 with SMTP id 5a478bee46e88-36a4236e7bemr23432957eec.16.1793739645637;
-        Tue, 03 Nov 2026 13:00:45 -0800 (PST)
-X-Received: by 2002:a05:693c:83cf:10b0:36a:1427:3933 with SMTP id 5a478bee46e88-36a4236e7bemr23432898eec.16.1793739644957;
-        Tue, 03 Nov 2026 13:00:44 -0800 (PST)
-Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca3981ff0sm706469eec.24.2026.11.03.13.00.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 13:00:44 -0800 (PST)
-Date: Tue, 3 Nov 2026 13:00:38 -0800
-From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: Pierre Gondois <pierre.gondois@arm.com>, linux-kernel@vger.kernel.org,
-        James Morse <james.morse@arm.com>, Mark Brown <broonie@kernel.org>,
-        "Rafael
- J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
-        Tony Luck
- <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
-        Hanjun Guo
- <guohanjun@huawei.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shuai
- Xue <xueshuai@linux.alibaba.com>,
-        Maciej Wieczor-Retman
- <maciej.wieczor-retman@intel.com>,
-        Pawel Chmielewski
- <pawel.chmielewski@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        "Fabio M.
- De Francesco" <fabio.m.de.francesco@linux.intel.com>,
-        Dan Williams
- <djbw@kernel.org>, Terry Bowman <terry.bowman@amd.com>,
-        Ard Biesheuvel
- <ardb@kernel.org>,
-        Morduan Zang <zhangdandan@uniontech.com>, linux-acpi@vger.kernel.org,
-        linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev
-Subject: Re: [PATCH v2 2/6] cper: add Memory Error Section 2 structures
-Message-ID: <20261103130038.00000f77@oss.qualcomm.com>
-In-Reply-To: <aunhE1aeSfk6YDgj@gmail.com>
-References: <20261019203915.2019037-1-pierre.gondois@arm.com>
-	<20261019203915.2019037-3-pierre.gondois@arm.com>
-	<aunhE1aeSfk6YDgj@gmail.com>
-Organization: Qualcomm
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	dkim=pass (1024-bit key, unprotected) header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=d5wJrp2n
+Received: from lgs.. (unknown [101.76.249.61])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 5367d0735;
+	Wed, 4 Nov 2026 10:33:33 +0800 (GMT+08:00)
+From: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
+To: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>
+Cc: linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] EDAC/pci: Fix potential private data leak on release
+Date: Wed,  4 Nov 2026 10:33:33 +0800
+Message-ID: <20261104-db9e3c75b3-edac-1@mail.sdu.edu.cn>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -147,47 +54,48 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDA4MyBTYWx0ZWRfX46y+S5kz1fO1
- MWjlM1IAgRXL9VrWBZDlbIdKtWrD9tWKBLwVMtGfuravcJN/zBvijTBJpJAfws3tStVapRa06qA
- ehYWXXP6f8neWzXXBNt/wXz+5cdkiDQwSPQ1LtO0Px51qpNsPe4SlEd2vohk9TJEVJ1gXR2KoZl
- WZolXcptArXGtg53ARmteIXVgwxsHB7De3im4RBHSXrEwJr3YE1su/iXaP9/KRvJeqyWL6808oS
- 8+z3dRY+/smobqJzFecDiLZmyeM+0vfAM36Et3pOf1+YxgyvxjATKQILqqqA01mQ4jyKR7zNTjv
- h+pYckZVb+C0BHOJztXhge67SxiZcnl/enlREkiDM2qlhdLMIzNaw3oBuPxw/WLdIXvGJCzXb5G
- a5EJzT37LoL5rWs1JB0fGMfIBcHoxjdQI15cLb/sNJNMqUewuza8KOvPnJwWfI3BqedpW3G45lm
- eq0fyAssPyIr8XPvDwg==
-X-Proofpoint-GUID: HlWywmRHV5XdTC2cHtTVlowwk3sncsZO
-X-Authority-Analysis: v=2.4 cv=Yoya1IYX c=1 sm=1 tr=0 ts=6aea4b7e cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=xNf9USuDAAAA:8 a=EUspDBNiAAAA:8 a=7CQSdrXTAAAA:8 a=bZ_CbDB1LfDrNmofISYA:9
- a=CjuIK1q_8ugA:10 a=PxkB5W3o20Ba91AHUih5:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDA4MyBTYWx0ZWRfX3bX4xkTS1ZdW
- WlIPIirnngnHdwpPieaQv/0Fa/Ps+U3UHt3FMJJXk/oU3p7/0aVP0XH2/irpp9k4uGOqRT73cFD
- G+Z3Z3vsKT1rOPXRs91Wb4RKBSpXA/E=
-X-Proofpoint-ORIG-GUID: HlWywmRHV5XdTC2cHtTVlowwk3sncsZO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-03_04,2026-11-03_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 clxscore=1015 suspectscore=0 spamscore=0
- phishscore=0 impostorscore=0 priorityscore=1501 lowpriorityscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
- definitions=main-2611030083
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa1a46793bb03a1kunm9a448115163696
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCHRlKVh0eGEpJTU1NQ00dS1YeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlKS0pVTE1VSU9CVU1KWVdZFhoPEhUdFFlBWUtVS1VLVUtZBg
+	++
+DKIM-Signature: a=rsa-sha256;
+	b=d5wJrp2nLqvK9rwcHV9Bm5CzWSbURjZZAxBom+/Ch5xUqg2FWtgIVkOLW6mcZHou1OAdh1RHvmiO6mmsts6C3e8H/opXCZyPJQdrADUUHgiSeq+SHJsjq49p5IodVf5S8DdXDCV8IbSQMVycopNYU3lMJ2F8T+pRvkX3VUKsoF4=; s=default; c=relaxed/relaxed; d=mail.sdu.edu.cn; v=1;
+	bh=eY0Q9HA7pjCQ/pDaWyN7RMHY7mPH1auvFiWqQI/rL40=;
+	h=date:mime-version:subject:message-id:from;
 
-On Tue, 3 Nov 2026 05:27:02 -0800
-Breno Leitao <leitao@debian.org> wrote:
+edac_pci_alloc_ctl_info() allocates pvt_info separately from the
+controller, but the instance release callback only frees the
+controller. Release the private allocation there as well, when
+the final instance reference is dropped.
 
-> On Mon, Oct 19, 2026 at 10:38:41PM +0200, Pierre Gondois wrote:
-> > Add CPER Memory Error Section 2 definitions to the CPER headers.
-> > 
-> > Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-> > Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>  
-> 
-> Reviewd-by: Breno Leitao <leitao@debian.org>
-Typo.  Just in case Pierre is using b4 or other automation!
+This issue was found by our static analysis tool under development.
 
+Fixes: fb8cd45ca39b ("EDAC/pci: Get rid of the silly one-shot memory allocation in edac_pci_alloc_ctl_info()")
+Signed-off-by: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
+---
+Build-tested the changed object with x86_64 GCC W=1, using defconfig
+with the driver dependencies enabled. No hardware/kernel runtime test or full linked-kernel
+build.
+OpenAI Codex assisted with source review, patch implementation and
+commit-message drafting. The submitter has reviewed the changes.
 
+ drivers/edac/edac_pci_sysfs.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/edac/edac_pci_sysfs.c b/drivers/edac/edac_pci_sysfs.c
+index 9f437f648e4e..cdb9291765e3 100644
+--- a/drivers/edac/edac_pci_sysfs.c
++++ b/drivers/edac/edac_pci_sysfs.c
+@@ -83,6 +83,7 @@ static void edac_pci_instance_release(struct kobject *kobj)
+ 	/* decrement reference count on top main kobj */
+ 	kobject_put(edac_pci_top_main_kobj);
+ 
++	kfree(pci->pvt_info);
+ 	kfree(pci);	/* Free the control struct */
+ }
+ 
+
+base-commit: 05441d697f7f9a927264f4058cbbc6a03dfcac9d
