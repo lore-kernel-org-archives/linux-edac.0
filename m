@@ -1,83 +1,76 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793854619;
-	b=zEip8wwsK81ET8s6NHLtzEiin1Gjqo9qBzrZM9+u87dmEE1sWX23HKOywhECcK+OOymd
-	 Gon9UdykTW+/5kX6q0vY1BwPkD0gHrA1IVpM+hgKZfXsshJzXv+x15bYKKTfOnlMMvKNE
-	 bO3p/bZO5GUPqHPg7YV8QAKDdveGhw/2m3apsPzXu7ext5b0RB4POZnWVH9ZLNsB8L6CH
-	 ppx1xOn9yS8h8RpTevGtJcybzWqXD6b0AhOKmFsdGsfeJbL2+8O9jDw+4A0DMyv/uNpb2
-	 D3SvpeD7qvJyBx1pWRjurPPmfNqfeUTQq9ViCirJKFAgS9OuLJyGh1zhLvtCxghhhMQ==
+	t=1793859284;
+	b=OoylZt5tSS1ml5cjWVSmYSw4JqTqixAIhrFurp6Wk25Pw1o/awjjsjyNSuXoOuIMaDTo
+	 DOmO6D0t0Loqr/KxxilGjZbgRaj1ofC3mCIkq0UuiJO4e4/upjnd7QpVIuWljdP06qT+/
+	 DJTFhswGJzeKenm9DVmer7CKe48njqBcnxGRHt5vakZ9tkG8NNKM0xmH3bgtD6NuiL5Vh
+	 r61IoVIeYTggNnI/DEcTtdem7ecPft3XUhIQdOXMkj4PKMr+29/8qhy76NtTsEMBiCazz
+	 2FMCFkYBZ+0u6QMsFso9ddr4KfneHlMBx42pNpgDn3/vZ+0L6a1qDOzUnAsbuefqpqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793854619;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793859284;
 	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
 	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=iu+wu+Zx/NtlCLRN5PCs/YxG7yDVrWiVNMra53EYeJw=;
-	b=W4iBFSGgk9Ns+JbARNua/2vpfxKakpgIPs4twlZepQFGNW7h+gohHdxJBMY+lfEa5Hci
-	 /ScAtx034zWZhd1ePfX/7AxNwa9BPZkUFl72+3z9FJ6c7AOHuorHZtE5S/uP6s744scTM
-	 dZi7rlFAUuZAZ9ld5q0Wbbg5dnwkQm9tbTTtBbl67SvJDg/OWJGXPpaVHlvcvWWjSRFQh
-	 HIlF6h/CdpWSUN3/y5XR1PDZ+RcCNvuTWOEA98+wjat0LALoQDkJBalbiRqh/38xogykO
-	 MF5iWfaORhA4lzy7HPTzJdmI7zPM+lVc2k7fuBu3VjGADNx/0GR9nAjQKWGF1UIZl/g==
+	bh=hVvv46MqObsSbVKNxdb2wOsvci7D3s0OZ8w0s0IvXOw=;
+	b=kr9oxEpODRGN1ORkGXYa8Ug5/bHwRMrM6vaZ4v0/7SPZqkpagW/WdfrA+XU6dfuJ/Pj5
+	 mAt0wzDfc8XEfEYcFSqkP5S9T9HPC4JgjxphgdoWNsRRBjw5gzwCD/g37n7enCFnDTHxO
+	 T6b/ocwj2VOWR8GwaLJxBLzsjdiT0uprWANiem4bKtd2P5u+sQr8pN6ReQ4/xNLdfLnl2
+	 u+6pZ865DSl2Uj6uCVJfrvBXiRjLrgAmMBPJu9d6iDL/ZV2b7xTRaYywYotbALF0NeDwe
+	 e7g7V4IV2x+cxwJjXy1av0LvutYZ5SlqQBVLtyx+QVn5Xx0Nwa/0mqnQ3pR09XTRu9Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=alien8.de;
 	spf=pass smtp.mailfrom=alien8.de;
-	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=GF7ywrzT;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=No0RkY+2;
 	arc=none smtp.remote-ip=65.109.113.108
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35011606A328;
-	Thu,  5 Nov 2026 04:56:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35011606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B446F606A31B;
+	Thu,  5 Nov 2026 06:14:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B446F606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key, unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=GF7ywrzT
+	dkim=pass (4096-bit key, unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=No0RkY+2
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id EBCA740E0299;
-	Thu,  5 Nov 2026 04:56:55 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 669D540E01D2;
+	Thu,  5 Nov 2026 06:14:41 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
 	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id wsGM9sTHQm2m; Thu,  5 Nov 2026 04:56:52 +0000 (UTC)
+	with ESMTP id msEHwpIIfBCI; Thu,  5 Nov 2026 06:14:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1793854612; bh=iu+wu+Zx/NtlCLRN5PCs/YxG7yDVrWiVNMra53EYeJw=;
+	t=1793859278; bh=hVvv46MqObsSbVKNxdb2wOsvci7D3s0OZ8w0s0IvXOw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GF7ywrzTQZ6wEHZIFfdeWnirhkOvcOJFxiVrxYiRH0aY05M7xKyHS0sGBRA8n2s2M
-	 dJd4WhV9WzQ7ochMxOUgRrEz5y0ZEpAJZEyg5fhjTFjQsbvQdbXiBsIDpPU+Z5SXwc
-	 aX4fZUf1z9evJkNy1kfx+rK0gwfdlcYzYIkb6DzfqsK50kJZkmucFgt8Ds1QHsO7Ei
-	 8HMFrbUKv9L3ljhBY6cGmdD1Uxbpofv7JdmHxvynTAT8c7WXMNnOPcxnHLvkSj4FGk
-	 v1VMnL4Ubm+nit/kNnQRQ1eQn2Oa25hVosc1n4YQpXtCPYE07TuCORD1JdMEZRBva7
-	 3/TbnXvQPR0LNPKgbOfsXm/X7oaLui5ok/ZO8UL1RM0pG7PnvI3cKS/jwReMNom5rB
-	 SBNZB38/Te2XhJsQXjulGCVr2I2JhhMLoSUqFEtVPVf9fzTIX2E6WN33ScmJA78vMF
-	 AzwexkNCTIW8c4d9d1R5GOAFi/mqLSCtnlfWONXnSaR7gbMmHJ4mZO1z1tXJk1vnjS
-	 M4rJmM2CqEvRT5MdYzqeQBAZItq6Wd4AEqnlJlr+Ec9rIIgKDDQhvOmLiXmorhl+yx
-	 khIdhO8MU5KywJeSCsJtkXM7qOc8DcSP5jM7bm/ejk9B0fV4bc9s7cM0DJRxU59RxO
-	 C648Rd/lSWIroYXKWCf2ENgk=
+	b=No0RkY+2w2EZW2Crl+yiArPnOUV0CtAMg6s9t45dc1IuXkXL8vICQQ7cyvEbMpECy
+	 r3uGptBQI/oCG9OTvebR5IBDDZlvWZ5ftafbuxQKqEEpyrMZq7sbNNYYOfbUO352l0
+	 eMsTVdMml7ntgh7v9DvT7lo/Zq95zkYdpswKq7qfuHhXYSHa97FxZQPSauvhWw15z+
+	 VXdWBqfhi11onxJz2GdpNaJI7Ex7xJ6AclqBUKx3942kx+K2aAVJsePCDWRBcKwwwA
+	 a9K1CN4UiT7ZC6OU3PSURTLVTJY/8TtdLj9KP2ZJHPV0MUSIFBpPjjDL1GSP+gAyh9
+	 4H9jkNibjUgirqEbpdVuLAgqmkUOFDzl418kAzfEZSHIgmqJ7S6ipBHfhxa58vZxDB
+	 z64J/k54laMUExkUOtPsdj9X7RNz40eSOI7oW5hjSDI2Qh2Qi2YD0GQOGmryGBF4DF
+	 /ET3blc2+CFBQMaeZL6LaSTAGK4SxDZACkwxbBjaPZLTqMeaY0j0R4oVxFJvEpJfVN
+	 x131d7IGCkUuSWp2xuGTYJj5zF5p1aAFc3aHCQD7t2CaSCg+rkF4k9WAN/+VuOYNOZ
+	 Nl/nFRlvMvXs+zbMwIoXWIBQ5BgWa7onpigWGeNot0cznfqE9xlXUDT1AwSXuLOmk8
+	 O7L6n99MNvx/gZEQU8DPQNxY=
 Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::42])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DAAA240E0184;
-	Thu,  5 Nov 2026 04:56:37 +0000 (UTC)
-Date: Wed, 4 Nov 2026 20:56:35 -0800
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BD88040E0184;
+	Thu,  5 Nov 2026 06:14:32 +0000 (UTC)
+Date: Wed, 4 Nov 2026 22:14:29 -0800
 From: Borislav Petkov <bp@alien8.de>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Cc: Stefan Schaeckeler <sschaeck@cisco.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Tony Luck <tony.luck@intel.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-	Borislav Petkov <bp@suse.de>
-Subject: Re: [PATCH v5 6/9] EDAC/aspeed: Replace regmap with direct register
- access
-Message-ID: <20261105045635.GBauwMg0oqd2tVPH-4@fat_crate.local>
-References: <20261007-edac-v5-0-5c31fc5df4cf@aspeedtech.com>
- <20261007-edac-v5-6-5c31fc5df4cf@aspeedtech.com>
+To: Vishal Badole <Vishal.Badole@amd.com>
+Cc: yazen.ghannam@amd.com, tony.luck@intel.com, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] EDAC/amd64: Consolidate Family 1Ah setup and add
+ support for models 0x88 ... 0x8f
+Message-ID: <20261105061429.GHauwexa5ngBoEP3kV@fat_crate.local>
+References: <20261014085720.1471993-1-Vishal.Badole@amd.com>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -89,44 +82,28 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261007-edac-v5-6-5c31fc5df4cf@aspeedtech.com>
+In-Reply-To: <20261014085720.1471993-1-Vishal.Badole@amd.com>
 
-On Wed, Oct 07, 2026 at 02:13:23PM +0800, Ryan Chen wrote:
-> The driver instantiates its own regmap purely as an MMIO wrapper: it has
-> no register cache, uses custom .reg_read()/.reg_write() callbacks, and is
-> not shared as a syscon with other drivers. So it brings nothing here
-> beyond the spinlock that regmap takes around each access when fast_io is
-> set.
+On Wed, Oct 14, 2026 at 02:27:18PM +0530, Vishal Badole wrote:
+> This series cleans up the Family 1Ah model handling in amd64_edac and
+> then adds support for the 0x88 ... 0x8f models.
 > 
-> Drop the regmap and access the registers directly with readl()/writel()
-> under an explicit raw spinlock, held across the whole read-modify-write so
-> the controller is unlocked once around the grouped writes rather than on
-> every register write.
+> Patch 1 consolidates the Family 1Ah setup: select the v2 UMC register
+> layout once for the whole family instead of per model, and reject models
+> that are not known to work.
 > 
-> Annotate the register base with __guarded_by() so that, under
-> CONFIG_WARN_CONTEXT_ANALYSIS, the compiler checks at build time that every
-> hardware register access is performed while holding the lock.
+> Patch 2 adds the 0x88 ... 0x8f models, which use the default Family 1Ah
+> settings (2 UMCs, v2 register layout), so the driver can decode and
+> report memory errors on them.
 > 
-> Assisted-by: Claude:claude-opus-4-8
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> Vishal Badole (2):
+>   EDAC/amd64: Consolidate Family 1Ah model setup
+>   EDAC/amd64: Add support for Family 1Ah models 0x88 ... 0x8f
 > 
-> ---
-> Changes in v2:
-> - Take the register lock with the irqsave variant in init_csrows() and in
->   aspeed_probe(); the interrupt handler takes the same lock in hardirq
->   context.
-> - Move the dev_dbg() of the interrupt status register out of the
->   raw_spinlock critical section in the interrupt handler.
-> - Opt aspeed_edac.o into context analysis in drivers/edac/Makefile, so
->   that the __guarded_by() annotation is actually checked.
-> - Note in the interrupt handler that the counter and interrupt flag
->   fields are read-only, so writing back the read value is harmless.
-> ---
->  drivers/edac/Makefile      |   1 +
->  drivers/edac/aspeed_edac.c | 131 +++++++++++++++++----------------------------
->  2 files changed, 51 insertions(+), 81 deletions(-)
+>  drivers/edac/amd64_edac.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 
-https://lore.kernel.org/r/sashiko-outbox-162667@kernel.org
+Applied, thanks.
 
 -- 
 Regards/Gruss,
