@@ -1,94 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793841846;
-	b=r8Ctr4kviswlUXWx2bKMZe9WRQuZFgLi+34CJ8eFzhEwZuPX6rx2X7Jy06GIw/wkfYpR
-	 yOfC6wTfZX2bVzUsa7CJ84EiH/GpAh6pylKunxm75Bw9SI4DufVnmiIJXhft7xkOudlMH
-	 Rvlg5Vpt09/Byz5XBNJP8l2J0/ptn/jU9X0wNltMHCrfzOx0M/lPD5VE+ZbCnpnKutZPP
-	 +vfQnIieBQr2vI3eEtn0XZ4ybNrbMZPf9A5HjbfVR92EDUiMgyHXWKiIKGHBaWpY3p2R/
-	 buFOsdvX8n9YX/Olr6j0RcPITh6Xm2CK45eJ05z1dP1VIkNQ5X2l9jiD/kaTsEJUrGQ==
+	t=1793844905;
+	b=HGzIxHQ4P555Hu9exuzQtDO+JEzxtMEeEK6WLqXTla3f/xLhbvE+DVf3ROYpwTcYOfsU
+	 mSx9Q0s/cg3A+JdQgN5Y8Ghx6qm5LhYdFc9IAsxWW7HoUYzYnnsUKeP+4B9p4mxWHUX9T
+	 /q2iwr3e+CHiQ69gxcttMyabDLLuRhKP6QvyeQtMt/g47eQcFrchwwKETgo4b7ImZExqg
+	 8YLDB61wCNmKlxbwMb+RQJiykeawQ8Dtgd0pJdAcbKpFw23IxkBKZtvu+LRgBxXavBw4m
+	 nkyGN9evt1S0dJfXrMs01qKuhAnmQNILk0Y2GpgabW9K8yrzXk+/5MgR/zRx1h2LT3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793841846;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:Message-ID:From:
-	 To:Cc:Subject:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Content-Disposition;
-	bh=ydenAtai05NyhlllhR9e0OsVUNFw6CpyT1AZjioMNGE=;
-	b=q+uBcAG3Ruk2kF8dyZhEnhA2627OeR0gP67pXxoU/UqVQ/P9deNHutO8uvCv0DzL0DH6
-	 2ZAWS2zqXYv4JGN9sYSt/9WGMBeeEBxfm8eSaSqbsp+Nll0YlJK6L5AsZxNU9wJEqzfKB
-	 G+Uu3mB8/hOv4RvLPoNW6csA7Sr+AYx2fqt53IlDmaHlc/ONgsjBeYW/L4RGTj0vBTfDN
-	 bzm61pC6dOwoqGRfyCNX74D4zMQDyxeH09WRUgWNhvIu9aWryu4MXYZFrfzujBeTBP78/
-	 tEe1a2LYDe21gVuJ1GzhfW0gWdohOfRagMBl7A8MmNdMKFvi1N9gaShhUSDBheV39YQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793844905;
+	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=rjt5YYHQyrHnKk2C6dORwel1aYh+XX+d2qSk2l5pIw0=;
+	b=zzJKrLoGD1HvHDzZGUOuD9d2N6fXM5qZ+HK/H/yPBnMsNL5jqQspC2UxDgTBfOD3FyDG
+	 teBiqaDwYq/XUH1rS/beb80ZNuUA343u1yin5exZmhPkBpshegNh6ZsUohCN1+dglVw3K
+	 CmTb6ekFnYtIUV+sUcS25kBj7UUtfY1J+Rq86bzCTdc82qrx8Uog+gOPgOtk0+TDqOBsz
+	 X11Y91/afaK3OCeHC5cA6kXE/LYpRot4k2nRv2GFqtMVWfMLu6jEx3jOuI5Sqe0kb9o6c
+	 O/mom7NezD6Xy1HNmc8gdt2EhrCJ6bghs9gayzPczW7fE+QUqwCmKZNJwdN5Y+RUSgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OWdQTxQC;
-	arc=none smtp.remote-ip=74.125.82.45
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=alien8.de;
+	spf=pass smtp.mailfrom=alien8.de;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b="gSwnk/RX";
+	arc=none smtp.remote-ip=65.109.113.108
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B928F606A335
-	for <linux-edac@vger.kernel.org>; Thu,  5 Nov 2026 01:24:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B928F606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DEE606A329;
+	Thu,  5 Nov 2026 02:15:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22DEE606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OWdQTxQC
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1438d9363fbso188394c88.0
-        for <linux-edac@vger.kernel.org>; Wed, 04 Nov 2026 17:24:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793841845; x=1794446645; darn=vger.kernel.org;
-        h=content-disposition:content-transfer-encoding:content-type
-         :mime-version:references:in-reply-to:subject:cc:to:from:message-id
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ydenAtai05NyhlllhR9e0OsVUNFw6CpyT1AZjioMNGE=;
-        b=OWdQTxQCUqwXbHb+36RknxcB+WBnZo2rFG+nQhEbg3L/hCjWQRHDqAWmPNN729AtWh
-         //c5jnyeomgWgBDauMCM8M5i3Q9WJg2yapIu9TopSRBBmeeBp9rI2LJtMNCdFqab/CCz
-         WiNudzxddVydooYpHoVbCqt5n+V53UGjW1G/AEPPG/E26fHtUJ+Kx3Gfa0yKfF+E7vnE
-         9AEj1mkQ/+IvWonyi8dG6UjVBj9pFUsG2ZsIMQaApmLox8giOEJbiJOikmHzRvIJlmZZ
-         5JtGTSR27JjCBKNi4/Yt6X5m2DZz1D6d1Ek/ZPLDoAl1S7BdL6DmjUuW1fN8N7aV31I3
-         WPgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793841845; x=1794446645;
-        h=content-disposition:content-transfer-encoding:content-type
-         :mime-version:references:in-reply-to:subject:cc:to:from:message-id
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ydenAtai05NyhlllhR9e0OsVUNFw6CpyT1AZjioMNGE=;
-        b=o1va6YmvYRMXVdQcqeLHGFVa8Mb8icf8+YHDVCaFf3alUL980oqs9duqjqj5rAk7aG
-         IPd9RTsy3e6kAq6giAFd3e2ocENxTakLWcgvW9an16vcYQd9YNufx09D3ST8YdFy3/5d
-         ktUI0kuohbQ41meZJ3t9k5yqTYWgkcs1jhnhpIQWGFNYL31ewEqzAaaPneZx/Gc/REPY
-         6Np0YWyplG0tRDuLiGmryBgSQP6y1qoMxCUsYCJikyuMTgDCMspNlOIm7QrXdhWqFfGY
-         vmIK+WnRpogVTzuuEDEgUJmyvO2i47JYFVl4gMFw8zslpUFn4uuVH4lbxVxarl/NgEo7
-         lAuQ==
-X-Gm-Message-State: APuU4Z+G5f5ohw5piMQJ21xKgHVZbWT0dYwFo09/3rXjJa/qo4TJEywq
-	M8ElOPFYbr4ObzdKmZ9oIu8oEZUt+hiFALdJJtMafX5bRMbeWlt30t6E
-X-Gm-Gg: AYBFou2odSjNEx/2k1I483Jn/20sg2YCAg55yMnXPQUUBeEAdXZ6N28HBWjZf6cxM7h
-	44H1zYnfcKsXP2bX6v+O6iKSxR5pTUlzLMXh6M2gXfnB2jx1o5HoTLQSIWKfV5KfT+8BzGlCJoi
-	yU2lL/LvEMrkgU5Hu4MJWepMm49YUXZp67hVxBkqEMAScvOJWLJL/BwRUGUB34I0DMPrKo/2q7q
-	pe6cNh1LZnvS3yrOgSHvXWQEnXbpXVFTLrwgijMqLTtiAlakyYPzjD+CpqLbLDYe/U/tSoEBCdy
-	zL2GR/c9iUBTMJTYCgB6hFyP970snofCH8sDTrWSGx+XVxl0DzNPINzCNTVsk7bZGQrscD4jfZn
-	ddFXc0p5ulBxtorIpN/kn7VvKfqAHsb+Lr9lfxrdVYNITEj0erx+FwgdDPx+XdrdLDAj6UYsDqX
-	V6p4EJTVGowBZL0yXTHFI586UuSJqLUFAX4bgn6UnB7aMxwIwIQ/YQdMUavXMWltB85p1fBkF03
-	/JMsjWwCqfIORo0T3ZRm0j9q3LZHCw32KPgCxGXvR3p9IYVlh0msFdWDmzT9Cb6J6hpJLNafp/7
-	wvwjlJqmqFGqRW2NT9apHL5UG6US/I+tCZwsy3UnhZ2OoGcUZVIHV+64f4Abai9XtQqzlw==
-X-Received: by 2002:a05:7022:ea8c:b0:1b2:3e1d:17ee with SMTP id a92af1059eb24-1b24f4ab3f4mr1563076c88.9.1793841844622;
-        Wed, 04 Nov 2026 17:24:04 -0800 (PST)
-Received: from localhost ([2a00:79e0:2ebe:8:c8f4:b7d9:252f:4483])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c4706bsm14331402c88.15.2026.11.04.17.24.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 17:24:03 -0800 (PST)
-Date: Wed, 04 Nov 2026 17:24:03 -0800
-Message-ID: <41de3d396f470cdbb944ef521dfdeb4d@gmail.com>
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+	dkim=pass (4096-bit key, unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=gSwnk/RX
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 083EB40E01D2;
+	Thu,  5 Nov 2026 02:15:02 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 8kVkP3z-blek; Thu,  5 Nov 2026 02:14:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1793844897; bh=rjt5YYHQyrHnKk2C6dORwel1aYh+XX+d2qSk2l5pIw0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gSwnk/RXnnG0AkqvY00T3nP/1WPkKzhSPBlgxu6C/w9Qb6PZ/FZ7uZrZBEC4nFtG0
+	 +fgIfvtifMcFOYFDEI53bU3yFzbygtGA0+g66Vv+bMxtca9hPAwwFm1LPdKBewA0oh
+	 6HDeKP7BwJvfegWBxiTz2g4oas7HrMvhwMVteMC3ShGjtH2KEX90gFrUQFAsFe0u5g
+	 Pnrd3rbmDhwYgLZm84tPgCmcbBi1g804eBZDHjISBVJgA7g4fkJap6pwPP9+aFkpcb
+	 hOPgFdQVcSWAUxafQk1wmmhKOO+EpXOtVIwZRlWzJ/oJ2ZqoeDqL9IFW6c5eXqcSoS
+	 ZvP7PdnxLyEYoIl9LbxrR/x/7f/KceaBNypq8lAtv5IfFXz9mrmoHCa0f/6SzM9PGX
+	 9VxDQC7wxzx+Iw9kOZErIQzrFz8rfsrs2yTmpNVzlGad127q5UoRiQfjO1woH1+71k
+	 afrzJCEZSYRbG9Hi5ULNnA3+o5AQwtbsxcmhkgpoRbpdY2QFKWNJGNddbJm+XTC/J4
+	 I4MkaujLpM/hqg7oP7CaQcoM0Hx/qBqWBOxMsWoX+Tc9/d6AiWwE0dT1jhdEepztPF
+	 ToqttauAVdLbLJRRynGtA+hkxL2zrH5fl8C4jNtu3HovCAaOYhc9jh8SVZtQ2gdPhw
+	 F5RTDsf/7f7Yp3lHzdm5cfIU=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 28A9F40E0140;
+	Thu,  5 Nov 2026 02:14:52 +0000 (UTC)
+Date: Wed, 4 Nov 2026 18:14:48 -0800
+From: Borislav Petkov <bp@alien8.de>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Tony Luck <tony.luck@intel.com>, Yazen Ghannam <yazen.ghannam@amd.com>,
+	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] EDAC/amd64: Stop allocating ECC settings separately
-In-Reply-To: <ardZinoPZXbXZvhe@google.com>
+Message-ID: <20261105021448.GEauvmmCp0LeSCb7N2@fat_crate.local>
 References: <ardZinoPZXbXZvhe@google.com>
+ <41de3d396f470cdbb944ef521dfdeb4d@gmail.com>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -98,23 +80,27 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <41de3d396f470cdbb944ef521dfdeb4d@gmail.com>
 
-Hi Borislav, Tony,
+On Wed, Nov 04, 2026 at 05:24:03PM -0800, Dmitry Torokhov wrote:
+> Hi Borislav, Tony,
+> 
+> On Fri, Sep 25, 2026 at 10:35:19PM -0700, Dmitry Torokhov wrote:
+> > There is no reason to allocate and manage ECC settings separately when
+> > struct ecc_settings can be embedded directly into the driver-private
+> > struct amd64_pvt.
+> >
+> > Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> 
+> Just a gentle ping on this patch. Could it be picked up?
 
-On Fri, Sep 25, 2026 at 10:35:19PM -0700, Dmitry Torokhov wrote:
-> There is no reason to allocate and manage ECC settings separately when
-> struct ecc_settings can be embedded directly into the driver-private
-> struct amd64_pvt.
->
-> Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Just a gentle ping on this patch. Could it be picked up?
-
-Thanks.
+Applied, thanks.
 
 -- 
-Dmitry
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
