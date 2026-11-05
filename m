@@ -1,91 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793854426;
-	b=fQESLP4aUqeyrU9UA8DElujX/8SJjOKXP2Xl/wtKL7E/pfAgcpKCJU4Nev27KiqlZTOD
-	 3OpUGMj57H74M+pui4WpwjzTwkDUmBQ1S+hW6oOUsVL3bb129rG72xWU3O0KKPhJCAHnF
-	 tQT/JIL2zeqXjE3ob2SZyQN+86PGRILk7q7uIPKmGg3onSnble0FRLJyn8kG73441g2Bz
-	 JybC3CwyX8SicONRm0RVTT5zGTMMM4xP2boICGsdj2Kwaq5zaOxIYYx+ZaHIk1C81LtPq
-	 lZDuH82eElPHgIUPlpagYFvq+QyLN5c/ILAe+sGq72HGusQL7xRtOY7+VCNT3Did/4w==
+	t=1793854619;
+	b=zEip8wwsK81ET8s6NHLtzEiin1Gjqo9qBzrZM9+u87dmEE1sWX23HKOywhECcK+OOymd
+	 Gon9UdykTW+/5kX6q0vY1BwPkD0gHrA1IVpM+hgKZfXsshJzXv+x15bYKKTfOnlMMvKNE
+	 bO3p/bZO5GUPqHPg7YV8QAKDdveGhw/2m3apsPzXu7ext5b0RB4POZnWVH9ZLNsB8L6CH
+	 ppx1xOn9yS8h8RpTevGtJcybzWqXD6b0AhOKmFsdGsfeJbL2+8O9jDw+4A0DMyv/uNpb2
+	 D3SvpeD7qvJyBx1pWRjurPPmfNqfeUTQq9ViCirJKFAgS9OuLJyGh1zhLvtCxghhhMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793854426;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793854619;
 	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
 	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To:
-	 Content-Transfer-Encoding;
-	bh=ZDNxzWK7YpZlxTsXfg5V1qkMa52zlYAF5ggUQoqT++c=;
-	b=5M3xkPVBb9vYQpM51gQNkin10UBQZpgBgjaIaWmSIQFcRO2uYusTGeHOrUoSgsJFLnzm
-	 rcjbi9SEX1SVSKAmBY4d3OBwcaU4Z08leSAksF+N9Ly+WXVeSOLL9ymQaA/bu9WdeSLhc
-	 u6hz0vBL/dtyS96jZska9g0BKuHnnbz0WD7MibYQmwHXjmGEnXMCWtpylcp/eGAa2o0w4
-	 1ns4y860ZBfuA3HxNQSYAjlMjGt5D0era2eBy883Wsps60TFddzlvNwpaBJHLy52qMDiG
-	 J6vs0PoYrmf3f3NnTclYS/Ob0BlJIstViaMaSXinZiUOyS8mu7g4MDdd5hEHLkY6oFw==
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=iu+wu+Zx/NtlCLRN5PCs/YxG7yDVrWiVNMra53EYeJw=;
+	b=W4iBFSGgk9Ns+JbARNua/2vpfxKakpgIPs4twlZepQFGNW7h+gohHdxJBMY+lfEa5Hci
+	 /ScAtx034zWZhd1ePfX/7AxNwa9BPZkUFl72+3z9FJ6c7AOHuorHZtE5S/uP6s744scTM
+	 dZi7rlFAUuZAZ9ld5q0Wbbg5dnwkQm9tbTTtBbl67SvJDg/OWJGXPpaVHlvcvWWjSRFQh
+	 HIlF6h/CdpWSUN3/y5XR1PDZ+RcCNvuTWOEA98+wjat0LALoQDkJBalbiRqh/38xogykO
+	 MF5iWfaORhA4lzy7HPTzJdmI7zPM+lVc2k7fuBu3VjGADNx/0GR9nAjQKWGF1UIZl/g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=alien8.de;
 	spf=pass smtp.mailfrom=alien8.de;
-	dkim=fail reason="signature verification failed" header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=ZAa4Q1Y8;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=GF7ywrzT;
 	arc=none smtp.remote-ip=65.109.113.108
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B02606A32D;
-	Thu,  5 Nov 2026 04:53:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4B02606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35011606A328;
+	Thu,  5 Nov 2026 04:56:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35011606A328
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (4096-bit key, unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=ZAa4Q1Y8
+	dkim=pass (4096-bit key, unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=GF7ywrzT
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 292CF40E0184;
-	Thu,  5 Nov 2026 04:53:42 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id EBCA740E0299;
+	Thu,  5 Nov 2026 04:56:55 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
-	reason="fail (body has been altered)" header.d=alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 3_rAxhbUVBXB; Thu,  5 Nov 2026 04:53:39 +0000 (UTC)
+	with ESMTP id wsGM9sTHQm2m; Thu,  5 Nov 2026 04:56:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1793854419; bh=nrGcHTqOtpGTvsPDx/bmdCPRbhy65nSxqLA3PtWK+ls=;
+	t=1793854612; bh=iu+wu+Zx/NtlCLRN5PCs/YxG7yDVrWiVNMra53EYeJw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZAa4Q1Y8uQOXS99gQyK/P+nRvFObN5CmOSyDOcaLr6q1SB8IU/8HE3M6sZ4VuZJ4B
-	 73VVrzRHKqbpbY/X431R7SgZQedtdjQZwk/3UftOatv7Uofdon0kp8b+Rhh/U1yGVB
-	 EEvngoxgPANcXZByYcr53QyfmdgVxO9RNVaWYB6Q4EotX1ROx5/CoQSjixD12k9WYn
-	 mCWXFSGsv/cUAWZ9MeprBYbaAwEI5TEDJFw9POJxJGEKJzwwf996qYNsc0hTwnMvE4
-	 ru72pCqArlOUIBNN5kzpH/0sNMYnqzf9JTX/C6e6GkVWACV9HwvFVj6gp+6bPjOnYW
-	 mJlsoc6ajm9xpZinAyjjNE5Hi/ym02fvHms3yU1WDzJhJmh7gxYjQpwbVr1qqocNiD
-	 SKARca8kHjOBQkVdoyrMW0mEx6sOPk09mvZkVd7oiVTP1RNQQN/XLV8ezEZCZDqECq
-	 m4XujHyiwZ71dCL75nSJenlHOlMZIGj7zVWyprgk/ZzP4XzfovI0RunDXuvbGOEJKe
-	 1g80Wn7noaqHuR/UeifpTFad0i1om4GoxFdsKlxWhPHrzR967Q9oebORecZvBu7VCa
-	 JbzJet6ww2paUI8ZSqg1IznlG1sk1Lw2eR7zoaoJNoaZrJj1kOsgFWjLqd3FHoWj2f
-	 6pD0KqNRAexvx6Gz9rCr2VLA=
+	b=GF7ywrzTQZ6wEHZIFfdeWnirhkOvcOJFxiVrxYiRH0aY05M7xKyHS0sGBRA8n2s2M
+	 dJd4WhV9WzQ7ochMxOUgRrEz5y0ZEpAJZEyg5fhjTFjQsbvQdbXiBsIDpPU+Z5SXwc
+	 aX4fZUf1z9evJkNy1kfx+rK0gwfdlcYzYIkb6DzfqsK50kJZkmucFgt8Ds1QHsO7Ei
+	 8HMFrbUKv9L3ljhBY6cGmdD1Uxbpofv7JdmHxvynTAT8c7WXMNnOPcxnHLvkSj4FGk
+	 v1VMnL4Ubm+nit/kNnQRQ1eQn2Oa25hVosc1n4YQpXtCPYE07TuCORD1JdMEZRBva7
+	 3/TbnXvQPR0LNPKgbOfsXm/X7oaLui5ok/ZO8UL1RM0pG7PnvI3cKS/jwReMNom5rB
+	 SBNZB38/Te2XhJsQXjulGCVr2I2JhhMLoSUqFEtVPVf9fzTIX2E6WN33ScmJA78vMF
+	 AzwexkNCTIW8c4d9d1R5GOAFi/mqLSCtnlfWONXnSaR7gbMmHJ4mZO1z1tXJk1vnjS
+	 M4rJmM2CqEvRT5MdYzqeQBAZItq6Wd4AEqnlJlr+Ec9rIIgKDDQhvOmLiXmorhl+yx
+	 khIdhO8MU5KywJeSCsJtkXM7qOc8DcSP5jM7bm/ejk9B0fV4bc9s7cM0DJRxU59RxO
+	 C648Rd/lSWIroYXKWCf2ENgk=
 Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::42])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 52B6C40E0140;
-	Thu,  5 Nov 2026 04:53:24 +0000 (UTC)
-Date: Wed, 4 Nov 2026 20:53:21 -0800
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DAAA240E0184;
+	Thu,  5 Nov 2026 04:56:37 +0000 (UTC)
+Date: Wed, 4 Nov 2026 20:56:35 -0800
 From: Borislav Petkov <bp@alien8.de>
-To: Santino Wang =?utf-8?B?KOeOi+S/iuWCkSk=?= <Santino.Wang@mediatek.com>
-Cc: "jonathan.cameron@oss.qualcomm.com" <jonathan.cameron@oss.qualcomm.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	Sidney Chang =?utf-8?B?KOW8teWxpeW5syk=?= <Sidney.Chang@mediatek.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Fred-WY Chen =?utf-8?B?KOmZs+WogeWuhyk=?= <Fred-WY.Chen@mediatek.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Light Chen =?utf-8?B?KOmZs+aYseWFiSk=?= <Light.Chen@mediatek.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"tony.luck@intel.com" <tony.luck@intel.com>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	Arnab Layek <Arnab.Layek@mediatek.com>
-Subject: Re: [RFC PATCH 00/11] soc: mediatek: add a DRAM ECC error handling
- driver
-Message-ID: <20261105045321.GAauwLwdk2PSruRAcw@fat_crate.local>
-References: <20261102092334.138759-1-santino.wang@mediatek.com>
- <20261102123642.000044cf@oss.qualcomm.com>
- <20261102124434.00007741@oss.qualcomm.com>
- <78ce4a6ef441cb9836466e9ae5e72ffe21a88242.camel@mediatek.com>
+To: Ryan Chen <ryan_chen@aspeedtech.com>
+Cc: Stefan Schaeckeler <sschaeck@cisco.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Tony Luck <tony.luck@intel.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+	Borislav Petkov <bp@suse.de>
+Subject: Re: [PATCH v5 6/9] EDAC/aspeed: Replace regmap with direct register
+ access
+Message-ID: <20261105045635.GBauwMg0oqd2tVPH-4@fat_crate.local>
+References: <20261007-edac-v5-0-5c31fc5df4cf@aspeedtech.com>
+ <20261007-edac-v5-6-5c31fc5df4cf@aspeedtech.com>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -97,41 +89,46 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <78ce4a6ef441cb9836466e9ae5e72ffe21a88242.camel@mediatek.com>
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20261007-edac-v5-6-5c31fc5df4cf@aspeedtech.com>
 
-On Thu, Nov 05, 2026 at 04:19:27AM +0000, Santino Wang (=E7=8E=8B=E4=BF=8A=
-=E5=82=91) wrote:
-> Which existing interfaces would you recommend for obtaining retirement
-> status from each memory owner? With that information available, can ite=
-ms
-> 5=E2=80=937 be maintained in userspace, or would they require support f=
-rom an MTK
-> driver?
+On Wed, Oct 07, 2026 at 02:13:23PM +0800, Ryan Chen wrote:
+> The driver instantiates its own regmap purely as an MMIO wrapper: it has
+> no register cache, uses custom .reg_read()/.reg_write() callbacks, and is
+> not shared as a syscon with other drivers. So it brings nothing here
+> beyond the spinlock that regmap takes around each access when fast_io is
+> set.
+> 
+> Drop the regmap and access the registers directly with readl()/writel()
+> under an explicit raw spinlock, held across the whole read-modify-write so
+> the controller is unlocked once around the grouped writes rather than on
+> every register write.
+> 
+> Annotate the register base with __guarded_by() so that, under
+> CONFIG_WARN_CONTEXT_ANALYSIS, the compiler checks at build time that every
+> hardware register access is performed while holding the lock.
+> 
+> Assisted-by: Claude:claude-opus-4-8
+> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> 
+> ---
+> Changes in v2:
+> - Take the register lock with the irqsave variant in init_csrows() and in
+>   aspeed_probe(); the interrupt handler takes the same lock in hardirq
+>   context.
+> - Move the dev_dbg() of the interrupt status register out of the
+>   raw_spinlock critical section in the interrupt handler.
+> - Opt aspeed_edac.o into context analysis in drivers/edac/Makefile, so
+>   that the __guarded_by() annotation is actually checked.
+> - Note in the interrupt handler that the counter and interrupt flag
+>   fields are read-only, so writing back the read value is harmless.
+> ---
+>  drivers/edac/Makefile      |   1 +
+>  drivers/edac/aspeed_edac.c | 131 +++++++++++++++++----------------------------
+>  2 files changed, 51 insertions(+), 81 deletions(-)
 
-mm/memory-failure.c
+https://lore.kernel.org/r/sashiko-outbox-162667@kernel.org
 
-Look how the others use it.
-
-What you write above sounds like you need an EDAC driver which collects a=
-nd
-reports errors. Look at examples in drivers/edac/ and there's some
-documentation in Documentation/edac/. Perhaps ask AI too.
-
-If the stuff you need is not there, you can extend the existing interface=
-s by
-justifying the extensions properly.
-
-But what you have - a completely separate RAS implementation, homegrown
-somewhere else in the kernel doesn't fly. I'm actually wondering how you =
-even
-managed to do this driver without *finding* all the RAS/EDAC glue we have=
- in
-the kernel. Googling for it would've told you that there's something...
-
-HTH.
-
---=20
+-- 
 Regards/Gruss,
     Boris.
 
