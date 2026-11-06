@@ -1,60 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793936712;
-	b=GTf3kSGB4rsOSPPU+DvUCLIcOR6x7us+6gXRuirWVMStVSwRbze1zh80dcFVdyErcUvi
-	 9g5c/E8M+eWNnHea3JhoT/TlvJf8kJkULJvikN+7GlADFT2qYUSB9wFim4knD+sl5mUFK
-	 Pw8SdxQqp4hdX3F3srVgnPdwyKDvy643twE8pvr6Y+hTMoZpf7VAbQUe5xkSVmPrDu5m7
-	 p8ijHpSow1K32wCSPXobcY4GKOo9/4/U/jbkqhl7zZGe2MYGb57+jkfJ/lxH+Ov3i2GXF
-	 YfgPbJU28kZLmyUjihnhLLlr8ZVG4x599igSnzWcZ2zxAFa2v5rc5Jzsydh2DwQN/WQ==
+	t=1793949036;
+	b=pXpqRGyFahtLCO7tbCTYQJLdwzDblRD6HG0Yc6Aw3WFsu+pIa6o4cbkr12BCJDI7DQt2
+	 E3UGUyuM5tXu5dxq8j6em0+4h7ZlKVGzsXAgD03aOxsgS+pmNWoRD9tMHNdQUeOv38Xsz
+	 HV+RUXxA0dCEe2kFet44pI7i/NSFLCpEJTEtiCyasAsPfM8cpr3l4YZtmUih8k9IZTdzt
+	 UaO7sNqEwcqfX1Z2YxmrhYKRom3BMKuSmkqfXk7HZyW1SB0d/wo9TBMIF2BzSrLexUsO5
+	 7dwrlbugv0kzz2z6HGpkAukAf6xpatjY2boXkqrJ8BbZzIkHFbac91QldxYa/yz8APQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793936712;
-	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=Qa3Jdd3z9Vvc81S3y4DHQHJ7zKHZJOZDq4QmheJddA0=;
-	b=5UXStMjlOeyNYZvfh5cCmHaYrcBrGKNw+megm39p2VEwcOea6BmOkSpbirq2nfOcGQuS
-	 6kVj/z/qzpkKhz1FKpKRLDmXMw90u3gtgRIwOJNTmwX0a/uofk6AiB32AuKXWxUkgfOyZ
-	 RFx8Bo+CNoOnWG6EmdwbjW2h6M3yb3TomrAcH18uzN7MkK/sdQjZ+e3ZxoSeMcpBgEEwQ
-	 3MDM0q2mK+j9g05x9UYhRYqd5Creb+HR5KGrnkUFvGmF2P5xx78uc1dcy3mrE9ItGX1TG
-	 Qg1iOZH9VhGp0gd5Ye4IDnNBX6+wehtJzFMzmZTwE+5RzW49InJSmxqDFCtg/w0Gq6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793949036;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=jB1eS3zovx2XZRj7BNck9E/I5e41fmBpX4HYw72ugqk=;
+	b=vmn/cm1fRwzTy2aFHO5JmOSmCRT83Dc8ugHBvfhehGDJqEalZ44bF3z/TfBAEMME0KpP
+	 NdEMF7ffxGBwdwP+9t3DCTA4vWwZjGr6J4/+v6LqTj6eFo+gBF7lEn8jKmaaJRSK8Ny00
+	 utnzwQuJhj8fXCS9HiHvY+PpGlWEXRAfAGdvzFn84jhIiN4VNSpJnRXQBwbESe/kFnP8g
+	 ZtdBk65cjLwWZPrvm32xJgiW6k2gXiAiDUZnWs4+elCJsh6iEhtZYmTbd/oid4VNb4a6W
+	 jAG+6FYThHVCIImPO/6ouSJJk773liP6rsp3RMXlhBXs+QutuBgKEdtbDnf7HwaV/nw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.alibaba.com;
-	spf=pass smtp.mailfrom=linux.alibaba.com;
-	dkim=pass header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=R1AEfjq5;
-	arc=none smtp.remote-ip=115.124.30.113
-Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ma4sKe9e;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E726606A32D;
-	Fri,  6 Nov 2026 03:45:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E726606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D4A606A32E;
+	Fri,  6 Nov 2026 07:10:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=R1AEfjq5
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1793936701; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=Qa3Jdd3z9Vvc81S3y4DHQHJ7zKHZJOZDq4QmheJddA0=;
-	b=R1AEfjq5XbLNaK7A6moV+lNZD1EtvI1UEXlLf6hGIXu4q0bde1dZXma2LddMefjngiK3EP1br0VHrNs7fxN0gBXGZ652QkmYV/+X9mmV4HbQITvxrxMNrXvzwoG/UwBYdDvQKjEvQwduNF772bEIC3RxPXY3AeIMYT/KBGSR1pE=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R531e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=tongweilin@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0XEAF1-._1793936691;
-Received: from x31l07246.sqa.na131.tbsite.net(mailfrom:tongweilin@linux.alibaba.com fp:SMTPD_---0XEAF1-._1793936691 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 06 Nov 2026 11:45:01 +0800
-From: Weilin Tong <tongweilin@linux.alibaba.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
-	Tony Luck <tony.luck@intel.com>,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Qinyun Tan <qinyuntan@linux.alibaba.com>
-Subject: [PATCH v2] EDAC/amd64: Fix double free of private data on registration failure
-Date: Fri,  6 Nov 2026 11:44:37 +0800
-Message-ID: <20261106034449.1659689-1-tongweilin@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20261106000205.GBau0Y_faMvFp2_fM6@fat_crate.local>
-References: <20261106000205.GBau0Y_faMvFp2_fM6@fat_crate.local>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ma4sKe9e
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8749F1F0089F;
+	Fri,  6 Nov 2026 07:10:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793949035;
+	bh=jB1eS3zovx2XZRj7BNck9E/I5e41fmBpX4HYw72ugqk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Ma4sKe9enyVoF4T4XfLXZJ4y3oiyACF+P+c0oYuavGpLaYuUcDxiuskZyXC5PYV8D
+	 H856VAKN/c9YBHEcS3F1xceAVon5zsusq0d+ORSAw/Sxud4jO+4numgWJUrsHfTRzP
+	 SGn/bSquwMQz4k0kjS5Xx1BWe5vRLOmQrkPQCNL9+sN/tSh6aJEIOtEnkWONJQW0LX
+	 QnyP8Hp1EkoHECqA7XzGIYWCK/FA+ekAZ0d/GJtht0RuqpC77hQxY0rPaQF83Sy3GW
+	 vXd3ww7+lJbh02M/4u2nPMa94vXcurVQr28MMh5hdbdTJs1tJW8HGmI5pqU+ZICDti
+	 /5jlcrey8IqDw==
+Message-ID: <042ae3b4-4f83-43cf-a1d8-a35d3abc9e1d@kernel.org>
+Date: Fri, 6 Nov 2026 08:10:31 +0100
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -64,50 +51,81 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] EDAC/i3200: drop the PCI device reference on module exit
+To: Wentao Liang <vulab@iscas.ac.cn>, Borislav Petkov <bp@alien8.de>
+Cc: tony.luck@intel.com, linux-edac@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261104033833.1566974-1-vulab@iscas.ac.cn>
+ <20261105194529.GAauzc2axWPncLCpVo@fat_crate.local>
+ <179393571491.2060286.9429869566285761831@iscas.ac.cn>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <179393571491.2060286.9429869566285761831@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-If edac_mc_add_mc_with_groups() fails, init_one_instance() calls
-edac_mc_free(), which frees mci->pvt_info. probe_one_instance() then
-accesses and frees the same private data, causing a use-after-free
-and a double free.
+On 06/11/2026 04:28, Wentao Liang wrote:
+> Hi Boris,
+> 
+> Sorry for the late reply, and for the mess it caused.
+> 
+> Thank you for telling me that the EDAC i3200 driver is orphaned. I will stop
+> working on this driver and will not send patches for orphaned EDAC drivers
+> again.
+> 
+> In particular, thank you for pointing out the Assisted-by guidance and the
+> problem with my submission process. This is an important lesson for me. I
 
-Clear mci->pvt_info before calling edac_mc_free() to leave the cleanup
-to probe_one_instance(). The normal remove path already clears it.
+And 30 minutes later you send the same crap?
 
-Fixes: 0bbb265f7089 ("EDAC/mc: Get rid of silly one-shot struct allocation in edac_mc_alloc()")
-Reported-by: Qinyun Tan <qinyuntan@linux.alibaba.com>
-Signed-off-by: Weilin Tong <tongweilin@linux.alibaba.com>
-Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
----
-v2:
-- Explain why probe_one_instance() retains ownership of pvt on failure.
-- Drop the stable Cc.
-- Add Yazen's Reviewed-by.
-- Rebase onto ras/edac-for-next (28f141ff14c48).
+https://lore.kernel.org/all/179393727482.2060666.9057920361892304525@iscas.ac.cn/
 
-v1: https://lore.kernel.org/linux-edac/20261021062925.1838750-1-tongweilin@linux.alibaba.com/
+So how was it an important lesson? What did you learn? You just ignored
+everything, just like you did week and weeks ago.
 
- drivers/edac/amd64_edac.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index a8e76a79833b..d4abc5200ea1 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -3973,6 +3973,11 @@ static int init_one_instance(struct amd64_pvt *pvt)
- 	ret = -ENODEV;
- 	if (edac_mc_add_mc_with_groups(mci, amd64_edac_attr_groups)) {
- 		edac_dbg(1, "failed edac_mc_add_mc()\n");
-+		/*
-+		 * probe_one_instance() allocates pvt and frees it on failure.
-+		 * Keep edac_mc_free() from freeing it here.
-+		 */
-+		mci->pvt_info = NULL;
- 		edac_mc_free(mci);
- 		return ret;
- 	}
-
-base-commit: 28f141ff14c48abd38518a87d1026851dd12717e
--- 
-2.43.7
-
+Best regards,
+Krzysztof
