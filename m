@@ -1,76 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793987811;
-	b=R59hLTaOMIhL6bqAZ/iX0O4cRzVfpUueBSU/88JQmQ7FdoSsDX7VP7OFuyQZa7x6rfHk
-	 52goG21pFbMJ3J96K1tiF4uCSK0hieM8RhKjQCOESZ3iF/tE8ZmfjRXn156fEY4lrTOPH
-	 xrJXQDsmA0ylCWr5griFVsQ7v/VHorC9lRDObh9is+NOTCtIDUzsXq7gGjvkgEvk5P/qV
-	 QFsdk/M/SxFOaCgjWkUFxRr0xf3ohQb1ExJz00WC7IshjKj/5nCBIN/jJnhZXNUMrv5Wi
-	 vrNsPUCO82w5BtokiUK9nWRRqIcsmGe7Off0yKU+Ft1X0hxoAwWq2vYOHgG2Pf+ZubQ==
+	t=1794049952;
+	b=060mEzzOQ88zO/xdV3m/qUKe913ya3leNYhKVI0vhCdp2wCD1aB77yWRtZehKh8u14C9
+	 ndnkRFO9YewloJ9YRX68TocXfEw5Re8a+XgGpRoHD292WuPAa5xAziRf4mGKKPyUE8gmO
+	 8JV/fAJp+mlxNhO61oXl8ge7EXw46wq0sbjqaCKmntoCPRj9A0XXlDTVWFxKBpMwySM6r
+	 SIBF4AZQO9sZfmMjhxN2iO7+kv8ehK0ov6EwxagbVX5IqtJ7+Ni59lizEnFK8zDGm5TGw
+	 1GEgsk0FJkVfU+QbhxrzChy8HOvJJY1zWWa+gMmJsVsYUwHVJRsh/iEJf9vgP6WjTsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793987811;
-	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=Aa5BkjJg/hfntAtJ2BAuJ5Nk1njK3b37uE1U4DFSydk=;
-	b=3YXw3k6djafhYsl6qP/vEgiI0C31HYXagtRzSjb3PzhMg2O0la7xqXz24B1lZKrFYUd7
-	 eFABXK11kFw3aFg9G4hrgfWwwUjVkY6mEoutTlSwvimf3La9BYLomMHtUh4ASujYIV/e4
-	 XfENR49sbI9hvchsoq/3pdEqnR2xYUVrLxyYX74UvItAUVJvKRaWLNJigLSqajlp4eGok
-	 qgCUOUgHch/8+86fWjg+Hz09nSr78kL/ashw/irIDMIA1/uiBy5npUWzLYPMBr38nHMnY
-	 nk0h6IQOFXAAl2tEsxvNhOmgeOZPy9RMIdfQzxYsOboLSzDvqM1GiP5BkSxzlIfxndQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794049952;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=hHW2B0FaKE1KGEcWUYWoW9cO8EXd1WE8xiErFc3oxx0=;
+	b=PyZjly1IU4PNWXPxTgIN9wZQiADg0YC4goOzAo5qUepVe40Bi+1guZeZc6+FOSO7BRg9
+	 L29NeWEfy2kcuLgXIlt1v1koPDaBs8gjiZju/dWd/AEGsLchN8UFuK9pzbIz0qf2t/Az+
+	 WgnoEOMAHuR+qT1azA/ra8xiB7av+w0zXwERmYgv0KwPjNDiPcbnkPubKADhOJaaZW0iM
+	 JyF+j9q/387XR29IE441NLdroBimxTsWdTvwykA7b8Ez0QsBbKPzopZAvFsFKEe736oge
+	 aApENx4I1WF/f3+r30fVh+BhmEBUAsbkMmoWq6gnut2ex569v8XkVOVIAR/uyONj71w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=alien8.de;
-	spf=pass smtp.mailfrom=alien8.de;
-	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b="dB/UYR0L";
-	arc=none smtp.remote-ip=65.109.113.108
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t0zZyb+B;
+	arc=none smtp.remote-ip=209.85.128.50
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79655606A326;
-	Fri,  6 Nov 2026 17:56:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79655606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37450606A33E
+	for <linux-edac@vger.kernel.org>; Sat,  7 Nov 2026 11:12:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37450606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key, unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=dB/UYR0L
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 11A5540E0497;
-	Fri,  6 Nov 2026 17:56:47 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id FWg9ZAnfQoqd; Fri,  6 Nov 2026 17:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1793987802; bh=Aa5BkjJg/hfntAtJ2BAuJ5Nk1njK3b37uE1U4DFSydk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dB/UYR0LJi5ni8QJ6L4PBsDOk0F6fuFc0uy34ke67R7l76QnQCKQGBdQFoj2dFglr
-	 hSPNGVXzc7hLD7SXjaltkO/FrQMi++evGFU8DfE0Stb180Iz5wGuyYX/t4MBadZNvW
-	 H/BWYqVNZV6u2b9MYfxhvi4M2o6bQ3gjioe4GxQSrtPGbicrv+21rRfVtRH/5RFf96
-	 z+0l/GT5v57sNUgMJSKmemSce1FacVWs5UaBHCNlGEmqifYGXAZHsoXqIYkd80zEah
-	 uUGVyqv4CB5pJC0z3XUSij1seQl0XZwjh99zYaYru1orlya0zUiFE2HJiJ0KptKz4H
-	 ysh0vZdwau2lh2neLokpgj9Ygm+ofS9QJcjU9TgdolHAuFXT8NeKbWM+W//cW8q8+8
-	 RFYmlDJ9IHJHKkg6mu7YTkzrWoVGSO12ffpwi2jufYa9m9jBEVaJSDhraYny645thn
-	 UNiXWUeWGO6hcUvDpW7wW3Cfde06F/fTZ/xfGtHruuh5c2VeNC/3btFQRYgpn1smd7
-	 SbSjmOw30EKWJC78E+askEDcJDluISyAqAQjOEXfd32K/tPNPmatH0ruczXbMy35Bv
-	 Bmt70CFjk6k39xStm502cM5EqPdPYVBCWy3+UdjVZy4fMy27zHbYmcKiMvebtQNU0b
-	 OXU9nyEXD8Y8Laz9nmATc9v8=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 44C6140E02C2;
-	Fri,  6 Nov 2026 17:56:39 +0000 (UTC)
-Date: Fri, 6 Nov 2026 09:56:35 -0800
-From: Borislav Petkov <bp@alien8.de>
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v10 3/7] RAS/AMD/ATL: Add unified UMC address translation
- interface
-Message-ID: <20261106175635.GAau4U08ECoVyMTEy1@fat_crate.local>
-References: <20260922202318.4079080-1-yazen.ghannam@amd.com>
- <20260922202318.4079080-4-yazen.ghannam@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t0zZyb+B
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a207b02a2cso9475865e9.1
+        for <linux-edac@vger.kernel.org>; Sat, 07 Nov 2026 03:12:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794049950; x=1794654750; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=hHW2B0FaKE1KGEcWUYWoW9cO8EXd1WE8xiErFc3oxx0=;
+        b=t0zZyb+B7wVqE07CRHgSXM2gW7x8tssL1t9+EIjsfU3LpxjbiJ5eFYQHgm20uLsrl6
+         JiuyKXjHVqpTle0TyU9NOqJ2v0yy/cJNLrmes4RzQTUlmIiLARn7s4hIWJG/+6Csb2A2
+         k0xX+qOg+kICEJXQO+0yjDx/4pAFiCwEECh69nq7I/YO/uirQU+TO/II+EmPPdFEDZNz
+         TtfppWbhZNGOCHSJ80rDET+CJPfgOxW1Cfr+OJtj5HeavT5qmaCBHOBT9tGFnStp2KSV
+         85FhBtBBIK9af7yIZ8Hpk3VogHmxHCEsJ3dcho2SPeeMAcM73yCkEdovI+1hhIDrtZ4X
+         9cpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794049950; x=1794654750;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hHW2B0FaKE1KGEcWUYWoW9cO8EXd1WE8xiErFc3oxx0=;
+        b=CnFeuyOZ46UyG+QYDx0Y1oyMvKloOS4nRMZPPem2jAxNpGgPT851z9vR+CBpE8kGU1
+         1Vho2uatTLCcMEKQjR0LG89TXpqm1JEkLd5ty3dY9ulVNwIDNI4O8HcXGJZTtxD3Xb8B
+         hWAxwmhQoPwS6zuN6MUDaTDOr2Wp7a/VWn1Dvngwh9M8XaI78g2KyAFjFpYlgX0ualpY
+         fpw7vegrvExfOBoxr+wcquQ8wQqWSM5QFaFu9woXSGm1O3GE5oUZR5MUjiFiSDZkvsLG
+         tYVEaqmF/Biq/L4nu0NF4nivG3Es6xbhv1op3H8Y8Q8aelJUb8ga+TaHRAFmS0s+vs5f
+         l1uA==
+X-Forwarded-Encrypted: i=1; AKwUvBxLwc7TzjQX5Fmka/sHDljjyZ6v/LTpovCgjNFLHwhqANpzlv5DpVE4rIMVeOMmYLig0ERF0/v3IQqI@vger.kernel.org
+X-Gm-Message-State: APuU4Z818aGlpXvsG+vHrXgmlxidKYrFF3OVvNODli5b3/DVM1Lx44Ty
+	bB/pb63OZEjQApunh4AsDgjWuyStzTEbvYwL+Omu9oWLGgmD2/1QaIqX
+X-Gm-Gg: AYBFou3jitKPBMm5QOMo2PvsY44xaYxkI+6wB25WV0upyNTFjVN/nV1dUliQwuBu2BP
+	2DOMpeQGUw2GyEfqKF6a8uAhBbic+PBD9C71yQKmibH9BUet3I3RJPHZreIEeRDGdneiBb6h3WM
+	eiH1u3DZ3tMMuAM8w1LArxA5K1KUgVdhd/k3kVu1ySFB4hPOa45o8rQBkTBInoZRmYhAcMEukPr
+	MrVXPhnnNGa9DJ7abYKv7LfCaHMggh9hBTj/QE0KCXuQGil4a1pryUfQeEa53Qx7E6B/VX3I9V6
+	e0Wx76AKg0gw5qZTf3QqXavnIiNmG/DdDURjZnoTAnO8rj13rM6JSy3wHL+PrAeaO1Tlks3jGdz
+	TpHiL82p4On6Nt8VhGqqkKaXA0ZQoyTCcPxxLvgG1B8efg49RCHEKGontnS1Nhz9HzrCIv2E7Ze
+	iZ09A3oCcNQEkrOtnpKoK21XC7LzErRHlFbIR1eJVmEfFqzaySv75126iiHiQi5bGvzBhkPT0um
+	+b2Y1/FwUMaMi9nPL6lAo/K6igLNRDV43F/X/XenMyVcrhtJJB/VqQdsPP3kTlWSYN9dL4YbNCG
+	tdML08vWCWDoPEyw46KJg+p01XS4NH4mLpRntTRgY0vQaFsjB+P+OP4ai5AHTmvSsiVwvpyJpjV
+	iAxJt
+X-Received: by 2002:a05:600c:6095:b0:4a1:fb01:13 with SMTP id 5b1f17b1804b1-4b6df9bf214mr89569235e9.18.1794049950230;
+        Sat, 07 Nov 2026 03:12:30 -0800 (PST)
+Received: from gandalf.magpie-herring.ts.net ([87.74.75.72])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b76cbdb9cdsm58269335e9.1.2026.11.07.03.12.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Nov 2026 03:12:29 -0800 (PST)
+From: Zak Brighton Knight <zakbrightonknight@gmail.com>
+To: Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	linux-edac@vger.kernel.org
+Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	linux-kernel@vger.kernel.org,
+	Zak Brighton Knight <zakbrightonknight@gmail.com>
+Subject: [PATCH] x86/mce/amd: Don't poll unpopulated SMCA banks
+Date: Sat,  7 Nov 2026 11:12:11 +0000
+Message-ID: <20261107111211.578991-1-zakbrightonknight@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -80,146 +103,132 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260922202318.4079080-4-yazen.ghannam@amd.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 22, 2026 at 03:23:13PM -0500, Yazen Ghannam wrote:
-> The library exposes a single function for UMC address translation. Adding a
-> new translation would mean adding and plumbing another export. Callers also
-> have no way to request more than one representation of an address in a
-> single call.
-> 
-> Add a single entry point, amd_translate_umc_mca_addr(), that operates
-> entirely through struct atl_err. Expand the struct with a pair of
-> operation bitmaps and the per-operation output fields.
-> 
-> The caller provides the error inputs and requests one or more operations.
-> Each operation is attempted independently. The library sets a validation
-> bit and fills the matching output for each operation that succeeds. The
-> caller must check the validation bit before consuming an output value.
-> 
-> Group the error identifiers (normalized address, socket, and UMC bank ID)
-> into struct atl_umc_addr. Lay it out to match the PRM parameter buffer
-> inputs that every handler shares, and embed it in the buffer. A caller can
-> then build the buffer straight from its own struct atl_err. Move the buffer
-> definition to internal.h so callers outside prm.c can do so.
-> 
-> Route the interface through the always-built RAS core so the library
-> remains optional. The core provides the entry point and a
-> register/unregister pair. The library registers its implementation on load.
-> The entry point does nothing (no validation bits set) when the library is
-> absent.
-> 
-> Start with a single operation, ATL_OP_SPA, that produces the System
-> Physical Address. Try the PRM handler first. Fall back to the native Data
-> Fabric translation if PRM is unavailable and the Data Fabric revision
-> supports it.
-> 
-> Leave the existing amd_convert_umc_mca_addr_to_sys_addr() interface in
-> place for now.
+On a Ryzen 9 5900X (family 19h model 21h) the kernel logs a bogus
+"System Fatal error" every week or two. It always comes from CPU 1 and
+from a bank that CPU doesn't have.
 
-Please remove text explaining the code.
+  mce: [Hardware Error]: Machine check events logged
+  [Hardware Error]: System Fatal error.
+  [Hardware Error]: CPU:1 (19:21:2) MC14_STATUS[Over|UE|MiscV|AddrV|PCC|SyndV|UECC|Deferred|Poison|Scrub]: 0xffffffff8b416928
+  [Hardware Error]: Error Addr: 0x0000000000000000
+  [Hardware Error]: IPID: 0x0000000000000000, Syndrome: 0x0000000000000000
+  [Hardware Error]: Bank 14 is reserved.
+  [Hardware Error]: cache level: RESV, tx: GEN
 
-> Assisted-by: LLM
+On this system only CPU 0 has the shared banks like L3, UMC and PSP. On
+every other CPU banks 4 and 7-27 are unpopulated. Their MCA_IPID reads
+as zero and their MCA_CTL doesn't keep the value written to it. So
+__mcheck_cpu_init_prepare_banks() marks them as not initialized. But
+their ctl stays at the default of all ones. machine_check_poll() still
+reads their MCA_STATUS on every poll and smca_should_log_poll_error()
+reads their MCA_DESTAT.
 
-Those tags are not needed anymore. Yeah, that was quick:
+On CPU 1 these reads now and then return a non-zero value. The values
+look like memory contents rather than error status. They include kernel
+page table entries (0x8000000100c0d163), x86 instruction bytes
+(0x900000000000841f) and kernel pointers. When bit 63 happens to be set
+the value passes the MCI_STATUS_VAL check. It is then logged as an
+uncorrected error with nearly every status bit set. This machine logged
+39 of them between July 2025 and October 2026 on kernels 6.15 to 7.2.
+All of them came from CPU 1 and from unpopulated banks. Users of other
+Zen3 desktop parts (5800X, 5800X3D and 5950X) report the same signature.
+For them it also always comes from CPU 1.
 
-  1e035297ffda ("docs: remove Assisted-by references")
+Commit 0422b07bc4c2 ("x86/mce/amd: Filter bogus hardware errors on Zen3
+clients") filters a related signature but only on Cezanne A0.
 
-...
+An unpopulated bank has no hardware behind it and nothing to poll. In
+smca_configure() clear the ctl of any bank whose MCA_IPID hardware ID
+and MCA type are both zero. machine_check_poll() and __mc_scan_banks()
+then skip it like any other disabled bank.
 
-> diff --git a/drivers/ras/amd/atl/umc.c b/drivers/ras/amd/atl/umc.c
-> index befc616d5e8a..91c02ef5dc11 100644
-> --- a/drivers/ras/amd/atl/umc.c
-> +++ b/drivers/ras/amd/atl/umc.c
-> @@ -416,3 +416,45 @@ unsigned long convert_umc_mca_addr_to_sys_addr(struct atl_err *err)
->  
->  	return norm_to_sys_addr(socket_id, die_id, coh_st_inst_id, addr);
->  }
-> +
-> +/*
-> + * Translate a UMC MCA error address into one or more representations as
-> + * requested by the caller.
-> + *
-> + * The caller sets the input values and requests one or more operations
-> + * through @err->requested. @err->valid is cleared on entry. Each operation
-> + * is attempted independently. The corresponding bit in @err->valid is set
-> + * and the related output field is filled for each operation that succeeds.
-> + * The caller must check @err->valid before consuming an output value.
-> + *
-> + * The PRM handlers consume @err->umc_addr directly. Only MI300 needs its
-> + * MCA_ADDR value converted to a normalized address first; see get_addr().
-> + * MI300 platforms provide no PRM handlers, so the conversion is left to the
-> + * native fallback path.
+An AI coding assistant (Claude by Anthropic) helped find the cause and
+draft this patch.
 
-Hm, ok. Sounds like a whole protocol. Lemme get to the end of this and see
-whether this is not too overengineered for no good reason...
+Signed-off-by: Zak Brighton Knight <zakbrightonknight@gmail.com>
+Cc: stable@vger.kernel.org
+---
+I tested this on a Ryzen 9 5900X (MSI MAG X570S Tomahawk Max WiFi with
+microcode 0x0a201213). I set check_interval to 1 so the banks are polled
+every second instead of every five minutes. That way the bogus records
+turn up within hours rather than weeks.
 
+  - Fedora's 7.2.11 on BIOS 1.B0 logged 34 bogus records in 22 hours.
+    All came from CPU 1 and from 16 different unpopulated banks. Nothing
+    else was logged.
+  - Fedora's 7.2.13 with the same change logged none in 8 hours 10
+    minutes on BIOS 1.B0. The unpatched rate predicts about 12.5. The
+    7.2 code around the change still uses the 32-bit MSR helpers but the
+    change itself is the same.
+  - Fedora's 7.2.13 without the change still logged 14 in 21.5 hours
+    after I updated to the latest BIOS (1.D3 with the same microcode).
+    So the firmware update doesn't fix it.
 
-> + * Registered with the RAS core as the UMC address translator; see
-> + * amd_translate_umc_mca_addr().
+This version against tip master builds without warnings with W=1. I have
+only booted the 7.2.13 version.
 
-Unnecessary text.
+Reading the unpopulated banks directly through /dev/cpu/*/msr shows the
+same thing. CPU 1 returns a non-zero value about once in 1.6 to 6.8
+million reads. It does so on both BIOS versions and under the patched
+kernel too. No other CPU ever did in over 250 million reads. So the
+clean run is down to the patch and not to quieter hardware.
 
-> + */
-> +void amd_atl_umc_translate_addr(struct atl_err *err)
-> +{
-> +	err->socket_id = topology_physical_package_id(err->cpu);
-> +	err->valid     = 0;
-> +
-> +	if (err->requested & ATL_OP_SPA) {
+One boot of the patched kernel ended after 17 minutes in a hardware
+reset (a data fabric sync flood). The MCE kept across the reset is an EX
+watchdog timeout on CPU 16. Its address most likely points at the WRMSR
+in native_write_msr(). I don't think it's related because the patch only
+changes which banks get read. The next boot of the same kernel ran 13
+hours without trouble. I mention it for completeness.
 
-You can make those operations a number and this then can become a switch-case.
+There is no Fixes: tag because every bank up to MCG_CAP[Count] has been
+polled since long before SMCA. The closest candidates are two commits.
+d9d73fcc8784 ("x86/mce: Detect and use SMCA-specific msr_ops") started
+polling the SMCA registers. 068b053dca0e ("x86/MCE: Determine MCA banks'
+init state properly") marked these banks as not initialized but kept
+polling them. Happy to add either.
 
-Should be easier, like a dispatch table.
+mce_no_way_out() still reads every bank whatever its ctl. So junk there
+during a real #MC on CPU 1 could still escalate it to a panic. I left
+that alone. It could skip banks with a ctl of 0 too if you prefer.
 
-> +		struct param_buf p_buf = {
-> +			.addr		= err->umc_addr,
-> +			.out_buf	= &err->spa,
-> +		};
-> +
-> +		if (!prm_umc_norm_to_addr(norm_to_sys_guid, &p_buf)) {
-> +			err->valid |= ATL_OP_SPA;
-> +		} else if (!df_cfg.flags.prm_only) {
-> +			unsigned long spa = convert_umc_mca_addr_to_sys_addr(err);
-> +
-> +			if (!IS_ERR_VALUE(spa)) {
-> +				err->spa = spa;
-> +				err->valid |= ATL_OP_SPA;
-> +			}
-> +		}
-> +	}
-> +}
+I don't know why only CPU 1 (APIC ID 2) does this on every Zen3 desktop
+part reported so far.
 
-...
+Other users report the same signature in these threads.
+https://forum.proxmox.com/threads/ryzen-5950x-uncorrected-software-containable-error-events-after-upgrade-to-kernel-7-0-x.184025/
+https://discussion.fedoraproject.org/t/hardware-errors/193072
+https://bbs.archlinux.org/viewtopic.php?id=304584
+https://github.com/8do-abehn/lab/issues/435
 
-> diff --git a/include/linux/ras.h b/include/linux/ras.h
-> index 468941bfe855..eac8cf39ddd5 100644
-> --- a/include/linux/ras.h
-> +++ b/include/linux/ras.h
-> @@ -3,6 +3,8 @@
->  #define __RAS_H__
->  
->  #include <asm/errno.h>
-> +#include <linux/bits.h>
-> +#include <linux/stddef.h>
->  #include <linux/uuid.h>
->  #include <linux/cper.h>
->  
-> @@ -35,10 +37,26 @@ static inline void
->  log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev) { return; }
->  #endif
->  
-> +/* Operations requested and completed through amd_translate_umc_mca_addr(). */
-> +#define ATL_OP_SPA		BIT(0)	/* System Physical Address */
+I used Claude Code to help triage and write the patch.
 
-verify_comment_style: WARNING: No tail comments please.
+ arch/x86/kernel/cpu/mce/amd.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Please audit your whole set.
+diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+index 1cc20b855..1de43386c 100644
+--- a/arch/x86/kernel/cpu/mce/amd.c
++++ b/arch/x86/kernel/cpu/mce/amd.c
+@@ -345,6 +345,15 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
+ 	hwid_mcatype = HWID_MCATYPE(val.h & MCI_IPID_HWID,
+ 				    (val.h & MCI_IPID_MCATYPE) >> 16);
+ 
++	/*
++	 * An unpopulated bank has no hardware behind it and nothing to
++	 * poll or scan. Its registers should read as zero. But on some
++	 * Zen3 parts MCA_STATUS and MCA_DESTAT can return garbage that
++	 * would then be logged as an error.
++	 */
++	if (!hwid_mcatype)
++		this_cpu_ptr(mce_banks_array)[bank].ctl = 0;
++
+ 	for (i = 0; i < ARRAY_SIZE(smca_hwid_mcatypes); i++) {
+ 		s_hwid = &smca_hwid_mcatypes[i];
+ 
 
+base-commit: 4f08fc2dfebccc28b7a7645dd81d28a755815e47
 -- 
-Regards/Gruss,
-    Boris.
+2.56.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
