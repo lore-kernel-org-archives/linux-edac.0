@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794128076;
-	b=tD8m3XKC6q31deHRQ1i9uU8NMZGv1+Ol4IcfmswXypqErMNnriy+yp99ArSFNAOPdL8o
-	 UGJ9PQ/DwLEVLFsEomTD0VYMJJjw9ahsrAh5S/CDhqQ5zmRGPYdxqIlNsdwaibAzkmI4h
-	 dMD3FE+CJMXu+/io7+m5z+UqUBA8mcaNeXHx0Sh/85tJ0HmBf6ksKUj8CkAiMeNi/HH2c
-	 cY/BAIGca7bFSprA3v7Zrlxgww5xSQjp2ytlfyGMXuqHii2zSu5MYPJw4U+XLsbPPLznP
-	 eRLfwcSmfZjBCDzOG6mPFQGkPhe4iy5B24lb64EfnN4kkvOurtbiatdn7NkUOdv6joA==
+	t=1794128077;
+	b=aDrjTys2RrBzaVM5rGelZrLjtCfcHEzWi2vuU2MzAxRaaRBYDRnTu987L8qPnwTM7rYR
+	 xQvZbSJQp166n35E+F/+pD37i6CTQV3N03RZdqhSll7VWZefUhhbW91l5VNQEiApTA3yA
+	 lVxAeh9W5P9BsFd7ibjouwYvekWgEF+MvM/8xtpeG0oN6nM7cLO7twrwraN6TSOPh2xN/
+	 ZT+Z0zRtvlOX+NOEoLLz6fmRJqx5ex9Ay+6tU1BBj428moG6ESjvfbUOJyORuPR61rLqA
+	 Gx3iyBQiHkyvfnDST/x6Y5AYmLwPrm6w4tLjcEcQbnaIenMPmlxkJ7VLFpcRngMeiAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794128076;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794128077;
 	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Sender;
-	bh=AofEisHPa71V7e+1AJxK9WPx+5r7ivjgynVnO8nhMr8=;
-	b=jsEKCcXXPFD1LLUYrrXVPzHNnnIdH6VJA3bkPuZcRlwwTeNBu5c8MWydgZOWKDDFXo2F
-	 HQUQxA/mFBS6a3mFInepWqHJ+ijEbUXpPOM31qRw02JGslknN5mDcTm1bkBDvpdKAH+Qv
-	 q6RXZW41GqVV+nDM1rcSEudlILBbgII/PXOv8YlyRt5SAPbIztS48WnDyWMNaEiB+mJqU
-	 5p2zFW53j7fprbs4gn+UiSfY+fangq9rZ+4DBtA1VkER+W69WXmg41EXbNlK+aliZl7bN
-	 8oUrj6Rqp1++pULMWLPd59W/nfVEichmk1ZfIS2ym3fb4ZdbYRuv+a7zPBUal38LYzA==
+	bh=Mdj5Hi6KabLHisxENovGiiA3tDju9onZmLEwA1byQWY=;
+	b=GyIfZNjA0KhefR6YdagN8E3vD5w5iBT4XpuWD5DT+l2A+3shXLCJH0TAIlrvylyCg0Wa
+	 Jt2H0y508wirIQiTX8b9GhaEvasmUttbuHcGcVc7o04Ai54Uqf62di5MXBUw3xv9842a0
+	 mTXWBUFzGl4gvrv2MGMKVL6n/3V7vgBQ3AmuS11iLnY/3yl9CCFaUw083WquNrG81aGoq
+	 VxQrweuSgPsczF2KHdHnhX/eTuaYzaLkM/RJ00gawKopYrePpi/1Nf/OTunIzEuN4jkJ7
+	 nGkF5G/l0HbpAVqo4yL9eAQj9W7mtCN0Gs+K2aRIHiBa6pahh7sYRkvIe2XE4CJUM0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b8zXAoOO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eifTJS5H;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3E3606A33B
-	for <linux-edac@vger.kernel.org>; Sun,  8 Nov 2026 08:54:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056D1606D804
+	for <linux-edac@vger.kernel.org>; Sun,  8 Nov 2026 08:54:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b8zXAoOO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20BBF1F00904;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eifTJS5H
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 115CA1F008AB;
 	Sun,  8 Nov 2026 08:54:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794128075;
-	bh=AofEisHPa71V7e+1AJxK9WPx+5r7ivjgynVnO8nhMr8=;
+	bh=Mdj5Hi6KabLHisxENovGiiA3tDju9onZmLEwA1byQWY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=b8zXAoOO6ZjTYRzNtfAXs/j6H9KwCMFJ0rwJLihz+zUqrhxo+MX1tfROLAkqSdeQz
-	 k3FPYSK5c1MDpi6PRUnyJNo5oi7pfx8pk3aHczs+zwXPHf6m3FniR8xGUh8lfL+ZMv
-	 rSb+N5zGEr89q4LMS22t6Dd8TI1axrsfQUbVqE6gLo6KLVMe69rPfPgaNWEDn4H6B3
-	 4CtVMQlV1K46EsHqSWM+qt7uRhdc0aKaxP+9wJHmxkW4f33tZyNVmWSAxhoZZjmaPP
-	 xlbhsdCuMxGaGszkkgUVTBvau2OwFLByciGGnslkMlPmwrZuN+2VvGchutEGabUs7q
-	 3Ji33JNHs500w==
+	b=eifTJS5HLO8vfGGKh4HJpO+yfGIEi3G8Zn7MKEU5GZHrEE4xKV+yNB1D32uiOYjyk
+	 2G6CwQWJv3DS8v5cHcGZUPKJs597E6wSH8IxbQOHKiBtzcFZANZMIbglLcc4zP0bfq
+	 ewdvEKu9F1ev2q+IjrXM2o/I8WKe7CXoh76z5Q32u4sxSclt6YtlDun013MRTuC3Rb
+	 d+i9MMB/fpfnpmbSZbW+WUwpB4lMhybH1xPBmOqsfTO7TtXe+br/Nac5CaOBi9QloB
+	 irrBgD84uwFqq+cgQFzcw0yyc+uexa6QkkaQkJZbpNMvI4FyUeVtczmU9Ii412robU
+	 BsTbsHBwzIbKA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.100.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1xPyfZ-00000005Ujm-27Io;
+	id 1xPyfZ-00000005UjR-1Zhv;
 	Sun, 08 Nov 2026 09:54:33 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Michael S Tsirkin <mst@redhat.com>
@@ -54,10 +54,11 @@ Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
 	linux-edac@vger.kernel.org,
 	Cleber Rosa <crosa@redhat.com>,
 	John Snow <jsnow@redhat.com>,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Subject: [PATCH 13/13] scripts/ghes_inject: improve the retry attempt logic
-Date: Sun,  8 Nov 2026 09:54:26 +0100
-Message-ID: <c63cff02c016f1869ce5065225be3c1f1c1ed8a5.1794127710.git.mchehab+huawei@kernel.org>
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>
+Subject: [PATCH 08/13] scripts/ghes_inject: add a handler for PCI/PCI-X bus error
+Date: Sun,  8 Nov 2026 09:54:21 +0100
+Message-ID: <86671a72afbd3ed02287f337efb28d88bdb240a9.1794127710.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <cover.1794127710.git.mchehab+huawei@kernel.org>
 References: <cover.1794127710.git.mchehab+huawei@kernel.org>
@@ -74,93 +75,220 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Only retries if the cause of the error is:
+Add a logic to do PCIe BUS error injection.
 
-{"error": {
-  "class": "GenericError",
-  "desc": "OSPM does not acknowledge previous error, so can not record CPER for current error anymore"
-  }
-}
+On Linux Kernel, despite CPER_SEC_PCI_X_BUS macro is defined for such
+event, ghes.c doesn't implement support for it yet:
 
-As this is a transitory state.
+[16950.077494] {26}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 1
+[16950.077866] {26}[Hardware Error]: event severity: recoverable
+[16950.078118] {26}[Hardware Error]:  Error 0, type: recoverable
+[16950.078444] {26}[Hardware Error]:   section type: unknown, c5753963-3b84-4095-bf78-eddad3f9c9dd
+[16950.078800] {26}[Hardware Error]:   section length: 0x48
+[16950.079069] {26}[Hardware Error]:   00000000: 00000000 00000000 00000000 00000000  ................
+[16950.079442] {26}[Hardware Error]:   00000010: 00000001 00000000 00000000 00000000  ................
+[16950.079811] {26}[Hardware Error]:   00000020: 00000000 00000000 00000000 00000000  ................
+[16950.080181] {26}[Hardware Error]:   00000030: 00000000 00000000 00000000 00000000  ................
+[16950.080538] {26}[Hardware Error]:   00000040: 00000000 00000000                    ........
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 ---
- scripts/qmp_helper.py | 49 +++++++++++++++++++++++--------------------
- 1 file changed, 26 insertions(+), 23 deletions(-)
+ MAINTAINERS              |   1 +
+ scripts/ghes_inject.py   |   2 +
+ scripts/pci_bus_error.py | 151 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 154 insertions(+)
+ create mode 100644 scripts/pci_bus_error.py
 
-diff --git a/scripts/qmp_helper.py b/scripts/qmp_helper.py
-index ef3e46ee3fc6..158489e4cee6 100755
---- a/scripts/qmp_helper.py
-+++ b/scripts/qmp_helper.py
-@@ -343,41 +343,44 @@ def send_cmd(self, command, args=None, may_open=False, return_error=True,
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5d817e8c4d65..75fbe5967c73 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2386,6 +2386,7 @@ F: qapi/acpi-hest.json
+ F: scripts/ghes_decode.py
+ F: scripts/ghes_inject.py
+ F: scripts/arm_processor_error.py
++F: scripts/pci_bus_error.py
+ F: scripts/qmp_helper.py
  
-         # Try up to attempts
-         for i in range(0, attempts):
-+            if i > 0:
-+                print(f"Error inject attempt {i}/{attempts} failed. Retrying...")
-+                sleep(0.1)
+ ppc4xx
+diff --git a/scripts/ghes_inject.py b/scripts/ghes_inject.py
+index 6ac917d0b5db..be2384a59b3e 100755
+--- a/scripts/ghes_inject.py
++++ b/scripts/ghes_inject.py
+@@ -12,6 +12,7 @@
+ import sys
+ 
+ from arm_processor_error import ArmProcessorEinj
++from pci_bus_error import PciBusError
+ 
+ EINJ_DESC = """
+ Handle ACPI GHESv2 error injection logic QEMU QMP interface.
+@@ -40,6 +41,7 @@ def main():
+     subparsers = parser.add_subparsers()
+ 
+     ArmProcessorEinj(subparsers)
++    PciBusError(subparsers)
+ 
+     args = parser.parse_args()
+     if "func" in args:
+diff --git a/scripts/pci_bus_error.py b/scripts/pci_bus_error.py
+new file mode 100644
+index 000000000000..1d974c54685c
+--- /dev/null
++++ b/scripts/pci_bus_error.py
+@@ -0,0 +1,151 @@
++#!/usr/bin/env python3
++#
++# pylint: disable=C0114,R0903
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (C) 2024 Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 +
-             try:
-                 obj = self.qmp_monitor.cmd_obj(msg)
--
--                if obj and "return" in obj and not obj["return"]:
--                    break
-+                if not obj:
-+                    print(f"Command: {command}")
-+                    print(f"Failed to create a QMP object.")
-+                    return None
- 
-             except Exception as e:                     # pylint: disable=W0718
-                 print(f"Command: {command}")
-                 print(f"Failed to inject error: {e}.")
--                obj = None
-+                return None
- 
--            if attempts > 1:
--                print(f"Error inject attempt {i + 1}/{attempts} failed.")
-+            error = obj.get("error")
-+            if isinstance(error, dict):
-+                desc = error.get("desc", "unknown error")
-+                if return_error:
-+                    print(f"Command: {msg}")
-+                    print(f'{error["class"]}: {desc}')
- 
--            if i + 1 < attempts:
--                sleep(0.1)
-+                if not "acknowledge previous" in desc:
-+                    break
- 
--        if not obj:
--            return None
-+                continue
- 
--        if "return" in obj:
--            if isinstance(obj.get("return"), dict):
--                if obj["return"]:
--                    return obj["return"]
--                return "OK"
-+            if "return" in obj:
-+                if isinstance(obj.get("return"), dict):
-+                    if obj["return"]:
-+                        return obj["return"]
-+                    return "OK"
- 
--            return obj["return"]
-+                return obj["return"]
- 
--        if isinstance(obj.get("error"), dict):
--            error = obj["error"]
--            if return_error:
--                print(f"Command: {msg}")
--                print(f'{error["class"]}: {error["desc"]}')
--        else:
--            print(json.dumps(obj))
-+            else:
-+                print(json.dumps(obj))
- 
-         return None
- 
++from qmp_helper import qmp, util, cper_guid
++
++class PciBusError:
++    """
++    Implements PCI Express bus error injection via GHES
++    """
++
++    def __init__(self, subparsers):
++        """Initialize the error injection class and add subparser"""
++
++        # Valid values
++        self.valid_bits = {
++            "status": util.bit(0),
++            "type": util.bit(1),
++            "bus-id": util.bit(2),
++            "bus-addr": util.bit(3),
++            "bus-data": util.bit(4),
++            "command": util.bit(5),
++            "requestor-id": util.bit(6),
++            "completer-id": util.bit(7),
++            "target-id": util.bit(8),
++        }
++
++        self.bus_command_bits = {
++            "pci": 0,               # Bit 56 is zero
++            "pci-x": util.bit(56)
++        }
++
++        self.data = bytearray()
++
++        parser = subparsers.add_parser("pci-bus",
++                                       description="Generate PCI/PCI-X bus error CPER")
++        g_pci = parser.add_argument_group("PCI/PCI-X bus error")
++
++        valid_bits = ",".join(self.valid_bits.keys())
++        bus_command_bits = ",".join(self.bus_command_bits.keys())
++
++        g_pci.add_argument("-v", "--valid",
++                            help=f"Valid bits: {valid_bits}")
++        g_pci.add_argument("-s", "--error-status",
++                            type=lambda x: int(x, 0),
++                            help="Error Status")
++        g_pci.add_argument("-t", "--error-type",
++                            type=lambda x: int(x, 0),
++                            help="Error type")
++        g_pci.add_argument("-b", "--bus-number",
++                            type=lambda x: int(x, 0),
++                            help="Bus number")
++        g_pci.add_argument("-S", "--segment-number",
++                            type=lambda x: int(x, 0),
++                            help="Segment number")
++        g_pci.add_argument("-a", "--bus-address",
++                            type=lambda x: int(x, 0),
++                            help="Bus address")
++        g_pci.add_argument("-d", "--bus-data",
++                            type=lambda x: int(x, 0),
++                            help="Bus data")
++        g_pci.add_argument("-c", "--bus-command",
++                            help=f"bus-command: {bus_command_bits}")
++        g_pci.add_argument("-r", "--bus-requestor",
++                            type=lambda x: int(x, 0),
++                            help="Bus requestor ID")
++        g_pci.add_argument("-C", "--bus-completer",
++                            type=lambda x: int(x, 0),
++                            help="Bus completer ID")
++        g_pci.add_argument("-i", "--target-id",
++                            type=lambda x: int(x, 0),
++                            help="Target ID")
++
++        parser.set_defaults(func=self.send_cper)
++
++    def send_cper(self, args):
++        """Parse subcommand arguments and send a CPER via QMP"""
++
++        qmp_cmd = qmp(args.host, args.port, args.debug)
++
++        cper = {}
++        arg = {key.replace("_", "-"): value for key, value in vars(args).items()
++               if value is not None}
++        self.data = bytearray()
++
++        # Handle global parameters
++        if args.valid:
++            valid_init = False
++            cper["valid"] = util.get_choice(name="valid",
++                                            value=args.valid,
++                                            choices=self.valid_bits)
++        else:
++            cper["valid"] = 0
++            valid_init = True
++
++        if args.bus_command:
++            cper["bus-command"] = util.get_choice(name="bus-command",
++                                                    value=args.bus_command,
++                                                    choices=self.bus_command_bits)
++        if valid_init:
++            if args.bus_command is not None:
++                cper["valid"] |= self.valid_bits["command"]
++
++            if args.error_status is not None:
++                cper["valid"] |= self.valid_bits["status"]
++
++            if args.error_type is not None:
++                cper["valid"] |= self.valid_bits["type"]
++
++            if args.bus_number is not None or args.segment_number is not None:
++                cper["valid"] |= self.valid_bits["bus-id"]
++
++            if args.bus_address is not None:
++                cper["valid"] |= self.valid_bits["bus-addr"]
++
++            if args.bus_data is not None:
++                cper["valid"] |= self.valid_bits["bus-data"]
++
++            if args.bus_requestor is not None:
++                cper["valid"] |= self.valid_bits["requestor-id"]
++
++            if args.bus_completer is not None:
++                cper["valid"] |= self.valid_bits["completer-id"]
++
++            if args.target_id is not None:
++                cper["valid"] |= self.valid_bits["target-id"]
++
++        util.data_add(self.data, cper["valid"], 8)
++        util.data_add(self.data, arg.get("error-status", 0), 8)
++        util.data_add(self.data, arg.get("error-type", util.bit(0)), 2)
++
++        # Bus ID
++        util.data_add(self.data, arg.get("bus-number", 0), 1)
++        util.data_add(self.data, arg.get("segment-number", 0), 1)
++
++        # Reserved
++        util.data_add(self.data, 0, 4)
++
++        util.data_add(self.data, arg.get("bus-address", 0), 8)
++        util.data_add(self.data, arg.get("bus-data", 0), 8)
++
++        util.data_add(self.data, cper.get("bus-command", 0), 8)
++
++        util.data_add(self.data, arg.get("bus-requestor", 0), 8)
++        util.data_add(self.data, arg.get("bus-completer", 0), 8)
++        util.data_add(self.data, arg.get("target-id", 0), 8)
++
++        return qmp_cmd.send_cper(cper_guid.CPER_PCI_BUS, self.data)
 -- 
 2.56.0
 
