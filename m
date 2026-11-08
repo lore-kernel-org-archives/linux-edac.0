@@ -1,67 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.210
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794128077;
-	b=j2o6VGcEAcNxa9XM6IYjhxOQt37ORd24h7qieqJ42P6YhJOJQ3Iua4zzO5F2NVF3PRQW
-	 OUH/aG4wm/++0i+1FscTI2niGdV+qbvpwcoVD2iDcwdoRUisN5TgkslexzxyWw72nCls6
-	 WJAaTUl+M4XE2KmADYurpygWRYruS4spi3Xm7yCAHyEIa+Y9geHg8u9yI3Ir6GFN94SVZ
-	 E9kbq+MeVn3Un/ruvYgLOlJm1zVbwY2FVoEyEstx645/5u0EzGFZ+UWN6X8SqMFJEigE0
-	 Kq6OB0RY5v0UCv9IJWtjLxg4gIIUZNEPre3xdfoa/Yxvf5udVzK98VFqEciMZJWqt7Q==
+	t=1794131554;
+	b=hQRpeprAww83jAvOXlRP0f1TXxfytwiTJXYANkSMIkmW7KbI5xx4R4lrp1uMtQIOtCYP
+	 3Jsn/h25Wup+RmXHMTn5hyYb4DTXweqntkvHtAaI/17OiHhTN308jFyAcxcCnLtwsucnY
+	 NWfDtbaLje6NNnC4bpBsgEzw8jEWWPpWCPzy8btJXHy9sU1WiRQkBPJDlbjqQ5QeaxD+y
+	 rr5dv7YJo0w8j+igTtCJEzAj7rGxlTXdGEr3qFO6wmFCzofQcSe/H0KqU6SJVxjT1BEhF
+	 5m1i3XW+EarYBJh0445lhdQtlageJAXI7sfIf/YxD+hhpzGs0gXyFfm3kj0P3+otdvQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794128077;
-	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Sender;
-	bh=W5+2id3oWkT7IWPWR+qk5RZNg+1HZGh7GVRxt9UulNI=;
-	b=4K4cJJeg9lOjRtt1SgAGltR35Q9WCqblFEO83wE+H9hLbuMfdAY4TwHB/yxzfMnqD0sx
-	 8NAFyK2WSQp//2UEd2nOd/JN8i2BZ6k6Hrne8yucYPOHpLO8CLVeQWLuwStcnTyXDytWQ
-	 NvD4zx0O31I4p2wYTlVA9/9So6a4+aUpC8bbz9oPKkrHbAWewC5LxR2/ATg1vf9EyTuul
-	 4bxLz0MyqcJZHYcUuZpXAzO8EIXhJXJZgk3TRNR8ubQvpIjr4O/Nb1EDwHESCfk/bZdC/
-	 cvrxXX7vTgySKA2UQY34vJzOD6uAvzGCvOzqws4b7pScsKpE3x98qlPpXeqzobBFBzQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794131554;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=ETZrdZOhArsLJy6lMGfpmdf9xjZhQqXb8yfOpDMN3NA=;
+	b=sM8WlUgUld+SmmUixMFMog1Hui1JLCyyqQcC2/hKU+1P3cgBzTJWn2rnUec8Dy6p+WcQ
+	 OXfvn0ZKFdpigcHNLbs9sfLh0id9XX9xFgXa8C76cSQeopWkkcoLOFx4WNIcACrUlgSF7
+	 uSh32sL8KUJptIlTt1YwSXIXQJ7xOczTFvq4fPUk9hvtf+9mtEKJXYaCtB0HuHILfoKLj
+	 MEAiiQumgD0viR9MhQG8LfYWf4+9RhRQrB35CUXlWQJ0Ofiq0MwFnRiElgZu9SE6eKo+/
+	 44gpR3kVERzCtx0Wla52rKf1l+e/oRDi4ff2xWENZYV7M3kGCeXYUQmROM83xGzPPiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kGeWt4BR;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=foxmail.com;
+	spf=pass smtp.mailfrom=foxmail.com;
+	dkim=pass header.d=foxmail.com header.i=@foxmail.com header.a=rsa-sha256 header.s=s201512 header.b=GlxO93ck;
+	arc=none smtp.remote-ip=203.205.221.210
+Received: from out203-205-221-210.mail.qq.com (out203-205-221-210.mail.qq.com [203.205.221.210])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36DF606A33D
-	for <linux-edac@vger.kernel.org>; Sun,  8 Nov 2026 08:54:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78B0606A31C;
+	Sun,  8 Nov 2026 09:52:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E78B0606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kGeWt4BR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 135821F008BC;
-	Sun,  8 Nov 2026 08:54:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794128075;
-	bh=W5+2id3oWkT7IWPWR+qk5RZNg+1HZGh7GVRxt9UulNI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kGeWt4BR1kX2D1HJFNbcfkgpC6BDtFmlEDgUGkkaLoiWfGa1Oc22T0vlRXfWIVPlD
-	 X/IQDrzqoRmjzDSJXWAqDdwEZD5kukbMdHPZfvNF1pcm3hgRiuhhSQEUkIWavm5tPs
-	 FKRsIXU8gR91Vb2uAvetKf3Ph5j3JQJ69hQUJtMwwTxnancGwAcgTmrmyuWXxH+VjH
-	 0K+KVYU4bUw+PeXGlY73UOwB3eai+4SpubB77UfFVG6utmHfav05snXwQCeoxp7f6I
-	 6T6llYF1VN0m3XzeMbGVADSMOUW9+XYTBR67q5G9fTalQ0/rtwS+AXDBbxz5quMpgV
-	 3Q1SrryLCgXEw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.100.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1xPyfZ-00000005UjZ-1nDD;
-	Sun, 08 Nov 2026 09:54:33 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Michael S Tsirkin <mst@redhat.com>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Shiju Jose <shiju.jose@huawei.com>,
-	qemu-devel@nongnu.org,
-	Igor Mammedov <imammedo@redhat.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	dkim=pass (1024-bit key, unprotected) header.d=foxmail.com header.i=@foxmail.com header.a=rsa-sha256 header.s=s201512 header.b=GlxO93ck
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1794131543;
+	bh=ETZrdZOhArsLJy6lMGfpmdf9xjZhQqXb8yfOpDMN3NA=;
+	h=From:To:Cc:Subject:Date;
+	b=GlxO93ckU55VsTseTvtWcSrnEqEGqAHLogbTVKYOG/vABViwhLDnsQWrcTaXbvwa+
+	 7LEp8yN7QWROR3/KQgOeKEebKtVbFQMeylJKN9Bs955j3NzecZs2tRnhtGlgM4JTjv
+	 JbYXsJELHxRLDG2hipbuL6fP1MKupsJrwq79V8gk=
+Received: from nixos.tail04abde.ts.net ([153.37.85.101])
+	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
+	id D048084E; Sun, 08 Nov 2026 17:52:04 +0800
+X-QQ-mid: xmsmtpt1794131524tc8ruwjyr
+Message-ID: <tencent_9286255027243E5338FE93692C54FEC21D09@qq.com>
+X-QQ-XMAILINFO: NeHZ50d3l/WZZDI+hYRr+tDmWArJfUVTHPa+8sr5iM9Efq5jqswzS2oyHLVcmD
+	 LOwnbIEC57Iksl93J96/icqxhEX6PtMGLXeoyHb26adkHXE51RtYamXxm59UqW/4Fh5s7bNY9R/o
+	 rTCL4DwZoDoendL2bqwUqto1hhI1nmbdCpqK8tnsKzT4RPsLhTlKuOuhyr14lDYAlIug42qHP//F
+	 iWivMFdmTwIMyJtY3LuTArh0pzPYyE3k7sAyOmWEc9QrfwGHTvAgl0X0OnGz0U2vQRqSoebrmitI
+	 wf11aaB2HJix3yLi2pAkHZRGh8Tr20+6C0YdYXx4DPE378VkS7nq4s+6nsSbU6bYmNomgl8lNUup
+	 M5BtWh2VvzkkSBlaqaH1d+1DRZfaGLQzkZRKR7zxQEHEwlf7QrOjS164uSJi28k+I0qBT/v/yfBL
+	 MGskVnvfrfq2W/t6WTAjhi2jkV4W2fNfNfwsfb6Hgr8aoVh7vRFshsS8To7zpmhn15w/IhokLsx6
+	 /B96N+ghe523MRrDW0m2jyCXMjKdlJJX4l/uQyzmJ8fW+vbhHjVxOXsoXJWEe4Q4ec0YJThAWPOs
+	 Rc5KgbJKGeFMy4LZZbrIjqEGEoeiKMO4ba4w4+eWy7dFls9//jnCqQ1n1dSEXGqN4NE2rQAtvRKS
+	 TPHCkoMs5nNwKe6FxIH5Ant9bxhLpUP0ZIYDRBqpaQHXah0C/j9WcU2PQLdWVhZr5Hv+mKQL/tdR
+	 5o8sLNLPALrmdzaqUAYlSdk3In+KNZI2jHJAwiDWjGQKGIoeFAQs4wB2Vn9lacrDuKChAuVdSreu
+	 PMiTyTwjsJzheBb6rZIXbGm5xZFodx6I0jEesL7jbnhgBCm5TWpHpWotgtzPymdkDXTiyDUKmCnh
+	 QVlIAdjFFHU+TM1ZIRi45UxqNu+2fC3x+nKrnGqIodQmbMVqgX5dGwA9eAHma7YYxkNy/Tp7QwK4
+	 bn6hTTEBHKoiIwPcNMrx84BAozfFvdF1uYKert47QhLUuGRrJC6f/0WRDT2akHSH0vYuWWbNTZcY
+	 Al174WrhN4NvzXb5HFg3lBeOTryhAmB0QKQ7phG8LkmQlGvrq46XGrZwgQgJvpVe1dFg5oAzLHqH
+	 OqI0+p
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+From: Jiajun Wang <ryan1202@foxmail.com>
+To: tony.luck@intel.com,
+	bp@alien8.de
+Cc: xiyou.wangcong@gmail.com,
 	linux-edac@vger.kernel.org,
-	Cleber Rosa <crosa@redhat.com>,
-	John Snow <jsnow@redhat.com>,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>
-Subject: [PATCH 10/13] scripts/ghes_inject: add a raw error inject command
-Date: Sun,  8 Nov 2026 09:54:23 +0100
-Message-ID: <2d816df8933916533481b59206e3a0da3b37aacf.1794127710.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] RAS/CEC: Fix decay work delay calculation
+Date: Sun,  8 Nov 2026 17:52:01 +0800
+X-OQ-MSGID: <20261108095201.2393382-1-ryan1202@foxmail.com>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <cover.1794127710.git.mchehab+huawei@kernel.org>
-References: <cover.1794127710.git.mchehab+huawei@kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -71,239 +80,52 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Add a command to repeat a raw CPER record.
+The conversion from a timer to delayed work left two issues in the
+decay work scheduling.
 
-This helps to reproduce some condition that happened before.
+The initial delay is passed to schedule_delayed_work() in seconds,
+although the function expects jiffies. This schedules the first decay
+after 86400 jiffies rather than 24 hours, or approximately 86 seconds
+with CONFIG_HZ=1000. Use secs_to_jiffies() to convert the delay.
 
-The input format of the file is identical to the hexadecimal
-dump generated by ghes_inject tool.
+When rearming the work, cec_mod_work() passes the relative delay to
+round_jiffies(), which expects an absolute expiration time. Use
+round_jiffies_relative() to round the delay instead.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+Fixes: 0ade0b6240c4 ("RAS/CEC: Convert the timer callback to a workqueue")
+
+Signed-off-by: Jiajun Wang <ryan1202@foxmail.com>
 ---
- MAINTAINERS            |   1 +
- scripts/ghes_inject.py |   2 +
- scripts/raw_error.py   | 175 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 178 insertions(+)
- create mode 100644 scripts/raw_error.py
+Build-tested on x86_64 with CONFIG_RAS_CEC=y.
+Not runtime-tested.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dae90bcc1250..37b12bdb9ffa 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2389,6 +2389,7 @@ F: scripts/arm_processor_error.py
- F: scripts/fuzzy_error.py
- F: scripts/pci_bus_error.py
- F: scripts/qmp_helper.py
-+F: scripts/raw_error.py
+ drivers/ras/cec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
+index 15f7f043c8efd..3c61c2aa78f2e 100644
+--- a/drivers/ras/cec.c
++++ b/drivers/ras/cec.c
+@@ -166,7 +166,7 @@ static void cec_mod_work(unsigned long interval)
+ 	unsigned long iv;
  
- ppc4xx
- L: qemu-ppc@nongnu.org
-diff --git a/scripts/ghes_inject.py b/scripts/ghes_inject.py
-index bcbfffc586e1..63a8b28002e7 100755
---- a/scripts/ghes_inject.py
-+++ b/scripts/ghes_inject.py
-@@ -14,6 +14,7 @@
- from arm_processor_error import ArmProcessorEinj
- from pci_bus_error import PciBusError
- from fuzzy_error import FuzzyError
-+from raw_error import RawError
+ 	iv = interval * HZ;
+-	mod_delayed_work(system_percpu_wq, &cec_work, round_jiffies(iv));
++	mod_delayed_work(system_percpu_wq, &cec_work, round_jiffies_relative(iv));
+ }
  
- EINJ_DESC = """
- Handle ACPI GHESv2 error injection logic QEMU QMP interface.
-@@ -44,6 +45,7 @@ def main():
-     ArmProcessorEinj(subparsers)
-     PciBusError(subparsers)
-     FuzzyError(subparsers)
-+    RawError(subparsers)
+ static void cec_work_fn(struct work_struct *work)
+@@ -582,7 +582,7 @@ static int __init cec_init(void)
+ 	}
  
-     args = parser.parse_args()
-     if "func" in args:
-diff --git a/scripts/raw_error.py b/scripts/raw_error.py
-new file mode 100644
-index 000000000000..f5e77bdfcead
---- /dev/null
-+++ b/scripts/raw_error.py
-@@ -0,0 +1,175 @@
-+#!/usr/bin/env python3
-+#
-+# pylint: disable=C0114,R0903,R0912,R0914,R0915,R1732
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Copyright (C) 2024 Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-+
-+import argparse
-+import os
-+import re
-+import sys
-+
-+from time import sleep
-+
-+from qmp_helper import qmp, guid
-+
-+class RawError:
-+    """
-+    Injects errors from a file containing raw data
-+    """
-+
-+    SCRIPT_NAME = sys.argv[0]
-+
-+    HELP=f"""
-+    Inject a CPER record from a previously recorded one.
-+
-+    One or more CPER records can be recorded. The records to be
-+    injected are read from an specified file or from stdin and should
-+    have the format produced by this script when using --debug, e.g.:
-+
-+    GUID: e19e3d16-bc11-11e4-9caa-c2051d5d46b0
-+    CPER:
-+        00000000  04 00 00 00 02 00 01 00 88 00 00 00 00 00 00 00   ................
-+        00000010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
-+        00000020  00 00 00 00 00 00 00 00 00 20 05 00 08 02 00 03   ......... ......
-+        00000030  ff 0f 46 d6 80 00 00 00 ef be ad de 00 00 00 00   ..F.............
-+        00000040  ad 0b ba ab 00 00 00 00 00 20 04 00 04 01 00 03   ......... ......
-+        00000050  7f 00 54 00 00 00 00 00 ef be ad de 00 00 00 00   ..T.............
-+        00000060  ad 0b ba ab 00 00 00 00 00 00 05 00 18 00 00 00   ................
-+        00000070  ef be ad de 00 00 00 00 ab ba ba ab 00 00 00 00   ................
-+        00000080  00 00 00 00 00 00 00 00                           ........
-+
-+    Multiple such records can be used. On such case, a delay will
-+    be introduced betewen them.
-+
-+    All lines that can't be parsed will be silently ignored.
-+    As such, the output of this help can be piped to the raw-error
-+    generator with:
-+
-+        {SCRIPT_NAME} -d raw-error -h | {SCRIPT_NAME} -d raw-error
-+    """
-+
-+    def __init__(self, subparsers):
-+        """Initialize the error injection class and add subparser"""
-+
-+        self.payload = bytearray()
-+        self.inj_type = None
-+        self.size = 0
-+
-+        parser = subparsers.add_parser("raw-error",  aliases=['raw'],
-+                                       description=self.HELP,
-+                                       formatter_class=argparse.RawTextHelpFormatter)
-+
-+        parser.add_argument("-f", "--file",
-+                            help="File name with the raw error data. '-' for stdin")
-+        parser.add_argument("-d", "--delay", type=lambda x: int(x, 0),
-+                            default=1,
-+                            help="Specify a delay between multiple CPER. Default=1")
-+
-+        parser.set_defaults(func=self.send_cper)
-+
-+    def send_cper(self, args):
-+        """Parse subcommand arguments and send a CPER via QMP"""
-+
-+        if not args.file:
-+            args.file='-'
-+
-+        is_guid = re.compile(r"^\s*guid:\s*(\w+\-\w+\-\w+\-\w+-\w+)", re.I)
-+        is_gesb = re.compile(r"^Generic Error Status Block.*:", re.I)
-+        is_gede = re.compile(r"^Generic Error Data Entry.*:", re.I)
-+        is_raw_data = re.compile(r"^Raw data.*:", re.I)
-+        is_payload = re.compile(r"^(Payload|CPER).*:", re.I)
-+        is_hexdump = re.compile(r"^(\s*[\da-f]........\s+)(.*)\s\s+.*", re.I)
-+        is_hex = re.compile(r"\b([\da-f].)\b", re.I)
-+
-+        cper = []
-+
-+        if args.file == "-":
-+            fp = sys.stdin
-+            if os.isatty(0):
-+                print("Using stdin. Press CTRL-D to finish input.")
-+            else:
-+                print("Reading from stdin pipe")
-+        else:
-+            try:
-+                fp = open(args.file, encoding="utf-8")
-+            except FileNotFoundError:
-+                sys.exit('File Not Found')
-+
-+        guid_obj = None
-+        gebs = bytearray()
-+        gede = bytearray()
-+        raw_data = bytearray()
-+        payload = bytearray()
-+        ln_used = 0
-+        ln = 0
-+
-+        cur = payload
-+
-+        for ln, line in enumerate(fp):
-+            if match := is_guid.search(line):
-+                if guid_obj and payload:
-+                    cper.append({"guid": guid_obj, "raw-data": payload})
-+                    guid_obj = None
-+                    payload = bytearray()
-+                    gebs = bytearray()
-+                    gede = bytearray()
-+
-+                guid_obj = guid.UUID(match.group(1))
-+
-+                ln_used += 1
-+                continue
-+
-+            if match := is_gesb.match(line):
-+                cur = gebs
-+                continue
-+
-+            if match := is_gede.match(line):
-+                cur = gede
-+                continue
-+
-+            if match := is_payload.match(line):
-+                cur = payload
-+                continue
-+
-+            if match := is_raw_data.match(line):
-+                cur = raw_data
-+                continue
-+
-+            new = is_hexdump.sub(r"\2", line)
-+            if new != line:
-+                if match := is_hex.findall(new):
-+                    for m in match:
-+                        cur.extend(bytes.fromhex(m))
-+                    ln_used += 1
-+                    continue
-+                continue
-+
-+        if guid_obj and payload:
-+            cper.append({"guid": guid_obj,
-+                         "payload": payload,
-+                         "gede": gede,
-+                         "gebs": gebs,
-+                         "raw-data": raw_data})
-+
-+        print(f"{ln} lines read, {ln - ln_used} lines ignored.")
-+
-+        if fp is not sys.stdin:
-+            fp.close()
-+
-+        qmp_cmd = qmp(args.host, args.port, args.debug)
-+
-+        if not cper:
-+            sys.exit("Format of the file not recognized.")
-+
-+        for i, c in enumerate(cper):
-+            if i:
-+                sleep(args.delay)
-+
-+            ret = qmp_cmd.send_cper(c["guid"], c["payload"], gede=c["gede"],
-+                                    gebs=c["gebs"], raw_data=c["raw-data"])
-+            if not ret:
-+                return ret
-+
-+        return True
+ 	INIT_DELAYED_WORK(&cec_work, cec_work_fn);
+-	schedule_delayed_work(&cec_work, CEC_DECAY_DEFAULT_INTERVAL);
++	schedule_delayed_work(&cec_work, secs_to_jiffies(CEC_DECAY_DEFAULT_INTERVAL));
+ 
+ 	mce_register_decode_chain(&cec_nb);
+ 
 -- 
 2.56.0
 
