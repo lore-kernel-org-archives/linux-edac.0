@@ -1,76 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.210
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=96.67.55.147
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794131554;
-	b=hQRpeprAww83jAvOXlRP0f1TXxfytwiTJXYANkSMIkmW7KbI5xx4R4lrp1uMtQIOtCYP
-	 3Jsn/h25Wup+RmXHMTn5hyYb4DTXweqntkvHtAaI/17OiHhTN308jFyAcxcCnLtwsucnY
-	 NWfDtbaLje6NNnC4bpBsgEzw8jEWWPpWCPzy8btJXHy9sU1WiRQkBPJDlbjqQ5QeaxD+y
-	 rr5dv7YJo0w8j+igTtCJEzAj7rGxlTXdGEr3qFO6wmFCzofQcSe/H0KqU6SJVxjT1BEhF
-	 5m1i3XW+EarYBJh0445lhdQtlageJAXI7sfIf/YxD+hhpzGs0gXyFfm3kj0P3+otdvQ==
+	t=1794166719;
+	b=sgPM69pGrVgG2qSVYfeXfzowm/+KnUgaJ0InLEUX/tRVMK0YOBqwGiPAOfkdua6FIom5
+	 /afBLM5StP0vxz4+NiRx1R9Nn2q0GA/wdwS82QouMe6Zi/GqHN+aNmWvox51KsfR6Tgtx
+	 EKl6macO61Q+AexWaUYFMyvwgGl6FxqjpEjByLNTEnofKbJWI6rQ3s6+LvzrJ+A1+Aqh2
+	 ug2s6OX2F//hstCAGTU4A3ijx+UCU4gmrQU7i0X4je7FCJtL86vbgtbBqiYSiuGyc7LLn
+	 zcKzxRSxE+vlmT7+oDoWdZNkOO+skO9w8r1NajLp1wSHCjBFO51EY/KFtH5/nvliFMw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794131554;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=ETZrdZOhArsLJy6lMGfpmdf9xjZhQqXb8yfOpDMN3NA=;
-	b=sM8WlUgUld+SmmUixMFMog1Hui1JLCyyqQcC2/hKU+1P3cgBzTJWn2rnUec8Dy6p+WcQ
-	 OXfvn0ZKFdpigcHNLbs9sfLh0id9XX9xFgXa8C76cSQeopWkkcoLOFx4WNIcACrUlgSF7
-	 uSh32sL8KUJptIlTt1YwSXIXQJ7xOczTFvq4fPUk9hvtf+9mtEKJXYaCtB0HuHILfoKLj
-	 MEAiiQumgD0viR9MhQG8LfYWf4+9RhRQrB35CUXlWQJ0Ofiq0MwFnRiElgZu9SE6eKo+/
-	 44gpR3kVERzCtx0Wla52rKf1l+e/oRDi4ff2xWENZYV7M3kGCeXYUQmROM83xGzPPiQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794166719;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Ajp+DojodLhI1cegeSOWljh14uZXtvMzfqZ/gamOYgc=;
+	b=hk1e1IaMjIdGsqr4twIIKZJU3uGv7n7ryFk07G3O5ORH56Tc7fvkzdXXIam3kfhHBDhi
+	 I7pVd+2g+kB7FNe0NYHwE7Bmpt64+7Mp+hS49sUCeA878hppcbheKq2rwSyIWCgYRpVqc
+	 f/gLPdFKHXzuNoq0fh1rv+8uw6ZCYv8iH3bT/RyCCRht6Q9CNIpQ8IndbAfr2gudQfa4e
+	 iLqahxSOoGr58WMEsReZyFd0EcatcPl6utoudYJxlJG4ZN+EUCfyEMgjKxUkzHIT5qIXk
+	 +quDKhiaIJWo/ognWnWdBM+o9WyaqQdsWUmqYC0bWpy/hLeyAPWX53eRpdLpVHsSsbQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=foxmail.com;
-	spf=pass smtp.mailfrom=foxmail.com;
-	dkim=pass header.d=foxmail.com header.i=@foxmail.com header.a=rsa-sha256 header.s=s201512 header.b=GlxO93ck;
-	arc=none smtp.remote-ip=203.205.221.210
-Received: from out203-205-221-210.mail.qq.com (out203-205-221-210.mail.qq.com [203.205.221.210])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=surriel.com;
+	spf=pass smtp.mailfrom=surriel.com;
+	dkim=pass header.d=surriel.com header.i=@surriel.com header.a=rsa-sha256 header.s=mail header.b=ETC1ueSt;
+	arc=none smtp.remote-ip=96.67.55.147
+Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78B0606A31C;
-	Sun,  8 Nov 2026 09:52:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E78B0606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20EB8606A31C;
+	Sun,  8 Nov 2026 19:38:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20EB8606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=foxmail.com header.i=@foxmail.com header.a=rsa-sha256 header.s=s201512 header.b=GlxO93ck
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1794131543;
-	bh=ETZrdZOhArsLJy6lMGfpmdf9xjZhQqXb8yfOpDMN3NA=;
-	h=From:To:Cc:Subject:Date;
-	b=GlxO93ckU55VsTseTvtWcSrnEqEGqAHLogbTVKYOG/vABViwhLDnsQWrcTaXbvwa+
-	 7LEp8yN7QWROR3/KQgOeKEebKtVbFQMeylJKN9Bs955j3NzecZs2tRnhtGlgM4JTjv
-	 JbYXsJELHxRLDG2hipbuL6fP1MKupsJrwq79V8gk=
-Received: from nixos.tail04abde.ts.net ([153.37.85.101])
-	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
-	id D048084E; Sun, 08 Nov 2026 17:52:04 +0800
-X-QQ-mid: xmsmtpt1794131524tc8ruwjyr
-Message-ID: <tencent_9286255027243E5338FE93692C54FEC21D09@qq.com>
-X-QQ-XMAILINFO: NeHZ50d3l/WZZDI+hYRr+tDmWArJfUVTHPa+8sr5iM9Efq5jqswzS2oyHLVcmD
-	 LOwnbIEC57Iksl93J96/icqxhEX6PtMGLXeoyHb26adkHXE51RtYamXxm59UqW/4Fh5s7bNY9R/o
-	 rTCL4DwZoDoendL2bqwUqto1hhI1nmbdCpqK8tnsKzT4RPsLhTlKuOuhyr14lDYAlIug42qHP//F
-	 iWivMFdmTwIMyJtY3LuTArh0pzPYyE3k7sAyOmWEc9QrfwGHTvAgl0X0OnGz0U2vQRqSoebrmitI
-	 wf11aaB2HJix3yLi2pAkHZRGh8Tr20+6C0YdYXx4DPE378VkS7nq4s+6nsSbU6bYmNomgl8lNUup
-	 M5BtWh2VvzkkSBlaqaH1d+1DRZfaGLQzkZRKR7zxQEHEwlf7QrOjS164uSJi28k+I0qBT/v/yfBL
-	 MGskVnvfrfq2W/t6WTAjhi2jkV4W2fNfNfwsfb6Hgr8aoVh7vRFshsS8To7zpmhn15w/IhokLsx6
-	 /B96N+ghe523MRrDW0m2jyCXMjKdlJJX4l/uQyzmJ8fW+vbhHjVxOXsoXJWEe4Q4ec0YJThAWPOs
-	 Rc5KgbJKGeFMy4LZZbrIjqEGEoeiKMO4ba4w4+eWy7dFls9//jnCqQ1n1dSEXGqN4NE2rQAtvRKS
-	 TPHCkoMs5nNwKe6FxIH5Ant9bxhLpUP0ZIYDRBqpaQHXah0C/j9WcU2PQLdWVhZr5Hv+mKQL/tdR
-	 5o8sLNLPALrmdzaqUAYlSdk3In+KNZI2jHJAwiDWjGQKGIoeFAQs4wB2Vn9lacrDuKChAuVdSreu
-	 PMiTyTwjsJzheBb6rZIXbGm5xZFodx6I0jEesL7jbnhgBCm5TWpHpWotgtzPymdkDXTiyDUKmCnh
-	 QVlIAdjFFHU+TM1ZIRi45UxqNu+2fC3x+nKrnGqIodQmbMVqgX5dGwA9eAHma7YYxkNy/Tp7QwK4
-	 bn6hTTEBHKoiIwPcNMrx84BAozfFvdF1uYKert47QhLUuGRrJC6f/0WRDT2akHSH0vYuWWbNTZcY
-	 Al174WrhN4NvzXb5HFg3lBeOTryhAmB0QKQ7phG8LkmQlGvrq46XGrZwgQgJvpVe1dFg5oAzLHqH
-	 OqI0+p
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-From: Jiajun Wang <ryan1202@foxmail.com>
-To: tony.luck@intel.com,
-	bp@alien8.de
-Cc: xiyou.wangcong@gmail.com,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] RAS/CEC: Fix decay work delay calculation
-Date: Sun,  8 Nov 2026 17:52:01 +0800
-X-OQ-MSGID: <20261108095201.2393382-1-ryan1202@foxmail.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=surriel.com header.i=@surriel.com header.a=rsa-sha256 header.s=mail header.b=ETC1ueSt
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
+	; s=mail; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References; bh=Ajp+DojodLhI1cegeSOWljh14uZXtvMzfqZ/gamOYgc=; b=ET
+	C1ueStpI/PMgQVOWw8C7S/f9TtfRPdUd9LQxuNxi2q/z41VBwOzVWBxAfVoDXn0UolzB9Rb3jxbkb
+	Ye+exGMzlO1jRJBHZ2N+bdq1MtPkbmFJxXORGr1moRYecvrG2DxAwzyjL/SMdkC/RFmV00vSkr/F5
+	9Kvbt8heFB51vmUj8Xn8hCfMIU0MJm1eCcOEUkopMLR40hoTHQ7mcgH1kaXhX+mmoISNR8eFg7bF9
+	sS2eH2xRGsbLe0PNvWZ8EyAtqGBKKB/VPPySvMpSkRNjXqhpP8sdYF0tOvJF7SRDCLK1KqYK0Qw4R
+	/ae81mV4756FA9vfBWGurZApt7hB/ilw==;
+Received: from [2601:18c:8100:a0e0:5a47:caff:fe78:8708] (helo=fangorn)
+	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.5)
+	(envelope-from <riel@surriel.com>)
+	id 1xQ8i7-000000036Pg-226X;
+	Sun, 08 Nov 2026 19:37:51 +0000
+Date: Sun, 8 Nov 2026 14:37:51 -0500
+From: Rik van Riel <riel@surriel.com>
+To: Tony Luck <tony.luck@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@kernel.org>, Ingo
+ Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Qiuxu Zhuo
+ <qiuxu.zhuo@intel.com>, linux-edac@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-team@meta.com, Breno Leitao
+ <leitao@debian.org>
+Subject: [PATCH] x86/mce: Restore rate limit on MCE logged message
+Message-ID: <20261108143751.3af49e48@fangorn>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -80,52 +70,46 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The conversion from a timer to delayed work left two issues in the
-decay work scheduling.
+FCommit ea324444ece9f moved the "Machine check events logged"
+print from mce_notify_irq() into mce_log() and dropped its
+two-per-minute rate limit as a side effect.
 
-The initial delay is passed to schedule_delayed_work() in seconds,
-although the function expects jiffies. This schedules the first decay
-after 86400 jiffies rather than 24 hours, or approximately 86 seconds
-with CONFIG_HZ=1000. Use secs_to_jiffies() to convert the delay.
+A particularly unhappy system can spew out around 100 million
+of those "Machine check events logged" messages every hour,
+without that rate limit. A large fleet may have several unhappy
+systems, leaving the netcons infrastructure somewhat flustered.
 
-When rearming the work, cec_mod_work() passes the relative delay to
-round_jiffies(), which expects an absolute expiration time. Use
-round_jiffies_relative() to round the delay instead.
+Reinstate the rate limit we had before.
 
-Fixes: 0ade0b6240c4 ("RAS/CEC: Convert the timer callback to a workqueue")
-
-Signed-off-by: Jiajun Wang <ryan1202@foxmail.com>
+Fixes: ea324444ece9f ("x86/mce: Restore MCA polling interval halving")
+Cc: stable@vger.kernel.org
+Signed-off-by: Rik van Riel <riel@surriel.com>
 ---
-Build-tested on x86_64 with CONFIG_RAS_CEC=y.
-Not runtime-tested.
+ arch/x86/kernel/cpu/mce/core.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
- drivers/ras/cec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
-index 15f7f043c8efd..3c61c2aa78f2e 100644
---- a/drivers/ras/cec.c
-+++ b/drivers/ras/cec.c
-@@ -166,7 +166,7 @@ static void cec_mod_work(unsigned long interval)
- 	unsigned long iv;
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 50b1614968be..06f858faf2b1 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -150,8 +150,12 @@ EXPORT_PER_CPU_SYMBOL_GPL(injectm);
  
- 	iv = interval * HZ;
--	mod_delayed_work(system_percpu_wq, &cec_work, round_jiffies(iv));
-+	mod_delayed_work(system_percpu_wq, &cec_work, round_jiffies_relative(iv));
- }
- 
- static void cec_work_fn(struct work_struct *work)
-@@ -582,7 +582,7 @@ static int __init cec_init(void)
+ void mce_log(struct mce_hw_err *err)
+ {
++	/* Not more than two messages every minute */
++	static DEFINE_RATELIMIT_STATE(ratelimit, 60*HZ, 2);
++
+ 	if (mce_gen_pool_add(err)) {
+-		pr_info(HW_ERR "Machine check events logged\n");
++		if (__ratelimit(&ratelimit))
++			pr_info(HW_ERR "Machine check events logged\n");
+ 		irq_work_queue(&mce_irq_work);
  	}
- 
- 	INIT_DELAYED_WORK(&cec_work, cec_work_fn);
--	schedule_delayed_work(&cec_work, CEC_DECAY_DEFAULT_INTERVAL);
-+	schedule_delayed_work(&cec_work, secs_to_jiffies(CEC_DECAY_DEFAULT_INTERVAL));
- 
- 	mce_register_decode_chain(&cec_nb);
- 
+ }
 -- 
 2.56.0
+
 
