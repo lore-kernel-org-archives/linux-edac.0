@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794128075;
-	b=xdyrjgEraiC2H1uV6sv/RU0RnGPtfAhE0FzLf8kobxsd4ff9tjXZAiL27t7buXvRWxTI
-	 iBs7IQPpkvlOylVZ+vzOF0+7OeyiVtMkOybC7tddHqZV08dZ1YfpvrpLVh/SqLML6Cfp0
-	 A/pJRD9AsNAYDBeSx8rRVlMe+Uq21TFTOXZk7DT4WtZjxNqIsqdImuzUgpw1geDtRj5vd
-	 smCsiqQ/QaghvIVQ/iRGeRU6RieuHZ0c70aGfVCDfc8RIRf60ePsea71Z6oLLqSJX5k4p
-	 eTQMUbWDFOet6UwpCpmn4T0FfHSyiFZME9/PlcUB4b3zAjHFBi2IxBMkvn3+Dy6jpdQ==
+	b=l852Ci5iBQSF6FqLIf0PP2inp6ZKUml6DcsrDT4SYn34z84UAtMXYUpHrpLeRgiW5HMX
+	 16qk27M1w+CAPL7H1IeBDiVx33rkPBlN2YjbiLa/bafaE5PQxhs2WSQpWhsTV2WF9nMaC
+	 3lkkmOg+VMSr3UhKHlxpub1qRhgkiNdtcnXDi8atad6O3soWebFWemjNQgPSD8eFZJW7/
+	 aEzbGUxMJ+hC/fTeahPkbY0TovGJirznwVd52ER3DXphf5BF3Wyv6wUm9Szzurtu8tXVp
+	 4Og/ufXHNCdjWv2Lg/iwY0kxjwIgY9x7Yekf2Nb9oZH1lzIAroa1yBI5bAFtFnehjuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794128075;
 	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Type:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Sender;
-	bh=jqtc6dWPG+X6bSMwHL3WZei+Bh3vfV/0G4uFhiM0qmA=;
-	b=y3BkjH8mUK3cJgitbMwLMnzpotU2NbVpEzRVu+0AzasnqM7m/Vg5HwH+Ux1HBuNekK3x
-	 bJoWyJh/uXOY6RAVEzw2ogqnlAAn5AhrTdIhQKzjzAYMxEy0VgCissCqj83Zp8wxseQfY
-	 OAG76cVCanGhQVMdetBQquWNPnFPd+Wy6X/yYauyOrnkmJnA5eabEGXQorXyC9AwITpEF
-	 Fb/y57s5u7rBK6ZefXW0/W5bIgPj/+if9p+8FM1bsRv2T5C8XY8T8nVbmMJWrGNbOvzAs
-	 Zc1lctZgBkHqk9MDirtQ4br/C6rylo5Txfr5Y4wJCSh0tO3idOlqwRV2B3m1pHimDOQ==
+	bh=emAvy/kX/TjT3XGP5DxuZXiiW4DHPqQScNtLSEVzPiE=;
+	b=LQ88HxF/zjn70f0hJ5UXMcg9p8uUzRLeVSIgy2nkvv987yGLG9bmjPK+y3E0UNCiDYot
+	 z0+2+mEylP55M9H+NeN8tMFpEuhV7WaWXfdPVb/bJFjf9GSqKHQDHwBBW26YiskRdbBio
+	 ms402L5bO6uOTkd8G7m2bIk24Z/OP8eSxAs+g4ou1QjFDajc52rOzeb8mNM17GpRiKqTl
+	 NkizLj3mA5bGA4zijD/GHhjrmCe+oULrQ7DlMFWLA8oFIcN0f8ch+lROjG/XYqLOewvlo
+	 j5JbNTXIKsjuzb52MFj5Zjc4y2X32jfnn/alZVmEIoCXAKsjiUpK/dCdbjBwst+TDNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kfUsxrQB;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QohK5BcM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70DDD606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BDC606A334
 	for <linux-edac@vger.kernel.org>; Sun,  8 Nov 2026 08:54:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kfUsxrQB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04A461F008A2;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QohK5BcM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 177151F008BE;
 	Sun,  8 Nov 2026 08:54:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794128075;
-	bh=jqtc6dWPG+X6bSMwHL3WZei+Bh3vfV/0G4uFhiM0qmA=;
-	h=From:To:Cc:Subject:Date;
-	b=kfUsxrQB7BYFWTQ78EAIUFgEMqa9KeEa509Fk0J9JcFdhqCt15C9R1RVbGWZIJtZz
-	 d4Q2alvyR2I5quVW+Zysoxu1lKVV7OGZwxZ/TxGAZQvRha0pnYs9nz8hbckOTFDsE+
-	 vgBPdbcRKdWpdDSeu6qeGSTfIYKtJhrNgKznDg5tpNt+RjXpwHb0PmuL9Xmkk6TgYD
-	 6XlSTXVbFoxV5unN2oHtS/CcmQTd0i4l9TCJ19kdb/iunxrYR0vz8YOiXEI+djD6BN
-	 Rm1UCiFFFYrd5df4H58F0f5m29GGwZoHoJpIWVwgtN5p5m7ovo6vbRXpDJ6GV/+69+
-	 tydWQmRW5kifg==
+	bh=emAvy/kX/TjT3XGP5DxuZXiiW4DHPqQScNtLSEVzPiE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=QohK5BcMi8EL9UJvuk2fa86xYKX7wfoRXuiiukk1/adOjfhNV1H348MHP2SrS1OR9
+	 cq92vUgGaiRHOKPc8nbX4wJC7SXG8Mk1wbPkmJg2/I56zLQJX0snT4LDnjk8dWJSny
+	 U6c+obfx1ZckdtCCYoNTgUVXXiUFiDGFQ7LuHgVtvk0Ih/1grvIResYO3gGDQhE6sK
+	 vGC1eUnk3Tu/cZvbG0s+nFphNwNrK0bZsxOVRFOyLellIlHzB31xqOVPxoRkoc943t
+	 q/LHTcPaXms5H8IAUa1TurRJ7WXXdQi/9wtzP5BoTgGoa9684QTELw+/IA/HmP4F4x
+	 lbfls1GdsO8EQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.100.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1xPyfZ-00000005Uid-0hsP;
+	id 1xPyfZ-00000005Uje-1ttM;
 	Sun, 08 Nov 2026 09:54:33 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Michael S Tsirkin <mst@redhat.com>
@@ -53,11 +53,14 @@ Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-edac@vger.kernel.org,
 	Cleber Rosa <crosa@redhat.com>,
-	John Snow <jsnow@redhat.com>
-Subject: [PATCH 00/13] Improve scripts/ghes_inject.py
-Date: Sun,  8 Nov 2026 09:54:13 +0100
-Message-ID: <cover.1794127710.git.mchehab+huawei@kernel.org>
+	John Snow <jsnow@redhat.com>,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Subject: [PATCH 11/13] scripts/ghes_inject: print help if no command specified
+Date: Sun,  8 Nov 2026 09:54:24 +0100
+Message-ID: <828f9cd2216a95d553222bf3563df0496fc0308d.1794127710.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.56.0
+In-Reply-To: <cover.1794127710.git.mchehab+huawei@kernel.org>
+References: <cover.1794127710.git.mchehab+huawei@kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -67,56 +70,32 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi Michael,
+The first positional argument (command) is mandatory. If not
+specified, instead of a simple error message, show help as well.
 
-This series improves ghes_inject script, adding support for several
-different types of GHES records:
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/ghes_inject.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-- PCI bus error;
-- Raw error inject;
-- Fuzzy logic injects;
-- CPER decoding for error injections.
-
-They extend the current scope which only supported ARM Processor
-errors.
-
-Regards,
-Mauro
-
-Mauro Carvalho Chehab (13):
-  scripts/qmp_helper: add a return code to send_cper
-  scripts/qmp_helper: add missing CXL UEFI GUID
-  scripts/qmp_helper: add support for FRU Memory Poison
-  scripts/qmp_helper: make send_cper() more generic
-  scripts/qmp_helper: fix raw_data logic
-  scripts/ghes_inject: add a logic to decode CPER
-  scripts/ghes_inject: exit 1 if command was not sent
-  scripts/ghes_inject: add a handler for PCI/PCI-X bus error
-  scripts/ghes_inject: add support for fuzzy logic testing
-  scripts/ghes_inject: add a raw error inject command
-  scripts/ghes_inject: print help if no command specified
-  scripts/ghes_inject: improve help message
-  scripts/ghes_inject: improve the retry attempt logic
-
- MAINTAINERS                    |    4 +
- scripts/arm_processor_error.py |    8 +-
- scripts/fuzzy_error.py         |  208 ++++++
- scripts/ghes_decode.py         | 1158 ++++++++++++++++++++++++++++++++
- scripts/ghes_inject.py         |   30 +-
- scripts/pci_bus_error.py       |  153 +++++
- scripts/qmp_helper.py          |  201 ++++--
- scripts/raw_error.py           |  175 +++++
- 8 files changed, 1883 insertions(+), 54 deletions(-)
- create mode 100644 scripts/fuzzy_error.py
- create mode 100644 scripts/ghes_decode.py
- create mode 100644 scripts/pci_bus_error.py
- create mode 100644 scripts/raw_error.py
-
+diff --git a/scripts/ghes_inject.py b/scripts/ghes_inject.py
+index 63a8b28002e7..dd2b34a64f15 100755
+--- a/scripts/ghes_inject.py
++++ b/scripts/ghes_inject.py
+@@ -52,6 +52,9 @@ def main():
+         if not args.func(args):
+             sys.exit(1)
+     else:
++        print("Error: no command specified\n", file=sys.stderr)
++        parser.print_help(file=sys.stderr)
++        print(file=sys.stderr)
+         sys.exit(f"Please specify a valid command for {sys.argv[0]}")
+ 
+ if __name__ == "__main__":
 -- 
 2.56.0
 
