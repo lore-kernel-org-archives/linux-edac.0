@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794128077;
-	b=aDrjTys2RrBzaVM5rGelZrLjtCfcHEzWi2vuU2MzAxRaaRBYDRnTu987L8qPnwTM7rYR
-	 xQvZbSJQp166n35E+F/+pD37i6CTQV3N03RZdqhSll7VWZefUhhbW91l5VNQEiApTA3yA
-	 lVxAeh9W5P9BsFd7ibjouwYvekWgEF+MvM/8xtpeG0oN6nM7cLO7twrwraN6TSOPh2xN/
-	 ZT+Z0zRtvlOX+NOEoLLz6fmRJqx5ex9Ay+6tU1BBj428moG6ESjvfbUOJyORuPR61rLqA
-	 Gx3iyBQiHkyvfnDST/x6Y5AYmLwPrm6w4tLjcEcQbnaIenMPmlxkJ7VLFpcRngMeiAg==
+	b=IJg7XFBo6NiqA4OpJcdcP5TMvo6RZIg1MJOR/RVhDfC0OboUf6to/h3zWLyo6Q7+Tdvn
+	 xC4rbL4bHtjG0YTDnw/cvwOShSFOhjNseNYXDJB4f32+0hAbFs//yScykbK9uS/XJ/Oql
+	 bbjvdkXi4Sit/HignAb64K0tn1yO91ffSeQOjV4rli2gsSKt1molxQBt7CEna9iwQ7b2h
+	 hmZlxk312rgGcax0zkDRflNxWZ7IvM6EjsNXMEp2weEA59i8D+XNbiDF6u8o1GSQHX8fl
+	 MP17zfblDjJSfVPQmnkpr6oBp2K0iKk9Wa/061CWxFZvdSYakZRumf3NRYl3Jtf3bjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794128077;
 	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Sender;
-	bh=Mdj5Hi6KabLHisxENovGiiA3tDju9onZmLEwA1byQWY=;
-	b=GyIfZNjA0KhefR6YdagN8E3vD5w5iBT4XpuWD5DT+l2A+3shXLCJH0TAIlrvylyCg0Wa
-	 Jt2H0y508wirIQiTX8b9GhaEvasmUttbuHcGcVc7o04Ai54Uqf62di5MXBUw3xv9842a0
-	 mTXWBUFzGl4gvrv2MGMKVL6n/3V7vgBQ3AmuS11iLnY/3yl9CCFaUw083WquNrG81aGoq
-	 VxQrweuSgPsczF2KHdHnhX/eTuaYzaLkM/RJ00gawKopYrePpi/1Nf/OTunIzEuN4jkJ7
-	 nGkF5G/l0HbpAVqo4yL9eAQj9W7mtCN0Gs+K2aRIHiBa6pahh7sYRkvIe2XE4CJUM0Q==
+	bh=MXnRkknwpCWhSijJRnlSPoM75lPIDHcGNYezjWaCnq0=;
+	b=w7JGjdhhNP1Nt1LFbuVKyY2N16uqFz95JUevouKjGNsUEFCbqqZf4cLTKpJhCTdM8Xuj
+	 g/aIbo3MhWqCWNcc1X9VvSpWPm5s9a/jr/3bv2BXAh+KYbIFHwxoMJr6YGgkRClq6UJH+
+	 94/9sdXAff78+DwNAcxKLCCJnttgoyqK6dkjxCdZV1rZokzV030j2yxd3T8bZTIyLNswd
+	 3ALEna20wU5w/DUbEtLpKz8/BflCAcwDrGVPwyUMXriZEPiUYB8iOPaVjcJfQEAPi0yXv
+	 KNkR64vbqGB1z8mQY87ZziyhwtF3TbXGtYFfGh2jWoTqp0nicH6kzJf5he0Wi55pRrQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eifTJS5H;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UhBGo22L;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056D1606D804
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B31606D806
 	for <linux-edac@vger.kernel.org>; Sun,  8 Nov 2026 08:54:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eifTJS5H
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 115CA1F008AB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UhBGo22L
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F69C1F008A7;
 	Sun,  8 Nov 2026 08:54:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794128075;
-	bh=Mdj5Hi6KabLHisxENovGiiA3tDju9onZmLEwA1byQWY=;
+	bh=MXnRkknwpCWhSijJRnlSPoM75lPIDHcGNYezjWaCnq0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=eifTJS5HLO8vfGGKh4HJpO+yfGIEi3G8Zn7MKEU5GZHrEE4xKV+yNB1D32uiOYjyk
-	 2G6CwQWJv3DS8v5cHcGZUPKJs597E6wSH8IxbQOHKiBtzcFZANZMIbglLcc4zP0bfq
-	 ewdvEKu9F1ev2q+IjrXM2o/I8WKe7CXoh76z5Q32u4sxSclt6YtlDun013MRTuC3Rb
-	 d+i9MMB/fpfnpmbSZbW+WUwpB4lMhybH1xPBmOqsfTO7TtXe+br/Nac5CaOBi9QloB
-	 irrBgD84uwFqq+cgQFzcw0yyc+uexa6QkkaQkJZbpNMvI4FyUeVtczmU9Ii412robU
-	 BsTbsHBwzIbKA==
+	b=UhBGo22LgKrxd42kOiekVydeBneQfGjkNI+ui+eIZ3c99COaqnN8by/Gj0m7llcCe
+	 xZR7eC92D/Y9AXiBNbvQBo/RGhVYn6XiQGLOgI0AYmKSHMaknAYBL5vJhgGbacY7Uk
+	 bNQZ5EtXKbLZE2t1HbuVy7KJTPpxfPFguJlrXuxM0hRlP1qDFfB70uhLWGWN1HE3Ue
+	 Bo/SwLdpZV98niu7s3O9G5HzKlJWDtgsm2CC4n8/y8T58GsbkCDI+h9glhZjvYtSGL
+	 YfeNEPGhrNj1yx9Bz35HPg0Qz8po2fFKhdfUQ/ehjkTqN4L7aAZjrjvq65n2/xREJ/
+	 PT+QsXYTPi3QA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.100.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1xPyfZ-00000005UjR-1Zhv;
+	id 1xPyfZ-00000005Uj1-1MWm;
 	Sun, 08 Nov 2026 09:54:33 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Michael S Tsirkin <mst@redhat.com>
@@ -54,11 +54,10 @@ Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
 	linux-edac@vger.kernel.org,
 	Cleber Rosa <crosa@redhat.com>,
 	John Snow <jsnow@redhat.com>,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>
-Subject: [PATCH 08/13] scripts/ghes_inject: add a handler for PCI/PCI-X bus error
-Date: Sun,  8 Nov 2026 09:54:21 +0100
-Message-ID: <86671a72afbd3ed02287f337efb28d88bdb240a9.1794127710.git.mchehab+huawei@kernel.org>
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Subject: [PATCH 06/13] scripts/ghes_inject: add a logic to decode CPER
+Date: Sun,  8 Nov 2026 09:54:19 +0100
+Message-ID: <a37884187984347d2116e0467a52df27cbdeae84.1794127710.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <cover.1794127710.git.mchehab+huawei@kernel.org>
 References: <cover.1794127710.git.mchehab+huawei@kernel.org>
@@ -75,220 +74,1223 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Add a logic to do PCIe BUS error injection.
+Add a decoder to help debugging injected CPERs. This is more
+relevant when we add fuzzy-testing error inject, as the
+decoder is helpful to identify what it packages will be sent
+via QEMU to the firmware-fist logic.
 
-On Linux Kernel, despite CPER_SEC_PCI_X_BUS macro is defined for such
-event, ghes.c doesn't implement support for it yet:
-
-[16950.077494] {26}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 1
-[16950.077866] {26}[Hardware Error]: event severity: recoverable
-[16950.078118] {26}[Hardware Error]:  Error 0, type: recoverable
-[16950.078444] {26}[Hardware Error]:   section type: unknown, c5753963-3b84-4095-bf78-eddad3f9c9dd
-[16950.078800] {26}[Hardware Error]:   section length: 0x48
-[16950.079069] {26}[Hardware Error]:   00000000: 00000000 00000000 00000000 00000000  ................
-[16950.079442] {26}[Hardware Error]:   00000010: 00000001 00000000 00000000 00000000  ................
-[16950.079811] {26}[Hardware Error]:   00000020: 00000000 00000000 00000000 00000000  ................
-[16950.080181] {26}[Hardware Error]:   00000030: 00000000 00000000 00000000 00000000  ................
-[16950.080538] {26}[Hardware Error]:   00000040: 00000000 00000000                    ........
+By purpose, I opted to keep this completely independent from
+the encoders implementation, as this can be used even when
+there are no encoders for a certain GUID type (except for a
+fuzzy logic test, which is pretty much independent of the
+records meaning).
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 ---
- MAINTAINERS              |   1 +
- scripts/ghes_inject.py   |   2 +
- scripts/pci_bus_error.py | 151 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 154 insertions(+)
- create mode 100644 scripts/pci_bus_error.py
+ MAINTAINERS            |    1 +
+ scripts/ghes_decode.py | 1158 ++++++++++++++++++++++++++++++++++++++++
+ scripts/qmp_helper.py  |    4 +
+ 3 files changed, 1163 insertions(+)
+ create mode 100644 scripts/ghes_decode.py
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 5d817e8c4d65..75fbe5967c73 100644
+index 55463103ff1e..5d817e8c4d65 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2386,6 +2386,7 @@ F: qapi/acpi-hest.json
- F: scripts/ghes_decode.py
+@@ -2383,6 +2383,7 @@ S: Maintained
+ F: hw/acpi/ghes_cper.c
+ F: hw/acpi/ghes_cper_stub.c
+ F: qapi/acpi-hest.json
++F: scripts/ghes_decode.py
  F: scripts/ghes_inject.py
  F: scripts/arm_processor_error.py
-+F: scripts/pci_bus_error.py
  F: scripts/qmp_helper.py
- 
- ppc4xx
-diff --git a/scripts/ghes_inject.py b/scripts/ghes_inject.py
-index 6ac917d0b5db..be2384a59b3e 100755
---- a/scripts/ghes_inject.py
-+++ b/scripts/ghes_inject.py
-@@ -12,6 +12,7 @@
- import sys
- 
- from arm_processor_error import ArmProcessorEinj
-+from pci_bus_error import PciBusError
- 
- EINJ_DESC = """
- Handle ACPI GHESv2 error injection logic QEMU QMP interface.
-@@ -40,6 +41,7 @@ def main():
-     subparsers = parser.add_subparsers()
- 
-     ArmProcessorEinj(subparsers)
-+    PciBusError(subparsers)
- 
-     args = parser.parse_args()
-     if "func" in args:
-diff --git a/scripts/pci_bus_error.py b/scripts/pci_bus_error.py
+diff --git a/scripts/ghes_decode.py b/scripts/ghes_decode.py
 new file mode 100644
-index 000000000000..1d974c54685c
+index 000000000000..3ffb480c9daa
 --- /dev/null
-+++ b/scripts/pci_bus_error.py
-@@ -0,0 +1,151 @@
++++ b/scripts/ghes_decode.py
+@@ -0,0 +1,1158 @@
 +#!/usr/bin/env python3
 +#
-+# pylint: disable=C0114,R0903
-+# SPDX-License-Identifier: GPL-2.0
++# pylint: disable=R0903,R0912,R0913,R0915,R0917,R1713,E1121,C0302,W0613
++# SPDX-License-Identifier: GPL-2.0-or-later
 +#
-+# Copyright (C) 2024 Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
++# Copyright (C) 2025 Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 +
-+from qmp_helper import qmp, util, cper_guid
++"""
++Helper classes to decode a generic error data entry.
 +
-+class PciBusError:
++By purpose, the logic here is independent of the logic inside qmp_helper
++and other modules. With a different implementation, it is more likely to
++discover bugs at the error injection logic. Also, as this can be used to
++dump errors injected by reproducing an error mesage or for fuzzy error
++injection, it can't rely on the encoding logic inside each module of
++ghes_inject.py.
++
++To make the decoder simple, the decode logic here is at field level, not
++trying to decode bitmaps.
++"""
++
++from typing import Optional
++
++class DecodeField():
 +    """
-+    Implements PCI Express bus error injection via GHES
++    Helper functions to decode a field, printing its results
 +    """
 +
-+    def __init__(self, subparsers):
-+        """Initialize the error injection class and add subparser"""
++    def __init__(self, cper_data: bytearray):
++        """Initialize the decoder with a cper bytearray"""
++        self.data = cper_data
++        self.pos = 0
++        self.past_end = False
 +
-+        # Valid values
-+        self.valid_bits = {
-+            "status": util.bit(0),
-+            "type": util.bit(1),
-+            "bus-id": util.bit(2),
-+            "bus-addr": util.bit(3),
-+            "bus-data": util.bit(4),
-+            "command": util.bit(5),
-+            "requestor-id": util.bit(6),
-+            "completer-id": util.bit(7),
-+            "target-id": util.bit(8),
-+        }
++    @property
++    def remaining(self):
++        """Returns the number of bytes not decoded yet"""
++        return max(0, len(self.data) - self.pos)
 +
-+        self.bus_command_bits = {
-+            "pci": 0,               # Bit 56 is zero
-+            "pci-x": util.bit(56)
-+        }
++    @property
++    def is_end(self):
++        """
++        Returns true if all bytes were decoded and it didn't try
++        to read past the end.
++        """
++        if not self.past_end and self.pos == len(self.data):
++            return True
 +
-+        self.data = bytearray()
++        return False
 +
-+        parser = subparsers.add_parser("pci-bus",
-+                                       description="Generate PCI/PCI-X bus error CPER")
-+        g_pci = parser.add_argument_group("PCI/PCI-X bus error")
++    def decode(self, name: str, size: int, ftype: str,
++               pos: Optional[int] = None,
++               show_incomplete: Optional[bool] = False) -> None:
++        """
++        Decodes and outputs a specified field from an ACPI table.
 +
-+        valid_bits = ",".join(self.valid_bits.keys())
-+        bus_command_bits = ",".join(self.bus_command_bits.keys())
++        For ints, we opted to decode them byte by byte, thus not being
++        limited to an integer max size.
 +
-+        g_pci.add_argument("-v", "--valid",
-+                            help=f"Valid bits: {valid_bits}")
-+        g_pci.add_argument("-s", "--error-status",
-+                            type=lambda x: int(x, 0),
-+                            help="Error Status")
-+        g_pci.add_argument("-t", "--error-type",
-+                            type=lambda x: int(x, 0),
-+                            help="Error type")
-+        g_pci.add_argument("-b", "--bus-number",
-+                            type=lambda x: int(x, 0),
-+                            help="Bus number")
-+        g_pci.add_argument("-S", "--segment-number",
-+                            type=lambda x: int(x, 0),
-+                            help="Segment number")
-+        g_pci.add_argument("-a", "--bus-address",
-+                            type=lambda x: int(x, 0),
-+                            help="Bus address")
-+        g_pci.add_argument("-d", "--bus-data",
-+                            type=lambda x: int(x, 0),
-+                            help="Bus data")
-+        g_pci.add_argument("-c", "--bus-command",
-+                            help=f"bus-command: {bus_command_bits}")
-+        g_pci.add_argument("-r", "--bus-requestor",
-+                            type=lambda x: int(x, 0),
-+                            help="Bus requestor ID")
-+        g_pci.add_argument("-C", "--bus-completer",
-+                            type=lambda x: int(x, 0),
-+                            help="Bus completer ID")
-+        g_pci.add_argument("-i", "--target-id",
-+                            type=lambda x: int(x, 0),
-+                            help="Target ID")
-+
-+        parser.set_defaults(func=self.send_cper)
-+
-+    def send_cper(self, args):
-+        """Parse subcommand arguments and send a CPER via QMP"""
-+
-+        qmp_cmd = qmp(args.host, args.port, args.debug)
-+
-+        cper = {}
-+        arg = {key.replace("_", "-"): value for key, value in vars(args).items()
-+               if value is not None}
-+        self.data = bytearray()
-+
-+        # Handle global parameters
-+        if args.valid:
-+            valid_init = False
-+            cper["valid"] = util.get_choice(name="valid",
-+                                            value=args.valid,
-+                                            choices=self.valid_bits)
++        Arguments:
++            name: name of the field
++            size: number of bytes of the field
++            ftype: field type (str, int, guid, bcd)
++            pos: if specified, show a field at the specific position. If
++                 not, use last position and increment it with size at the end
++        """
++        if pos:
++            cur_pos = pos
 +        else:
-+            cper["valid"] = 0
-+            valid_init = True
++            cur_pos = self.pos
 +
-+        if args.bus_command:
-+            cper["bus-command"] = util.get_choice(name="bus-command",
-+                                                    value=args.bus_command,
-+                                                    choices=self.bus_command_bits)
-+        if valid_init:
-+            if args.bus_command is not None:
-+                cper["valid"] |= self.valid_bits["command"]
++        try:
++            if cur_pos + size > len(self.data):
++                if not pos:
++                    self.past_end = True
 +
-+            if args.error_status is not None:
-+                cper["valid"] |= self.valid_bits["status"]
++                if not show_incomplete:
++                    decoded = "N/A"
++                    return None
 +
-+            if args.error_type is not None:
-+                cper["valid"] |= self.valid_bits["type"]
++            raw_data = self.data[cur_pos:cur_pos + size]
 +
-+            if args.bus_number is not None or args.segment_number is not None:
-+                cper["valid"] |= self.valid_bits["bus-id"]
++            decoded = ""
++            if ftype == "str":
++                failures = False
++                for b in raw_data:
++                    if b >= 32 and b <= 126:            # pylint: disable=R1716
++                        decoded += chr(b)
++                    elif b:
++                        decoded += '.'
++                        failures = True
++                    else:
++                        decoded += r'\x0'
 +
-+            if args.bus_address is not None:
-+                cper["valid"] |= self.valid_bits["bus-addr"]
++                if failures:
++                    decoded += " # warning: non-ascii chars found"
 +
-+            if args.bus_data is not None:
-+                cper["valid"] |= self.valid_bits["bus-data"]
++                if self.past_end:
++                    if decoded:
++                        decoded += " "
++                    decoded += "EOL"
 +
-+            if args.bus_requestor is not None:
-+                cper["valid"] |= self.valid_bits["requestor-id"]
++            elif ftype == "int":
++                i = 0
++                for b in reversed(raw_data):
++                    i += 1
++                    if len(raw_data) > 8 and i > 1:
++                        decoded += " "
 +
-+            if args.bus_completer is not None:
-+                cper["valid"] |= self.valid_bits["completer-id"]
++                    decoded += f"{b:02x}"
 +
-+            if args.target_id is not None:
-+                cper["valid"] |= self.valid_bits["target-id"]
++                if self.past_end:
++                    if decoded:
++                        decoded += " "
++                    decoded += "EOL"
 +
-+        util.data_add(self.data, cper["valid"], 8)
-+        util.data_add(self.data, arg.get("error-status", 0), 8)
-+        util.data_add(self.data, arg.get("error-type", util.bit(0)), 2)
++            elif ftype == "guid":
++                if len(raw_data) != 16 or size != 16:
++                    decoded = "Invalid GUID"
++                else:
++                    for b in reversed(raw_data[0:4]):
++                        decoded += f"{b:02x}"
 +
-+        # Bus ID
-+        util.data_add(self.data, arg.get("bus-number", 0), 1)
-+        util.data_add(self.data, arg.get("segment-number", 0), 1)
++                    decoded += "-"
 +
-+        # Reserved
-+        util.data_add(self.data, 0, 4)
++                    for b in reversed(raw_data[4:6]):
++                        decoded += f"{b:02x}"
 +
-+        util.data_add(self.data, arg.get("bus-address", 0), 8)
-+        util.data_add(self.data, arg.get("bus-data", 0), 8)
++                    decoded += "-"
 +
-+        util.data_add(self.data, cper.get("bus-command", 0), 8)
++                    for b in reversed(raw_data[6:8]):
++                        decoded += f"{b:02x}"
 +
-+        util.data_add(self.data, arg.get("bus-requestor", 0), 8)
-+        util.data_add(self.data, arg.get("bus-completer", 0), 8)
-+        util.data_add(self.data, arg.get("target-id", 0), 8)
++                    decoded += "-"
 +
-+        return qmp_cmd.send_cper(cper_guid.CPER_PCI_BUS, self.data)
++                    for b in raw_data[8:10]:
++                        decoded += f"{b:02x}"
++
++                    decoded += "-"
++
++                    for b in raw_data[10:]:
++                        decoded += f"{b:02x}"
++
++                    raw_data = decoded
++
++            elif ftype == "bcd":
++                val = 0
++                for b in raw_data:
++                    if (b & 0xf0) > 9 or (b & 0x0f) > 9:
++                        raise ValueError("Invalid BCD value")
++                    val = (val << 4) | (b & 0x0f)
++
++                decoded = f"{val:0{size * 2}x}"
++
++                if self.past_end:
++                    if decoded:
++                        decoded += " "
++                    decoded += "EOL"
++            else:
++                decoded = f"Warning: Unknown format {ftype}"
++
++        except ValueError as e:
++            decoded = f"Error decoding {e}"
++
++        finally:
++            print(f"{name:<26s}: {decoded}")
++            if not pos:
++                self.pos += size
++
++        return raw_data
++
++
++class DecodeProcGeneric():
++    """
++    Class to decode a Generic Processor Error as defined at
++    UEFI 2.1 - N.2.2 Section Descriptor
++    """
++    # GUID for Generic Processor Error
++    guid = "9876ccad-47b4-4bdb-b65e-16f193c4f3db"
++
++    fields = [
++        ("Validation Bits", 8, "int"),
++        ("Processor Type", 1, "int"),
++        ("Processor ISA", 1, "int"),
++        ("Processor Error Type", 1, "int"),
++        ("Operation", 1, "int"),
++        ("Flags", 1, "int"),
++        ("Level", 1, "int"),
++        ("Reserved", 2, "int"),
++        ("CPU Version Info", 8, "int"),
++        ("CPU Brand String", 128, "str"),
++        ("Processor ID", 8, "int"),
++        ("Target Address", 8, "int"),
++        ("Requestor Identifier", 8, "int"),
++        ("Responder Identifier", 8, "int"),
++        ("Instruction IP", 8, "int")
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode Generic Processor Error"""
++        print("Generic Processor Error")
++
++        for name, size, ftype in self.fields:
++            self.cper.decode(name, size, ftype)
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodeProcGeneric.guid, DecodeProcGeneric)]
++
++class DecodeProcX86():
++    """
++    Class to decode an x86 Processor Error as defined at
++    UEFI 2.1 - N.2.2 Section Descriptor
++    """
++
++    # GUID for x86 Processor Error
++    guid = "dc3ea0b0-a144-4797-b95b-53fa242b6e1d"
++
++    pei_fields = [
++        ("Error Structure Type", 16, "guid"),
++        ("Validation Bits", 8, "int"),
++        ("Check Information", 8, "int"),
++        ("Target Identifier", 8, "int"),
++        ("Requestor Identifier", 8, "int"),
++        ("Responder Identifier", 8, "int"),
++        ("Instruction Pointer", 8, "int")
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode x86 Processor Error"""
++        print("x86 Processor Error")
++
++        val = self.cper.decode("Validation Bits", 8, "int")
++        try:
++            val_bits = int.from_bytes(val, byteorder='little')
++        except (ValueError, TypeError):
++            val_bits = 0
++
++        error_info_num = (val_bits >> 2) & 0x3f    # bits 2-7
++        context_info_num = (val_bits >> 8) & 0xff  # bits 8-13
++
++        self.cper.decode("Local APIC_ID", 8, "int")
++        self.cper.decode("CPUID Info", 48, "int")
++
++        for pei in range(0, error_info_num):
++            if self.cper.past_end:
++                return
++
++            print()
++            print(f"Processor Error Info {pei}")
++            for name, size, ftype in self.pei_fields:
++                self.cper.decode(name, size, ftype)
++
++        for ctx in range(0, context_info_num):
++            if self.cper.past_end:
++                return
++
++            print()
++            print(f"Context {ctx}")
++
++            self.cper.decode("Register Context Type", 2, "int")
++
++            val = self.cper.decode("Register Array Size", 2, "int")
++            try:
++                context_size = int(int.from_bytes(val, byteorder='little') / 8)
++            except (ValueError, TypeError):
++                context_size = 0
++
++            self.cper.decode("MSR Address", 4, "int")
++            self.cper.decode("MM Register Address", 8, "int")
++
++            for reg in range(0, context_size):
++                if self.cper.past_end:
++                    return
++                self.cper.decode(f"Register offset {reg:<3}", 8, "int")
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodeProcX86.guid, DecodeProcX86)]
++
++class DecodeProcItanium():
++    """
++    Class to decode an Itanium Processor Error as defined at
++    UEFI 2.1 - N.2.2 Section Descriptor
++    """
++
++    # GUID for Itanium Processor Error
++    guid = "e429faf1-3cb7-11d4-bca7-0080c73c8881"
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """
++        Decode Itanium Processor Error.
++
++        Itanum processors stopped being sold in 2021. Probably not much
++        sense implementing a decoder for it.
++        """
++
++        print("Itanium Processor Error")
++
++        remaining = self.cper.remaining
++        if remaining:
++            print()
++            self.cper.decode("Data", remaining, "int")
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodeProcItanium.guid, DecodeProcItanium)]
++
++
++class DecodeProcArm():
++    """
++    Class to decode an ARM Processor Error as defined at
++    UEFI 2.6 - N.2.2 Section Descriptor
++    """
++
++    # GUID for ARM Processor Error
++    guid = "e19e3d16-bc11-11e4-9caa-c2051d5d46b0"
++
++    arm_pei_fields = [
++        ("Version",              1, "int"),
++        ("Length",               1, "int"),
++        ("valid",                2, "int"),
++        ("type",                 1, "int"),
++        ("multiple-error",       2, "int"),
++        ("flags",                1, "int"),
++        ("error-info",           8, "int"),
++        ("virt-addr",            8, "int"),
++        ("phy-addr",             8, "int"),
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode Processor ARM"""
++
++        print("ARM Processor Error")
++
++        start = self.cper.pos
++
++        self.cper.decode("Valid", 4, "int")
++
++        val = self.cper.decode("Error Info num", 2, "int")
++        try:
++            error_info_num = int.from_bytes(val, byteorder='little')
++        except (ValueError, TypeError):
++            error_info_num = 0
++
++        val = self.cper.decode("Context Info num", 2, "int")
++        try:
++            context_info_num = int.from_bytes(val, byteorder='little')
++        except (ValueError, TypeError):
++            context_info_num = 0
++
++        val = self.cper.decode("Section Length", 4, "int")
++        try:
++            section_length = int.from_bytes(val, byteorder='little')
++        except (ValueError, TypeError):
++            section_length = 0
++
++        self.cper.decode("Error affinity level", 1, "int")
++        self.cper.decode("Reserved", 3, "int")
++        self.cper.decode("MPIDR_EL1", 8, "int")
++        self.cper.decode("MIDR_EL1", 8, "int")
++        self.cper.decode("Running State", 4, "int")
++        self.cper.decode("PSCI State", 4, "int")
++
++        for pei in range(0, error_info_num):
++            if self.cper.past_end:
++                return
++
++            print()
++            print(f"Processor Error Info {pei}")
++            for name, size, ftype in self.arm_pei_fields:
++                self.cper.decode(name, size, ftype)
++
++        for ctx in range(0, context_info_num):
++            if self.cper.past_end:
++                return
++
++            print()
++            print(f"Context {ctx}")
++            self.cper.decode("Version", 2, "int")
++            self.cper.decode("Register Context Type", 2, "int")
++            val = self.cper.decode("Register Array Size", 4, "int")
++            try:
++                context_size = int(int.from_bytes(val, byteorder='little') / 8)
++            except ValueError:
++                context_size = 0
++
++            for reg in range(0, context_size):
++                if self.cper.past_end:
++                    return
++                self.cper.decode(f"Register {reg:<3}", 8, "int")
++
++        remaining = max(section_length + start - self.cper.pos, 0)
++        if remaining:
++            print()
++            self.cper.decode("Vendor data", remaining, "int")
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodeProcArm.guid, DecodeProcArm)]
++
++
++class DecodePlatformMem():
++    """
++    Class to decode a Platform Memory Error as defined at
++    UEFI 2.1 - N.2.2 Section Descriptor
++    """
++
++    # GUID for Platform Memory Error
++    guid = "a5bc1114-6f64-4ede-b863-3e83ed7c83b1"
++
++    fields = [
++        ("Validation Bits", 8, "int"),
++        ("Error Status", 8, "int"),
++        ("Physical Address", 8, "int"),
++        ("Physical Address Mask", 8, "int"),
++        ("Node", 2, "int"),
++        ("Card", 2, "int"),
++        ("Module", 2, "int"),
++        ("Bank", 2, "int"),
++        ("Device", 2, "int"),
++        ("Row", 2, "int"),
++        ("Column", 2, "int"),
++        ("Bit Position", 2, "int"),
++        ("Requestor ID", 8, "int"),
++        ("Responder ID", 8, "int"),
++        ("Target ID", 8, "int"),
++        ("Memory Error Type", 1, "int"),
++        ("Extended", 1, "int"),
++        ("Rank Number", 2, "int"),
++        ("Card Handle", 2, "int"),
++        ("Module Handle", 2, "int")
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode Platform Memory Error"""
++        print("Platform Memory Error")
++
++        for name, size, ftype in self.fields:
++            self.cper.decode(name, size, ftype)
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodePlatformMem.guid, DecodePlatformMem)]
++
++
++class DecodePlatformMem2():
++    """
++    Class to decode a Platform Memory Error (Type 2) as defined at
++    UEFI 2.5 - N.2.6. Memory Error Section 2
++    """
++
++    # GUID for Platform Memory Error Type 2
++    guid = "61ec04fc-48e6-d813-25c9-8daa44750b12"
++
++    fields = [
++        ("Validation Bits", 8, "int"),
++        ("Error Status", 8, "int"),
++        ("Physical Address", 8, "int"),
++        ("Physical Address Mask", 8, "int"),
++        ("Node", 2, "int"),
++        ("Card", 2, "int"),
++        ("Module", 2, "int"),
++        ("Bank", 2, "int"),
++        ("Device", 4, "int"),
++        ("Row", 4, "int"),
++        ("Column", 4, "int"),
++        ("Rank", 4, "int"),
++        ("Bit Position", 4, "int"),
++        ("Chip Identification", 1, "int"),
++        ("Memory Error Type", 1, "int"),
++        ("Status", 1, "int"),
++        ("Reserved", 1, "int"),
++        ("Requestor ID", 8, "int"),
++        ("Responder ID", 8, "int"),
++        ("Target ID", 8, "int"),
++        ("Card Handle", 4, "int"),
++        ("Module Handle", 4, "int")
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode Platform Memory Error Type 2"""
++        print("Platform Memory Error Type 2")
++
++        for name, size, ftype in self.fields:
++            self.cper.decode(name, size, ftype)
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodePlatformMem2.guid, DecodePlatformMem2)]
++
++
++class DecodePCIe():
++    """
++    Class to decode a PCI Express Error as defined at
++    UEFI 2.1 - N.2.2 Section Descriptor
++    """
++    # GUID for PCI Express Error
++    guid = "d995e954-bbc1-430f-ad91-b44dcb3c6f35"
++
++    fields = [
++        ("Validation Bits", 8, "int"),
++        ("Port Type", 4, "int"),
++        ("Version", 4, "int"),
++        ("Command Status", 4, "int"),
++        ("RCRB High Address", 4, "int"),
++        ("Device ID", 16, "int"),
++        ("Device Serial Number", 8, "int"),
++        ("Bridge Control Status", 4, "int"),
++        ("Capability Structure", 60, "int"),
++        ("AER Info", 96, "int")
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode PCI Express Error"""
++        print("PCI Express Error")
++
++        for name, size, ftype in self.fields:
++            self.cper.decode(name, size, ftype)
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodePCIe.guid, DecodePCIe)]
++
++
++class DecodePCIBus():
++    """
++    Class to decode a PCI Bus Error as defined at
++    UEFI 2.1 - N.2.2 Section Descriptor
++    """
++
++    # GUID for PCI Bus Error
++    guid = "c5753963-3b84-4095-bf78-eddad3f9c9dd"
++
++    fields = [
++        ("Validation Bits", 8, "int"),
++        ("Error Status", 8, "int"),
++        ("Error Type", 2, "int"),
++        ("Bus Id", 2, "int"),
++        ("Reserved", 4, "int"),
++        ("Bus Address", 8, "int"),
++        ("Bus Data", 8, "int"),
++        ("Bus Command", 8, "int"),
++        ("Bus Requestor Id", 8, "int"),
++        ("Bus Completer Id", 8, "int"),
++        ("Target Id", 8, "int")
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode PCI Bus Error"""
++        print("PCI Bus Error")
++
++        for name, size, ftype in self.fields:
++            self.cper.decode(name, size, ftype)
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodePCIBus.guid, DecodePCIBus)]
++
++
++class DecodePCIDev():
++    """
++    Class to decode a PCI Device Error as defined at
++    UEFI 2.1 - N.2.2 Section Descriptor
++    """
++
++    # GUID for PCI Device Error
++    guid = "eb5e4685-ca66-4769-b6a2-26068b001326"
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode PCI Device Error"""
++        print("PCI Device Error")
++
++        self.cper.decode("Validation Bits", 8, "int")
++        self.cper.decode("Error Status", 8, "int")
++        self.cper.decode("Id Info", 16, "int")
++
++        val = self.cper.decode("Memory Number", 4, "int")
++        try:
++            mem_num = int.from_bytes(val, byteorder='little')
++        except (ValueError, TypeError):
++            mem_num = 0
++
++        self.cper.decode("IO Number", 4, "int")
++
++        for mem in range(0, mem_num):
++            if self.cper.past_end:
++                return
++
++            print()
++            print(f"Register Data Pair {mem}")
++            self.cper.decode("Register 0", 8, "int")
++            self.cper.decode("Register 1", 8, "int")
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodePCIDev.guid, DecodePCIDev)]
++
++
++class DecodeFWError():
++    """
++    Class to decode a Firmware Error as defined at
++    UEFI 2.1 - N.2.2 Section Descriptor
++    """
++
++    # GUID for Firmware Error
++    guid = "81212a96-09ed-4996-9471-8d729c8e69ed"
++
++    # NOTE: UEFI 2.11 has a discrepancy, as it lists:
++    #       byte offset 1: revision (1 byte)
++    #       byte offset 1: reserved (7 bytes)
++    #
++    # both starting at position 1. We opted to change reserved size to 6,
++    # in order to better cope with the spec issues
++
++    fields = [
++        ("Firmware Error Record Type", 1, "int"),
++        ("Revision", 1, "int"),
++        ("Reserved", 6, "int"),
++        ("Record Identifier", 8, "int"),
++        ("Record identifier GUID extension", 16, "guid")
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode Firmware Error"""
++        print("Firmware Error")
++
++        for name, size, ftype in self.fields:
++            self.cper.decode(name, size, ftype)
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodeFWError.guid, DecodeFWError)]
++
++
++class DecodeDMAGeneric():
++    """
++    Class to decode a Generic DMA Error as defined at
++    UEFI 2.2 - N.2.2 Section Descriptor
++    """
++
++    # GUID for Generic DMA Error
++    guid = "5b51fef7-c79d-4434-8f1b-aa62de3e2c64"
++
++    fields = [
++        ("Requester-ID", 2, "int"),
++        ("Segment Number", 2, "int"),
++        ("Fault Reason", 1, "int"),
++        ("Access Type", 1, "int"),
++        ("Address Type", 1, "int"),
++        ("Architecture Type", 1, "int"),
++        ("Device Address", 8, "int"),
++        ("Reserved", 16, "int")
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode Generic DMA Error"""
++        print("Generic DMA Error")
++
++        for name, size, ftype in self.fields:
++            self.cper.decode(name, size, ftype)
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodeDMAGeneric.guid, DecodeDMAGeneric)]
++
++
++class DecodeDMAVT():
++    """
++    Class to decode a DMA Virtualization Technology Error as defined at
++    UEFI 2.2 - N.2.2 Section Descriptor
++    """
++
++    # GUID for DMA VT Error
++    guid = "71761d37-32b2-45cd-a7d0-b0fedd93e8cf"
++
++    fields = [
++        ("Version", 1, "int"),
++        ("Revision", 1, "int"),
++        ("OemId", 6, "int"),
++        ("Capability", 8, "int"),
++        ("Extended Capability", 8, "int"),
++        ("Global Command", 4, "int"),
++        ("Global Status", 4, "int"),
++        ("Fault Status", 4, "int"),
++        ("Reserved", 12, "int"),
++        ("Fault record", 16, "int"),
++        ("Root Entry", 16, "int"),
++        ("Context Entry", 16, "int"),
++        ("Level 6 Page Table Entry", 8, "int"),
++        ("Level 5 Page Table Entry", 8, "int"),
++        ("Level 4 Page Table Entry", 8, "int"),
++        ("Level 3 Page Table Entry", 8, "int"),
++        ("Level 2 Page Table Entry", 8, "int"),
++        ("Level 1 Page Table Entry", 8, "int")
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode DMA VT Error"""
++        print("DMA VT Error")
++
++        for name, size, ftype in self.fields:
++            self.cper.decode(name, size, ftype)
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodeDMAVT.guid, DecodeDMAVT)]
++
++
++class DecodeDMAIOMMU():
++    """
++    Class to decode an IOMMU DMA Error as defined at
++    UEFI 2.2 - N.2.2 Section Descriptor
++    """
++
++    # GUID for IOMMU DMA Error
++    guid = "036f84e1-7f37-428c-a79e-575fdfaa84ec"
++
++    fields = [
++        ("Revision", 1, "int"),
++        ("Reserved", 7, "int"),
++        ("Control", 8, "int"),
++        ("Status", 8, "int"),
++        ("Reserved", 8, "int"),
++        ("Event Log Entry", 16, "int"),
++        ("Reserved", 16, "int"),
++        ("Device Table Entry", 32, "int"),
++        ("Level 6 Page Table Entry", 8, "int"),
++        ("Level 5 Page Table Entry", 8, "int"),
++        ("Level 4 Page Table Entry", 8, "int"),
++        ("Level 3 Page Table Entry", 8, "int"),
++        ("Level 2 Page Table Entry", 8, "int"),
++        ("Level 1 Page Table Entry", 8, "int")
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode IOMMU DMA Error"""
++        print("IOMMU DMA Error")
++
++        for name, size, ftype in self.fields:
++            self.cper.decode(name, size, ftype)
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodeDMAIOMMU.guid, DecodeDMAIOMMU)]
++
++
++class DecodeCCIXPER():
++    """
++    Class to decode a CCIX Protocol Error as defined at
++    UEFI 2.8 - N.2.12. CCIX PER Log Error Section
++    """
++
++    # GUID for CCIX Protocol Error
++    guid = "91335ef6-ebfb-4478-a6a6-88b728cf75d7"
++
++    fields = [
++        ("Validation Bits", 8, "int"),
++        ("CCIX Source ID", 1, "int"),
++        ("CCIX Port ID", 1, "int"),
++        ("Reserved", 2, "int"),
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode CCIX Protocol Error"""
++        print("CCIX Protocol Error")
++
++        val = self.cper.decode("Length", 4, "int")
++        try:
++            length = int.from_bytes(val, byteorder='little')
++        except (ValueError, TypeError):
++            length = 0
++
++        for name, size, ftype in self.fields:
++            self.cper.decode(name, size, ftype)
++
++        remaining = max(0, length - self.cper.pos)
++        for dword in range(0, int(remaining / 4)):
++            if self.cper.past_end:
++                return
++
++            self.cper.decode(f"CCIX PER log {dword}", 4, "int")
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodeCCIXPER.guid, DecodeCCIXPER)]
++
++
++class DecodeCXLProtErr():
++    """
++    Class to decode a CXL Protocol Error as defined at
++    UEFI 2.9 - N.2.13. Compute Express Link (CXL) Protocol Error Section
++    """
++
++    # GUID for CXL Protocol Error
++    guid = "80b9efb4-52b5-4de3-a777-68784b771048"
++
++    fields = [
++        ("Validation Bits", 8, "int"),
++        ("CXL Agent Type", 1, "int"),
++        ("Reserved", 7, "int"),
++        ("CXL Agent Address", 8, "int"),
++        ("Device ID", 16, "int"),
++        ("Device Serial Number", 8, "int"),
++        ("Capability Structure", 60, "int"),
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode CXL Protocol Error"""
++        print("CXL Protocol Error")
++
++        for name, size, ftype in self.fields:
++            self.cper.decode(name, size, ftype)
++
++        val = self.cper.decode("CXL DVSEC Length", 2, "int")
++        try:
++            cxl_devsec_len = int.from_bytes(val, byteorder='little')
++        except (ValueError, TypeError):
++            cxl_devsec_len = 0
++
++        val = self.cper.decode("CXL Error Log Length", 2, "int")
++        try:
++            cxl_error_log_len = int.from_bytes(val, byteorder='little')
++        except (ValueError, TypeError):
++            cxl_error_log_len = 0
++
++        self.cper.decode("Reserved", 4, "int")
++        self.cper.decode("CXL DVSEC", cxl_devsec_len, "int",
++                         show_incomplete=True)
++        self.cper.decode("CXL Error Log", cxl_error_log_len, "int",
++                         show_incomplete=True)
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodeCXLProtErr.guid, DecodeCXLProtErr)]
++
++
++class DecodeCXLCompEvent():
++    """
++    Class to decode a CXL Component Error as defined at
++    UEFI 2.9 - N.2.14. CXL Component Events Section
++
++    Currently, the decoder handles only the common fields, displaying
++    the CXL Component Event Log field in bytes.
++    """
++
++    # GUIDs, as defined at CXL specification 3.2: 8.2.10.2.1 Event Records
++    # on Table 8-55. Common Event Record Format
++    #
++    # Please notice that, in practice, not all those events will be passed
++    # to OSPM. Some may be handled internally.
++    guids = [
++        ("General Media",              "fbcd0a77-c260-417f-85a9-088b1621eba6"),
++        ("DRAM",                       "601dcbb3-9c06-4eab-b8af-4e9bfb5c9624"),
++        ("Memory Module",              "fe927475-dd59-4339-a586-79bab113bc74"),
++        ("Memory Sparing",             "e71f3a40-2d29-4092-8a39-4d1c966c7c65"),
++        ("Physical Switch",            "77cf9271-9c02-470b-9fe4-bc7b75f2da97"),
++        ("Virtual Switch",             "40d26425-3396-4c4d-a5da-3d472a63af25"),
++        ("Multi-Logical Device Port",  "8dc44363-0c96-4710-b7bf-04bb99534c3f"),
++        ("Dynamic Capabilities",       "ca95afa7-f183-4018-8c2f-95268e101a2a"),
++    ]
++
++    fields = [
++        ("Validation Bits", 8, "int"),
++        ("Device ID", 12, "int"),
++        ("Device Serial Number", 8, "int")
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode CXL Protocol Error"""
++        for name, guid_event in DecodeCXLCompEvent.guids:
++            if guid == guid_event:
++                print(f"CXL {name} Event Record")
++                break
++
++        val = self.cper.decode("Length", 4, "int")
++        try:
++            length = int.from_bytes(val, byteorder='little')
++        except (ValueError, TypeError):
++            length = 0
++
++        for name, size, ftype in self.fields:
++            self.cper.decode(name, size, ftype)
++
++        length = max(0, length - self.cper.pos)
++
++        self.cper.decode("CXL Component Event Log", length, "int",
++                         show_incomplete=True)
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++
++        guid_list = []
++
++        for _, guid in DecodeCXLCompEvent.guids:
++            guid_list.append((guid, DecodeCXLCompEvent))
++
++        return guid_list
++
++
++class DecodeFRUMemoryPoison():
++    """
++    Class to decode a CXL Protocol Error as defined at
++    UEFI 2.11 - N.2.15 FRU Memory Poison Section
++    """
++
++    # GUID for FRU Memory Poison Section
++    guid = "5e4706c1-5356-48c6-930b-52f2120a4458"
++
++    common_fields = [
++        ("Checksum", 4, "int"),
++        ("Validation Bits", 8, "int"),
++        ("FRU Architecture Type", 4, "int"),
++        ("FRU Architecture Value", 8, "int"),
++        ("FRU Identifier Type", 4, "int"),
++        ("FRU Identifier Value", 8, "int")
++    ]
++
++    poison_fields = [
++        ("Poison Timestamp", 8, "int"),
++        ("Hardware Identifier Type", 4, "int"),
++        ("Hardware Identifier Value", 8, "int"),
++        ("Address Type", 4, "int"),
++        ("Address Value", 8, "int")
++    ]
++
++    def __init__(self, cper: DecodeField):
++        self.cper = cper
++
++    def decode(self, guid):
++        """Decode CXL Protocol Error"""
++        print("FRU Memory Poison")
++
++        for name, size, ftype in self.common_fields:
++            self.cper.decode(name, size, ftype)
++
++        val = self.cper.decode("Poison List Entries", 4, "int")
++        try:
++            poison_list_entries = int.from_bytes(val, byteorder='little')
++        except (ValueError, TypeError):
++            poison_list_entries = 0
++
++        for entry in range(0, poison_list_entries):
++            if self.cper.past_end:
++                return
++
++            print()
++            print(f"Poison List {entry}")
++            for name, size, ftype in self.poison_fields:
++                if self.cper.past_end:
++                    return
++
++                self.cper.decode(name, size, ftype)
++
++    @staticmethod
++    def decode_list():
++        """
++        Returns a tuple with the GUID and class
++        """
++        return [(DecodeFRUMemoryPoison.guid, DecodeFRUMemoryPoison)]
++
++
++class DecodeGhesEntry():
++    """
++    Class to decode a GHESv2 element, as defined at:
++    ACPI 6.1: 18.3.2.8 Generic Hardware Error Source version 2
++    """
++
++    # Fields present on all CPER records
++    common_fields = [
++        # Generic Error Status Block fields
++        ("Block Status",           4, "int"),
++        ("Raw Data Offset",        4, "int"),
++        ("Raw Data Length",        4, "int"),
++        ("Data Length",            4, "int"),
++        ("Error Severity",         4, "int"),
++
++        # Generic Error Data Entry
++        ("Section Type",          16, "guid"),
++        ("Error Severity",         4, "int"),
++        ("Revision",               2, "int"),
++        ("Validation Bits",        1, "int"),
++        ("Flags",                  1, "int"),
++        ("Error Data Length",      4, "int"),
++        ("FRU Id",                16, "guid"),
++        ("FRU Text",              20, "str"),
++        ("Timestamp",              8, "bcd"),
++    ]
++
++    def __init__(self, cper_data: bytearray):
++        """
++        Initializes a byte array, decoding it, printing results at the
++        screen.
++        """
++
++        # Create a decode list with the per-type decoders
++        decode_list = []
++        decode_list += DecodeProcGeneric.decode_list()
++        decode_list += DecodeProcX86.decode_list()
++        decode_list += DecodeProcItanium.decode_list()
++        decode_list += DecodeProcArm.decode_list()
++        decode_list += DecodePlatformMem.decode_list()
++        decode_list += DecodePlatformMem2.decode_list()
++        decode_list += DecodePCIe.decode_list()
++        decode_list += DecodePCIBus.decode_list()
++        decode_list += DecodePCIDev.decode_list()
++        decode_list += DecodeFWError.decode_list()
++        decode_list += DecodeDMAGeneric.decode_list()
++        decode_list += DecodeDMAVT.decode_list()
++        decode_list += DecodeDMAIOMMU.decode_list()
++        decode_list += DecodeCCIXPER.decode_list()
++        decode_list += DecodeCXLProtErr.decode_list()
++        decode_list += DecodeCXLCompEvent.decode_list()
++        decode_list += DecodeFRUMemoryPoison.decode_list()
++
++        # Handle common types
++        cper = DecodeField(cper_data)
++
++        fields = {}
++        for name, size, ftype in self.common_fields:
++            val = cper.decode(name, size, ftype)
++
++            if ftype == "int":
++                try:
++                    val = int.from_bytes(val, byteorder='little')
++                except (ValueError, TypeError):
++                    val = 0
++
++            fields[name] = val
++
++        if fields.get("Raw Data Length"):
++            cper.decode("Raw Data", fields.get("Raw Data Length", 0),
++                        "int", pos=fields.get("Raw Data Offset", 0))
++
++        if not fields.get("Section Type"):
++            return
++
++        print()
++
++        # Now, decode the rest of the record for known decoders
++        for guid, cls in decode_list:
++            if fields.get("Section Type", "") == guid:
++                dec = cls(cper)
++                dec.decode(guid)
++
++                if not cper.is_end:
++                    print()
++                    print("Warning: incomplete decode or broken CPER")
++                    if cper.remaining:
++                        cper.decode("Extra Data", cper.remaining, "int")
++
++                print()
++                return
++
++        # If we don't have a class to decode the full payload,
++        # output the undecoded part
++        print(f"Unknown GGID: {fields.get('Section Type', '')}")
++        remaining = cper.remaining
++        if remaining:
++            cper.decode("Payload", remaining, "int")
++
++        print()
+diff --git a/scripts/qmp_helper.py b/scripts/qmp_helper.py
+index f44118638c91..ef3e46ee3fc6 100755
+--- a/scripts/qmp_helper.py
++++ b/scripts/qmp_helper.py
+@@ -18,6 +18,8 @@
+ 
+ try:
+     from qemu.qmp.legacy import QEMUMonitorProtocol
++    from ghes_decode import DecodeGhesEntry
++
+ except ModuleNotFoundError as exc:
+     print(f"Module '{exc.name}' not found.", file=sys.stderr)
+     print(f"Try $builddir/run {' '.join(sys.argv)}", file=sys.stderr)
+@@ -673,6 +675,8 @@ def send_cper(self, notif_type, payload,
+ 
+             util.dump_bytearray("Payload", payload)
+ 
++            DecodeGhesEntry(cper_data)
++
+         return self.send_cper_raw(cper_data, timeout=timeout)
+ 
+     def search_qom(self, path, prop, regex):
 -- 
 2.56.0
 
