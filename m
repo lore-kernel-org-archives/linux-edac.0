@@ -1,55 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794227545;
-	b=t6Z84LxNrzgcVtc5mCXbROgaZq2irBo/hbMjWhGy/gYh/q8+cXeKlicdftNkkwJk6ezH
-	 nC3UYe9kWsoRu5VZ4cf7TNMUnkj9cBCYqCB2SFH7cy+cWxXNAMQvZJiIey41j0qP2czMY
-	 VwUEKvy2nHkH8wxlDvcsNGr8/sKkePbfnwoDg9GqLeBcNFP8Cf4j9CI7LL+UNS1hUi4Gp
-	 VBJTdFu9zD65M4znsOFC+OJRwlTeihknpBsuFXhuHGJpRSZQRpaz52WfBAaUY9rn3BfZr
-	 Ng3J1UhY5BHT2rlq0sj1T7LSQGX4h3Hw63ciu0dt+wPNsfw8SNOlLEfsU3dMh8yeJQA==
+	t=1794241539;
+	b=WxHoWVT5mz0IClC/tKEEnRwirjO8RHUar0/gCiYGquKcWKMQzJIS0/bQSJ5iUTunlKHa
+	 y+f0f6IspszCpkHZ7wTxHMcGyEGoOveHtideLbOgOUQA7zPm/l37B4cFR9kQ/qZnidt4x
+	 R3hRWM2Y4NxTJAPCQ27B3QA9oFXYYiOVENNd1O2450BJEyeQP00M8MnngzKOOzeVw3QIH
+	 /jtt12qfOqUe/C1C9pOx/O2qu9dJLkt70qtTx65eelSPg82o9mmr42NfM6w1R6mU2xs/W
+	 1y0cYMxH0yOEAw8qfaojUwC9EJLMxb92Fni5AYRRIVhODcrRWjvwsOVVqYNfKfGICdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794227545;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Udmccze+zEanKUPWVBdY9ea3z20SVh/JQ2hv1/0uQrs=;
-	b=wQpBrIauYgjyMz/cv4FjMMfuUHybMqsTFqG7+4t33m50dbsF4yHYqt5a+iGkI1bVT1Zq
-	 4Ckp2U1zU3Uxflw0JEw0i2vheyOeTK9Z3IQqtMMbWJbysUvhvmmEz2IAXZZVmhRUvtgB9
-	 /l2vyRE0OFSkUbr8LJ7cIimvRwlz9Cz8/1FbB8yxPy4aMmM9uBNtYSKlj3OFCV/qNHYWO
-	 tfjKvPFFuQXfbk56UUgJm4U8C4nV1ZN3/7lAyAXUQWM6OJYSDdNHCGFF1mD0/2B/MtxNR
-	 9AdnO+0LlSFwYKtE1703BqUYwNNyhi5/RXFBvmgOMwjtTnNMv6Om/xkjnzNl77vNi6A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794241539;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=XtEeRqXHLEPOGyZQwuz6BRqICuFRktNZmTfdl1shQQ8=;
+	b=CNWO404L+NTcQrXOgKlylXzDbwmVVAw88mWPu+bXDGpUKEre3DjXvwVmLBlilds28hHt
+	 Vt1vXsL6G+2LkV2IQXbljiZMDQh+4GEzXX+sqUzfa8JuzdXqlFZmNnitIDAB1OKp/ubAq
+	 sI3qJ8qHC8ilxHPjvdzusPffB1BK8jRWB9PSLlFMi6umJqxX6jaiDww9p7ug3fVKU1HLP
+	 /nMqYSWMukr2GR2w5Iu+lhe2dVB6dELvZz/3vejaK15Kpva16cZLkyWtfh3vlx7F3xc9I
+	 E2KfPAHEcXyBdSwfPokb1a2+AIbiueHJ1cq/trqeRfQtzwoxBfNgUbrIRgrnEV9r2+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZjIGneQU;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EMHymsHk;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74B2606D83A
-	for <linux-edac@vger.kernel.org>; Mon,  9 Nov 2026 12:32:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E739F606A31C;
+	Mon,  9 Nov 2026 16:25:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZjIGneQU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 757971F008A3
-	for <linux-edac@vger.kernel.org>; Mon,  9 Nov 2026 12:32:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EMHymsHk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 813211F0089F;
+	Mon,  9 Nov 2026 16:25:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794227545;
-	bh=Udmccze+zEanKUPWVBdY9ea3z20SVh/JQ2hv1/0uQrs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=ZjIGneQUIEhtTBMVvnCgXjbRK3BFbokkzWzq0OBNDvidYJuEb67PUkd2xv89Par/X
-	 8JS6xYIvydfMucj3tmNpwigRGNNv8FesiZF28tybHoqtqqdhM2usUxgaxaTKZriojK
-	 nV9HQT/86qEDKz5POkbsZ/Xh41bJAsg7/c3EGOCwBa5k275AkiAat3ptmCfRawaviD
-	 WwjRuQ25HTlYRKsrzDN1YJRy1IAAmuzAjYYuJFpvjdsu5eWL6T/El4tJHQnkYLWpYV
-	 c2q3q7aChspXTnKKjaiqlDEatehcrA/Njqp90e7OHf4HPFtwTt/FYDpYNu7njh0No4
-	 YapyW1C/d792A==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5c102ad8420so552271e87.1
-        for <linux-edac@vger.kernel.org>; Mon, 09 Nov 2026 04:32:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErERx++IOnRhmnaEkJspy28KEruxpROH4Xqz1FziBxa5L7eHNLnTBXAcyeQ2G3C06X3ZHvKNJNmySPhy@vger.kernel.org
-X-Gm-Message-State: APuU4Z/UVXBchsxrzBKyGPA3CbiinenckCBKrFmE7CHhWnXzoeuLE4H1
-	XKdtET7F6dAu8Xi8g6EtGl3fRi3y/me+m2IUGi0uMmJlm9DPyGfe/hzmy9TvHB0pC1R73sQU0L8
-	OQX/k88ZpKnJjw7QgpHF4c7HF9B2qkfI=
-X-Received: by 2002:a05:6512:31ce:b0:5be:4386:8072 with SMTP id
- 2adb3069b0e04-5c14c042497mr1063807e87.56.1794227543795; Mon, 09 Nov 2026
- 04:32:23 -0800 (PST)
+	s=k20260515; t=1794241538;
+	bh=XtEeRqXHLEPOGyZQwuz6BRqICuFRktNZmTfdl1shQQ8=;
+	h=From:To:Cc:Subject:Date;
+	b=EMHymsHk0q6qqqTnET9bxIHzHGIS9GYTRiAe0dgoLyYvS0ZC/m+fV3BTwXo9SGddA
+	 RDPOFXkABzc69NHhFUlOJjDjQAQGAuea73/ebh43n8I92NpYW9SxE3pMRkGKk2J8kj
+	 lLi95zS991DDpLJcR0YTORNSBuhGvDaahefll+Qru5jojyXp2eiduGplVAFK/5Alsr
+	 PxKDeU8+5o08Pr+Yi5vbamgGv0QPFDE/bSDhIGiMbgFOR1k4DqRV7ChNllxJKe1U56
+	 NvWfSHioQH1OVyNWMZdCXmE83EgHZVqOsYGVxa8KYFKbkmnV5D/Okb6VSu+7BPEMWM
+	 m7dMMzQsR/4Ag==
+From: Dinh Nguyen <dinguyen@kernel.org>
+To: bp@alien8.de,
+	tony.luck@intel.com
+Cc: dinguyen@kernel.org,
+	rounakdas2025@gmail.com,
+	niravkumar.l.rabara@altera.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCHv2 1/4] EDAC/altera: use flag to differentiate 64-bit platforms
+Date: Mon,  9 Nov 2026 10:25:20 -0600
+Message-ID: <20261109162523.1698129-1-dinguyen@kernel.org>
+X-Mailer: git-send-email 2.42.0.411.g813d9a9188
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -59,42 +64,124 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104110355.1437249-1-pierre.gondois@arm.com>
- <7c59eada-ea8d-4b04-a24b-9ba6aa2a6c64@arm.com> <62430a5e-1e43-45de-9f8b-f0fdc826f38b@arm.com>
-In-Reply-To: <62430a5e-1e43-45de-9f8b-f0fdc826f38b@arm.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 9 Nov 2026 13:32:09 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0hGEa=ZBLcJDGfbL5S7C99Kj8JJpaqObMj1RZZeLn=puQ@mail.gmail.com>
-X-Gm-Features: AclHuK9C0VgmSOJIoZ6xy9CAOcwTI4p77cqP0wxSxIc4pGinWekVEQNGKsbwnGQ
-Message-ID: <CAJZ5v0hGEa=ZBLcJDGfbL5S7C99Kj8JJpaqObMj1RZZeLn=puQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/7] CPER: Add Memory Error Section 2 support
-To: Pierre Gondois <pierre.gondois@arm.com>
-Cc: Ashok Raj <ashok.raj@oss.qualcomm.com>, linux-kernel@vger.kernel.org, 
-	James Morse <james.morse@arm.com>, Mark Brown <broonie@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Tony Luck <tony.luck@intel.com>, 
-	Borislav Petkov <bp@alien8.de>, Hanjun Guo <guohanjun@huawei.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Shuai Xue <xueshuai@linux.alibaba.com>, 
-	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, 
-	Pawel Chmielewski <pawel.chmielewski@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>, 
-	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>, Breno Leitao <leitao@debian.org>, 
-	Terry Bowman <terry.bowman@amd.com>, Dan Williams <djbw@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	Morduan Zang <zhangdandan@uniontech.com>, linux-acpi@vger.kernel.org, 
-	linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 9, 2026 at 11:58=E2=80=AFAM Pierre Gondois <pierre.gondois@arm.=
-com> wrote:
->
-> Gentle ping to check if there are additional comments on this version.
->
-> (Thanks Mark for the review)
+In commit (d4486fc3098e "EDAC/altera: Use ECC manager compatible to select
+A10/S10 IRQ layout"), it added a way to only differentiate Stratix10 from
+a 32-bit platform. In preparation to add support for Agilex5, it needs a
+way to make a further differentiation.
 
-Sashiko has some:
+Make use of the driver match data to hold a flag for different platforms,
+specifically Stratix10 and Agilex5.
 
-https://sashiko.dev/#/patchset/20261104110355.1437249-1-pierre.gondois%40ar=
-m.com
+Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
+---
+v2: use enum for altr_platform_idx
+    use SOCFPGA_A10 for A10 platforms
+---
+ drivers/edac/altera_edac.c | 20 +++++++++++---------
+ drivers/edac/altera_edac.h |  8 +++++++-
+ 2 files changed, 18 insertions(+), 10 deletions(-)
 
-Besides, for CPER and APEI patches, you need to get an ACK or R-by
-from at least one ACPI APEI reviewer listed in MAINTAINERS.
+diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+index bb95dab847b3c..78f4a1b0fc64a 100644
+--- a/drivers/edac/altera_edac.c
++++ b/drivers/edac/altera_edac.c
+@@ -1489,7 +1489,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+ 	int edac_idx, rc;
+ 	struct device_node *np;
+ 	const struct edac_device_prv_data *prv = &a10_sdmmceccb_data;
+-	bool is_s10 = device->edac->is_s10;
++	unsigned long flag = (unsigned long)device->edac->flag;
+ 
+ 	rc = altr_check_ecc_deps(device);
+ 	if (rc)
+@@ -1538,7 +1538,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+ 	 */
+ 
+ 	/* Using compatibles to determine the IRQ Index */
+-	if (is_s10)
++	if (flag == SOCFPGA_S10)
+ 		altdev->sb_irq = irq_of_parse_and_map(np, 1);
+ 	else
+ 		altdev->sb_irq = irq_of_parse_and_map(np, 2);
+@@ -1556,7 +1556,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+ 		goto err_release_group_1;
+ 	}
+ 
+-	if (is_s10) {
++	if (flag == SOCFPGA_S10) {
+ 		/* Use IRQ to determine SError origin instead of assigning IRQ */
+ 		rc = of_property_read_u32_index(np, "interrupts", 1, &altdev->db_irq);
+ 		if (rc) {
+@@ -1967,7 +1967,7 @@ static int altr_edac_a10_device_add(struct altr_arria10_edac *edac,
+ 		goto err_release_group1;
+ 	}
+ 
+-	if (edac->is_s10) {
++	if (edac->flag == SOCFPGA_S10) {
+ 		/* Use IRQ to determine SError origin instead of assigning IRQ */
+ 		rc = of_property_read_u32_index(np, "interrupts", 0, &altdev->db_irq);
+ 		if (rc) {
+@@ -2121,7 +2121,7 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, edac);
+ 	INIT_LIST_HEAD(&edac->a10_ecc_devices);
+ 
+-	edac->is_s10 = !!device_get_match_data(&pdev->dev);
++	edac->flag = (unsigned long)device_get_match_data(&pdev->dev);
+ 
+ 	edac->ecc_mgr_map =
+ 		altr_sysmgr_regmap_lookup_by_phandle(pdev->dev.of_node,
+@@ -2154,8 +2154,8 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
+ 	irq_set_chained_handler_and_data(edac->sb_irq,
+ 					 altr_edac_a10_irq_handler,
+ 					 edac);
+-	if (edac->is_s10)
+-	{
++
++	if (edac->flag == SOCFPGA_S10) {
+ 		int dberror, err_addr;
+ 
+ 		edac->panic_notifier.notifier_call = s10_edac_dberr_handler;
+@@ -2205,8 +2205,10 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
+ }
+ 
+ static const struct of_device_id altr_edac_a10_of_match[] = {
+-	{ .compatible = "altr,socfpga-a10-ecc-manager" },
+-	{ .compatible = "altr,socfpga-s10-ecc-manager", .data = (void *)1 },
++	{ .compatible = "altr,socfpga-a10-ecc-manager",
++	  .data = (void *)SOCFPGA_A10 },
++	{ .compatible = "altr,socfpga-s10-ecc-manager",
++	  .data = (void *)SOCFPGA_S10 },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, altr_edac_a10_of_match);
+diff --git a/drivers/edac/altera_edac.h b/drivers/edac/altera_edac.h
+index 9387056fd65e3..4a9da28fa96ba 100644
+--- a/drivers/edac/altera_edac.h
++++ b/drivers/edac/altera_edac.h
+@@ -351,6 +351,12 @@ struct altr_sdram_mc_data {
+ #define ECC_READ_EOVR                     0x2
+ #define ECC_READ_EDOVR                    0x3
+ 
++enum altr_platform_idx {
++	SOCFPGA_A10,
++	SOCFPGA_S10,
++	SOCFPGA_AGILEX5
++};
++
+ struct altr_edac_device_dev;
+ 
+ struct edac_device_prv_data {
+@@ -394,7 +400,7 @@ struct altr_arria10_edac {
+ 	struct irq_chip		irq_chip;
+ 	struct list_head	a10_ecc_devices;
+ 	struct notifier_block	panic_notifier;
+-	bool is_s10;
++	unsigned long		flag;
+ };
+ 
+ #endif	/* #ifndef _ALTERA_EDAC_H */
+-- 
+2.42.0.411.g813d9a9188
+
