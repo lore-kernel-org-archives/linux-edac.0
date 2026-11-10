@@ -1,78 +1,91 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794292888;
-	b=lus//39o+7JnpyUHYkcvzHXANwbFYFarDSoF8I/Kkzl2i2gNWqfZf4W9OsG8G8GmtUl7
-	 8TG9z2qQmEAHEY5PoYTnFdhd3OG9FZ1E1a6edUxOtPdOHFP1FXqvk5EaNn1eHutdNFG3k
-	 1cGhcwucZPYoTYEzYr3bGelRJP1QB4azpwQ8ZJre0+i6nbgXwEQfcoagQeNaei0l4elE1
-	 aWwCSUMVvpu38JnlO02/9epdukyaKK7kgcareIOOBbp5D+zzRLIKOkoIka1cktIu1n32s
-	 N73DJZaG6SB+hm70mLoyqpzuIG3PHyJRRpyu+jwqsIsylNTsUoh4k037xtj1VxzWeyg==
+	t=1794295097;
+	b=ngBgf5Y8DEWTz8S0afZ2vJLpWH5pKUv+koZND/eAAgfYCoUs7sKTiHchyJsTGQkmVHKS
+	 4iZLaT6N+tF5I4g6mL0M1Yi/68Stu+dZhdmyPARCKgZvWSBi0aakgdC/5Q1BD9AG4aYCd
+	 HhqKrEzp1KYn/gS9y3jjxbdC9NUWFcTpFKgKfr8FcOW/d7c/EqTtJnovOSg/C+e/iL8Pc
+	 FXEOC1y9QFvEipz1+DE13OjoIhTDvCFnv/WPSd8g3rRcPCezDI6MR3fPfqhMjXZo68Wbi
+	 EhypxnM5m6cZGiVWHAX9C4qCa+TkwziN5ttuZXfXPDVR6Ofs+mav8QOM05Bjuq7fbgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794292888;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794295097;
 	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
 	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=Ae9ZD6+EtZ4CobM3+GjeU2lLPLI+KHhFVN0IzX9DVTY=;
-	b=5SBY26xWR88SMDDkNQH6HU0zv8t4fgLSrNiVr4DnGgqL7qbQOBTUgCWMq8ZSVQRQAOQj
-	 YFnzbL6pi9biXQFOFzCJ0mVXgM9ocL4omsmyAdW6VjuJwckJ03aWMe5jfvaTnYCeITK6M
-	 hg2gjgTMlF7NtXokoi9Ecw1ycjEa0UHPTIi1i2RH1bhkANEiu8i+8aSly8oiTPISKuEY7
-	 WXjcuIZ55JgfMyK1Cx5o8gQHtUz5JrjYIndK9g+LUAqAbc2ZTrGWKx3Y7/ukp7hxfsrO/
-	 19CNNIGv3PbmY4HfTAHLzpbm05v/rLWZscUCuFTcQcFcxbJ4vuGBQCsfh4FTloVvIkA==
+	bh=AdAheHZEWha9dAehEUE3zXja1Ighlj9AsimpUr1pvrE=;
+	b=j2FUHUjJumrLPmyXRCNTYKH5zfvoUrImO1Osp6xgclVFuwxeTPgfIPI2OegXfLfg26FG
+	 Lx3WumENZwIC/iVehCaSnkKALJnX0XPSb/yW5AylxH+bPGI89UdF+Al6tMg1VKs8jqo2H
+	 d6MtCvL2Zo9KlCz9yg1ybes6cG0Q1zmfGrRgWqJ7BYy/v5vAz/35cB7IUuD0IRB6Io6Nl
+	 HFRCTD31+smFDOOs9ORh3leB8KoTGqjFYlFUCAiDA5dVFdj4Sx6r6/2+h3jtFDC9JnQKh
+	 pxHvAhpzyoXNqrCTCzHILRFrHWkbv4LzgIR5itot9+RXP79bw9OjtR6PE2rTn16ul9g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=alien8.de;
 	spf=pass smtp.mailfrom=alien8.de;
-	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=cfApXUgy;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b="CEzYY/Lc";
 	arc=none smtp.remote-ip=65.109.113.108
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FD2606A647;
-	Tue, 10 Nov 2026 06:41:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27FD2606A647
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BD9606D61E;
+	Tue, 10 Nov 2026 07:18:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71BD9606D61E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=cfApXUgy
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=CEzYY/Lc
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id EBD1F40E0255;
-	Tue, 10 Nov 2026 06:41:24 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B57BD40E02A0;
+	Tue, 10 Nov 2026 07:18:13 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 8zk_0u4lhtqD; Tue, 10 Nov 2026 06:41:21 +0000 (UTC)
+	with ESMTP id PDmFULynP60D; Tue, 10 Nov 2026 07:18:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1794292881; bh=Ae9ZD6+EtZ4CobM3+GjeU2lLPLI+KHhFVN0IzX9DVTY=;
+	t=1794295089; bh=AdAheHZEWha9dAehEUE3zXja1Ighlj9AsimpUr1pvrE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cfApXUgy00Y4NI5dn2KbGTnj6CmqeOAmqBNhcJjoOzidgWwjNzebgMmj9VGoBqoVL
-	 VOetxjiJAlxTxbJ43S9QN2ijTW7R4Yqc7gcD88TrAl/vnp5O+sgNkCK3y2DoTFgyg6
-	 F4FDii4kDx0ZNxZWaQ/GPOzIeWzzD9IAM+GcZDjccmDgQ4v+BmM47Lz3LWFSpZi1TD
-	 722JoSKbCcvET/EyBOztRh7hhfbFHGhPxPODf0YbJky2Xx3agPdLO9VABJ6+Ed7tGJ
-	 8F5LkawkJb5W4v6zeXqTaTdylqe2p6ffT4tX/nGRkiwdTovG1ncmS2Qbiy+wyRjmyU
-	 p7HUfY1xqRWuOmWK8SknDEGej5ULhT/nKOqKqwkbJB0OLFaFllgacbiynyocEjeH2X
-	 sGxu2qrtTHEX1iPa4AibJGnGFSwNd1obyp8Gy07qNZetwyaKEdF6WfHL8+5FStk1EU
-	 gTfM+CVpJaZ4cil3dsqf8b/tuFg3PiIbYEtBk2kSPJWBpqZFdkCFssJZxQTCwkQ7Wz
-	 YpFAUUHYG+w/tK+Iq3Yf53mDCyBLyE57+LUUJIrZKNdKLvO91HZlGa6duEPl9JZXTM
-	 E+K/GU/bDbqXiLdi+oogtke1g8rhLe/sHZwC9GzQPEkiKCbTGSpqQ4wFZv5GtsTTrt
-	 xxyEm0+Dn5jCt5NRtpIk2bCI=
+	b=CEzYY/LcNnV752DyANYxRYqCdiauzIqFBIGjeUo6JWwRh0ZEG4G+xwcjd/4/pwNlo
+	 SgC1zKTOZB8iZj1SDS/bnq28O2g1F9OToZcFVfOsDk8XmfPS4hbGyaDCsf+j3VDwre
+	 cIfNdj6mhAsI24JcKwHYZRwtrzkX5OPIMiEOADgkoVPYE9kyOQhQHapkSWS6Vl7i6M
+	 mb5gY8CoaZdZ+voHzb/N0bjI2U7yLfFgJwC+Gorbiw+wNd1dF19wLP2Chvvb6iL4ZW
+	 9G/rstRfW2ee3NRHfVRqPxakhc8UEc+U9wzDzhMh7s2y43/WqXjxNLE9DfrkXcFmm3
+	 cCGJh6S/X2KwesElRDcS4WRX6Ho6mvJpKvlvmqzdXrIgJ9Gt2l1tE0zlAdHPQIPHiB
+	 U9FLw9v+3qrMxvthlBcLQDnBeR0RC0+p+Z3OzvQvyoOZPyaPIfRb8jbAK6UhPmAKE/
+	 LgZhE85VY0O4WoaZPUllv4W5DulETM1Liy93VIjPi59oGnTu843OfF/+B48AnUfFEh
+	 O8hFwxXE1ucYYRjs3Za94QTMFgl2E3vClWk4TvxxyPp/8j9fkibhVMuffhAaw/WGm2
+	 zXb+zSbVyNXx9YL5sBT3MTKOfRUbrPaxHE1wMGKsAUGzY2OwEj5uSsnEy0Vaw0avhv
+	 beFVzWRvzbf05CqvkRyxK/f8=
 Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::42])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AB10640E0299;
-	Tue, 10 Nov 2026 06:41:09 +0000 (UTC)
-Date: Mon, 9 Nov 2026 22:41:06 -0800
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A105A40E0255;
+	Tue, 10 Nov 2026 07:17:32 +0000 (UTC)
+Date: Mon, 9 Nov 2026 23:17:29 -0800
 From: Borislav Petkov <bp@alien8.de>
-To: Qunqin Zhao <zhaoqunqin@163.com>
-Cc: tony.luck@intel.com, linux-edac@vger.kernel.org, chenhuacai@kernel.org,
-	zhaoqunqin@loongson.cn, linux-kernel@vger.kernel.org,
-	Wang Jinwei <wangjinwei@loongson.cn>,
-	Yulong Wang <wangyulong@loongson.cn>,
-	Dongyan Qian <qiandongyan@loongson.cn>,
-	Chao Li <lichao@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>
-Subject: Re: [PATCH v6 2/4] EDAC/loongson: Encode node and MC info into mc_idx
-Message-ID: <20261110064106.GAavK8ghva7DgZ35DK@fat_crate.local>
-References: <20261105025532.2055-1-zhaoqunqin@163.com>
- <20261105025532.2055-3-zhaoqunqin@163.com>
+To: Shiju Jose <shijujose2008@gmail.com>
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
+	Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	ashok.raj@oss.qualcomm.com, jic23@kernel.org, linuxarm@huawei.com,
+	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
+	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+	gthelen@google.com, wschwartz@amperecomputing.com,
+	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
+	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
+	wanghuiqiang@huawei.com
+Subject: Re: [PATCH v23 2/2] ras: mem: Add ACPI RAS2 memory driver
+Message-ID: <20261110071729.GIavLFCfLKzPx8R0i0@fat_crate.local>
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-3-shijujose2008@gmail.com>
+ <20261017055852.GBatMOnEl66YObvU5k@fat_crate.local>
+ <CAG4KcR+NOKHNzg6FN-oLLHgUxeitZHKXg9cN7dz24+Ap=RrwSA@mail.gmail.com>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -84,102 +97,46 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261105025532.2055-3-zhaoqunqin@163.com>
+In-Reply-To: <CAG4KcR+NOKHNzg6FN-oLLHgUxeitZHKXg9cN7dz24+Ap=RrwSA@mail.gmail.com>
 
-On Thu, Nov 05, 2026 at 10:55:30AM +0800, Qunqin Zhao wrote:
-> From: Wang Jinwei <wangjinwei@loongson.cn>
+On Sun, Oct 18, 2026 at 11:56:22PM +0100, Shiju Jose wrote:
+> I have got an arm64 setup only, did not try to build for X86 recently
+> after adding the following change
+> of using iowrite64 and ioread64 as suggested by
+> https://sashiko.dev/#/patchset/20260325165714.294-1-shiju.jose%40huawei.com
 > 
-> On Loongson multi-node systems, memory controllers are distributed across
-> multiple nodes. Encode node and MC information into mc_idx so that sysfs
-> entries uniquely identify each controller.
-> 
-> The driver gets mc-idx from ACPI _DSD property if firmware provides it.
-> If not, it falls back to edac_device_alloc_index() for legacy firmware
-> compatibility.
+> Following change is required to build for X86_64 build when using
+> iowrite64 and ioread64, while it was
+> fine for the ARM64 build.
+> Note: I'm not sure whether RAS2 is needed for the 32 bit build or not
+> and the result of the 32 bit build.
 
-I am still not buying this tinkering so lemme try again.
+I'm not sure iowriteXX/readXX are needed here at all.
 
-If you cannot read mc_idx from ACPI, then by lack of options, all your nodes
-belong to memory controller 0. There's no other choice.
+Documentation/driver-api/device-io.rst talks about all those different options
+and the most generic ones are readq/writeq().
 
-And you do init it to 0:
+About those you're using, it says:
 
-        mci = edac_mc_alloc(0, ARRAY_SIZE(layers), layers,
-			   ^^^
+"ioread64(), ioread32(), ioread16(), ioread8(), 
+iowrite64(), iowrite32(), iowrite16(), iowrite8()
+        
+  These are an alternative to the normal readl()/writel() functions, with almost
+  identical behavior, but they can also operate on ``__iomem`` tokens returned
+  for mapping PCI I/O space with pci_iomap() or ioport_map(). On architectures
+  that require special instructions for I/O port access, this adds a small
+  overhead for an indirect function call implemented in lib/iomap.c, while on
+  other architectures, these are simply aliases."
 
-                            sizeof(struct loongson_pvt));
+and I don't see anywhere that you absolutely need those, judging by that
+explanation there. But what do I know.
 
-and the subsequent property read tries to get it.
+Unless there's a real reason you cannot use readq/writeq()...?
 
-So, IOW, your MC index is only valid when it is not 0.
+But those should give you the same fixed endianness when accessing little
+endian ACPI so...
 
-IOW, this ontop of yours. Completely untested ofc.
-
----
-
-diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
-index 3c5d29941a38..2132264a6d7f 100644
---- a/drivers/edac/loongson_edac.c
-+++ b/drivers/edac/loongson_edac.c
-@@ -25,7 +25,6 @@ struct loongson_pvt {
- 	 */
- 	int last_ce_count;
- 	u32 mcs_per_node;
--	bool mc_idx_valid;
- };
- 
- static int read_ecc(struct mem_ctl_info *mci)
-@@ -56,7 +55,7 @@ static void loongson_check(struct mem_ctl_info *mci)
- 	if (add <= 0)
- 		return;
- 
--	if (pvt->mc_idx_valid) {
-+	if (pvt->mc_idx) {
- 		node = mci->mc_idx / pvt->mcs_per_node;
- 		mc = mci->mc_idx % pvt->mcs_per_node;
- 		snprintf(other_detail, sizeof(other_detail), "node:%d mc:%d", node, mc);
-@@ -82,14 +81,12 @@ static void dimm_config_init(struct mem_ctl_info *mci)
- 	dimm->grain = 8;
- }
- 
--static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase,
--		     bool mc_idx_valid, u32 mcs_per_node)
-+static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase, u32 mcs_per_node)
- {
- 	struct loongson_pvt *pvt = mci->pvt_info;
- 
- 	pvt->ecc_base = vbase;
- 	pvt->last_ce_count = read_ecc(mci);
--	pvt->mc_idx_valid = mc_idx_valid;
- 	pvt->mcs_per_node = mcs_per_node;
- }
- 
-@@ -100,7 +97,6 @@ static int loongson_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	void __iomem *vbase;
- 	u32 mcs_per_node;
--	bool mc_idx_valid = true;
- 	int ret;
- 
- 	vbase = devm_platform_ioremap_resource(pdev, 0);
-@@ -129,15 +125,12 @@ static int loongson_probe(struct platform_device *pdev)
- 	mci->error_desc.grain = 8;
- 	mci->edac_check = loongson_check;
- 
--	if (device_property_read_u32(dev, "mc-idx", &mci->mc_idx)) {
--		mci->mc_idx = edac_device_alloc_index();
--		mc_idx_valid = false;
--	}
-+	device_property_read_u32(dev, "mc-idx", &mci->mc_idx);
- 
- 	if (device_property_read_u32(dev, "mcs-per-node", &mcs_per_node) || mcs_per_node == 0)
- 		mcs_per_node = 4;
- 
--	pvt_init(mci, vbase, mc_idx_valid, mcs_per_node);
-+	pvt_init(mci, vbase, mcs_per_node);
- 	dimm_config_init(mci);
- 
- 	ret = edac_mc_add_mc(mci);
+Thx.
 
 -- 
 Regards/Gruss,
