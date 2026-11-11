@@ -1,47 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794411843;
-	b=GRfztecC9bJOdyzF+YpCfSJxJmaqgU0nHH9Vxb45Q3t358RaeJky//MBW/76RwlF8ew8
-	 e8Ii7SVUXNa6oyml+jRxBC1LNMehazN6hKucNCD1jiTYdpb8glP8zLRCGCyJR0mx8eqa9
-	 TdDmIr+649Ovmxm3pPRUWySVAxbiQUYRlioqkBf5xxZ4tIBj84GkoyOeIGlBP/87siXbP
-	 8N21b2YFPH3Hxw8gf4umVZYzNS9qU8JjilMyrdMicsh7wSfQ5WF0Ccuu9rdOgVv4GJkTk
-	 MWwG2P3qtuEdpBVO/skh3JWhFvTPckSw4+On+EFsSblACIQheGqPdwvL/Izp9y/40bg==
+	t=1794414965;
+	b=p0vK9x7UyiZgFv9CLpUgxKMLA6vBvW9HkIB6kPoPxq5QH9erUT0qeZyxfn+5q9FncUzl
+	 LWMvILN3KKR3Zb0RhQcniduAmp/g75QqDYnWMbeOUSywVbna3grw75262zsiifb3QAOUQ
+	 RfTOh0qjaa/YmWJ+uUWr+yT+XY392d20SHnPFASJGt/5Jqi09yhZL+2JnpZgIpdBBb7/a
+	 0MNnMCPKz8QyGMfOoGMFanKNMGv9DfOH/MRTvsU6T2iBrDrXAHBgo/D7kDJ0Zceg53WZ5
+	 6bc/pYHkxv3iemsUaqC6XVdnZST74tBY/G7v0rPca37HYeElrRTID/PVxd4olXzjl2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794411843;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:Content-Language:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=sGZsPOiIfmsPmYtcqZWbb30z+VsRcrH1VH92p1yDihA=;
-	b=C5cmBoRcTMgYQE3oiPMjAvaimX92DvkY3eGCDQocNuoE3zCS46iegFcuC8CNrFS1cAVu
-	 +MA0cxNxlmvWFF5Pa2qauc/zQL+xaMPkJeZn0sHLh17eayDlhOEmpQCdR5KWwq2c/VXQl
-	 pt92uiUFK3TXFu/zqwc0nDC9pNZWlrTDQZPtksNf4samvYjs84NQ6e7TWxUxghVrdMouR
-	 63b6vBDs+OMuEuxGEQZyfgmSzyHJUWnI18FgIlg3bmHgyl8dQ2j1YGIBXZQPiLWkaebL4
-	 SlKYB/8Wl7GS90mh0RScLztKDMW9tVhURYMuZjB4Tm1LzTYf1FnrBzSblZ8751YSnyw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794414965;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=9YFnZgNhPyoA/hpZg7SqznI4aFLyTBKsRmaGoanNujQ=;
+	b=WC/U5GIL/ZiwWjXVOsQuirHQsZpEPOH3tzUSCbMkD5xmqcDpbshSL6f6HQJxIR9pajiM
+	 5yMC8i9dp/ZgdkF50MxGaJfrwVz3vmVVdDWJOXfP95SbbWsZN6pKUruIzhHnbO/gLk25u
+	 b+mRlIQDu/XlYyIxHQ4DNduJm1qYicZqnQ10iwcGdH8FBTONUsRrBFI0RSFWmH5EJNhXT
+	 0h9MvYyg1gZoZIXid35eCcIp1iZhVX0CuGg0s+WhtyBz20kZ+9mab0ZtMz3OrZDSua3tP
+	 EvweuZKD5z5zK5OxwuT2ddWBrc7QVQ8E/rsqG2JO2Bd55LwMOXKCFexnCt9xxjZ/mNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bnwKN41t;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=WUjgm6P7;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DC7606A337;
-	Wed, 11 Nov 2026 15:44:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073DE606A32A;
+	Wed, 11 Nov 2026 16:36:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 073DE606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bnwKN41t
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D5711F00A07;
-	Wed, 11 Nov 2026 15:44:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794411843;
-	bh=sGZsPOiIfmsPmYtcqZWbb30z+VsRcrH1VH92p1yDihA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=bnwKN41tiMDWegJQL3lMFUN/kBXPGY7tkOpwBLMR9dSbQqcNASqYAn4QfxFahHdwH
-	 eG/OzF0E/7tQ8SiCLwkeoPaZLRRznXMYvUdVifHqaN+mVXxgIqEV9GBgKCoZWKvPnh
-	 2vTX7TBbVLMIy5xLv9l3O7ajuS+iKYEcigzD83F7g4UZittxQ3OE66EsJzSn76iqwU
-	 6ik7h2vHF5BoApmoeG4BoQni2cwH7KjK+QUs4OQueKvUJeux9vNhsaecGT4ddRjPku
-	 tUoknm/9chw3n69iZvspFGOZhtcTa9o9MYiJI7iafCtFJ9Qa+qe+H/rrCYmg7GEqPK
-	 oCYQpHH2BXI2A==
-Message-ID: <2b277604-0452-41c7-b0a3-f6f935d802fd@kernel.org>
-Date: Wed, 11 Nov 2026 09:44:01 -0600
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=WUjgm6P7
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=9YFnZgNhPyoA/hpZg7SqznI4aFLyTBKsRmaGoanNujQ=; b=WUjgm6P7Tb6AYnbmfEnGD0Agbc
+	z/G6mQA4hPMVTErHI5njl7YrXg/fbTe1oHjSkCTN0auBCNviblIjO79k86LzMabO7EyMNYa8P3Fle
+	pdJ2Mhly0yKYYKZguLanbjW2/vRs82T04WESPK2n87DtPsMpOL1jOMHU39836vSJglLx/V2xvPQvD
+	50a56mMiwQnw78dA042OLAb6ooy71sDgWDfQQxZ0PCZOjnEYNjhjdG3ntkq0FI3kMSw3WoRK4thUc
+	3i2yNG/cumlm68uo6mqTQxyGskujPKZMlae7mBlTEfEj2CuLY2MziTeMQAL2e8gYO2odShS/Zpm1r
+	JliCxg2Q==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xRBIW-00DJlS-0Y;
+	Wed, 11 Nov 2026 16:35:44 +0000
+Date: Wed, 11 Nov 2026 08:35:38 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Rik van Riel <riel@surriel.com>
+Cc: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Qiuxu Zhuo <qiuxu.zhuo@intel.com>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH] x86/mce: Restore rate limit on MCE logged message
+Message-ID: <avSZTQatplYDfHk9@gmail.com>
+References: <20261108143751.3af49e48@fangorn>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -51,58 +69,25 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 2/4] dt-bindings: edac: altera: agilex5: document new
- edac support
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: bp@alien8.de, tony.luck@intel.com, rounakdas2025@gmail.com,
- niravkumar.l.rabara@altera.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, linux-edac@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20261109162523.1698129-1-dinguyen@kernel.org>
- <20261109162523.1698129-2-dinguyen@kernel.org>
- <20261111-tunneling-elated-grouse-1f8bf7@quoll>
- <9d87c457-d692-4c55-835b-796029a5e54b@kernel.org>
-From: Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <9d87c457-d692-4c55-835b-796029a5e54b@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261108143751.3af49e48@fangorn>
+X-Debian-User: leitao
 
-
-
-On 11/11/26 06:04, Krzysztof Kozlowski wrote:
-> On 11/11/2026 13:02, Krzysztof Kozlowski wrote:
->> On Mon, Nov 09, 2026 at 10:25:21AM -0600, Dinh Nguyen wrote:
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            const: altr,socfpga-agilex5-ecc-manager
->>> +    then:
->>> +      properties:
->>> +        interrupts:
->>> +          maxItems: 7
->>
->> minItems
->>
->> Also, missing constraint for interrupt-names.
->>
->>> +      required:
->>> +        - interrupt-names
->>> +    else:
->>> +      properties:
->>> +        interrupts:
->>> +          maxItems: 2
->>
->> interrupt-names: false
->>
+On Sun, Nov 08, 2026 at 02:37:51PM -0500, Rik van Riel wrote:
+> FCommit ea324444ece9f moved the "Machine check events logged"
+> print from mce_notify_irq() into mce_log() and dropped its
+> two-per-minute rate limit as a side effect.
 > 
-> And I already asked for this which you did not respond to.
+> A particularly unhappy system can spew out around 100 million
+> of those "Machine check events logged" messages every hour,
+> without that rate limit. A large fleet may have several unhappy
+> systems, leaving the netcons infrastructure somewhat flustered.
 > 
+> Reinstate the rate limit we had before.
+> 
+> Fixes: ea324444ece9f ("x86/mce: Restore MCA polling interval halving")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Rik van Riel <riel@surriel.com>
 
-Apologies for missing that. All comments will be addressed in v3.
-
-Thanks,
-Dinh
-
+Reviewed-by: Breno Leitao <leitao@debian.org>
