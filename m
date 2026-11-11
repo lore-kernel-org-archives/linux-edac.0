@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794439535;
-	b=VnPI3wIUDRyXR0KrjlUUhRgNuPFGOZB/FEDIIkj7HprRlgTAEa9jn785CXigl6fDiqP/
-	 LwxKQ+npJsGIkguUnIbbrqnYONlDirO48XFyDgH7QbZQPgkfYn6eqAqs4uOuWQqsW7yhg
-	 uNbxS+fzvgckvk6fhSD7rDGsbhLGMhA046A2v8xMr/B+TiIFeOFhGzpJZRYosMbkmelHo
-	 9+AgqXiHLxLVx4a5VsGe+KfkPxvDkfp8wURktB1SO1iLXI82mnWoLwQ265uOb1HSu9wsw
-	 yq2Fl6WjmzK+i1Dr4Cf7jUC17eTtHQ8NO7K2JbgmjTk01zK/2ZrTYA6aj7rbCI9Y2Xw==
+	t=1794439536;
+	b=qilbvzgSZNn4d9c/lxtHZ7CHF9R0cpsuv3Apm4PMq0+/moZEMsMeVU9JiIIqlpVw6p71
+	 7VQboHAaKoJb6iV4Ie751RqgnYFGBmj01RbKh3QkITj/Rr4p8AM4tzPSyIrH/R6iPrRy/
+	 y0D20RR1haYK/bebQAwuVhIRroFUP1SJd+e8evg/7TaUdD045/7XB03GbIaHRSPuk3iXU
+	 kVuCCi+k6LeEXZUqxmfAWd0PM5UoBYVulh8gwN0F060OalO6nthTEFfTX07JEPSXmXHh4
+	 WjVmuVMQRO2Xa8pe/t5qL3JQ+JzP3c2ukRj0NhUax3iiS83Jq67DpwjeJu1RzUsGjcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794439535;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794439536;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=zeKs1Z2Pv2GV4AuEhN0bB0lWtBNEb9bqfYfvbaF4KSw=;
-	b=083LKFIBPBL2OTan/sw4ztODjOh9naqRbxFhopxxx5lmJglrZk5aPKQNcSnAYbG9uH0m
-	 z+MiZ6k1Fhq6q4478yQCO0nd412XK82g96X9c57WrJwUVgk9ZZ+fRXgD+DhVvcy0jOzCu
-	 73jwqADjquYW76LSEJUXr0N1ZUtom2tIYr9KKk+b9wZ8d9q+v8wyitTOjIrYAu0FfMvzi
-	 e9cgRoRQN88rhEW3CYPEpCFBmAFNJEYGaPXnXTPSu7fDatLr1fHNfHDB2wOzrsA14qP94
-	 2ViwSWjS5T0/BxGRz+oKxtdWKu72PQHIEU2Z14fLaiiMKcvpOnjOi73cuxZnthyscFw==
+	bh=48wpzd2rRuW6jSp7Tlrac3vDJDtgbTZqBF+kHuRo3/A=;
+	b=ET1tqJfd3TukTP6OEAO638Whz0rOSI73QvjPqts2JfhtYKHdFl8jXJSuTG9NnPAgUsdW
+	 a0lAdTbv1r1/YY9qkt6q8lrJ9KTmg0y57f+1AN5yikiM2BcW3AnM6MRodJd8JqeYbkFOD
+	 mHbG3KmppdtXzqCyOytTMcmhI4//CY01B6fhbSO9uxps6Aq5dNpe1X5BAbhzrfvyd9eBV
+	 oUffC5p0c8vivHQ0wOY5ZHZTuhwv8shBJO7rRfHSHl5MzoD1ZnBSXj9PkbxOfSKVIRVDO
+	 YgC6npbk2wpfkT3yN0I1cnY1nkmi34AOjwH5VCjQCYcKUVt2IU//vOxYEt3W6/+Ar4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=g6rDl+61;
-	arc=none smtp.remote-ip=74.125.82.176
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=F626SGWm;
+	arc=none smtp.remote-ip=74.125.82.181
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE94606A332
-	for <linux-edac@vger.kernel.org>; Wed, 11 Nov 2026 23:25:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4EE94606A332
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F2B5606A33B
+	for <linux-edac@vger.kernel.org>; Wed, 11 Nov 2026 23:25:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F2B5606A33B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=g6rDl+61
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-37071c0f42aso6298502eec.0
-        for <linux-edac@vger.kernel.org>; Wed, 11 Nov 2026 15:25:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=F626SGWm
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso2498396eec.0
+        for <linux-edac@vger.kernel.org>; Wed, 11 Nov 2026 15:25:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794439534; x=1795044334; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794439535; x=1795044335; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zeKs1Z2Pv2GV4AuEhN0bB0lWtBNEb9bqfYfvbaF4KSw=;
-        b=g6rDl+61FuluwKbbZS7ohA76XPgzqchxtcwXJ3U+HFc1OENnRWxdAn32yXJDPMx/cY
-         DLNbHcnYk7OaVfliE4zcBYnk8GZU2ryb6+ds6fRQj/xAAKwuXtzaaUbuW75CI+ylIu53
-         Cm2yDRQuLlSfQRZhT+f7PCsmuVlqddZL+JrgUEBE/KrmsTiz/a6lG3PvoAjkyk7SRhXu
-         gmhjdIl6uWGSxPwxh+kvHetunL2HG0oMdNCrAnakOR7loWLSPrTBcjJ/6czzZ27YeLdp
-         dci6wLyO5Re90EgmB7ZVzkSPuwgJxgDhzx5Y3S9VjOeb1TTRlj7pUgu9h32zyR+ejNO6
-         wVcw==
+        bh=48wpzd2rRuW6jSp7Tlrac3vDJDtgbTZqBF+kHuRo3/A=;
+        b=F626SGWmtxKJ8cQRouGxWZfd2oKHQGb5C0wqkYnagzeeDuzZuq35L1IDSNMek29Gbm
+         jjV6g15QjNix+Wxzi+SEeMPH6mflxEzLRXVC2wptnYQEncIBjML3C1xEtIPnlcDDk288
+         Y667CEWU6m4Faoxc68tCVVqOb3EZSTjdnP8HveGT4mOxveRnpHH+vxvYJHvrmLwNKpVB
+         VNQOhkmks2dhO+Y0g6JWYNZs0TMEQm+lJIav5ta/pxoR7AvkX8wszblbWVy00Je0DbhM
+         kxXLMT0R15OsxjD2mn+W/nHO4JV17woJ6EDHU0oBTTk81WyFf2cQWeXFEgnZx2aBzo8r
+         Aw+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794439534; x=1795044334;
+        d=1e100.net; s=20260707; t=1794439535; x=1795044335;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zeKs1Z2Pv2GV4AuEhN0bB0lWtBNEb9bqfYfvbaF4KSw=;
-        b=X9cJxpgX/U/yZJXZ8aYQuzCA546L+R31NRUtRP+pZysDXFx18VDmUqUgwHisPSU4ex
-         oXrbyf32oJ47CLc2EEbZaqBTINmZ92e2Yr7z6yuTBcOUS+EnAA/8R7O9QleV3CmfEll7
-         +DaSgG7C2j590r75kJTaw55rY4a4C37h28DV76u1K4p+s/jl0+NElZvuxYtCmRe+O7mu
-         DYJCilRGORQXeDZdbqhwy3dbEjgphkx5LeAEUBRwLCY08yQuqR5ZS/UMoi1jmpiX0IPE
-         ZoZ3RFoGSZ+Hl0F5/o2jxsXvuVlTwnci4ZW6aG2YuvN0tYrJVQZq+bAaDDBD12lgZPkv
-         FuwA==
-X-Forwarded-Encrypted: i=1; AL+hErEuNSfthsikf645kdrrzZz9HzbuQJAbZMdg9X3VIkv6fwWQmiyrmJ7ZRO3mG4f5C4bxQXezepxfgZLi@vger.kernel.org
-X-Gm-Message-State: APuU4Z/yB63H1l4pl7ap91xKpzjsFFHg6Pp1jN8nZTMJ6+8RQAeWGwj5
-	h0OwOKxllq+w6DFvNjeENVm/mA5p/ynWIHOjqhR0mqsSZ6xzsI1gPsDL
-X-Gm-Gg: AYBFou0styqE0nMeDTddZv5mQJO5wIXarXvNpxGqTU2ybg7rrs8VFaTeT/nTLD8b7Sx
-	N823rWHmrJ/q7HYB6jzvYOcGhyP352rBh4o+Pcj8+qFv6o/nw/YDO+jhqnawCjw+T/f11x+O4iE
-	FIdAdnpCGjFc7JKOYKdKSJpZmHL3s0Jc3JwHD6i8gXSG2HWBBsLElwjXOK9SBZ/1Xry6894xTNa
-	9Wosl+QxZVhck+OIltPpNzOaqZGM8gwrRqtrqz7F6ie3CHa/jde9QOcDiuhAsRvwomml0XGyAFM
-	dsbu6D5pRX93Z41PhOsdHCN+jr/dLWx0o9HfYetmRwKWD4giK1zG33LO9E+I+Wo8olnPmVzV0OG
-	BkQcHcMQQG0LlofQeYFjkrDod0aQUIdO25kWVVII5GoUWsNo3P/LCx8FVQnviSvVU9/Cp7C79N7
-	OKniBMpKqTZLrUqth66jVDUPA+/pwYLaLsztVJEplGge/SqjtAXKUlZ5KBvd0XRJAW8ot2bdIOy
-	crQObtB2Hc8hDG1kxKynxilkAVOiHIIa3TXY8y6N8vRQjK9ts0Rvzm4CrJONf4eG6A3+3eztwtv
-	mDUpJGtVuOHy8bKo+RfHXW107nLlyK11cWcebSV33Wk=
-X-Received: by 2002:a05:7301:d807:b0:378:2e89:3958 with SMTP id 5a478bee46e88-3782e893b15mr219848eec.19.1794439534310;
-        Wed, 11 Nov 2026 15:25:34 -0800 (PST)
+        bh=48wpzd2rRuW6jSp7Tlrac3vDJDtgbTZqBF+kHuRo3/A=;
+        b=kj/kbkxKrFfS++qqGkVl+rL7PGSsG9CXw7/BmcdTnGhhiJaNQUjJ/ydp8oa5AOHdCg
+         zRCuUFRp81Nn6v2AcCnyjFypsr2J1e12s64g5JgJhjedQr+8ehnKqsNWoohJm2RbVpCU
+         eJliQb9rP8aSOSq9KV7cSAfYtFPnjU3O9AGYBbWIurUP8ANEPeYt0EcZkIbcpUiYOMmt
+         gsDA8FO3pcpGRvAe9gmE9AvGV4RFAuQh/oBFtilmwgjOWo6ANijHzXXqN7Aw348ZnNx9
+         si7dkhzhE70xJm1bRmINYcDIYIDy7WBrsEPWshn1h/xip7GtdTeO+DPmIms9lGjNLia2
+         D6Tw==
+X-Forwarded-Encrypted: i=1; AL+hErEt5Srqm33a4mc2FEZF8bpPDHhIdF6fJV6NnIbx5NFltsKMEmq9qkg0OIiJaPUsswnIwOnl7MFMykrZ@vger.kernel.org
+X-Gm-Message-State: APuU4Z/u+Jq/hUmNH/ucSUSYL1SO6vCDrh58Qzp/TGsPhQO8Zm74AyyM
+	+l8pA/ilR1zjiHDI4fbXAcqJ4JydhCe4DBJUyUC3G2tLnvBZwn+wkDh1
+X-Gm-Gg: AYBFou2RTCTBkirJ2o8Kd09+upt0wPY9cX6g42EuA7F8NEaGUwg2g7dFPSbtfErhCit
+	1b5GsNyRl/uI3IH2eUj12kcFrLt/QyoVLfq81rA/sSip33Yrg4Q1PsCwO+1YycleY+Dr5ukmJ/A
+	YQCcaexuuM+CgikLZIc7Yd557jwcaqXIftjWpGab8lJTqkdNdF+DyrxxfZX6FjzAAInNKqJrpxU
+	3rcatAYIdEfGWRc4ICBr0pfVPG/n6uHtO4jK6kOzKByvqwskS0Z0LektQfCBSRLEbiYGCJ3/Weu
+	hX5+2khDOyDRKtTWWYHukXlCs+Vn6oufnXm9U6PyOMPtxH4wSFpARd1/Nsm7m/QorMufHYIQhFJ
+	KL/cU8Pf/9RiUqTU5KPeqhj07TWtO5V34f/VpoNrpFmwwH+z3B2jjNbNp4JbtmKQ/IoB2hu4fOx
+	CAg0ZBdrdrn4eLphPG4sJx/ShzAWK+AHlDtRUdR/rQ1xt5tyx77BdM1p53csD48zdzFfdhhfn0N
+	xw+FrMIZXUk+zlrs4IpKrluwSxMK7OnKcGN2L4Ar42PRKu1BL+aApPNAZ8NwHTNt60GOm+r7wUq
+	+jb39LhHWlmcaopDKID3FrW/Kzlt7bO8Co3ZSA493A==
+X-Received: by 2002:a05:7301:2901:b0:36b:d3dd:2e9d with SMTP id 5a478bee46e88-37686278c31mr5725653eec.19.1794439535470;
+        Wed, 11 Nov 2026 15:25:35 -0800 (PST)
 Received: from Alienware-m16.lan ([79.127.217.36])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375212ec002sm22626946eec.26.2026.11.11.15.25.33
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375212ec002sm22626946eec.26.2026.11.11.15.25.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 15:25:33 -0800 (PST)
+        Wed, 11 Nov 2026 15:25:34 -0800 (PST)
 From: Andrew Luebke <andrew.luebke@gmail.com>
 To: Borislav Petkov <bp@alien8.de>,
 	Tony Luck <tony.luck@intel.com>
@@ -86,9 +86,9 @@ Cc: Aristeu Rozanski <aris@redhat.com>,
 	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Andrew Luebke <andrew.luebke@gmail.com>
-Subject: [PATCH 1/2] i5000_edac: fix slot number passed to determine_mtr()
-Date: Wed, 11 Nov 2026 15:25:28 -0800
-Message-ID: <20261111232529.407154-2-andrew.luebke@gmail.com>
+Subject: [PATCH 2/2] Revert "EDAC/i5000: Mark as BROKEN"
+Date: Wed, 11 Nov 2026 15:25:29 -0800
+Message-ID: <20261111232529.407154-3-andrew.luebke@gmail.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261111232529.407154-1-andrew.luebke@gmail.com>
 References: <20261111232529.407154-1-andrew.luebke@gmail.com>
@@ -103,54 +103,37 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Aristeu Rozanski <aris@redhat.com>
+This reverts commit 7556419180a3 ("EDAC/i5000: Mark as BROKEN").
 
-When the logic mapping branch/slot/channel was reworked back in
-64e1fdaf55d6 ("i5000_edac: Fix the logic that retrieves memory information")
-i5000_init_csrows() was not updated and kept passing twice the number
-of slots to determine_mtr(), which leads to acessing past the end of
-i5000_pvt.b1_mtr[]. This was found by KASAN.
+The driver was marked BROKEN, instead of taking the slot loop fix,
+because nobody had the hardware to check it with single- and dual-ranked
+DIMMs [1]. With the previous patch it loads on an HP xw8400 (5000X) with
+all eight slots populated, reports single- and dual-ranked FB-DIMMs with
+the right size at the right branch, channel and slot, and stays clean
+under KASAN and UBSAN bounds checking.
 
-Fixes: 64e1fdaf55d6 ("i5000_edac: Fix the logic that retrieves memory information")
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Borislav Petkov <bp@suse.de>
-Signed-off-by: Aristeu Rozanski <aris@redhat.com>
-Link: https://lore.kernel.org/all/20220921181009.oxytvicy6sry6it7@redhat.com/
-Cc: stable@vger.kernel.org
-Tested-by: Andrew Luebke <andrew.luebke@gmail.com>
+Two-channel boards (5000V/5000Z) and error reporting are not tested.
+
+[1] https://lore.kernel.org/all/YyxpbRkuLPIcW1Om@zn.tnic/
+
+Assisted-by: LLM
 Signed-off-by: Andrew Luebke <andrew.luebke@gmail.com>
 ---
- drivers/edac/i5000_edac.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/edac/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/edac/i5000_edac.c b/drivers/edac/i5000_edac.c
-index c0faf55f7812..342b69909600 100644
---- a/drivers/edac/i5000_edac.c
-+++ b/drivers/edac/i5000_edac.c
-@@ -1253,14 +1253,12 @@ static int i5000_init_csrows(struct mem_ctl_info *mci)
- 	struct i5000_pvt *pvt;
- 	struct dimm_info *dimm;
- 	int empty;
--	int max_csrows;
- 	int mtr;
- 	int csrow_megs;
- 	int channel;
- 	int slot;
- 
- 	pvt = mci->pvt_info;
--	max_csrows = pvt->maxdimmperch * 2;
- 
- 	empty = 1;		/* Assume NO memory */
- 
-@@ -1271,7 +1269,7 @@ static int i5000_init_csrows(struct mem_ctl_info *mci)
- 	 * to map the dimms. A good cleanup would be to remove this array,
- 	 * and do a loop here with branch, channel, slot
- 	 */
--	for (slot = 0; slot < max_csrows; slot++) {
-+	for (slot = 0; slot < pvt->maxdimmperch; slot++) {
- 		for (channel = 0; channel < pvt->maxch; channel++) {
- 
- 			mtr = determine_mtr(pvt, slot, channel);
+diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
+index 4c70729b0d3a..63f263c4263d 100644
+--- a/drivers/edac/Kconfig
++++ b/drivers/edac/Kconfig
+@@ -218,7 +218,6 @@ config EDAC_I82860
+ config EDAC_I5000
+ 	tristate "Intel Greencreek/Blackford chipset"
+ 	depends on X86 && PCI
+-	depends on BROKEN
+ 	help
+ 	  Support for error detection and correction the Intel
+ 	  Greekcreek/Blackford chipsets.
 -- 
 2.47.3
 
