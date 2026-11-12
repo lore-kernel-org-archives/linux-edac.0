@@ -1,77 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.2
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794442696;
-	b=UziF9pYybGtPMpxASpliqvDm5Ji+DmEbAc/cjUGM+SH51IfwdxAuXRepDwk04pARx6o9
-	 7Jiwb7Gm+ahPni9Zsx/k5ar/Z9WbZ7zaG/CO8NpgWIy2mAbHbHJ3HC1JMdoqB/6OwvLUb
-	 AwzQ+zVw86HQXOPLBjrxBTPgJoCJ0laj/YIaMD9/lqZkEFg6ygGs+M2ZWZOTNS+C6cNOM
-	 QgIq35mG0hFgqvnYsj4hagl/X23tzJW4vCLboTgYHsNr2vnjtcdSJoykzaY1Zwvu3cRoj
-	 H6wRv83Fe3admz5+B18kIv3eCMZZiwmwvibZxh1P7ipSatiMmRD34t3GN/pXx7yq5Nw==
+	t=1794469007;
+	b=LRhx+kVGYdhB9WLE6DBafS+fYbYbT5a62/ewFBML95jUbsVSVIfTZMUg2F/f9S4OTpIJ
+	 gCzvn9JFma6XTBfqMJGP3zf9LVNESXf9CBFya35gi+9EbrcBW5XPLsceWX/oepMAcRuTm
+	 ps/Hq5CSpe/+VZT+2QyK4wahUk4eWwUfyDw7CfZ3AUq6p8Gsn2uJcapvPw3RNah0vdIMW
+	 GLPq5DDTYy5nyZpxFnWfkC1+xkdCTUNO/0YJEWfGIe92lck9KNJ0zNXYCAQH5yDjMaz2V
+	 /WcMwhI5oDBRHJlQuYCmn0DNapP7HgL86AMVSavLz5GrPKWABX58i2xnyiUEzANA2Xg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794442696;
-	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=z3bxrbFKkTpEcIw/694YZcQAAJ2hY4OxEzRQP2+fKzs=;
-	b=itBY2W+zsFNtA6++3UNSmvOFlhx3OCno+sbB78YTYKvU486MmzIpCRPCYOb6Se6K3cim
-	 HCryow2PzDUK5GQiE6zcUw/y9C/VDzkHS0UKq+f47LQfKbPDvOAPYezdWwEbNSbMCxAFD
-	 uia+HE5v/nfOv6OCQmqYbp4PwtVfJ6M4ANePDb6JiZIzRmwK09uBWca/buAAyPVlyVGj3
-	 8verijT+ZJur04/tizdpjS85TEZo0YKkHUSJIVbLeoiQJLIFm0hwZDgKWQHOP6wVgKOlV
-	 MW6fsmw1revGouPp3x6i2/5pcJVGjIzr+Z8jrBKPUM/8RFjYAsgWgOhHScGAXAXU1DA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794469007;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=QdF4wHPbtvFGvdwX9CW69DxGNZ9Q1N0LXe8g5lqSEBg=;
+	b=m818w1OzASio1FIrAgC6PZJlj3vwyGahjoxhZha8qj3E6MbYOM+9EhJGupGT26pdkS43
+	 O3cw3gCoYWP5js7UtilW6+dUIkQWyTGddZfYLQ5IZ6mzYYKN4bkaJVdztEPJfaRQI4n1W
+	 S2gkwz4jFcOotSkxNH6fM/uL8SlK/VxG67u78VP63M5o8MMDsswplqH7j3iII5ZeKo2mN
+	 1gAXzXaJBO78QKQ+ZeheWJ8QMDloSkRJx6T8cE2H+HDMtF6v5VjkX2yKkKWTPGyHKVsDq
+	 mZLySwGDycSAFyz3TTQQKaZ19tvTj1GlloLKtI5HqrNwNz5aHAyKJxjqYztsA00hMoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=alien8.de;
-	spf=pass smtp.mailfrom=alien8.de;
-	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=ZrRhNlrY;
-	arc=none smtp.remote-ip=65.109.113.108
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=l1sB565y;
+	arc=none smtp.remote-ip=117.135.210.2
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE60F606A326;
-	Thu, 12 Nov 2026 00:18:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE60F606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A558F606A31C;
+	Thu, 12 Nov 2026 07:36:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A558F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=ZrRhNlrY
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A6EDB40E0222;
-	Thu, 12 Nov 2026 00:18:13 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id JJGyk9gKJ3av; Thu, 12 Nov 2026 00:18:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1794442690; bh=z3bxrbFKkTpEcIw/694YZcQAAJ2hY4OxEzRQP2+fKzs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZrRhNlrYInjq8W95c6Wszmwi9s0dscV7SbTx6PBfhuQlvPM+g3g3FcJQBcKN9Mmft
-	 bGgQCsyDk2BU/ZmP1FMQctzE0fm/eIF1949yiJeNL6QD84Id+So5ztIHGkePqRMxG2
-	 Q6Qe5aHsT3aCLsTDi8elt3HRkbgRGTvxm+l4CAeEjA1qVXxdeQ2HaohYZWlN/3pAhF
-	 7OxV8y04OI4WpAVichrFIPl92wfzz+Vqcd4LJ5KbxaiRzaZ3QwwK7spApt+WGGM3yc
-	 YM17jXn76MpIosY0fWerrnCno1ONS72eunXlyepBMSQK7PexqGk9zJ6I3YvUR5D+oX
-	 0eUetBeCGWeqPdst/0VNG3H91M64/U9nymmUXABbUrJ5jEanZkZS0lzuNdU9K6syRl
-	 FiZhqavdQmo76RwoSgmD8Wm3AWEGcaT1MI3fgkxjlwfkntrkBmqWGr0qO0PhYhlPFu
-	 DvE3bJioOZ+9c2kZTlw3yZUbTfmINiGaNl8Dtt3rk8EkWIarBjErObyMQCqJ0qy1Xd
-	 OvyVXHelsNGfeRW3kcmIeY/ryVO1VdKOuD4hIxuAYSGBtnjjAd8d9uim+BQjmuwRro
-	 kldIFzVlFjeNSnw8du4WwSbnI7jmUrzeP35WKUt/+vSWq4UCxKj8uhjc3MuACkaBB5
-	 pOUH/S8apA6Q4C5sk+S/q9Dc=
-Received: from stx.tnic (unknown [209.52.143.85])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BB26940E0218;
-	Thu, 12 Nov 2026 00:18:03 +0000 (UTC)
-Date: Wed, 11 Nov 2026 16:17:52 -0800
-From: Borislav Petkov <bp@alien8.de>
-To: Andrew Luebke <andrew.luebke@gmail.com>
-Cc: Tony Luck <tony.luck@intel.com>, Aristeu Rozanski <aris@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] EDAC/i5000: Fix the slot loop and re-enable the
- driver
-Message-ID: <20261112001752.GCavUFsCwZIRkfLI7T@fat_crate.local>
-References: <20261111232529.407154-1-andrew.luebke@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=l1sB565y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Qd
+	F4wHPbtvFGvdwX9CW69DxGNZ9Q1N0LXe8g5lqSEBg=; b=l1sB565yoIYr7QY5gJ
+	fJT18fIr++LnJiHl4/UJV605mpHaF9TMHd7QobLBZ7gWdUA142o/3417AiPBbzwG
+	NwS2/aI7Eq/H45W2j/lBTVwSp4obODE0rHHN+M8ysCQk/+VE1YfY/j5QMvKtYDZr
+	qohjvKFC3wGqV2AwSKoYEouJA=
+Received: from localhost.localdomain (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id PSgvCgCHaRhtbPVq_SySFA--.53017S2;
+	Thu, 12 Nov 2026 15:36:14 +0800 (CST)
+From: Qunqin Zhao <zhaoqunqin@163.com>
+To: bp@alien8.de
+Cc: tony.luck@intel.com,
+	linux-edac@vger.kernel.org,
+	chenhuacai@kernel.org,
+	zhaoqunqin@loongson.cn,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v7 0/4] EDAC/loongson: Improvements for Loongson EDAC driver
+Date: Thu, 12 Nov 2026 15:36:07 +0800
+Message-Id: <20261112073611.25770-1-zhaoqunqin@163.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -81,30 +62,106 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261111232529.407154-1-andrew.luebke@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PSgvCgCHaRhtbPVq_SySFA--.53017S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCrWfCFW7Gr15tFWUCF1rWFg_yoW5tFWDpF
+	W3Zan8Gr4ktr1Ika9aya4xC3Z8Ka95JwsrXFs7Z34rZr9xZw1UZ3ySkrWUuFnrAr4SyF1U
+	Xa40gFn3KF4DAa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UQYFtUUUUU=
+X-CM-SenderInfo: 52kd01pxqtx0i6rwjhhfrp/xtbC7g5OjWr1bG7iwQAA3d
 
-On Wed, Nov 11, 2026 at 03:25:27PM -0800, Andrew Luebke wrote:
-> Analysis and test kernels were prepared with LLM help; the tests ran on my
-> hardware.
+From: Qunqin Zhao <zhaoqunqin@loongson.cn>
 
-Just out of curiosity, was all the energy you've spent on fixing this
-- especially the AI tokens - worth the effort?
+This series contains four patches for the Loongson EDAC driver:
 
-This chip is documented on something called the retro web:
-https://theretroweb.com/chips/317 and it says it is from 2006 and it sports
-DDR2 memory. So that is retro alright.
+Patch 1: Rename driver-local symbols to remove the "edac_" prefix.
 
-The HP xw8400 has a whopping quad-core Xeon in it.
+Patch 2: Encode node and MC info into mc_idx so that on multi-node
+systems, sysfs entries uniquely identify each controller.
 
-But whatever...
+Patch 3: Get DIMM size from ACPI _DSM method instead of using hardcoded
+values, enabling correct display of memory size in sysfs.
 
-Now, if you really wanna do this, can I jot you down as the one who will be
-testing any future patches for that driver?
+Patch 4: Add CS4-7 timeout filter for cross-node access on 3C6000
+multi-node systems to prevent false CE error reports.
 
+Changes in v7:
+
+- Encode the presence of the _DSD property into mc_idx.
+
+Changes in v6:
+
+- Rename check(), probe() and remove() to loongson_check(),
+  loongson_probe() and loongson_remove() respectively.
+
+Changes in v5:
+
+- Add a new preparatory patch (Patch 1) that removes the "edac_" prefix
+  from driver-local definitions: rename edac_check(), edac_probe() and
+  edac_remove() to check(), probe() and remove(), respectively, and
+  rename struct loongson_edac_pvt, loongson_edac_driver and
+  loongson_edac_acpi_match to loongson_pvt, loongson_driver and
+  loongson_acpi_match, respectively (Boris)
+- Reorder the variable declarations in probe() so that int ret is
+  declared last, following the EDAC tree reverse-fir-tree convention
+  (Boris)
+
+Changes in v4:
+
+- int mcs_per_node; -> u32 mcs_per_node;
+- int valid_cs_bits; -> u32 valid_cs_bits;
+Changes in v3:
+Patch 2 "Encode node and MC info into mc_idx":
+- Drop mc_idx_u32 temporary variable; pass &mci->mc_idx directly
+- Rename device property mc-per-node -> mcs-per-node
+
+Patch 3 "Get DIMM size from ACPI _DSM method":
+- Fix subject: get -> Get
+- No code changes
+
+Patch 4 "Add CS4-7 timeout filter for cross-node access":
+- No changes
+
+Changes in v2:
+
+Patch 2 "Encode node and MC info into mc_idx":
+- Use char other_detail[64] = {0} and drop the else branch
+- Put snprintf() on one line
+- Initialize mc_idx_valid = true and drop the else branch
+- Validate mc-per-node firmware property is non-zero to prevent
+  division by zero
+- Wrap pvt_init() function definition to satisfy 100-column limit
+
+Patch 3 "get DIMM size from ACPI _DSM method":
+- No changes; rebased on top of updated patch 2.
+
+Patch 4 "Add CS4-7 timeout filter for cross-node access":
+- Assign valid_cs_bits before calling read_ecc() in pvt_init() to
+  prevent using uninitialized data when establishing the baseline
+  error count
+- Add bounds check for valid_cs_bits < 64 to guard against undefined
+  behavior when shifting a 64-bit value by 64 bits
+- Rename device property valid_cs_bits -> valid-cs-bits to match
+  standard DT/ACPI _DSD hyphen convention
+
+v4: https://lore.kernel.org/all/20260902084827.2652-1-zhaoqunqin@loongson.cn/
+v3: https://lore.kernel.org/all/20260812064139.1231-1-zhaoqunqin@loongson.cn/
+v2: https://lore.kernel.org/all/20260805085414.1482-1-zhaoqunqin@loongson.cn/
+v1: https://lore.kernel.org/all/20260730063035.230686-1-zhaoqunqin@loongson.cn/
+
+Qunqin Zhao (2):
+  EDAC/loongson: Rename driver-local symbols
+  EDAC/loongson: Add CS4-7 timeout filter for cross-node access
+
+Wang Jinwei (2):
+  EDAC/loongson: Encode node and MC info into mc_idx
+  EDAC/loongson: Get DIMM size from ACPI _DSM method
+
+ drivers/edac/loongson_edac.c | 112 +++++++++++++++++++++++++++--------
+ 1 file changed, 88 insertions(+), 24 deletions(-)
+
+
+base-commit: 05441d697f7f9a927264f4058cbbc6a03dfcac9d
 -- 
-Regards/Gruss,
-    Boris.
+2.47.2
 
-https://people.kernel.org/tglx/notes-about-netiquette
