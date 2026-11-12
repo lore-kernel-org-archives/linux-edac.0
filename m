@@ -1,78 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794508701;
-	b=bzST7dLZA7fZNbDoHy/nC4b27Vp6nmvtlnkygcgnYsuWD6Xnqc4wyHVio/Q6dy87NUs2
-	 J6QrxUky2LQTHAr8jRfdFQuvcwZ0+vWxyyKiigb1O8c+/n1pLUdI223RVYQ6pvmIDyw5A
-	 Mtzo7PDMobCvlr0HNxefeZHifWAIpD/B4t+g/bBZ9Ez9CJQfnHUz8pAhEyvuFhyFwcjpk
-	 X4m9/p0nxTngVCDt3ZIpBPdrsQ9YHelZK5Ln2i+e3SyraTUcXc2fO2BOjEgl8xLCCQQLj
-	 9fS+OOjS7UahRYHZzfbHEvbwFahchTGSUpsc8wbvVXnB+AoDEFkRgnqX6GpEprQgbZg==
+	t=1794520432;
+	b=j90s2NVaHIwEmJNS/ULrm+G0DR3uUHjL5yQxCvcg1udrPwFcOMu3BE8VmwPI3mMpERpy
+	 MObZj50oASnOeQ5I4jjUDBNTC+bkbWWvNaCrIqS+MmHSGch930HwNnPq+sh4ijZQpp6py
+	 3drxqqbO79TGctpP8wiGlvFFxvWKPttqCHtcw2254hLa4Aq1h411OGTHSoVgRqR3Y56lS
+	 gKsAEL0sBb79x13jAQ/lQFH/7Ae8kUZN4kGrsSM2Sbv3x2tsU23eInXTLAWDw7v9vIaGn
+	 nuVsRdw7dFJWz+escd29MuBd3atzo8UZY9+hCbKmZ5Y1i8/zqitfNha6BLfkmPQfXBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794508701;
-	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=jG//rwm8BG3eLa8N18ZMGuWXVwaEsdy3p2tva64gqAI=;
-	b=ozsVbuZO5Cx9TbrY2nsLbyGuHffT8eHVL5U8Td/D8ss7hX8e+RzxGzIqvdqkHj38sRus
-	 wVI5fc8jm81VHGkLgfrfU/SLI3EhG90Cuq4QUJOAjtp+UkmTn1gAi7DB8DFLEL3bqNU1W
-	 PWzN1XX8pUbfpUELRxmS06EaPKERCGOL2LAsweP651KzqTymKyEafBr80lHtbd2QzmAqD
-	 NO4FtoaF0g0mV/EsWSQ5KrHkgCMRKzNDufYIaHV+6rnoORxJY5pDK37VKFreTr6TSZZpr
-	 4Hl9TUdrG0+Ea9wqGBPKkEOc3m/mlXhaFOARj15KOKSPnQGQCjGV4GZMxvpScFrC0sA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794520432;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=KIbzg7d2+UtRUYNVIhRwn0m7ejVizCAxgM+sH7uQvyY=;
+	b=l0A//a5wufXtwYj13iquRzw+/Xis0j7cxcI8aPY1CpTnBVIYUH8EJq2fDZLrbBK79Iu9
+	 z6IUqzCVz9cbTyKo2lJGqOrFdVUQl7JeyYm2qpLjo9VH6b2Fs4EKgc/hcBnjrLg9msYq3
+	 8HvVoWH0dbeW+5KGj1sUBvfoY8B2fslVakR8R1J/EiSb7FAjhQBRQIYnSNsRZLWGm1JC/
+	 lwoW4HKH6ZKimYDax2Dz8GtinYcTZySAAeD5HwbuqWSLt1AD37uDDkYN8G8iAgofr3BAU
+	 ws6x4TykTb5S2SYciG+THzDih3ORF0gxrT3T8qPqrMGKjgkpb3K2mL6ctbUF0U+eKEg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=alien8.de;
-	spf=pass smtp.mailfrom=alien8.de;
-	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=Mo4MerTY;
-	arc=none smtp.remote-ip=65.109.113.108
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TftBanSZ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCEF606A339;
-	Thu, 12 Nov 2026 18:38:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCCEF606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F26F606A31C;
+	Thu, 12 Nov 2026 21:53:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=Mo4MerTY
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A667340E0234;
-	Thu, 12 Nov 2026 18:38:18 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id Or4TjDU85gde; Thu, 12 Nov 2026 18:38:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1794508695; bh=jG//rwm8BG3eLa8N18ZMGuWXVwaEsdy3p2tva64gqAI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mo4MerTYL5zvhK7FI25GpXleAh4ozLKh1Zu+0fQ8E0x71yYSlh537Fv5NGCfqjXS8
-	 hYWT1DaXzV6ZyOc9eylwwUDe5Rc/UP7SQ088RpeesJHZtN+Bok5cp7E1jR/NBVo+c+
-	 wLmWIox6h4Z52Hp+/qM85sTf/0x2LWNMg70ffnCaIPxehoYIHcL/d/YFqP/8neeBKg
-	 34p2CzdnDLEfGU4npMXSEXhT8u4r24g0MN7cSX/oZkARkEF66ej+a6ZnpLcdsl/Ezr
-	 QCLm3Iwb/JKDgAL/jrUB5eJefUaeFLd7dmoYthjsQe24pcx99LFCwmqDyv4VZLJqyb
-	 Oe1vGXX9iy7GaWR9Gg25EgkjJ23asBNAeA5CBWU4kLGvukUdK/hN+OlMyBEXDigea2
-	 CVa85rHZTm74BPy3YH66pYfIWGp+j5n8e+AdgdJo3xBdQOuIJx1qcsnZztJ43kNA8k
-	 Gktd9FSHA9Qlc2WLUTRgeNvGVqx0cf2laztG1BWbFAdAr74naPh7FnzrEftQuj6zo7
-	 0F05zU8pvhvb/yrkXSPwKYdSwOF49pce0WMFdM3LJpy0JlnNCksB0FiByLyfYoH8em
-	 EbwAQmf/EqrKnSJ3qXV+rVK4BK7PL4NVKJO9XnS5Anez6OhtYuXEVLtJIw02VGaJqe
-	 2iQppytewMA2SdliIi6ARnrQ=
-Received: from stx.tnic (unknown [209.52.143.85])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2484B40E0222;
-	Thu, 12 Nov 2026 18:38:11 +0000 (UTC)
-Date: Thu, 12 Nov 2026 10:38:09 -0800
-From: Borislav Petkov <bp@alien8.de>
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v10 3/7] RAS/AMD/ATL: Add unified UMC address translation
- interface
-Message-ID: <20261112183809.GFavYHkdBpCEpwPWR5@fat_crate.local>
-References: <20260922202318.4079080-1-yazen.ghannam@amd.com>
- <20260922202318.4079080-4-yazen.ghannam@amd.com>
- <20261106175635.GAau4U08ECoVyMTEy1@fat_crate.local>
- <20261110152106.GA1579751@yaz-khff2.amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TftBanSZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05FB91F000C4;
+	Thu, 12 Nov 2026 21:53:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794520431;
+	bh=KIbzg7d2+UtRUYNVIhRwn0m7ejVizCAxgM+sH7uQvyY=;
+	h=From:To:Cc:Subject:Date;
+	b=TftBanSZdsrTHdKddcn0V0DWOqqKBqE+4jWC5w+dKJWGlwFM5JARZmNjWDvpdi1PR
+	 WCr9mLh7D0ub90439VaLJIJD33sebpvVWYfREhKYldNAgDPqAeryVw72R+BLWpL/O3
+	 m1CfPiAaaXH3QMQEnRWVA6JZVr4S9jcTkP9d4oXRRgERD8RDd5raCOVWrOMRucyXw5
+	 /By/X8b9Am/4de5gvyekCqqkBShBz59hVTvktf+HwjetO1ilrGvs5ctBSOrtzhCieT
+	 a8HrOTJWew4sf6UWvjB64y2im26WFK1wr154/0oUcQT9vnguC5eDFr8gxsOhCR9V2L
+	 VvGERFqk01W+Q==
+From: Dinh Nguyen <dinguyen@kernel.org>
+To: bp@alien8.de,
+	tony.luck@intel.com
+Cc: dinguyen@kernel.org,
+	rounakdas2025@gmail.com,
+	niravkumar.l.rabara@altera.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCHv3 1/4] EDAC/altera: use flag to differentiate 64-bit platforms
+Date: Thu, 12 Nov 2026 15:53:39 -0600
+Message-ID: <20261112215342.2476801-1-dinguyen@kernel.org>
+X-Mailer: git-send-email 2.42.0.411.g813d9a9188
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -82,27 +64,125 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261110152106.GA1579751@yaz-khff2.amd.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 10, 2026 at 10:21:06AM -0500, Yazen Ghannam wrote:
-> > Please remove text explaining the code.
-> > 
-> 
-> Okay.
-> 
-> > > Assisted-by: LLM
+In commit (d4486fc3098e "EDAC/altera: Use ECC manager compatible to select
+A10/S10 IRQ layout"), it added a way to only differentiate Stratix10 from
+a 32-bit platform. In preparation to add support for Agilex5, it needs a
+way to make a further differentiation.
 
-I'm sure that assistant will help. :)
+Make use of the driver match data to hold a flag for different platforms,
+specifically Stratix10 and Agilex5.
 
-> I had considered that. But I went with the flag idea so that we could do
-> multiple operations with a single call.
+Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
+---
+v3: no changes
+v2: use enum for altr_platform_idx
+    use SOCFPGA_A10 for A10 platforms
+---
+ drivers/edac/altera_edac.c | 20 +++++++++++---------
+ drivers/edac/altera_edac.h |  8 +++++++-
+ 2 files changed, 18 insertions(+), 10 deletions(-)
 
-Fair enough. Less overhead is good.
-
+diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+index bb95dab847b3c..78f4a1b0fc64a 100644
+--- a/drivers/edac/altera_edac.c
++++ b/drivers/edac/altera_edac.c
+@@ -1489,7 +1489,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+ 	int edac_idx, rc;
+ 	struct device_node *np;
+ 	const struct edac_device_prv_data *prv = &a10_sdmmceccb_data;
+-	bool is_s10 = device->edac->is_s10;
++	unsigned long flag = (unsigned long)device->edac->flag;
+ 
+ 	rc = altr_check_ecc_deps(device);
+ 	if (rc)
+@@ -1538,7 +1538,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+ 	 */
+ 
+ 	/* Using compatibles to determine the IRQ Index */
+-	if (is_s10)
++	if (flag == SOCFPGA_S10)
+ 		altdev->sb_irq = irq_of_parse_and_map(np, 1);
+ 	else
+ 		altdev->sb_irq = irq_of_parse_and_map(np, 2);
+@@ -1556,7 +1556,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+ 		goto err_release_group_1;
+ 	}
+ 
+-	if (is_s10) {
++	if (flag == SOCFPGA_S10) {
+ 		/* Use IRQ to determine SError origin instead of assigning IRQ */
+ 		rc = of_property_read_u32_index(np, "interrupts", 1, &altdev->db_irq);
+ 		if (rc) {
+@@ -1967,7 +1967,7 @@ static int altr_edac_a10_device_add(struct altr_arria10_edac *edac,
+ 		goto err_release_group1;
+ 	}
+ 
+-	if (edac->is_s10) {
++	if (edac->flag == SOCFPGA_S10) {
+ 		/* Use IRQ to determine SError origin instead of assigning IRQ */
+ 		rc = of_property_read_u32_index(np, "interrupts", 0, &altdev->db_irq);
+ 		if (rc) {
+@@ -2121,7 +2121,7 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, edac);
+ 	INIT_LIST_HEAD(&edac->a10_ecc_devices);
+ 
+-	edac->is_s10 = !!device_get_match_data(&pdev->dev);
++	edac->flag = (unsigned long)device_get_match_data(&pdev->dev);
+ 
+ 	edac->ecc_mgr_map =
+ 		altr_sysmgr_regmap_lookup_by_phandle(pdev->dev.of_node,
+@@ -2154,8 +2154,8 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
+ 	irq_set_chained_handler_and_data(edac->sb_irq,
+ 					 altr_edac_a10_irq_handler,
+ 					 edac);
+-	if (edac->is_s10)
+-	{
++
++	if (edac->flag == SOCFPGA_S10) {
+ 		int dberror, err_addr;
+ 
+ 		edac->panic_notifier.notifier_call = s10_edac_dberr_handler;
+@@ -2205,8 +2205,10 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
+ }
+ 
+ static const struct of_device_id altr_edac_a10_of_match[] = {
+-	{ .compatible = "altr,socfpga-a10-ecc-manager" },
+-	{ .compatible = "altr,socfpga-s10-ecc-manager", .data = (void *)1 },
++	{ .compatible = "altr,socfpga-a10-ecc-manager",
++	  .data = (void *)SOCFPGA_A10 },
++	{ .compatible = "altr,socfpga-s10-ecc-manager",
++	  .data = (void *)SOCFPGA_S10 },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, altr_edac_a10_of_match);
+diff --git a/drivers/edac/altera_edac.h b/drivers/edac/altera_edac.h
+index 9387056fd65e3..4a9da28fa96ba 100644
+--- a/drivers/edac/altera_edac.h
++++ b/drivers/edac/altera_edac.h
+@@ -351,6 +351,12 @@ struct altr_sdram_mc_data {
+ #define ECC_READ_EOVR                     0x2
+ #define ECC_READ_EDOVR                    0x3
+ 
++enum altr_platform_idx {
++	SOCFPGA_A10,
++	SOCFPGA_S10,
++	SOCFPGA_AGILEX5
++};
++
+ struct altr_edac_device_dev;
+ 
+ struct edac_device_prv_data {
+@@ -394,7 +400,7 @@ struct altr_arria10_edac {
+ 	struct irq_chip		irq_chip;
+ 	struct list_head	a10_ecc_devices;
+ 	struct notifier_block	panic_notifier;
+-	bool is_s10;
++	unsigned long		flag;
+ };
+ 
+ #endif	/* #ifndef _ALTERA_EDAC_H */
 -- 
-Regards/Gruss,
-    Boris.
+2.42.0.411.g813d9a9188
 
-https://people.kernel.org/tglx/notes-about-netiquette
