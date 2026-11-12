@@ -1,88 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794502723;
-	b=XE3CvnD/MJsAzjza1shMc3KtmEsNB4f7BTxZtuFKcxk1iQrQvVX7UAPoqcGfl0NtjvAk
-	 E+qj8Xxa2PKm0MDD7nto0i0pQRSFbvI5534wGyKJ9bptMotznJQAO/zCh0QKhP8apLSy1
-	 csTME9wjxwaAXlrKsZ+KJ0QAEu4zIkIBOM/LpoyDCYydVB4GlQqbvPoNa0ybJljDgyG6U
-	 ApofZihXPb0ITUiEtUwllAtVrR4052bSS8oeQPDq2QH8g8RYNzoK5Q85fDagVi8TTfNi+
-	 ifos7ps19T0LoJOfC3Qnnkj+f/6/LOaecsLg2wLUrJr+jyKKuQ21jYVpgPn4xlYP6qw==
+	t=1794505986;
+	b=jSuUz0utSYyUkcSumax8RtkVWWkjB3P+FTQwku9vGke1hnbjm4YKvE/KOsAAs63fK0hK
+	 qp++ZBIuzWb9W4XcpGRybxN8UKry+Q1GNZPlxxKX5d8wqKkhWdFXgKqGYU0uI8rYAol16
+	 sSLKcwcUam+ec6ds76/TXLSr2y7w9AwYPzEOx2MB2KOEd7feVngk8jtPn3OLr0tLm1O7o
+	 PPIRzZEof6ZK6VBJMiqOfz3URnZoOaI2nxF/cxQiSFbnApTrj7yD0m4pY+3VsQgHTDo0J
+	 VfVhBn42W6PhiqaKQAu4S5VK/b9N3C+YXyFrd5/RNtlfqBh6c+MhJxCQJI4owMUHVGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794502723;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=ku64OzmACMW70GnGPBtDLvhYjheHShhvEhRP7gtzIhs=;
-	b=G6/wVXtiOqY4DD/T8I05S8avK2CShvSpKv3goo8YMMUb+CMK22jsE0qewmhrqJ7pL+bz
-	 A6MyDcbS/aEjCaKNAxc5j5sTbKwCOZkZXn7g6tI48YMyRCMkUrrvq3oM7H4Fg6SpR4lBU
-	 jtuWoSoYA5EdeYwACu3GPQu/sVRVD8DXATU3AtpXKTjN5UD5Ec+iKTSs6ZnBg+p+KtSFU
-	 hQf31Z9zG+xMTa2zewnidqIORB31dpgZln/fsuDAWLrPhVHOlMugEsJ3BzDFTA+rAz1/g
-	 Tp4rDkJ3mcxxAVfl2yEkFuYx9Z+r+oyf2LbjhpD5zY0QPeqe2/yIv007Y4auZjZJDHQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794505986;
+	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=cSMK6Mipuf10/yEEPfPm7kNHAS+0RyoBzAv5GUWOO4g=;
+	b=bqbpaYeuD7UjmVFt+p82ixOqcEmnEAHb0QymYkz7QD/SMvOjU1IcEk4KlD4VjcxovzBE
+	 3glbDhD9QYa6FdeTCSpqChoTmfnoan811aGNYzFYok114TykIhtXf7Z9O68ermZ4/EeZM
+	 ETCNm0tFydLCOsIfzjyNUFeJih08TmexhU1HmhxdGfR6xoP72DGwrFpttjuzDnKzcZMIX
+	 yS/LZXhDE1MK5MmGpjnyzJJ5cTW6EA0LYgdpThfpGaei9fbXqMXtYwiShemK+k6YaLW2+
+	 Y+CKtetyfqRsCZCyt6XYvjhAHyjb9eYazESnEUSxf+WsnN0t9V8TYSGwWAQOJ3UkgQw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="PWL9e+/q";
-	arc=none smtp.remote-ip=209.85.214.178
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=alien8.de;
+	spf=pass smtp.mailfrom=alien8.de;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=gDCaIx2q;
+	arc=none smtp.remote-ip=65.109.113.108
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274D7606A321
-	for <linux-edac@vger.kernel.org>; Thu, 12 Nov 2026 16:58:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 274D7606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD675606A31C;
+	Thu, 12 Nov 2026 17:53:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD675606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PWL9e+/q
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ed06b725fdso9012885ad.0
-        for <linux-edac@vger.kernel.org>; Thu, 12 Nov 2026 08:58:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794502722; x=1795107522; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ku64OzmACMW70GnGPBtDLvhYjheHShhvEhRP7gtzIhs=;
-        b=PWL9e+/qTxQeGLD60f5nw9247Os7SPFeWMcFJeN3OL3cbzD1F7GSu6CsvCln8hFd8C
-         0mT4Ttcv8mkxKd7NdgusdNxxx1y+bvjJlv8uOhOzhG92Og+J5eLHJZ+VSlDMhH1yK2KQ
-         ec6PXNGon2ZB3KxOAFlZUcQwrUG6RomwEd3oWbnJeKark+CFNURTupVFrMfo4YUASCpt
-         zM2EYsvzRjy9qlMFUXThBeKM3TpfxXyyhNLv02rlHzHOKrenmF6mXI1vMaloj4IptHCS
-         LTWzFuoXg42FZbD2S4s01zHclI0AGIiCSV4GHncAZqxvp/t9Fc+EpgzIWrsVk1W/+yuM
-         gWMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794502722; x=1795107522;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ku64OzmACMW70GnGPBtDLvhYjheHShhvEhRP7gtzIhs=;
-        b=fL9eQPcDnRijghUiVqZVJwZX3RVrp7Y2p3iaOAYqcMUCW4vH7XTHeHsxSxKM4h8nMP
-         1bC1m0efQtF2G2dnLIC2XTo3iLUFZv/xzeBProG8SkBpsyNwvgOVIqR+Kw+Tyrfm4rwF
-         xVCRTmDMgy5JwgLTkzU07/kuyunDRGT+QyzoqZQTOoMg/JhNw6FHCx1rqQyxG1eIGpGz
-         FZTb/6Lu8dJ0QxtnkYnIHqDZiGWw86TIpdR88AjcWu6sZCh+xnISj9xOFmvCICh66mWJ
-         l4EhBjpSaO4LDNjURXi4LXkgshCE8/sWnwM2X1hw9R+SZAuN4W7Lc8dcBWhVPE0URQ7L
-         v0jQ==
-X-Forwarded-Encrypted: i=1; AL+hErEQsQTrjv4HBeuItbM0Epx5fdVYwW4Z1C1QUNBeuGTc+85/FZQFK/FAkZGegNIZeJ+m0UDQd6T+PZKO@vger.kernel.org
-X-Gm-Message-State: APuU4Z+fZlTOzhLUuiv+Et60W/VKBrE1oxxobprXTEK6hHtXHjFjbW/a
-	fFnDl2vEDLKrasDd01O4QGQoWtXCuv0uKoeXgt7oQiI13249ttGZ3Oprio02l4xp
-X-Gm-Gg: AYBFou0tSBHcVKlUP8B6b/g0YDHgT/AAaq7lAV6MCUX4gItD3u11uwQPi+VSi5OTeKu
-	B/KpVZOBUjD2pmLAS2lgDnr+Yib0KlHTCmjy1yeDhWmLNOZORf69dorb4z+Z+sMlDvUhmYSkHG9
-	fDZlrcVi4tZpldKBOAHWyPte8uWWzZiISwnRIMJRztS5g6zVSaZ2Zjb4BcWIiBcpk3pktYWLEuF
-	a+IePZ4vHuBHI/+muHQph4hnXbRhdaCK6CYY8y+irL0ZdQTO7WpmEuPYJfPUyOvuM2+3EynM5tk
-	Wr3lxarX0EkVjkQ9dCDCam1MmJDlgwhyqfeWuBagR4QtmohDyUYeOZ49EkqlUhavaxCj/eujw4z
-	1jFVH7ZKyI1gAUphiKi028t+4Ju8Q4gkjYkpUzdtDBHzx7hA4yNYjVBHCdYGHogDkeUxDIdYA9+
-	EGvgQ8nEJE0nlA9CpcGB6+eZuYNUQaM02E4fFUuHBl9XLGlnJDLCoLTPbiXyN4RAwZ1lGT0xiuJ
-	YCgdYJx7YUUsAqR3QUaOZ5F+Ow/ZraXLTvwWtEVMlTqp4EPTYrp33D5GA99wX0q0ypYyytTPxbc
-	OxR2hPsHBIhhVXj+axaIF9nSZKI4habuKUeliKk=
-X-Received: by 2002:a17:90b:1c0c:b0:3ab:8288:b8ce with SMTP id 98e67ed59e1d1-3b197caa743mr2304014a91.24.1794502722188;
-        Thu, 12 Nov 2026 08:58:42 -0800 (PST)
-Received: from [192.168.8.247] ([79.127.217.36])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197d35525sm5368094a91.16.2026.11.12.08.58.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Nov 2026 08:58:41 -0800 (PST)
-Message-ID: <d259e498-5cc6-4e23-a589-cdffce1764e9@gmail.com>
-Date: Thu, 12 Nov 2026 08:58:40 -0800
+	dkim=pass (4096-bit key, unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=gDCaIx2q
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id F141040E0237;
+	Thu, 12 Nov 2026 17:52:56 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id yyKEWDN8BssN; Thu, 12 Nov 2026 17:52:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1794505973; bh=cSMK6Mipuf10/yEEPfPm7kNHAS+0RyoBzAv5GUWOO4g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gDCaIx2qATLjnrOXRS37KojQ3sDDoQ1nmzGSXDPs/mAXVoFTzsVWj1r4ZlZbHQgL8
+	 rGZ39SPqroqenalvwkx733rk1nAkZaLQVMm6Rumy1imtO1dDg6UuVX9GPDIKg5Emyk
+	 s0ztoJr3+UaGTi588grcyHEDV/u/4y4nYs2yoWyrH1OcDYp45Yw4F3EvmdsPuJEwOw
+	 cWxhRT9oPSQoLn/PxqKjq8IfMCsVX/3qNDzuNCz1MDjLxCY+HdgInXf1MEhJZi8StS
+	 HKApvA4o6wgavZ9vnu55+EYUPFf0nFrAWiI4MJx/AfC6VjdhFexvvRoIaokCiqu51J
+	 Q9tjdne4Y0v7Im/sxelBI0up2Z07UgP8e/Apw0wR4vtoW+jheKfXUv2phoBbBMpp5M
+	 wt2bITF5FcLBeTF1ihWWgMfapg6Qbl8rFjslMPsr3gDGLo+mF/G4sXWFuLfQRFHR2S
+	 m0v8cE/uBOqq9E+/U4ITXv0Paflkxub30z88ybZLYKWRm8swUw+j8jSMnV2VSRV/9l
+	 yLd5M+2TtNCdTvKX4uLcfeio/WcNkp38+mhqYz5+gD4Br6RPgzRgAs14x9T0vGB1bd
+	 gn8++xROpZuRUiNT2OF0T6WAIeMAgOR2i/KPtVa9CoT/geIEZtOak+W10vHEQYiZez
+	 gBV84XafUXRefsq2c9Leid58=
+Received: from stx.tnic (unknown [209.52.143.85])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D251C40E0234;
+	Thu, 12 Nov 2026 17:52:48 +0000 (UTC)
+Date: Thu, 12 Nov 2026 09:52:44 -0800
+From: Borislav Petkov <bp@alien8.de>
+To: Ingyu Jang <ingyujang25@korea.ac.kr>
+Cc: Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] RAS/CEC: Document why debugfs error checks need to happen
+Message-ID: <20261112175244.GBavX87Jq4Qe7cXO_F@fat_crate.local>
+References: <20261101135340.2197888-1-ingyujang25@korea.ac.kr>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -92,49 +79,70 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] EDAC/i5000: Fix the slot loop and re-enable the
- driver
-To: Borislav Petkov <bp@alien8.de>
-Cc: Tony Luck <tony.luck@intel.com>, Aristeu Rozanski <aris@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261111232529.407154-1-andrew.luebke@gmail.com>
- <20261112001752.GCavUFsCwZIRkfLI7T@fat_crate.local>
-Content-Language: en-US
-From: Andrew Luebke <andrew.luebke@gmail.com>
-In-Reply-To: <20261112001752.GCavUFsCwZIRkfLI7T@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261101135340.2197888-1-ingyujang25@korea.ac.kr>
 
- > was all the energy you've spent on fixing this
- > - especially the AI tokens - worth the effort?
+On Sun, Nov 01, 2026 at 10:53:40PM +0900, Ingyu Jang wrote:
+> debugfs_create_dir() and debugfs_create_file() return an error pointer
+> on failure, never NULL. Per commit ff9fb72bc077 ("debugfs: return error
+> values, not NULL"), callers do not need to check the return value.
+> 
+> Drop the dead NULL checks in create_debugfs_nodes() along with the now
+> unused err label and local variables. Converting them to IS_ERR()
+> instead would have exposed a regression: on a real debugfs failure
+> (notably CONFIG_DEBUG_FS=n) the function would return -1, causing
+> cec_init() to abort the entire CEC subsystem.
+> 
+> The ras_get_debugfs_root() NULL check is kept; that helper has a
+> NULL-returning fallback and is the legitimate "RAS debugfs root
+> missing" gate.
+> 
+> This patch supersedes an earlier proposal that converted the checks
+> to IS_ERR().
+> 
+> Link: https://lore.kernel.org/all/20260514193202.2397348-1-ingyujang25@korea.ac.kr
+> Signed-off-by: Ingyu Jang <ingyujang25@korea.ac.kr>
+> ---
+> Resending, as there has been no response since 2026-05-19.
+> Rebased onto current mainline; no other changes.
+> 
+>  drivers/ras/cec.c | 39 +++++++--------------------------------
+>  1 file changed, 7 insertions(+), 32 deletions(-)
 
-For me, yes. I still test and repair old medical equipment built on the
-xw8400 and xw6400 (as well as even older systems), and FB-DIMMs are the
-part that fails. Having EDAC name the slot beats swapping sticks.
+---
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
+Date: Thu, 12 Nov 2026 09:49:38 -0800
 
- > can I jot you down as the one who will be testing any future
- > patches for that driver?
+So that people can stop sending unnecessary patches here.
 
-Yes, please do. I have the hardware on the bench, with single- and
-dual-ranked FB-DIMMs, and can test patches on request.
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+---
+ drivers/ras/cec.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-On 11/11/26 4:17 PM, Borislav Petkov wrote:
-> On Wed, Nov 11, 2026 at 03:25:27PM -0800, Andrew Luebke wrote:
->> Analysis and test kernels were prepared with LLM help; the tests ran on my
->> hardware.
-> Just out of curiosity, was all the energy you've spent on fixing this
-> - especially the AI tokens - worth the effort?
->
-> This chip is documented on something called the retro web:
-> https://theretroweb.com/chips/317 and it says it is from 2006 and it sports
-> DDR2 memory. So that is retro alright.
->
-> The HP xw8400 has a whopping quad-core Xeon in it.
->
-> But whatever...
->
-> Now, if you really wanna do this, can I jot you down as the one who will be
-> testing any future patches for that driver?
->
+diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
+index 15f7f043c8ef..9a812defd0ef 100644
+--- a/drivers/ras/cec.c
++++ b/drivers/ras/cec.c
+@@ -478,6 +478,12 @@ static int array_show(struct seq_file *m, void *v)
+ 
+ DEFINE_SHOW_ATTRIBUTE(array);
+ 
++/*
++ * The general debugfs rule is that most callers should ignore errors returned
++ * by the nodes creation functions. This is not most callers - if those
++ * debugfs attributes are not created, then the CEC controls are not there and
++ * users cannot modify its behavior.
++ */
+ static int __init create_debugfs_nodes(void)
+ {
+ 	struct dentry *d, *pfn, *decay, *count, *array, *dfs;
+-- 
+2.53.0
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
