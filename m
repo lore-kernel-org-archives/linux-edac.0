@@ -1,97 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794507088;
-	b=KLCQGLIcA5SeyAQz57vWtVEi4L08Kt7SzNGsPcPuZ8wMW4kg82mUmjFZTxdxAJIB1y8H
-	 XF6eVB4m/lWvMEHG6GBI3GerFKEPk+8cEzBwwWAyVDfUfqEQhv7TXnn3yajllxHhQVQI9
-	 r5FDvBXw7JvPbah6lq8tpd16JBXfipQYn1suQsPpfY+BY4NMX3JFw+FunH0XyAdN+r5ax
-	 p60jjx8xX+OhbqyswuXdio8hJJOQvAK6B6pYrr1reToAO/t5v4W1O+tgNOf25tq/D/oqA
-	 Wk5K1IvNOgAzlrP8GHWxTrDakI551Dm3JbOk/9hT9J1GBxT16GklolaDBemyLnbnVfg==
+	t=1794507706;
+	b=UFpTn87t9bI5R6rFr2nu3BMTgq0knjPpQveZJvbbo8ay8+u001QndmXuRyX6Q1MjtQm7
+	 mNFracMb5EqJq511J2aQJzlP7rudH4vrGxwVCug8T7PJu/vDM157oo+N/CmiPfKfoOj0P
+	 XQ4J/tUXB4iVyyN2+0rGdV/bc3J3FlC5Me57MdgKDQucsUc6iMsh5rK+CmbdTflIMk8tV
+	 8YYqmZnt/j117QJzIFqnkY0NmMb0bhFF9zZL1YVFWWAF3BXEl7kZMy0vfr0wdkN9CyzLS
+	 GRft0fYjuWT4EW3ZZffeoTOo4LJhJz3/pQazfyiMsJIuTpZn2TTlucIYA6HYESosiwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794507088;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=2gkhFUEZhZL3R13P9KqCeOSqB0UlsNfQup+MwcWDhUw=;
-	b=vwwjXMFmuWYgp69IsEGU5mqq9+T7TUm9ezk1Lzur4xBYHTIMgA25WfjWbak/08M+wZAI
-	 J9330pcmUyjUqgvIAOI7PRU8IV+k6Yh47a9dYZwgnQYeGVBwYlla4dy0SqFYnDNpB5xOE
-	 725XWAFMSQBMQvcSduo9H4jgeTRLY3PRxQBt1dwS/5rpF/HnS4o0+GXRkz90WLDVaaHWz
-	 dqAGFIs2Tz2q3HVHNXBKUaBx/uY0ucBeh1NcpMSxT85lgclamB+1NuhDAe9CYpJJ1XL/Z
-	 CEB8KXvnaZjbIvw8x7uvcckfGI/8zitVzqt9QfofamlkdNCVBW+vM1Edo/90kJ2XN7Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794507706;
+	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=DUsEdpIuJ3HZXB+zQOH8AaAz5Mu4kTccI9EpC3l59/c=;
+	b=5MBAqvTwDrmgiKu099oqgFbdLni74jleS0wUYjalleDG1luCKaWFmOpaE3/V4lOzks2s
+	 kVG2jMcTFk1Tltz33EhG+OdH68HxlkEgsRrJKe0KAuWziMc0gcERvaBwXXP6WfgT74bXQ
+	 qTe2iiIBwvXvE7uca3OtJB3PASdXqRD+lRRgv+yc/7HWg1NRE72UKYof7qdCzzroniCBe
+	 pfjTG5qqM8UqCKwiZVNitIyjP69dGb4hsdDimNFeM8ULRAeGfzLuCyE3DWOImOM56Qm2e
+	 OKhCTRqAqGXH8DSJKFOdw4Xev+WtcU4D7xjGAHtMoVa+q0c4+Z7yzieKOVtxurqQwPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VlPF3Srp;
-	arc=none smtp.remote-ip=74.125.82.178
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=alien8.de;
+	spf=pass smtp.mailfrom=alien8.de;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=M2qB6Xze;
+	arc=none smtp.remote-ip=65.109.113.108
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F57606A33E
-	for <linux-edac@vger.kernel.org>; Thu, 12 Nov 2026 18:11:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10F57606A33E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768B2606A31C;
+	Thu, 12 Nov 2026 18:21:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 768B2606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VlPF3Srp
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-36fc0a3fe93so327268eec.0
-        for <linux-edac@vger.kernel.org>; Thu, 12 Nov 2026 10:11:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794507087; x=1795111887; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2gkhFUEZhZL3R13P9KqCeOSqB0UlsNfQup+MwcWDhUw=;
-        b=VlPF3SrpMuhL4dauhSEeZQot8mXX4O4FbXY6Pp73CAsEyX7JANKhHwFqxavpWq1D8j
-         dXH7T43sZgKgenXAlJeuVNekRPpHy8b3/jgXE/EB0LqJuIVEU7vd4ANcaqtPcVzRZk8M
-         j1KtSjM06xCfyrcslXg3skcKAPeEpKBPW0fHV2iR3Lthq1plavgzaIzCxFkrJ5zirBKv
-         N+M6U6AaiZSUL2NRk3ZwFV0yVbAxcHUNEcfh53cYIi4Npn/2PfwIquSZGkvxppYidahW
-         k2cnn6eB8SXkyoO8HCM4f0Bh6dPckiBwhAezM1yOM5EPnZ1xi30M03SJqrYuNGtr7Miu
-         3wlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794507087; x=1795111887;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2gkhFUEZhZL3R13P9KqCeOSqB0UlsNfQup+MwcWDhUw=;
-        b=px/iFUQ9eMfKsHUfk3rXtOpvLVbkgWBqKOLRGZHyMjJc57GRGnzXft6kAW+uuAH/8e
-         8UMrvnLfktx+T/if63zubeTn2wuXTgseK2aFGd0n036eBLSrJ0osXxkXjPpsce4TkkLn
-         lgP2EDbsWLjJmo6CMXIAiqr/d2iigZ2LbwgoM41zVoklf+DEyqY3Kr5J/EfqFvtrsa3S
-         hdkJ8o/2PxW21PK8EFW+dCfg3+O3m74/FEUOuAaxpdmSLSCck9t22Eak3CofVOphCO8n
-         Wtlg9hXqRm0pubccADblD1tpLwnJrw7ZWlrzSFAtzDBJY1yKRYSVqrciVNK0tkUyFM/x
-         6UoQ==
-X-Forwarded-Encrypted: i=1; AL+hErEg6aHFMAxJI2lEV1GNEHWojTux+jcagcF+KdJtfbGtgVYLan76dVOuQEYpDdV7M8msTlvmC4ctR/ec@vger.kernel.org
-X-Gm-Message-State: APuU4Z/ynbvXNoyMfzUEjBaJIjpvSP9kGPT67CxxynLMaG/WYO61cpBv
-	CD/TOK1qEhQBYigg1K64MDkqxOpxxGFie/ZJjEkicH35sQ4ZRWKftJjj
-X-Gm-Gg: AYBFou2S2Mt2etPqVqb+1XDTME1gxneDAnBoIOcVh3eDF0XLC2xtJ8+w3UpJpvLVhDo
-	Eo3w3EjcADEFqiLq1RfbUXCRfj2S4PLl+LkWoXs46SdwLaisH7HPldV/FNISiweiO+XtxpCtwqF
-	5a6YlZmGFF0wNn1VUxsBXEpDM4O9DDXaFOQ9zqCOh9jfzRZDc9hv8f6jAsN3S2/Q20HilRV5S/c
-	YftgjdybDiTuW+TnPbIInze1SEeaIPNV8VvouUw6leIXHENHNViH9JFoZl33qBJFlySsuumf7k6
-	4wVqsTcQ7vSZ9hQA5Rrbr6o1UM4hqQkerSRGgqn0m1u9HGFYZsQlA3JLvLP8ZRlCDpTsWEFPoLO
-	kksQccuPxjlbildjV5dEQYDQ//e0Qfdligr83m+2DAyV8owFX7IDp7cqZVmFsOPtrdM339PEwlE
-	skUf8ofXmiO9lVwM76Rgnr5EJXto0+8MhVCWdrYAv4LkfEFYM+uevEimpcc/WbNLsyD3gjcPaIb
-	/vy51RI/fu0XRc38URnCqKmmGj+QUASJa9PtwXskExqm2VEFzy/2sdkzoUOsllMIu1ibaR/9f1R
-	iXajcO4E+PnasrE6PwwVM0AnBuq/qKquWjAsnqpF7g==
-X-Received: by 2002:a05:7300:d0a3:b0:367:185e:867a with SMTP id 5a478bee46e88-37687212a27mr6162231eec.38.1794507086925;
-        Thu, 12 Nov 2026 10:11:26 -0800 (PST)
-Received: from Alienware-m16.lan ([79.127.217.36])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37955332a77sm215678eec.4.2026.11.12.10.11.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 10:11:26 -0800 (PST)
-From: Andrew Luebke <andrew.luebke@gmail.com>
-To: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>
-Cc: Aristeu Rozanski <aris@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andrew Luebke <andrew.luebke@gmail.com>
-Subject: [PATCH v2 2/2] Revert "EDAC/i5000: Mark as BROKEN"
-Date: Thu, 12 Nov 2026 10:11:21 -0800
-Message-ID: <20261112181121.565824-3-andrew.luebke@gmail.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261112181121.565824-1-andrew.luebke@gmail.com>
-References: <20261112181121.565824-1-andrew.luebke@gmail.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=M2qB6Xze
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2D8F040E0222;
+	Thu, 12 Nov 2026 18:21:43 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id yEW-NkbnVpY4; Thu, 12 Nov 2026 18:21:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1794507700; bh=DUsEdpIuJ3HZXB+zQOH8AaAz5Mu4kTccI9EpC3l59/c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=M2qB6XzelqlHl/ESwebupW9yS+tOmL51TGYWpXIWUNJoBKSO8O6/6HVE4wcCXZQnF
+	 8BbOErJox5BK4AVxuwmb3e4eVYHtDKDGcTNMhOHeLn62OQeNehXX9uSvWJ9LyKxOul
+	 yhVO73Unqo5JZWE/FNChI8QzsG2/bJKb2Q05n2Wc+MyUmK9GV9O0B0Ln35JKi+pqed
+	 3B5DP63GE1yZmVKyQnbtRicrn2bc1xUOjg0QUrzVeg3338tmxkz4+u7NI28l67Dl/W
+	 BWJzGEMiYraUXb3whJZE6gbZ3kiBbOCFk080c8cP/MVZP7RWWJmkzrm4GHdOUSr7/a
+	 EC9zXlxoh2RxOje/iZeAlIkYSGkep5Aa0L0UYuYpAenBWmk7jfFsJHPnmg3Y28psCZ
+	 pKuqs5ryz8LaLsBqhq7RBBVNri6jad0D54RU07Qy17IjXIqtF1O2LxCZl6rrp7xIwr
+	 hkEgXVTmro+4ANQmLKk4vXec71mcfw7Et5x53KsZz1j4gyJnQ/az9R9m0MjIhyrLBz
+	 c1M06Nru5jE8OzNDu2QnAo/gToE1GBMOHQ1DgGOvCzQf1NkOL9xg05q3hNRLUrk8SR
+	 W1C2X1vN/c1OrRPC4Q1Bt2bU4WjIo2A8vwHqam2Zlcr1GOOVrxkvghqQZzgcQ+Pqkj
+	 DBCvIecubY/mzaZSwaHaHP0A=
+Received: from stx.tnic (unknown [209.52.143.85])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9ABB840E0234;
+	Thu, 12 Nov 2026 18:21:29 +0000 (UTC)
+Date: Thu, 12 Nov 2026 10:21:25 -0800
+From: Borislav Petkov <bp@alien8.de>
+To: Breno Leitao <leitao@debian.org>
+Cc: Tony Luck <tony.luck@intel.com>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH RESEND v2] x86/mce: Rate-limit the CMCI storm transition
+ notices
+Message-ID: <20261112182125.GDavYDpdJpmpU2Piyu@fat_crate.local>
+References: <20261112-mci_ratelimit-v2-1-a9e67055526b@debian.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -101,57 +83,41 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261112-mci_ratelimit-v2-1-a9e67055526b@debian.org>
 
-This reverts commit 7556419180a3 ("EDAC/i5000: Mark as BROKEN").
+On Thu, Nov 12, 2026 at 01:56:39AM -0800, Breno Leitao wrote:
+>  void mce_track_storm(struct mce *mce)
+>  {
+>  	struct mca_storm_desc *storm = this_cpu_ptr(&storm_desc);
+> @@ -150,13 +158,17 @@ void mce_track_storm(struct mce *mce)
+>  	if (storm->banks[mce->bank].in_storm_mode) {
+>  		if (history & GENMASK_ULL(STORM_END_POLL_THRESHOLD, 0))
+>  			return;
+> -		printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm subsided\n", smp_processor_id(), mce->bank);
+> +		if (__ratelimit(&storm_rs))
+> +			printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm subsided\n",
+> +					smp_processor_id(), mce->bank);
+>  		mce_handle_storm(mce->bank, false);
+>  		cmci_storm_end(mce->bank);
+>  	} else {
+>  		if (hweight64(history) < STORM_BEGIN_THRESHOLD)
+>  			return;
+> -		printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm detected\n", smp_processor_id(), mce->bank);
+> +		if (__ratelimit(&storm_rs))
+> +			printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm detected\n",
+> +					smp_processor_id(), mce->bank);
+>  		mce_handle_storm(mce->bank, true);
+>  		cmci_storm_begin(mce->bank);
+>  	}
 
-The driver was marked BROKEN, instead of taking the slot loop fix,
-because nobody had the hardware to check it with single- and dual-ranked
-DIMMs [1]. With the previous patch it loads on an HP xw8400 (5000X) with
-all eight slots populated, reports single- and dual-ranked FB-DIMMs with
-the right size at the right branch, channel and slot, and stays clean
-under KASAN and UBSAN bounds checking.
+Should we merge all the MCE ratelimiting into a single effort?
 
-Two-channel boards (5000V/5000Z) and error reporting are not tested.
+https://lore.kernel.org/r/20261108143751.3af49e48@fangorn
 
-Add myself as a reviewer for the driver, as I have the hardware to test
-future patches.
-
-[1] https://lore.kernel.org/all/YyxpbRkuLPIcW1Om@zn.tnic/
-
-Assisted-by: LLM
-Signed-off-by: Andrew Luebke <andrew.luebke@gmail.com>
----
-v2: add myself as a reviewer in MAINTAINERS (Boris)
-
- MAINTAINERS          | 1 +
- drivers/edac/Kconfig | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 222b7fc2c3aa..e1aa80d5bda3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9702,6 +9702,7 @@ S:	Orphan
- F:	drivers/edac/i3200_edac.c
- 
- EDAC-I5000
-+R:	Andrew Luebke <andrew.luebke@gmail.com>
- L:	linux-edac@vger.kernel.org
- S:	Maintained
- F:	drivers/edac/i5000_edac.c
-diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index 4c70729b0d3a..63f263c4263d 100644
---- a/drivers/edac/Kconfig
-+++ b/drivers/edac/Kconfig
-@@ -218,7 +218,6 @@ config EDAC_I82860
- config EDAC_I5000
- 	tristate "Intel Greencreek/Blackford chipset"
- 	depends on X86 && PCI
--	depends on BROKEN
- 	help
- 	  Support for error detection and correction the Intel
- 	  Greekcreek/Blackford chipsets.
 -- 
-2.47.3
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
