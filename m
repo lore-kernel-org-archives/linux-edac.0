@@ -1,100 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.170
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794580533;
-	b=tm3rmW0BF37qMHUw9BKDhIdL1/IgI/hvjfUSZnYb4Fd9XdUNQ27LInHknfYyEDSqDcWV
-	 0pLXsp1waYsZlScS1nVQmWO9gXFspzYkNJMD4QiSdGXlDKk/n2+ggBkDR/kMVlovIWUEm
-	 1IZGQVwyBy36sKgLV7SHAKVBLWpjxQoY44q55ClzPyv52TMzQ1wNhNY67mNz1XqrT0wZJ
-	 d+/sFDZwDwUACzCKRhousDDXIjQndYU7slfohSZLmhFB6FfSLO6EFlil7qHVo0YCIDUi2
-	 EMYD2pdNbqVSrIs+SARkTKP8YIhXFVsV2LtQ3XUCXBhKVnF1KEC9xy5gFmZcnP6zhhg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794580533;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=YEhVBcNusAf405LcZnwE5mAN0qWS+I+RJ+OQc0+Tq9U=;
-	b=MovznBziQo7oNIqzIeCg6QGC77TpRwIzFZJrlhZ7XMhDaHxzdkK4jw3MmsT51xYqCrjz
-	 +8RIo5nJK/F1Wr32dF4sSmrAC82yz73S1WQW3mZVKAVKois45uQsDn/Bz6PtmJA9ZmJc1
-	 xlkJmBP1H7HpVhdEtYuT2Q3IMzYxvVVLV9r4JDhAJHcRlx1VlFxSh7SdLKkWA3zoAS1GL
-	 rPfgeHC3ENTrDBBFCVFFuNdxaHodsuqQvtZ2Tw2RNa8jtM8VKXQsuuVFMo+qDJ1duDP0o
-	 9U86r93YKbfHcKMdOYVwXRfcviuocDwLSOasQZ0uiHV+VHRLCPy6E3+cKpkHf1EHjOA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=adrianschlegel.com;
-	spf=none smtp.mailfrom=adrianschlegel.com;
-	dkim=pass header.d=adrianschlegel-com.20260707.gappssmtp.com header.i=@adrianschlegel-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=PQSdCaAh;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.170
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794581875;
+	b=OFX7cRRMltAUsWz76A8M/EzH+1zSMwzDIpOVZdWJ1rv8S5L+nAqVZfiikmUmvc+ZMvDq
+	 SfKhmgxl1HKLq4RXkeEvzPBj44QsPql+xaLWocmQQ13fdfkhTsgvQeS+brXxqgyran8F8
+	 WTsxT4RzZUytPBZSsxhRZ1qgEeu3AmDpW/6Rgf1SiY0ye5LLF6HYqoNzJqvwkzA8P4SqM
+	 JUE1QOd/xS510ivqyesMD4cawwAHvuLVd14qz77Hubc8bjJofBCoiSwmEnOV3g4CIMaOi
+	 C7c3EgEd7IkPJ03Y1ekvq99uEqMY4jefPwl60akUQhcIgoYs+es9l9Q8aj4TEgx9OHA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794581875;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=MNEGNx8Nxxbr//T9ff/bwvhh07TTp18CTfVVXdbjar4=;
+	b=jX/m1lchOYhzVOEhZVehjMc24a5sGOoIWIDp/raNxba0f8MoTFZlkLY4Bfmvz4OjOxIC
+	 f4Kgg/xEGKg9m263lEd8PGC7LRa5RRmBwEGYl71X/C8kPln/+Vt5mqXghzi39uhIZ/lD1
+	 hy0yyAlOJZNpyOTMyg0kdktcbh1toVlqzYfC6YTLZ3+7/zrX7rkpLZgoGVvhr1eKCJ74d
+	 WX9YRibU4F8oxZ6/lQpEDhXR9UDLCZ7Om51EQSjHOtSA8dYNfuXQkQ6bsmhEYOP8XMSHq
+	 ekkt/W1H8JB/w2N1hacghMge254g4RemH1zXyqyDSViT7cu3SZve3PiZ/GbbxarLwGw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KaNa+Mkn;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236D6606A32E
-	for <linux-edac@vger.kernel.org>; Fri, 13 Nov 2026 14:35:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 236D6606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=adrianschlegel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=adrianschlegel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1F6606A330;
+	Fri, 13 Nov 2026 14:57:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=adrianschlegel-com.20260707.gappssmtp.com header.i=@adrianschlegel-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=PQSdCaAh
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-3704d30b84fso1380376eec.1
-        for <linux-edac@vger.kernel.org>; Fri, 13 Nov 2026 06:35:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794580532; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ns60DWC/cu2BSuNXWQEHeRUWrTRxtWGiEokNC3JkPBl9Lxp8/LmWIGCQ3vpXRS7SSN
-         alt2KJVExfpuaVWGXoOmHMTCe38iQ5l6FTxBIuEj7OKyBZItj+2KDH08NhNr8mhq2ZXp
-         xXprOV+HsLaGMfOtC4+L8jYCqAo+1ejvQDT5dbOY7c8MPgZ08u1mVKyb1rM6Y10eYQfN
-         kKlBS3yrsB0V8puSXP0IPqP9qt3MZDgowYsJI2cyFnKuDzHZZTPV9fpWkwPsAX9xmOMh
-         gqan6ML5okOK5bxkrM6UNiebdGm/tw1lFTBDBId88+9nmFe2/x+bFl6JbFY0lQyJdLs9
-         5zSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=YEhVBcNusAf405LcZnwE5mAN0qWS+I+RJ+OQc0+Tq9U=;
-        fh=1HFh6ZHm7ATpJwQqJ9cgBBfClGVmcU0XAToGkZ6ihyA=;
-        b=gJDZc5vp3LJHA7VdwFI+++USmVK5sQ97zEWFuvLwqv0RiiomfDqHrwPKLjmSeb87JZ
-         ve7CvsXpK+zS0nIEEPSI09agaNF48qkF1DJujQOWdDM9W6tVjRdAODh4765bzR4Rj23K
-         5dylFAL9umf7ApfyugAIxPb/oFOgAvpqaVjY4rTJoY3z5wcdK2ZHOFdNz2zzq6e8l8UP
-         /oR1ODBCRJ6F45g4Y2JBwCEhMAIMJEHGfQ8E0KN5FsdAFMyD731nLCdsJ6sYPjoG5wl1
-         Q+II5gIFm2zPtafg5rtzBC5enCm7xhcLDwDC2ayqyQ9R3TEKv9Qwj+KUpST8lbOFygmh
-         ofmw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=adrianschlegel-com.20260707.gappssmtp.com; s=20260707; t=1794580532; x=1795185332; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YEhVBcNusAf405LcZnwE5mAN0qWS+I+RJ+OQc0+Tq9U=;
-        b=PQSdCaAhpO5/jDSiheLa1OG8EJ9skTRuDG1W4vNIhvIv6pTie1Vj0L1fjTeWtsKKog
-         db84zu9iKIq58QUVRsZvkrZ1zm1yDQlORDk2Teo7NOH2PfRHWAo94eS2be2CGYUlaB4R
-         /JNO8Od57ZmSPMGoIhSmrLaM3vgfoWcn+Ym45coAd+4ICbHqHY/cFhEg/P+Yyg5aEQMC
-         IQ2kQQ6PwLBb4nMFAJnEyO3z7avTTB/uhyW8IEi069hEagzWvyKXIjP6k+0JnDCYPWgT
-         PeXe3XHF2COkglrXyoVdNFVquVn7cOq3njqRJWDxFYxbZPYZ/QJFctbMYFti9xn4sOd8
-         1cbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794580532; x=1795185332;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=YEhVBcNusAf405LcZnwE5mAN0qWS+I+RJ+OQc0+Tq9U=;
-        b=iKzLSt9ZS2Dshu+32G0O/2gqSh2HqLKGPlyA+7zWrOHNV4jQkleZ23IsgRs2agyH3s
-         oMGmYFBjlfjdKFouXYQnnUZykllEuLCymDKGJpd/B54I5LNWg9t7r+kuRuZ0w2GaYVc3
-         tabgWz/sXwCON0ksyXnevNJym/1TVJySnCT9H9hFO3FKhO+tpneM/JjL0F1iBszg9HWV
-         UYMAVjTy99JaBnrHOofkkGbjN5Ts2v/Q4lPs8y9Jxk/KoCmtLQk1P6TJRfrfekcR7y3B
-         eHbY3vh54CsX4QAfFWik1PRpNf/zAAHV0ZvQnrVXjaL0yPpCv9Mcry/nAfSP22vo7m1Y
-         ho/Q==
-X-Forwarded-Encrypted: i=1; AL+hErGPrcWeqHfdSF0M6dOYEKjJpLyi+pctAKtNwvCtkdKOrsW7Oq2af1mNkjQkj0Dx3ye1jTlegR39loDR@vger.kernel.org
-X-Gm-Message-State: APuU4Z93UMhzG73VaUZoCWXjK3HK8ORCw72wOewr7ISNyAoUfIAX4rJW
-	aCCeAJGdT31VLo1/UUG7cNffziSMHRla/ubi82ZB7bmh4RsGN6kKrzeMMolpmib6dKS8thN4Veu
-	I5nW8f8VsGY3zRT6BSycyFUoSuxaewX+yFqjz7kIr
-X-Gm-Gg: AYBFou1N4T4qv5dmmsDgi9uIJoTf4mlPt7CzI/jbyyjKhYZYagbtpDMOllwuN3lmA6w
-	Bilv6j3zAh33BZCiAk7TzInSfY4vujevlytoQRzfGRYbIM/vxmIFjQApdvqpWboSNFwPkut8C0P
-	g1iZBN8YuVfpHa9LB3Y2GKqLhLMYZfS3ExWblHSPriZrlsF1Qf5hNMcmph1q4HG9ZzhBKIdab4Y
-	1RGpr/hzyLf/CxvVs5EWHrz8l9NewSvKvS3TLwmI/ZxR+eEsFB7lK4rEszHLfPTcvtO1AsBBEUp
-	kP/Gn9YDxhvTh9fUnQKAYvCgGuiJ3OXG5L+wJ2D7cUEpsJB59rDyY8PLJFSTA2xEAeXrinZt9K6
-	Ju0g3HymYgM4hUjAxVMGVTnBPLJYQjST1Hdx2T//i8jJEnNZxnKa1cplPGtQvgao1as+/PP6yhU
-	PNM3cf+6rrYbZIv+emKTHQ2MCYn4SsC8/hqg==
-X-Received: by 2002:a05:7300:de01:b0:369:daea:812a with SMTP id
- 5a478bee46e88-379682c2053mr1907220eec.30.1794580532081; Fri, 13 Nov 2026
- 06:35:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KaNa+Mkn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 871CF1F000C4;
+	Fri, 13 Nov 2026 14:57:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794581875;
+	bh=MNEGNx8Nxxbr//T9ff/bwvhh07TTp18CTfVVXdbjar4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=KaNa+MknasCg7079/xexkYZRSd4mlzXTBjFK5ZW8m6/qvxqs3I+Cefo+Hfbertz3p
+	 ilPgR7qZO30ErQCa2xGXhfk9Gh/awpXX8ViFvj+OAwgIHhW6euA+w9NSoHZJChp6Uc
+	 nW1l74Bm3mvv/Ro4uMaFlhTJWo3yZgWH25pqMpQxl4tz5QKEgLFIOrIi+fJ5DYGxcY
+	 TY/Ejv68yxscP09zCt1OIbg77V0OyoR5NrSXyXBrBSkdYjVoG8iU/Kvbqt+iuFquQG
+	 HNKrK451BuPm21Ns0xN3oM8L+zatjlxjMTlVnxLYQBA2D6fXGRfEi+I7E+q6sP2BMa
+	 nxMB1dByzDZYg==
+Message-ID: <cdde4ee5-930c-4982-ac79-ac52570c37e9@kernel.org>
+Date: Fri, 13 Nov 2026 15:57:49 +0100
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -104,25 +51,93 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261003222012.19685-1-me@adrianschlegel.com> <20261012193305.38931-1-me@adrianschlegel.com>
- <20261019153207.GA144824@yaz-khff2.amd.com> <DM914GO4A8WW.Q7YN7ISOQJJI@adrianschlegel.com>
- <7886e7b1-95fb-4338-a7bb-b6bf1da3a634@intel.com> <SJ1PR11MB60837CA7EFFE0AC99D01904DFC982@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <ba508991-6a98-4aa2-a98d-e85307d50cef@intel.com> <CAN+_ncWbJh1iPzi+4tKdSguEo_SYj_4R3K=sNkG2_VT8TvkG5g@mail.gmail.com>
-In-Reply-To: <CAN+_ncWbJh1iPzi+4tKdSguEo_SYj_4R3K=sNkG2_VT8TvkG5g@mail.gmail.com>
-From: Adrian Schlegel <me@adrianschlegel.com>
-Date: Fri, 13 Nov 2026 15:35:20 +0100
-X-Gm-Features: AclHuK_0-cTHzsQGKoJrpYaOYYagia9Qe2eDwfhL7mPMeIIGxuqssjIMZGSuEos
-Message-ID: <CAN+_ncXtoZ=84qKHcox-aBotNLSogiJrhRtKJtbz=HvOt-umbA@mail.gmail.com>
-Subject: Re: [PATCH v3] x86/mce: Do not treat cache hierarchy errors as memory errors
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>, "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>, 
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Yazen Ghannam <yazen.ghannam@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv3 2/4] dt-bindings: edac: altera: agilex5: document new
+ edac support
+To: Dinh Nguyen <dinguyen@kernel.org>
+Cc: bp@alien8.de, tony.luck@intel.com, rounakdas2025@gmail.com,
+ niravkumar.l.rabara@altera.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, linux-edac@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20261112215342.2476801-1-dinguyen@kernel.org>
+ <20261112215342.2476801-2-dinguyen@kernel.org>
+ <20261113-laughing-crouching-hawk-5bccca@quoll>
+ <2440a2e6-5d06-4642-b722-ac3baf5b8097@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <2440a2e6-5d06-4642-b722-ac3baf5b8097@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Boris,
-gentle ping on this one.
-Thanks,
-Adrian
+On 13/11/2026 14:29, Dinh Nguyen wrote:
+> Hi Krzysztof,
+> 
+> On 11/13/26 02:18, Krzysztof Kozlowski wrote:
+>> On Thu, Nov 12, 2026 at 03:53:40PM -0600, Dinh Nguyen wrote:
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            const: altr,socfpga-agilex5-ecc-manager
+>>> +    then:
+>>> +      properties:
+>>> +        interrupts:
+>>> +          minItems: 1
+>>> +          maxItems: 7
+>>
+>> Why is this flexible? Wasn't before and changelog explains nothing.
+>>
+> Sorry, but I'm having difficulty understanding your comment here. 
+> Doesn't the minItems as 1 specify that the 
+> "altr,socfpga-agilex5-ecc-manager" must have at least 1 interrupts 
+> specified, and up to 7?
+> 
+> My changelog also specifies "up to 7 named interrupts".
+
+So is my question: why is this number flexible?
+
+Best regards,
+Krzysztof
