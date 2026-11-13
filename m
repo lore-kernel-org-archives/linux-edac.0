@@ -1,60 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794580044;
-	b=qnIYcoffncz/cTakCYuLmgwjVwFO4uHFWOSEgsHf6pJ2qhWPNkuwiKBd82OSLtZgCVXm
-	 4PAnOsuNS0Ctw/IV+7vU5CkHam5rZqjXIqQ3yTHi8SGjkI7po6EvKt8cjIeSK3ri0HLS3
-	 JRB9zohiGAfy/KdZvoG2KexY8bxCxFkwAul/VA1SKhgBpVu+pngGPGHfTzDSnlPyJ5Eyy
-	 aRTRhLkyjeBLIoss0TepVrOkrjDRRzKdy857z/yGPMZOENT3GDsFXaPLwqij/rgpd+QDj
-	 Rq5WGW96CrE4GE9ezMONoQWtVu0RiQT/k4U4OWnmbPRCN5d4fHEmkJ637qUQ9tdWuqA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794580044;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
-	 Date:Message-ID:MIME-Version:Content-Type;
-	bh=V0GkDZJ9WagRHOVr0qBoHtl+w2PkPL3ZPFIC2izcDKQ=;
-	b=EDaxfQRefMP1qr5xJJG4Yt/NStMUQy3S0l7XTIea/MvGAcde4K5VF1hzkJhMiIlTa60u
-	 HHtZuoI23T7FwQ6tY6cBwnD1SCq0CXvPJWSs2IODWbe0Demt0w6+5BOHuo0k+dfEEtHMG
-	 KZ4n6FIowYIEyIb9wWQv2ucXjDma4CxnrFpPqzipArf8lILSgEWiD9pehE+Ce/ZNDf74U
-	 w8F9l7WhPPUIaPnUoYgYu7D3hl0RNvMT07bEHmKOz9Z9zghGF1HrzjZz7mdcknHff1z9e
-	 IM2WLOkDaTgIvh8/Pr8OnCmw2mzgPq/JRhFMZ8/Cjb52PK7Fxf16882f4oUcXW2315Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="bT7WbSA/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.170
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794580533;
+	b=tm3rmW0BF37qMHUw9BKDhIdL1/IgI/hvjfUSZnYb4Fd9XdUNQ27LInHknfYyEDSqDcWV
+	 0pLXsp1waYsZlScS1nVQmWO9gXFspzYkNJMD4QiSdGXlDKk/n2+ggBkDR/kMVlovIWUEm
+	 1IZGQVwyBy36sKgLV7SHAKVBLWpjxQoY44q55ClzPyv52TMzQ1wNhNY67mNz1XqrT0wZJ
+	 d+/sFDZwDwUACzCKRhousDDXIjQndYU7slfohSZLmhFB6FfSLO6EFlil7qHVo0YCIDUi2
+	 EMYD2pdNbqVSrIs+SARkTKP8YIhXFVsV2LtQ3XUCXBhKVnF1KEC9xy5gFmZcnP6zhhg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794580533;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=YEhVBcNusAf405LcZnwE5mAN0qWS+I+RJ+OQc0+Tq9U=;
+	b=MovznBziQo7oNIqzIeCg6QGC77TpRwIzFZJrlhZ7XMhDaHxzdkK4jw3MmsT51xYqCrjz
+	 +8RIo5nJK/F1Wr32dF4sSmrAC82yz73S1WQW3mZVKAVKois45uQsDn/Bz6PtmJA9ZmJc1
+	 xlkJmBP1H7HpVhdEtYuT2Q3IMzYxvVVLV9r4JDhAJHcRlx1VlFxSh7SdLKkWA3zoAS1GL
+	 rPfgeHC3ENTrDBBFCVFFuNdxaHodsuqQvtZ2Tw2RNa8jtM8VKXQsuuVFMo+qDJ1duDP0o
+	 9U86r93YKbfHcKMdOYVwXRfcviuocDwLSOasQZ0uiHV+VHRLCPy6E3+cKpkHf1EHjOA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=adrianschlegel.com;
+	spf=none smtp.mailfrom=adrianschlegel.com;
+	dkim=pass header.d=adrianschlegel-com.20260707.gappssmtp.com header.i=@adrianschlegel-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=PQSdCaAh;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.170
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9067E606A323;
-	Fri, 13 Nov 2026 14:27:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236D6606A32E
+	for <linux-edac@vger.kernel.org>; Fri, 13 Nov 2026 14:35:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 236D6606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=adrianschlegel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=adrianschlegel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bT7WbSA/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 885FB1F000C4;
-	Fri, 13 Nov 2026 14:27:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794580044;
-	bh=V0GkDZJ9WagRHOVr0qBoHtl+w2PkPL3ZPFIC2izcDKQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=bT7WbSA/umsDZfx2FRvT6CH5Bu8Szs0PSsjId5PDN6B4Cc2xeDsFfpA1+x7hB/nDI
-	 lgKbnOYFagHTDe+M+cS2eD1bNng8EN81+ouHkp7aqrgTKlhdpwgtdpBdDOjGfHv1kb
-	 DUNnXDPwYHofAYU6l7TGQ5CMBa36lFDR4nDt92x5FPSXRnM+usGTdGZ7e/RNUX1dM1
-	 l7U+RhlFezTxG1gDpNTGIoAjxt8NndCx9OWDLH7Hqw9C/FvxOy+vy4tO9pXcwLgpvi
-	 aUKAxXPCRW7j47loohxm04OlQXkvlZRmumEBNPnhmGs5jpF9SCY99FhBcl2bQZMOBY
-	 4QI4GlWvatuig==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: Borislav Petkov <bp@alien8.de>, syzbot
- <syzbot+74de56995244fe32ffe2@syzkaller.appspotmail.com>,
- linux-kernel@vger.kernel.org, peterz@infradead.org,
- syzkaller-bugs@googlegroups.com, Tony Luck <tony.luck@intel.com>,
- linux-edac@vger.kernel.org
-Subject: [PATCH V3 RFC] x86/mce: Serialize sysfs controls against CPU hotplug
-In-Reply-To: <87jymzxaj7.ffs@fw13>
-References: <6a7ec39f.5b0d2c79.2ef4ef.0002.GAE@google.com>
- <87ik58la9w.ffs@fw13> <20260817235553.GAaoOfieqJBZTsAn3N@fat_crate.local>
- <20260818001840.GBaoOk4Mz_mmZYK2rK@fat_crate.local> <878q63lrqr.ffs@fw13>
- <874iec22sf.ffs@fw13> <87y0bhy5h8.ffs@fw13>
- <20261029165636.GA5110@yaz-khff2.amd.com> <87jymzxaj7.ffs@fw13>
-Date: Fri, 13 Nov 2026 15:27:20 +0100
-Message-ID: <87h5hkst6f.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=adrianschlegel-com.20260707.gappssmtp.com header.i=@adrianschlegel-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=PQSdCaAh
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-3704d30b84fso1380376eec.1
+        for <linux-edac@vger.kernel.org>; Fri, 13 Nov 2026 06:35:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794580532; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Ns60DWC/cu2BSuNXWQEHeRUWrTRxtWGiEokNC3JkPBl9Lxp8/LmWIGCQ3vpXRS7SSN
+         alt2KJVExfpuaVWGXoOmHMTCe38iQ5l6FTxBIuEj7OKyBZItj+2KDH08NhNr8mhq2ZXp
+         xXprOV+HsLaGMfOtC4+L8jYCqAo+1ejvQDT5dbOY7c8MPgZ08u1mVKyb1rM6Y10eYQfN
+         kKlBS3yrsB0V8puSXP0IPqP9qt3MZDgowYsJI2cyFnKuDzHZZTPV9fpWkwPsAX9xmOMh
+         gqan6ML5okOK5bxkrM6UNiebdGm/tw1lFTBDBId88+9nmFe2/x+bFl6JbFY0lQyJdLs9
+         5zSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=YEhVBcNusAf405LcZnwE5mAN0qWS+I+RJ+OQc0+Tq9U=;
+        fh=1HFh6ZHm7ATpJwQqJ9cgBBfClGVmcU0XAToGkZ6ihyA=;
+        b=gJDZc5vp3LJHA7VdwFI+++USmVK5sQ97zEWFuvLwqv0RiiomfDqHrwPKLjmSeb87JZ
+         ve7CvsXpK+zS0nIEEPSI09agaNF48qkF1DJujQOWdDM9W6tVjRdAODh4765bzR4Rj23K
+         5dylFAL9umf7ApfyugAIxPb/oFOgAvpqaVjY4rTJoY3z5wcdK2ZHOFdNz2zzq6e8l8UP
+         /oR1ODBCRJ6F45g4Y2JBwCEhMAIMJEHGfQ8E0KN5FsdAFMyD731nLCdsJ6sYPjoG5wl1
+         Q+II5gIFm2zPtafg5rtzBC5enCm7xhcLDwDC2ayqyQ9R3TEKv9Qwj+KUpST8lbOFygmh
+         ofmw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=adrianschlegel-com.20260707.gappssmtp.com; s=20260707; t=1794580532; x=1795185332; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YEhVBcNusAf405LcZnwE5mAN0qWS+I+RJ+OQc0+Tq9U=;
+        b=PQSdCaAhpO5/jDSiheLa1OG8EJ9skTRuDG1W4vNIhvIv6pTie1Vj0L1fjTeWtsKKog
+         db84zu9iKIq58QUVRsZvkrZ1zm1yDQlORDk2Teo7NOH2PfRHWAo94eS2be2CGYUlaB4R
+         /JNO8Od57ZmSPMGoIhSmrLaM3vgfoWcn+Ym45coAd+4ICbHqHY/cFhEg/P+Yyg5aEQMC
+         IQ2kQQ6PwLBb4nMFAJnEyO3z7avTTB/uhyW8IEi069hEagzWvyKXIjP6k+0JnDCYPWgT
+         PeXe3XHF2COkglrXyoVdNFVquVn7cOq3njqRJWDxFYxbZPYZ/QJFctbMYFti9xn4sOd8
+         1cbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794580532; x=1795185332;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=YEhVBcNusAf405LcZnwE5mAN0qWS+I+RJ+OQc0+Tq9U=;
+        b=iKzLSt9ZS2Dshu+32G0O/2gqSh2HqLKGPlyA+7zWrOHNV4jQkleZ23IsgRs2agyH3s
+         oMGmYFBjlfjdKFouXYQnnUZykllEuLCymDKGJpd/B54I5LNWg9t7r+kuRuZ0w2GaYVc3
+         tabgWz/sXwCON0ksyXnevNJym/1TVJySnCT9H9hFO3FKhO+tpneM/JjL0F1iBszg9HWV
+         UYMAVjTy99JaBnrHOofkkGbjN5Ts2v/Q4lPs8y9Jxk/KoCmtLQk1P6TJRfrfekcR7y3B
+         eHbY3vh54CsX4QAfFWik1PRpNf/zAAHV0ZvQnrVXjaL0yPpCv9Mcry/nAfSP22vo7m1Y
+         ho/Q==
+X-Forwarded-Encrypted: i=1; AL+hErGPrcWeqHfdSF0M6dOYEKjJpLyi+pctAKtNwvCtkdKOrsW7Oq2af1mNkjQkj0Dx3ye1jTlegR39loDR@vger.kernel.org
+X-Gm-Message-State: APuU4Z93UMhzG73VaUZoCWXjK3HK8ORCw72wOewr7ISNyAoUfIAX4rJW
+	aCCeAJGdT31VLo1/UUG7cNffziSMHRla/ubi82ZB7bmh4RsGN6kKrzeMMolpmib6dKS8thN4Veu
+	I5nW8f8VsGY3zRT6BSycyFUoSuxaewX+yFqjz7kIr
+X-Gm-Gg: AYBFou1N4T4qv5dmmsDgi9uIJoTf4mlPt7CzI/jbyyjKhYZYagbtpDMOllwuN3lmA6w
+	Bilv6j3zAh33BZCiAk7TzInSfY4vujevlytoQRzfGRYbIM/vxmIFjQApdvqpWboSNFwPkut8C0P
+	g1iZBN8YuVfpHa9LB3Y2GKqLhLMYZfS3ExWblHSPriZrlsF1Qf5hNMcmph1q4HG9ZzhBKIdab4Y
+	1RGpr/hzyLf/CxvVs5EWHrz8l9NewSvKvS3TLwmI/ZxR+eEsFB7lK4rEszHLfPTcvtO1AsBBEUp
+	kP/Gn9YDxhvTh9fUnQKAYvCgGuiJ3OXG5L+wJ2D7cUEpsJB59rDyY8PLJFSTA2xEAeXrinZt9K6
+	Ju0g3HymYgM4hUjAxVMGVTnBPLJYQjST1Hdx2T//i8jJEnNZxnKa1cplPGtQvgao1as+/PP6yhU
+	PNM3cf+6rrYbZIv+emKTHQ2MCYn4SsC8/hqg==
+X-Received: by 2002:a05:7300:de01:b0:369:daea:812a with SMTP id
+ 5a478bee46e88-379682c2053mr1907220eec.30.1794580532081; Fri, 13 Nov 2026
+ 06:35:32 -0800 (PST)
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -64,278 +104,25 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20261003222012.19685-1-me@adrianschlegel.com> <20261012193305.38931-1-me@adrianschlegel.com>
+ <20261019153207.GA144824@yaz-khff2.amd.com> <DM914GO4A8WW.Q7YN7ISOQJJI@adrianschlegel.com>
+ <7886e7b1-95fb-4338-a7bb-b6bf1da3a634@intel.com> <SJ1PR11MB60837CA7EFFE0AC99D01904DFC982@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <ba508991-6a98-4aa2-a98d-e85307d50cef@intel.com> <CAN+_ncWbJh1iPzi+4tKdSguEo_SYj_4R3K=sNkG2_VT8TvkG5g@mail.gmail.com>
+In-Reply-To: <CAN+_ncWbJh1iPzi+4tKdSguEo_SYj_4R3K=sNkG2_VT8TvkG5g@mail.gmail.com>
+From: Adrian Schlegel <me@adrianschlegel.com>
+Date: Fri, 13 Nov 2026 15:35:20 +0100
+X-Gm-Features: AclHuK_0-cTHzsQGKoJrpYaOYYagia9Qe2eDwfhL7mPMeIIGxuqssjIMZGSuEos
+Message-ID: <CAN+_ncXtoZ=84qKHcox-aBotNLSogiJrhRtKJtbz=HvOt-umbA@mail.gmail.com>
+Subject: Re: [PATCH v3] x86/mce: Do not treat cache hierarchy errors as memory errors
+To: Sohil Mehta <sohil.mehta@intel.com>
+Cc: "Luck, Tony" <tony.luck@intel.com>, "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>, 
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Yazen Ghannam <yazen.ghannam@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 
-syzbot reported a NULL pointer dereference in the CPU hotplug code. It
-is caused by the lack of synchronizaton between CPU hotplug and MCE
-sysfs controls, which allows the sysfs controls to reenable not only the
-timer, but also the CMCI reporting on a CPU which is about to go out. A
-similar issue exists in the CPU online path where the timer can be
-enabled via sysfs control before the CPU runs the initialization of the
-timer.
-
-Prevent this by:
-
-  1) Tracking per CPU active state which prevents sysfs operations
-     on CPUs which are not set active
-
-  2) Serialize against CPU hotplug with a trylock() to avoid a circular
-     lock dependency between sysfs internal protections and the CPU
-     hotplug operations.
-
-This ensures that the sysfs operations always see consistent CPU online
-state and the timer and CMCI are shut down at the time when the CPU goes
-offline and re-enabled when the CPU starts without interfering with the
-sysfs operations.
-
-Fixes: 9af43b54ab45 ("x86, mce: sysfs entries for new mce options")
-Reported-by: syzbot+74de56995244fe32ffe2@syzkaller.appspotmail.com
-Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-Closes: https://lore.kernel.org/all/6a7ec39f.5b0d2c79.2ef4ef.0002.GAE@google.com
----
-V3: Change it back to the initial per CPU state approach and serialize
-    against hotplug with a trylock() to address the sashiko findings
-    and the reports from various folks
-
-V2: Use the seperate hotplug state as sashiko rightfully pointed out
-    that taking the sysfs mutex in the hotplug callback can deadlock
-    against the device creation/deletion.
----
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -1734,8 +1734,13 @@ int memory_failure(unsigned long pfn, in
-  */
- static unsigned long check_interval = INITIAL_CHECK_INTERVAL;
- 
--static DEFINE_PER_CPU(unsigned long, mce_next_interval); /* in jiffies */
--static DEFINE_PER_CPU(struct timer_list, mce_timer);
-+struct mce_poll_state {
-+	struct timer_list	timer;
-+	unsigned long		next_interval;
-+	bool			active;
-+};
-+
-+static DEFINE_PER_CPU(struct mce_poll_state, mce_poll_state);
- 
- static void __start_timer(struct timer_list *t, unsigned long interval)
- {
-@@ -1764,12 +1769,13 @@ static bool should_enable_timer(unsigned
- 
- static void mce_timer_fn(struct timer_list *t)
- {
--	struct timer_list *cpu_t = this_cpu_ptr(&mce_timer);
-+	struct mce_poll_state *pst = this_cpu_ptr(&mce_poll_state);
- 	unsigned long iv;
- 
--	WARN_ON(cpu_t != t);
-+	if (WARN_ON_ONCE(&pst->timer != t))
-+		return;
- 
--	iv = __this_cpu_read(mce_next_interval);
-+	iv = pst->next_interval;
- 
- 	if (mce_available(this_cpu_ptr(&cpu_info)))
- 		mc_poll_banks();
-@@ -1786,7 +1792,7 @@ static void mce_timer_fn(struct timer_li
- 	if (mce_get_storm_mode()) {
- 		__start_timer(t, HZ);
- 	} else if (should_enable_timer(iv)) {
--		__this_cpu_write(mce_next_interval, iv);
-+		pst->next_interval = iv;
- 		__start_timer(t, iv);
- 	}
- }
-@@ -1798,14 +1804,14 @@ static void mce_timer_fn(struct timer_li
-  */
- void mce_timer_kick(bool storm)
- {
--	struct timer_list *t = this_cpu_ptr(&mce_timer);
-+	struct mce_poll_state *pst = this_cpu_ptr(&mce_poll_state);
- 
- 	mce_set_storm_mode(storm);
- 
- 	if (storm)
--		__start_timer(t, HZ);
-+		__start_timer(&pst->timer, HZ);
- 	else
--		__this_cpu_write(mce_next_interval, check_interval * HZ);
-+		pst->next_interval = check_interval * HZ;
- }
- 
- /* Must not be called in IRQ context where timer_delete_sync() can deadlock */
-@@ -1814,7 +1820,7 @@ static void mce_timer_delete_all(void)
- 	int cpu;
- 
- 	for_each_online_cpu(cpu)
--		timer_delete_sync(&per_cpu(mce_timer, cpu));
-+		timer_delete_sync(&per_cpu(mce_poll_state.timer, cpu));
- }
- 
- static void __mcheck_cpu_mce_banks_init(void)
-@@ -2070,29 +2076,27 @@ static void __mcheck_cpu_clear_vendor(st
- 	}
- }
- 
--static void mce_start_timer(struct timer_list *t)
-+static void mce_start_timer(struct mce_poll_state *pst)
- {
- 	unsigned long iv = check_interval * HZ;
- 
- 	if (should_enable_timer(iv)) {
--		this_cpu_write(mce_next_interval, iv);
--		__start_timer(t, iv);
-+		pst->next_interval = iv;
-+		__start_timer(&pst->timer, iv);
- 	}
- }
- 
--static void __mcheck_cpu_setup_timer(void)
-+static void __mcheck_cpu_init_timer(void)
- {
--	struct timer_list *t = this_cpu_ptr(&mce_timer);
-+	struct mce_poll_state *pst = this_cpu_ptr(&mce_poll_state);
- 
--	timer_setup(t, mce_timer_fn, TIMER_PINNED);
-+	mce_start_timer(pst);
- }
- 
--static void __mcheck_cpu_init_timer(void)
-+static void mce_setup_timer(struct mce_poll_state *pst)
- {
--	struct timer_list *t = this_cpu_ptr(&mce_timer);
--
--	timer_setup(t, mce_timer_fn, TIMER_PINNED);
--	mce_start_timer(t);
-+	timer_setup(&pst->timer, mce_timer_fn, TIMER_PINNED);
-+	mce_start_timer(pst);
- }
- 
- bool filter_mce(struct mce *m)
-@@ -2259,7 +2263,6 @@ void mcheck_cpu_init(struct cpuinfo_x86
- 
- 	mca_cfg.initialized = 1;
- 
--	__mcheck_cpu_setup_timer();
- 	__mcheck_cpu_init_generic();
- 	__mcheck_cpu_init_vendor(c);
- 	__mcheck_cpu_init_prepare_banks();
-@@ -2452,6 +2455,8 @@ static void mce_cpu_restart(void *data)
- {
- 	if (!mce_available(raw_cpu_ptr(&cpu_info)))
- 		return;
-+	if (!this_cpu_read(mce_poll_state.active))
-+		return;
- 	__mcheck_cpu_init_generic();
- 	__mcheck_cpu_init_prepare_banks();
- 	__mcheck_cpu_init_timer();
-@@ -2471,6 +2476,8 @@ static void mce_disable_cmci(void *data)
- {
- 	if (!mce_available(raw_cpu_ptr(&cpu_info)))
- 		return;
-+	if (!this_cpu_read(mce_poll_state.active))
-+		return;
- 	cmci_clear();
- }
- 
-@@ -2478,6 +2485,8 @@ static void mce_enable_ce(void *all)
- {
- 	if (!mce_available(raw_cpu_ptr(&cpu_info)))
- 		return;
-+	if (!this_cpu_read(mce_poll_state.active))
-+		return;
- 	cmci_reenable();
- 	cmci_recheck();
- 	if (all)
-@@ -2532,9 +2541,13 @@ static ssize_t set_bank(struct device *s
- 
- 	b->ctl = new;
- 
-+	if (!cpus_read_trylock())
-+		return -EBUSY;
-+
- 	mutex_lock(&mce_sysfs_mutex);
- 	mce_restart();
- 	mutex_unlock(&mce_sysfs_mutex);
-+	cpus_read_unlock();
- 
- 	return size;
- }
-@@ -2548,6 +2561,9 @@ static ssize_t set_ignore_ce(struct devi
- 	if (kstrtou64(buf, 0, &new) < 0)
- 		return -EINVAL;
- 
-+	if (!cpus_read_trylock())
-+		return -EBUSY;
-+
- 	mutex_lock(&mce_sysfs_mutex);
- 	if (mca_cfg.ignore_ce ^ !!new) {
- 		if (new) {
-@@ -2562,6 +2578,7 @@ static ssize_t set_ignore_ce(struct devi
- 		}
- 	}
- 	mutex_unlock(&mce_sysfs_mutex);
-+	cpus_read_unlock();
- 
- 	return size;
- }
-@@ -2575,6 +2592,9 @@ static ssize_t set_cmci_disabled(struct
- 	if (kstrtou64(buf, 0, &new) < 0)
- 		return -EINVAL;
- 
-+	if (!cpus_read_trylock())
-+		return -EBUSY;
-+
- 	mutex_lock(&mce_sysfs_mutex);
- 	if (mca_cfg.cmci_disabled ^ !!new) {
- 		if (new) {
-@@ -2588,6 +2608,7 @@ static ssize_t set_cmci_disabled(struct
- 		}
- 	}
- 	mutex_unlock(&mce_sysfs_mutex);
-+	cpus_read_unlock();
- 
- 	return size;
- }
-@@ -2602,10 +2623,14 @@ static ssize_t store_int_with_restart(st
- 	if (check_interval == old_check_interval)
- 		return ret;
- 
-+	if (!cpus_read_trylock())
-+		return -EBUSY;
-+
- 	mutex_lock(&mce_sysfs_mutex);
- 	mce_restart();
- 	mutex_unlock(&mce_sysfs_mutex);
- 
-+	cpus_read_unlock();
- 	return ret;
- }
- 
-@@ -2757,21 +2782,23 @@ static int mce_cpu_dead(unsigned int cpu
- 
- static int mce_cpu_online(unsigned int cpu)
- {
--	struct timer_list *t = this_cpu_ptr(&mce_timer);
-+	struct mce_poll_state *pst = this_cpu_ptr(&mce_poll_state);
- 
- 	mce_device_create(cpu);
- 	mce_threshold_create_device(cpu);
- 	mce_reenable_cpu();
--	mce_start_timer(t);
-+	mce_setup_timer(pst);
-+	pst->active = true;
- 	return 0;
- }
- 
- static int mce_cpu_pre_down(unsigned int cpu)
- {
--	struct timer_list *t = this_cpu_ptr(&mce_timer);
-+	struct mce_poll_state *pst = this_cpu_ptr(&mce_poll_state);
- 
-+	pst->active = false;
- 	mce_disable_cpu();
--	timer_delete_sync(t);
-+	timer_shutdown_sync(&pst->timer);
- 	mce_threshold_remove_device(cpu);
- 	mce_device_remove(cpu);
- 	return 0;
+Hi Boris,
+gentle ping on this one.
+Thanks,
+Adrian
