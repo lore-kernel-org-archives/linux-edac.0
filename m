@@ -1,41 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794554354;
-	b=Mw+58Hj0+bU0cUbhDMFWbgTlAzxoYk7ARNBnb6C+gwfzEiap+/04mxbZSTY5BJHUeEya
-	 QhD3/ZV5wcVx8Z6OBEybJM+TtrXRFsqWcQIeS6H/iSTGvpNWSUb4tX2UyxQotZpGqYM5t
-	 4d1K4x0vIkPRDLuDy9ZM50RZT+RNM4/hROLcsbn9IWOFKQBECAj01xsEWEm8aTQBAVJeQ
-	 p/rY9oPKOT2nTnhfY6CqASjjQoBxBrMwKZthYmSAct1yDuOPYPHE5AEMPJUXG4iRQFjWq
-	 HFp1tis7aaKrzVNDR+RREMhBZYcpbc9Lbv3F18OrZOak1E4XsJeQSNSF+KTjf3gQqug==
+	t=1794555057;
+	b=nwnhuvQKwJmhuklqif0nTGJHOvz6cEurbYpSVYPK6w2sUGB5AqbR2/23GCXRzFVyuR0q
+	 GqurhPCJv+4ovDIm45UE9qwiGxhISuQ3b2RBRk1/+1HpaUSg3GNoQttgXlFUjmuVO+gRm
+	 xvwK7QzL90CGmnmZSdUFMw06rgmtF6p8PLLTD7xK8MmpkQQAgG7+nHacGT0oTAgWPjxGT
+	 RKa603OJczZu8Fu7FA+6SWDjSr6WXkhTx7pqW1wyVwM79IJq6Nwb8lPYpSb4njMTOyIQr
+	 99bYZhJHwEqR0Yet7lfnUlO39snFYalXkjwet+mquzkHoXTgsN+2KqZgtuY1tLRpttg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794554354;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794555057;
 	h=DMARC-Filter:X-Alimail-AntiSpam:Received:Message-ID:Date:
 	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
 	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=Te2tQwKi+CbFbO7kcRVoVZVDN2GCxgygHMZknPIbp1s=;
-	b=Me6JL3jcdIiSCMxKY5Gi9eaeVRPw7k+7+bOZoVG4UN/VUd8C7xhE1l5LPz1o1LU2gmN5
-	 dn5o8L+Dyosi3Y+v+GF4LIjCyaY+u2Jfg2mq6JvlHli6NuygmEqpWhYEBllnL/q0//A58
-	 XmgPHOk8a2pQb0gZwNHIrSoL1Nj8iNdkorAYQRQpxSg4UM43u+DnP95zmSm1sn+8Ww48m
-	 BSX7gqd4CzOUHeAqfmv0nG0ThNdPvf6Q2YMzJslI8I5QHHVfDMyvSbcWTzk42r9Zq8HPb
-	 rmIrFXznv04vUQzp56HQBmEzrxN4KON3htqrll5Xn9Ii4RghrSUQ2pFiNqLfFdCw2VA==
+	bh=z4qGF/xXhp8h6R/uUmXdxIctCrS1GFGLpy4gJytT2WU=;
+	b=OzxuhufzfXpV2U61g2gEmOvf8bV6PiRtaN3OncmDcLNza9hvurQtWUPLQmQMnPiNfPJK
+	 bqEDJlw8gUEdXMkcrX2FYG107MbWWmJpypZ4RTjqdYLa8w6eMG41ViguBp0FTzBWvKMt3
+	 MP1mj8dYl+lYvLqgMbdq5YPV2JJATz+UcTasZwfCSa9gBUHPSZTKd0vHrYUCMyy83noav
+	 2qjHR8pZROlFI2ZXgiQtMKUel5QYSfNmRufMTokDveB6weYIogDOJsgsWVjW5k36Zyfnt
+	 aYpa36oeWFNAcnU49NuYkLtYdFYIUfG48C6PpzXExDWT4vzjeJ2QW0myqb1oEMiszbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=open-hieco.net;
 	spf=pass smtp.mailfrom=open-hieco.net;
-	arc=none smtp.remote-ip=115.124.28.124
-Received: from out28-124.mail.aliyun.com (out28-124.mail.aliyun.com [115.124.28.124])
+	arc=none smtp.remote-ip=115.124.28.220
+Received: from out28-220.mail.aliyun.com (out28-220.mail.aliyun.com [115.124.28.220])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0AC606A330;
-	Fri, 13 Nov 2026 07:19:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE0AC606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B691606A323;
+	Fri, 13 Nov 2026 07:30:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B691606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.114326|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_news_journal|0.0261926-0.0001931-0.973614;FP=7245694826860738781|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037034020;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.k15Fw7B_1794554341;
-Received: from 172.18.24.170(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.k15Fw7B_1794554341 cluster:ay29)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.09034447|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0828622-0.00144669-0.915691;FP=7629473359374968787|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam011083099174;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.k166u1E_1794555050;
+Received: from 172.18.24.170(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.k166u1E_1794555050 cluster:ay29)
           by smtp.aliyun-inc.com;
-          Fri, 13 Nov 2026 15:19:02 +0800
-Message-ID: <2371a225-006a-4c1d-bae1-0deafba938a3@open-hieco.net>
-Date: Fri, 13 Nov 2026 15:19:01 +0800
+          Fri, 13 Nov 2026 15:30:51 +0800
+Message-ID: <7065966e-c59c-4a17-a491-0117339cba40@open-hieco.net>
+Date: Fri, 13 Nov 2026 15:30:50 +0800
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -46,7 +46,7 @@ List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 2/7] x86/hygon: Map CPU NodeIds to DF nodes
+Subject: Re: [PATCH v9 3/7] EDAC/amd64: Stop matching Hygon CPUs
 To: Borislav Petkov <bp@alien8.de>
 Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
  Mario Limonciello <mario.limonciello@amd.com>, Pu Wen <puwen@hygon.cn>,
@@ -55,35 +55,52 @@ Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
  Tony Luck <tony.luck@intel.com>, x86@kernel.org, linux-edac@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20261029053313.46323-1-wanglin@open-hieco.net>
- <20261029053313.46323-3-wanglin@open-hieco.net>
- <20261113044357.GBavaVjdHaKh3oni3q@fat_crate.local>
+ <20261029053313.46323-4-wanglin@open-hieco.net>
+ <20261113045230.GCavaXjqKx1l36G9A0@fat_crate.local>
 Content-Language: en-US
 From: Lin Wang <wanglin@open-hieco.net>
-In-Reply-To: <20261113044357.GBavaVjdHaKh3oni3q@fat_crate.local>
+In-Reply-To: <20261113045230.GCavaXjqKx1l36G9A0@fat_crate.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi Boris,
 
-On 11/13/2026 12:43 PM, Borislav Petkov wrote:
-> On Thu, Oct 29, 2026 at 01:33:08PM +0800, Lin Wang wrote:
->> +static int __maybe_unused cpu_to_df_node(unsigned int cpu)
->> +{
->> +	if (cpu >= nr_cpu_ids)
-> That cpu and nr_cpu_ids mean nothing in a guest so I'm thinking you wanna test
-> hypervisor first...
+On 11/13/2026 12:52 PM, Borislav Petkov wrote:
+> On Thu, Oct 29, 2026 at 01:33:09PM +0800, Lin Wang wrote:
+>> amd64_edac gets its node count and DF devices from the AMD northbridge
+>> cache. Since commit 49b96fc0dddc ("x86/amd_nb: Simplify function 3
+> This commit is old. Should that patch be in stable?
+
+I don't plan to backport this to stable. It is part of separating
+Hygon support from the AMD code in this series.
+
 > 
->> +		return -EINVAL;
->> +
->> +	/*
->> +	 * The NodeId reported by CPUID in a guest may not describe the
->> +	 * physical DF topology.
->> +	 */
->> +	if (cpu_feature_enabled(X86_FEATURE_HYPERVISOR))
+>> search"), the cache finds function 3 only at the fixed PCI slots
+>> 0x18 + N. Hygon DF devices are not at those slots, so the cache is
+>> discarded on Hygon and amd64_edac_init() returns -ENODEV at its
+>> amd_nb_num() check.
+> Please do not explain the code in the patch commit messages. Only the
+> non-obvious stuff.
 > 
-					    ^^^^^^^^^^^^
-I'll move the hypervisor check before the CPU index check.
+>> Remove the Hygon match and the empty Family 0x18 case.
+> That's what the patch does, no?
+> 
+> 
+>> MCE decoding
+>> in mce_amd.c is separate and unchanged. Hygon memory controller support
+>> will use the Hygon node interfaces in a separate series.
+> This is unnecessary.
+> 
+> Please concentrate only on why a patch exists. No meandering, no obvious code
+> explaining, just to the point.
+> 
+> Check your whole set pls.
+
+I'll reword the commit messages across the series to focus on why
+each change is needed.
 
 Thanks,
 
 Lin
+
+
