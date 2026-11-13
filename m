@@ -1,68 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794545060;
-	b=s/u5Ir+08CoEUGUCy4UswmLqeb5PsftERS+oH6wWX5xC4mOueJh2rTFAbraS8xTProc1
-	 zzitQv4Cbn6a9z7s96l0nsjD37G/XBbyZMEvEZFukNBzygy/Z65sMPYGBezhlFib6WAAF
-	 4zaAxfbTaI4w5ZNS5MopUOjc9lb2GUqqB1aaRlF8qSLn6mfGaQOkwe9Z2bt7FsQcLIAI6
-	 GhBZ2cRcfLVZdUNLZKOx8+5sT+yMHO3G7tv+nJBypEoVVf+PWL2YpIfMcdiUg7ZjAYrN6
-	 PeG6SOOdb0aaywS835BXdWhsmCgpXLSbwiZHkJH+w6OxlSmm8u4KF+lfES/Sg8mvEdw==
+	t=1794545573;
+	b=KALRxy5xVsNTSzFnfK2J5RAVc4VNTDS4xkTwP1SsFBFqqU4sAsK8EcOb51/eauWStvC+
+	 5oiBvqECLDeMEuwnwz8+VDXM/7slc3wrjfaXVhguSB6dyVkyH8PunVwdtoSgl/aW1+LfV
+	 5ICAPvcczRv5q7pvA02ghQxWQdcWXDFNqxAqZxsHPzXlvZXqK1ILLufS4vTcaHtGeJTpu
+	 gzf2GQKHGQ1ypMzykEkY1+yvYnh0Uh54cliGm52tghRIfN6PUpCS5FixKdf0RMO4Bv6Nf
+	 1XwtgHO+EQCr34fLqD7Cxw2VzQuwoX7+O4nTDfgQLV8MAX9kKiP+6n1FCXiySymjxcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794545060;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794545573;
 	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
 	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=nyGN+nVCQk2jGiiRX5tOBHHujsmmLnwl4mJOZzL7bkQ=;
-	b=G5+xQhSmh2U6TPa2/MkQqzQWi3DP8qBVKJX8v5lHDw/t4e8VH1GIPTg1/jFpq2/Fvy+s
-	 cWA4O4Zx/ygwzo8Cl/6YSuuTFO3vCEUZh2Cr2QqViDIc5OSyGjDKkwz77qvEWaGEUPi8B
-	 GaetbiEVejyE/kmKekvDyA4fYufcw2hSqLlXkorcmuikTMfV24+hbQB5BQjqpnf0JRC4m
-	 CKxGeXXZNTK2brC0tRM86wpBhlahgERcmVZTX5jV1t9xkYaICbVZSNcm5ylyDSnGJBjCd
-	 ZN6rYPV62FKQEYpNXPGor1ea6CGZh2EkDeZ7AAshtILMnJJ8W8rcT5YbarzBQYRF66A==
+	bh=6ILzsQVyl+eB/kNbDbeyLDqHpGWYnEtekkyk3bz+ho8=;
+	b=Vf8056qwGUrUR4Od1ijh+wiBTem1bQzL9Xy/qs/UTzfx9eNCyP7YvQP/IouQVgs4TThI
+	 wGGaA8JL+hBe6nIKLq8y0rkfDoATqZyeA4CeDVxbeNtgah+wVszAtHEuKvhPgiownsWLY
+	 vi6BT0Q+IhHKTrvQ6eozSuQIzHiMN7g4UzlvL20Wb5dfFa2nGs2oKj5xezEgPdJ651TPq
+	 GXb5mORGlsuiZLwIJbd0VVPLRAAIqArV9J8d1H07bV3XxY7uiwYpk24KvhOGlOFLuqXgm
+	 vVYwgTuJtUWWz+sdrwGvFnEgqHYVU9iAuLpl3Af9NUszPWPq5LATYtGpKKry4G+FNcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=alien8.de;
 	spf=pass smtp.mailfrom=alien8.de;
-	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=dDJ94GWp;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=FKhkleG5;
 	arc=none smtp.remote-ip=65.109.113.108
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C5D606A327;
-	Fri, 13 Nov 2026 04:44:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75C5D606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A65606A321;
+	Fri, 13 Nov 2026 04:52:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27A65606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=dDJ94GWp
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=FKhkleG5
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 43EAE40E021A;
-	Fri, 13 Nov 2026 04:44:17 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id E438C40E021A;
+	Fri, 13 Nov 2026 04:52:50 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
 	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id YanY5FfRt11J; Fri, 13 Nov 2026 04:44:14 +0000 (UTC)
+	with ESMTP id iWh3k8BWxifn; Fri, 13 Nov 2026 04:52:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1794545054; bh=nyGN+nVCQk2jGiiRX5tOBHHujsmmLnwl4mJOZzL7bkQ=;
+	t=1794545567; bh=6ILzsQVyl+eB/kNbDbeyLDqHpGWYnEtekkyk3bz+ho8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dDJ94GWpOI8VTlG2lGKYD0quI/UY4zqz6AMI7ho6MlpqSUWhLQx3HS9/cB7LMBoMz
-	 9tfV1wQzImWxsCzSj4c87LY55d6xeCx3ksvO7k2DYQW9DJqsUHxUvX0W7Y1CHD2D0q
-	 lE5EA4SWvedlXetFjg0G2IGjyuxnQajJux6iAXJU/SIwgk+Smp95muaJCEfWTYQ+kf
-	 pHwq/9utBXR+w5bZO3ZZy3y6Gt6/oheBOcZOSToydA2sn21+ZwJLCDLPvwp2BJLkNY
-	 ipRAMfXW3BJ/wSNpsWBkmy2tClGzR9jge8v1SZ/KsBbWzlUe5ouRZDaTg5XsnX6uU4
-	 8a+HmIeiXmluIfp6cceUcHRMeCyM9fgP1TLC8gs2TuX1rUswIgD+YRS+vMX+saEpOU
-	 /b/0hxZ+3WXyZuD3cyxsWr3QWW0QIeL+mFyILYMslQKfuAu/wcWzNy+Amymh554zqU
-	 cbHmVYlb14bsbZ8wMNh33JuLXxGON3WqcNROajnRy5Nbj2fbJLBrE1MpSU6SCgM68G
-	 /RmZojPzWlPNl2oq+IMAf6kLdWzeWawpX9DCUA4tvOaYYOhJvsnV6h2YtUX0/GPcWq
-	 k7rmBUe2pGII6hCdqVRcbMc4ea6FhqFRCC4ugnRTKJKn9bcS2lnyDK2qlyCOsuXsRG
-	 ab/ab9H8Vdu9EEeZtwtb9Qfs=
+	b=FKhkleG5KWzwTZhhqtlIT3kagGBUzJTxv3mhPjTy/yF8DBChdB9ImQ3BDZfKi1ph0
+	 98UB8HFFyMGjJDN3GWvzvgUmmp050hSDqNL8ZX2JzUJXbdej1rDyUHxUrXbH+tnGs1
+	 Hdyn0IMUNJ8/mLjR+wiUQxtWXJNf7ZWA0gEdC45EmMQ3Ha9tEyV3zawBVrx/NZ3Axx
+	 gPokMKqz6AOOL4baLBhlsQyxOvrFMhO/sYWR4XkEKoJgxxpdg/48l2JczgMGRMLvdX
+	 GWWn9E6JcNRTNvXEewo9g4YCihh/kL68M7jLtYUGKhQ6E9DNXNrrkHiIw6LM+xQptD
+	 xveH8GRVqAxx5a0rJMfh/Gw0YaUZIuRb/aRW1AaD3cLE9T8Um5TDe+lZ1icLWFjPGn
+	 7lRflrpO3B11TGThMA/8pWiqS9bsRIG0aigH3SH3GU+u2lcPLtC5GUuPqmOhdPS/1f
+	 8Y67zNLYQHQD0TA78eKSnpheH52HqUsdlxBdhR2pM2b5+Dwlla8QoywHw2J1T+xC7/
+	 gXcljJMqp47ih6nN2bFzOHhfNSZFYcmhAjqgx5yXDBPmZ3b3TYnxB7H4p0LvKNo9Rj
+	 dv+pqTbVRWGvPuBhuv86Yv0W2CxDJEe8wfKbdJ7aWFZ12tEcNpkW2YmZxjDJKVY1tX
+	 5SHwCrQsG7nJ4xQhJjoqRivc=
 Received: from stx.tnic (unknown [209.52.143.85])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9494C40E015B;
-	Fri, 13 Nov 2026 04:44:01 +0000 (UTC)
-Date: Thu, 12 Nov 2026 20:43:57 -0800
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 35B6340E015B;
+	Fri, 13 Nov 2026 04:52:35 +0000 (UTC)
+Date: Thu, 12 Nov 2026 20:52:30 -0800
 From: Borislav Petkov <bp@alien8.de>
 To: Lin Wang <wanglin@open-hieco.net>
 Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
@@ -73,10 +73,10 @@ Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
 	"H. Peter Anvin" <hpa@zytor.com>, Tony Luck <tony.luck@intel.com>,
 	x86@kernel.org, linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 2/7] x86/hygon: Map CPU NodeIds to DF nodes
-Message-ID: <20261113044357.GBavaVjdHaKh3oni3q@fat_crate.local>
+Subject: Re: [PATCH v9 3/7] EDAC/amd64: Stop matching Hygon CPUs
+Message-ID: <20261113045230.GCavaXjqKx1l36G9A0@fat_crate.local>
 References: <20261029053313.46323-1-wanglin@open-hieco.net>
- <20261029053313.46323-3-wanglin@open-hieco.net>
+ <20261029053313.46323-4-wanglin@open-hieco.net>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -88,26 +88,37 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261029053313.46323-3-wanglin@open-hieco.net>
+In-Reply-To: <20261029053313.46323-4-wanglin@open-hieco.net>
 
-On Thu, Oct 29, 2026 at 01:33:08PM +0800, Lin Wang wrote:
-> +static int __maybe_unused cpu_to_df_node(unsigned int cpu)
-> +{
-> +	if (cpu >= nr_cpu_ids)
+On Thu, Oct 29, 2026 at 01:33:09PM +0800, Lin Wang wrote:
+> amd64_edac gets its node count and DF devices from the AMD northbridge
+> cache. Since commit 49b96fc0dddc ("x86/amd_nb: Simplify function 3
 
-That cpu and nr_cpu_ids mean nothing in a guest so I'm thinking you wanna test
-hypervisor first...
+This commit is old. Should that patch be in stable?
 
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * The NodeId reported by CPUID in a guest may not describe the
-> +	 * physical DF topology.
-> +	 */
-> +	if (cpu_feature_enabled(X86_FEATURE_HYPERVISOR))
-					    ^^^^^^^^^^^^
+> search"), the cache finds function 3 only at the fixed PCI slots
+> 0x18 + N. Hygon DF devices are not at those slots, so the cache is
+> discarded on Hygon and amd64_edac_init() returns -ENODEV at its
+> amd_nb_num() check.
 
-> +		return -ENODEV;
+Please do not explain the code in the patch commit messages. Only the
+non-obvious stuff.
+
+> Remove the Hygon match and the empty Family 0x18 case.
+
+That's what the patch does, no?
+
+
+> MCE decoding
+> in mce_amd.c is separate and unchanged. Hygon memory controller support
+> will use the Hygon node interfaces in a separate series.
+
+This is unnecessary.
+
+Please concentrate only on why a patch exists. No meandering, no obvious code
+explaining, just to the point.
+
+Check your whole set pls.
 
 -- 
 Regards/Gruss,
