@@ -1,41 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.220
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.2
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794555057;
-	b=nwnhuvQKwJmhuklqif0nTGJHOvz6cEurbYpSVYPK6w2sUGB5AqbR2/23GCXRzFVyuR0q
-	 GqurhPCJv+4ovDIm45UE9qwiGxhISuQ3b2RBRk1/+1HpaUSg3GNoQttgXlFUjmuVO+gRm
-	 xvwK7QzL90CGmnmZSdUFMw06rgmtF6p8PLLTD7xK8MmpkQQAgG7+nHacGT0oTAgWPjxGT
-	 RKa603OJczZu8Fu7FA+6SWDjSr6WXkhTx7pqW1wyVwM79IJq6Nwb8lPYpSb4njMTOyIQr
-	 99bYZhJHwEqR0Yet7lfnUlO39snFYalXkjwet+mquzkHoXTgsN+2KqZgtuY1tLRpttg==
+	t=1794556605;
+	b=f0GK44Glv8OQLghkfAC1nqUCEMELDAT/KjlEi0aDWII8oEWrxK8Lo8J7dqd/KgJoUBrX
+	 NNEWkCIxnK7sM7LwtyS/rv5f3ZcB1FWt8hQoC1hQV8wFYlJODJKt1lcnrUM5ob6kPP6Ox
+	 gJcBAvhPKMFZE7Pbp28lYJ4lu1mEvzvdUkzUJFQ1kowp0zqLwlxK33A/R1c0d/0UKT8lj
+	 NPUVuq73VdF6eZCaBwTNI10LYbRvdofe3I+aBH7NgvoMhI5SpJ2Vf7163M5IybGtMLOfZ
+	 8a+Cp5uXZXlSj9iDuJKGSSWCgZWQ2xxsuEUYz7NZPkLb1jILQOjMVguo5uA3HsBevWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794555057;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794556605;
 	h=DMARC-Filter:X-Alimail-AntiSpam:Received:Message-ID:Date:
 	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
 	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=z4qGF/xXhp8h6R/uUmXdxIctCrS1GFGLpy4gJytT2WU=;
-	b=OzxuhufzfXpV2U61g2gEmOvf8bV6PiRtaN3OncmDcLNza9hvurQtWUPLQmQMnPiNfPJK
-	 bqEDJlw8gUEdXMkcrX2FYG107MbWWmJpypZ4RTjqdYLa8w6eMG41ViguBp0FTzBWvKMt3
-	 MP1mj8dYl+lYvLqgMbdq5YPV2JJATz+UcTasZwfCSa9gBUHPSZTKd0vHrYUCMyy83noav
-	 2qjHR8pZROlFI2ZXgiQtMKUel5QYSfNmRufMTokDveB6weYIogDOJsgsWVjW5k36Zyfnt
-	 aYpa36oeWFNAcnU49NuYkLtYdFYIUfG48C6PpzXExDWT4vzjeJ2QW0myqb1oEMiszbg==
+	bh=BeOQvh1rwGYlKbmD6yTPMhUR7igBrJzTCIt83SjJuB4=;
+	b=Bo8Q0O8fdwuEOOFYom9D4uPr2rXoveXYnM8ak0aUvQ1cS45hSs4yVxUKc7GTLs+J4egj
+	 FXv8wmAc2QWwbmov08gz5UtqaiFu3ZsAk0iWK/xUpBKvxpLmmFMMT4Dm+ROrDyUUKNx5y
+	 lhpblHGLlSy5G945YBXKUHi8IACLBh1x6B2JcMUYqK/A/Q2zdGh5hj/AyoQsMZ8O0kTpR
+	 HHic8yX1c47JR4OCNlz9a6dGcN9Z4jCfDiIyfpJRYvjiVoaHvuOYN50nroSBjr4iZZ9tY
+	 Ykhl2lSKkfFTKQ+t4biADnPM8VBmyPRVnV/7kdJMJrL087BtTB0YJX0sNcrxc1CIwFw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=open-hieco.net;
 	spf=pass smtp.mailfrom=open-hieco.net;
-	arc=none smtp.remote-ip=115.124.28.220
-Received: from out28-220.mail.aliyun.com (out28-220.mail.aliyun.com [115.124.28.220])
+	arc=none smtp.remote-ip=115.124.28.2
+Received: from out28-2.mail.aliyun.com (out28-2.mail.aliyun.com [115.124.28.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B691606A323;
-	Fri, 13 Nov 2026 07:30:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B691606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA50606A31C;
+	Fri, 13 Nov 2026 07:56:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3EA50606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.09034447|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0828622-0.00144669-0.915691;FP=7629473359374968787|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam011083099174;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.k166u1E_1794555050;
-Received: from 172.18.24.170(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.k166u1E_1794555050 cluster:ay29)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.2447411|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0129008-0.00472964-0.98237;FP=7587406834914928285|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033032065030;MF=wanglin@open-hieco.net;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.k167Dxv_1794556597;
+Received: from 172.18.24.170(mailfrom:wanglin@open-hieco.net fp:SMTPD_---.k167Dxv_1794556597 cluster:ay29)
           by smtp.aliyun-inc.com;
-          Fri, 13 Nov 2026 15:30:51 +0800
-Message-ID: <7065966e-c59c-4a17-a491-0117339cba40@open-hieco.net>
-Date: Fri, 13 Nov 2026 15:30:50 +0800
+          Fri, 13 Nov 2026 15:56:38 +0800
+Message-ID: <1824e0de-7011-4cb8-837f-0dc5a47e46e1@open-hieco.net>
+Date: Fri, 13 Nov 2026 15:56:37 +0800
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -46,7 +46,7 @@ List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 3/7] EDAC/amd64: Stop matching Hygon CPUs
+Subject: Re: [PATCH v9 4/7] RAS/AMD/ATL: Match AMD CPUs only
 To: Borislav Petkov <bp@alien8.de>
 Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
  Mario Limonciello <mario.limonciello@amd.com>, Pu Wen <puwen@hygon.cn>,
@@ -55,52 +55,44 @@ Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
  Tony Luck <tony.luck@intel.com>, x86@kernel.org, linux-edac@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20261029053313.46323-1-wanglin@open-hieco.net>
- <20261029053313.46323-4-wanglin@open-hieco.net>
- <20261113045230.GCavaXjqKx1l36G9A0@fat_crate.local>
+ <20261029053313.46323-5-wanglin@open-hieco.net>
+ <20261113050924.GDavabhDniAGJMUgtH@fat_crate.local>
 Content-Language: en-US
 From: Lin Wang <wanglin@open-hieco.net>
-In-Reply-To: <20261113045230.GCavaXjqKx1l36G9A0@fat_crate.local>
+In-Reply-To: <20261113050924.GDavabhDniAGJMUgtH@fat_crate.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi Boris,
 
-On 11/13/2026 12:52 PM, Borislav Petkov wrote:
-> On Thu, Oct 29, 2026 at 01:33:09PM +0800, Lin Wang wrote:
->> amd64_edac gets its node count and DF devices from the AMD northbridge
->> cache. Since commit 49b96fc0dddc ("x86/amd_nb: Simplify function 3
-> This commit is old. Should that patch be in stable?
+On 11/13/2026 1:09 PM, Borislav Petkov wrote:
+> On Thu, Oct 29, 2026 at 01:33:10PM +0800, Lin Wang wrote:
+>> ATL matches Hygon through X86_FEATURE_SMCA and X86_FEATURE_ZEN, but
+> Ok, I had asked about it but that ask wasn't met with a lot of enthusiasm.
+> 
+> Before we go any further here, I would need you guys to go and define
+> a X86_FEATURE_HYGON and convert all the matching that Hygon does with
+> X86_FEATURE_ZEN to this new feature flag and get off the _ZEN flag.
+> 
+> Because the _ZEN flag is an AMD one and you have no place piggybacking on it
+> because when we go and change it, we will break you.
+> 
+> And you don't want that.
 
-I don't plan to backport this to stable. It is part of separating
-Hygon support from the AMD code in this series.
+I agree that Hygon should use its own feature flag. I'd like to
+handle that conversion in a separate series with the Hygon CPU
+maintainers.
 
-> 
->> search"), the cache finds function 3 only at the fixed PCI slots
->> 0x18 + N. Hygon DF devices are not at those slots, so the cache is
->> discarded on Hygon and amd64_edac_init() returns -ENODEV at its
->> amd_nb_num() check.
-> Please do not explain the code in the patch commit messages. Only the
-> non-obvious stuff.
-> 
->> Remove the Hygon match and the empty Family 0x18 case.
-> That's what the patch does, no?
-> 
-> 
->> MCE decoding
->> in mce_amd.c is separate and unchanged. Hygon memory controller support
->> will use the Hygon node interfaces in a separate series.
-> This is unnecessary.
-> 
-> Please concentrate only on why a patch exists. No meandering, no obvious code
-> explaining, just to the point.
-> 
-> Check your whole set pls.
+This series provides independent Hygon node/SMN paths and makes AMD
+NB/SMN initialization AMD-only, without depending on the new flag.
+The flag conversion also affects CPU and ACPI behavior outside the
+node layer. It requires reviewing the existing users across
+subsystems, updating the affected paths, and testing the changes on
+Hygon hardware.
 
-I'll reword the commit messages across the series to focus on why
-each change is needed.
+Would it be acceptable to merge the node/SMN separation first while
+we work on the feature-flag conversion?
 
 Thanks,
 
 Lin
-
-
