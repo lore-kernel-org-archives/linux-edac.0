@@ -1,59 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794575088;
-	b=CvLj02mECyVGXB/eAu9zUejgtd2mV8S3PQnRo1U5R4tbjo8SKbSDDqx9F0bItMRpFkfb
-	 EyrqrJXnmpzfy7ycohl/SBOUlWh9LKqgIczup65WC+YI5Tpvh3iMwW/JQsbQ5cSGAjxLD
-	 q6QftG+KFWP6/r/La2pcF8IQ3aCfz3NoebgFJAPizwQWeCaAAe9rIzKm2fwiDZWC2+plw
-	 Y8dK6vE+NUkwjTGG4Hf6lWbBLVWRONgh9ZN9DINbXAiB5du5rG1M0Ieplb4wx+MkDC9Vb
-	 Cj7Aue0p7k24/cgqKOistiD9hAhf7SQoJZaxY9AOqS8VxvuPTc21MKPZROft0dE7IQg==
+	t=1794576375;
+	b=k54VCQ0sRuYcXWC3L/4b+hj9imMIZYapDjmKJrEJHsb5FEfAugniOaH5dp9m+HY98oOj
+	 MT4X7xwTTLaf0QxHMT+qkdv9AvPiPdUSAzCejNK4R+m2l9OwsPvVTBG+9ib6OZlklPMjU
+	 Jf9U/3mszUTen/MTFFGQPS+zwRa7Ccff8D1kbSY8M4U2sr925mteZdtj4SHknBD3ji2xS
+	 PBtJSY/fHi+v/x9DkNj7LOIU/cOyeI/w8SzkYPr79YL3gFKIGT2Lej0awaXzpglTuR/XM
+	 RMBGAQt/wcOL6hDSaTQZc+ocjb2PbQNm1ASOJFzm1rLocypEErWc7t/tG86WlAe+u9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794575088;
-	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Debian-User;
-	bh=i1nIoNWP6vn7BVAkfCZDHQr/6tzIle4kH7ZYHEiCwaU=;
-	b=ixCFpBqDShZDefEHzPCSgcGrhX3p4H4uXfTEU4mW6NOLNwMS2NhB6S4X3kYwO6FZ+xin
-	 6vaTdtx1H3xMZYxJBnApazYulVF4Kx2EKCuH/KyetuB2ab2jC5tb0snK++BbBLFMnoivK
-	 XJMXG76EMADQfmifJIqPMCPiFJzD5juIKCmQkDgFHUAGrncsUHaNNwglzQ3jKAy98fDmy
-	 e9MqbwpXg3s+pNGT7jgENfR5aZAWcmREFJc5LDjd/utdaVqxlCegjE1UzVNyM1QFqy35K
-	 1ZOCuMlihfL7rsRZsawKCNZHK9xS6O3LEG05FAkMhF2KSvGVRah98TLN0K3FMuJk1ZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794576375;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=GFBfprroMIj7lP2HR0JBsqsLFaCtGD9563ECW+hbRiQ=;
+	b=neQm6PGnSw3BkFOwfbJbovo12WiGe+93DnPGwnObo82gHPSbVS1sdJ2LAxNg6nYHR71o
+	 9DggzfSG2OWsDn5GioFiWdoTBsN9uyiCrcasMo5WlJOSHNY2+/HggPioRYYsCv5AnttcG
+	 APQ8IBe4lpngPszjfoSXPTmbds/fZGYLqTeYVv2/z616w1UFDI8U6zt9CEegBaZOAfJhq
+	 7E0iztYzZrJLO6IMoP7dCBVjbSK74h8Zl1XOGEitUny7nnyE5WBVHPC3WvuvBW9xnQhHo
+	 aT5OHD6yQBKKU80wrMIexe5IleuvcSWR0tr8KQ/vzdAjHwxnisj3r8RFX8+vo1WWoVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=debian.org;
-	spf=pass smtp.mailfrom=debian.org;
-	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=Y7Q3ueDd;
-	arc=none smtp.remote-ip=82.195.75.108
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE3D606A89D;
-	Fri, 13 Nov 2026 13:04:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6AE3D606A89D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=APvEPR0n;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47FEB606A89E;
+	Fri, 13 Nov 2026 13:26:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47FEB606A89E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=Y7Q3ueDd
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=i1nIoNWP6vn7BVAkfCZDHQr/6tzIle4kH7ZYHEiCwaU=; b=Y7Q3ueDd7+9PcnPUxUvxQm66fz
-	luGvY5Ec9GsuKHjZ164+LDKXi9il4eTztpGk+svfFDGVtbts/Qb9w1T5hsAUrwMH8eDZp+DEzmxIg
-	kTwiNsgDJxnB59O08HIcDjmNPAqbybU1WphFtHTDcBecQUBgFTIc5KFCGfxfA9+VAirpES1MuusXp
-	XmpNw4BHsJUrwNwBTw3NKVtYsmpI2LBPMg3nAuozL2I1YiRS2UnK5/Psy15qOgChUW2prZ1EtVnVh
-	YaHIUMNLoTVODanKV2pgppH0YrWRUUgTaLJ0bLTWObizXr62halArwERo30hQIien52F6qn6HzHo2
-	gTx+xCOw==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1xRqxP-00EllA-38;
-	Fri, 13 Nov 2026 13:04:44 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 13 Nov 2026 04:49:15 -0800
-Subject: [PATCH v3 2/2] x86/mce: Rate-limit the CMCI storm transition
- notices
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=APvEPR0n
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1B7421516;
+	Fri, 13 Nov 2026 05:26:11 -0800 (PST)
+Received: from e135073.arm.com (unknown [10.57.14.137])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CC51D3F85F;
+	Fri, 13 Nov 2026 05:26:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794576374; bh=M/LAD+SaqRe2mHN4epjNom3PLX82QH6gyWxe6EtlDt0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=APvEPR0nrqajNBlUqFfP/odymgnYot9m6AzGtrzrWSNUm7rzlsMM6JK3r+/Ve6sYN
+	 6E3Wry4C02rrE3zOVFkJBpeMP/a//q2F1HMOypMwe8SqthOAGybJNCpG3wuGD8u4rC
+	 YvVf1+SsSr8HSGa1Zo2egLRA/CerWalRStJ5VnjE=
+From: Pierre Gondois <pierre.gondois@arm.com>
+To: linux-kernel@vger.kernel.org
+Cc: Ashok Raj <ashok.raj@oss.qualcomm.com>,
+	James Morse <james.morse@arm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Pierre Gondois <pierre.gondois@arm.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shuai Xue <xueshuai@linux.alibaba.com>,
+	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+	Pawel Chmielewski <pawel.chmielewski@intel.com>,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Breno Leitao <leitao@debian.org>,
+	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	Terry Bowman <terry.bowman@amd.com>,
+	Dan Williams <djbw@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Morduan Zang <zhangdandan@uniontech.com>,
+	linux-acpi@vger.kernel.org,
+	linux-edac@vger.kernel.org,
+	acpica-devel@lists.linux.dev
+Subject: [PATCH v4 00/12] CPER: Add Memory Error Section 2 support
+Date: Fri, 13 Nov 2026 14:24:42 +0100
+Message-ID: <20261113132600.3355836-1-pierre.gondois@arm.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -63,101 +80,91 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261113-mci_ratelimit-v3-2-ada38c5a6c88@debian.org>
-References: <20261113-mci_ratelimit-v3-0-ada38c5a6c88@debian.org>
-In-Reply-To: <20261113-mci_ratelimit-v3-0-ada38c5a6c88@debian.org>
-To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- "H. Peter Anvin" <hpa@zytor.com>, Qiuxu Zhuo <qzhuo@nvidia.com>, 
- Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Rik van Riel <riel@surriel.com>, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2362; i=leitao@debian.org;
- h=from:subject:message-id; bh=fvZr6T1j5RLXFy6lJvfk3/mkHLV+dm0Ial2RhaSrnWY=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBq9wrd5jlTrCJoTGPj6xFrr+hojZFcNxdz7Amqn
- bIcpYxsfP+JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCavcK3QAKCRA1o5Of/Hh3
- bQvAEACvFPPBjWXRhHnSZAnBd8LPJcksRcmjoNCOG17CG58yawUpvWEw7WXqe4/HQBjtEQsjQmF
- N8vYNBrdUl4JCCGEudXYVbV124A+y6c2CXm5vkHvf52w/J93b8q8FO+1zECqeXvMnY59XBf5e7D
- eRVg766EiW/p+vXQ2UQ2QYVj8Mj91lGMyJ7CmEnPuGU/DnPoAvs23LVm7V++46oyb5tBLvVjc/r
- kiUfPqHTnn47yF1mbEm51i/gFDsCMtLp4ezx8c4T50uLM3MJ0tsndXCFBSx7gryQu9yn68Bk808
- mZWmXseHNP5wHiyfF5wg1/UAAsMI0m54UTSwfOjLrjS34wgbztiZJawl6bjqMiLEw1kZg3PJkxw
- lCObOOfbJbbG/I7eE8Ps1k+QE/uepSAUHpUpPad+Y0DKKxctJ7mlE03eJtESxUXSDvgjs5gG0Ly
- 6hOfCV8Xdrc8d9ug59n1WQJsvlzx+i+ys3wrkoqzf9hBzKcgaIk8y7ZF2w62MCf/wWBWm25T7JS
- FVsNwCMLlqP6t6torTmJqpsdOGRv7GfVR/+S4wHqwOFnl/+9k/n9Dw+I0GKbRyxkdVjmPW45YPZ
- eW50bnJ/MiKzbt3kP0tc9ahudD+Tyg9DdVfvuzUbUh5kmy5xut1YKEc+QcmUE3H0fVs06U7qDGR
- RAtA1zdXK+eLciA==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
 
-mce_track_storm() prints a line every time a bank enters storm mode and
-another every time it leaves. Neither is bounded, so the log volume
-follows whatever rate the bank flaps at.
+The support is mostly duplicated from Memory Error Section handling.
+Other than differences coming from the content of  Memory Error
+Section 1 and 2, differences in the support are:
 
-One host in our fleet logged 9970726 "CMCI storm detected" and 9970734
-"CMCI storm subsided" lines for a single bank over four days, which is
-a bit excessive for all monitoring purposes.
+- v2 do not rely on a compact "struct cper_mem_err_compact" struct.
+This structure was used to support older versions of the Memory
+Error Section (1). This is not needed for the new structure.
 
-Put both transitions behind one ratelimit.
+- The compact version is also used by the tracing framework.
+To avoid relying and propagating a non-standard record format,
+through trace event (cf. extlog_mem event) the new trace event
+prints each field individually.
 
-Acked-by: Tony Luck <tony.luck@intel.com>
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- arch/x86/kernel/cpu/mce/threshold.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+The last patch of the serie was only build-tested due to the
+absence of relevant hardware. apei_mce_report_mem_error() and
+arch_apei_report_mem_error() implementations were also removed since
+last version.
 
-diff --git a/arch/x86/kernel/cpu/mce/threshold.c b/arch/x86/kernel/cpu/mce/threshold.c
-index 6c370d5af5bd23..8591715ce24306 100644
---- a/arch/x86/kernel/cpu/mce/threshold.c
-+++ b/arch/x86/kernel/cpu/mce/threshold.c
-@@ -4,6 +4,7 @@
-  */
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
-+#include <linux/ratelimit.h>
- 
- #include <asm/irq_vectors.h>
- #include <asm/traps.h>
-@@ -111,6 +112,13 @@ void cmci_storm_end(unsigned int bank)
- 		mce_timer_kick(false);
- }
- 
-+/*
-+ * Shared by both transitions so that a bank flapping between them cannot
-+ * outrun the console.
-+ */
-+static DEFINE_RATELIMIT_STATE(storm_rs, DEFAULT_RATELIMIT_INTERVAL,
-+			      DEFAULT_RATELIMIT_BURST);
-+
- void mce_track_storm(struct mce *mce)
- {
- 	struct mca_storm_desc *storm = this_cpu_ptr(&storm_desc);
-@@ -150,13 +158,17 @@ void mce_track_storm(struct mce *mce)
- 	if (storm->banks[mce->bank].in_storm_mode) {
- 		if (history & GENMASK_ULL(STORM_END_POLL_THRESHOLD, 0))
- 			return;
--		printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm subsided\n", smp_processor_id(), mce->bank);
-+		if (__ratelimit(&storm_rs))
-+			printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm subsided\n",
-+					smp_processor_id(), mce->bank);
- 		mce_handle_storm(mce->bank, false);
- 		cmci_storm_end(mce->bank);
- 	} else {
- 		if (hweight64(history) < STORM_BEGIN_THRESHOLD)
- 			return;
--		printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm detected\n", smp_processor_id(), mce->bank);
-+		if (__ratelimit(&storm_rs))
-+			printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm detected\n",
-+					smp_processor_id(), mce->bank);
- 		mce_handle_storm(mce->bank, true);
- 		cmci_storm_begin(mce->bank);
- 	}
+It will also require a proper handling from the rasdaemon. Applying
+this last patch without rasdaemon support will silent the reports of
+Memory Error Section 2 error, cf. ras_userspace_consumers() check.
 
--- 
-2.53.1-Meta
+Future:
+- _OSC support (if agreed)
+- Addition of arm64 tracepoints
+https://lore.kernel.org/lkml/20261023170405.000060b8@oss.qualcomm.com/
+- Emission of lossy CPER Mem error v1 tracepoints for legacy userspace
+  tools
+https://lore.kernel.org/lkml/at0rs4parlHFGI7k@hu-ashoraj-lv.qualcomm.com/
 
+
+RFC: https://lore.kernel.org/all/20260929074659.2587216-1-pierre.gondois@arm.com/#t
+V1:  https://lore.kernel.org/all/20261019145643.1877246-1-pierre.gondois@arm.com/
+- Corrections from Jonathan's review
+- New patch:
+    [PATCH v2 4/6] EDAC/ghes: Extract error report initialization
+- Last patch not in RFC as it has been reviewed by Jonathan@
+    [PATCH v2 6/6] ACPI: extlog: add Memory Error Section 2 trace event
+V2:
+- Updated ghes_edac_init_error() to ghes_edac_init_error_desc(),
+  which now only acts on the input "struct edac_raw_error_desc"
+  + added lockdep_assert_held() to ghes_edac_init_error_desc()
+- Accumulate failures with "queued |=" in ghes_do_proc()
+- New PATCH:
+  [PATCH v3 5/7] ACPI: APEI: Extract common memory failure handling
+
+V3:
+- Added <linux/bits.h> include
+- Used pr_warn_rate_limited()
+- Removed one warn for smbios handle overflow
+- Replaced __string() -> __string_len() in trace event
+
+Added patch to us scnprintf():
+- cper: Return actual bytes written by DIMM location helpers
+Added patches to increase buffer size and prevent overflows:
+- EDAC/ghes: Small buffer fixes for mem other_detail helpers
+- efi/cper: Pass buffer length to memory location helpers
+- efi/cper: Pass buffer length to DIMM location helpers
+
+Pierre Gondois (12):
+  cper: use BIT_ULL() for processor and memory validation bits
+  cper: add Memory Error Section 2 structures
+  cper: add helpers to handle Memory Error Section 2
+  cper: Return actual bytes written by DIMM location helpers
+  EDAC/ghes: Extract error report initialization
+  ACPI: APEI: Extract common memory failure handling
+  ACPI: APEI: add separate Memory Error Section 2 handlers
+  ACPI: extlog: add Memory Error Section 2 trace event
+  efi/cper: Pass buffer length to DIMM location helpers
+  efi/cper: Pass buffer length to memory location helpers
+  EDAC/ghes: Small buffer fixes for mem other_detail helpers
+  efi/cper: Increase memory error location and detail buffer sizes
+
+ drivers/acpi/acpi_extlog.c  |   6 +
+ drivers/acpi/apei/ghes.c    |  58 ++++++++--
+ drivers/edac/ghes_edac.c    | 211 ++++++++++++++++++++++++++++--------
+ drivers/firmware/efi/cper.c | 137 ++++++++++++++++++++---
+ drivers/ras/ras.c           |   1 +
+ include/acpi/ghes.h         |   2 +
+ include/linux/cper.h        | 138 ++++++++++++++++-------
+ include/linux/edac.h        |   2 +-
+ include/ras/ras_event.h     | 102 +++++++++++++++++
+ 9 files changed, 548 insertions(+), 109 deletions(-)
+
+--
+2.43.0
