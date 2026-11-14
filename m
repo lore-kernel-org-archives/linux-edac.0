@@ -1,81 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794614011;
-	b=IVMtYNrGBWjAcd17Xb7//PQsqqH8gXKS/suLcZibLZftQ7c9lNhTy9zHLudpg6/Ho/1T
-	 ZqJpd7topnvWFgmepAsPALXBMLUCPjkzc+vDSc2NLHH74c9/I6Uw4OOXapbQGsw/IG06q
-	 gJkH5uS+JPRS0/PqcShaO3SgyUDuvJP1KQfr5JMt+xSd/ekF94u1gPtJeod3cdsf7IpkK
-	 ZNpJNkns3bMSKtWxmi2DQB00uq+L+wicgX+tz2PhBNHnZeBZCCXET+tJqrG5zE4PKRSWP
-	 VQ0AuLkhbMjd1mTwq5oA/CdGH9o0XQRVdVOrAVtdHZZyanZOvRkbTCNI3mKF6OlK09g==
+	t=1794658532;
+	b=s5qJN0aSAOf2xqcG24962gcDcBGmNyCtOZ9woX7Dao/0Hp+ywQRkhk5FzbkSFKjMBT7T
+	 Rc1IHkWVHhccBSt94IG4gtMc4x2FA+i2ag5873vc8foFbjJDThNSDvKR+FCEZLLntRYK6
+	 Hx+r0j6TsOIhuUA+jbZnXY/yW9uWLvGEk1WsAZRSiwLoWkT2HvQkEiVQc2BGfq7qTN+JQ
+	 JWofLdJghmaYcclrB3g3rjNQ60KRJ3bglYClnsmgGyHAHHyCeSNK1tl5qsR7l4mcTuMxM
+	 FIHNgvGm16Wk5/KgyMkh+WQB/ttkZhRQlxx76CBOz+zDouTmk1oJerlMyhJszS5UN4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794614011;
-	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=ofzMkWeqC39zfEblKpdCI+AgTlcnHO+vyCGyUjjgVpI=;
-	b=37LxqthBdnu0mOPa48YXwfPz/X1fHbuFMI1HOzs3guopTL/VMyLo6CdjP7Ba8WlX1NcP
-	 ZFzKITZvy+Rnjks1LwIFaFds43l8f4DQ8vqkbxyV9a2bTT6kzvA7H/O85PNVEioSIynQb
-	 K6q9dmHK1BI8/is9N0cw3voiIF6jKTEeLuPCYfqgTB0/QWikjlHXOlP65/9eiA7valMJJ
-	 /1wERPS8nOfQvPDtW61JxweLqmZtM0FDU05o4TOYtcTmixBrHiMwPZwRnp4Djob+n16u8
-	 6niCusIB0WhtyF4S8m5DISIrA/H0T1FJSes6S4s0FJ1OTf7lhZxULWLo7h3qYvcYrdg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794658532;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=oWuOwDFhTmH3ChqYEXokVxql4X4DiTpIDjApkuAhTfs=;
+	b=ydlFYRsvWAYkRK5h+LH483zVi89vRzUqnvk4nK6L91vOGPIxxMrBXdd7Uwl4ONH8Iuzn
+	 6NL4Fr4FIzeiq3sVaz4SexAs/uRDufePZXFmrTbLFa+g2IWwUYYW+/pTRr8ihgdCtGxhl
+	 TmxkPqCebs49mi9kQY2ieWjQdai+vUXMism2TrRqxIvYET3M3BKTb/am54S7J9DpNlLuO
+	 7kvrsfd7Hc//L9QnxZQxQb7Sy7AioKpgRvLqBabFzlGlSqf65Y8l3bhYslf1EzugeWJ77
+	 yUgHXJvLbZxyjVg2zx+UiYrQq89pcrbkfiJ9Xlr0WeN35MnC2BtZ1ajIuWfAESKHsjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=alien8.de;
-	spf=pass smtp.mailfrom=alien8.de;
-	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=DYi87pQB;
-	arc=none smtp.remote-ip=65.109.113.108
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC92606A336;
-	Fri, 13 Nov 2026 23:53:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AC92606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=kiD2WV2G;
+	arc=none smtp.remote-ip=111.22.67.151
+Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4900606A323;
+	Sat, 14 Nov 2026 12:15:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4900606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=DYi87pQB
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 066C740E0184;
-	Fri, 13 Nov 2026 23:53:29 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id YzEvr1eMUUKw; Fri, 13 Nov 2026 23:53:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1794614005; bh=ofzMkWeqC39zfEblKpdCI+AgTlcnHO+vyCGyUjjgVpI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DYi87pQBTBLGdOlVAxfY/jDFJ8i7MBr9lRudWLSi85+miQTxO8Z9pHPst+PrRivQQ
-	 audgX3QkI32n6LviWC2oD0zutowQJzrCdhG32/9Urn7OF4E0nEFYEelx9mfL93ndkc
-	 9mQAisxyOCW8ymx+jnPZzdzC9Uf/whF9D5fYyBB/UQCK0nMzCfgWcQQY9KST5xqAbW
-	 YnJYC3zFSdVf1Wdzm9BZlicmQDhixd2nK8bwpAPsRWoNAbfzyrZ00KvmMrJLY8lbWc
-	 ZsKCiyuDy60ZH8iTp0z+rZgvJLTQ8+ppYHyGBcu30qMILI/m+5x6+Dni4h/pjVDe7N
-	 bX3vbZn4WJRo5uDltmL23UTs6cfhc19WeqdEbo7SdddfGuUD3Z8MCMgWMzd1aCQ3eb
-	 eI3oqN7tTT41Y5nSt27h/OIi9YHc+QAzZZL7BmOTMmsSa6uPK/AxZLHIGYxKn5wYhF
-	 +zZvP4yeijzn4iRuMB/NRv94RJ6QBK0J+h6zQc90wtscqpxxF1iPSXqjlagn7o6ATf
-	 FShyPyHYdL6Vr8igt0WT9KjwLmMgbb7sdi6e89bsBBFkgwdiAXmX/GgytGrB9GSQgq
-	 ssBPhFPK0yHGebomUrWDoBk4DRo9kTJ6N4y+CrxTYN1TgbTXHarPXhD5yLuU8pL/jI
-	 khArxatRbstVezAbLcrmFfsk=
-Received: from stx.tnic (unknown [209.52.143.85])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 20CF940E019C;
-	Fri, 13 Nov 2026 23:53:11 +0000 (UTC)
-Date: Fri, 13 Nov 2026 15:53:05 -0800
-From: Borislav Petkov <bp@alien8.de>
-To: Breno Leitao <leitao@debian.org>
-Cc: Tony Luck <tony.luck@intel.com>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Qiuxu Zhuo <qzhuo@nvidia.com>,
-	Qiuxu Zhuo <qiuxu.zhuo@intel.com>, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Rik van Riel <riel@surriel.com>,
-	kernel-team@meta.com, stable@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] x86/mce: Rate-limit messages from corrected error
- floods
-Message-ID: <20261113235305.GEavei4ZaT6cVVy_mm@fat_crate.local>
-References: <20261113-mci_ratelimit-v3-0-ada38c5a6c88@debian.org>
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=kiD2WV2G
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=kiD2WV2GAAhcwSn7IdlWDZGC6iUOUnQT53kkKSsN5aHTk1ZBAWtrtkPkq7+pX3jRmTIa5iTE/3yil
+	 hclbYCRCUkLVoT38bxmeGdFd9wTrEd7mhzQ2gn03XWY6fgWLhw+o9AFMYTzyw9WAK4eHAIousxT+RH
+	 XJDAoRkw2RGs0EK0=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee66af850ce47b-be2b0;
+	Sat, 14 Nov 2026 20:15:18 +0800 (CST)
+X-RM-TRANSID:2ee66af850ce47b-be2b0
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from FHD-W7400297 (unknown[10.55.1.70])
+	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee66af850d4ac7-4462a;
+	Sat, 14 Nov 2026 20:15:18 +0800 (CST)
+X-RM-TRANSID:2ee66af850d4ac7-4462a
+From: Aibing Chen <chenaibing@cmss.chinamobile.com>
+To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>
+Cc: linux-edac@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] EDAC/octeon: enlarge the L2C error message buffer
+Date: Sat, 14 Nov 2026 20:15:15 +0800
+Message-ID: <20261114121516.1306-1-chenaibing@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.50.1.windows.1
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -85,52 +70,38 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261113-mci_ratelimit-v3-0-ada38c5a6c88@debian.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 13, 2026 at 04:49:13AM -0800, Breno Leitao wrote:
-> A machine check bank that reports corrected errors at a high rate
-> makes the MCE code print two messages without any bound: "Machine
-> check events logged" for every error mce_log() queues, and "CMCI storm
-> detected" / "CMCI storm subsided" every time the bank enters or leaves
-> storm mode.
-> 
-> One host printed about 100 million "Machine check events logged" lines
-> an hour. On another, the storm notices were 82% of everything it wrote
-> to the kernel log.
-> 
-> Patch 1, from Rik, restores the two-per-minute limit that "Machine
-> check events logged" had before it moved into mce_log(). It is a fix
-> and is tagged for stable.
-> 
-> Patch 2 puts both storm notices behind one ratelimit, with the default
-> interval and burst.
+_octeon_l2c_poll_oct2() builds an error message by prefixing buf1 with a
+short description.  buf1 holds up to 63 characters and the longest
+prefix is 33 characters ("Tag Single bit error (corrected):"), so the
+message needs up to 97 bytes, but buf2 is only 80 bytes.
 
-Yeah, maybe I wasn't too explicit in my question, sorry. I was asking more about
-whether it would make sense to have a single:
+Building with W=1 reports a -Wformat-truncation warning for each of the
+six snprintf() calls, e.g. for "L2D Double bit error (detected):%s" the
+compiler notes that the output can reach 97 bytes including the
+terminator, into a destination of size 80.  The printed message then
+loses the syndrome, type and way information that buf1 carries.
 
-static DEFINE_RATELIMIT_STATE(shut_up_too_load_mce_prints, DEFAULT_RATELIMIT_INTERVAL,
-                             DEFAULT_RATELIMIT_BURST);
+Size buf2 for the worst case.
 
-which all the mce printks can use?
+Signed-off-by: Aibing Chen <chenaibing@cmss.chinamobile.com>
+---
+ drivers/edac/octeon_edac-l2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I.e., a single ratelimit for all. Or even:
+diff --git a/drivers/edac/octeon_edac-l2c.c b/drivers/edac/octeon_edac-l2c.c
+index e6b1595a3..5eca6e204 100644
+--- a/drivers/edac/octeon_edac-l2c.c
++++ b/drivers/edac/octeon_edac-l2c.c
+@@ -62,7 +62,7 @@ static void _octeon_l2c_poll_oct2(struct edac_device_ctl_info *l2c, int tad)
+ 	union cvmx_l2c_err_tdtx err_tdtx, err_tdtx_reset;
+ 	union cvmx_l2c_err_ttgx err_ttgx, err_ttgx_reset;
+ 	char buf1[64];
+-	char buf2[80];
++	char buf2[128];
+ 
+ 	err_tdtx_reset.u64 = 0;
+ 	err_tdtx.u64 = cvmx_read_csr(CVMX_L2C_ERR_TDTX(tad));
 
-	mce_print_ratelimit(...)
 
-which does that.
-
-The mce code is full of homegrown shit like per-CPU vars left and right and
-other hackery which got grown for some reason back then and I don't want to
-add more if not absolutely necessary.
-
-I hope that makes more sense.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
