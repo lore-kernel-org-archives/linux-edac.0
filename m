@@ -1,99 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=211.20.114.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794875832;
-	b=TfF9P2s0fm8Z6ARHd7rfFePIUD0hheJ0BGcdTWqQXOxT+zM9RK4aGx6+c4dY0OJCRuAB
-	 wuiKQJjkbu+GBpKOOpz6efM7I25Jsbc6Np50XnDsvzp4GyL5LFHNqlb1Rvlvfg/7ZLmes
-	 XI7Cfb8RvOjENLQUAPunuKEcBQBxiENScaDTH2lR9L5P3RYDv1CgnyDc8WySP8NaidJGZ
-	 qtUZ18Sf5Arz6zriwyxGICwQiKZc5bxyDzy23T50AcPegOwF3D5n/bnBSH4XteG4vWXi3
-	 6Hi0PQjIUqLJjvHvi2s3/UDjih8PystQYDojrkWNQbzZPsAeLM3ZAhYzls7ccvhPXxg==
+	t=1794907609;
+	b=1uJpzcEe7FbT7Kk8mYWuNirdjkbxxOBW2VCZUUtc0nCZ/iOzljNcY59pNfx3U+boD1b5
+	 F6cv35lxu6rxN5pXcOqOmMKWemSJZ3tg7ZOqcjOJOBmh+8p/MXfyOAJD8CM/fqC6SQ22K
+	 XApJXRjNEoMbb5hBSICmiIVpGplIreFWeB5D+Ok5wjCHldSPBw+ghnsgiTxytBcU4ojy7
+	 pbZ5Wp6U+Ih2e38fdZ3dZUbGM13QEvfe5T+T43z+6pRmVSpWU8wMTYZ/YZbMau9Fci+RU
+	 snEijSxiXmX2Kty0mZGlynZ2NGvMoMdm84zrgQvUW8ikWMBBxrDLYvwOZAfrGMaqtYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794875832;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=BvA8A5YtY5vJyCFzt8yEZytKRl69fmGmQbkWHGd1V/0=;
-	b=mL4nion0kydFWwAYAWtSQI/v6GcZ0fgttmXt8I47A8lH/JAWaSf50tDCJkHSmgNRka1B
-	 8RKWcUsfjFhB2w7MUyWfU66rkP5SosQTM17Cr5Ps2ZM9AprNQOMu9Oa8oPCKt+bSYPUV7
-	 chs+C17VHblzVOdpsUeTnYZBg5NGTg9YXp3CPp83lFmeBoCD6ZDfGaWURk7opxUM2UHqe
-	 LX9Vnd3Ge5FNMgiq9S+1YblSaTubFr92bliLxLki9HCXFEpMskEJ+fsakn6BKfEDO3A2b
-	 kjVIT4FKHOUGpGc6dp6Ao+fM1EOLFijEPxrz4PWESmF+jiBqx1lWkGY/dHtbORx8YLQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794907609;
+	h=DMARC-Filter:Received:Received:From:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:CC:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=UU8LnXWi7SOAhTu8hL9ezXqRNkuSckzICbco40F7TEs=;
+	b=aq6I4fHvB9roKOYVzSJfzlSvxAqyvGDAPNNHalRbqFCqYWqFqKLlhT6QEbyiM1ii/fix
+	 3i1zCQb84eboeRDO896f+kKAM40TE5OIO0HPJHU4Y0qXduwmvel/ZjD5vG3NKRNVuIKLT
+	 OHklt6rkSXdQJPIgQVBL35Z/MF25QidcCBp7C9BUD4BT/Ectlu2bGjRmTgtWRKURhSXAJ
+	 7NO2ZqQ9O1UEZFlw7HtczgQbwKLN2CtGIWbPJvZcTP1vV7ndr5AlfhOhrtJd72DY+1ymw
+	 O06u9F8jlTLDHy/iOVDMybQ09X6V7mGydlnCp8iVIqpAPi87mOPx3ZYKBUR2ia/44zA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fY9kdE6q;
-	arc=none smtp.remote-ip=209.85.221.43
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=aspeedtech.com;
+	spf=pass smtp.mailfrom=aspeedtech.com;
+	arc=none smtp.remote-ip=211.20.114.72
+Received: from twmbx01.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73EA606A323
-	for <linux-edac@vger.kernel.org>; Tue, 17 Nov 2026 00:37:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B73EA606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fY9kdE6q
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so3632216f8f.1
-        for <linux-edac@vger.kernel.org>; Mon, 16 Nov 2026 16:37:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794875830; x=1795480630; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BvA8A5YtY5vJyCFzt8yEZytKRl69fmGmQbkWHGd1V/0=;
-        b=fY9kdE6qFdlgspkO6DbKLiT6D/oNllBCGkM/Sjf5aX+Gd+rTsKXcM4FV8dDlwVs4GE
-         qaGZO2MOe18oD1QAcvBJuHpbLKMoh1VgtD3fcSAetaz0KnlI3B5CL4pfiKg1FJYKmgjw
-         gdAVfCZ/iqeS463Eru8+jvmOVoBgqTy/+k6jkChpeELzBjylkq7XvO/oO3oFHg3WV2J4
-         BOjUOFarq6IV+gfbfbwsmCdH0C9SNmDmUCP6j2cQ1cyKw3SJD5FlAXmfayMMJimNWLfV
-         zbS3OAbvHKbiTETVQThNWYDzx4Z22bHZccXrCQdpc3MJA2M70lbVWHcuDVOQnL5jgjOP
-         HT+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794875830; x=1795480630;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BvA8A5YtY5vJyCFzt8yEZytKRl69fmGmQbkWHGd1V/0=;
-        b=SRpmaHewO6Tr5uacecnoUNztE+v6z2CGzicNsb2QrV6WGujh9LB8ec7qnyzI8yT7ic
-         PVvv7Eij0r7CgrcUFtQNLuJ5DWPgPXc+i5LCORUB4y9fUcL5Fy9BfMostV67ejxeig9J
-         nWsuIcHY9nazJs059rBu+DaaCYbKNeQWYX2mpwiaRgL5izwUJ15dRtK0sAtYi7guSe2P
-         wCLcWmpv8P+eLpoWSysJ9Wf0B8obFGvTAHwm5AkLdKi6QNeBWJhuCVyHpXsVmrNuANun
-         ZCgcHq1Yh+GzsNOJdKGJ/9XEHtCjaSEA2WxMOD+3Nnjhe2RyyvW5g6hCYbJqZiFDjQ32
-         dM3Q==
-X-Forwarded-Encrypted: i=1; AL+hErHpBsF+4MqzV/jckMVF1s246jGYDWlOfZv5hE8Rg7v2I9ca0rl8+lS/f8KlgorKl7yIzKbFJbKF64hl@vger.kernel.org
-X-Gm-Message-State: APuU4Z9oOQbR6CSso3sQmFblrcC6FdUCqeNB60odxIpo6dc5Bd3UY9d4
-	cJrgTEsOzjQg8VCZhfLbJ322L+X63cauaDa03gMiAXmIzuHwwVCB4aEc
-X-Gm-Gg: AZFdTZfHVjjUfQ7xK9vGi2H/oQjWwM0pPD2fVQoXh29w07MGxMnKtLlUGJCphLmRfcG
-	C/v60NJ5yAqy96BXNy6M+x0gmBsWmUPj9ywdeEKZjSIQKGpZ263+Jmv7j7hULz6FZXcZN787zlD
-	j/GbrQ2PFaIEwvtfg3jM0Ii/neQjYcp5IO3so2Roxwta21YAl5Xy4iqHb6J7+sa9G0XwfzTHITf
-	R1DwSP2eP4mHMexQGdPoLJmvph7U4Dr5V3vh3532sgwXfrAgiwnPlBLHsNOSH/ymTzKvMnoGpJl
-	QKan9Lc1sYvSzljeIiDQkYrJiF2xA2VojgKwcG4g7zI75rgqhfuRMJzIqN8yKukfQ0zyTQr5rxk
-	PBxjBqWTuVmLRcEWD8AJd3X4Nfd3u61DDzqyR1aLVPvX4z2zNYkbelsqLkJ0MJ18WLBh0etsmLg
-	806szvJK0BBWghZu+PAAv/73r448EXwYMP2B//bJ2JYeuNnoavI1Ay9o763+Hhm+DEMV8cdqdrw
-	QHAzqqJaSHa/RK3zTxGR6YXLLW9RG1Dx7Ni8G57Z6P4tmC6Qh6PPirjBpQSSRUqJwg83U/+Lv3k
-	/071Qk1NPW/R3KNuPYBT1PQoLQIqo0E6P5nhu61QbgTS3E+YafjwaGIQLvzVdZi7jCjWrtLTKVp
-	WSd58kw==
-X-Received: by 2002:a05:6000:2006:b0:490:6e0f:a024 with SMTP id ffacd0b85a97d-49c70b051bbmr27957716f8f.13.1794875829680;
-        Mon, 16 Nov 2026 16:37:09 -0800 (PST)
-Received: from gandalf.magpie-herring.ts.net ([87.74.56.184])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c609c651esm25475233f8f.47.2026.11.16.16.37.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 16:37:09 -0800 (PST)
-From: Zak Brighton Knight <zakbrightonknight@gmail.com>
-To: Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>,
-	linux-edac@vger.kernel.org
-Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	linux-kernel@vger.kernel.org,
-	Zak Brighton Knight <zakbrightonknight@gmail.com>
-Subject: [PATCH v2] x86/mce/amd: Don't poll unpopulated SMCA banks
-Date: Tue, 17 Nov 2026 00:37:00 +0000
-Message-ID: <20261117003700.4155635-1-zakbrightonknight@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546FF606A329;
+	Tue, 17 Nov 2026 09:26:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 546FF606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Tue, 17 Nov
+ 2026 17:26:39 +0800
+Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
+ Transport; Tue, 17 Nov 2026 17:26:39 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: [PATCH v6 0/4] Add Aspeed AST2700 SDRAM EDAC support
+Date: Tue, 17 Nov 2026 17:26:37 +0800
+Message-ID: <20261117-edac-v6-0-a2a747b95c3f@aspeedtech.com>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -103,123 +49,145 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM4d/GoC/23NTW7CMBCG4asgrzEaj+O/rnqPikXiGTdeQFCMo
+ iKUu9eBqCA1y2/k5/VdFB4zF/Gxu4uRp1zycK7D7nci9u35m2WmugUCWrBoJFMbpedggQHZJSf
+ q08vIKf88Ml/HuvtcrsN4e1QntVyfAa/wGZiUBAk6BGTiFoP7bMuFma4c+0McTmKpTPgmsVklV
+ hk9+a6zQRtvN6V+yaDsKnWVqDkwYeoohU3ZvEkNq2yWP5EN2qSZ3LY0f1IBuFWaKk3UKkVDqYn
+ pn5zn+RfnAueLhQEAAA==
+X-Change-ID: 20260625-edac-8e960e02e7f7
+To: Stefan Schaeckeler <sschaeck@cisco.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, Billy Tsai
+	<billy_tsai@aspeedtech.com>
+CC: <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+	<linux-edac@vger.kernel.org>, Borislav Petkov <bp@suse.de>, Ryan Chen
+	<ryan_chen@aspeedtech.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794907599; l=5749;
+ i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
+ bh=ST0L4QPW1A8R34qKK1TI0LPc6bCG1Beinf9ovjbd4cE=;
+ b=0SRJVt7ZmBC3Kk48RuhvVrTUu8AjRUM3jdXjmq9yLv4Y3n1Ltz0AHac4F6ITY/Iews1TY8kpV
+ LZmztnzXsUzC80YDO21bEqBnCHNUl0OaLyZAZi28DZqDZTrFpQ6IlMS
+X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
+ pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
 
-By default, the MCE init code will attempt to set MCi_CTL for all MCA
-banks on a CPU. This includes unused MCA banks which are read-as-zero
-(RAZ) and writes-ignored (WI). The init code will check for this by
-reading back the MCi_CTL register. If no bits are set, then the bank is
-marked as "not initialized".
+Add ECC error reporting for the Aspeed AST2700 SoC to the existing
+aspeed_edac driver.
 
-However, "not initialized" only affects the MCE sysfs interface and
-later writes to MCi_CTL. The bank's "ctl" value is still set, and this
-is checked in the MCE polling functions.
+The AST2700 memory controller keeps the same overall EDAC programming
+model as the earlier Aspeed BMC SoCs, but uses a different register
+layout, a split interrupt status/clear/mask scheme and DDR4/DDR5 memory.
+Rather than fork the driver, the existing code is first generalised,
+then the AST2700 is added as one more per-SoC variant.
 
-Normally this is benign, since an unused bank would return '0' for
-MCi_STATUS. But in some cases, the MCi_STATUS register will have a value
-with the "Valid" bit set. And this results in logging bogus errors.
-They're determined to be bogus based on the combination of status bits
-set. Also, they are logged from MCA banks that have an MCA_IPID value of
-'0', i.e. reserved/unused.
+The bug fixes, cleanups and AST2700 binding from v5 (v5 patches 1-5)
+have been applied to the edac-drivers-aspeed branch of
+git://git.kernel.org/pub/scm/linux/kernel/git/bp/bp.git, and this
+series is based on that branch.
 
-Clear a bank's "ctl" value during SMCA init for unused banks. This will
-save an unnecessary MSR read during normal operation, and it will avoid
-logging bogus error values that may be present on some systems.
+Patches 1 and 2 rework the implementation to accommodate the AST2700:
+patch 1 replaces the driver's private regmap with direct register
+access, and patch 2 moves the SoC-specific details behind per-SoC chip
+data. Patch 3 adds the AST2700 support itself. Patch 4 is Stefan's
+step-down patch, amended to leave the entry in place with me as its
+reviewer.
 
-Signed-off-by: Zak Brighton Knight <zakbrightonknight@gmail.com>
-Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: stable@vger.kernel.org
+Claude, an AI coding assistant, was used in developing patches 1-3.
+It drafted parts of the code and of the changelogs, and proposed the
+locking changes in this revision. I reviewed every change, and the
+AST2600 and AST2700 test results are in patches 2 and 3.
+
+Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
 ---
-v2:
-- Changed commit message based on feedback
-- Shorten the code comment to Yazen's wording.
-- Move the background and the test results below the cut.
-- Add Yazen's Reviewed-by.
-- Rebase on today's tip master. The code itself is the same as in v1.
+Changes in v6:
+- Rebase onto the edac-drivers-aspeed branch of bp.git and drop the five
+  v5 patches applied there (v5 patches 1-5). v5 patches 6-9 are now
+  patches 1-4.
+- Patch 1: use a spinlock_t rather than a raw_spinlock_t for the
+  register lock, as regmap did; the interrupt handler is not
+  IRQF_NO_THREAD. Patches 2 and 3 follow.
+- Patch 1: drop the __guarded_by() annotations and the context analysis
+  opt-in, and assign the register base in probe without taking the
+  lock, so aspeed_probe() no longer mixes scoped_guard() with goto
+  unwinding.
+- Link to v5: https://lore.kernel.org/r/20261007-edac-v5-0-5c31fc5df4cf@aspeedtech.com
 
-v1: https://lore.kernel.org/all/20261107111211.578991-1-zakbrightonknight@gmail.com/
+Changes in v5:
+- v5 patch 2: register the ECC interrupt with request_irq() instead of
+  devm_request_irq() followed by an explicit free, and keep the
+  interrupt number alongside the driver's other state so
+  aspeed_remove() does not have to call platform_get_irq() again.
+- Link to v4: https://lore.kernel.org/r/20260930-edac-v4-0-c2e526f3ed79@aspeedtech.com
 
-Thanks to Yazen for the review and the new commit message.
+Changes in v4:
+- Put the bug fixes first: the two fixes became v4 patches 1 and 2, the
+  cleanups v4 patches 3 and 4, and the bindings patch moved to v4
+  patch 5 ahead of the AST2700 work.
+- Explain in v4 patch 1 where the grain value comes from, rather than
+  the warning it silences.
+- Drop the Cc: stable tags from the two fixes. Neither meets the bar in
+  Documentation/process/stable-kernel-rules.rst; the Fixes: tags stay.
+- Merge Stefan's step-down patch into v4 patch 9 (now patch 4),
+  keeping the MAINTAINERS entry alive with a reviewer instead of
+  removing it.
+- Link to v3: https://lore.kernel.org/r/20260916-edac-v3-0-23e9ed2fbdf9@aspeedtech.com
 
-The background from v1. On a Ryzen 9 5900X (family 19h model 21h) the
-kernel logs a bogus "System Fatal error" every week or two. It always
-comes from CPU 1 and from a bank that CPU doesn't have.
+Changes in v3:
+- Establish the AST2700 interrupt mask in the driver rather than
+  deriving it from the register's contents: ast2700_set_irq() now
+  writes the mask outright, masking every source and unmasking only
+  the ECC ones, and the mask is established before the interrupt is
+  requested.
+- New patch: add myself as a reviewer for the driver in MAINTAINERS.
+- Tested on an AST2600 with CONFIG_PROVE_LOCKING=y; injected correctable
+  errors are reported from the interrupt handler with no lockdep reports.
+- Link to v2: https://lore.kernel.org/r/20260824-edac-v2-0-c8d8bb693586@aspeedtech.com
 
-  mce: [Hardware Error]: Machine check events logged
-  [Hardware Error]: System Fatal error.
-  [Hardware Error]: CPU:1 (19:21:2) MC14_STATUS[Over|UE|MiscV|AddrV|PCC|SyndV|UECC|Deferred|Poison|Scrub]: 0xffffffff8b416928
-  [Hardware Error]: Error Addr: 0x0000000000000000
-  [Hardware Error]: IPID: 0x0000000000000000, Syndrome: 0x0000000000000000
-  [Hardware Error]: Bank 14 is reserved.
-  [Hardware Error]: cache level: RESV, tx: GEN
+Changes in v2:
+- New patch (v5 patch 2, now applied): free the ECC interrupt before
+  the mem_ctl_info in aspeed_remove(). The interrupt is requested with
+  devm_request_irq() and is only released after .remove() has returned,
+  so edac_mc_free() could free the handler's context while the handler
+  was still running on another CPU.
+- Acquire the register lock with the irqsave variant in init_csrows() and
+  in aspeed_probe(). The interrupt handler takes the same lock in hardirq
+  context.
+- Move the dev_dbg() of the interrupt status register out of the
+  raw_spinlock critical section in the interrupt handler.
+- Opt aspeed_edac.o into context analysis in drivers/edac/Makefile. The
+  check is opt-in per object, so without it the __guarded_by() annotation
+  added by the same patch was never actually verified.
+- Return IRQ_NONE from ast2700_dramc_isr() when no ECC interrupt status
+  bit is set; the handler clears only the ECC bits, so unconditionally
+  claiming the interrupt could livelock the level-triggered line.
+- Tested v2 on both AST2600 and AST2700 by injecting a correctable
+  error with the memory controller's ECC error injection; each is
+  reported as a CE with the expected failure address.
+- Link to v1: https://lore.kernel.org/r/20260812-edac-v1-0-03992edea297@aspeedtech.com
 
-Only CPU 0 has the shared banks like L3, UMC and PSP. On the other CPUs
-banks 4 and 7-27 are unused. On CPU 1 their MCA_STATUS and MCA_DESTAT
-now and then return a non-zero value. The values look like memory
-contents rather than error status. They include page table entries,
-instruction bytes and kernel pointers. If bit 63 happens to be set the
-value gets logged. This machine logged 39 of them between July 2025 and
-October 2026. Owners of other Zen3 desktop parts (5800X, 5800X3D and
-5950X) report the same thing, also always from CPU 1. Commit
-0422b07bc4c2 ("x86/mce/amd: Filter bogus hardware errors on Zen3
-clients") filters a related signature but only on Cezanne A0.
+---
+Ryan Chen (3):
+      EDAC/aspeed: Replace regmap with direct register access
+      EDAC/aspeed: Abstract SoC differences behind chip data
+      EDAC/aspeed: Add AST2700 support
 
-The junk can reach more than the log. On 24 Oct 2025 one of these
-records came out as a deferred error with AddrV set. The kernel then
-tried to take page 0 out of use.
+Stefan M Schaeckeler (1):
+      MAINTAINERS: Step down as Aspeed AST2500 EDAC driver maintainer
 
-  Memory failure: 0x0: unhandlable page.
-  Memory failure: 0x0: recovery action for get hwpoison page: Ignored
-  [Hardware Error]: Deferred error, no action required.
-  [Hardware Error]: CPU:1 (19:21:2) MC9_STATUS[-|-|-|AddrV|-|-|UECC|Deferred|Poison|-]: 0x84453c75c085c589
-  [Hardware Error]: Error Addr: 0x0000000000000000
-  [Hardware Error]: IPID: 0x0000000000000000
-  [Hardware Error]: Bank 9 is reserved.
+ CREDITS                                            |   8 +
+ .../bindings/edac/aspeed,ast2400-sdram-edac.yaml   |   2 +-
+ MAINTAINERS                                        |   2 +-
+ drivers/edac/aspeed_edac.c                         | 385 ++++++++++++++-------
+ 4 files changed, 273 insertions(+), 124 deletions(-)
+---
+base-commit: 65d0a904696bae7e99a2c6eef61d4df03bac025f
+change-id: 20260625-edac-8e960e02e7f7
 
-It did no harm only because the address read as zero.
-
-The testing is the same as for v1 because the code hasn't changed. With
-check_interval set to 1 second, stock 7.2.11 logged 34 bogus records in
-22 hours. The same change on 7.2.13 logged none in 8 hours 10 minutes,
-where about 12.5 were expected. Reading the unused banks directly
-through /dev/cpu/*/msr shows that CPU 1 still returns junk under the
-patch. So the clean run is down to the patch. Updating the BIOS to 1.D3
-doesn't fix it. The full test notes and links to the other reports are
-in v1. This version builds without warnings with W=1 on tip master.
-
-There is no Fixes: tag. Every bank up to MCG_CAP[Count] has been
-polled since long before SMCA. The v1 notes list the two closest
-commits.
-
-mce_no_way_out() reads every bank whatever its ctl. So junk there
-during a real #MC on CPU 1 could turn it into a panic. CPU 1 here still
-returns junk from these banks about once every few million reads. I can
-test a change there if that helps.
-
-Claude Code (Anthropic) did the log analysis and wrote the code change,
-the v1 changelog and the test scripts. I ran the test kernels and the
-probe on this machine.
-
- arch/x86/kernel/cpu/mce/amd.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
-index 1cc20b855b7e..9e6fe5798181 100644
---- a/arch/x86/kernel/cpu/mce/amd.c
-+++ b/arch/x86/kernel/cpu/mce/amd.c
-@@ -345,6 +345,10 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
- 	hwid_mcatype = HWID_MCATYPE(val.h & MCI_IPID_HWID,
- 				    (val.h & MCI_IPID_MCATYPE) >> 16);
- 
-+	/* Skip init for unused banks */
-+	if (!hwid_mcatype)
-+		this_cpu_ptr(mce_banks_array)[bank].ctl = 0;
-+
- 	for (i = 0; i < ARRAY_SIZE(smca_hwid_mcatypes); i++) {
- 		s_hwid = &smca_hwid_mcatypes[i];
- 
-
-base-commit: be3c65835ade4d487ccbeb08c827662db09ee7e2
+Best regards,
 -- 
-2.56.0
+Ryan Chen <ryan_chen@aspeedtech.com>
 
