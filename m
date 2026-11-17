@@ -1,44 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.175.24.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794932886;
-	b=uIrq2Ybqn8ZUQHYz+OlsCfdaSmLWz4JprMRX7nXHu6unBJfc9zhPu1UZ1pmdfThJn0rW
-	 XkFx+/24RwBZ70HEMUcYN5hR45ixrnZkhG+zDAVYfvuZ3rq238mp1E1jAhk9+V62gqnlJ
-	 uPDm3C1wRs86JrPF76brLQUB2qMW4E0b41C5nrrKJCi3LmaWn7sS4mZT00XiJTN6LdsMl
-	 7dM4Ci1H4DvyHtRPBrNFtDMbs5bzYN1Ro1ECj6n9Lr3o/1nEE/gGus6CqkF2i2ANjf2ky
-	 nwg+6pH0IfD+Dtdpz+84mWEYeDcjldoysO9sL+p2d6764qTwfxfWI6Z98lhe6yuT2yA==
+	t=1794936190;
+	b=GcPu95TIlw3gJti4fyFZzAWMFbuFGVhxjtji3oNSe2EuqirDeM1WIg1MsIxOHaLtRohX
+	 v+JceXQw50coSuaQlmChxiGo+Rc6D3OCZWVIAZvSSx9UTpuITXXgsBEDytgdYRcsXMtcs
+	 nNRDU2Ivz3Hy7fKRhSkNeNgBnY1PQEZ6tTNhVRPrCEUmBzcpgEvnwF+c6TSZ5KTF0u1Jw
+	 j5uprqUibCNjWPPAiuV/QKlE4FSZ9UvL6P+RaSPlviaNb9LNNJRQeHH7DHzPlrtFd2++W
+	 EsvmJKPpC1lFcPuQvwVtHQthAZGITxhRka0RZ49klWqSgiIqZUR0YEpsEmMuWAgHvmw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794932886;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794936190;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=lOHdMF483gNPLEccoazumJHj5iVpfna/T2PvfkvuNkY=;
-	b=KC8oqLgq0RIOo3w77FRp5gVjSS3fq5BevqbbbYzj9kc+gBQlAZ2lzKUsvrU8evUgCcew
-	 y55+ihwfzX6ulWiEmF0f2Pyq0mQcxHCVDbHHKVZS5BIMvttnoTFzDKJ8hAL9yycZmkWJt
-	 mzgdic/n+2WsIVGO4/+oJirLxOpZ1C2Em8u67XP6rSpBiy0LSnSTsmtHCWXFv/7rdsfR+
-	 feO/JdH9odASz4Tb0O+d15nJ9e8SorMq+PMT9fO8G/IuKct/TGNR1FQSyULnMEcDG0dP8
-	 PjqghxMx8N8EbFLzU3UfvvxuJ9NTPsMUeHAyCT63YOATLZoPHTg/ewHzCBLFMY0jvqA==
+	bh=1xPsU54hJeiHMuz5s3ANZmZSG1cvsb4sESiD5rFdM9c=;
+	b=QsXrpuXDx/pqnteD3Ug75FpQMvu5vDa4LfpZui5YzGvtT4iBdQl3XXeR3ogXgRWnziUH
+	 rDZMG/gyHkeQk0Cx6PG7wnMDDRTtMRHX1cA+ETrEoGFJVMwWGQzO5CV10TRAUZulznAau
+	 gZFqn9qjmhZAUQD+OfDINvWePajnQm3RMQpBltwg1yfN8x89Swv68P993kCWo4JyNGfkO
+	 s/ufogOUFpuxOqMuSKajvc4suRScgq/AkFshKTa5rZ4v/uLwbL7zJNIlQyBLbdMT36s/+
+	 SNC/4lHSw+TnmeAbupu0Td0fRb1+L0SQKMZQ9rqPWiZbnZ5V1y1B0MFsqhcKXe57fkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=alpha.franken.de;
-	spf=pass smtp.mailfrom=alpha.franken.de;
-	arc=none smtp.remote-ip=193.175.24.41
-Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 578A1606A31C;
-	Tue, 17 Nov 2026 16:28:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 578A1606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alpha.franken.de
-Received: from uucp by elvis.franken.de with local-rmail (Exim 3.36 #1)
-	id 1xTM2N-0004s3-00; Tue, 17 Nov 2026 17:28:03 +0100
-Received: by alpha.franken.de (Postfix, from userid 1000)
-	id F2DE4C01A0; Tue, 17 Nov 2026 17:09:16 +0100 (CET)
-Date: Tue, 17 Nov 2026 17:09:16 +0100
-From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: patches@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-edac@vger.kernel.org, linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH v2 0/8] MIPS: Octeon: fix missing function prototype
- warnings
-Message-ID: <avx8LNi5O5926c_W@alpha.franken.de>
-References: <20261101234657.1820661-1-rdunlap@infradead.org>
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=okOepPWP;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AEB606A31C;
+	Tue, 17 Nov 2026 17:23:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=okOepPWP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13C021F000C4;
+	Tue, 17 Nov 2026 17:23:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794936190;
+	bh=1xPsU54hJeiHMuz5s3ANZmZSG1cvsb4sESiD5rFdM9c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=okOepPWPDAEa/fLMSHEtq8RIGPhEkyThXI5rTj9Co98KzmksqzLsE7nq/3Pk+O0g/
+	 wyuC5nza1JoZusAMofsrgGy59SJ7C5QpjXmw6me2ekp7uMjQqs68pQ6I4JE9B1d5rI
+	 VA+j7ZKVyA6u1zNp6bEcLV7vOMV41NhtP/uBcMLCL84t+dc0YvD738YsfFAkW8/dBI
+	 eysiTjqiFdvRtThdK5ehi8MBfzGWcFg/c7YVrGRWgTvkOThoW6SOl3nI8Ow/gh6J0V
+	 SNq7UYtqnQMbde3JenA0aAwyY7s0bBqMIJLF2D7SQVN9j5WpnAiZ4F0DgrnPyjeE/o
+	 Iwc1PXn25u0Rg==
+Date: Tue, 17 Nov 2026 11:23:07 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Dinh Nguyen <dinguyen@kernel.org>
+Cc: bp@alien8.de, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	tony.luck@intel.com, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, niravkumar.l.rabara@altera.com,
+	rounakdas2025@gmail.com, krzk+dt@kernel.org
+Subject: Re: [PATCHv4 2/4] dt-bindings: edac: altera: agilex5: document new
+ edac support
+Message-ID: <179493618746.2836620.17399291348633315970.robh@kernel.org>
+References: <20261116202854.3087673-1-dinguyen@kernel.org>
+ <20261116202854.3087673-2-dinguyen@kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -50,51 +62,37 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261101234657.1820661-1-rdunlap@infradead.org>
+In-Reply-To: <20261116202854.3087673-2-dinguyen@kernel.org>
 
-On Sun, Nov 01, 2026 at 03:46:49PM -0800, Randy Dunlap wrote:
-> Add missing function prototypes to header files in most cases;
-> use the header files in the C source files.
-> In 2 cases, make the functions static so that no prototype is
-> needed.
-> 
-> v2 changes:
->  [PATCH v2 1/8] add more cache prototypes to fix mm/c-octeon build warnings
-> 
-> series:
->  [PATCH v2 1/8] MIPS: mm/c-octeon: fix missing function prototype warnings
->  [PATCH v2 2/8] MIPS: Octeon: cvmx-helper: fix missing function prototype warning
->  [PATCH v2 3/8] MIPS: Octeon: cvmx-interrupt: fix missing function prototype warning
->  [PATCH v2 4/8] MIPS: c-octeon: fix missing function prototype warning
->  [PATCH v2 5/8] MIPS: Octeon: octeon-platform: fix missing function prototype warning
->  [PATCH v2 6/8] MIPS: msi-octeon: fix missing function prototype warning
->  [PATCH v2 7/8] MIPS: Octeon: pci: fix missing function prototype warnings
->  [PATCH v2 8/8] MIPS: Octeon: octeon.h: fix missing function prototype warning
-> 
-> 
->  arch/mips/cavium-octeon/executive/cvmx-helper-errata.c |    1 +
->  arch/mips/cavium-octeon/executive/cvmx-helper.c        |    1 +
->  arch/mips/cavium-octeon/executive/cvmx-interrupt-rsl.c |    2 --
->  arch/mips/cavium-octeon/setup.c                        |    2 --
->  arch/mips/include/asm/octeon/cvmx-gmxx-defs.h          |    1 +
->  arch/mips/include/asm/octeon/octeon.h                  |    3 +++
->  arch/mips/include/asm/r4kcache.h                       |    5 +++++
->  arch/mips/mm/c-octeon.c                                |    1 -
->  arch/mips/pci/msi-octeon.c                             |    2 +-
->  arch/mips/pci/pci-octeon.c                             |    2 +-
->  arch/mips/pci/pcie-octeon.c                            |    2 +-
->  drivers/edac/octeon_edac-pc.c                          |    4 +---
->  12 files changed, 15 insertions(+), 11 deletions(-)
-> 
-> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> Cc: linux-mips@vger.kernel.org
-> Cc: linux-edac@vger.kernel.org
-> Cc: linux-watchdog@vger.kernel.org
 
-series applied to mips-next
+On Mon, 16 Nov 2026 14:28:52 -0600, Dinh Nguyen wrote:
+> The Agilex5 EDAC module supports ECC on a few additional peripherals. Along
+> with support for ocram, ethernet and USB, the Agilex5 EDAC adds support for
+> SDM QSPI, CRAM SEU and IO96B.
+> 
+> The Agilex5 EDAC also exposes up to 7 named interrupts on the manager
+> node. global_sbe and global_dbe are aggregate single/double-bit error
+> interrupts that fan-out through the manager's IRQ domain to the child
+> peripheral ECCs. The remaining named interrupts are routed directly from
+> dedicated controllers (IO96B memory controllers and Secure Device Manager)
+> to the GIC.
+> 
+> Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
+> ---
+> v4: constrained interrupts and interrupt-names to 7
+> v3: Add minItems for interrupts
+>     Add constraint for interrupt-names
+>     Add interrupt-name as false for non
+>     "altr,socfpga-agilex5-ecc-manager" platforms
+> v2: add if/then to enforce maxItem of 2 interrupts for older platforms,
+>     and 7 for Agilex5
+>     add if/then to enforce interrupt-names as required property for
+>     Agilex5
+>     enum altr,socfpga-s10-ecc-manager and altr,socfpga-agilex5-ecc-manager
+> ---
+>  .../edac/altr,socfpga-ecc-manager.yaml        | 90 ++++++++++++++-----
+>  1 file changed, 66 insertions(+), 24 deletions(-)
+> 
 
-Thomas.
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
--- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
