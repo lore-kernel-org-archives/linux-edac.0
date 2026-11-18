@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794987965;
-	b=kNRYeT4Z7S7zllVDMjLtNZ+rpWMhI4fRfmAEk5T2xTR4MUT9dksRa1T5u5kzD9spkva4
-	 rAW0gh2mIRCz+6p51q6L0LkoLbAeqb9vicqM1tf9qwiTt9IrJfyCsZ6v2zYuJF4+nmyQj
-	 2HUiBupwbNIXBynC3ZQMTmtZSlasnRzO0xyNAHZQFg9DyH3gLV/PNF0MzFR/cHzuqUVxj
-	 xvPiNZoQiUCHUymYy/8TFVTRjYs825TQRsFJknYFT/C9Ov9vcLKE1PIKtgLQkwDcgv9U/
-	 D7SWn8F1VMhDreNQmyA0rFIPD5eT0TtP0rDHP72xIm/27/gPtjt9k3EVKiHsI46mkUw==
+	t=1794987975;
+	b=wcU/b39IBBng4R+yEp6WbYsjIqQghxdvIsWaMbh/6aKNqc4uvft4gIDTxJD0IfizEBB3
+	 npohc7LTHupm0Plm672U7aI6DmP+gSMJtzA8XgQlT1D+qehjh/gu+TbdoPiSU1y5cyu5k
+	 6z4MfDYCigotHouXmEGtMlht78PmLrUmGGRQMP1Srpu96cQHo1TG328C2WtqMaPXYme9D
+	 ylIwdoY7itm/cR9iWs9YTpziDWzvLxhxM5Q+leccsMlgQb+2fGeAPQwCtOdXWUj4/P5Zt
+	 w3eBuDYucGnPbTDOO9LeZ/KFjOjoPB4217s/CB/L5s+ufOLv97ADqGsUQUDwVcup/QQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794987965;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794987975;
 	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
 	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=+uuOiZnlyHUArWLCT9ZvqAUynSEjzvlk/CcyW2HZNtQ=;
-	b=p6S8zx7atmXuU9rbxpy+9tjI+YS/UO4XDPuz2F4lkBbkkKv2KXS9YVujxKe2WBycSBvn
-	 KPyz498haxhkwohRepb3Eq2vaeu5cGGOhieiSSJvQ6Adi3Vpbu6CWBs3sO291LI55gOX+
-	 5H41IjQmDsQVemvPbE3w4kAGgrRSYFQD3k60cLuSCqKYf/wjXz+COuwAwi8YVPigY5G3J
-	 p09JL8HtjDYN5J3Dif8UvBpEFsazKsz74n/hVI6QQ0mU56GrKPktBrDEDGkhISECpMRW/
-	 1lM/7uDys7YmOehcpcFRLQWWswbZ5m6uETGUyiQIsg7b5sgXgxuNaQLlOeXbSbGn/oA==
+	bh=30sH07Udk5EZJ9hXcfWlOr389v19dRie2ogtyIdAj/c=;
+	b=xClm5UEOlygnLesLz6cuItlszIoca+g0BgvHuC0lrOJnf9ijfX3kQWY7gU9uDnSdppQn
+	 G1S5MTxMm+8nx24cZGyw9Y1KDjXGE6v2JoF9Ox6z37URWR0Mjo97sClz5LFlZAelDe60z
+	 YVWgFcj6XDT+/HoZPgjGKq6eMZSSCI3BqzZ+Id20WQ9AehFmlmbNqII+55nEtQdiK5W/w
+	 XZUpsJ63Bqk4NRDprp09vrN6kg/64OZ908sjkjU3PsPx6cZQExao96bevfWudD650v8KM
+	 LOCeesLBBtN24cFMryT2csw+zith5s0swprk83yXfCZXuiQicsb6EgSccygLNP4BQ+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="JU5/Pxj9";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CowQn9z5;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18C5606A332
-	for <linux-edac@vger.kernel.org>; Wed, 18 Nov 2026 07:46:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E200606A32A
+	for <linux-edac@vger.kernel.org>; Wed, 18 Nov 2026 07:46:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JU5/Pxj9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B7C1F000C4
-	for <linux-edac@vger.kernel.org>; Wed, 18 Nov 2026 07:46:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CowQn9z5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 182231F000C8
+	for <linux-edac@vger.kernel.org>; Wed, 18 Nov 2026 07:46:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794987965;
-	bh=+uuOiZnlyHUArWLCT9ZvqAUynSEjzvlk/CcyW2HZNtQ=;
+	s=k20260515; t=1794987975;
+	bh=30sH07Udk5EZJ9hXcfWlOr389v19dRie2ogtyIdAj/c=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=JU5/Pxj9A4lgTk3i4cM3xwbwVE4DKVsdKXRY2/DCDMR4iSRcHJrbN+cB1Wvuw+/d9
-	 vvdMyQtgYJiwfD8ckDEXhDctnzhji4l19c6/gijRh2cV6CAn+JjyQKNRn4QWlj5j6D
-	 dhVZ5zMJu+TJ9Herc8cUwFa3wF6DiJsnUw5XzNEJU+roMPM2YqwT3FQhUxAW0D6+AK
-	 2e3RLq/hgWl5suAxgS+OKdRkBvAc5biIa5DQJCMnJixrTn430azRMAmU5N0DTPr0y1
-	 5ccYM8DNc7N7q/JjqLNW8mg4daQdKPc6X5ALMPK7u92K99WEvEiW6isdEohgmyDZSv
-	 NSiG4Qb7xZv5g==
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6b876afbb86so861860a12.3
-        for <linux-edac@vger.kernel.org>; Tue, 17 Nov 2026 23:46:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErEIQReXOuo3+ZZ07/+VZsjP7MyglIaXSDv6/KPqFk2QqgLxYrcVRlFd4RHV5XQ5109R68xgiYqbfYjh@vger.kernel.org
-X-Gm-Message-State: APuU4Z+rLTWuwrTHOh75ND6qgzY5PTxTtN7TV9KQWgJnVcydO/fcmQh7
-	iPLLJh0RJ7aVSRLAAv+mYaniCPeOvm0pbXbg6GaDEXxn39Tkerby6na/28XUjoYnHj30xOVksso
-	E/ap/5hBg/9dl/tM87/AcS8y8pOnTzMs=
-X-Received: by 2002:aa7:c513:0:b0:6b7:d1a4:fe38 with SMTP id
- 4fb4d7f45d1cf-6b887f161e6mr914951a12.40.1794987964096; Tue, 17 Nov 2026
- 23:46:04 -0800 (PST)
+	b=CowQn9z5U2VuS+38wVuiFFuCOmI46LRig8OnX6It11VoXzByPvOIWMVHobCNynv/N
+	 891PKduOU4q1PglPdsScD9JCFYYCPdyevc8wP5y4pU9Qe19DVy2EdbziVxt6QmM4CC
+	 ImE75DSvtsCTM2PFYL/lB8Osbtsv2hFzflnsM9gep6iF4ioHWvN/c1hK28RZKdjgth
+	 kMioiiHZiMDenYKhx6Hnj8fDyIc7k3bTCXyCKZpuS4NgjHFhWMB7/OzkXGlVcOLHFL
+	 Pd5FN0TxzowsPXdNztQzSxhgV6/rOGHO6IBKY5O7dzGCGS/MklKGXe8sg391jEL3Ux
+	 pfAMYhEnIwjvw==
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6b2237b596cso1659814a12.0
+        for <linux-edac@vger.kernel.org>; Tue, 17 Nov 2026 23:46:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErEI1kzg5uVF+/4VezL6Y19+ow2kAaIfZ9y4U2M3J5tQq+WEP/A/qoOR5ibGeSiNj14OA8Cp0glanYpX@vger.kernel.org
+X-Gm-Message-State: APuU4Z/cFYjrrHgoSPstHyd+jh4IE9vG26Q+kLlPfmrtTdI9vj+D1cWO
+	h9gjuPL7Q0zBswWgOdDvRSEHijJmQQTCM94OxYC+z8VUWsNJu9e7KJPJUcOexP2hREAdCjs79m0
+	2n6X5qh6qCSfdklijgKFkFFAAAnD1VCU=
+X-Received: by 2002:a05:6402:2812:b0:6b8:8167:733e with SMTP id
+ 4fb4d7f45d1cf-6b887e516a6mr1400705a12.11.1794987973730; Tue, 17 Nov 2026
+ 23:46:13 -0800 (PST)
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -59,19 +59,19 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261118030330.25779-1-zhaoqunqin@163.com> <20261118030330.25779-3-zhaoqunqin@163.com>
-In-Reply-To: <20261118030330.25779-3-zhaoqunqin@163.com>
+References: <20261118030330.25779-1-zhaoqunqin@163.com> <20261118030330.25779-5-zhaoqunqin@163.com>
+In-Reply-To: <20261118030330.25779-5-zhaoqunqin@163.com>
 From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 18 Nov 2026 15:45:53 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4NPJXqciuph96e2LmadNbo49ENB-c84k7rQgsRffNdhQ@mail.gmail.com>
-X-Gm-Features: AclHuK8UjdPhT-4UtZuI-F1TxAlbz1uoBdYFExh2mDu1lsBwd1HreL0o0d1hWzY
-Message-ID: <CAAhV-H4NPJXqciuph96e2LmadNbo49ENB-c84k7rQgsRffNdhQ@mail.gmail.com>
-Subject: Re: [PATCH v8 2/4] EDAC/loongson: Encode node and MC info into mc_idx
+Date: Wed, 18 Nov 2026 15:46:03 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5n414H4gFbuMO9nnSF7+-OiazuBJb1RS+-Ff+3sUEUrQ@mail.gmail.com>
+X-Gm-Features: AclHuK_iKbz1BrQHxAlrw7Ez_NrAmabN1s_TcdSGYEjiKF1LdVWWawNaVzb94Ow
+Message-ID: <CAAhV-H5n414H4gFbuMO9nnSF7+-OiazuBJb1RS+-Ff+3sUEUrQ@mail.gmail.com>
+Subject: Re: [PATCH v8 4/4] EDAC/loongson: Add CS4-7 timeout filter for
+ cross-node access
 To: Qunqin Zhao <zhaoqunqin@163.com>
 Cc: bp@alien8.de, tony.luck@intel.com, linux-edac@vger.kernel.org, 
 	zhaoqunqin@loongson.cn, linux-kernel@vger.kernel.org, 
-	Wang Jinwei <wangjinwei@loongson.cn>, Yulong Wang <wangyulong@loongson.cn>, 
-	Dongyan Qian <qiandongyan@loongson.cn>, Chao Li <lichao@loongson.cn>
+	Wu sheng <wusheng@loongson.cn>, Wang Jinwei <wangjinwei@loongson.cn>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -80,137 +80,106 @@ Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
 On Wed, Nov 18, 2026 at 11:04=E2=80=AFAM Qunqin Zhao <zhaoqunqin@163.com> w=
 rote:
 >
-> From: Wang Jinwei <wangjinwei@loongson.cn>
+> From: Qunqin Zhao <zhaoqunqin@loongson.cn>
 >
-> On Loongson multi-node systems, memory controllers are distributed across
-> multiple nodes. Encode node and MC information into mc_idx so that sysfs
-> entries uniquely identify each controller.
+> On Loongson 3C6000 multi-node systems, when the EDAC driver running
+> on one node accesses the memory controller registers of another node,
+> the read operation may timeout and return random values. This causes
+> false CE error reports because the random values in CS0-3 (low 32 bits)
+> are misinterpreted as valid ECC error counts.
 >
-> The driver gets mc-idx from ACPI _DSD property if firmware provides it.
-> If not, it falls back to edac_device_alloc_index() for legacy firmware
-> compatibility.
+> For cross-node accesses, check CS4-7 (high 32 bits) of the ECC
+> count register. If the valid-cs-bits firmware property is set and
+> the high bits are non-zero, it indicates a timeout or random value,
+> so skip the report and return the previous count.
 >
-> The number of memory controllers per node (mcs-per-node) is obtained
-> from firmware via ACPI _DSD property, with a default of 4 for backward
-> compatibility. Validate that the firmware-provided value is non-zero to
-> prevent division by zero. The node and MC IDs are decoded from mc_idx:
->     node =3D mc_idx / mcs_per_node
->     mc =3D mc_idx % mcs_per_node
+> To avoid undefined behavior on 8-CS systems where valid_cs_bits=3D64,
+> guard the shift with a bounds check (valid_cs_bits < 64).
 >
-> Cc: Yulong Wang <wangyulong@loongson.cn>
-> Cc: Dongyan Qian <qiandongyan@loongson.cn>
-> Cc: Chao Li <lichao@loongson.cn>
+> Signed-off-by: Wu sheng <wusheng@loongson.cn>
 > Signed-off-by: Wang Jinwei <wangjinwei@loongson.cn>
 > Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
 > ---
->  drivers/edac/loongson_edac.c | 30 +++++++++++++++++++++++++-----
->  1 file changed, 25 insertions(+), 5 deletions(-)
+>  drivers/edac/loongson_edac.c | 26 +++++++++++++++++++++-----
+>  1 file changed, 21 insertions(+), 5 deletions(-)
 >
 > diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
-> index 5dfa41e877..4ee9dcb3d5 100644
+> index 413ca654b4..50959d4429 100644
 > --- a/drivers/edac/loongson_edac.c
 > +++ b/drivers/edac/loongson_edac.c
-> @@ -9,10 +9,14 @@
->  #include <linux/io-64-nonatomic-lo-hi.h>
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
-> +#include <linux/property.h>
->  #include "edac_module.h"
->
->  #define ECC_CS_COUNT_REG       0x18
->
-> +/* Memory controller index invalid due to inability to read it from ACPI=
-, etc */
-> +#define MC_IDX_INVALID         BIT(16)
-> +
->  struct loongson_pvt {
->         void __iomem *ecc_base;
->
-> @@ -23,6 +27,7 @@ struct loongson_pvt {
->          * register state.
+> @@ -30,6 +30,7 @@ struct loongson_pvt {
 >          */
 >         int last_ce_count;
-> +       u32 mcs_per_node;
+>         u32 mcs_per_node;
+> +       u32 valid_cs_bits;
 >  };
 >
 >  static int read_ecc(struct mem_ctl_info *mci)
-> @@ -44,7 +49,8 @@ static int read_ecc(struct mem_ctl_info *mci)
->  static void loongson_check(struct mem_ctl_info *mci)
->  {
->         struct loongson_pvt *pvt =3D mci->pvt_info;
-> -       int new, add;
-> +       char other_detail[64] =3D {0};
-> +       int new, add, node, mc;
+> @@ -39,11 +40,21 @@ static int read_ecc(struct mem_ctl_info *mci)
+>         int cs;
 >
->         new =3D read_ecc(mci);
->         add =3D new - pvt->last_ce_count;
-> @@ -52,8 +58,14 @@ static void loongson_check(struct mem_ctl_info *mci)
->         if (add <=3D 0)
->                 return;
->
-> +       if (mci->mc_idx < MC_IDX_INVALID) {
-> +               node =3D mci->mc_idx / pvt->mcs_per_node;
-> +               mc =3D mci->mc_idx % pvt->mcs_per_node;
-> +               snprintf(other_detail, sizeof(other_detail), "node:%d mc:=
-%d", node, mc);
+>         ecc =3D readq(pvt->ecc_base + ECC_CS_COUNT_REG);
+> -       /* cs0 -- cs3 */
+> +       /* Discard the read value if any invalid bit is set to 1 */
+> +       if (pvt->valid_cs_bits < 64 && (ecc >> pvt->valid_cs_bits)) {
+> +               edac_dbg(2, "ECC read invalid, skip: 0x%llx\n", ecc);
+> +               return pvt->last_ce_count;
 > +       }
 > +
->         edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, add,
-> -                            0, 0, 0, 0, 0, -1, "error", "");
-> +                            0, 0, 0, 0, 0, -1, "error", other_detail);
->  }
+> +       /* cs0 -- cs7 */
+>         cs =3D ecc & 0xff;
+>         cs +=3D (ecc >> 8) & 0xff;
+>         cs +=3D (ecc >> 16) & 0xff;
+>         cs +=3D (ecc >> 24) & 0xff;
+> +       cs +=3D (ecc >> 32) & 0xff;
+> +       cs +=3D (ecc >> 40) & 0xff;
+> +       cs +=3D (ecc >> 48) & 0xff;
+> +       cs +=3D (ecc >> 56) & 0xff;
 >
->  static void dimm_config_init(struct mem_ctl_info *mci)
-> @@ -72,19 +84,22 @@ static void dimm_config_init(struct mem_ctl_info *mci=
-)
+>         return cs;
+>  }
+> @@ -112,13 +123,15 @@ static void dimm_config_init(struct mem_ctl_info *m=
+ci)
 >         dimm->grain =3D 8;
 >  }
 >
-> -static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase)
-> +static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase, u32 =
+> -static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase, u32 =
 mcs_per_node)
+> +static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase,
+> +                    u32 mcs_per_node, u32 valid_cs_bits)
 >  {
 >         struct loongson_pvt *pvt =3D mci->pvt_info;
 >
 >         pvt->ecc_base =3D vbase;
->         pvt->last_ce_count =3D read_ecc(mci);
-> +       pvt->mcs_per_node =3D mcs_per_node;
+> -       pvt->last_ce_count =3D read_ecc(mci);
+>         pvt->mcs_per_node =3D mcs_per_node;
+> +       pvt->valid_cs_bits =3D valid_cs_bits;
+> +       pvt->last_ce_count =3D read_ecc(mci);
 >  }
 >
 >  static int loongson_probe(struct platform_device *pdev)
->  {
->         struct edac_mc_layer layers[2];
+> @@ -127,7 +140,7 @@ static int loongson_probe(struct platform_device *pde=
+v)
 >         struct mem_ctl_info *mci;
-> +       struct device *dev =3D &pdev->dev;
+>         struct device *dev =3D &pdev->dev;
 >         void __iomem *vbase;
-> +       u32 mcs_per_node;
+> -       u32 mcs_per_node;
+> +       u32 mcs_per_node, valid_cs_bits;
 >         int ret;
 >
 >         vbase =3D devm_platform_ioremap_resource(pdev, 0);
-> @@ -102,7 +117,6 @@ static int loongson_probe(struct platform_device *pde=
-v)
->         if (mci =3D=3D NULL)
->                 return -ENOMEM;
->
-> -       mci->mc_idx =3D edac_device_alloc_index();
->         mci->mtype_cap =3D MEM_FLAG_RDDR4;
->         mci->edac_ctl_cap =3D EDAC_FLAG_NONE;
->         mci->edac_cap =3D EDAC_FLAG_NONE;
-> @@ -114,7 +128,13 @@ static int loongson_probe(struct platform_device *pd=
+> @@ -162,7 +175,10 @@ static int loongson_probe(struct platform_device *pd=
 ev)
->         mci->error_desc.grain =3D 8;
->         mci->edac_check =3D loongson_check;
->
-> -       pvt_init(mci, vbase);
-> +       if (device_property_read_u32(dev, "mc-idx", &mci->mc_idx))
-> +               mci->mc_idx =3D edac_device_alloc_index() | MC_IDX_INVALI=
-D;
-> +
-> +       if (device_property_read_u32(dev, "mcs-per-node", &mcs_per_node) =
+>         if (device_property_read_u32(dev, "mcs-per-node", &mcs_per_node) =
 || mcs_per_node =3D=3D 0)
-> +               mcs_per_node =3D 4;
+>                 mcs_per_node =3D 4;
+>
+> -       pvt_init(mci, vbase, mcs_per_node);
+> +       if (device_property_read_u32(dev, "valid-cs-bits", &valid_cs_bits=
+))
+> +               valid_cs_bits =3D 32;
 > +
-> +       pvt_init(mci, vbase, mcs_per_node);
+> +       pvt_init(mci, vbase, mcs_per_node, valid_cs_bits);
 >         dimm_config_init(mci);
 >
 >         ret =3D edac_mc_add_mc(mci);
