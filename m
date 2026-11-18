@@ -1,63 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794971054;
-	b=qkwhwBmf8rOMfho9EY/Pbdfv4i9SxV2N87DCwVwibQUmzu05pcYNUJgGrd+UOVHL2zan
-	 y/uO7E59t8JFXZF97vxHuGDvn2atwZwtGq1vp9GW9rQaNdt0ataun5yucrxJSj2xR+6pa
-	 TdhvrhlI4kyYEbCQ0T/poQxFD2VVeqCW8V2nPS6oXUrWIbNSgt2JI6wnHT/633hW1JPUJ
-	 Ezv3+SRUcskoLVMtTsnL/Cxpb9+NWkfm0iAITeM0S3GMEsNN/aGCXLwMwyfR8N+oOhNIr
-	 cL/5efhFuEZ0kSAJ/h8YA1bvbCfv8tuvfB2CqMHp6XqYYnuXW8KK/0MvwOhUVZyqdUw==
+	t=1794982816;
+	b=XvEBOfHFpKx6TmdJsxqvh2HGs9wkpt3bQlNteSLzmgtfNyrZtDkgGee+pUCkadUVTd5e
+	 hSxs8MYuJhjuIouq9R22+IsGUdQpJ53mYWXIFo9ySi7Ap8FCWtxzTJ2IRzFpyCOvR4quf
+	 4FqY4NY+HvcGxbAurr3eMT+w6+1h2HgpV3rAQiOeOM+jNHPoFwCsGtqfl5blgUi03ou4E
+	 MWh2p0VNVbCaLy4VJe4DGGJVWkmhc1oEj2KMmXrBstWqle3nR17Z6GCTG8ZzDVnz5qHTG
+	 xIYeeWT0AfYGax6TIzRjxnO+7duv0PYOvOApQ7WigAxZ/3dRouWSLgeqPj0GdN8Y4+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794971054;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=QfWytE/OyWOiquCmJ5wYN6TtAZqv5/f0+1pVE00jcqE=;
-	b=wvMF1iSLxrKbhbQ8OU0ls4toNhQkUBPbdnKrtyNon9VYKkTN4Q8QOxuX1qrQAH12Uj7N
-	 BWJmijdVzEO3sDyC5utEUrz7MUC/OsDVKP8rOd1AXXgjxDgeoRcuAaxCIcO3zdtEd8vY6
-	 lMum0Py4PT04+kluqPzJnWaEi7jR/0wLAF9mNDY5nzWulJ3qX3Iqn9v5RUqQKLIWjnF2f
-	 1WObia9TifO7qAcwZJEh54alLtIz43x7SY9kJ+L5UlHR6VKhy9BZ45BKRje+BtbcQj58g
-	 fD7wgbkgOmtY1MIVUW1Q3m4d+m0ZmmjWU/rPgXEXaz8m3F+5BOQLizGZoj7WZUPVeEg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794982816;
+	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=d0Ix9gsUTiEGaSow4N/1s7rVr2v9JLfaHj/KrE0P7Zk=;
+	b=vZkbtyb8TIQjlb7hqU/rdFJYUXq3w3rTm1HWXRNCX6+xbqN0VHB4ayB47NVNbnnnaQVx
+	 8jVFLuAR9ig+hPLFuUADN2E9Pkb7umcabjV+98LC2O9BQF2nAKNbRZROYsJJoNo9KJ2xf
+	 e9tgw4WdkeZ2wCaqgaYdnRInRlKsxe68/9jmn90Q/TnVoFMqSRDfuY/xbAGHq3A5ufDig
+	 idjYIoLGnoTvjCN3AEMMYiZE2Cnazngzos8zyfLon0vQXUrQRu6uE54zVDSl7jBu9xgSi
+	 /QGM5KiyLQoTre+IkKCVF7X3tiTa9ge2q1apo/aMInOuXmuMPymH1its8sLjkmGNA0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b="Ma8OF/Em";
-	arc=none smtp.remote-ip=220.197.31.3
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	dmarc=pass header.from=alien8.de;
+	spf=pass smtp.mailfrom=alien8.de;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=NBKvEbc7;
+	arc=none smtp.remote-ip=65.109.113.108
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB218606A881;
-	Wed, 18 Nov 2026 03:04:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB218606A881
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E722A606A88F;
+	Wed, 18 Nov 2026 06:20:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E722A606A88F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Ma8OF/Em
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Qf
-	WytE/OyWOiquCmJ5wYN6TtAZqv5/f0+1pVE00jcqE=; b=Ma8OF/Em4w/8a7Z81R
-	Hk+evwLb6UNsML2RUj/4OaBrnLkG5rCzud30ylifRAk+vv4K5FfWIx4FQOZa0VoW
-	3ZTcFAaYMMJSt/4kM2Tr53FKnPaWpjYfZ+jsZ5pf3tvYOP3liT6elgtdyrIjgBiG
-	Kno1z8wenO/146Pcj9Bu8sn/c=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wD3f_mEFf1qQ+OhIw--.17654S6;
-	Wed, 18 Nov 2026 11:03:51 +0800 (CST)
-From: Qunqin Zhao <zhaoqunqin@163.com>
-To: bp@alien8.de
-Cc: tony.luck@intel.com,
-	linux-edac@vger.kernel.org,
-	chenhuacai@kernel.org,
-	zhaoqunqin@loongson.cn,
-	linux-kernel@vger.kernel.org,
-	Wu sheng <wusheng@loongson.cn>,
-	Wang Jinwei <wangjinwei@loongson.cn>
-Subject: [PATCH v8 4/4] EDAC/loongson: Add CS4-7 timeout filter for cross-node access
-Date: Wed, 18 Nov 2026 11:03:30 +0800
-Message-Id: <20261118030330.25779-5-zhaoqunqin@163.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20261118030330.25779-1-zhaoqunqin@163.com>
-References: <20261118030330.25779-1-zhaoqunqin@163.com>
+	dkim=pass (4096-bit key, unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=NBKvEbc7
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 91F3440E01F4;
+	Wed, 18 Nov 2026 06:20:12 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id pZyBvReVByA5; Wed, 18 Nov 2026 06:20:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1794982808; bh=d0Ix9gsUTiEGaSow4N/1s7rVr2v9JLfaHj/KrE0P7Zk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NBKvEbc7ww5HLcaDa8yEkHbGcQavmFhF9RDFE90Hx9/2upw1VyVgYvfn/I507BGU0
+	 PbxtRSFWDC0UtKpBSMj1oB65n5bMHUWcQp+YZStM9XPOh4r3MoZzmkziwfX50GpY1k
+	 Re1EuVpRtuoUJvraBOOzg8peiy0U5swvO3dcBVd6kBhlFkYhvDfTnSfomN1YGjkwGA
+	 6unVrhIKR1BEg1C5cx/StX109B2IAafnr4M+/Nu4x+kDebFn33DmDkkf9NaK2c66B+
+	 0KCxACO59mE9X0ALaiB6Tnleu5HHNh5PUs6n4lyZHePeVpG1jUXA6ok2vDqujbvzzF
+	 MJl4xRoMGcpnH/zXrmUnbBt2xY7OyXXr1k3lr3C+kKkDbO0UhdymRIXr05MHGsUzsx
+	 Ykm123i38hSuvUGpLftPQ7bSbFY1LwEyg2Yy6XZd65DJTOFVy+sl029/P3H1h13Ge0
+	 4ckmRMBt6/QY3G+RBBGww9qNRrwKbNZQmtb/fKc8VAg5rqw3JGhOAnVz86iVZMK43u
+	 QJY41JDzL7xAvashOUlUx33HPbpvpWGWqxIuFALwssg4IYdH3OeJgSdhjIC+tnMRvu
+	 /hPqSUyLoiYmW3ZMnbHtCtuKY/xBNnK9/7+Oj7pQ4v6ZLhZhgvZVVktYGoskTV4K+3
+	 gE9ccUfotjkSc1GlRyapojt0=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::43])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6028940E00C2;
+	Wed, 18 Nov 2026 06:19:59 +0000 (UTC)
+Date: Tue, 17 Nov 2026 22:19:55 -0800
+From: Borislav Petkov <bp@alien8.de>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 06/13] i82875p_edac: Convert to
+ pci_assign_unassigned_bus_resources()
+Message-ID: <20261118061955.GHav1DixS9NvbUqprl@fat_crate.local>
+References: <20261116152403.2672-1-ilpo.jarvinen@linux.intel.com>
+ <20261116152403.2672-7-ilpo.jarvinen@linux.intel.com>
+ <20261116154005.GAavsj1a11BRgBVtSd@fat_crate.local>
+ <CH8PR11MB403433B2B6C13E8AA2A31130FAFC7C2@CH8PR11MB403433.namprd11.prod.outlook.com>
+ <20261117195455.GEavyxDycsQbYSctQr@fat_crate.local>
+ <CH8PR11MB403433E7312691DB4FBC415F2FFC7B2@CH8PR11MB403433.namprd11.prod.outlook.com>
+ <20261118004606.GGavz1TttiWqFI9saC@fat_crate.local>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -67,111 +92,156 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3f_mEFf1qQ+OhIw--.17654S6
-X-Coremail-Antispam: 1Uf129KBjvJXoWxZFy7GFyUCF45Xw18Ar1xAFb_yoW5uF17pr
-	W5Cay3KrW8Kr9F9w1vyrWDZa45CFZaqFW7WrZ2y3s3Wrn0y34DZry5WrW2vrn8A34Fkrn8
-	Xw1rKw4xCa1UAaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j7nYrUUUUU=
-X-CM-SenderInfo: 52kd01pxqtx0i6rwjhhfrp/xtbC7heEw2r9FZeB2gAA3w
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261118004606.GGavz1TttiWqFI9saC@fat_crate.local>
 
-From: Qunqin Zhao <zhaoqunqin@loongson.cn>
+On Tue, Nov 17, 2026 at 04:46:06PM -0800, Borislav Petkov wrote:
+> Thanks, lemme push it out.
 
-On Loongson 3C6000 multi-node systems, when the EDAC driver running
-on one node accesses the memory controller registers of another node,
-the read operation may timeout and return random values. This causes
-false CE error reports because the random values in CS0-3 (low 32 bits)
-are misinterpreted as valid ECC error counts.
+Completely fat-fingered it on the wrong tree and missed a couple of more
+orphaned ones. Below is the updated version. I've kept your Acked-by because
+the patch idea is basically unchanged.
 
-For cross-node accesses, check CS4-7 (high 32 bits) of the ECC
-count register. If the valid-cs-bits firmware property is set and
-the high bits are non-zero, it indicates a timeout or random value,
-so skip the report and return the previous count.
+Thx.
 
-To avoid undefined behavior on 8-CS systems where valid_cs_bits=64,
-guard the shift with a bounds check (valid_cs_bits < 64).
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
+Date: Tue, 17 Nov 2026 11:49:09 -0800
+Subject: [PATCH] MAINTAINERS: Add a common entry for orphaned EDAC drivers
 
-Signed-off-by: Wu sheng <wusheng@loongson.cn>
-Signed-off-by: Wang Jinwei <wangjinwei@loongson.cn>
-Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
+This removes a bunch of lines in the MAINTAINERS file while having the
+same result: unify orphaned EDAC drivers which are not going to receive
+any more fixes due to lack of hardware, age of the hardware supported
+and general lack of use.
+
+This is also adding drivers/edac/i82875p_edac.c to the lineup which is
+a 32-bit only chipset for Pentium 4 from 2003 or so.
+
+The code is not going away - if there are users who are willing to test,
+we can easily resurrect them.
+
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Acked-by: Tony Luck <tony.luck@intel.com>
+Link: https://lore.kernel.org/r/20261116152403.2672-7-ilpo.jarvinen@linux.intel.com
 ---
- drivers/edac/loongson_edac.c | 26 +++++++++++++++++++++-----
- 1 file changed, 21 insertions(+), 5 deletions(-)
+ MAINTAINERS | 46 ++++++++++------------------------------------
+ 1 file changed, 10 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
-index 413ca654b4..50959d4429 100644
---- a/drivers/edac/loongson_edac.c
-+++ b/drivers/edac/loongson_edac.c
-@@ -30,6 +30,7 @@ struct loongson_pvt {
- 	 */
- 	int last_ce_count;
- 	u32 mcs_per_node;
-+	u32 valid_cs_bits;
- };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 12406a2f4d57..4b930d531214 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2152,11 +2152,6 @@ M:	Khuong Dinh <khuong@os.amperecomputing.com>
+ S:	Supported
+ F:	arch/arm64/boot/dts/apm/
  
- static int read_ecc(struct mem_ctl_info *mci)
-@@ -39,11 +40,21 @@ static int read_ecc(struct mem_ctl_info *mci)
- 	int cs;
+-APPLIED MICRO (APM) X-GENE SOC EDAC
+-S:	Orphan
+-F:	Documentation/devicetree/bindings/edac/apm,xgene-edac.yaml
+-F:	drivers/edac/xgene_edac.c
+-
+ APPLIED MICRO (APM) X-GENE SOC ETHERNET (V2) DRIVER
+ M:	Iyappan Subramanian <iyappan@os.amperecomputing.com>
+ M:	Keyur Chudgar <keyur@os.amperecomputing.com>
+@@ -9631,11 +9626,6 @@ L:	linux-mips@vger.kernel.org
+ S:	Maintained
+ F:	drivers/edac/octeon_edac*
  
- 	ecc = readq(pvt->ecc_base + ECC_CS_COUNT_REG);
--	/* cs0 -- cs3 */
-+	/* Discard the read value if any invalid bit is set to 1 */
-+	if (pvt->valid_cs_bits < 64 && (ecc >> pvt->valid_cs_bits)) {
-+		edac_dbg(2, "ECC read invalid, skip: 0x%llx\n", ecc);
-+		return pvt->last_ce_count;
-+	}
-+
-+	/* cs0 -- cs7 */
- 	cs = ecc & 0xff;
- 	cs += (ecc >> 8) & 0xff;
- 	cs += (ecc >> 16) & 0xff;
- 	cs += (ecc >> 24) & 0xff;
-+	cs += (ecc >> 32) & 0xff;
-+	cs += (ecc >> 40) & 0xff;
-+	cs += (ecc >> 48) & 0xff;
-+	cs += (ecc >> 56) & 0xff;
+-EDAC-CAVIUM THUNDERX
+-L:	linux-edac@vger.kernel.org
+-S:	Orphan
+-F:	drivers/edac/thunderx_edac*
+-
+ EDAC-CORE
+ M:	Borislav Petkov <bp@alien8.de>
+ M:	Tony Luck <tony.luck@intel.com>
+@@ -9659,11 +9649,6 @@ L:	linux-edac@vger.kernel.org
+ S:	Supported
+ F:	drivers/edac/dmc520_edac.c
  
- 	return cs;
- }
-@@ -112,13 +123,15 @@ static void dimm_config_init(struct mem_ctl_info *mci)
- 	dimm->grain = 8;
- }
+-EDAC-E752X
+-L:	linux-edac@vger.kernel.org
+-S:	Orphan
+-F:	drivers/edac/e752x_edac.c
+-
+ EDAC-E7XXX
+ L:	linux-edac@vger.kernel.org
+ S:	Maintained
+@@ -9688,16 +9673,6 @@ L:	linux-edac@vger.kernel.org
+ S:	Maintained
+ F:	drivers/edac/i10nm_base.c
  
--static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase, u32 mcs_per_node)
-+static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase,
-+		     u32 mcs_per_node, u32 valid_cs_bits)
- {
- 	struct loongson_pvt *pvt = mci->pvt_info;
+-EDAC-I3000
+-L:	linux-edac@vger.kernel.org
+-S:	Orphan
+-F:	drivers/edac/i3000_edac.c
+-
+-EDAC-I3200
+-L:	linux-edac@vger.kernel.org
+-S:	Orphan
+-F:	drivers/edac/i3200_edac.c
+-
+ EDAC-I5000
+ R:	Andrew Luebke <andrew.luebke@gmail.com>
+ L:	linux-edac@vger.kernel.org
+@@ -9722,11 +9697,6 @@ L:	linux-edac@vger.kernel.org
+ S:	Maintained
+ F:	drivers/edac/i7core_edac.c
  
- 	pvt->ecc_base = vbase;
--	pvt->last_ce_count = read_ecc(mci);
- 	pvt->mcs_per_node = mcs_per_node;
-+	pvt->valid_cs_bits = valid_cs_bits;
-+	pvt->last_ce_count = read_ecc(mci);
- }
+-EDAC-I82975X
+-L:	linux-edac@vger.kernel.org
+-S:	Orphan
+-F:	drivers/edac/i82975x_edac.c
+-
+ EDAC-IE31200
+ M:	Jason Baron <jbaron@akamai.com>
+ L:	linux-edac@vger.kernel.org
+@@ -9746,11 +9716,6 @@ L:	linux-edac@vger.kernel.org
+ S:	Maintained
+ F:	drivers/edac/intel-bff.c
  
- static int loongson_probe(struct platform_device *pdev)
-@@ -127,7 +140,7 @@ static int loongson_probe(struct platform_device *pdev)
- 	struct mem_ctl_info *mci;
- 	struct device *dev = &pdev->dev;
- 	void __iomem *vbase;
--	u32 mcs_per_node;
-+	u32 mcs_per_node, valid_cs_bits;
- 	int ret;
+-EDAC-MPC85XX
+-L:	linux-edac@vger.kernel.org
+-S:	Orphan
+-F:	drivers/edac/mpc85xx_edac.[ch]
+-
+ EDAC-NPCM
+ M:	Marvin Lin <kflin@nuvoton.com>
+ M:	Stanley Chu <yschu@nuvoton.com>
+@@ -9797,10 +9762,19 @@ L:	linux-edac@vger.kernel.org
+ S:	Odd Fixes
+ F:	drivers/edac/ti_edac.c
  
- 	vbase = devm_platform_ioremap_resource(pdev, 0);
-@@ -162,7 +175,10 @@ static int loongson_probe(struct platform_device *pdev)
- 	if (device_property_read_u32(dev, "mcs-per-node", &mcs_per_node) || mcs_per_node == 0)
- 		mcs_per_node = 4;
+-EDAC-X38
++EDAC ORPHANED DRIVERS
+ L:	linux-edac@vger.kernel.org
+ S:	Orphan
++F:	Documentation/devicetree/bindings/edac/apm,xgene-edac.yaml
++F:	drivers/edac/e752x_edac.c
++F:	drivers/edac/i3000_edac.c
++F:	drivers/edac/i3200_edac.c
++F:	drivers/edac/i82875p_edac.c
++F:	drivers/edac/i82975x_edac.c
++F:	drivers/edac/mpc85xx_edac.[ch]
++F:	drivers/edac/thunderx_edac*
+ F:	drivers/edac/x38_edac.c
++F:	drivers/edac/xgene_edac.c
  
--	pvt_init(mci, vbase, mcs_per_node);
-+	if (device_property_read_u32(dev, "valid-cs-bits", &valid_cs_bits))
-+		valid_cs_bits = 32;
-+
-+	pvt_init(mci, vbase, mcs_per_node, valid_cs_bits);
- 	dimm_config_init(mci);
- 
- 	ret = edac_mc_add_mc(mci);
+ EDIROL UA-101/UA-1000 DRIVER
+ M:	Clemens Ladisch <clemens@ladisch.de>
 -- 
-2.47.2
+2.53.0
 
+
+> 
+> -- 
+> Regards/Gruss,
+>     Boris.
+> 
+> https://people.kernel.org/tglx/notes-about-netiquette
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
