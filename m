@@ -1,55 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794987975;
-	b=wcU/b39IBBng4R+yEp6WbYsjIqQghxdvIsWaMbh/6aKNqc4uvft4gIDTxJD0IfizEBB3
-	 npohc7LTHupm0Plm672U7aI6DmP+gSMJtzA8XgQlT1D+qehjh/gu+TbdoPiSU1y5cyu5k
-	 6z4MfDYCigotHouXmEGtMlht78PmLrUmGGRQMP1Srpu96cQHo1TG328C2WtqMaPXYme9D
-	 ylIwdoY7itm/cR9iWs9YTpziDWzvLxhxM5Q+leccsMlgQb+2fGeAPQwCtOdXWUj4/P5Zt
-	 w3eBuDYucGnPbTDOO9LeZ/KFjOjoPB4217s/CB/L5s+ufOLv97ADqGsUQUDwVcup/QQ==
+	t=1794987977;
+	b=Y8PjlRuztEi3brALl9J4tRlydc8ks9GJQBO7iTzzmEWHDMTVeC/mD9p4gdoPS0koHp32
+	 Cw7FUBtryHyB8PtMDIn19yDVgNzYtSODKJcJcDSjpp0T9aUeztxQUNxxVR98zsNEOgFPo
+	 qcG0NKcxushywg31dlvNyKOmInEMMDKp7NBFNlhMKheORk+YbgSNkwZkpIXemOmVvWNS9
+	 OhOnwC1q7FbZq4mZixgM0eYLatK92Y1uSZkzGQoiXqfSLCGVa8+K/Gdtx1ae04LRbty4/
+	 /gfKNRTJ8o58E89kmWulxxrgJaAwp0gkqJkAMzCXDUL7wHiF+6/iiMr8guTG6p0aQow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794987975;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794987977;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
 	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=30sH07Udk5EZJ9hXcfWlOr389v19dRie2ogtyIdAj/c=;
-	b=xClm5UEOlygnLesLz6cuItlszIoca+g0BgvHuC0lrOJnf9ijfX3kQWY7gU9uDnSdppQn
-	 G1S5MTxMm+8nx24cZGyw9Y1KDjXGE6v2JoF9Ox6z37URWR0Mjo97sClz5LFlZAelDe60z
-	 YVWgFcj6XDT+/HoZPgjGKq6eMZSSCI3BqzZ+Id20WQ9AehFmlmbNqII+55nEtQdiK5W/w
-	 XZUpsJ63Bqk4NRDprp09vrN6kg/64OZ908sjkjU3PsPx6cZQExao96bevfWudD650v8KM
-	 LOCeesLBBtN24cFMryT2csw+zith5s0swprk83yXfCZXuiQicsb6EgSccygLNP4BQ+A==
+	 Subject:To:Cc:Content-Type;
+	bh=6to1e8ywxICS4xI4JtlfYu40TwDVD3t2Zo+rkXerpvs=;
+	b=mVIKtBuf3wG8ASqDsH2521WqqDi5ZNcW24bwLOxK5LCmPl5eyMH3PYfghi0oOpDZl8k5
+	 HF4rbB9BLOh4VIfuhcy9/fx0/Nf61FlvtZXvL+uLkNTi2OUHdBfhm2LVe9rD3iA8X7aSR
+	 246cXfw+BYSOholRjqhpxOwHW0yEP3fK2/gCv0nnc/NYQ8E98LWdZWw7UziHiqD/16ibn
+	 gJo6fznN4TFOd4NHl5g3M6O5Pqf385RS1Cp7c37lo8rsiNZrCtIXoor1i9NA+LLOE1hQ4
+	 RJd702m6WPB+VXCjmh7jaQDw5A43iZ+mlLqpB7/6VRXZPjW0CEBh1Xa3N2sS+KmdwTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CowQn9z5;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.217.42
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E200606A32A
-	for <linux-edac@vger.kernel.org>; Wed, 18 Nov 2026 07:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CowQn9z5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 182231F000C8
-	for <linux-edac@vger.kernel.org>; Wed, 18 Nov 2026 07:46:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794987975;
-	bh=30sH07Udk5EZJ9hXcfWlOr389v19dRie2ogtyIdAj/c=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=CowQn9z5U2VuS+38wVuiFFuCOmI46LRig8OnX6It11VoXzByPvOIWMVHobCNynv/N
-	 891PKduOU4q1PglPdsScD9JCFYYCPdyevc8wP5y4pU9Qe19DVy2EdbziVxt6QmM4CC
-	 ImE75DSvtsCTM2PFYL/lB8Osbtsv2hFzflnsM9gep6iF4ioHWvN/c1hK28RZKdjgth
-	 kMioiiHZiMDenYKhx6Hnj8fDyIc7k3bTCXyCKZpuS4NgjHFhWMB7/OzkXGlVcOLHFL
-	 Pd5FN0TxzowsPXdNztQzSxhgV6/rOGHO6IBKY5O7dzGCGS/MklKGXe8sg391jEL3Ux
-	 pfAMYhEnIwjvw==
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6b2237b596cso1659814a12.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE26606A333
+	for <linux-edac@vger.kernel.org>; Wed, 18 Nov 2026 07:46:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FE26606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-7d6a6776719so371043137.1
+        for <linux-edac@vger.kernel.org>; Tue, 17 Nov 2026 23:46:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794987975; x=1795592775;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=6to1e8ywxICS4xI4JtlfYu40TwDVD3t2Zo+rkXerpvs=;
+        b=CNO563Xc6UpBa5QT8MEzoNvdBNkL3b788IdaXBh2kz2T0oH3Ef0SpX3V06fzJgSQHx
+         rgGzchzrS4QsYwIgfW9jZvoeJzxAypdl4tA8o+u71pnRK4NeP9ebz2vC8nFpXrhJev5s
+         BQeTFNM02hXDJYLJftygm31RENtUm43UwrfI+QEElA61d2gtHwbyMHGQBYaG/ebI/CHT
+         rqOIyqnQEVN7Y1Z1nG/K7g7UImNRNP7ucT63lQYO26l5ytgQmBUi8FRGEHWB/HZjTPt/
+         J0nhqjPTKcyN4mCdu6fUyipjY18WIxg/dz0YdR9VA0xXP0jScMZCNRTjy3u+C3SnnKc3
+         9Jcw==
+X-Forwarded-Encrypted: i=1; AL+hErHoNcFPASAlsujMsJjRhUatFpxQZFKvxJVfKCqqQH3FE7/1SoTO/Dbu1imQzZYDA/sDTiZYSwdEvPXs@vger.kernel.org
+X-Gm-Message-State: APuU4Z/TgghIl4UbBgPZt/yoYVRoPnSAMt0fqKuHcJdi+PFTyMRqfM/r
+	hmC/IQ9OauB4QzM1BxXvBUm4zVTzCkb94Yw1Blt5ZO2rSJyRLWvdIFVu+P+aXkG6
+X-Gm-Gg: AYBFou1kkt4fNzbid7plXEod10nkO4to94ILL6MfZF0O+QMaB8FEqgcEQ81sHro8Mid
+	v9D9aEG3F82PRh4NI4phY8YFqxQwhAY9xw5Suz3Q3SUpiX1yHb5zdfe+Pp2XvbjlXACDkuBWecO
+	SMblAvi3GPWielIdUfpACemgHbrQhBhUgqqSgTv+Xo5P1qU5wrhjfAA6hVWMvvWe7y/RG+3VFfY
+	AZOQ61AHx2YwCOXhnS6ZqfviLdwmmBpEQlcQQ+VmvpQ+kzlDFAhJAxJSyw7pwylDTEQpg+ee+b0
+	ktiAeFKZlvKoR/r+wexL/HDPswlFjGhf4h5xsRp/pc2zzq3SCGfdynhrgmpB+ViAPU8MNHoKwUv
+	60UM7crxHfQUUpc8FyTYM52yN0zWPfMGvHLHpVRk+/kQL3Rjfw+UtxFrdDI6cz0yz9IemJin2Bd
+	RSWaZqBGej+5UWcsp9rBXw4ac4kCnRLV1C3M1YjbjONwK5wbnejSC9np99b+n9r0ArcvBF1qcIf
+	h5cAvrHIxrNssKjG31NiU9xRxIFuWDuIfs8LfkgAvcTxrwe+Y35RFox9g/0KgCkrIeiwR6yxL5b
+	gVewaFK3p0GbChkuuLiWdYn+h+uue8o8sexVoT1RL2pfefEVLPklHiWf2mSo6zeEWyY=
+X-Received: by 2002:a05:6102:5112:b0:7c7:f976:ea9c with SMTP id ada2fe7eead31-7d6ba3eaed5mr616336137.13.1794987975531;
+        Tue, 17 Nov 2026 23:46:15 -0800 (PST)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d6b8eae882sm1249337137.2.2026.11.17.23.46.15
+        for <linux-edac@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Nov 2026 23:46:15 -0800 (PST)
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-7d2e14babc8so397383137.2
         for <linux-edac@vger.kernel.org>; Tue, 17 Nov 2026 23:46:15 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErEI1kzg5uVF+/4VezL6Y19+ow2kAaIfZ9y4U2M3J5tQq+WEP/A/qoOR5ibGeSiNj14OA8Cp0glanYpX@vger.kernel.org
-X-Gm-Message-State: APuU4Z/cFYjrrHgoSPstHyd+jh4IE9vG26Q+kLlPfmrtTdI9vj+D1cWO
-	h9gjuPL7Q0zBswWgOdDvRSEHijJmQQTCM94OxYC+z8VUWsNJu9e7KJPJUcOexP2hREAdCjs79m0
-	2n6X5qh6qCSfdklijgKFkFFAAAnD1VCU=
-X-Received: by 2002:a05:6402:2812:b0:6b8:8167:733e with SMTP id
- 4fb4d7f45d1cf-6b887e516a6mr1400705a12.11.1794987973730; Tue, 17 Nov 2026
- 23:46:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErEfvEMRDBQot3Y3awLhsadXnBsyFabtPtQSZtvmkyvyWHfdZidwOFXq3N61dhABlKFlJpynTjETJDHz@vger.kernel.org
+X-Received: by 2002:a05:6102:e0a:b0:7cc:94e0:ad23 with SMTP id
+ ada2fe7eead31-7d6ba4d7327mr622866137.31.1794987975215; Tue, 17 Nov 2026
+ 23:46:15 -0800 (PST)
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -59,130 +80,53 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261118030330.25779-1-zhaoqunqin@163.com> <20261118030330.25779-5-zhaoqunqin@163.com>
-In-Reply-To: <20261118030330.25779-5-zhaoqunqin@163.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 18 Nov 2026 15:46:03 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5n414H4gFbuMO9nnSF7+-OiazuBJb1RS+-Ff+3sUEUrQ@mail.gmail.com>
-X-Gm-Features: AclHuK_iKbz1BrQHxAlrw7Ez_NrAmabN1s_TcdSGYEjiKF1LdVWWawNaVzb94Ow
-Message-ID: <CAAhV-H5n414H4gFbuMO9nnSF7+-OiazuBJb1RS+-Ff+3sUEUrQ@mail.gmail.com>
-Subject: Re: [PATCH v8 4/4] EDAC/loongson: Add CS4-7 timeout filter for
- cross-node access
-To: Qunqin Zhao <zhaoqunqin@163.com>
-Cc: bp@alien8.de, tony.luck@intel.com, linux-edac@vger.kernel.org, 
-	zhaoqunqin@loongson.cn, linux-kernel@vger.kernel.org, 
-	Wu sheng <wusheng@loongson.cn>, Wang Jinwei <wangjinwei@loongson.cn>
+References: <20261019-paul-v7-3-rc1-edac-v7-0-84c76c6d7595@bootlin.com>
+ <20261019-paul-v7-3-rc1-edac-v7-3-84c76c6d7595@bootlin.com>
+ <avxR5VZESPLklIuG@ninjato> <DMXJ5VMIPGL9.1917ON486UJRD@bootlin.com> <avzCbuXANntvBPDz@shikoro>
+In-Reply-To: <avzCbuXANntvBPDz@shikoro>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 18 Nov 2026 08:46:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWC30-=DPtui1EjDEOdtXBVy7WLqNU=xz5=68VoZijt2w@mail.gmail.com>
+X-Gm-Features: Aa3M54q17UL4mAgBxZLvOfOFworgkEOusBybuuLEx_Lh39xXrUjItuh72fZWiHU
+Message-ID: <CAMuHMdWC30-=DPtui1EjDEOdtXBVy7WLqNU=xz5=68VoZijt2w@mail.gmail.com>
+Subject: Re: [PATCH v7 3/3] ARM: dts: renesas: r9a06g032: add EDAC node
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Paul Louvel <paul.louvel@bootlin.com>, Borislav Petkov <bp@alien8.de>, 
+	Tony Luck <tony.luck@intel.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-edac@vger.kernel.org, devicetree@vger.kernel.org, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Herve Codina <herve.codina@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
+On Tue, 17 Nov 2026 at 22:09, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > > On second thought, any reason we don't want this enabled by default?
+> >
+> > Please see my answer to Geert [1].
+> > After reconsideration, maybe it is advisable to enable it by default. Enabling
+> > ECC is done by the bootloader, and it might be better if no further actions are
+> > required to enable it kernel side.
+> > If ECC is disabled, no errors will be generated, and the capabilties will just be
+> > set to EDAC_CAP_NONE.
+>
+> I agree that enabling ECC belongs to the bootloader. With the current DT
+> bindings, the Linux driver continues to work on whatever it has been set
+> up before (which may be nothing), or? From that point of view, I think
+> it makes sense to enable it by default. But again, my knowledge is
+> limited here...
 
-On Wed, Nov 18, 2026 at 11:04=E2=80=AFAM Qunqin Zhao <zhaoqunqin@163.com> w=
-rote:
->
-> From: Qunqin Zhao <zhaoqunqin@loongson.cn>
->
-> On Loongson 3C6000 multi-node systems, when the EDAC driver running
-> on one node accesses the memory controller registers of another node,
-> the read operation may timeout and return random values. This causes
-> false CE error reports because the random values in CS0-3 (low 32 bits)
-> are misinterpreted as valid ECC error counts.
->
-> For cross-node accesses, check CS4-7 (high 32 bits) of the ECC
-> count register. If the valid-cs-bits firmware property is set and
-> the high bits are non-zero, it indicates a timeout or random value,
-> so skip the report and return the previous count.
->
-> To avoid undefined behavior on 8-CS systems where valid_cs_bits=3D64,
-> guard the shift with a bounds check (valid_cs_bits < 64).
->
-> Signed-off-by: Wu sheng <wusheng@loongson.cn>
-> Signed-off-by: Wang Jinwei <wangjinwei@loongson.cn>
-> Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
-> ---
->  drivers/edac/loongson_edac.c | 26 +++++++++++++++++++++-----
->  1 file changed, 21 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
-> index 413ca654b4..50959d4429 100644
-> --- a/drivers/edac/loongson_edac.c
-> +++ b/drivers/edac/loongson_edac.c
-> @@ -30,6 +30,7 @@ struct loongson_pvt {
->          */
->         int last_ce_count;
->         u32 mcs_per_node;
-> +       u32 valid_cs_bits;
->  };
->
->  static int read_ecc(struct mem_ctl_info *mci)
-> @@ -39,11 +40,21 @@ static int read_ecc(struct mem_ctl_info *mci)
->         int cs;
->
->         ecc =3D readq(pvt->ecc_base + ECC_CS_COUNT_REG);
-> -       /* cs0 -- cs3 */
-> +       /* Discard the read value if any invalid bit is set to 1 */
-> +       if (pvt->valid_cs_bits < 64 && (ecc >> pvt->valid_cs_bits)) {
-> +               edac_dbg(2, "ECC read invalid, skip: 0x%llx\n", ecc);
-> +               return pvt->last_ce_count;
-> +       }
-> +
-> +       /* cs0 -- cs7 */
->         cs =3D ecc & 0xff;
->         cs +=3D (ecc >> 8) & 0xff;
->         cs +=3D (ecc >> 16) & 0xff;
->         cs +=3D (ecc >> 24) & 0xff;
-> +       cs +=3D (ecc >> 32) & 0xff;
-> +       cs +=3D (ecc >> 40) & 0xff;
-> +       cs +=3D (ecc >> 48) & 0xff;
-> +       cs +=3D (ecc >> 56) & 0xff;
->
->         return cs;
->  }
-> @@ -112,13 +123,15 @@ static void dimm_config_init(struct mem_ctl_info *m=
-ci)
->         dimm->grain =3D 8;
->  }
->
-> -static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase, u32 =
-mcs_per_node)
-> +static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase,
-> +                    u32 mcs_per_node, u32 valid_cs_bits)
->  {
->         struct loongson_pvt *pvt =3D mci->pvt_info;
->
->         pvt->ecc_base =3D vbase;
-> -       pvt->last_ce_count =3D read_ecc(mci);
->         pvt->mcs_per_node =3D mcs_per_node;
-> +       pvt->valid_cs_bits =3D valid_cs_bits;
-> +       pvt->last_ce_count =3D read_ecc(mci);
->  }
->
->  static int loongson_probe(struct platform_device *pdev)
-> @@ -127,7 +140,7 @@ static int loongson_probe(struct platform_device *pde=
-v)
->         struct mem_ctl_info *mci;
->         struct device *dev =3D &pdev->dev;
->         void __iomem *vbase;
-> -       u32 mcs_per_node;
-> +       u32 mcs_per_node, valid_cs_bits;
->         int ret;
->
->         vbase =3D devm_platform_ioremap_resource(pdev, 0);
-> @@ -162,7 +175,10 @@ static int loongson_probe(struct platform_device *pd=
-ev)
->         if (device_property_read_u32(dev, "mcs-per-node", &mcs_per_node) =
-|| mcs_per_node =3D=3D 0)
->                 mcs_per_node =3D 4;
->
-> -       pvt_init(mci, vbase, mcs_per_node);
-> +       if (device_property_read_u32(dev, "valid-cs-bits", &valid_cs_bits=
-))
-> +               valid_cs_bits =3D 32;
-> +
-> +       pvt_init(mci, vbase, mcs_per_node, valid_cs_bits);
->         dimm_config_init(mci);
->
->         ret =3D edac_mc_add_mc(mci);
-> --
-> 2.47.2
->
+FTR, that was my thought, too.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
