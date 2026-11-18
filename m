@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794997559;
-	b=yqJJD3VTD/TgxNTFA15k7aoOCgUBaTCejR1hgcbalXy1zS/4R3APhFmuWXneZH44FCgV
-	 0zVNO1OqL7cFE+oPFL6PKU/0XfZ8bLdI5RTgEWNfP+aK71jyXqgMvCLZqdg8XFtstTuWB
-	 KyC3LGzxbqR3Op40dvC5iKWudo3p7yb6+HrBDii9n9t98wPB5gPrKhDsw5iz13XXJm72s
-	 +m+6TUzcQTWQw2kku12BY197iGQ9LZOcsKQ3BlKNsFqdv2sErjxeXM+W+Vc7MoZAFEDrN
-	 MWfnrerugIy53lN0UMT4nlDJcKIKFw2vdSY5YJoxtP6vIH16BztFT27lMK1iuhKXDQg==
+	t=1794997625;
+	b=QPI+GRXXSpFOHFhl7noWTqqSvBWhTBTQdRQBClTxqFow6bJ+jez/HJIeT1gNoujYb+m4
+	 v8SXGsRAMN4F4xtdSh3gJyrLBbCdeHvFYcQ9hip+XXb1qhp5h3P20iicqAKEbk9yWsfCb
+	 HgVy2uTntbE7h5T9J4ewFhSXJ40GnafiDm2Wek6vl+IQ9y1/EGUq3M7CqndZlNSYUbo+q
+	 fiaqHX5D2IQAwPwgQWCtd8qMoxQRXl5ZqqUFdSy8DZR19zuPL/kz9VOs88i5hbsLcP8R0
+	 BBp9m7pUBl1hId9aDxXUjc8oTq/a8pAQR6on1M1Np8h9Vgkhxe/xjoroI6l9n0yxLPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794997559;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794997625;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
 	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=5+A/JE9HHMD6dVa1CZzmW3mLu2nIXMpf4wNuwenC3+U=;
-	b=T915W7zIiWOqK9ul6Sl5BNOh3+AakJ/zPxxKgTidoLuzyLH1O1XXhtF3AM8iDCUwQqV6
-	 7t9Z6ycpgh7yV/VVKMqxsZ8W8XZt4CDzrTwLFrr+gDCGphpUg/PodRLgY+6fskhqeAWxy
-	 Ra5gb2v+TDg2Q7sTH4OxEQHFSdw/KNhydyBNQFv8HMNtT8GbiPAOS2UFq+TzulF19/+tb
-	 Qwd+kXIhaeMKBR6G0uavZgD1JMSYfDCJ9S0EoGI/vqGPZUMqwXc6tSRbkmZYgXkvF8SWr
-	 Yo52osc66i9pekcr14+W/x2EviYZAzlEgluPgXM0mamI6Acj4FJMIGHaocdViD13Aug==
+	bh=i9D3FjkLfYPSTdei45bQlEx7WvqZqfPDZxNohyDEg1k=;
+	b=PlLUSoAyXfqUaKtwCEZLlmD+/HJAx3pRkbadWZk/Ekio4zg7Nu/K3nws2zJURUDx18+q
+	 xzXPjnxNNWv4l9Lci6xGBweBIH03s7h+XaMyLEixdKW2S5ppaa4JsB4r81knK6Rllyq1G
+	 C27/duFtSxEA0gCmm1UtSzrfv7oT6KemjvbajEVJO35mxUp2L62Sb+OGNRCnXXlBVaA1Q
+	 WWLL9H5gwS1iYmNcGFEV8DhG05PotNG49KLB09P1X0JEeRaot4SYXudi0bZNZ2Eb9HeoQ
+	 vKCSodNNZCk03ijLDWkfgefc7rio8BaN2pm/dibZOySQhx2Ln5cRN5ALEbV5awloSxA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=sang-engineering.com;
 	spf=pass smtp.mailfrom=sang-engineering.com;
-	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=GxTQyBaS;
+	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=aRTvwNsx;
 	arc=none smtp.remote-ip=194.117.254.33
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E99606A32A
-	for <linux-edac@vger.kernel.org>; Wed, 18 Nov 2026 10:25:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68E99606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CED606A325
+	for <linux-edac@vger.kernel.org>; Wed, 18 Nov 2026 10:27:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87CED606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=GxTQyBaS
+	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=aRTvwNsx
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=5+A/
-	JE9HHMD6dVa1CZzmW3mLu2nIXMpf4wNuwenC3+U=; b=GxTQyBaSgKQuxxOenLFT
-	O84dJiQJBpcVrYoxyFGunEe+EqcW1TheaLc1BQWC+xBwFjJ2LpOtIOq+wvm2BFzH
-	bKKJZ9qjN9FRSbQ/Zvlc207xaTyTcnZtgcmvAsPYsiKap7lbde0Rpo9PsSu6ZyNv
-	TwrWjDnT7UyankInaIMJFf63BOUGe0E5AMWv7nxpBnze5To7ZNfyCKfwMLjhyA0l
-	G546ZGw5rULm6VfXgJJyLiuIKvcA8o4V3ZmgL3Djn+AYCYDQsAD400X5mi5YxqGg
-	omAXhygeDTQjxgjEZ65HveExb8xWXHMzl/K7mkQs3k+Z7qgBOnw8Vlr7AwIWVPju
-	iw==
-Received: (qmail 613206 invoked from network); 18 Nov 2026 11:25:53 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Nov 2026 11:25:53 +0100
-X-UD-Smtp-Session: l3s3148p1@ocuBb4pgPqYujnsi
-Date: Wed, 18 Nov 2026 11:25:52 +0100
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=i9D3
+	FjkLfYPSTdei45bQlEx7WvqZqfPDZxNohyDEg1k=; b=aRTvwNsxNWSIAQKnbg8y
+	CREq05UiAMceZGfiRN20p7OOOml+GunXax3jFBwsGP3H85Zs6Bt1HERjMxhA+L0z
+	h3fWiLM7ISIHhK+BDsaH977cujSzjLGgqivalts34j59dnQ1rfz01wgv/BaSONgU
+	cof2oFyLY72SHwVc5REEFSKCRVGineSB/xYqHL3QLBbRkliwaAKasuMFemxDdu/D
+	pd1B2T9TKEmZoRH9GEPohMX8onrO9x6Gnm70HdcfIRlygq7lv3zSDQcmZJdy+1Fz
+	+FiBoqIb7mQKGl7wQajfSXqfKefAqXJ1hYH6GNk7ouH0slyVpl+a9HFxbOEPuDzQ
+	ZQ==
+Received: (qmail 613653 invoked from network); 18 Nov 2026 11:27:02 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Nov 2026 11:27:02 +0100
+X-UD-Smtp-Session: l3s3148p1@K7Cjc4pgZsoujnsi
+Date: Wed, 18 Nov 2026 11:27:02 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: Paul Louvel <paul.louvel@bootlin.com>
 Cc: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
@@ -60,9 +60,10 @@ Cc: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Miquel Raynal <miquel.raynal@bootlin.com>,
 	Herve Codina <herve.codina@bootlin.com>
-Subject: Re: [PATCH v8 0/3] Add Renesas RZ/N1x EDAC driver
-Message-ID: <av19MPAXUdBRWyup@shikoro>
+Subject: Re: [PATCH v8 3/3] ARM: dts: renesas: r9a06g032: add EDAC node
+Message-ID: <av19dZeraUiSEzyi@shikoro>
 References: <20261118-paul-v7-3-rc1-edac-v8-0-ed791084cc19@bootlin.com>
+ <20261118-paul-v7-3-rc1-edac-v8-3-ed791084cc19@bootlin.com>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -73,42 +74,45 @@ List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NCYSeN1R4nBIFoOa"
+	protocol="application/pgp-signature"; boundary="VBm/YAgMbcVHdp09"
 Content-Disposition: inline
-In-Reply-To: <20261118-paul-v7-3-rc1-edac-v8-0-ed791084cc19@bootlin.com>
+In-Reply-To: <20261118-paul-v7-3-rc1-edac-v8-3-ed791084cc19@bootlin.com>
 
---NCYSeN1R4nBIFoOa
+--VBm/YAgMbcVHdp09
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 
-> Changes in v8:
-> - After discussion with Wolfram and Geert, the driver have no reason to
->   be disabled by default. Remove the status property in patch #3.
-> - Reparent on next-20261116.
-> - Link to v7: https://patch.msgid.link/20261019-paul-v7-3-rc1-edac-v7-0-84c76c6d7595@bootlin.com
+> +		edac: memory-controller@4000d000 {
+> +			compatible = "renesas,r9a06g032-ddr-edac", "cdns,ddr-edac";
+> +			reg = <0x4000d000 0x1000>;
+> +			interrupts = <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&sysctrl R9A06G032_CLK_DDRC>, <&sysctrl R9A06G032_HCLK_DDRC>;
+> +			clock-names = "ddrc", "pclk";
+> +		};
 
-Added Tested-by for patch 2 ;)
+Dunno if we still want to keep the 'edac' label. Currently not needed,
+but might be in the future? I'll leave this to Geert.
 
 
---NCYSeN1R4nBIFoOa
+--VBm/YAgMbcVHdp09
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmr9fTAACgkQFA3kzBSg
-Kbaz2A//ZFr9og+NfiSjf3BkKGwKvg29uJAcd5HTu1pehLA6BcyBojdxor7SjFRp
-kXz4KHXpvxs770gBwMM6QGN2QiLofED8gMGIg/wY9tqMh8ibtBheacty9tBg5Kha
-1/XIjuG6zn78jqEYWLAhNZbruRPVSdF3MUjQR8cgdmHKelLaOofyRXuWt9au6a3b
-hS3MRaWpI+lymMZKJu2yckVt6r5OfpAknbKLusuCDTtLGfFV8iFUfHkREmeR5ANI
-CxgbZxbAhes5cxdYlRDSssMG83Pr1Ppj1FR+xOd7Qy0gyW2p+OO5eoy2D+01eSam
-V5GTy2g06V9shiroZijB6cfuIEbStIfWGEd+SXAOTENzQPCcyRGGaBNcwwzTG1Gn
-HHZOfnjg7tBtNHVXeHgJZGmccYYmPHrMpQ30Uz8U0VcGUGssuqMWqJx4WKoe2ljp
-IaaeX13IcuoK4tfA6SD5gjlK+Gx97Epq+RWscHZoDsnzLQGWyqqFk449MF7cnD8/
-Z8dPq2JPnOO7tktGM5Y962ckmHjFERXRujNlq0HBAtshuwoUDW79my/9AUrlIHuq
-iuKPT87Ztfqqcj7vrb+yReC0liWcfSP22dSGDs2C2NvuiStY77rbHQZUEUmGWEHh
-ENJwlNKZfRTsnIkYIzmrNT44OoRmr7Ha25f3C6EQfkNmHhIgNoQ=
-=vTIW
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmr9fXUACgkQFA3kzBSg
+KbaMvA/7B8Z4dcvBaxxcDL55zgR3FmtZ5EbUnUKeq6FHDZjiEYOVIhv2O723ghhO
+QJGp2KwPBb4ahYSp0+0/w79DDSdctY5ZljsOhvRj9jFK1EgqOqoibmbWmdOY5zft
+WoRWzvX5zwHaq3Wdrs3RoP3vTACIcQBOiXc+rf5gamHuG67YGQHHH23BSGaB9Fmy
+76qDyCAGUQPpq3mg/yrwuikaJLT0NV+fxLTXQ54NXUgfuKMaxiiwYsCWdnehhLmN
+Zz/j+/tm58sRbC/dQ4y1dB7cnbu2kNygC5j+YM6J1RvVK7RCDtA8ZbqM+0e9mipy
+0sEKEImcjkrr+ADGInt916OQb09dbXFxy+37qFuOn7j6fmv7pfzBezWLRV8UY/t9
+heRObcuRvus7l45V4JgeitJeASdZy+jlBblXiFnfwlT3R+JqPh3eoFiEmLXUZwKa
+7iXoZzF28rO2YTNBGncZ4Jig9AoEfoDQf/8dC5Di0QVXmqunbMM1C5XeRTKnK6ij
+Ad1Fr18FH6VP8om5/kK6406+yShfnGc+m3o4lOYk0Ov+oBctOf1WL4iVY7XYj9fv
+l9vOpgR7HkL4BsCd+38ZnWkF4pU1NcHIIER0t9Gv/NVObnEnlCHmUzHSx3jxCgt+
+n4SrabWdXl4IDZ1zIIz4zlkQZjE/GHS6VDMhgVhtcD/DbE5V01c=
+=zwkY
 -----END PGP SIGNATURE-----
 
---NCYSeN1R4nBIFoOa--
+--VBm/YAgMbcVHdp09--
