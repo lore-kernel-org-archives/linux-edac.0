@@ -1,58 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794991348;
-	b=rcTNl/sH+WMwXJOtaFxondHpNCG41w4GP1LUGU0XnQEeVekTVHIekSRMzJRywEEqfrqi
-	 Q5sI/D44eKlnwoRWl6iamhSLRX/eX+g4CSBISA0mSwFWTYRUL8cJ6oDwk1skfwhep6Vjm
-	 F0BeMhLUJAwk34olv3ywRcX9hODqHIEbi0GZDYHRxoJKsLH0UVJUeZcQRLEdLAqPwb4bC
-	 8atGGDQRTZwWBYAM1/4ffX9fj504eoCVM1Gu3VvNZxJZgvO3+X/bQpQXE2xqpFaMTVz1m
-	 UTSx69Xih1GOqm3PFwIZqGrMlj9Pkqf7TZWhr0CJV5ulTO1Zwyyxv5ki+KH8uEthSgg==
+	t=1794994786;
+	b=hm8d/pNlZKgLRUdkHBZqtMD+DM02tS4jq1au3TOSpBOkxDBAM+RnYuO3n/+uy1KLFoCy
+	 kLcXdnyyZAcadBAiCPGjFZ0xAk55FSaG8T3fjiDtNJ7bt64Wry3Mi62MDiXNcjV3lEHsv
+	 /l7yr2lMnhcLjtaSE/clsp1hRaM5jP1k3fTdj7s0ItkNBfAJe2fiQxCvP9LVKhosd9muR
+	 MrlIhc6eIBq71WpAJqhPZRWAasfvw47C2/mYH5RZ/JEt6SSJNQErMQfiu4g2nUy9BWNK9
+	 gPjKpBeJTfq9phl2vGv6+Bid7eEviN6IJW6g+lrFINYftNcXy9E1eTJYoiTCylKyTEQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794991348;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=0ZQTVryEmIsnM+GqvoXyuw7ccmcLMnFre+y24On/fN0=;
-	b=5l5XBM9YwOFL53UURddf74AhebHOApWgXmJ1hUPHZ8MLB9Uuz63wupNC8t68NzcZc+G9
-	 EDg6ZVdhi3gDCHZIVUrnVEKKPmoWWmkXhZx1Dv8ikl+y4wzQSBXclJXgHcf9qlf3kHzfN
-	 HcqWf9R1OLREsJ1i95VtXcQkgIKADX2lbRmPb0e96pM42A5dUYznONwPoT4ekGGjukH35
-	 LzwsZ1V2HxbEMG2fo/s33KEr6Dzz7yXnGLvxEHr6JwgUiw8TuglkWERonNNuUpZ7ovJV2
-	 3s8T49pMqJPZMwkS0zXdN3IDKBRms+miPeX0MO3BMpI2jINtw5eg2ZvFjc2/jC3c9MA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794994786;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Mime-Version:
+	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
+	 From:To:X-Mailer:References:In-Reply-To:X-Last-TLS-Session-Version;
+	bh=+KrsHl34xJ4ftFSv/7lL7KykdHlw2pIpbgJEgLLYEHc=;
+	b=VkG1PGSOFHqGpHrCR/69lBtRLK5Eg1LqXegxQnZ3/stxI6rZLR4trsedOmcZqbP1cGE5
+	 8GhLwgSWM0Nuus6MBbwqOJT12gyNxyztmzVb/m/mgbivh+PctZl1vm92lFZ0FvYlSiDZ+
+	 /9jx8A549ZJRsIARVxO0hP0AdbKYV9r6X//4wJlQAGgSriYbtWLu6ShpWhq56hCSNWIIB
+	 feCbrIK/fLfjjHSIvXhaNozenwtGrl8ioju1Me9glKTAtwppBejd7KvgWMNoQ9Y2yjohp
+	 Hp6gElKaWISk8cNajtSCkAOEJH/TpospiB0rR3/2bQpSHdQK4zlh4ZZoTHAJMT0ie3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=MADKrsIE;
-	arc=none smtp.remote-ip=220.197.31.3
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=gNF7OGQa;
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4166E606A32C;
-	Wed, 18 Nov 2026 08:42:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4166E606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1871606A320;
+	Wed, 18 Nov 2026 09:39:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1871606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=MADKrsIE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=0Z
-	QTVryEmIsnM+GqvoXyuw7ccmcLMnFre+y24On/fN0=; b=MADKrsIEmxK796aYv8
-	HUDpx0hr1jC98Pmum7dep2Q22+9NI0gqGGduo5q07xaYlby1R8oarmJMHYjwOvGT
-	Rh7zWZ5opqUshDQWSvqS7bEwuDKw1gm8jP+Mg1x4Xyzj3rwf60aDzfGUx+Dh+2Sr
-	DE0wSpH5+FpLSR5h1hYu5AHcE=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wDnl17YZP1q1I2WIA--.48069S2;
-	Wed, 18 Nov 2026 16:42:02 +0800 (CST)
-From: Haoxiang Li <haoxiang_li2024@163.com>
-To: tony.luck@intel.com,
-	qzhuo@nvidia.com,
-	bp@alien8.de
-Cc: linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Haoxiang Li <haoxiang_li2024@163.com>
-Subject: [PATCH] EDAC/igen6: Unregister the correct error handler on probe failure
-Date: Wed, 18 Nov 2026 16:42:00 +0800
-Message-Id: <20261118084200.2184184-1-haoxiang_li2024@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=gNF7OGQa
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 3DF781A16CA;
+	Wed, 18 Nov 2026 09:39:44 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1049B5FE9B;
+	Wed, 18 Nov 2026 09:39:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4396A11BC0C99;
+	Wed, 18 Nov 2026 10:39:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1794994783; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=+KrsHl34xJ4ftFSv/7lL7KykdHlw2pIpbgJEgLLYEHc=;
+	b=gNF7OGQar5n85yZ9W8CgOBOMsPJ/OfYjOFUvxa7twze7oRzfdbx4piGWEJfsVqO2MqWeny
+	SEU0q4b9XThs0O06K2A8P0zQHuMBf8GeWgRAo+i3D3yXzX5D330ycMEdWboEqh6z06AZEj
+	r+6QxCOXrN21G09/vBO6lm6p48TC2m9f5W4hpyYFqY2zx8kSuQcVBUr8FLODOJmYkbFJAN
+	8Yvo/n9yNbYt5nJHAS994Y4J5K2glUkxqdEj+7gWorXJyBQ7AldY/oORykZoMeEux1afvq
+	x1xCtujGLMPJtwpy/quJrZ+pu2YV4Pqw/m+YWDLmNptosVgk0dAgR2eUfsvpnA==
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -61,42 +58,78 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnl17YZP1q1I2WIA--.48069S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7JF48KrykGw1UuF1xXFykuFg_yoWkXwcE93
-	48tFWxJrZY9r9rJwnxCF4av392kF40gF93Ww1vgF9xGw1fZrWDXF1DuF1UAr17Xr4SkF90
-	kryYgryfuw47CjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRtGQ6DUUUUU==
-X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbC7Rpp12r9ZNrbUAAA3r
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 18 Nov 2026 10:39:37 +0100
+Message-Id: <DMY8JKQSCVRK.2ZLAAS9PECBV0@bootlin.com>
+Cc: "Borislav Petkov" <bp@alien8.de>, "Tony Luck" <tony.luck@intel.com>,
+ "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Geert
+ Uytterhoeven" <geert+renesas@glider.be>, "Magnus Damm"
+ <magnus.damm@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-edac@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, "Miquel Raynal"
+ <miquel.raynal@bootlin.com>, "Herve Codina" <herve.codina@bootlin.com>
+Subject: Re: [PATCH v7 3/3] ARM: dts: renesas: r9a06g032: add EDAC node
+From: "Paul Louvel" <paul.louvel@bootlin.com>
+To: "Wolfram Sang" <wsa+renesas@sang-engineering.com>, "Paul Louvel"
+ <paul.louvel@bootlin.com>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261019-paul-v7-3-rc1-edac-v7-0-84c76c6d7595@bootlin.com>
+ <20261019-paul-v7-3-rc1-edac-v7-3-84c76c6d7595@bootlin.com>
+ <avxR5VZESPLklIuG@ninjato> <DMXJ5VMIPGL9.1917ON486UJRD@bootlin.com>
+ <avzCbuXANntvBPDz@shikoro>
+In-Reply-To: <avzCbuXANntvBPDz@shikoro>
+X-Last-TLS-Session-Version: TLSv1.3
 
-register_err_handler() registers either an NMI handler or an MCE notifier
-depending on res_cfg->machine_check. If enabling error reporting fails,
-igen6_probe() always unregisters the NMI handler, leaving the MCE notifier
-registered while the driver resources are released.
+Hello,
 
-Use unregister_err_handler() in the probe error path to match the
-registration method, as already done in igen6_remove().
+On Tue Nov 17, 2026 at 10:09 PM CET, Wolfram Sang wrote:
+> Hi Paul,
+>
+>> > On second thought, any reason we don't want this enabled by default?
+>>=20
+>> Please see my answer to Geert [1].
+>> After reconsideration, maybe it is advisable to enable it by default. En=
+abling
+>> ECC is done by the bootloader, and it might be better if no further acti=
+ons are
+>> required to enable it kernel side.
+>> If ECC is disabled, no errors will be generated, and the capabilties wil=
+l just be
+>> set to EDAC_CAP_NONE.
+>
+> I agree that enabling ECC belongs to the bootloader. With the current DT
+> bindings, the Linux driver continues to work on whatever it has been set
+> up before (which may be nothing), or? From that point of view, I think
+> it makes sense to enable it by default. But again, my knowledge is
+> limited here...
 
-Fixes: 0b7338b27e82 ("EDAC/igen6: Add Intel Tiger Lake SoC support")
-Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
----
- drivers/edac/igen6_edac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The EDAC_CAP_NONE reported in the struct mem_ctl_info structure if ECC is
+disabled is just used once in the EDAC subsystem [1] and is purely
+informational. If ECC is disabled, no interrupts will be generated in case =
+of an
+error and cdns_mc_err_handler().
 
-diff --git a/drivers/edac/igen6_edac.c b/drivers/edac/igen6_edac.c
-index 776c5db2f598..a2207337f251 100644
---- a/drivers/edac/igen6_edac.c
-+++ b/drivers/edac/igen6_edac.c
-@@ -1948,7 +1948,7 @@ static int igen6_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	igen6_debug_setup();
- 	return 0;
- fail4:
--	unregister_nmi_handler(NMI_SERR, IGEN6_NMI_NAME);
-+	unregister_err_handler();
- fail3:
- 	gen_pool_destroy(ecclog_pool);
- fail2:
--- 
-2.25.1
+So there is no risk of any side effects if the driver is enabled and ECC is
+disabled by the bootloader.
+
+I will set it to enabled by default on the next iteration.
+
+[1]: https://elixir.bootlin.com/linux/v7.3.1/source/drivers/edac/edac_mc.c#=
+L125
+
+>
+> Thanks and happy hacking,
+>
+>    Wolfram
+
+Thanks.
+Best regards,
+--=20
+Paul Louvel, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
