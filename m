@@ -1,97 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795093814;
-	b=WUf9BJlaFGD3YZCyGAgewBEKuR0L2Xb7AX2QbgvxRw/oKtvva2dOI/0dks2TqD38JZmf
-	 qH+f64yRoppKa1Hb4WfYxFToHoFSSvmEH5VJc1TCVVI8ZU3aQqgC+7IJrND7Juy4yodhW
-	 68RkXpBjJI8T+R54tcHyVWrP0ySnz4mC2xqzNufsaL9Sde0x/WlCnAKGwCDBh0bFoPE/j
-	 Qo8IJ2JJLh0xBThfnkeTFQGwsKOGvV8R5qaPB80f9mIYYFM1T7moqTY2P6bqpM7XrKePw
-	 U4SVSwh2Tkv2lrVivi/4iTsNZe8FuAc99vBOiE49eD9Om2X/eDnENi7T7+Z7NEUJ6WQ==
+	t=1795112530;
+	b=G+hMR5yLBpj5CbyJ1KQejSP/4BcX0JKzyvc9I/eDj0m0Qbds7IfDA55PPd6hmRfCGSe8
+	 PC9NQ2IlDCcepEF1KiAy8Vh0fPvxw92LHncRdohCkVw2Vc7JobJHwXd3dgVn1b1aII4Wm
+	 GQT3OSyyMGaWKYQWzK7UysCCdCv31zRNrneMTDsLWlGo7JTsSjxs/ziCPYf8huZeTNsRc
+	 5NKMpIR4MpUu9v1UdLqfgu1AmRB4ELjyTVYB/TmV7nys2Xa+tId9Qra8lAKl0PQdrTDYA
+	 qOc894M2Wh4TIe8Y+KibqcnxhvTG+9Q89K+AZ1WRlv5G9fq6EoAEyqS+2/a3ZAkx+qw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795093814;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=0YkeRHLQXh9//5hIwvDEqz4eOkErWHqoPv1fUtpnY8M=;
-	b=xosqsPTJ2He68H7Co+MfwBTWsDLsg7ybWD4QYJhrfoV3pLctSv0JdtSEUtC+orW5M/QI
-	 Damg3ejkUgDtTMeF9EM54l3xhkV+4OQUjdrxBHJs/h5M05kisUsv2uTFppcJ+oBS+V40C
-	 ukSFjGGEDViNmTk2adVvSJM1M+cgZjJV+WBXrHKtBEcTQrCPFfUlGp2ywscsKt9R1XO8Y
-	 Disbfzsf/PebtCgQ3wJj73IeHtCR3HK5UsadyFWxnFqne7f2l9RD4nZ+TFuyMTgDkMpaz
-	 D4tzSH0pZMTfFtPry3/49/da/IUCAcRWSfKDKqbQxyvxTl136kSQlMtpN8YS+I1L6YQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795112530;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=J13jFLuM8DzYC1Fxl9QmvNRas3r8kiotBMrx6f4hXGI=;
+	b=4Hhy/zy/h3p0BAU35QIEoSqQH/jorl1g1vuBsGjMZHHkG8e78563V5OMUcga9yLypkC/
+	 1ZKuoRdizYLtjmOqSQ8Kbb5dK096GH5tg31kIh7fNCzw0B8G9ml9ll2wEie/U/PczeHVd
+	 6j2qLI3gDKf5AV7fVOJ3JDnHOrJXy1n1ABMHeJK210bRpoPMY7tQ/9OJ3Q5/gGsCk2NjV
+	 ng6N0CK5PJC3C7V4aRrZL4whXLQUDSZ4bnVi/oQd5pUxYBq+0A93ne7aJf1eiiI5UWBa/
+	 CG/N4nyAjnrHe+DgO+xsIh3JUsE71nxCsoGhstxj9lgyQyc7/x4ZULnEUyKj1SdNZmA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q20Csucv;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LHnHFFd0;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AFE5606A325;
+	Thu, 19 Nov 2026 18:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LHnHFFd0
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795112530;
+	b=xvDiClS9AuXveIUvh/KVmsZQJmYYddgZiuYloUitFzEfqCkA8O63i967l55ZdaVE9pH2
+	 2qWE1lQwqwxQ93I9wboU5hwZYQWf3JiNRaQ92JNW7HOmUdXLy52cSYZcAoEZBLsTLnh8D
+	 TXUwh/mFHaQX0quKX68f+BVe5POE/xG0Mo/fsAH/ZYmYNMgcRgD3Yt98av2l/K8wyrbip
+	 OEiTvu1jpVdVCMaZgmp4PGElOk15HqRQNKvmbEai1edVDrKZxK+P6wcW6prmGXvMA+l9y
+	 FYlbEC1mHLXVBIF+QOED0s7a1NYFIjFegZkjVEv39ni8cW8Js5c0QpAsBrhi5ejsXAw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795112530;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=J13jFLuM8DzYC1Fxl9QmvNRas3r8kiotBMrx6f4hXGI=;
+	b=CV4/NzlamWq6afyohHYCN+BBA0o32yu11USVdJgn4A2+UPGe8/o8L0m3ZJ9uggwh4I6q
+	 BmhDaD2uO/O358pgRoJSENKAdkym80563d8bh90Rifm0+GCJGdKunaHZW38wGwRDK/tiB
+	 WLdhrSEl5E4WMaTMsjkyk6VX+oT+TzBX8uPtZUJpl2QkL2u6u5dsBiL0HfOPD9vHquQ93
+	 tlhupW3nTb4TwHLdfpmlJdX3L3dPoCW48GB6+j0iUE5GZwrPcceR/yvdGXb/nDv5QXDtf
+	 Eq3iSAKNVOFtrfArbf0lPepvFPb1xl0Ouz3Siu3kOjK1vBy4iZBr12FjbU8uCxhZY1Q==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E559606A320
-	for <linux-edac@vger.kernel.org>; Thu, 19 Nov 2026 13:10:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E559606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q20Csucv
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb68c197c7so31727505e9.1
-        for <linux-edac@vger.kernel.org>; Thu, 19 Nov 2026 05:10:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795093813; cv=none;
-        d=google.com; s=arc-20260327;
-        b=UTZhpxjacaXVxQ5A/10BfZkpZOmlwnJT6qHmjG1pDNxjFzvo2TnOrJotyWsOO14IJP
-         lIVz1BBGebF8PCOGWLO8NthhNS+TsXDR558m4dOZHil3jL0RWe1xTKcoBvDIKmNNim8H
-         icoxk86NDfq3Hluac2tViTOv4wDiiFIPDw2mIe/OeSI5tv9adB5mMeJqvIdUmb/ZymKp
-         642GjqoCS44v41b9EV8RT7D8t00b5h1y62sYyjXH0PFcyqSN0kxDVswTK4MT7K7pMoz2
-         AHQmiC5gaCClEZrFMzEKPTroaJYBaLXqQ9E76bFoUliAb4ZuoKVPTUQiVMy7dKPnTDvC
-         AKdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=0YkeRHLQXh9//5hIwvDEqz4eOkErWHqoPv1fUtpnY8M=;
-        fh=86bDCkoZX8ivRX6poluwfqEw98OioCX//FNu0srrVeo=;
-        b=YczvkydOyzt52RHPBR6H/4CuqXu5tFjEyFzEmiLRUFaTDSy1nKKLml6WKoW7E2CVzt
-         3k0H6CU77oP/SfA5UXlj/WJw6oL8EhFh96Bx1Mbp/lj1CMVAKfKUwR6JEaEfat0mx0d8
-         9819ljB+qln2b+ch2EZB1EZ9AQiYyjS8nMChFvcMPqkbFF2B9S/eeK2Ls52R4nzRjc/D
-         failVoDNAmO7rGoUEeYQbc8aiT6+g2rns7UUlMueKWld73KzKYm8xRGZDnw8LAFGJknE
-         y9XuyWllHsAZOQlOjduFUEziHk7/t0x5bWe/S62XiiHXEWVlZEIse6onYbspCry4hLYm
-         SA7A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795093813; x=1795698613; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0YkeRHLQXh9//5hIwvDEqz4eOkErWHqoPv1fUtpnY8M=;
-        b=Q20Csucvuvx9Tb5WhFCQowHVJjc/rFkxPEA05yprnxRWUUR1KPaNZs5YMs29YW0DOF
-         LsIatCWWT2JBkk8Ng4G3iz9/c/8vIvCNMQIAlfcZ83C6zWwvbrx1G7IIwKiNtGnjoDgk
-         I8fGGqc/S/6iVNr1Sn0dXofgTIvjg8VrcUZWqBFWXRhComYSyEBCXDDh/G682UgcjLkN
-         7IB+IdVN0WaP6qMuaiH3jdDLtqXpZDYy+4I4HlE5Rpi6F6SUVvGaE8LcZDZs2y+VrRi2
-         ggGeEwbXadFlHX65rn3ugICox9rTs3Tl2iv18BG/wCViYV7Hq7D0uJs/yuZlm5w/7nfe
-         7YnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795093813; x=1795698613;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=0YkeRHLQXh9//5hIwvDEqz4eOkErWHqoPv1fUtpnY8M=;
-        b=BZGS1SRUTgfQYU2+URxxvoLN2k88RwUhVJns5zMc6spJZxV5CJu5ProVjw4q4iR2eq
-         Vk6/wcwWsMO3lJuX0HO9WWAFFB5PRIWZ30dbnxPOyO9Da0fxC4ohwK2lSuOfwd4tEiex
-         299n8g45dK/1Bw3IBx52nBYiWqLKdcM2yEGuKHyLDlOxKrSmkYKvES3f4hZq3oPd+5zs
-         ropt84LdeWYv7FCzJedxIz/bpZcZsCFK3uyatgfYuFcbrajJ/3el05noOeiYKAeQhlB/
-         cTob7Rx0I2NPm1Ei2NLcDBDQpvnkzmb3msgdekjRnSLbszJ8q/SWPQv+rr+4qTP08vLa
-         tbVg==
-X-Forwarded-Encrypted: i=1; AL+hErGA7tt7xIW8RJkTa9VyTBjg15d5QQYJa7CMIPY1XZpXXKTm035gWUyRFCIsKpW/QHezfvgU/BuiJmmb@vger.kernel.org
-X-Gm-Message-State: APuU4Z+m1XGE96RlUJEUhdGILCWjkLqebdSU7ZvPd0J1jOdjd7cUktmo
-	sKbkaoF2WnReQEYzYUg//iTdivDhFJWX4oRTZv6AuvBeoG3QDLFsrCojiawnoa8akk4WtrNYKhG
-	+nPFmn7FiZu/bnJo63IVmv3vDn80c5Gs=
-X-Gm-Gg: AYBFou0nlrbq8509nn6SLT8f63KONjOQCAFLG06ugNujdnlieHgFvQt7RuWGSHD+DvI
-	M2PDMTyfdY1CKisHK1TG9MEYpinxDh1jPvR4L8KXxUi9uil94xdh80UUW6guwHgoupCryuzpvKm
-	KmsFioL/dij7crxP5858QtQE0HB073URlonxCDQGbLH0dpstQvUBDr5rcR/WrrmLC0TcdOMWCgS
-	UPyWtZ5DP34KcC6b5oBwl/xjmi7HaKrQio5QediD3Y4hW4hJwJaK2oVccNmnImKSNkr97csSdJN
-	5mCNrtNOInSyvI2Byf8zXBfdmzoFYAyY9iLdvQAgbUnX724AjmarZHe8pQgrK9JF7+ZHipOspSY
-	AAgpNBFxbwysTcJgq8EdRK+j43AXNhZ4TAmRlFdfn8VpJfcALGFAZZIQ=
-X-Received: by 2002:a05:600c:468b:b0:49f:e8bf:8f9b with SMTP id
- 5b1f17b1804b1-4bb7d6cc2f4mr115781875e9.4.1795093812667; Thu, 19 Nov 2026
- 05:10:12 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id 9B4311F000C6;
+	Thu, 19 Nov 2026 18:22:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795112530;
+	bh=J13jFLuM8DzYC1Fxl9QmvNRas3r8kiotBMrx6f4hXGI=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=LHnHFFd0E6P/rAW9bnyBuGF0uPQTA2zoNuoXNakDkmSsH0rnVoET5/Wnzv+jFguhu
+	 byXpbM01nlP25HEbSpcUtbHEmLuBjEWzIdp8p8Jr/qpM25+CQzgZLoFBSO9dm6p2Uh
+	 M7BQoc0if9syxLBeskJYs+xQ+sKX+ppbeJhOO/Mvp/jcIbadDiWEWjy/Lz8Z1y/IDQ
+	 IPgvfxwiUl+H6prvthplJPJZ0qSFfqgJZW9D1p16K75TV9siHb/EaT6QZb2ZEltPFQ
+	 Wex7bkp4S1CVHzrZXPxvl7BWVs0GZSw8oYt/4VtOg3PpRO3tt/BFAu/6fiMK7ixaxT
+	 RyBsTSMgsOTjg==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 293434B3A2;
+	Thu, 19 Nov 2026 18:22:09 +0000 (UTC)
+From: Ahmed Abdelfattah via B4 Relay <devnull+me.ahmedabdelfattah.dev@kernel.org>
+Date: Thu, 19 Nov 2026 20:22:07 +0200
+Subject: [PATCH] EDAC/mc: Convert the poll period to jiffies when it is
+ changed
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -101,62 +83,80 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: Wong Steve <shyckless@gmail.com>
-Date: Thu, 19 Nov 2026 21:09:59 +0800
-X-Gm-Features: Aa3M54rk_NLBNvdvWCWtABMbz3rNSD-UDzIhVnzuGyd1gYLXaiXITirQ4suK81k
-Message-ID: <CA+X8SdjUoe-uhdG=+RbqLa7oaTwoq=2B5i5uqx8KtEf8hOdDUg@mail.gmail.com>
-Subject: Re: [PATCH] EDAC/device: Fix double free on sysfs registration failure
-To: bp@alien8.de
-Cc: lgs201920130244@gmail.com, tony.luck@intel.com, wu000273@umn.edu, 
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261119-edac-mc-poll-msec-jiffies-v1-1-fe329938fa09@ahmedabdelfattah.dev>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQqDQAxA4atI1g00s1DsVUoXGhON+MdEpSDev
+ aNdfov3DnCJJg6v7IAou7nNUwI9MuCumlpBa5IhPENORCVKUzGOjMs8DDi6MPammhaodaFlyJU
+ oMKR+iaL2vd/vz9++1b3weg3hPH9wNnipfQAAAA==
+X-Change-ID: 20261119-edac-mc-poll-msec-jiffies-fb7f926f112c
+To: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ahmed Abdelfattah <me@ahmedabdelfattah.dev>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795112528; l=2158;
+ i=me@ahmedabdelfattah.dev; s=20261106; h=from:subject:message-id;
+ bh=aXLz/0TM/M/jsqG2Y3hoOozntxY6jGOuwYADUxDIanU=;
+ b=JibszSrF34HNAx3ksLTf9r3T3IHPqQO7pvSdwgNI9iqEH1zGTiN8cA4M+F1rj7FnIKBbPO9zt
+ gQE25XHAnmbDToEi5vA9fbJjx+dhONnlkELxKhhDOaD55hEnmhvx+RZ
+X-Developer-Key: i=me@ahmedabdelfattah.dev; a=ed25519;
+ pk=DHEHKU4PddrkJ/iYMZpwyyXsFyIQ6ySjTttKLrt9YqI=
+X-Endpoint-Received: by B4 Relay for me@ahmedabdelfattah.dev/20261106 with
+ auth_id=1438
+X-Original-From: Ahmed Abdelfattah <me@ahmedabdelfattah.dev>
+Reply-To: me@ahmedabdelfattah.dev
+Content-Transfer-Encoding: 7bit
 
-Hi Borislav,
+From: Ahmed Abdelfattah <me@ahmedabdelfattah.dev>
 
-On Wed, Aug 12, 2026 at 11:16:45PM -0700, Borislav Petkov wrote:
-> This is where you lost me.
+Writing edac_mc_poll_msec at run time re-arms every polled memory
+controller through edac_mc_reset_delay_period(), which passes the new
+value to edac_mod_work() as it is. mod_delayed_work() takes jiffies, so
+the first poll after the write comes "value" jiffies later rather than
+"value" milliseconds: at HZ=300, writing 2000 puts the next poll 6.7 s
+out. edac_mc_workq_function() re-arms with msecs_to_jiffies(), so only
+that first poll is off.
 
-I ran into the same problem independently, so I tried to reproduce it.
-It's easy to hit: calling edac_device_alloc_ctl_info() twice with the
-same dev_name makes kobject_init_and_add() fail with -EEXIST in the
-second call. I did that from a late_initcall on next-20261109 with
-KASAN:
+Before commit c4cf3b454eca ("EDAC: Rework workqueue handling") this
+path converted the value through edac_mc_workq_setup(), and
+edac_device_reset_delay_period() still does. Convert it here as well.
 
-        a = edac_device_alloc_ctl_info(0, "duptest", 1, "blk", 1, 0, 0);
-        b = edac_device_alloc_ctl_info(0, "duptest", 1, "blk", 1, 0, 1);
+Fixes: c4cf3b454eca ("EDAC: Rework workqueue handling")
+Signed-off-by: Ahmed Abdelfattah <me@ahmedabdelfattah.dev>
+---
+I noticed this while timing ie31200_edac's polls in a KVM guest: the
+first poll after a write to edac_mc_poll_msec came late.
 
-Without the patch, the second call gives:
+Tested on v7.4-rc3+ (4405c18c95d2) at HZ=300, with ie31200_edac bound
+to a QEMU model of the Kaby Lake host bridge (a local device model, not
+upstream QEMU), timing edac_mc_workq_function() with a kprobe. Without
+the patch the first poll came 6.76 s after writing 2000 and 3.51 s after
+writing 1000, with the polls after it every 2.13 s and 1.01 s. With the
+patch the first poll comes 2.14 s and 1.02 s after the write, the same
+as the ones after it. Writes below 1000 are still rejected.
+---
+ drivers/edac/edac_mc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  BUG: KASAN: slab-use-after-free in
-edac_device_register_sysfs_main_kobj+0x14b/0x150
-  Read of size 8 at addr ffff8880044eec10 by task swapper/0/1
-  ...
-  Freed by task 1:
-   kfree+0x176/0x530
-   kobject_put+0x101/0x1e0
-   edac_device_register_sysfs_main_kobj+0xd2/0x150
-   edac_device_alloc_ctl_info+0x3c2/0x570
+diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
+index fd70caa85574..787bef803ef0 100644
+--- a/drivers/edac/edac_mc.c
++++ b/drivers/edac/edac_mc.c
+@@ -499,7 +499,7 @@ void edac_mc_reset_delay_period(unsigned long value)
+ 		mci = list_entry(item, struct mem_ctl_info, link);
+ 
+ 		if (mci->op_state == OP_RUNNING_POLL)
+-			edac_mod_work(&mci->work, value);
++			edac_mod_work(&mci->work, msecs_to_jiffies(value));
+ 	}
+ 	mutex_unlock(&mem_ctls_mutex);
+ }
 
-and with kasan_multi_shot it goes on with three more use-after-free
-reads and three double-frees in edac_device_alloc_ctl_info(), from
-__edac_device_free_ctl_info() running on the dev_ctl that the kobject
-release already freed.
+---
+base-commit: 4405c18c95d2d0f99f6c581ef0ee8591a1aa6ccd
+change-id: 20261119-edac-mc-poll-msec-jiffies-fb7f926f112c
 
-The if (ci) check doesn't catch it because ci isn't NULL there: the
-release callback kfree()s the object, but the caller still holds the
-old pointer and frees through it again. I think it went unnoticed
-because the path needs kobject_init_and_add() to fail, which doesn't
-happen unless there is a duplicate name or an allocation failure.
+Best regards,
+--  
+Ahmed Abdelfattah <me@ahmedabdelfattah.dev>
 
-With Guangshuo's patch applied (it still applies to next-20261109), the
-same test only prints the expected -EEXIST message from kobject, the
-second call returns NULL, and KASAN reports nothing.
 
-The patch also turns the if (dev_root) block into an early return, which
-I think is the cleanup you mentioned.
-
-Tested-by: Suyuan Wang <stevewong@hust.edu.cn>
-Reviewed-by: Suyuan Wang <stevewong@hust.edu.cn>
-
-Thanks,
-Suyuan
