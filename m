@@ -1,75 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795033857;
-	b=pDILGtjpRrBnt1xTu/p8CZR7R6vxAaQwXisIM9n/kFOgPa5LLJkEZAi7CaPTNXtE5fX8
-	 jXZuKoy/QJ6qmO/wffd2LuajnvwtzKN7PMFEhSjtjmukpr3nxqgX6H6mdj69BfXBMoFOY
-	 7tFkdRvBxQn+19Bik7Z26NfOnVLBNQAfmkjEg4TS30bxfX5a7yQZRtCrgqEf+OaRW7tIs
-	 idm53niNUnv9WmO6O2WS0vJ974p+ztt7LomzGAimwBzVhcNeCwIkvvKQkER3GoNnOcupy
-	 c2q6De0REwkdx9Qp+AaICEdonaTafTkkJVG3oRI+bbMeVPK41mWvBs8c8EXYclHXU3A==
+	t=1795081447;
+	b=NcVr8lhyb215LjOEqiVdAZs3+I6xdO85K/gMQR4VHZZze5yOULi1QKgFeBASKJEuzFzK
+	 0XZBauB2zRiAcaPp+2y8W6ObU7ITSwt1BA0eMkapeDDIr7bXT23JozcKPJr4KNxWYfqsE
+	 PodbqfRo1VvZbc5zAjJ5LycHQBmJkQ+/C75B+avCUAgWm7nSWhp4d7irUB3lyisiNWI3g
+	 5qec3O/9VyUmqi2ttf5KznB9Nc4S13rVFA8ubsQ5z7W0addAZw4AFxFevJQaT4TMqA54W
+	 iSBXZ6NP1sfukc3W/H9Nkf/QcjJeYk3OYyXg8ox9Wg/WBqfl9aODz2Rbae88/elMfUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795033857;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=ez9LmG4b9eVGLBH7boAwPlHp2syyq5lIvoydQkmpo3Q=;
-	b=a3JFBmdV/OIabXqvhawuyG7QLj5OM9+Uw+mgjrCdTbJzg1dx9QwYeJLVvJaWmT4dPmmN
-	 OEe4b9la7MrX1LaSR7VYTjm11pkzYHE4ZJ366Fb0KrzbhQE7q/QDRF0DvgEYZah9ND8+S
-	 dVvZwScqGzw2nr7UgmqN9CGfJtv9p+u0shgAqfbyOCDosXwgA49N77iKdjitcteEvA0Ya
-	 9zRIo9KqKo2RPTt28QbMLFRolVckj/Sqd9xtdXDsHCnEu/njuh8cNiCT3CBkl+uJxICwL
-	 /uMwkos5OYWWLax8ixDGagsg6QCy6pHrLZtL3p2Rc855JhJFrbruXOiTX4hxwmrZK0w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795081447;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
+	bh=qGVPOGpJKDtjABaYP8ZTaqIcJpzyvSJfHCEp5P9ItkE=;
+	b=czGC5KuMz/YsvhiKSCm0esfvjjuuN36VPz5HDkk26wo+CJUxm1aWj4b2/FBjHkNzHdeK
+	 qf8ruWknw4+RUoWUv+lWkCqMmkJrUqPLIcs/9qcM3LtUPma0V6NOKdtHh+94nmI7E+TKp
+	 m7Ya4F7y3Xe96s/x+IjX4szCofu4FZN65a5i5g4fUp6OTpW/ueJyr4kuiVHp5PvRaNEe0
+	 zLVfZxP3J3xrmRAZhPVuvnTppwfHPXUHr3WZAJnQt9wFsnrWW72LTInhdPBUIr/RwEeMp
+	 aLCsAu02rMdOQ4G/tznryEt0EjbdNkVsRxsI1mr44acTvQ4mB6tCBmjJ038kqqn6RbA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LPdTtan9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=FGhw7+vJ;
+	arc=none smtp.remote-ip=117.135.210.5
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDFC606A32F;
-	Wed, 18 Nov 2026 20:30:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07B1606A320
+	for <linux-edac@vger.kernel.org>; Thu, 19 Nov 2026 09:44:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C07B1606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LPdTtan9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CB001F000C4;
-	Wed, 18 Nov 2026 20:30:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795033857;
-	bh=ez9LmG4b9eVGLBH7boAwPlHp2syyq5lIvoydQkmpo3Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=LPdTtan9fx3kfAbOLc7ZkgV9JLOAFSx25AbJpupJUJwXsr0YUUfM63BqJIkfoCTvK
-	 EZXyoEjpFadBf5E7WDBJLj8OuV05ZFMcYf1ouNjYtLfxq4DExQy4cDW2kHrhzugiyt
-	 Xcr25N4CUKR7ElPbCrRo2LXRcQ6ihfxFETxzI00D/mUZtMJrT4NUy6JNxEg+t/KqiC
-	 ykemTAO3W2LpiIccqG9scJqxFhH2Rh8+/ivi8V7g2o+lMqqh46eN2J8+0xKxY2PJsG
-	 FuflwC/ZPPe33kFESZZpanS108HCA2zObmb3FoKfak30huNGOCcZ5N7PJz9llvXlja
-	 YLzJPcadmUbCA==
-Date: Wed, 18 Nov 2026 20:30:46 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Pierre Gondois <pierre.gondois@arm.com>
-Cc: linux-kernel@vger.kernel.org, Ashok Raj <ashok.raj@oss.qualcomm.com>,
- James Morse <james.morse@arm.com>, Mark Brown <broonie@kernel.org>, Thomas
- Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Len Brown <lenb@kernel.org>, Tony Luck <tony.luck@intel.com>, Hanjun Guo
- <guohanjun@huawei.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Shuai
- Xue <xueshuai@linux.alibaba.com>, Mahesh J Salgaonkar
- <mahesh@linux.ibm.com>, "Oliver O'Halloran" <oohall@gmail.com>, Bjorn
- Helgaas <bhelgaas@google.com>, Maciej Wieczor-Retman
- <maciej.wieczor-retman@intel.com>, Pawel Chmielewski
- <pawel.chmielewski@intel.com>, Yazen Ghannam <yazen.ghannam@amd.com>, Radu
- Rendec <radu@rendec.net>, Avadhut Naik <avadhut.naik@amd.com>, Kai-Heng
- Feng <kaihengf@nvidia.com>, Dave Jiang <dave.jiang@intel.com>, "Fabio M. De
- Francesco" <fabio.m.de.francesco@linux.intel.com>, Breno Leitao
- <leitao@debian.org>, Dan Williams <djbw@kernel.org>, Terry Bowman
- <terry.bowman@amd.com>, Kuppuswamy Sathyanarayanan
- <sathyanarayanan.kuppuswamy@linux.intel.com>, linux-acpi@vger.kernel.org,
- linux-edac@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-pci@vger.kernel.org, acpica-devel@lists.linux.dev
-Subject: Re: [PATCH v1 18/19] ACPI: APEI: Route GHES section reporting
- through extlog
-Message-ID: <20261118203046.7987bebf@jic23-hlaptop>
-In-Reply-To: <20261117111444.4185512-19-pierre.gondois@arm.com>
-References: <20261117111444.4185512-1-pierre.gondois@arm.com>
-	<20261117111444.4185512-19-pierre.gondois@arm.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=FGhw7+vJ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=qG
+	VPOGpJKDtjABaYP8ZTaqIcJpzyvSJfHCEp5P9ItkE=; b=FGhw7+vJ3Z5QVg2J0E
+	DwJBMt+Qy9vxYmmvMOuNs2fXqM9e0cTOWlJmF3hTId7ItsJ0i4t0RG81HsV/5G0T
+	w7/GGzIhziaY8pbCTpK1GXBPN2HV3+JiXOHKecyLvgWTNR1XT4bgU6H4jsplICep
+	ZDauWL0LZ3JAVjoPrlFvv1WfU=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wDnj0nHxP5qc1gDJQ--.35146S2;
+	Thu, 19 Nov 2026 17:43:36 +0800 (CST)
+From: Haoxiang Li <haoxiang_li2024@163.com>
+To: tony.luck@intel.com,
+	qzhuo@nvidia.com,
+	bp@alien8.de
+Cc: linux-edac@vger.kernel.org,
+	Haoxiang Li <haoxiang_li2024@163.com>
+Subject: [PATCH v2] EDAC/igen6: Fix error handler teardown on probe failure
+Date: Thu, 19 Nov 2026 17:43:34 +0800
+Message-Id: <20261119094334.3011176-1-haoxiang_li2024@163.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -79,164 +61,53 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnj0nHxP5qc1gDJQ--.35146S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Cr4xWF1Uuw4UGFy5ZrW8Zwb_yoW8WF4Dpa
+	98Kw15CrsYqa15tF1jka1xZas2k3W8GrW2yr4vq39Fvws8XFyrt347tFW2qF1UArZ7ua1a
+	vw45XFWrurZ8ZF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pizpB3UUUUU=
+X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbC7gi9LGr+xMjEKAAA3D
 
-On Tue, 17 Nov 2026 12:10:28 +0100
-Pierre Gondois <pierre.gondois@arm.com> wrote:
+register_err_handler() registers either an NMI handler or an MCE notifier
+depending on res_cfg->machine_check. If enabling error reporting fails,
+igen6_probe() always unregisters the NMI handler, leaving the MCE notifier
+registered while the driver resources are released.
 
-> Use acpi_extlog_report() for GHES section reporting and remove the
-> duplicate dispatch code.
-> 
-> GHES memory sections now emit extlog trace events independently of EDAC
-> registration, using the CPER section severity and one sequence number
-> per status block. CXL events that cannot be queued fall back to the
-> nonstandard trace event.
-> 
-> Report all sections before running the remaining GHES handlers. Keep
-> memory recovery, SIGBUS handling and notifier calls in GHES.
-This mix and match of where things are handled leaves me wondering
-a bit if the unification is a good idea.
+The handler may also have queued ecclog_irq_work or ecclog_work before
+error reporting setup fails. Unregistering the handler does not drain
+these tasks, which can still access driver resources and allocated
+error-log nodes.
 
-Sure there is a bit of duplication reduction, but we still end
-up with slightly diverging flows.  The ordering of reporting could
-also change due to a mixture of sections being handled by each
-loop. Not necessarily a problem, but that needs some thought.
+Use unregister_err_handler() to match the registration method, then
+synchronize ecclog_irq_work and flush ecclog_work before destroying the
+memory pool, as already done in igen6_remove().
 
-I'll wait to see if others are more in favour. 
+Fixes: 0b7338b27e82 ("EDAC/igen6: Add Intel Tiger Lake SoC support")
+Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
+---
+Changes in v2:
+ - Drain pending IRQ work and work before destroying the pool.
+ - Update the commit message accordingly. Thanks, Qiuxu!
+---
+ drivers/edac/igen6_edac.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Jonathan
-
-> 
-> Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
-> ---
->  drivers/acpi/apei/apei-internal.h |  1 -
->  drivers/acpi/apei/extlog.c        |  2 +-
->  drivers/acpi/apei/ghes.c          | 57 +++++++------------------------
->  3 files changed, 13 insertions(+), 47 deletions(-)
-> 
-> diff --git a/drivers/acpi/apei/apei-internal.h b/drivers/acpi/apei/apei-internal.h
-> index 22a33a21017a3..5063c743b4cf0 100644
-> --- a/drivers/acpi/apei/apei-internal.h
-> +++ b/drivers/acpi/apei/apei-internal.h
-> @@ -14,7 +14,6 @@ int ghes_severity(int severity);
->  int cxl_cper_post_event(enum cxl_event_type event_type,
->  			struct cxl_cper_event_rec *rec, u32 len);
->  u32 acpi_extlog_mem_err_min_len(u64 validation_bits);
-> -void extlog_print_pcie(struct acpi_hest_generic_data *gdata);
->  void acpi_extlog_report(const struct acpi_hest_generic_status *estatus);
->  
->  struct apei_exec_context;
-> diff --git a/drivers/acpi/apei/extlog.c b/drivers/acpi/apei/extlog.c
-> index 42ba8ba13804f..d1677d299e389 100644
-> --- a/drivers/acpi/apei/extlog.c
-> +++ b/drivers/acpi/apei/extlog.c
-> @@ -31,7 +31,7 @@
->   * CPER_SEV_FATAL or CPER_SEC_RESET -> AER_FATAL
->   *     These both need to be reported and recovered from by the AER driver.
->   */
-> -void extlog_print_pcie(struct acpi_hest_generic_data *gdata)
-> +static void extlog_print_pcie(struct acpi_hest_generic_data *gdata)
->  {
->  #ifdef CONFIG_ACPI_APEI_PCIEAER
->  	struct cper_sec_pcie *pcie_err = acpi_hest_get_payload(gdata);
-> diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-> index 7d2864fa14503..221f0a81c94f6 100644
-> --- a/drivers/acpi/apei/ghes.c
-> +++ b/drivers/acpi/apei/ghes.c
-> @@ -566,9 +566,7 @@ static bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
->  	char *p;
->  
->  	sec_sev = ghes_severity(gdata->error_severity);
-> -	if (length >= sizeof(*err)) {
-> -		log_arm_hw_error(err, sec_sev);
-> -	} else {
-> +	if (length < sizeof(*err)) {
->  		pr_warn(FW_BUG "arm error length: %d\n", length);
->  		pr_warn(FW_BUG "length is too small\n");
->  		pr_warn(FW_BUG "firmware-generated error record is incorrect\n");
-> @@ -884,34 +882,23 @@ static void ghes_log_hwerr(int sev, guid_t *sec_type)
->  static void ghes_do_proc(struct ghes *ghes,
->  			 const struct acpi_hest_generic_status *estatus)
->  {
-> -	int sev, sec_sev;
-> +	int sev;
->  	struct acpi_hest_generic_data *gdata;
->  	guid_t *sec_type;
-> -	const guid_t *fru_id;
-> -	const char *fru_text;
->  	bool queued = false;
->  	bool sync = is_hest_sync_notify(ghes);
->  
-> +	acpi_extlog_report(estatus);
-> +
->  	sev = ghes_severity(estatus->error_severity);
->  	apei_estatus_for_each_section(estatus, gdata) {
->  		sec_type = (guid_t *)gdata->section_type;
-> -		sec_sev = ghes_severity(gdata->error_severity);
-> -		if (gdata->validation_bits & CPER_SEC_VALID_FRU_ID)
-> -			fru_id = (guid_t *)gdata->fru_id;
-> -		else
-> -			fru_id = &guid_null;
-> -
-> -		if (gdata->validation_bits & CPER_SEC_VALID_FRU_TEXT)
-> -			fru_text = gdata->fru_text;
-> -		else
-> -			fru_text = "";
-> -
->  		ghes_log_hwerr(sev, sec_type);
->  		if (guid_equal(sec_type, &CPER_SEC_PLATFORM_MEM)) {
->  			struct cper_sec_mem_err *mem_err = acpi_hest_get_payload(gdata);
->  
->  			/*
-> -			 * Check once for all three consumers below. The 73-byte
-> +			 * Check once for all consumers below. The 73-byte
->  			 * UEFI 2.1/2.2 layout is the floor, matching
->  			 * cper_estatus_print_section() and making
->  			 * validation_bits safe to read.
-> @@ -944,37 +931,17 @@ static void ghes_do_proc(struct ghes *ghes,
->  			atomic_notifier_call_chain(&ghes_report_mem2_chain, sev, mem_err);
->  			arch_apei_report_mem_error2(sev, mem_err);
->  			queued |= ghes_handle_memory_failure2(gdata, sev, sync);
-> -		} else if (guid_equal(sec_type, &CPER_SEC_PCIE)) {
-> -			extlog_print_pcie(gdata);
->  		} else if (guid_equal(sec_type, &CPER_SEC_PROC_ARM)) {
->  			queued |= ghes_handle_arm_hw_error(gdata, sev, sync);
-> -		} else if (guid_equal(sec_type, &CPER_SEC_CXL_PROT_ERR)) {
-> -			struct cxl_cper_sec_prot_err *prot_err = acpi_hest_get_payload(gdata);
-> -
-> -			cxl_cper_post_prot_err(prot_err, gdata->error_severity,
-> -					       gdata->error_data_length);
-> -		} else if (guid_equal(sec_type, &CPER_SEC_CXL_GEN_MEDIA_GUID)) {
-> -			struct cxl_cper_event_rec *rec = acpi_hest_get_payload(gdata);
-> -
-> -			cxl_cper_post_event(CXL_CPER_EVENT_GEN_MEDIA, rec,
-> -					    gdata->error_data_length);
-> -		} else if (guid_equal(sec_type, &CPER_SEC_CXL_DRAM_GUID)) {
-> -			struct cxl_cper_event_rec *rec = acpi_hest_get_payload(gdata);
-> -
-> -			cxl_cper_post_event(CXL_CPER_EVENT_DRAM, rec,
-> -					    gdata->error_data_length);
-> -		} else if (guid_equal(sec_type, &CPER_SEC_CXL_MEM_MODULE_GUID)) {
-> -			struct cxl_cper_event_rec *rec = acpi_hest_get_payload(gdata);
-> -
-> -			cxl_cper_post_event(CXL_CPER_EVENT_MEM_MODULE, rec,
-> -					    gdata->error_data_length);
-> +		} else if (guid_equal(sec_type, &CPER_SEC_PCIE) ||
-> +			   guid_equal(sec_type, &CPER_SEC_CXL_PROT_ERR) ||
-> +			   guid_equal(sec_type, &CPER_SEC_CXL_GEN_MEDIA_GUID) ||
-> +			   guid_equal(sec_type, &CPER_SEC_CXL_DRAM_GUID) ||
-> +			   guid_equal(sec_type, &CPER_SEC_CXL_MEM_MODULE_GUID)) {
-> +			/* Reporting and subsystem delivery are handled by extlog. */
-> +			continue;
->  		} else {
-> -			void *err = acpi_hest_get_payload(gdata);
-> -
->  			ghes_defer_non_standard_event(gdata, sev);
-> -			log_non_standard_event(sec_type, fru_id, fru_text,
-> -					       sec_sev, err,
-> -					       gdata->error_data_length);
->  		}
->  	}
->  
+diff --git a/drivers/edac/igen6_edac.c b/drivers/edac/igen6_edac.c
+index 776c5db2f598..80e477ea9db2 100644
+--- a/drivers/edac/igen6_edac.c
++++ b/drivers/edac/igen6_edac.c
+@@ -1948,7 +1948,9 @@ static int igen6_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	igen6_debug_setup();
+ 	return 0;
+ fail4:
+-	unregister_nmi_handler(NMI_SERR, IGEN6_NMI_NAME);
++	unregister_err_handler();
++	irq_work_sync(&ecclog_irq_work);
++	flush_work(&ecclog_work);
+ fail3:
+ 	gen_pool_destroy(ecclog_pool);
+ fail2:
+-- 
+2.25.1
 
