@@ -1,90 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795203233;
-	b=J6ZcAsw5RvU1/RrmVDfmoxDX4flXJZeM/EYXOOkc1opmHlTyEny/jgpQC6bfD1I/v1nh
-	 tG4nQBl2yag/VgdvAFoKpq+JBTfIh14bIESPRNUE0sdCTLkSf3YxCcQCpmGwxIayK8CHS
-	 MAWzgoU+HEYB55jJ+K8UIokgj/Lk60aEqneaf9Ubo5gfcfw8nY8TO4oPHh7yQIf3E0PYe
-	 Gr+F/WXg5rJJwesOOUNW1Dee3dDOddQmr/Uu0Ed4+SULfSDop15xlIQ9+jfrKcaTX8UWd
-	 jH43V5upm6EynhO8y8/qZ/TqWZB0h8Wb8hHe6nyRCpwC+DY2GZP+MvJPfl6tIOQEajw==
+	t=1795203234;
+	b=GHD4A+piBbiQwWAhcoPJuy4m6t3pRKkuo+OhprUMnKIo945W1nXtaJ5Uo8XZmsVXKrPL
+	 0TjFRH1vMHfHkuw+RXy7LNc2nD4+NJ4bbxyj2yxDdjB2zfKOU6dIl47jKI3w0ucOAJk+e
+	 JZ6timjL9c/D5DFz57xZVHUPJAO8l+sfbnDM8kdDnH1UOaOZJSgnzwkP/0Ffz9K5Vo1Kt
+	 XzZKZJ73PsNVuqCFmnK32PRVgMgPBehDEXr5kHg4yZZsidG/7peK7UdPDGOL/v/YJ7roJ
+	 K5sgQxvDukM5Fm4+k36CJ1BsnEkmDKQAPfD3GuyS2P4iwc9kk6iE+9DFjyMW5hgoVWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795203233;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795203234;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=XxvxWbpwQHlBg+G8WUa4sjmdMcyGvHRkoLrVvfuy+Jk=;
-	b=zzYoV8EBHzquTLV4KJzDKyO5WQuu/vXhRlo77wQaMKKn4jYgy0ikhZk1GM98SOlmkNas
-	 Lx2ymodvEsAh7H1NutLBn3M77hVpDx4rOJJObkspXwQVhK4edYAPXOtlxi6coeFETDX1u
-	 HPWb+E0iYYrX461VUumLpPvbwQaonQDAcvczFjZsbQ4Vo5tLMVK6rXFrJmY83+EXvTVKF
-	 mMfR/NxxU3dHLRAumgKOmq7CFPW3LaqDlOAWKYUm7bs0Tsw6Pzn4KYLje14JSC6wOKyst
-	 GuDkzArWp9VSSQrHv35iWcNAmEp9NGHGo8q39gIhWy/k+FipCTVyTPL0e4OVP18oOcg==
+	bh=vJ6tZtEnlK9qkgGnFkn4tgGXrQ/769dDFL4QlkxqQAg=;
+	b=j5/Ylm2RbLOjZzF1pDYccqvFKaCWolsDTq7eUqDsg0C/Y3sFjIm5r3s+whSbskhJrA/4
+	 KQ35WYtqdTEi4Une6fJuwemdv0zv4rZz+ESkcWIAkj5+dLdeIvNeLSkKWQkrQpn3eIdpn
+	 LhhOl1u7zRHvs2tqCzWkcVdGtxE9R3N2ZBWeiasSGJ5s5WPpgKlzAf5Gzhcf+mm0hdcJM
+	 pBc+YMIjzVX0BK61Jn2LmcOMRGhlMfamcH9YISQfem8QfP0CvtkMw12qAMg6Q0HmLZjN2
+	 VHm1jxx+3oHr2zQKW0UJzPGMTC4e9XV33hCsO8UlyNWHmMI889u6arl8Itnq4+2pFkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cyZRJTHC;
-	arc=none smtp.remote-ip=209.85.128.178
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZacBeegc;
+	arc=none smtp.remote-ip=74.125.224.44
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FD0606A6F1
-	for <linux-edac@vger.kernel.org>; Fri, 20 Nov 2026 19:33:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22FD0606A6F1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42ABD606A6EE
+	for <linux-edac@vger.kernel.org>; Fri, 20 Nov 2026 19:33:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42ABD606A6EE
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cyZRJTHC
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8b4e04eda5aso10371557b3.1
-        for <linux-edac@vger.kernel.org>; Fri, 20 Nov 2026 11:33:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZacBeegc
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-67be1e468a8so1277281d50.0
+        for <linux-edac@vger.kernel.org>; Fri, 20 Nov 2026 11:33:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795203226; x=1795808026; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795203229; x=1795808029; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XxvxWbpwQHlBg+G8WUa4sjmdMcyGvHRkoLrVvfuy+Jk=;
-        b=cyZRJTHCsCccQqe+KqYqCw49GsVOOZ30sUf3q2M/7zzAAKeEqyrsNpVuscSh5xAhuY
-         tTAH6BWQPrZFNIeLd0ZHXgU9u31UP/BEMZsS+Sp4XH/V+HcpLiaO0ExOBMDo7XD8G2Vy
-         MM3DvjxF2S5wo+dPW3oKi+j7CByJqC+bpEVhbE/MxesEGgmM9SCocUHq3sNqCZm2AziG
-         muPUqzUieycvjLqa3TDUJN8nOwoCzrZ2bwkfgMUGhHJjO9lgYF7FVIUqEQtrIEHGKI2Y
-         JRUzoTJCCgPUF3povHq3yFsEQWNfsTrtufdsdAiVus1JTd/SNe605CYuBnMbSRKR+tIZ
-         pSww==
+        bh=vJ6tZtEnlK9qkgGnFkn4tgGXrQ/769dDFL4QlkxqQAg=;
+        b=ZacBeegcAhcRPIBuOiayYZjO4NJu6Ea+XThnXc3Bi0hxDffypywzA5xzGzn4WyBSgn
+         h3ZysKJZEu0sbUaDVXoYYqe6sR1wYo4f1flKXieGVhxXu9tgWFuVb0NI9Ht/YuYMpp0m
+         gS3RD9z3y+9xH1eYWDmQ5cYgUs4+3JxfxV5n2pa0wETu1Ux8k0OR/S8de55ti48RWM4y
+         6zNZscfy1OPXw+nWNIqG1DWkn19oEk8zg9vEn2NOLESKm4AERKaKs18/wsA0IjR9QQVn
+         TD8gwNwaNxhVR0eGhJ9Gw3/esl/8R2M9q8vwSj0dx7vUA8A6FhHPwJm5lQr29p/JImoR
+         bEOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795203226; x=1795808026;
+        d=1e100.net; s=20260707; t=1795203229; x=1795808029;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=XxvxWbpwQHlBg+G8WUa4sjmdMcyGvHRkoLrVvfuy+Jk=;
-        b=n/6WlISklQW4fbHzqDocFjtCVDG+54w/jg+fUrO2a64IYZTsgig5PpLSt+80p1Y1Zs
-         p4ZnBoLg03X6h4Vju7FN7kV3RaAEd0qVR8KqxpCJdME+4RTeX4yhQmJtG6JYRlntrY9W
-         GM2SGXJV1PConDeV2/YwlHpMii8fv72Kow3HviZ83Hiz9AuwryGSyMTs89T+zwaFdEtR
-         Uz4F4HSjbfY1vsJqpJsrWydC+57gLvfk1rImJ30r7+HhIAF/xIvdaUuI7BD48KSkiCEn
-         roVJi2pRthNFEgMYwPRWpEx/LZyWwd7ixEhk5s9iuvgMiX1xCM8ZpDb1C8klnim5PMks
-         vvUA==
-X-Forwarded-Encrypted: i=1; AL+hErF+rlKF9rgTWhw6KxbXFuUGM/X3JAXad3qsMYZqRX+517XjwOtKwy7CJYHUjQZ8C31NkaFim/c66C8I@vger.kernel.org
-X-Gm-Message-State: APuU4Z/TbcWiNruKCXnMak8+ZtnMzgtKdetidfGOch8RHT4ke4n0icIH
-	suE1+qlVXddBsJ+32dP1k7ipgFx2kxgy8RhXrXOQtk/ngBklC03lhYQc
-X-Gm-Gg: AZFdTZfY5NRTH8HefZJPKhQ5x9VW9KrPQVBIrgvg86YbyPkTHE6S95t3rMwB0cg6vna
-	U3KfXT9FbzsLUrS2qCeKfUtpoQSvlPbwB9nVUGZdfrI0jSVndpbGXLzTt0JxeD1mmBtBCeZA1g/
-	OqgCck3rPNdPkt3lqJOzBm5M65fulPEdsBuzWrzo4SYcbCvUAj9HUO1s6062QMz/uvhajk8KO9h
-	eVo+aEqz7qavyotnx985GIYVXmzG2cWjiDRKcdgJMw12IvXBfl2Rjh5wRfnAsnPGH23+FakJ8BI
-	sht/mU0opYbL5xtYaPDg34ckPTUMYU0TxJr+v7pfK8DjygQL/qIrG1WQ4zcxjJ4YwlzPCnUCJqC
-	zGLBEypfBITPDzf35In9+ky/C1ytn0lqN4xHld6w17iwf5U44vcCQaw2u+cmqDGGOnrK2l+ibFS
-	TPIzJO14eGL/md7VaqBoIbI6sQkYDRJFca8Te96l01QGF3+1hRyZ1F7UOcdUhNFTJaZCPyBgjkH
-	9+eMSEqxc74pSogQOMBgIqZBe04u/VoUVqg9WZyN0aCNXhFzbQLp2f527ebr2elIXfR5HN1BFN2
-	rlDvAiUv4QSPl4nBS+lKS3aJpIOlh2XfyC1mm1K1JYuvJt/MS2qhUW6p6agQ8t69EqZO9TI1PgP
-	IZQhqJLE88FY4J77R25kkrhLbALk6oraxQdv9rxurug==
-X-Received: by 2002:a05:690c:e17:b0:8b4:dd2b:10da with SMTP id 00721157ae682-8b52049a10cmr22163777b3.20.1795203226054;
-        Fri, 20 Nov 2026 11:33:46 -0800 (PST)
+        bh=vJ6tZtEnlK9qkgGnFkn4tgGXrQ/769dDFL4QlkxqQAg=;
+        b=cftv+epLsobrg3mzPpMcl8ktHpE+NVEnMuYuYWEGQKyWcMw+dEixmVSJpAbt9jGORJ
+         GfZnT6IA3gFmqUHnZZ/L/0T6wvX2cE+d+wGSTPCktQinCZ4i67aNBjxRxrPmaffSevH4
+         pPze8Ej9GWMZIbA28drzN2FEHgYyj+ClUw6wAKLgAAba3FOyhOeNgaEhW5xly5E+h7l3
+         gGIv7+CiYdcDKBZQU455tfnp0EPswUpZfJXA2BKxOhdbyqtY7e/bA72Vq6U1C/M9/JxP
+         RtTc5nShX3BzbavwxKWQG0bdnqmUa9cwpbl4wfkUAoo550L78nffd8mt30hpO9ywfJ0z
+         ynRg==
+X-Forwarded-Encrypted: i=1; AL+hErHL5WU7sPNCHz0IhOo0eDBC2GkVDY5GG41L6mLNRupktcEdKEScGxG7fZtzjk5FbYpvHSL296KhNGn+@vger.kernel.org
+X-Gm-Message-State: APuU4Z9V5+v6hxvKvEHWOjSmH0qN0B8m9fc+nx2oe33EomQtZRCUSL4T
+	yDjb1VMENfJuo9o9+xmmDc+GdJj8IAA+UyLOKGANsyNP6sL5F2mpd4Iz
+X-Gm-Gg: AZFdTZcAHHOfliL84ni7N1CSNelcl1gTETtPXdMQEmrSd9XJexiipQfuHZiMHQ4NXst
+	nptontnh9jIviSahqBq1nmH0+OdOtfcfDnLF4M119f/4SsrAaFJLoL8P3/SjnYz1DA+Ed27xevS
+	fBxGcgA5P/vhFyYWoc6WdfJJV7ehtcA/02t+UNrc6y22WqetLfp2QryGcYjA+knbZWbZiOlQGuG
+	Ee30nLZeuWvDa5q84VCRg8D3nu3734DYLKbbk1LR7cf7BdsYDdpi9cZKTaW41dixlS6ByCz/qzO
+	htPqPRhEfKCs0l4Oa3V+LZ3Rk72wFo2Zm3fct32HDRFWsTRtNDDp3F+rsAsxQHu9NYHZc74WODT
+	8a2Q5xsOSufyTgIrjuqOooVROroXAQjaqsS/68J266U4dhCFGcbv92b99KZfxKC0O6WCO0WtOum
+	skII+Ul6mERs+JjIlw1vTnZOoRmFughw2E9cTc370nDulrUbvaCuvunZZFW4URC0ja3OjjkRrau
+	Kbdi0Cmvvncy9UjFFJ8etJnppDe+TdqO2Z2hWDSbFCPYT4b12gEgzDhp4lsC0oSnI0teoxfVIG9
+	y0bv5ZHJQtfy6Zjz2UjM7KEAmnjhuFTep6SXdwC5CtBGPK2pEg40IIT7ka7gxi4j1APIsqZwyWZ
+	JNFVAGWUuQ1aPBytvtnCOinxveDVUMAGVfIYCpZi7BSA=
+X-Received: by 2002:a05:690e:1187:b0:67d:ba3f:a9a6 with SMTP id 956f58d0204a3-67df43ce269mr1734293d50.21.1795203229219;
+        Fri, 20 Nov 2026 11:33:49 -0800 (PST)
 Received: from localhost ([2600:1702:7a90:6f9f:66f3:d5d6:2d12:d460])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b52033c2d4sm17125487b3.36.2026.11.20.11.33.45
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67df330bfb1sm2149725d50.6.2026.11.20.11.33.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 11:33:45 -0800 (PST)
+        Fri, 20 Nov 2026 11:33:48 -0800 (PST)
 From: Matt Turner <mattst88@gmail.com>
-Date: Fri, 20 Nov 2026 14:33:41 -0500
-Subject: [PATCH 2/4] powerpc/32: Enable and decode MPC7448 L2 ECC machine
- checks
+Date: Fri, 20 Nov 2026 14:33:43 -0500
+Subject: [PATCH 4/4] EDAC/mpc7448_l2: Add error injection
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -96,7 +95,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-ppc32-l2-ecc-v1-2-98fc8e6e0a32@gmail.com>
+Message-Id: <20261120-ppc32-l2-ecc-v1-4-98fc8e6e0a32@gmail.com>
 References: <20261120-ppc32-l2-ecc-v1-0-98fc8e6e0a32@gmail.com>
 In-Reply-To: <20261120-ppc32-l2-ecc-v1-0-98fc8e6e0a32@gmail.com>
 To: Madhavan Srinivasan <maddy@linux.ibm.com>, 
@@ -108,413 +107,371 @@ To: Madhavan Srinivasan <maddy@linux.ibm.com>,
 Cc: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
  linux-edac@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=14906; i=mattst88@gmail.com;
- h=from:subject:message-id; bh=OJOl5TW9Rck6fNVflajy1RAKPXHzfh/i0dbgAbYnieQ=;
- b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLIZFkw5vOZOcc/6v3K7J80JjWoQPVVaMGPXQaXDt48ob
- /BSkjtf2PGRhUGMi2GmmCJL3HpFllltO5b6nJb+BTOHlQlkiLRIAwMQsDDw5SbmlRrpGOmZahvq
- GQIZOkbxEDk9Bo3M4uLS1CLdtIIih7z8ksSSzPy8Yr38gtS8gvQCvbTMtJKMjPyi4lSgEXp5qSW
- mro5uRoYGJpaOFmZOFo6mJs7OToZObo6Ozq5ORpbmJgbOlo4mrpbmDFycAjDXnJ7AyLB/xbFpk1
- T0tulHJS/NVEtrvvNfRjfK+U02Q/t6T7FldnsZGWZXa2y2dosTnDudRV60cd1bv2h+zStHimecW
- 3Bwwd5d7zgA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10492; i=mattst88@gmail.com;
+ h=from:subject:message-id; bh=XNCxMKgi+jdMDTi3VczwwKddmdxn919Rql+cTqKYU2o=;
+ b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLIZFkwJVOA03ix1b+0mh8z5HzWuKqjr3Tpac0XtzaxfJ
+ usqPxqXdXxkYRDjYpgppsgSt16RZVbbjqU+p6V/wcxhZQIZIi3SwAAELAx8uYl5pUY6Rnqm2oZ6
+ hkCGjlE8RE6PQSOzuLg0tUg3raDIIS+/JLEkMz+vWC+/IDWvIL1ALy0zrSQjI7+oOBVohF5eaom
+ pq6ObkaGBiaWjhZmThaOpibOzk6GTm6Ojs6uTkaW5iYGzpaOJq6U5AxenAMw1/swM/wynzjju9y
+ F7m/Xil7N0tzyZMr9M8erChXxfeJlYg+aylQgx/I8Sefvp4+eZiWf7uT8wTp39an61zt/aTIn9h
+ lFtTFbrJHgA
 X-Developer-Key: i=mattst88@gmail.com; a=openpgp;
  fpr=3BB639E56F861FA2E86505690FDD682D974CA72A
 
-The MPC7448 has ECC on its L2 data array and parity on its tag array,
-but L2ERRINTEN resets to 0, so uncorrectable L2 errors are never
-reported and the bad data is used.
+Expose the L2 error injection registers as inject_data_hi,
+inject_data_lo and inject_ctrl.  Writing a CPU number to inject_trigger
+injects the error into a private buffer on that CPU and reports what
+was detected.
 
-Enable machine checks for multi-bit ECC and tag parity errors at boot,
-and save and restore L2ERRINTEN across sleep.  These errors now oops
-instead of silently corrupting data.  Single-bit errors stay disabled:
-there is no threshold to set, since L2ERRCTL[L2CTHRESH] is read-only and
-0, and they are counted in L2ERRCTL[L2CCOUNT] anyway.
-
-Add machine_check_7448(), which adds the L2 error registers to what
-machine_check_745x() prints, and counts these machine checks per CPU for
-the EDAC driver added in the next patch.  The CPU clears SRR1[RI] for
-them, so they are never recoverable.
-
-A multi-bit error injected with reporting enabled is decoded as
-
-  Machine check in kernel mode.
-  Caused by (from SRR1=101030, MSSSR0=20000): [L2 data parity/ECC]
-  MPC7448 L2 error: L2ERRDET=80000008 [multi-bit ECC] [multiple errors]
-    address 0x0054e1100 (dw 0): data read, 32 bytes burst
-    data 00000000_00000003 syndrome 81 ECC 00
-  Oops: Machine check, sig: 7 [#1]
+L2 machine checks are not recoverable, so machine check reporting is
+masked while the injected errors are consumed.  Tag injection is not
+offered: it corrupts the tags of unrelated lines too, and hung the
+machine in testing.
 
 Signed-off-by: Matt Turner <mattst88@gmail.com>
 ---
- MAINTAINERS                               |   8 ++
- arch/powerpc/include/asm/cpu_setup.h      |   1 +
- arch/powerpc/include/asm/cputable.h       |   1 +
- arch/powerpc/include/asm/mpc7448_l2.h     |  31 ++++++++
- arch/powerpc/include/asm/reg.h            |  32 ++++++++
- arch/powerpc/kernel/Makefile              |   3 +-
- arch/powerpc/kernel/cpu_setup_6xx.S       |  38 ++++++++-
- arch/powerpc/kernel/cpu_specs_book3s_32.h |   4 +-
- arch/powerpc/kernel/mpc7448_l2.c          | 124 ++++++++++++++++++++++++++++++
- 9 files changed, 238 insertions(+), 4 deletions(-)
+ arch/powerpc/include/asm/reg.h |   1 +
+ drivers/edac/mpc7448_l2_edac.c | 284 ++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 284 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fde7147bfa1e..4ea66ea2be2d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9747,6 +9747,14 @@ L:	linux-edac@vger.kernel.org
- S:	Maintained
- F:	drivers/edac/intel-bff.c
- 
-+EDAC-MPC7448-L2
-+M:	Matt Turner <mattst88@gmail.com>
-+L:	linux-edac@vger.kernel.org
-+L:	linuxppc-dev@lists.ozlabs.org
-+S:	Maintained
-+F:	arch/powerpc/include/asm/mpc7448_l2.h
-+F:	arch/powerpc/kernel/mpc7448_l2.c
-+
- EDAC-MPC85XX
- L:	linux-edac@vger.kernel.org
- S:	Orphan
-diff --git a/arch/powerpc/include/asm/cpu_setup.h b/arch/powerpc/include/asm/cpu_setup.h
-index 26d2c0e2c99c..c4d7f49027df 100644
---- a/arch/powerpc/include/asm/cpu_setup.h
-+++ b/arch/powerpc/include/asm/cpu_setup.h
-@@ -37,6 +37,7 @@ void __setup_cpu_750fx(unsigned long offset, struct cpu_spec *spec);
- void __setup_cpu_7400(unsigned long offset, struct cpu_spec *spec);
- void __setup_cpu_7410(unsigned long offset, struct cpu_spec *spec);
- void __setup_cpu_745x(unsigned long offset, struct cpu_spec *spec);
-+void __setup_cpu_7448(unsigned long offset, struct cpu_spec *spec);
- 
- void __setup_cpu_ppc970(unsigned long offset, struct cpu_spec *spec);
- void __setup_cpu_ppc970MP(unsigned long offset, struct cpu_spec *spec);
-diff --git a/arch/powerpc/include/asm/cputable.h b/arch/powerpc/include/asm/cputable.h
-index 8445533c946b..648e72fe7e6c 100644
---- a/arch/powerpc/include/asm/cputable.h
-+++ b/arch/powerpc/include/asm/cputable.h
-@@ -35,6 +35,7 @@ extern int machine_check_47x(struct pt_regs *regs);
- int machine_check_8xx(struct pt_regs *regs);
- int machine_check_83xx(struct pt_regs *regs);
- int machine_check_745x(struct pt_regs *regs);
-+int machine_check_7448(struct pt_regs *regs);
- 
- extern void cpu_down_flush_e500v2(void);
- extern void cpu_down_flush_e500mc(void);
-diff --git a/arch/powerpc/include/asm/mpc7448_l2.h b/arch/powerpc/include/asm/mpc7448_l2.h
-new file mode 100644
-index 000000000000..a10c694b8583
---- /dev/null
-+++ b/arch/powerpc/include/asm/mpc7448_l2.h
-@@ -0,0 +1,31 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * MPC7448 L2 cache error capture and reporting.
-+ */
-+#ifndef _ASM_POWERPC_MPC7448_L2_H
-+#define _ASM_POWERPC_MPC7448_L2_H
-+
-+#include <linux/types.h>
-+
-+/* Snapshot of the L2 error detect and capture registers */
-+struct mpc7448_l2_err {
-+	u32 det;	/* L2ERRDET */
-+	u32 attr;	/* L2ERRATTR */
-+	u32 eaddr;	/* L2ERREADDR */
-+	u32 addr;	/* L2ERRADDR */
-+	u32 capt_hi;	/* L2CAPTDATAHI */
-+	u32 capt_lo;	/* L2CAPTDATALO */
-+	u32 capt_ecc;	/* L2CAPTECC */
-+};
-+
-+/* 36-bit physical address of the double word that took the error */
-+static inline u64 mpc7448_l2_err_paddr(const struct mpc7448_l2_err *e)
-+{
-+	return ((u64)(e->eaddr & 0xf) << 32) | e->addr;
-+}
-+
-+void mpc7448_l2_err_capture(struct mpc7448_l2_err *e);
-+void mpc7448_l2_err_print(const struct mpc7448_l2_err *e);
-+unsigned int mpc7448_l2_mce_take(void);
-+
-+#endif /* _ASM_POWERPC_MPC7448_L2_H */
 diff --git a/arch/powerpc/include/asm/reg.h b/arch/powerpc/include/asm/reg.h
-index 82a85d44776e..2f4adf5a606e 100644
+index 2f4adf5a606e..15c97ff8b12a 100644
 --- a/arch/powerpc/include/asm/reg.h
 +++ b/arch/powerpc/include/asm/reg.h
-@@ -706,6 +706,38 @@
- #define L2CR_L2DO_745x		0x00010000	/* L2 data only (745x) */
- #define L2CR_L2REP_745x		0x00001000	/* L2 repl. algorithm (745x) */
- #define L2CR_L2HWF_745x		0x00000800	/* L2 hardware flush (745x) */
-+
-+/* MPC7448 L2 error injection, capture and reporting registers */
-+#define SPRN_L2ERRINJHI		0x3D9	/* L2 error injection mask, data high */
-+#define SPRN_L2ERRINJLO		0x3DA	/* L2 error injection mask, data low */
-+#define SPRN_L2ERRINJCTL	0x3DB	/* L2 error injection control */
-+#define   L2ERRINJCTL_ECCMB	0x00000200	/* Mirror data MSB onto ECC */
-+#define   L2ERRINJCTL_DERRIEN	0x00000100	/* Data/ECC error injection */
-+#define   L2ERRINJCTL_ECCERRIM	0x000000ff	/* ECC bit injection mask */
-+#define SPRN_L2CAPTDATAHI	0x3DC	/* L2 error capture data, high word */
-+#define SPRN_L2CAPTDATALO	0x3DD	/* L2 error capture data, low word */
-+#define SPRN_L2CAPTECC		0x3DE	/* L2 error syndrome */
-+#define   L2CAPTECC_ECCSYND	0xff000000	/* Calculated syndrome */
-+#define   L2CAPTECC_ECCCHKSUM	0x000000ff	/* Datapath ECC */
-+#define SPRN_L2ERRDET		0x3DF	/* L2 error detect (write 1 to clear) */
-+#define SPRN_L2ERRINTEN		0x3E1	/* L2 error interrupt enable */
-+/* Error bits shared by L2ERRDET and L2ERRINTEN */
-+#define   L2ERR_MULL2ERR	0x80000000	/* Multiple errors (DET only) */
-+#define   L2ERR_TPARERR		0x00000010	/* Tag parity error */
-+#define   L2ERR_MBECCERR	0x00000008	/* Multiple-bit ECC error */
-+#define   L2ERR_SBECCERR	0x00000004	/* Single-bit ECC error */
-+#define SPRN_L2ERRATTR		0x3E2	/* L2 error attributes capture */
-+#define   L2ERRATTR_DWNUM	0x30000000	/* Double word number */
-+#define   L2ERRATTR_TRANSSIZ	0x07000000	/* Transaction size */
-+#define   L2ERRATTR_BURST	0x00800000	/* Burst transaction */
-+#define   L2ERRATTR_TRANSSRC	0x001f0000	/* Transaction source */
-+#define   L2ERRATTR_TRANSTYPE	0x00003000	/* Transaction type */
-+#define   L2ERRATTR_VALINFO	0x00000001	/* Capture registers valid */
-+#define SPRN_L2ERRADDR		0x3E3	/* L2 error address, bits 4-35 */
-+#define SPRN_L2ERREADDR		0x3E4	/* L2 error address, bits 0-3 */
-+#define SPRN_L2ERRCTL		0x3E5	/* L2 error control */
-+#define   L2ERRCTL_L2CCOUNT	0x000000ff	/* SBE count */
-+
- #define SPRN_L3CR		0x3FA	/* Level 3 Cache Control Register */
- #define L3CR_L3E		0x80000000	/* L3 enable */
- #define L3CR_L3PE		0x40000000	/* L3 data parity enable */
-diff --git a/arch/powerpc/kernel/Makefile b/arch/powerpc/kernel/Makefile
-index 7bf6b16b2d93..3681dd45a056 100644
---- a/arch/powerpc/kernel/Makefile
-+++ b/arch/powerpc/kernel/Makefile
-@@ -106,7 +106,8 @@ obj-$(CONFIG_CRASH_DUMP)	+= crash_dump.o
- obj-$(CONFIG_FA_DUMP)		+= fadump.o
- obj-$(CONFIG_PRESERVE_FA_DUMP)	+= fadump.o
- obj-$(CONFIG_PPC_85xx)		+= idle_85xx.o
--obj-$(CONFIG_PPC_BOOK3S_32)	+= idle_6xx.o l2cr_6xx.o cpu_setup_6xx.o
-+obj-$(CONFIG_PPC_BOOK3S_32)	+= idle_6xx.o l2cr_6xx.o cpu_setup_6xx.o \
-+				   mpc7448_l2.o
- obj-$(CONFIG_TAU)		+= tau_6xx.o
- obj-$(CONFIG_HIBERNATION)	+= swsusp.o suspend.o
- ifdef CONFIG_PPC_85xx
-diff --git a/arch/powerpc/kernel/cpu_setup_6xx.S b/arch/powerpc/kernel/cpu_setup_6xx.S
-index ab3ca74e6730..dc17d5a8bd79 100644
---- a/arch/powerpc/kernel/cpu_setup_6xx.S
-+++ b/arch/powerpc/kernel/cpu_setup_6xx.S
-@@ -90,6 +90,13 @@ _GLOBAL(__setup_cpu_745x)
- 	bl	setup_745x_specifics
- 	mtlr	r5
- 	blr
-+_GLOBAL(__setup_cpu_7448)
-+	mflr	r5
-+	bl	setup_common_caches
-+	bl	setup_745x_specifics
-+	bl	setup_7448_l2_errors
-+	mtlr	r5
-+	blr
+@@ -760,6 +760,7 @@
+ #define L3CR_PMSIZ		0x00000001	/* L3 private memory size */
  
- /* Enable caches for 603's, 604, 750 & 7400 */
- SYM_FUNC_START_LOCAL(setup_common_caches)
-@@ -300,6 +307,23 @@ END_FTR_SECTION_IFSET(CPU_FTR_NO_DPM)
- 	blr
- SYM_FUNC_END(setup_745x_specifics)
+ #define SPRN_MSSCR0	0x3f6	/* Memory Subsystem Control Register 0 */
++#define   MSSCR0_L2PFE	0x00000003	/* L2 prefetch engines */
+ #define SPRN_MSSSR0	0x3f7	/* Memory Subsystem Status Register 1 */
+ #define   MSSSR0_L2TAG	0x00040000	/* L2 tag parity error */
+ #define   MSSSR0_L2DAT	0x00020000	/* L2 data parity/ECC error */
+diff --git a/drivers/edac/mpc7448_l2_edac.c b/drivers/edac/mpc7448_l2_edac.c
+index a62c7a2e7147..157f6ff99cf6 100644
+--- a/drivers/edac/mpc7448_l2_edac.c
++++ b/drivers/edac/mpc7448_l2_edac.c
+@@ -11,12 +11,17 @@
+  */
+ 
+ #include <linux/bitfield.h>
++#include <linux/cache.h>
+ #include <linux/cpu.h>
+ #include <linux/device/faux.h>
+ #include <linux/edac.h>
++#include <linux/gfp.h>
++#include <linux/io.h>
++#include <linux/kstrtox.h>
+ #include <linux/module.h>
+ #include <linux/smp.h>
+ #include <linux/sprintf.h>
++#include <linux/sysfs.h>
+ 
+ #include <asm/mpc7448_l2.h>
+ #include <asm/reg.h>
+@@ -25,6 +30,32 @@
+ 
+ #define DRV_NAME	"mpc7448_l2_edac"
  
 +/*
-+ * Clear L2 errors left by firmware and raise a machine check for
-+ * uncorrectable ones.
++ * Injection buffer layout.  The target line is followed by aliases one
++ * L1 way (4 KB) apart, which map to the same L1 set and evict the target
++ * from the 8-way L1 into the L2.  With the L1's PLRU replacement, eight
++ * misses evict the target when nothing else touches its set; INJ_NALIAS
++ * is twice that.  The L2 is filled in 64-byte lines of two 32-byte blocks.
 + */
-+SYM_FUNC_START_LOCAL(setup_7448_l2_errors)
-+	li	r3,-1
-+	mtspr	SPRN_L2ERRDET,r3	/* write 1 to clear */
-+	li	r3,0
-+	mtspr	SPRN_L2ERRATTR,r3	/* clear VALINFO: re-arm capture */
-+	li	r3,L2ERR_TPARERR | L2ERR_MBECCERR
-+	sync
-+	mtspr	SPRN_L2ERRINTEN,r3
-+	sync
-+	isync
-+	blr
-+SYM_FUNC_END(setup_7448_l2_errors)
++#define INJ_STRIDE	4096
++#define INJ_NALIAS	16
++#define INJ_ORDER	get_order((INJ_NALIAS + 1) * INJ_STRIDE)
++#define INJ_PATTERN	0x12345678
 +
- /*
-  * Initialize the FPU registers. This is needed to work around an errata
-  * in some 750 cpus where using a not yet initialized FPU register after
-@@ -329,7 +353,8 @@ _ASM_NOKPROBE_SYMBOL(__init_fpu_registers)
- #define CS_ICTRL	20
- #define CS_LDSTCR	24
- #define CS_LDSTDB	28
--#define CS_SIZE		32
-+#define CS_L2ERRINTEN	32
-+#define CS_SIZE		36
++/*
++ * Tag injection (L2ERRINJCTL[TERRIEN]) is not offered: it also corrupts
++ * the tags of unrelated lines sharing the L2 sets that are written while
++ * injection is enabled, which hung the machine in testing.
++ */
++#define INJ_CTL_MASK	(L2ERRINJCTL_ECCMB | L2ERRINJCTL_DERRIEN | \
++			 L2ERRINJCTL_ECCERRIM)
++
++struct mpc7448_l2_pdata {
++	u32 inj_hi;
++	u32 inj_lo;
++	u32 inj_ctl;
++};
++
+ static struct faux_device *mpc7448_l2_fdev;
  
- 	.data
- 	.balign	L1_CACHE_BYTES
-@@ -391,6 +416,10 @@ _GLOBAL(__save_cpu_setup)
- 	stw	r4,CS_LDSTCR(r5)
- 	mfspr	r4,SPRN_LDSTDB
- 	stw	r4,CS_LDSTDB(r5)
-+	bne	cr7,1f
-+	/* Backup 7448 specific registers */
-+	mfspr	r4,SPRN_L2ERRINTEN
-+	stw	r4,CS_L2ERRINTEN(r5)
- 1:
- 	bne	cr6,1f
- 	/* Backup 750FX specific registers */
-@@ -484,6 +513,13 @@ _GLOBAL(__restore_cpu_setup)
- 	mtspr	SPRN_LDSTDB,r4
- 	isync
- 	sync
-+	bne	cr7,2f
-+	/* Restore 7448 specific registers */
-+	lwz	r4,CS_L2ERRINTEN(r5)
-+	sync
-+	mtspr	SPRN_L2ERRINTEN,r4
-+	isync
-+	sync
- 2:	bne	cr6,1f
- 	/* Restore 750FX specific registers
- 	 * that is restore HID2 on rev 2.x and PLL config & switch
-diff --git a/arch/powerpc/kernel/cpu_specs_book3s_32.h b/arch/powerpc/kernel/cpu_specs_book3s_32.h
-index 90ca26405c1d..039094c1c245 100644
---- a/arch/powerpc/kernel/cpu_specs_book3s_32.h
-+++ b/arch/powerpc/kernel/cpu_specs_book3s_32.h
-@@ -585,8 +585,8 @@ static struct cpu_spec cpu_specs[] __initdata = {
- 		.dcache_bsize		= 32,
- 		.num_pmcs		= 6,
- 		.pmc_type		= PPC_PMC_G4,
--		.cpu_setup		= __setup_cpu_745x,
--		.machine_check		= machine_check_745x,
-+		.cpu_setup		= __setup_cpu_7448,
-+		.machine_check		= machine_check_7448,
- 		.platform		= "ppc7450",
- 	},
- 	{	/* default match, we assume split I/D cache & TB (non-601)... */
-diff --git a/arch/powerpc/kernel/mpc7448_l2.c b/arch/powerpc/kernel/mpc7448_l2.c
-new file mode 100644
-index 000000000000..4ec3c6a0558e
---- /dev/null
-+++ b/arch/powerpc/kernel/mpc7448_l2.c
-@@ -0,0 +1,124 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * MPC7448 L2 cache error capture and machine check decode.
-+ *
-+ * The MPC7448 protects its L2 data array with SEC-DED ECC and its tag
-+ * array with parity.  Detected errors are latched in L2ERRDET and, for
-+ * the error types enabled in L2ERRINTEN, raise a machine check with
-+ * SRR1[MSS] and MSSSR0[L2DAT] or MSSSR0[L2TAG] set.  See the MPC7450 RISC
-+ * Microprocessor Family Reference Manual, rev. 5, sections 2.2.5.5 and
-+ * 3.6.3.4.
-+ */
+ struct mpc7448_l2_poll {
+@@ -98,11 +129,261 @@ static void mpc7448_l2_check(struct edac_device_ctl_info *edac_dev)
+ 	cpus_read_unlock();
+ }
+ 
++struct mpc7448_l2_inj {
++	u32 *buf;
++	u32 hi;
++	u32 lo;
++	u32 ctl;
++	u32 val;
++	struct mpc7448_l2_poll poll;
++};
 +
-+#include <linux/bitfield.h>
-+#include <linux/export.h>
-+#include <linux/kernel.h>
-+#include <linux/percpu.h>
-+#include <linux/printk.h>
-+
-+#include <asm/cputable.h>
-+#include <asm/local.h>
-+#include <asm/mpc7448_l2.h>
-+#include <asm/ptrace.h>
-+#include <asm/reg.h>
-+
-+/* L2 machine checks not yet collected by mpc7448_l2_mce_take() */
-+static DEFINE_PER_CPU(local_t, mpc7448_l2_mce_count);
-+
-+/*
-+ * Read the error detect and capture registers, then clear the detected
-+ * errors and re-arm capture.  Must run on the CPU whose L2 is of interest.
-+ */
-+void mpc7448_l2_err_capture(struct mpc7448_l2_err *e)
++static u32 *inj_alias(u32 *a, unsigned int i)
 +{
-+	e->det = mfspr(SPRN_L2ERRDET);
-+	e->attr = mfspr(SPRN_L2ERRATTR);
-+	e->eaddr = mfspr(SPRN_L2ERREADDR);
-+	e->addr = mfspr(SPRN_L2ERRADDR);
-+	e->capt_hi = mfspr(SPRN_L2CAPTDATAHI);
-+	e->capt_lo = mfspr(SPRN_L2CAPTDATALO);
-+	e->capt_ecc = mfspr(SPRN_L2CAPTECC);
-+
-+	if (e->det)
-+		mtspr(SPRN_L2ERRDET, e->det);	/* write 1 to clear */
-+	if (e->attr & L2ERRATTR_VALINFO)
-+		mtspr(SPRN_L2ERRATTR, 0);	/* unfreeze capture */
++	return (u32 *)((char *)a + i * INJ_STRIDE);
 +}
-+EXPORT_SYMBOL_GPL(mpc7448_l2_err_capture);
 +
-+static const char *transsrc_str(u32 attr)
++/* Flush the L2 lines of aliases first to last from the L1 and L2 */
++static void inj_flush(u32 *a, unsigned int first, unsigned int last)
 +{
-+	switch (FIELD_GET(L2ERRATTR_TRANSSRC, attr)) {
-+	case 0x00:
-+		return "external";
-+	case 0x10:
-+		return "instruction";
-+	case 0x11:
-+		return "data";
-+	default:
-+		return "unknown source";
++	unsigned int i;
++
++	for (i = first; i <= last; i++) {
++		dcbf(inj_alias(a, i));
++		dcbf((char *)inj_alias(a, i) + 32);
 +	}
++	mb();	/* wait for the flushes to complete */
 +}
 +
-+static const char *transtype_str(u32 attr)
++/* Change a mode SPR with no cache operations or stores in flight */
++#define inj_mtspr(rn, v)					\
++do {								\
++	mb();	/* complete earlier accesses first */		\
++	mtspr(rn, v);						\
++	mb();	/* and the SPR write itself */			\
++	isync();						\
++} while (0)
++
++/*
++ * Every L2 write while injection is enabled is corrupted, so keep the
++ * window short: modify the target in the L1, enable injection, cast the
++ * target out to the L2 by loading its aliases, and disable injection.
++ * The aliases are filled into the L2 during the window and take the error
++ * too.  Then flush the aliases, read the target back, and flush it.
++ */
++static noinline u32 mpc7448_l2_inject_window(u32 *a, u32 hi, u32 lo, u32 ctl)
 +{
-+	static const char * const types[] = {
-+		"snoop", "write", "read", "reserved"
-+	};
++	unsigned int i;
++	u32 val;
 +
-+	return types[FIELD_GET(L2ERRATTR_TRANSTYPE, attr)];
++	inj_flush(a, 0, INJ_NALIAS);
++
++	/*
++	 * A castout that misses in the L2 goes to memory, so load the target
++	 * to allocate its L2 line before modifying it in the L1.
++	 */
++	READ_ONCE(*a);
++	WRITE_ONCE(*a, INJ_PATTERN);
++	mb();	/* modify the target before injection starts */
++
++	mtspr(SPRN_L2ERRINJHI, hi);
++	mtspr(SPRN_L2ERRINJLO, lo);
++	mtspr(SPRN_L2ERRINJCTL, ctl);
++	mb();	/* start injection before the castout */
++
++	for (i = 1; i <= INJ_NALIAS; i++)
++		READ_ONCE(*inj_alias(a, i));
++	mb();	/* wait for the castout and the alias fills */
++
++	mtspr(SPRN_L2ERRINJCTL, 0);
++	mtspr(SPRN_L2ERRINJHI, 0);
++	mtspr(SPRN_L2ERRINJLO, 0);
++	mb();	/* stop injection before anything else reaches the L2 */
++
++	inj_flush(a, 1, INJ_NALIAS);
++	val = READ_ONCE(*a);
++	inj_flush(a, 0, 0);
++
++	return val;
 +}
 +
-+static unsigned int transsize(u32 attr)
++static void mpc7448_l2_inject_cpu(void *info)
 +{
-+	unsigned int siz = FIELD_GET(L2ERRATTR_TRANSSIZ, attr);
++	struct mpc7448_l2_inj *inj = info;
++	u32 inten = mfspr(SPRN_L2ERRINTEN);
++	u32 msscr0 = mfspr(SPRN_MSSCR0);
++	u32 *a = inj->buf;
 +
-+	if (attr & L2ERRATTR_BURST)
-+		return siz * 16;
-+	return siz ?: 8;
++	/* The prefetch engines would fill (and corrupt) other lines */
++	if (msscr0 & MSSCR0_L2PFE)
++		inj_mtspr(SPRN_MSSCR0, msscr0 & ~MSSCR0_L2PFE);
++
++	/*
++	 * A dry run without injection leaves only the buffer in the
++	 * target's L1 set and the window's code in the L1 instruction
++	 * cache, so nothing else is cast out to the L2 during the window.
++	 */
++	mpc7448_l2_inject_window(a, 0, 0, 0);
++
++	/* L2 machine checks are not recoverable, so poll for these errors */
++	inj_mtspr(SPRN_L2ERRINTEN, 0);
++
++	inj->val = mpc7448_l2_inject_window(a, inj->hi, inj->lo, inj->ctl);
++	mpc7448_l2_poll_cpu(&inj->poll);
++
++	inj_mtspr(SPRN_L2ERRINTEN, inten);
++	if (msscr0 & MSSCR0_L2PFE)
++		inj_mtspr(SPRN_MSSCR0, msscr0);
 +}
 +
-+void mpc7448_l2_err_print(const struct mpc7448_l2_err *e)
++static ssize_t inject_show(u32 val, char *data)
 +{
-+	pr_err("MPC7448 L2 error: L2ERRDET=%08x%s%s%s%s\n", e->det,
-+	       e->det & L2ERR_TPARERR ? " [tag parity]" : "",
-+	       e->det & L2ERR_MBECCERR ? " [multi-bit ECC]" : "",
-+	       e->det & L2ERR_SBECCERR ? " [single-bit ECC]" : "",
-+	       e->det & L2ERR_MULL2ERR ? " [multiple errors]" : "");
-+	pr_err("  address 0x%09llx (dw %u): %s %s, %u bytes%s%s\n",
-+	       mpc7448_l2_err_paddr(e),
-+	       (unsigned int)FIELD_GET(L2ERRATTR_DWNUM, e->attr),
-+	       transsrc_str(e->attr), transtype_str(e->attr), transsize(e->attr),
-+	       e->attr & L2ERRATTR_BURST ? " burst" : "",
-+	       e->attr & L2ERRATTR_VALINFO ? "" : " (not latched)");
-+	pr_err("  data %08x_%08x syndrome %02x ECC %02x\n",
-+	       e->capt_hi, e->capt_lo,
-+	       (unsigned int)FIELD_GET(L2CAPTECC_ECCSYND, e->capt_ecc),
-+	       (unsigned int)FIELD_GET(L2CAPTECC_ECCCHKSUM, e->capt_ecc));
++	return sysfs_emit(data, "0x%08x\n", val);
 +}
-+EXPORT_SYMBOL_GPL(mpc7448_l2_err_print);
 +
-+/* Return the number of L2 machine checks on this CPU since the last call */
-+unsigned int mpc7448_l2_mce_take(void)
++static ssize_t inject_store(u32 *val, u32 mask, const char *data,
++			    size_t count)
 +{
-+	return local_xchg(this_cpu_ptr(&mpc7448_l2_mce_count), 0);
-+}
-+EXPORT_SYMBOL_GPL(mpc7448_l2_mce_take);
++	u32 v;
++	int ret;
 +
-+int machine_check_7448(struct pt_regs *regs)
++	ret = kstrtou32(data, 0, &v);
++	if (ret)
++		return ret;
++	if (v & ~mask)
++		return -EINVAL;
++
++	*val = v;
++	return count;
++}
++
++static ssize_t inject_data_hi_show(struct edac_device_ctl_info *edac_dev,
++				   char *data)
 +{
-+	struct mpc7448_l2_err e;
-+	bool l2 = (regs->msr & SRR1_MCE_MSS) &&
-+		  (mfspr(SPRN_MSSSR0) & (MSSSR0_L2TAG | MSSSR0_L2DAT));
++	struct mpc7448_l2_pdata *pdata = edac_dev->pvt_info;
 +
-+	machine_check_745x(regs);
-+
-+	if (l2) {
-+		mpc7448_l2_err_capture(&e);
-+		mpc7448_l2_err_print(&e);
-+		local_inc(this_cpu_ptr(&mpc7448_l2_mce_count));
-+	}
-+
-+	/* Never recoverable: the CPU clears SRR1[RI] for L2 errors. */
-+	return 0;
++	return inject_show(pdata->inj_hi, data);
 +}
++
++static ssize_t inject_data_hi_store(struct edac_device_ctl_info *edac_dev,
++				    const char *data, size_t count)
++{
++	struct mpc7448_l2_pdata *pdata = edac_dev->pvt_info;
++
++	return inject_store(&pdata->inj_hi, ~0U, data, count);
++}
++
++static ssize_t inject_data_lo_show(struct edac_device_ctl_info *edac_dev,
++				   char *data)
++{
++	struct mpc7448_l2_pdata *pdata = edac_dev->pvt_info;
++
++	return inject_show(pdata->inj_lo, data);
++}
++
++static ssize_t inject_data_lo_store(struct edac_device_ctl_info *edac_dev,
++				    const char *data, size_t count)
++{
++	struct mpc7448_l2_pdata *pdata = edac_dev->pvt_info;
++
++	return inject_store(&pdata->inj_lo, ~0U, data, count);
++}
++
++static ssize_t inject_ctrl_show(struct edac_device_ctl_info *edac_dev,
++				char *data)
++{
++	struct mpc7448_l2_pdata *pdata = edac_dev->pvt_info;
++
++	return inject_show(pdata->inj_ctl, data);
++}
++
++static ssize_t inject_ctrl_store(struct edac_device_ctl_info *edac_dev,
++				 const char *data, size_t count)
++{
++	struct mpc7448_l2_pdata *pdata = edac_dev->pvt_info;
++
++	return inject_store(&pdata->inj_ctl, INJ_CTL_MASK, data, count);
++}
++
++static ssize_t inject_trigger_store(struct edac_device_ctl_info *edac_dev,
++				    const char *data, size_t count)
++{
++	struct mpc7448_l2_pdata *pdata = edac_dev->pvt_info;
++	struct mpc7448_l2_inj inj;
++	struct page *page;
++	unsigned int cpu;
++	int ret;
++
++	ret = kstrtouint(data, 0, &cpu);
++	if (ret)
++		return ret;
++	if (cpu >= nr_cpu_ids)
++		return -EINVAL;
++
++	page = alloc_pages(GFP_KERNEL, INJ_ORDER);
++	if (!page)
++		return -ENOMEM;
++
++	inj.buf = page_address(page);
++	inj.hi = pdata->inj_hi;
++	inj.lo = pdata->inj_lo;
++	inj.ctl = pdata->inj_ctl;
++
++	cpus_read_lock();
++	if (cpu_online(cpu))
++		ret = smp_call_function_single(cpu, mpc7448_l2_inject_cpu,
++					       &inj, 1);
++	else
++		ret = -ENXIO;
++	cpus_read_unlock();
++
++	if (!ret)
++		edac_device_printk(edac_dev, KERN_INFO,
++				   "cpu%u: injected ctl 0x%08x data 0x%08x_%08x at 0x%llx: read 0x%08x (wrote 0x%08x)\n",
++				   cpu, inj.ctl, inj.hi, inj.lo,
++				   (unsigned long long)virt_to_phys(inj.buf),
++				   inj.val, INJ_PATTERN);
++
++	__free_pages(page, INJ_ORDER);
++
++	if (ret)
++		return ret;
++
++	mpc7448_l2_report(edac_dev, cpu, &inj.poll);
++	return count;
++}
++
++static const struct edac_dev_sysfs_attribute mpc7448_l2_sysfs_attributes[] = {
++	{
++		.attr = { .name = "inject_data_hi", .mode = 0600 },
++		.show = inject_data_hi_show,
++		.store = inject_data_hi_store,
++	},
++	{
++		.attr = { .name = "inject_data_lo", .mode = 0600 },
++		.show = inject_data_lo_show,
++		.store = inject_data_lo_store,
++	},
++	{
++		.attr = { .name = "inject_ctrl", .mode = 0600 },
++		.show = inject_ctrl_show,
++		.store = inject_ctrl_store,
++	},
++	{
++		.attr = { .name = "inject_trigger", .mode = 0200 },
++		.store = inject_trigger_store,
++	},
++	{
++		.attr = { .name = NULL },
++	},
++};
++
+ static int mpc7448_l2_probe(struct faux_device *fdev)
+ {
+ 	struct edac_device_ctl_info *edac_dev;
+ 
+-	edac_dev = edac_device_alloc_ctl_info(0, "cpu", nr_cpu_ids, "L", 1, 2,
++	edac_dev = edac_device_alloc_ctl_info(sizeof(struct mpc7448_l2_pdata),
++					      "cpu", nr_cpu_ids, "L", 1, 2,
+ 					      edac_device_alloc_index());
+ 	if (!edac_dev)
+ 		return -ENOMEM;
+@@ -112,6 +393,7 @@ static int mpc7448_l2_probe(struct faux_device *fdev)
+ 	edac_dev->ctl_name = "MPC7448_L2";
+ 	edac_dev->dev_name = dev_name(&fdev->dev);
+ 	edac_dev->edac_check = mpc7448_l2_check;
++	edac_dev->sysfs_attributes = mpc7448_l2_sysfs_attributes;
+ 
+ 	if (edac_device_add_device(edac_dev)) {
+ 		edac_device_free_ctl_info(edac_dev);
 
 -- 
 2.56.1
