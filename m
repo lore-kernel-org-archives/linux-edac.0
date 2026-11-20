@@ -1,70 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.240.48.59
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795171586;
-	b=ohvX0vMFk+D61FbaT4ChxRUt5R6m0bHUQ3/Z2pRR1kVyiExGvUxuygOOcLy+DyFEhVsJ
-	 eWiu9GJc11+Qw42bCJkWyfMGkgTYrl2wkkYEd1ymk8KiZJm9rtJkLRGPTR/emLf1k4FaH
-	 lsLnI6vxR7xPb2Mw8hjAcDbpWxiwh2zKFu/zSAsFC9wwoSQHFTsgMFWO4uMd7C42G2p2+
-	 /pnWAOyT7v1ocz8wnkM6uYFrFgT/2wCqTjv/DQzrB0YkM/p2/EbqZ1NKePfVkF2Z4oCCy
-	 4HaBdzeD9tB5apJ2KFgZtuPPGAGwWbz7MAlbHVZtcWN9zNQI6g19zQvJUGGjgEjdGeA==
+	t=1795173602;
+	b=WzIl5Na5FQFtZCkjZ3qe4Qr9Sc+kWDThAxgt+Vi+gX0+lovhQoQGz5MiIvXrB/rCiKcu
+	 Jzm7aEzs/gxrt9mYKTbFjIsXAJ+2tnnPlVmQnEEi+0pPvlxa8ulpGO4QtEZFdbvEp+ZqQ
+	 ouxSB86BnPjNfSpPuX8+zmSUsi6edIQXCv2m61/mOiXMnuRRS8aDk0n6mfR42O7IJnP7c
+	 PnpJPoMIyzUKbm8MmSJUf7Oeh+c4yYiwAN0feBpCFcDOAzsbgIZigPk4qjQFWVXjVjRVo
+	 qQNvzlGI4DZqEOcJEN7x4eja6mRQ+AvWmymv6R5Lz/ri9AQX4X3DJmg9TzsAkWEjvFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795171586;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:In-Reply-To:References:
-	 From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:
-	 MIME-Version:Content-Type:Feedback-ID:X-SES-Outgoing;
-	bh=JV2acAQmqGKfDbCVtMogdgCc+FnQWR86JztEUsUWjJM=;
-	b=VwvhklNn7PsYRfWPZAx/ZhT1tN6Ye5hfIrHpuMbQslW4zXn0i7tOcxZ7vERs6DpfZvv4
-	 F7ndmkepNXl4MmFyKuWLo1y8JrDP2faXjNq3rLl+8jHma/ze1CZH+z7+tgZvIPDVgavwC
-	 HAY20v4h22qvK1qpXWtVt/LU7ck3iA5nBaJ/4gWLPWle3UkPSQuNSIQ9YDMzWbPExbMPr
-	 iPK0F2UBkuz+JdcRhhkNZAH0DIW8sc3rQYDPaEm+FgVJRoQjnsZfmQaBnNCQzdRGOTb/b
-	 CRDzy79LcgXiYwj7nmHkfuc4mWMpTDYoe7gG2OfrvbAPTr7g76/PARhQGi3pqDGGO8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795173602;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
+	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=gNcTdMNoAR9gRnBMyvwag/gk0hbmSsrfzpvTTscVcK0=;
+	b=h1P/gh90dZEpwTL4Jgu2VJdlqd0+cOYMbUzTA+xS42Pajgf2lBA2Y3c1epozdG+A/LAG
+	 PzsTx41JhVu4QTCfytLUGaZdosgg90p+VmnaqquiUtxNYgQ+oeBncr58QfjodkuD0A4jv
+	 jAvIPAJhCShAweF46CKNZSkqnM2fwjYf2aI1lyQtkVpjhCziEThsXtFtKejKn9DFmb7h/
+	 NUHPWmZoB36p0pHLa6f2BgrWo3jvvr0fmKfUZdWi5Jfk8Xa8iIAXEOIq/UgK3FeYHeb2G
+	 w/mbOJa4gJ7BWY15wk9dY1k4bTuenEThJ5rrckidy4MutqDjM8pL0W1fsq0XoAi5h3Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ahmedabdelfattah.dev;
-	spf=pass smtp.mailfrom=send.ahmedabdelfattah.dev;
-	dkim=pass header.d=ahmedabdelfattah.dev header.i=@ahmedabdelfattah.dev header.a=rsa-sha256 header.s=resend header.b=N97xfKNq;
-	dkim=pass header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=hkVSnF4J;
-	arc=none smtp.remote-ip=54.240.48.59
-Received: from a48-59.smtp-out.amazonses.com (a48-59.smtp-out.amazonses.com [54.240.48.59])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=sang-engineering.com;
+	spf=pass smtp.mailfrom=sang-engineering.com;
+	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=E+ipsy5D;
+	arc=none smtp.remote-ip=194.117.254.33
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE459606A331;
-	Fri, 20 Nov 2026 10:46:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE459606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ahmedabdelfattah.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=send.ahmedabdelfattah.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6811606A335
+	for <linux-edac@vger.kernel.org>; Fri, 20 Nov 2026 11:20:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6811606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ahmedabdelfattah.dev header.i=@ahmedabdelfattah.dev header.a=rsa-sha256 header.s=resend header.b=N97xfKNq;
-	dkim=pass (1024-bit key, unprotected) header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=hkVSnF4J
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend;
-	d=ahmedabdelfattah.dev; t=1795171585;
-	h=In-Reply-To:References:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
-	bh=6CD2vOsCvJqHeLL+WfMDNvW1b1UbZ+Ck4Y3+1Csv8O8=;
-	b=N97xfKNqCaWCFd2qaWcA7qfcgwPG3bj66p3I/eNAy5510DAD4yiee/ZLvTU/dz9c
-	R9Ez/3QQLWwKPiQ3DBjRWgHbUM2k0Rvka5l4FbCyh3WcmttgKocinjuSimrq81Q5Qxt
-	muzqp8UlK6bdNLorSJIcnsTu+lhvyCZ7lIvuW2BQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1795171585;
-	h=In-Reply-To:References:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
-	bh=6CD2vOsCvJqHeLL+WfMDNvW1b1UbZ+Ck4Y3+1Csv8O8=;
-	b=hkVSnF4JMsSfmb6Z4yWQ0NJdJuoyL2nqSK3+2UC9Meb1yHrZXTo/O5nIsbnwovbL
-	/lwrcmpIFxTrUK6rVM0Mn0pYkJz/gP2yHWi9aosGAT/0Ei1enLxQHZTBpt+7V2lvB2D
-	KgWr9Lmg3k0DpBxe4YFtFqFdCgUDUwn0HFXW4MXo=
-In-Reply-To: <av_uoSlMShJiJsff@intel.com>
-References:
- <20261119-x86-mce-storm-no-cmci-v1-1-bc593e90abaf@ahmedabdelfattah.dev>
- <av_uoSlMShJiJsff@intel.com>
-From: Ahmed Abdelfattah <me@ahmedabdelfattah.dev>
-To: Chao Gao <chao.gao@intel.com>
-Cc: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, linux-edac@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] x86/mce/intel: Skip storm tracking on CPUs without
- CMCI
-Message-ID: <010001a1f8908ab7-fa522391-bf93-4fe3-9ddc-e2f3e8e43ae0-000000@email.amazonses.com>
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 10:46:24 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=E+ipsy5D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:content-transfer-encoding
+	:in-reply-to; s=k1; bh=gNcTdMNoAR9gRnBMyvwag/gk0hbmSsrfzpvTTscVc
+	K0=; b=E+ipsy5DZmgibyZ225i2A3KvSwW/6S+7BiOwIza4wDy0EmBBTwlFvne8c
+	11HxunERh+H4/RNSzt8/qjKoaLbDPg/GOu+ZxKITLLvN5HKoXautnO/01LUqAw6+
+	m3ZION2ymsLyN7itbb1yCzWvl56yFMvEMjN1e8pVDy3XZ7ijMm0yC95+cJk6IpDH
+	v8koSDGi8iWltrPLN/z9Y4mZvadswu2Bwm99szGZTw1Bsrg3ym+GMcq3gZ5bBlok
+	X6m/voWJpmaZlBjEmrtRfRyAfpCXCpsoD/XC50ZsSyiOXUY0nfNQMUAHUfJHyg7a
+	5EchhgxfJjSiSvhzZZaDEbXPL5z7A==
+Received: (qmail 1452867 invoked from network); 20 Nov 2026 12:19:59 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Nov 2026 12:19:59 +0100
+X-UD-Smtp-Session: l3s3148p1@PqSwbLNgduUujnuU
+Date: Fri, 20 Nov 2026 12:19:59 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Paul Louvel <paul.louvel@bootlin.com>
+Cc: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-edac@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Herve Codina <herve.codina@bootlin.com>
+Subject: Re: [PATCH v8 2/3] EDAC/cadence: Add Cadence DDR EDAC driver
+Message-ID: <awAs386mgR23nmJ2@ninjato>
+References: <20261118-paul-v7-3-rc1-edac-v8-0-ed791084cc19@bootlin.com>
+ <20261118-paul-v7-3-rc1-edac-v8-2-ed791084cc19@bootlin.com>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -75,80 +74,121 @@ List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Feedback-ID: :1.us-east-1.uCKvsN4fow5iTxhgdfCiLkD52dLS8e5zeZeNIHIyObThYgWj6io55JEpA9Lr59BibvMHOQwybONW0pi/CZ0koY1A1i17AG2yWEV8SeTaUDUkRN5zlcaoQEhviEafOoOqtPZhQs319GE3nsx7+JZeBdmAUyq6td6+kg0Qy2oXHvo=:1.us-east-1.pAEstvQcjyhQNKGKcgSlzI7SVR8ZSG5wSmKwiz/A8Dg=:AmazonSES
-X-SES-Outgoing: 2026.11.20-54.240.48.59
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261118-paul-v7-3-rc1-edac-v8-2-ed791084cc19@bootlin.com>
 
-On Fri, Nov 20, 2026 at 02:54:25PM +0800, Chao Gao wrote:
-> My understanding is that QEMU gets host memory errors only through
-> SIGBUS, and the host kernel does not send SIGBUS for corrected errors.
-> So QEMU never forwards corrected errors to a guest, and a guest sees
-> them only when someone injects them by hand.
+Hi Paul,
 
-Yes, that's right. The =
-guest is only where I noticed this, and the
-sentence about KVM guests =
-running into it easily is wrong: in a guest
-the errors have to be injected.=
- I'll drop it.
+could you comment on these, please?
 
-> Can you reproduce this on bare metal, or in a guest =
-without manual injection?
-> If not, this does not look like a practical =
-issue to me.
+Happy hacking,
 
-No. In a guest it takes injection, and I have no Intel =
-machine without
-CMCI to try it on. Going by the SDM, that is everything =
-before Nehalem
-(06_1AH).
+   Wolfram
 
-What I can show is that such a machine needs =
-nothing unusual to get
-there. For the first test I had set check_interval =
-to 1 s to save time.
-I ran it again with the default 300 s and one =
-corrected error injected
-into bank 9 every 2 s. mce_timer_fn() halves the =
-poll interval after
-every poll that logged something, so the polls close in=
- on the bank by
-themselves:
-
-  uptime    next poll in
-  313.8 s   150 s
-  477.6 s    75 s
-  552.7 s    37.5 s
-  592.0 s    18.8 s
-  610.8 s     9.4 s
-  620.6 s     4.7 s
-  625.7 s     2.3 s
-  628.7 s   CPU0 BANK9 CMCI storm detected
-            unchecked MSR access=
- error: RDMSR from 0x289
-            unchecked MSR access error: WRMSR to =
-0x289
-
-So a bank that keeps logging corrected errors for ten minutes is
-enough. I then stopped injecting. The storm ended 30 s later, and
-cmci_storm_end() took bank 9 out of mce_poll_banks. An error injected
-after that was still in MC9_STATUS after the next poll, which ran with
-a mask of 0xfffffffffffffdff. Nothing sets that bit again on a CPU
-without CMCI, so the bank that was reporting errors is the one that
-stops being polled.
-
-That last part is what d7ac083f095d ("x86/mce: Do not =
-clear bank's poll
-bit in mce_poll_banks on AMD SMCA systems") fixed for AMD=
-. Intel CPUs
-that poll because they have no CMCI still have it.
-
-With the patch the same run has no storm and no MSR errors, and the
-error injected at the end is logged by the next poll.
-
-I think that is still worth fixing, but I agree the changelog oversold
-it. Unless you or Tony would rather not have the patch, I'll send a v2
-that says which CPUs are affected and how the storm is reached, without
-the KVM sentence.
-
-Thanks,
-Ahmed
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issues to consider:
+> - [Medium] EDAC/cadence: cdns_setup_mc() reports SECDED mode when ECC is
+>   disabled
+> - [Medium] EDAC/cadence: missing memory base PFN offset in
+>   cdns_mc_err_handler()
+> --
+> 
+> commit 75a0021a276efa3f6b0c9a800bd2617eb0141dff
+> Author: Paul Louvel <paul.louvel@bootlin.com>
+> 
+> EDAC/cadence: Add Cadence DDR EDAC driver
+> 
+> This commit adds an EDAC driver for the Cadence DDR memory controller on
+> Renesas RZ/N1x SoCs, supporting SECDED error reporting, software
+> scrubbing, and debugfs error injection.
+> 
+> > diff --git a/drivers/edac/cadence_edac.c b/drivers/edac/cadence_edac.c
+> > new file mode 100644
+> > index 0000000000000..a3b72116ba129
+> > --- /dev/null
+> > +++ b/drivers/edac/cadence_edac.c
+> [ ... ]
+> > +static irqreturn_t cdns_mc_err_handler(int irq, void *dev_id)
+> > +{
+> > +	struct mem_ctl_info *mci = dev_id;
+> > +	struct mc_priv *priv = mci->pvt_info;
+> > +	u32 status, err_addr, syndrome, reg;
+> > +
+> > +	status = readl(priv->io_base + CDNS_ECC_INT_STAT);
+> > +	if (!status)
+> > +		return IRQ_NONE;
+> > +
+> > +	/*
+> > +	 * Hardware is not exposing how many CE / UE occurred since last ACK in
+> > +	 * case of multiple errors. Always set the error count to 1.
+> > +	 */
+> > +
+> > +	if (status & (CDNS_ECC_INT_STAT_UE | CDNS_ECC_INT_STAT_MULTIPLE_UE)) {
+> > +		reg = readl(priv->io_base + CDNS_ECC_U_ERR_STAT);
+> > +		syndrome = CDNS_ECC_ERR_STAT_GET_SYNDROME(reg);
+> > +
+> > +		err_addr = readl(priv->io_base + CDNS_ECC_U_ERR_ADDR);
+> > +
+> > +		edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci, 1, err_addr >> PAGE_SHIFT,
+> > +				     err_addr & ~PAGE_MASK, syndrome, 0, 0, -1, mci->ctl_name, "");
+> > +	}
+> > +
+> > +	if (status & (CDNS_ECC_INT_STAT_CE | CDNS_ECC_INT_STAT_MULTIPLE_CE)) {
+> > +		reg = readl(priv->io_base + CDNS_ECC_C_ERR_STAT);
+> > +		syndrome = CDNS_ECC_ERR_STAT_GET_SYNDROME(reg);
+> > +
+> > +		err_addr = readl(priv->io_base + CDNS_ECC_C_ERR_ADDR);
+> > +
+> > +		edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, 1, err_addr >> PAGE_SHIFT,
+> > +				     err_addr & ~PAGE_MASK, syndrome, 0, 0, -1, mci->ctl_name, "");
+> > +	}
+> 
+> [Severity: Medium]
+> Does passing err_addr >> PAGE_SHIFT directly to edac_mc_handle_error()
+> miss the physical memory base offset?
+> 
+> On Renesas RZ/N1 (r9a06g032), system DDR starts at physical address
+> 0x80000000, while the Cadence/Denali controller logs 0-based DRAM offsets
+> in CDNS_ECC_U_ERR_ADDR and CDNS_ECC_C_ERR_ADDR.  cdns_setup_mc() fetches
+> the /memory resource into res and enables SCRUB_SW_SRC, but discards
+> res.start and leaves mci->ctl_page_to_phys unset.  Without adding
+> PHYS_PFN(res.start), edac_mc_handle_error() reports a 0-based PFN and
+> edac_mc_scrub_block() fails pfn_valid(), silently skipping software ECC
+> scrubbing.
+> 
+> [ ... ]
+> > +	reg = readl(priv->io_base + CDNS_ECC_STAT);
+> > +	if (!CDNS_ECC_STAT_IS_ENABLED(reg))
+> > +		mci->edac_cap = EDAC_FLAG_NONE;
+> > +	else
+> > +		mci->edac_cap = EDAC_FLAG_SECDED;
+> > +
+> > +	mci->mtype_cap = MEM_FLAG_DDR2 | MEM_FLAG_DDR3;
+> > +	mci->edac_ctl_cap = EDAC_FLAG_NONE | EDAC_FLAG_SECDED;
+> > +	mci->mod_name = pdev->dev.driver->name;
+> > +	mci->ctl_name = "cdns-ddr-ctrl";
+> > +	mci->dev_name = dev_name(&pdev->dev);
+> > +	mci->scrub_mode = SCRUB_SW_SRC;
+> > +
+> > +	dimm = *mci->dimms;
+> > +	dimm->nr_pages = PFN_UP(mem_sz);
+> > +	dimm->grain = 4;
+> > +	dimm->edac_mode = EDAC_SECDED;
+> 
+> [Severity: Medium]
+> Should cdns_setup_mc() set dimm->edac_mode to EDAC_SECDED and continue
+> probing when CDNS_ECC_STAT_IS_ENABLED(reg) is false?
+> 
+> When the bootloader has not enabled ECC, mci->edac_cap is set to
+> EDAC_FLAG_NONE, but dimm->edac_mode is still hardcoded to EDAC_SECDED.
+> Because EDAC sysfs exposes dimm->edac_mode via dimm_edac_mode, userspace
+> monitoring tools will see SECDED reported as active while the driver also
+> requests the ECC interrupt, unmasks CDNS_ECC_INT_EDAC, and exposes debugfs
+> error injection on a controller with ECC disabled.  Failing probe with
+> -ENODEV (as documented in Kconfig that ECC must be configured by the
+> bootloader) or setting dimm->edac_mode = EDAC_NONE would avoid reporting
+> active ECC.
+> 
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20261118-paul-v7-3-rc1-edac-v8-0-ed791084cc19@bootlin.com?part=2
