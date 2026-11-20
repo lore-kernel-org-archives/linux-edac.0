@@ -1,100 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.40
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795189438;
-	b=y1T7uVWPZ06k7Nosu+rDOn3re4CBTR/sPeWGumFUqT39ec+unVM+bm8w3fMtc0AozuWJ
-	 IcxBlZHiEja6GOnf7XsRgnV/72gOmFYcGNa/qtHUl8eOrAWXwQzfTw/Qu3e64tIGG9P2+
-	 w4mfyfKk8l9j/SSy61vcfc8y0aVwFCddmoKy276VzXiBD26CaNc0beHXXYnzDPU11QVjr
-	 BXGddiogrfBYoWW1Jm867upqxV0AuuLHxvvjyspgXgncXk7xEtc08zijUqx2wt3vb13W9
-	 GBf03Lo6JwmFR9PhJYxUMyt029hHa5gPKHCnwHtDw/glihIGwlzXdWeyVri6SV1CJRA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795189438;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=qwHxGAo5AsifwepmU8qO3sN1WF9x18WK1Xjv7mDSZyc=;
-	b=t3Nnd4b3wTCU78I6jSqX1w+HVux1LJCm4LNpqB1NO8KeenniRb5WCm02fw8aoYG9jP6T
-	 H05RLHbY73/PblewnK+VdOq1ORdpCKH8Q3CxBGODbw/9WYGdgfzjz6o0jQY+jNSWRwnaS
-	 E4/Zx1II2waK+N0ms6ccVCZ+qro6UsM02zjC7mzGi1fnro0Qjy8/kQ2nbDY/TMmV0jmuN
-	 ey69c3ZaBsVoijjHNmzthnOz5+21soDj85jkZnJIBIYVM00UNxTN9zmjjaw5wICV3k3zg
-	 Gfwpv/GxIOGMFYu2nVzZQlvxwc9iodwwJvcYRnWfpTaRw47nTwn4QaqXhG3PvKzF7MQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=HXqMByN7;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.40
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012040.outbound.protection.outlook.com [40.93.195.40])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795190977;
+	b=HUH8D8iqSIV4XS4eJyTr+qiqpqs+ZQsoChK6ZHG1PX7o9tEOBsDFXIlIEElrWZ6XM620
+	 wOm9Z0PjTTT6D6B7O4SWOMEeEGR2roo8Wto0I2HoWJ/v4id5BBVVKyVPGFRKtdEGfV7Xv
+	 MnhSDvDEcpTOxvZPdICuRotq66AeF3CsAS3w7bHl9RhQlr30T95TdMoODMexHeExKyTAx
+	 oMKbEmuCWr9njxo7ZNnNP4JD7o42TOb9+oqCvZ9C9je6ccggfEoPa6MQkcHaO+eXYNPLY
+	 VIVSTSu5l1ZuHLd20kUJs2NWwBo/7b5HDE+zD3RmXWXOCgCJ9ZIJyLUEUcBWI/DXv9w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795190977;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:Subject:
+	 Date:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Last-TLS-Session-Version;
+	bh=Xmipbk9WhItkGxFmzEm9CsocJ9ro6pGU2fPE0kUBKa0=;
+	b=pBXQeFP4L7DESgCVBPzeW0rrNc14jHmxORGWAWQdus8KYASlWT7nZZVNaJnOLlQNwCb4
+	 x/D57bEgDuQkYipk1BN9cz2hh7JUeRerje2l9x6u6nBIB9IRb7i75fwYfkOQeByvAGGXN
+	 Nd8UiBqiLh4LDss4Jg0NzFe+6En0SwzlXukoRMEKdSZmUm7ZMDQ4+10+wng76eq5zwYvA
+	 cLMvF7WuWB0cv2kfP3i+8ykauzHhX+3nQLFxzIcshSUjGPYWhUO1fIgCt+oBVZ8Spk4og
+	 IJhNoLFLPN4KtNiCcXVA5X+ox138hR9oFoXTPDi/LSVJlwYnjitJMzVBXIZIlw5IelQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=0qO5DRWN;
+	arc=none smtp.remote-ip=185.246.85.4
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D598606A320;
-	Fri, 20 Nov 2026 15:43:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D598606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F7B606A330
+	for <linux-edac@vger.kernel.org>; Fri, 20 Nov 2026 16:09:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06F7B606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=HXqMByN7
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VE/UB14pae/1ruvECPs/TGd1FQveGfTz2oay5nYvOpmf9IbJ8jlmt7UARlpHObz4csCpUHxo5VUJkECYIOmrPuDURwVaIPtZwIGdfzlALSjEB0LlatlnWyrE4SiHazKNouGytwztyPJ7QYT209PIDXMBgSJO/ZLdqZb1ZMRcnqgZc8vTt6KKq/1uOlv9v4YXVTEU3jJj2eyOqIjtvYk5ltb8Po0JUNIAuEmqhe+yAKpTyd8zmHFKWbuxYWXZROw2YtPBHgfCXAgUCJynB0H+YO/EiB7ORCNb5qOrBS8iXYRfZU4OQq+SMxWso0kuHOdbNji4WITCeUgxcY1hkcBX8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qwHxGAo5AsifwepmU8qO3sN1WF9x18WK1Xjv7mDSZyc=;
- b=Fl2Ce78372P6opqiCau/CRLH4k5ndZrD5n0vOJ/XkmcOAcx3TAMbMm1EJ9IC4je7GXYJ2svaaJSzp8qEoH2VNG54pMMt9eP+NNShOhtmIQg8s1MoJp1v4v3uBiu/wpOuQJfuS6W+kVbMjzBm0YMCPCYjurBO8ivaLQxl8EZWRDFjgcAq11FPOJCbBzH6ULOibZS2AxxvccKPN0Tb0D5M28UfREQDQ5/gLpgzdctLiUHyUiBCFyHtUyNkB1U73hd0jBVZOL0HvBjfPGANXP2N+FYdaBXbjC/8OabZQK1Qx2lFOWjYufxFOYL0gxhh+erlQWd/ocwfCE8hIEf8llZ2fQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qwHxGAo5AsifwepmU8qO3sN1WF9x18WK1Xjv7mDSZyc=;
- b=HXqMByN7R6SeQNgn6qW5BSYn6IouAQw8qWh/au8QhtrbY84rp5jh4/XNqHjkueMMsuXhewyTZWoZ/1YszEV1fF/Zug6A2jzBjetKuccfSpo0ooPXm1p2xuTVQKiqkSQupvkIlNxDbYAm/HvqwzFncNfpP3nn9dQU3on7H9AoTBg=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
- by PH7PR12MB5832.namprd12.prod.outlook.com (2603:10b6:510:1d7::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Fri, 20 Nov
- 2026 15:43:28 +0000
-Received: from CY1PR12MB9697.namprd12.prod.outlook.com
- ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
- ([fe80::3a41:55a0:8203:596d%4]) with mapi id 15.21.0615.013; Fri, 20 Nov 2026
- 15:43:28 +0000
-Message-ID: <cebfefd1-bcca-4245-83f8-fc4557c1da62@amd.com>
-Date: Fri, 20 Nov 2026 21:13:19 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/12] EDAC/versalnet: Add bounds validation in
- rpmsg_cb()
-To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
- linux-edac@vger.kernel.org
-Cc: git@amd.com, shubhrajyoti.datta@gmail.com, michal.simek@amd.com,
- Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Borislav Petkov <bp@alien8.de>,
- Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20261118142213.100581-1-shubhrajyoti.datta@amd.com>
- <20261118142213.100581-5-shubhrajyoti.datta@amd.com>
-Content-Language: en-US
-From: "Pandey, Radhey Shyam" <radheys@amd.com>
-In-Reply-To: <20261118142213.100581-5-shubhrajyoti.datta@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0182.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:be::18) To CY1PR12MB9697.namprd12.prod.outlook.com
- (2603:10b6:930:107::6)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=0qO5DRWN
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 661694E4168A;
+	Fri, 20 Nov 2026 16:09:34 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 327A5601B9;
+	Fri, 20 Nov 2026 16:09:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BF57D11BC0427;
+	Fri, 20 Nov 2026 17:09:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795190973; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=Xmipbk9WhItkGxFmzEm9CsocJ9ro6pGU2fPE0kUBKa0=;
+	b=0qO5DRWNv+I7+9PRk5NFdkoPKU7SRxTy5k+PmULzH/HAMG87qqD2qznOddNWhW/DRNc1ZD
+	J6oNlb85aOamCNmygft9T152zw63uH5iTq/ZnxcvRQR9DEbVq2Yq0AbWlwysNiiXzxXvcv
+	H306YIfdvo4GZDB/u/T/a5WQxROq7PovQZZsXiiXaSfyjKtvr00YX5GygvUy8PF5zySabs
+	ofa2egRsTjiIIJH2MzzR6kC1gcQ0OHGK1zGBEGUUTtipnWfOrGTF7zdGJyu082n3/UF5+B
+	prfjpX1XJtWv5wvu6BDqTxi9QT8P0NFUFHribyypz4e1qqrehMNzHpBYpIAceg==
+From: Paul Louvel <paul.louvel@bootlin.com>
+Subject: [PATCH v9 0/3] Add Renesas RZ/N1x EDAC driver
+Date: Fri, 20 Nov 2026 17:08:33 +0100
+Message-Id: <20261120-paul-v7-3-rc1-edac-v9-0-470f2e6928cd@bootlin.com>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -104,116 +63,198 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|PH7PR12MB5832:EE_
-X-MS-Office365-Filtering-Correlation-Id: e110de6f-ad92-440c-4e23-08df471d0585
-X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|18002099003|22082099003|261009223027099003|4143699003|56012099006|11063799006|261026140227099003|261102123227099003|261028144727099003|261021121427099003|261022075727099003|261022113327099003|261022105027099003|10067099003|261026121527099003;
-X-Microsoft-Antispam-Message-Info:
-	rkcoxCGUdShbupzB0+34u6Y9iJkhcJlTagBP6Ie8kSYwF3AmdXjne+VWKg2oVH8F251+qyjrTbkYVeBHXNsQzHLo1jC635i5jeBV+CApnsJON1Q2PHMcy/SG1Z1hz3OSnEK6zrYS1VqK7wglTDkCVjMAPuGesg8XIMBnQvSDFBH+hA0joygoi1jcTICv715e/xSCVFhmuVHe1nH8QE8ZVh5CXukUGrjGmtr3HrSvpRpSAxiCnOrfrdbjICSW117ahdMXxEBVPXYpPehFgLNqceFWcCQ3Z4UNaIVMQ81lZI0OZEMJ8cbbaOCyo+1TgsADC+n/Y8JHi6Ki+hFBtful010E7dOSku/VrwCXB7E97y3xQn+NCJSH40FJa2Pgdseot0oGrF6BdQJMtOoVXEynOEccj7HqQWUrYEpJ5MjUFYiGSXQ6fbveH/tdroGszo8vFX7k4aAL3WKQLhGo7keFzBj6ZYZsBBMg8kvyvnHjoopVxF+JVJ8Gk1XAygUUR4C3fizScysntMyh93+eeRZoXyVEStEC2QpPLKv2wca2Dsk2je4IsqQrbQPeR85LwxwK8McE5xuLe7Y4+nHBiaMr0q9A3GIY/3LHKjjwK5bon6x3W9DVfk4js1VdGbPSLsVUqFV1d4FUT5leyI+Gwv6EQZwqJWgwuaJyyB+42OAcVmE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(18002099003)(22082099003)(261009223027099003)(4143699003)(56012099006)(11063799006)(261026140227099003)(261102123227099003)(261028144727099003)(261021121427099003)(261022075727099003)(261022113327099003)(261022105027099003)(10067099003)(261026121527099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?emlYeFVwSG9Xa0dhZG44L1pNWFRXYXlMK1hwdUV6NnM5N1hRSjJyU1podkhL?=
- =?utf-8?B?bXVvd0dzQnZKczJCVk83V090UVByVVdZbUUyQmdVZWNVWUEwK1RlZXFJaVNE?=
- =?utf-8?B?RUQyMzA5eFMwSFJQelhDdFdpWHNheDltdHA0RUhXQno5S2ZJeTRvTGVieGE1?=
- =?utf-8?B?dytyU2tkQmJvckZDL21mNlBST2lEVGhTMW9XQnJPR3J3LzZzcmw4bHpmWHVQ?=
- =?utf-8?B?OFNCUGIwSVpwV1hmNFNkMXM4TkVKdEVoeUxPTlJnbU9wK25SY3FPMU9TTEVk?=
- =?utf-8?B?ZkVhVTdtTEFDZTQ1TDlHRHA5MnRHaUxkVlBqWjAvLzRmRDVmRU1BM0ZpenB6?=
- =?utf-8?B?ajRDR3N6SGE5MUlKYU14ckdKZTVSRlpYU2dZOVZEZW1MTUYvNUdXQ0F2SWVa?=
- =?utf-8?B?MVIwd0NQcm11eG9sZktPSGZxZk5wZC9VL2dJNHNWa1BvcG9SV01YT2YwOThz?=
- =?utf-8?B?RmkyM3FGRE9SV2dMU01TYVFGdVV0YlFEcmFtSVk4eUNtTExaZkp1em1kTGt6?=
- =?utf-8?B?bDd5c0FlVFlpWXEyTzY1RGVVaElTU1lUTWdleDdvNWZ6ZVlHKzdQYWllN3ll?=
- =?utf-8?B?NE82ZjFSbTNQQWVPZlZnaVI1czF6R2MwY0ZIQjdNdk5laExQRWl4MkhqNDE2?=
- =?utf-8?B?QnlJaGlRU2ZwK3FlUjhDQi9uMWpIOGlMN3RtTVhFdFJWV0lyQWp5U2lSNlZz?=
- =?utf-8?B?c1lPNFQ2QnRyQ2Rad2huNjU3K2xIL2hCbUtqTWRLc3JGaEY2VHNJQWRUMnhG?=
- =?utf-8?B?U3Q4c0NxN2oxR0M0YnYwcmR0V0FPdkhZRDhIa3d6RG9BSDd1Q0U5MzJWdjJH?=
- =?utf-8?B?UHRpcmhwcXRUOEJ1VHdBVHlGOVo1c0lzMG5SRGNwZ3hwMUxiTGdpWndaU2NF?=
- =?utf-8?B?VnB4L3RQTW1IbFJZQmdja1hBdi9ybWRma3BUbDNBMTJLQUF1OXQzVnRMUTZU?=
- =?utf-8?B?czlTUDI3QW04Y1FxNFg4MEttYVVVbVp2Ky9LaDRlQUl0M1FpcHJIcmpVVXRz?=
- =?utf-8?B?WnVGc2lRaUE4bTQ0L283TnVFaURteFVQNkVtRlp5M1BycGNSc3grU20vYW04?=
- =?utf-8?B?Z2Jsd1FiMkNLWEVTc2VTTjNQUnBreFI4UmM4MFJPd1Mwc2c4Y3BxMWpXempK?=
- =?utf-8?B?Q1NwMWtkUFhyamNJWXJNRHZub0lYbmcwOFRFbWs3ckc0UkpQUTlkMmdjOGhk?=
- =?utf-8?B?eEdmd0xkZ09ILzJTL1ptRXNvaTdFQmsrenRSVnVZb2c4TTJCR1JqTGZwVmo3?=
- =?utf-8?B?dG1BNnpHNGVRMGltMTFNMlh6TnFSOW54NGI2WTAxNjRQekw4YVFNOTdrY2hj?=
- =?utf-8?B?Qmx4aFowUWNJdVB4WW82dmk3R0RvRkRVM1g3VEdFRkk0U1dnYVhtVjhUeXNp?=
- =?utf-8?B?K0gwclZ0MlNMV0grcm5KY1pncnUwY3Rrb2lqbjFTU3UyMEE5QkY4U3lKZVho?=
- =?utf-8?B?dGVTYmF5VTRISjBmR3RpSEZObHBXa0JwVVovRndzOHlyU1RFYi9ERzhmdjJ1?=
- =?utf-8?B?V2RYNlNSQitRM2V4TldMRHlMWHVaK29ldFZUWEdaSG83RU5xTWNHSkNWRUVK?=
- =?utf-8?B?UzllUGtoeXBzTHBaTmtGYitDdktGVkw4Y01DZnpDSjA2L1VYMFRjbnRucUE3?=
- =?utf-8?B?ZFdRUkdYN3ZDdGE0eFZkaEJwQU5QSGJIUlFKekcwMnhWZnJSanB5SEY3TlBW?=
- =?utf-8?B?Wmt0bDVHZHdqTG1CVk5GWGNIQlhqZjZsMkxFL0xLRXFhTWJhMWdTc1BmVGc2?=
- =?utf-8?B?OXhyb2xJNkpjZHZIOUVLb3QwQlZ4RU0yZGd1NXhIcEZhZU1YM3BzSG9uWDdS?=
- =?utf-8?B?Y1g0aXBEd1lLV0FUeVRBUDBOZEU5TUNZSnNYNHZpUldjK2xVNm9sOVEybnhN?=
- =?utf-8?B?NFkvcG5MRXNjbFFaYlVkRWZIRWtsczZGWGh4dGZGQkhZOFQzczlwODJNcG9l?=
- =?utf-8?B?L1o4MHVoYVhab05xak1McGh0YVRwRHFVVmpNK2puSURycHpzK0JoRUwwSXNX?=
- =?utf-8?B?VWRYZWZPSU1WTDV5eEdXWHNUQy9lMXRmbldycGhoc2wzdko1YTZuYUM3eE44?=
- =?utf-8?B?WTY4d0pFOFZoNW9VQ055QWNoUGxSOU5kTVFzb1BBSTFndHlvWFNCVWxlbXVX?=
- =?utf-8?B?TlZ6NU95eDU2ajB1OFVXS3BBbFZweGhGTUZ3alJORzhoTGVhQ25SdDEyaitY?=
- =?utf-8?B?cHlLZnpMQVgyY3Boc05kWTBtOXRWdStwdGV4bFRXK0EzcEtEWFNNbnRmdU16?=
- =?utf-8?B?SE1ibEk1UDZiVWR1QXRmcHRpbVNFU3N1UjErOFk2TU5GajZ6enVKUHhvdE1I?=
- =?utf-8?Q?kBov3TbsLyN0t5L/ow?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e110de6f-ad92-440c-4e23-08df471d0585
-X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 15:43:28.4099
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZIAyQHqXj+QnDlnZJyAoc3YFe0WB184ojcZGNEezWOaspZ7eX9ALww/EVWuHqaDT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5832
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5XQTU7DMBAF4KtUWWPk8b9ZcQ/Ewh7b1KgkVdJGo
+ Kp3x24lCMQgdTnSvG+e5tRNccxx6h42p26Mc57y0JfB3m063Lr+JZIcytwxyhS1oMjeHXdk1oS
+ TEYHE4JBAEtomqxJK3ZXgfowpv1/Qp+frPB39a8RDlerGNk+HYfy4XJ2h7v17YAZCSaBcGcMMZ
+ 949+mE47HJ/j8Nb9a5hJv4Ma+oj1yjAgfkRrv1mtmygmwgrSJLSAOUQaIo3NahhjyCoAgURcd2
+ ALxow3kR4QaThYNBx4R2/qUEN+2CoFE56MHTdQCwbmCYiCiKUUIXQ6NCuEfmFAKWyiciClE84m
+ oAJj40maoFA+xeqICxBUIklLYJfI3qJ2CaiC2IEaoUqaGnlGjHfCED7J6YgMWgLtFAIv35yPp8
+ /AR28KfFiAwAA
+X-Change-ID: 20260916-paul-v7-3-rc1-edac-1f479f96fc57
+To: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-edac@vger.kernel.org, devicetree@vger.kernel.org, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Herve Codina <herve.codina@bootlin.com>, 
+ "Paul Louvel (Schneider Electric)" <paul.louvel@bootlin.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795190968; l=5858;
+ i=paul.louvel@bootlin.com; s=20260313; h=from:subject:message-id;
+ bh=lXShCtRrRQORgaC8Ec28afXh7zpzUXfdlez4O8xlzho=;
+ b=5K34wTAR9hCYhk78qSlmlQhRz7GN0Y2EsJhZ3AWac/al4qZnmZ1C9Ctb7O3VuVT1KDUtFgGtN
+ N8QHqt+m5wpBCp301ZmC1nt+79QqYkI8S0HeBZssXKIZocnyowgyaUg
+X-Developer-Key: i=paul.louvel@bootlin.com; a=ed25519;
+ pk=eLW50NT18UAvUT5cAcYf88zNbBCZDLFXuptpyLVhVIU=
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 11/18/2026 7:50 PM, Shubhrajyoti Datta wrote:
-> The firmware-supplied offset and length values from the RPMsg payload
-> are used without validation to index mc_priv->regs[] (REG_MAX entries).
-> A malformed or buggy firmware message could access past the end of the
-> array, corrupting adjacent structure members or kernel memory.
-> 
-> Add bounds checks for the offset and length before accessing the array.
-> 
-> rpmsg_cb() supports messages split across two RPMsg callbacks. If
-> validation fails for either part of a split message, discard the entire
-> message.
-> 
-> Fixes: d5fe2fec6c40 ("EDAC: Add a driver for the AMD Versal NET DDR controller")
-> Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-> ---
+The Cadence memory controller found on Renesas RZ/N1x SoCs supports ECC
+with SECDED.
 
-Let's fix sashiko reported bug.
-- [Medium] EDAC/versalnet: stale part_len on split-message failure in
-   rpmsg_cb()
+The memory controller found on the r9a06g032 supports at most a single
+DIMM of DDR2/3, up to 2GB.
 
-> 
-> Changes in v2:
-> Sashiko comment
-> "This is a pre-existing issue, but are offset and length validated before
-> being used as indices?"
-> 
->   drivers/edac/versalnet_edac.c | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
-> index 2d1417135e42..0364648d91a1 100644
-> --- a/drivers/edac/versalnet_edac.c
-> +++ b/drivers/edac/versalnet_edac.c
-> @@ -607,6 +607,13 @@ static int rpmsg_cb(struct rpmsg_device *rpdev, void *data,
->   	length = result[MSG_ERR_LENGTH];
->   	offset = result[MSG_ERR_OFFSET];
->   
-> +	if (length > REG_MAX || offset > REG_MAX - length ||
-> +	    result[TOTAL_ERR_LENGTH] > REG_MAX) {
-> +		dev_warn_ratelimited(&rpdev->dev,
-> +				     "Rejecting the faulty message\n");
-> +		return -EINVAL;
-> +	}
-> +
->   	/*
->   	 * The data can come in two stretches. Construct the regs from two
->   	 * messages. The offset indicates the offset from which the data is to
+Add the EDAC driver for this memory controller, and the relevant
+device-tree binding. Also add the EDAC node to the existing r9a06g032
+SoC base device-tree.
+
+Signed-off-by: Paul Louvel (Schneider Electric) <paul.louvel@bootlin.com>
+---
+Changes in v9:
+- Software scrubbing was failing because the pfn returned by the driver
+  was wrong. Instead, use the pfn of the start memory address where DRAM
+  is mapped as a base, and add the pfn of the address that the DDR
+  controller is reporting.
+- Do not report EDAC_SECDEC capability on the DIMM if ECC is disabled,
+  also do not expose debugfs attributes.
+- Remove 'edac' label on RZN1D DTSI.
+- Link to v8: https://patch.msgid.link/20261118-paul-v7-3-rc1-edac-v8-0-ed791084cc19@bootlin.com
+
+Changes in v8:
+- After discussion with Wolfram and Geert, the driver have no reason to
+  be disabled by default. Remove the status property in patch #3.
+- Added Reviewed-By trailer.
+- Reparent on next-20261116.
+- Link to v7: https://patch.msgid.link/20261019-paul-v7-3-rc1-edac-v7-0-84c76c6d7595@bootlin.com
+
+Changes in v7:
+- Patch 2: fixed weird formatting of cdns_ddr_ctrl_of_match.
+- Patch 3: did not sync trailers added in v5. Added Reviewed-By of Rob Herring.
+- Link to v6: https://patch.msgid.link/20261013-paul-v7-3-rc1-edac-v6-0-2f1d6f2f74db@bootlin.com
+
+Changes in v6:
+
+- Patch 2:
+
+  - Sorted the includes alphabetically. I have also ran a check with
+    IWYU and, after careful checking, there is no superfluous header.
+
+  - cdns_get_mem_sz() helper inlined into cnds_setup_mc().
+
+  - Debugfs helpers built unconditionally with no-op stubs if debugfs is
+    not selected.
+
+  - Port command channel error reporting removed since it does not
+    belong to an EDAC driver.
+
+  - Removed useless comments.
+
+  - Renamed macro prefix to CDNS_* instead of CDNS_DDR_*. Also indented
+    all the macros definition at the same level.
+
+  - Dropped cnds_ prefix to the private structure.
+
+  - Shortened interrupt unmasking into a single macro to shorten line
+    column length.
+
+  - OR'ing flags to detect type of errors in irq handler.
+
+- Link to v5: https://patch.msgid.link/20261005-paul-v7-3-rc1-edac-v5-0-140a0f124bc0@bootlin.com
+
+Changes in v5:
+
+- Patch 1:
+
+    - Reworded commit title.
+
+    - Dropped unused label.
+
+    - Switch to plain flow scalar for description.
+
+    Note: keeping cdns,ddr-edac compatible after Krzysztof's comment.
+
+- Patch 2:
+
+    - Setup IRQ after allocating and registering the device to EDAC
+      core.
+
+    - Explicitly free the interrupt line with devm_free_irq() to avoid
+      any UAF before releasing MC.
+
+- Link to v4: https://patch.msgid.link/20260928-paul-v7-3-rc1-edac-v4-0-4646a5b7cac9@bootlin.com
+
+Changes in v4:
+- Patch 1 and 3: drop the RZN1 family compatible, as requested by Geert.
+- Patch 2:
+
+    - Instead of using FIELD_MODIFY macro that expect a compile-time
+      constant mask, use binary operators instead. Note that the new
+      code is doing exactly what FIELD_MODIFY do, minus the error if
+      cdns_rmw() is not inlined.
+
+    - Use a spinlock instead of mutex since the locked region will be
+      really fast to execute. Only lock it once for two register rmw.
+
+    - Use edac_debugfs_* facility instead of sysfs attributes. Use a
+      separate "bits" and "inject" file instead of just a single file.
+      This is better since clients can read the previously set syndrome.
+
+    - Cleaned up the probe function in separate functions. Use a remove
+      function instead of registering custom devm action. Use a goto for
+      resources cleaning.
+
+    - Mask all interrupts before un-registering the memory controller.
+
+- Link to v3: https://patch.msgid.link/20260924-paul-v7-3-rc1-edac-v3-0-bd8054a5b180@bootlin.com
+
+Changes in v3:
+- Patch 2:
+
+    - Added trailing newline to end message.
+
+    - Forgot mutex_init() in probe...
+
+    - Registering the MC at the end of the probe.
+
+- Link to v2: https://patch.msgid.link/20260924-paul-v7-3-rc1-edac-v2-0-bc1406161ecc@bootlin.com
+
+Changes in v2:
+- Patch 2:
+
+    - FIELD_MODIFY() is always called with a compile-time constant mask
+      in this driver. I see no problem here.
+
+    - Use devm_clk_get_enabled() so the driver does not need to store
+      struct clk_bulk_data outside the stack space.
+      Clocks are not manipulated outside of probe.
+
+    - Introduced a mutex for rmw operations in inject_ctrl_store() sysfs
+      callback. Rename drv to priv in cdns_rmw().
+
+    - Return IRQ_NONE if the stat int register is empty.
+
+    - I see no reason to follow Sashiko last remark on this patch.
+      Is an unhandled interrupt a big deal in this case ?
+
+- Link to v1: https://patch.msgid.link/20260924-paul-v7-3-rc1-edac-v1-0-70be37c41a18@bootlin.com
+
+---
+Paul Louvel (3):
+      dt-bindings: edac: cdns,ddr-edac: add Cadence DDR EDAC
+      EDAC/cadence: Add Cadence DDR EDAC driver
+      ARM: dts: renesas: r9a06g032: add EDAC node
+
+ .../devicetree/bindings/edac/cdns,ddr-edac.yaml    |  61 ++++
+ MAINTAINERS                                        |   7 +
+ arch/arm/boot/dts/renesas/r9a06g032.dtsi           |   8 +
+ drivers/edac/Kconfig                               |  10 +
+ drivers/edac/Makefile                              |   1 +
+ drivers/edac/cadence_edac.c                        | 388 +++++++++++++++++++++
+ 6 files changed, 475 insertions(+)
+---
+base-commit: 749a4de370409464cf8501ec5b2451df45c84eb4
+change-id: 20260916-paul-v7-3-rc1-edac-1f479f96fc57
+
+Best regards,
+--  
+Paul Louvel, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
