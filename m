@@ -1,84 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795182538;
-	b=SgEa/QHCxA1CBTfJg6eaUvghiDrigSdRdDYNRC+QK1Hdr4M9I5KR0j8/DfAIg1hIQG2v
-	 ZWmPK/B3lYC9T5fi5OnCWwEBUkZxxj/JPnm2ip8IAw7aGyI1Sd0gmO9jzFv5JZ8QgPW6O
-	 HfAvZghqEOKjl0TUXwR1bN9yxbFEzLbKsbEiKuc6iCUrTL45AZ0cL4wr2zXjomS2wztE3
-	 vPOxi5pjAX0HswQBt9aEdWmugZyaO6ABekNy+sxVAY9dGiXRYKM1a75Wgy3k+Hok4vqh2
-	 s039GEVpenX5ww4SYQMCniR9HSquyzdZx7P/cZlm4aQM2e2/5FVbALZvIzdzv1vammg==
+	t=1795189333;
+	b=vjMCPqU+i8A4lv9kdlRTd61CXTWMU3opr7kTKZ211WkO/+Hv6/lIrQ1KwPX9w1vl/OGe
+	 qoQFuWI2gsBH/Eap/s/HRGKY1M3r53HfXW02ZS3nOw53Z/DbmUu0vacS6s90ulIRVbwnb
+	 F0wbMvT8etvMDiUu1pvfdZ0oFmnDC1XUj+6rYzAbVwiLwGBeAJhlyMvC87jvrfU8e9kCm
+	 qblT49EEM9/6kHPmsBI3IhFqV90twRQGM19LnJ2SPNNcNbF7MDQE1Y1WjuNYMwLzN46kK
+	 gsdk3vIxaI8m+QHLmIWdEHZPMnZqqRzlnA38w/32tG1hHtJ7Rkayhxb7BSBKorGqpbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795182538;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=42UB2Ic2p8chc4kqJqDtCJDrMo+9cfKrWSIsAADlNUU=;
-	b=rV8IDXQI1suT6ilrEPLrrA5OSOtr9mODbUOrbxcPRk9kqovspY4CtLZ/qk5gsk4QOGw5
-	 dK8NAIQX0iscLtxqyKhn1GoPQyS7opkOVX5hsqwQ1ToqrIVlMPS+3aKt02JWM9hufJ1UN
-	 zKBBQqfs7pQusWqVhM9Ypim3FYYuMxBv7Y1uzu1KLTzepalTHKY/zCBwQM2KT6YorjYMk
-	 7BcppcBiOmYO0zO7kciNOv4uU/+vw1LK87m/Bmb3yrwz2fogVjsUQoNYdUn7SfcAsFI95
-	 uEv1feuKLSF2CIWlmZVyyJndG9KrKF0O7vjrtNyvLIo5gS9Y5xZ+qTbEXz4PRAm3iqA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795189333;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Mime-Version:
+	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:From:To:Cc:
+	 Subject:X-Mailer:References:In-Reply-To:X-Last-TLS-Session-Version;
+	bh=rfoD35vTZZX0sigBsALdIqocioomDzHuR9WZvMkdGO4=;
+	b=DPHn4lb9hPmLC9nSzWqbhXLtLYa8ZBG9vEEuw+gEFWjNHy9Bd6J39Y6IhUeHMQ9gh6Nf
+	 hCiKRAYBcw2c2iVy/e4fMEUWoGaRYTNwO4GuFYSXCqJnUUufexKICQbEEqWEmWgd9B9nN
+	 KyPd7ae6ORtax0Fi/ziPP7uCyL1E08Zvn38P4TfjpDrfNsOdX5p0SjHpaabuX8rFbh3A2
+	 Yey4TiEzk4pHl7KB7+GdfxW4CjH7lC50uofwfQfR+Y65j9XN6MjJGC2v5IEdXYeayEIYi
+	 xm2eh0ZkWcbCPLjFfAN7+7tcEYOQGkFSOJxkFYQndcnozOhC04c1hQmBUYe6pak+Tbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LKP7hg+0;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=utSS9xUN;
+	arc=none smtp.remote-ip=185.171.202.116
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE87606A320;
-	Fri, 20 Nov 2026 13:48:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ADE87606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B722606A325;
+	Fri, 20 Nov 2026 15:42:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B722606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LKP7hg+0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795182538; x=1826718538;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Pu805/VB9qgTUs1axHvJxUAA75GgIK9upAu8081ANSg=;
-  b=LKP7hg+0u2Ey0bBCK9nqRAs8+SXrDldwJ6fFZjJv45NoEIAxMopeamVq
-   SFXl1ScCRpkjN2CfGInY0LXjnk16m1XpuVQS7XOmlieaRmb5vSyE3Yltr
-   +iMhq+EH9d0n0CjA+yL5bjH6Au8XAirJVmT7mlayoCtlkusHDkFXwO86O
-   pUgjjegVFeWGgIxcuV8nvP7guz1n8QK0IPVYBVL4xN5BBpFYsi4OD3CP1
-   fIFCay9xX/pfpJEisLPvAYIFtinPfRTtEhfjp5klPbhih111i5wkqPYlt
-   w9tjnofbGR9nQukpSiiC9PJs/Pyh4jcOIkwjxKkAM6fHH0t6OQHr1EvNR
-   Q==;
-X-CSE-ConnectionGUID: KqU5ny63Qi6IGFMvkhBxLQ==
-X-CSE-MsgGUID: USgW64ecTXKcPIE8e0aACg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4063944"
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="4063944"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 05:48:58 -0800
-X-CSE-ConnectionGUID: zB+RFflgQnGgPQf0I55Q6w==
-X-CSE-MsgGUID: R35LzDKWSAScN94e2NZ8wQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="10785339"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.16])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 05:48:53 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: linux-pci@vger.kernel.org,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v2 09/16] EDAC/i82875p: Convert to pci_assign_unassigned_bus_resources()
-Date: Fri, 20 Nov 2026 15:47:04 +0200
-Message-ID: <20261120134716.3027-10-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261120134716.3027-1-ilpo.jarvinen@linux.intel.com>
-References: <20261120134716.3027-1-ilpo.jarvinen@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=utSS9xUN
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 34E56C6221F;
+	Fri, 20 Nov 2026 15:42:17 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 74FF6601B9;
+	Fri, 20 Nov 2026 15:42:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 320AF11BC03EE;
+	Fri, 20 Nov 2026 16:42:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795189329; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=rfoD35vTZZX0sigBsALdIqocioomDzHuR9WZvMkdGO4=;
+	b=utSS9xUNWsQ5vzBs/Jr/W9SrHIOlyJPtGKIBTth+/cvrATnVF+d8yE7TT0imniMhyDvtK3
+	sLCKlEr56EjJ7kvHOnqSI4UDUCCvHLV7ElQ4gAsIEyxw/Ee0Yk1dZ53EkZ0eObd/bbWbqV
+	faihchOxJsNyH5623O12GDDsd4wXnSfXge3O24qe33NaLm/kqjJZTKWCYyKXa7uxTZVsRy
+	fegXnZZlO6ksEVzI0vfCivKp3YJykzqlsFscbTF6jB9mmTaHA3wJUMx/5Qd5OZJtR/wqqY
+	g4xM89hS8ygmrLx/lfxLtsMqy10r/pSsFJ+BzEBmuazrb1L0K7h6bbFLyMQkOQ==
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -87,37 +58,111 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Fri, 20 Nov 2026 16:42:03 +0100
+Message-Id: <DN05I5YO7GJP.2JUFMLWXFSOG7@bootlin.com>
+From: "Paul Louvel" <paul.louvel@bootlin.com>
+To: "Wolfram Sang" <wsa+renesas@sang-engineering.com>, "Paul Louvel"
+ <paul.louvel@bootlin.com>
+Cc: "Borislav Petkov" <bp@alien8.de>, "Tony Luck" <tony.luck@intel.com>,
+ "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Geert
+ Uytterhoeven" <geert+renesas@glider.be>, "Magnus Damm"
+ <magnus.damm@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-edac@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, "Miquel Raynal"
+ <miquel.raynal@bootlin.com>, "Herve Codina" <herve.codina@bootlin.com>
+Subject: Re: [PATCH v8 2/3] EDAC/cadence: Add Cadence DDR EDAC driver
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261118-paul-v7-3-rc1-edac-v8-0-ed791084cc19@bootlin.com>
+ <20261118-paul-v7-3-rc1-edac-v8-2-ed791084cc19@bootlin.com>
+ <awAs386mgR23nmJ2@ninjato>
+In-Reply-To: <awAs386mgR23nmJ2@ninjato>
+X-Last-TLS-Session-Version: TLSv1.3
 
-The i82875p_edac driver scans a single device and then attempts to
-assign its resources using pci_bus_assign_resources(). That function
-makes bridge window sizing disjoint from the assignment phase and is
-going to be removed.
+Hi Wolfram,
 
-Convert pci_bus_assign_resources() to
-pci_assign_unassigned_bus_resources() which is likely a no-op in this
-case as it looks like bridges are not involved here.
+On Fri Nov 20, 2026 at 12:19 PM CET, Wolfram Sang wrote:
+>> Thank you for your contribution! Sashiko AI review found 2 potential
+>> issues to consider:
+>> - [Medium] EDAC/cadence: cdns_setup_mc() reports SECDED mode when ECC is
+>>   disabled
+>> - [Medium] EDAC/cadence: missing memory base PFN offset in
+>>   cdns_mc_err_handler()
+>> --
+>> [Severity: Medium]
+>> Does passing err_addr >> PAGE_SHIFT directly to edac_mc_handle_error()
+>> miss the physical memory base offset?
+>>=20
+>> On Renesas RZ/N1 (r9a06g032), system DDR starts at physical address
+>> 0x80000000, while the Cadence/Denali controller logs 0-based DRAM offset=
+s
+>> in CDNS_ECC_U_ERR_ADDR and CDNS_ECC_C_ERR_ADDR.  cdns_setup_mc() fetches
+>> the /memory resource into res and enables SCRUB_SW_SRC, but discards
+>> res.start and leaves mci->ctl_page_to_phys unset.  Without adding
+>> PHYS_PFN(res.start), edac_mc_handle_error() reports a 0-based PFN and
+>> edac_mc_scrub_block() fails pfn_valid(), silently skipping software ECC
+>> scrubbing.
 
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
- drivers/edac/i82875p_edac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is correct.
 
-diff --git a/drivers/edac/i82875p_edac.c b/drivers/edac/i82875p_edac.c
-index 869de8e372b3..59a92a209dea 100644
---- a/drivers/edac/i82875p_edac.c
-+++ b/drivers/edac/i82875p_edac.c
-@@ -290,7 +290,7 @@ static int i82875p_setup_overfl_dev(struct pci_dev *pdev,
- 		if (dev == NULL)
- 			return 1;
- 
--		pci_bus_assign_resources(dev->bus);
-+		pci_assign_unassigned_bus_resources(dev->bus);
- 		pci_bus_add_device(dev);
- 	}
- 
--- 
-2.47.3
+The datasheet says: "Address of correctable / uncorrectable ECC event" for =
+these
+registers, but DRAM is mapped at 0x80000000.
+
+>> [Severity: Medium]
+>> Should cdns_setup_mc() set dimm->edac_mode to EDAC_SECDED and continue
+>> probing when CDNS_ECC_STAT_IS_ENABLED(reg) is false?
+>>=20
+>> When the bootloader has not enabled ECC, mci->edac_cap is set to
+>> EDAC_FLAG_NONE, but dimm->edac_mode is still hardcoded to EDAC_SECDED.
+>> Because EDAC sysfs exposes dimm->edac_mode via dimm_edac_mode, userspace
+>> monitoring tools will see SECDED reported as active while the driver als=
+o
+>> requests the ECC interrupt, unmasks CDNS_ECC_INT_EDAC, and exposes debug=
+fs
+>> error injection on a controller with ECC disabled.  Failing probe with
+>> -ENODEV (as documented in Kconfig that ECC must be configured by the
+>> bootloader) or setting dimm->edac_mode =3D EDAC_NONE would avoid reporti=
+ng
+>> active ECC.
+
+Good point. dimm->edac_mode should be set to EDAC_NONE when ECC is disabled=
+. So
+that when ECC is disabled:
+
+# cat /sys/bus/edac/devices/mc/mc0/rank0/dimm_*
+0
+x16
+None
+Channel#0_DIMM#0
+csrow 0 channel 0=20
+Unbuffered-DDR3
+0
+
+Instead of:
+
+0
+x16
+SECDED
+Channel#0_DIMM#0
+csrow 0 channel 0=20
+Unbuffered-DDR3
+0
+
+I don't think failing the probe is a good idea, but it should not expose de=
+bugfs
+error injection for sure.
+
+These issues will be fixed.
+
+Thanks.
+Best regards,
+--=20
+Paul Louvel, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
