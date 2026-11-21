@@ -1,96 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.169
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795223119;
-	b=P/x1G+vxlryT+mHQDkAQPorlk3ff646SGmW4Uen65Ru47v26yIJPYeHAM7k9H9XO+x0G
-	 JFizOrge+KMuVb9mQbxvDyBltHqbI7JTJhlLnQfgjGSVY/hp3GUhz+OiUyX/4xdWRK8R8
-	 O4ZIHCHRPmewXuH9Bh7GLfR1ND8g0Y1yMM9VxPrZx0uF5feOjriXxCr+DTtXKUy0/HZJS
-	 KER/cIx92y4+ZI+48SeuvQnXXTSeAHb4iZ+AvqEntmNbD0kCFFZuub0Aai8DTdSfprR4M
-	 PJN6BDh8ZCP869qwRhSMOItBZ/f8QaBKo6zLZNeoAwonLulcjEZfuxkY7T9++N2d88Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795223119;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=8xwlgo/XNZO5KLdBkEW/2WF1dNv58iVv6RHyfi9TaJc=;
-	b=S92qViMJ/jKsqMggDkgRAU5G+2lOKL0/dpHSvapVxthcK/1oSmejKsPfPJuDZicZv36R
-	 AZ9zLmgX8t6n4SMG4Bh9byWAkN7DaBi8NIMxGSviaef4fKkPZAKM53awgLv+ShVhnCq6k
-	 OiKfpPGsW0Y7ug8Z9hQ0OvA0FQgnJDkRXCGUZOuuWPU0dOO2YrFn6zRKXT3coqx4V+5cO
-	 PluFk5Ir8Wo4z6G119sP/Vn8vwd/KbPPeNmdFtLxgPtGVhjOA3q7CtPexq78vdbKtafoQ
-	 b2Bck9rIvVc75hlC5VlnBw01BNwurhkX2m0KQVbLwWH3wE2xOEw5CzdBUlDhBGNeWaQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pNm6DzDO;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.169
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795260365;
+	b=jc3ppN9MEhB+araqJKrSQ41zNph2bl4wZb8Jkc43bDGsqauMc4O+NTNKV9OcW2mZ1SxU
+	 wHN7SYp6P4BkxKzsWvRdFk3S99C6MbjPShz9vjHDc0WWQ/ALXkHLKzjOwSnlxic4J72dM
+	 3eWSWb/eDmb0dc6+OLCoAyKdHZfK6gqRXJF7gRJ07a1fZInTu6YbIwNE4vhYTn/uqAPxR
+	 D8EG/YZ/Wvx/8r34XzifOmiKZQGD8VTZRkXNeRAs1yUtqAC3UO1JI2179EJeUUT7M2Yek
+	 nZY2v9LGOd4u+8e2WIsodpB56EpahYfVrAHQU0+xsyPxfWfymtpFtH828EFnVlEewIw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795260365;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=3bXHcl/fLFqRmej5Iy+GS47hNdziQAQfexcJcjrWskU=;
+	b=zZ5ng3QTuNtzypSSv5i/dCIyMucARAkJh6iLTdFcRnC/NrvPXpZkh58AryI/Wl4uUOKf
+	 M/tSdQHdwHbmn+H6y3+UOk2Ya+FMmxfFrOGgJuc2vRHutmIfvvpGsjU0qg+Wu73ZwrVKW
+	 WYoy2Jf5T4sRI/Cq3LBlMx6QVILg9o9fEocsR9gKUNm/tDZCE6RQJfJVUQMibRzdyfNm7
+	 1iKMT7XodrVUC3d++SDNsS86RgcTVz5rTeRRW1rf8Czs4H0KswYz+f85+jpzgB12dtiHt
+	 37YiqYbx1w7Uvth5GAp0kBS0S3sjIO/+T3IT7dBhqBLrIB0IDmNVjbMpZAlpkJB3yvw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P+ScNVmp;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02797606A6A5
-	for <linux-edac@vger.kernel.org>; Sat, 21 Nov 2026 01:05:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02797606A6A5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEA9606A32A;
+	Sat, 21 Nov 2026 11:26:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pNm6DzDO
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-9496400270fso135581485a.1
-        for <linux-edac@vger.kernel.org>; Fri, 20 Nov 2026 17:05:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795223117; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HmpILSBvaaU5pYoc5vhSvc2UVK36V88Y4HtpXyNNX8bg8sxERNeH3aybge3fx89CRL
-         5RQ+r5IYYotpTnBp7F7lTtJmna5UHA2AdNAZCb3KPMWRCpRCoEhyqhm9V07pnqzWPvAA
-         FZ3Qj+pKoKHbD+DIaHDChQulRvrN7ukFHK3FVE8m4CesJX7fHHj7UGHlha3wlz3rPJVV
-         a6D3EfVXqnmlDc5vOR/UYFo7obU1gDwOFxklM7xxPTpiFBd78SF3wYSKgPUSglpdoCfm
-         l3nk8fRGN48Ta6/KarYrOaycqHtQs2I0ge/BzAm2wYjGTmhO98DshUTwOkjB6tdbYZdS
-         kNQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=8xwlgo/XNZO5KLdBkEW/2WF1dNv58iVv6RHyfi9TaJc=;
-        fh=VRBWEQvpNtz2f/Z9yZTdweF7xuc3ED/Y1KnBPHZF/dY=;
-        b=S57Ykb4cK74S+4Bled6VGaxIbTNJloGsHEG3a9V7rgnTpe+Bb7rLSxNOpaOWZhg6dq
-         TmbqkGzBKkbc/RubJK8CRnmZFsOeLa2NZQG4KRiWK+frVJ0AHTvwlNfagQgQfbjff06C
-         hiIrJ9XxFRA/wyFxUraCq9XpDBMp1PP4V/tQ10DlVQFpjz8Lm87N4V+V2NdE1INP8lx/
-         5gYp5y0Ybs8FYGljTP7Sfk6b1mMP/lYGocUCia6Jjf8uFMGXY2mgyl+ZNcXxwW+sU+WQ
-         C4easSQrkGWRjqeBdxX7ojrFaemWwp9f471Z3CLo2GemWQsdPwpJ2EIie7I1Bn5Esdfc
-         k5VQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795223117; x=1795827917; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8xwlgo/XNZO5KLdBkEW/2WF1dNv58iVv6RHyfi9TaJc=;
-        b=pNm6DzDON3XuRFzRjM7Y+16VKhmwQFhBUf5Hq++UUOPEGE6DGbP+pA49uGkh17af66
-         aBRcavRbk+rvUvDZG+U2ITO0qJ3DIL1eqKKxCxfPpixEeseINAmWRQkkc/jlfUjkORZO
-         ml8oIoA3AND6rP6fD6MxW63/nSkvRK3jY6B+0ZSMyPTEqfgxlIglT3FWf8ghU4+seyqV
-         +bkE1BIYi+8rRt/rK7uML6rU3qu0hJratEMux8jzuyLkRcIU4jtXklfSaSb2arEuFFfo
-         linnLAVVmNdFPVTCPEMQYffRNn1H7I5wBad5fvjfMjBsPwnEeiOrq0b4GdHMAhmiAJ6i
-         xj9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795223117; x=1795827917;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=8xwlgo/XNZO5KLdBkEW/2WF1dNv58iVv6RHyfi9TaJc=;
-        b=h1yQhu/a5b767Ka2eWnJ37hTgfKlxaXUgkmZleUK5Tv9ZG4k4qQRmQRaR1nnlf2VHD
-         V51dDtaFoO4uiwYgjzHyUD2YkyYpHTh/FnOzl7N977FtsXztmJbnG6koyzDgq6S35J18
-         zlgFjHAjpCqy32O50L1+sMA2Ui4O7NLTCdXrcyZhy13EAVSUJLaIDKCECFD+GGopSbP+
-         WvWnAjcJe226jZqGSlOnAw083vugv+pUakOSDSxz3lHk8kGVTZCukCiya7qAHpfFfz3g
-         Dl8+uuRlUyODhwSZhUFJ5kLOraFls9k0qocnLAMee2+Hd31z2s21ZzlSm196yHshf3As
-         aMKQ==
-X-Gm-Message-State: APuU4Z9H0Xuzv2bYZlwWXceh/wjYdb+SmEt35kGz4fG6Xuhr/p+Rii0/
-	iKZ6vzD5Xhbqi3FS7KVcIvJY6QLhcg5piqoNDTeUB7uVY9s2282/5vZ1Qux5PwsZhp+xqH/X31D
-	ZUV4c7Opnep3/FtpJUJmeiH+q8x40h8aUzdJY
-X-Gm-Gg: AYBFou0zu6drCSIN6iOBNkbgBDPLKJ2m9Hm02CZNhhpxgxtUuZbGgl+ZTD/FUTnx1zb
-	iRXcM06PVn3qbTDLEouXzMD1EWVHyI+PlNI1dTIqhTFK48qfJJ9wV6sEomH6425i7rNNDxZ5uFu
-	IlJwi7XF8nieLP67F0ehxOObNAv3ipdNdru6LBEp6xUjlxy4AwcOLVSyLTRdrnsEbHGjWaqjf7N
-	bB7hprC2LHXamsI7nWMJx+ikLoXP7nbXc//fYcCu81kX6enmjYl+Ktwr9oKiuQKVFPtITsk0xOf
-	2XN1yW2d9z7RPXlScqhnKPWhLPsjPle7Q/jKcbWfOE+lqVDkT7DI8ZoJrY9POB1Scjkp0Rw3v94
-	nLdENrgVCI0iSfVlLQ+9UB9cBXD1ZpJaXfwc71lYdw4FvDcnaQm8QDzUZT/6MCSRYFzqTyIa6cn
-	gDHLvfRHTU
-X-Received: by 2002:a05:620a:448e:b0:949:673f:72b8 with SMTP id
- af79cd13be357-949bab7c484mr770407685a.82.1795223116801; Fri, 20 Nov 2026
- 17:05:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P+ScNVmp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36E301F000C0;
+	Sat, 21 Nov 2026 11:26:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795260364;
+	bh=3bXHcl/fLFqRmej5Iy+GS47hNdziQAQfexcJcjrWskU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=P+ScNVmpJZXRRDAXyjPOhxBDFCglcm36joNg8WEYQzO51TFOmvzFOYMf+1flVUS7+
+	 u4t0m5jQLG8/Ja9Vqf1w0YVvs0lcwFoztshDpzr14fJul4X6CUiPp4i8aeRuIYe0Nn
+	 J4/nVpYGTUKoAZWMXL18VMRWexaIcAvpjrPqm6DpFUwiuydemYvjhgiEoorB6+OemW
+	 ToWISm2jQkBnKIvy/rPr63fd7ony+9aCuKjuo9WN8AEIxFt2xdon0BW/fXsWNadM8b
+	 mRYFkKndnXPVUlFRtYz1EtFyaV8iQyYuQy0fokeJ5innc3M6pg2dCNQ+FRwsC2z5/j
+	 16yMkcp7GvBbQ==
+Message-ID: <9ecda3f8-13f7-4bd3-81b9-cf7deafdbcb2@kernel.org>
+Date: Sat, 21 Nov 2026 12:25:57 +0100
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -100,116 +51,236 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: Aditya Kulkarni <adityapk@gmail.com>
-Date: Fri, 20 Nov 2026 20:05:03 -0500
-X-Gm-Features: Aa3M54pTWqH1XC2rWFy8uaXuOTB6eCym0Qm8pobFm_S8fWG3Z5eim7Tuy-Z91ys
-Message-ID: <CAO91vefPN9NBiaErBZk+D_7wehUZozU6Bo5gy7mPZw2MtJk_jw@mail.gmail.com>
-Subject: [BUG] x86/mce: mce_syscore_resume() queues MCEs with MCP_QUEUE_LOG
- without draining, causing permanent 20 Hz MCP polling
-To: linux-edac@vger.kernel.org
-Cc: x86@kernel.org, bp@alien8.de, tony.luck@intel.com, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-
-Hi,
-I've run into a bug in arch/x86/kernel/cpu/mce/core.c where resuming
-from S3 on a machine whose firmware leaves stale MCA bank status bits
-across sleep permanently locks all CPUs into ~20 Hz machine check
-polling (~320-335 wakeups/sec across 16 threads) and silently drops the
-resume-time MCE logs until a sysfs write to check_interval or reboot.
-Environment
------------
-- Hardware: Apple MacBookPro16,1
-- CPU: Intel(R) Core(TM) i9-9880H (family 6, model 158, stepping 13,
-  microcode 0x104, 16 threads)
-- Kernel: 7.2.15 (7.2.15-arch1-1-t2; CONFIG_HZ=1000; arch/x86/kernel/cpu/mce/
-  is unmodified upstream)
-- MCE settings: default (check_interval=300, cmci_disabled=0, ignore_ce=0,
-  mca_cfg.bootlog enabled)
-Root cause
-----------
-1. On this machine, Apple EFI leaves stale error bits in MCA Bank 12 and
-   Bank 13 (status 0xee2000000040110a, ADDR 0xff7dda00/0xff7dda40) on
-   both cold boot and S3 resume.
-2. At cold boot, __mcheck_cpu_init_prepare_banks() checks mca_cfg.bootlog
-   and calls:
-       machine_check_poll(MCP_UC | MCP_QUEUE_LOG, &all_banks);
-   Because MCP_QUEUE_LOG is set, machine_check_poll() calls
-   mce_gen_pool_add() without calling irq_work_queue(&mce_irq_work).
-   Later during boot, mcheck_late_init() checks !mce_gen_pool_empty()
-   and schedules mce_work, which logs the entries and empties
-   mce_event_llist.
-3. On S3 resume, mce_syscore_resume() calls
-   __mcheck_cpu_init_prepare_banks() again. Since mca_cfg.bootlog is
-   still non-zero, it again invokes
-   machine_check_poll(MCP_UC | MCP_QUEUE_LOG, &all_banks), pushing the
-   post-S3 Bank 12/13 entries onto mce_event_llist without queuing
-   mce_irq_work or mce_work.
-   Unlike mcheck_late_init() and store_int_with_restart() (both of which
-   check !mce_gen_pool_empty() and schedule mce_work after calling
-   __mcheck_cpu_init_prepare_banks()), mce_syscore_resume() never drains
-   mce_event_llist.
-4. As a result, mce_event_llist stays permanently non-empty after the
-   first S3 resume (and those MCEs never appear in dmesg). On every
-   subsequent mce_timer_fn() tick, !mce_gen_pool_empty() evaluates true
-   (without scheduling mce_work), so every CPU halves mce_next_interval
-   down to the HZ/100 (10 jiffies / 10 ms) floor:
-   - Within ~10 minutes of S3 resume (at check_interval=300), all 16
-     threads hit the 10 ms floor and stay there until reboot.
-   - Inside __start_timer(), round_jiffies(jiffies + 10) falls back to
-     unrounded jiffies + 10 whenever rem <= 249 ms (since rounding down
-     lands in the past), firing ~20-25 times during the first 250 ms of
-     every second and then rounding up to the next second boundary.
-   - Over ~14 hours of active uptime this accumulated ~810k-935k MCP
-     polls per CPU thread (~320 wakeups/sec system-wide) with THR=0 and
-     MCE=0.
-Live reproducer & verification
-------------------------------
-1. Fresh boot (22 min uptime, 0 suspends, check_interval=300):
-     THR: 0  0  0 ...
-     MCE: 0  0  0 ...
-     MCP: 5  6  6 ... (1 poll every 300s)
-2. Set check_interval=5 (just to speed up the halving sequence from
-   ~10 min to ~15s), suspend to S3 (mem_sleep=deep), and resume ~30s
-   later (at 19:55:59):
-   ~28s after resume, /proc/interrupts over a 2-second window:
-     t=0s:  MCP: 420 334 325 333 331 327 334 331 324 333 330 337 332 330 337 334
-     t=2s:  MCP: 459 373 364 378 374 370 376 372 364 374 370 382 377 375 380 377
-   (~20-22.5/sec per thread, ~335/sec total; zero MCE messages in dmesg.)
-3. Write 300 to /sys/devices/system/machinecheck/machinecheck0/check_interval
-   (triggering store_int_with_restart(), which checks
-   !mce_gen_pool_empty() and queues mce_work):
-   Immediately at 19:57:00, dmesg flushes the two trapped S3-resume
-   records (note TIME 1795222559 == 19:55:59, 61 seconds earlier):
-     Nov 20 19:57:00 macintel kernel: mce: [Hardware Error]: CPU 0:
-Machine Check: 0 Bank 12: ee2000000040110a
-     Nov 20 19:57:00 macintel kernel: mce: [Hardware Error]: TSC 0
-ADDR ff7dda00 MISC 43880000086
-     Nov 20 19:57:00 macintel kernel: mce: [Hardware Error]: PROCESSOR
-0:906ed TIME 1795222559 SOCKET 0 APIC 0 microcode 104
-     Nov 20 19:57:00 macintel kernel: mce: [Hardware Error]: CPU 0:
-Machine Check: 0 Bank 13: ee2000000040110a
-     Nov 20 19:57:00 macintel kernel: mce: [Hardware Error]: TSC 0
-ADDR ff7dda40 MISC 43880000086
-     Nov 20 19:57:00 macintel kernel: mce: [Hardware Error]: PROCESSOR
-0:906ed TIME 1795222559 SOCKET 0 APIC 0 microcode 104
-   And MCP polling immediately drops from ~335/sec back to 0/sec:
-     t=0s:  MCP: 1002 933 920 941 929 917 934 924 905 933 920 941 928
-919 933 924
-     t=2s:  MCP: 1002 933 920 941 929 917 934 924 905 933 920 941 928
-919 933 924
-Workaround & possible fix
--------------------------
-Booting with mce=nobootlog avoids the issue by skipping the
-machine_check_poll(MCP_UC | MCP_QUEUE_LOG, ...) call in
-__mcheck_cpu_init_prepare_banks().
-For an upstream fix, mce_syscore_resume() could queue mce_irq_work when
-!mce_gen_pool_empty() (e.g. irq_work_queue(&mce_irq_work), matching
-mce_log() and safe with IRQs disabled in syscore resume), or
-__mcheck_cpu_init_prepare_banks() could avoid MCP_QUEUE_LOG once the
-system is past early boot.
-Happy to test a patch if you'd like.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] powerpc/32: Decode MPC745x L2 and L3 cache machine
+ checks
+To: Matt Turner <mattst88@gmail.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+ Shrikanth Hegde <sshegde@linux.ibm.com>, Borislav Petkov <bp@alien8.de>,
+ Tony Luck <tony.luck@intel.com>
+Cc: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-edac@vger.kernel.org
+References: <20261120-ppc32-l2-ecc-v1-0-98fc8e6e0a32@gmail.com>
+ <20261120-ppc32-l2-ecc-v1-1-98fc8e6e0a32@gmail.com>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <20261120-ppc32-l2-ecc-v1-1-98fc8e6e0a32@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-Thanks,
-Aditya Kulkarni
+
+Le 20/11/2026 à 20:33, Matt Turner a écrit :
+> On the 745x, SRR1[MSS] means the memory subsystem detected an error, and
+> MSSSR0 says which: L2 tag or data parity, MPC7448 L2 ECC, or L3 tag or
+> data parity.  machine_check_generic() reports these cache errors as "L2
+> data cache parity error" and never clears MSSSR0, whose bits are sticky.
+> 
+> Add machine_check_745x(), which decodes and clears the MSSSR0 cache
+> error bits, and use it for every 745x.  Machine checks without one of
+> those bits still go to machine_check_generic().
+> 
+> Signed-off-by: Matt Turner <mattst88@gmail.com>
+> ---
+>   arch/powerpc/include/asm/cputable.h       |  1 +
+>   arch/powerpc/include/asm/reg.h            |  5 +++++
+>   arch/powerpc/kernel/cpu_specs_book3s_32.h | 22 +++++++++++-----------
+>   arch/powerpc/kernel/traps.c               | 28 ++++++++++++++++++++++++++++
+
+Can we avoid machine specific code in traps.c ?
+
+Other machine_check functions are in dedicated locations except e500 
+because it is common to mpc85xx and 64e
+
+platforms/44x/machine_check.c:int machine_check_4xx(struct pt_regs *regs)
+platforms/44x/machine_check.c:int machine_check_440A(struct pt_regs *regs)
+platforms/44x/machine_check.c:int machine_check_47x(struct pt_regs *regs)
+platforms/83xx/misc.c:int machine_check_83xx(struct pt_regs *regs)
+platforms/8xx/machine_check.c:int machine_check_8xx(struct pt_regs *regs)
+
+
+
+
+>   4 files changed, 45 insertions(+), 11 deletions(-)
+> 
+> diff --git a/arch/powerpc/include/asm/cputable.h b/arch/powerpc/include/asm/cputable.h
+> index a3be81c47df3..8445533c946b 100644
+> --- a/arch/powerpc/include/asm/cputable.h
+> +++ b/arch/powerpc/include/asm/cputable.h
+> @@ -34,6 +34,7 @@ extern int machine_check_e500(struct pt_regs *regs);
+>   extern int machine_check_47x(struct pt_regs *regs);
+>   int machine_check_8xx(struct pt_regs *regs);
+>   int machine_check_83xx(struct pt_regs *regs);
+> +int machine_check_745x(struct pt_regs *regs);
+>   
+>   extern void cpu_down_flush_e500v2(void);
+>   extern void cpu_down_flush_e500mc(void);
+> diff --git a/arch/powerpc/include/asm/reg.h b/arch/powerpc/include/asm/reg.h
+> index 541a493e13bf..82a85d44776e 100644
+> --- a/arch/powerpc/include/asm/reg.h
+> +++ b/arch/powerpc/include/asm/reg.h
+> @@ -729,6 +729,10 @@
+>   
+>   #define SPRN_MSSCR0	0x3f6	/* Memory Subsystem Control Register 0 */
+>   #define SPRN_MSSSR0	0x3f7	/* Memory Subsystem Status Register 1 */
+> +#define   MSSSR0_L2TAG	0x00040000	/* L2 tag parity error */
+> +#define   MSSSR0_L2DAT	0x00020000	/* L2 data parity/ECC error */
+> +#define   MSSSR0_L3TAG	0x00010000	/* L3 tag parity error */
+> +#define   MSSSR0_L3DAT	0x00008000	/* L3 data parity error */
+>   #define SPRN_LDSTCR	0x3f8	/* Load/Store control register */
+>   #define SPRN_LDSTDB	0x3f4	/* */
+>   #define SPRN_LR		0x008	/* Link Register */
+> @@ -801,6 +805,7 @@
+>   #define   SRR1_PROGTRAP		0x00020000 /* Trap */
+>   #define   SRR1_PROGADDR		0x00010000 /* SRR0 contains subsequent addr */
+>   
+> +#define   SRR1_MCE_MSS		0x00100000 /* 745x memory subsystem error (MSSSR0) */
+>   #define   SRR1_MCE_MCP		0x00080000 /* Machine check signal caused interrupt */
+>   #define   SRR1_BOUNDARY		0x10000000 /* Prefixed instruction crosses 64-byte boundary */
+>   #define   SRR1_PREFIXED		0x20000000 /* Exception caused by prefixed instruction */
+> diff --git a/arch/powerpc/kernel/cpu_specs_book3s_32.h b/arch/powerpc/kernel/cpu_specs_book3s_32.h
+> index 3714634d194a..90ca26405c1d 100644
+> --- a/arch/powerpc/kernel/cpu_specs_book3s_32.h
+> +++ b/arch/powerpc/kernel/cpu_specs_book3s_32.h
+> @@ -426,7 +426,7 @@ static struct cpu_spec cpu_specs[] __initdata = {
+>   		.num_pmcs		= 6,
+>   		.pmc_type		= PPC_PMC_G4,
+>   		.cpu_setup		= __setup_cpu_745x,
+> -		.machine_check		= machine_check_generic,
+> +		.machine_check		= machine_check_745x,
+>   		.platform		= "ppc7450",
+>   	},
+>   	{	/* 7450 2.1 */
+> @@ -442,7 +442,7 @@ static struct cpu_spec cpu_specs[] __initdata = {
+>   		.num_pmcs		= 6,
+>   		.pmc_type		= PPC_PMC_G4,
+>   		.cpu_setup		= __setup_cpu_745x,
+> -		.machine_check		= machine_check_generic,
+> +		.machine_check		= machine_check_745x,
+>   		.platform		= "ppc7450",
+>   	},
+>   	{	/* 7450 2.3 and newer */
+> @@ -458,7 +458,7 @@ static struct cpu_spec cpu_specs[] __initdata = {
+>   		.num_pmcs		= 6,
+>   		.pmc_type		= PPC_PMC_G4,
+>   		.cpu_setup		= __setup_cpu_745x,
+> -		.machine_check		= machine_check_generic,
+> +		.machine_check		= machine_check_745x,
+>   		.platform		= "ppc7450",
+>   	},
+>   	{	/* 7455 rev 1.x */
+> @@ -474,7 +474,7 @@ static struct cpu_spec cpu_specs[] __initdata = {
+>   		.num_pmcs		= 6,
+>   		.pmc_type		= PPC_PMC_G4,
+>   		.cpu_setup		= __setup_cpu_745x,
+> -		.machine_check		= machine_check_generic,
+> +		.machine_check		= machine_check_745x,
+>   		.platform		= "ppc7450",
+>   	},
+>   	{	/* 7455 rev 2.0 */
+> @@ -490,7 +490,7 @@ static struct cpu_spec cpu_specs[] __initdata = {
+>   		.num_pmcs		= 6,
+>   		.pmc_type		= PPC_PMC_G4,
+>   		.cpu_setup		= __setup_cpu_745x,
+> -		.machine_check		= machine_check_generic,
+> +		.machine_check		= machine_check_745x,
+>   		.platform		= "ppc7450",
+>   	},
+>   	{	/* 7455 others */
+> @@ -506,7 +506,7 @@ static struct cpu_spec cpu_specs[] __initdata = {
+>   		.num_pmcs		= 6,
+>   		.pmc_type		= PPC_PMC_G4,
+>   		.cpu_setup		= __setup_cpu_745x,
+> -		.machine_check		= machine_check_generic,
+> +		.machine_check		= machine_check_745x,
+>   		.platform		= "ppc7450",
+>   	},
+>   	{	/* 7447/7457 Rev 1.0 */
+> @@ -522,7 +522,7 @@ static struct cpu_spec cpu_specs[] __initdata = {
+>   		.num_pmcs		= 6,
+>   		.pmc_type		= PPC_PMC_G4,
+>   		.cpu_setup		= __setup_cpu_745x,
+> -		.machine_check		= machine_check_generic,
+> +		.machine_check		= machine_check_745x,
+>   		.platform		= "ppc7450",
+>   	},
+>   	{	/* 7447/7457 Rev 1.1 */
+> @@ -538,7 +538,7 @@ static struct cpu_spec cpu_specs[] __initdata = {
+>   		.num_pmcs		= 6,
+>   		.pmc_type		= PPC_PMC_G4,
+>   		.cpu_setup		= __setup_cpu_745x,
+> -		.machine_check		= machine_check_generic,
+> +		.machine_check		= machine_check_745x,
+>   		.platform		= "ppc7450",
+>   	},
+>   	{	/* 7447/7457 Rev 1.2 and later */
+> @@ -554,7 +554,7 @@ static struct cpu_spec cpu_specs[] __initdata = {
+>   		.num_pmcs		= 6,
+>   		.pmc_type		= PPC_PMC_G4,
+>   		.cpu_setup		= __setup_cpu_745x,
+> -		.machine_check		= machine_check_generic,
+> +		.machine_check		= machine_check_745x,
+>   		.platform		= "ppc7450",
+>   	},
+>   	{	/* 7447A */
+> @@ -570,7 +570,7 @@ static struct cpu_spec cpu_specs[] __initdata = {
+>   		.num_pmcs		= 6,
+>   		.pmc_type		= PPC_PMC_G4,
+>   		.cpu_setup		= __setup_cpu_745x,
+> -		.machine_check		= machine_check_generic,
+> +		.machine_check		= machine_check_745x,
+>   		.platform		= "ppc7450",
+>   	},
+>   	{	/* 7448 */
+> @@ -586,7 +586,7 @@ static struct cpu_spec cpu_specs[] __initdata = {
+>   		.num_pmcs		= 6,
+>   		.pmc_type		= PPC_PMC_G4,
+>   		.cpu_setup		= __setup_cpu_745x,
+> -		.machine_check		= machine_check_generic,
+> +		.machine_check		= machine_check_745x,
+>   		.platform		= "ppc7450",
+>   	},
+>   	{	/* default match, we assume split I/D cache & TB (non-601)... */
+> diff --git a/arch/powerpc/kernel/traps.c b/arch/powerpc/kernel/traps.c
+> index 3a8f5416e3f6..4fb1610baa51 100644
+> --- a/arch/powerpc/kernel/traps.c
+> +++ b/arch/powerpc/kernel/traps.c
+> @@ -788,6 +788,34 @@ int machine_check_generic(struct pt_regs *regs)
+>   	}
+>   	return 0;
+>   }
+> +
+> +#ifdef CONFIG_PPC_BOOK3S_32
+> +#define MSSSR0_CACHE_ERR	(MSSSR0_L2TAG | MSSSR0_L2DAT | MSSSR0_L3TAG | MSSSR0_L3DAT)
+> +
+> +/*
+> + * On the 745x, SRR1[MSS] means the memory subsystem detected an error, and
+> + * MSSSR0 says which.  The MSSSR0 bits are sticky, so clear them.
+> + */
+> +int machine_check_745x(struct pt_regs *regs)
+> +{
+> +	unsigned long reason = regs->msr;
+> +	unsigned long msssr0 = mfspr(SPRN_MSSSR0);
+> +
+> +	if (!(reason & SRR1_MCE_MSS) || !(msssr0 & MSSSR0_CACHE_ERR))
+> +		return machine_check_generic(regs);
+> +
+> +	mtspr(SPRN_MSSSR0, msssr0 & ~MSSSR0_CACHE_ERR);
+> +
+> +	pr_err("Machine check in kernel mode.\n");
+> +	pr_err("Caused by (from SRR1=%lx, MSSSR0=%lx):%s%s%s%s\n",
+> +	       reason, msssr0,
+> +	       msssr0 & MSSSR0_L2TAG ? " [L2 tag parity]" : "",
+> +	       msssr0 & MSSSR0_L2DAT ? " [L2 data parity/ECC]" : "",
+> +	       msssr0 & MSSSR0_L3TAG ? " [L3 tag parity]" : "",
+> +	       msssr0 & MSSSR0_L3DAT ? " [L3 data parity]" : "");
+> +	return 0;
+> +}
+> +#endif
+>   #endif /* everything else */
+>   
+>   void die_mce(const char *str, struct pt_regs *regs, long err)
+> 
+
