@@ -1,57 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.240.48.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795363519;
-	b=stFlGelLU7gk0YcBPp450i7Iq1YsVqFy/0RsZCTNvxfTHeZyGffVQnlbgfn8OPFS015Z
-	 IO362iVQFwtO2wPakAmF7RcFiajdxKw3YaqGecmRfSM8sf7VU3++obN0gK1E/3MDDDPcv
-	 CdBUvaH9agobp5/aeOyF9z6i+GKwuE1zn88Jb8GdeZ9CG/CL8bbhQPCsxxMUdbzOk2wWE
-	 3v6zx1E/rI/V02f7tUfKq1ZAHRrTf0WOkTphm0N8/g29tJZmgvICsLEiXW48ukpTBr1S5
-	 CssV89MCu51//pZOx7oQAJdpN6sydH34YfzObVebinvfimgf+YKiH8YaRtpgWcByN+A==
+	t=1795364903;
+	b=mNdJ6a6+VRcZEnZUxDBb0a9wJsNgnl29ccztGtOPgwjErJdqBGxIcMr4gGUL2pM4omY7
+	 fwQoTQTqfNXSTcJWDtgosCHc7PCoe0nYC63Py/Fkt4QsEkJWyeJFswVkocbeFT5ID9xrz
+	 kpx6k50T0MK1B0tnQCwOx0jHHEpXxoaNGnTAzJ+jDed1Q9cvb+z3QTS20bCBjrlPT6uYD
+	 aGVgyxx5UUFs4fckMhR3vKOPw5DGiZGzznFL5UnJwxn7cOumzI9IScikt0LIWZPHjXyjw
+	 CqjBEYuemH7XV109xWLf1Vdc67cbg/a9OAdG+SmmOBneDNMbxiPdh4xvOjYuZ1YLaug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795363519;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=9c0/7PCLhecC2oy1paPDEkI4oUif8yn/Dj41/cLYobM=;
-	b=xmqloddmzXo0Q3V+jrAw1XejqmM7IbFS9eefMNSecDErfkzrOGieh3s+jXDqSMIVDA+o
-	 S7f+LCw42Q9W+RznUtVLscgR6hB7FKKz68DGkGVB3WynTZZtbWcJB6n46wAuDWmiR6hYN
-	 aK4uZqFzT8VYrROICG3jbycgfWpDIr2TA3dmtzMTbcMvYYSWNRmQl5Qt9ZRRgq13WTn6s
-	 /BtAtZJZJzX8+zD6l2aZH0PHhfSeOWOE3exdzzycx6pyKWbUTbDnftiO2RFCWDjYG0ugc
-	 hInkuQri+tHWBNsxJsMGdM/eMtGSaxZrH30+8Nvpikmv3391LHYCAzdZgsEdPQNR9Uw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795364903;
+	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:In-Reply-To:References:
+	 From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:
+	 MIME-Version:Content-Type:Feedback-ID:X-SES-Outgoing;
+	bh=Y6J9BBnU4fABb83GyABeux2c6o/ibtAfqfZDo8SSL4s=;
+	b=LXfh0PZxM5hOMek4ksrWRtfkXUXCKGbLL+aGA9iiFHZH+Ftf7+crlBiLyM18Oc1hZlAt
+	 c3jB1QR2kzWz8lTP6WUtQeGtqBGyiVKzDaJ2f6KlJjWUTWaGPRbATCyTuWGyAGrAIIDlb
+	 fVUuWdrb21wgv1vaPvgICNHVAiuyIjg2VYHCUVA/+Aal5xEJS+up4nmY1J6Pl3SHcqCVZ
+	 2cXoBmosHBipsqBulnSNfuxSbnDB11ICfyNM+8vAlcgn9fR7KokVqsW2XlJV3mji1vQKt
+	 EC6TqvrTfK6qkiGSxYRXd3r86sQmDBKggMDMCtOMREgoooJobnbcMsbVi7JeeK+tm6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=hNRLVe4Q;
-	arc=none smtp.remote-ip=220.197.31.3
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=ahmedabdelfattah.dev;
+	spf=pass smtp.mailfrom=send.ahmedabdelfattah.dev;
+	dkim=pass header.d=ahmedabdelfattah.dev header.i=@ahmedabdelfattah.dev header.a=rsa-sha256 header.s=resend header.b=ox2fG0Wi;
+	dkim=pass header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=At2+Qnn1;
+	arc=none smtp.remote-ip=54.240.48.56
+Received: from a48-56.smtp-out.amazonses.com (a48-56.smtp-out.amazonses.com [54.240.48.56])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B99606A32C;
-	Sun, 22 Nov 2026 16:05:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11B99606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AC7606A320;
+	Sun, 22 Nov 2026 16:28:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49AC7606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ahmedabdelfattah.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=send.ahmedabdelfattah.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=hNRLVe4Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=9c
-	0/7PCLhecC2oy1paPDEkI4oUif8yn/Dj41/cLYobM=; b=hNRLVe4Qx5Ot/Yx2kI
-	g+/071bfY3aEVRyJf6ItSCBaZat962sey/INCt9M/Fva/F/vtsOchXy4/ID17Kaj
-	c7yzBfEiAJAYjbfOu2jSdYi1DDeoW7j68UGvQgrshu2zrBNUVHBoPSko4qG22lIO
-	386fHoWcNwIgPumDZbFvOZIG4=
-Received: from user-VMware-Virtual-Platform.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wD3n9GiEgNrnpKqJA--.31936S2;
-	Mon, 23 Nov 2026 00:04:50 +0800 (CST)
-From: Ziheng Wei <zihengw03@163.com>
-To: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>
-Cc: linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] EDAC: thunderx: avoid stack disclosure through debugfs
-Date: Mon, 23 Nov 2026 00:04:50 +0800
-Message-ID: <20261122160450.519905-1-zihengw03@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key, unprotected) header.d=ahmedabdelfattah.dev header.i=@ahmedabdelfattah.dev header.a=rsa-sha256 header.s=resend header.b=ox2fG0Wi;
+	dkim=pass (1024-bit key, unprotected) header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=At2+Qnn1
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend;
+	d=ahmedabdelfattah.dev; t=1795364902;
+	h=In-Reply-To:References:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
+	bh=r+rqUyXdaNAvzuO9p5Cq/rai/19+eqNqPr0AEDhIax8=;
+	b=ox2fG0WiK7+yU4D/y6qiYVnobJh3b4OQqyYs60rvbWNpFt+E1q9aw1mvvoXC7Jpe
+	Dm+c3Miz7iMBnF3Rf2RBddYlhXAnTZ5uCMyXrrq+LVn0Wz78yst/9BzLWDdj81+I0g3
+	1WFG/3A24yT2zu2noxbrmODOcnDbT4QD3x/r2sYU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1795364902;
+	h=In-Reply-To:References:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
+	bh=r+rqUyXdaNAvzuO9p5Cq/rai/19+eqNqPr0AEDhIax8=;
+	b=At2+Qnn1OXArw9u2ztbrCBCWCYu+ZXkgDQKX1BwnJANojrvWykmU3AsVDeSKGGOY
+	UiWDQ8xsbucUxgtHLUV5uurpRpMwUWDzXUlrOFKof6KUOT2St4Rqjyk9Wcud+fv/bmj
+	Nxq4pWClvI+XODQ8Eigh4I2vQuaxeGpGWJDCvK5Q=
+In-Reply-To:
+ <CY8PR12MB729059D6B66095F842FD470FD1462@CY8PR12MB7290.namprd12.prod.outlook.com>
+References:
+ <20261119-edac-ie31200-rank-stride-v1-1-3514fcccb130@ahmedabdelfattah.dev>
+ <CY8PR12MB729059D6B66095F842FD470FD1462@CY8PR12MB7290.namprd12.prod.outlook.com>
+From: Ahmed Abdelfattah <me@ahmedabdelfattah.dev>
+To: "Qiuxu (Leo) Zhuo" <qzhuo@nvidia.com>
+Cc: Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>, 
+	Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] EDAC/ie31200: Give each DIMM two chip selects again
+Message-ID: <010001a204165494-b76809e7-e171-4a1e-8da4-a1dcd2df4f6b-000000@email.amazonses.com>
+Content-Transfer-Encoding: 7bit
+Date: Sun, 22 Nov 2026 16:28:22 +0000
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -61,67 +72,29 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3n9GiEgNrnpKqJA--.31936S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WF1DGF47Gr4rCw45WFWDtwb_yoW8uFykpF
-	ZxKFyUArs5trn0yF1UuayUZF1Yyw17JFyj9rW0g3yqyF17Jr9IgayYg3y0qFyDJrn7Kr17
-	tw4qg3yY9F1qqr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jKbyAUUUUU=
-X-CM-SenderInfo: p2lkv0ljzqjqqrwthudrp/xtbC7QJImGsDEqKeswAA3K
+Content-Type: text/plain; charset=utf-8
+Feedback-ID: :1.us-east-1.uCKvsN4fow5iTxhgdfCiLkD52dLS8e5zeZeNIHIyObThYgWj6io55JEpA9Lr59BibvMHOQwybONW0pi/CZ0koY1A1i17AG2yWEV8SeTaUDUkRN5zlcaoQEhviEafOoOqtPZhQs319GE3nsx7+JZeBdmAUyq6td6+kg0Qy2oXHvo=:1.us-east-1.pAEstvQcjyhQNKGKcgSlzI7SVR8ZSG5wSmKwiz/A8Dg=:AmazonSES
+X-SES-Outgoing: 2026.11.22-54.240.48.56
 
-The debugfs readers copy sizeof(buf) bytes instead of the formatted
-length, exposing uninitialized stack bytes. DEBUGFS_FIELD_ATTR also uses
-the read count as the snprintf() size, so short reads with lseek() can
-expose additional bytes.
+On Sun, Nov 22, 2026 at 04:02:12PM +0000, Qiuxu (Leo) Zhuo wrote:
+> For comparison, Intel Ice Lake servers decode the per-channel rank ID
+> from MCi_MISC as
+>
+>   DIMM 0: ranks 0, 1, 2, 3
+>   DIMM 1: ranks 4, 5, 6, 7
 
-Format with sizeof(buf) and return only strlen(buf) bytes.
+Thanks, that is a useful comparison. With a fixed block per DIMM on the
+server side, 0-1 and 2-3 looks like the natural layout here too, even
+with the RPL-S encoding unconfirmed.
 
-Found by LLM-assisted static analysis. Cross-compiled for arm64; no
-runtime test on the affected hardware.
+> The change looks good to me.
+>
+> Reviewed-by: Qiuxu Zhuo qzhuo@nvidia.com (qzhuo@nvidia.com)
 
-Fixes: 41003396f932 ("EDAC, thunderx: Add Cavium ThunderX EDAC driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ziheng Wei <zihengw03@163.com>
----
- drivers/edac/thunderx_edac.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Thank you for the review. The angle brackets got lost from the tag on
+the way, so b4 does not pick it up. If I send a v2 I will carry it as
 
-diff --git a/drivers/edac/thunderx_edac.c b/drivers/edac/thunderx_edac.c
-index 9c0a1e48f..d24d74fd2 100644
---- a/drivers/edac/thunderx_edac.c
-+++ b/drivers/edac/thunderx_edac.c
-@@ -227,9 +227,9 @@ static ssize_t thunderx_##_type##_##_field##_read(struct file *file,	    \
- 	struct thunderx_##_type *pdata = file->private_data;		    \
- 	char buf[20];							    \
- 									    \
--	snprintf(buf, count, "0x%016llx", pdata->_field);		    \
-+	snprintf(buf, sizeof(buf), "0x%016llx", pdata->_field);		    \
- 	return simple_read_from_buffer(data, count, ppos,		    \
--				       buf, sizeof(buf));		    \
-+				       buf, strlen(buf));		    \
- }									    \
- 									    \
- static ssize_t thunderx_##_type##_##_field##_write(struct file *file,	    \
-@@ -258,7 +258,7 @@ static ssize_t thunderx_##_type##_##_name##_read(struct file *file,	    \
- 									    \
- 	sprintf(buf, "0x%016llx", readq(pdata->regs + _reg));		    \
- 	return simple_read_from_buffer(data, count, ppos,		    \
--				       buf, sizeof(buf));		    \
-+				       buf, strlen(buf));		    \
- }									    \
- 									    \
- static ssize_t thunderx_##_type##_##_name##_write(struct file *file,	    \
-@@ -322,7 +322,7 @@ static ssize_t thunderx_lmc_int_read(struct file *file,
- 	u64 lmc_int = readq(lmc->regs + LMC_INT);
- 
- 	snprintf(buf, sizeof(buf), "0x%016llx", lmc_int);
--	return simple_read_from_buffer(data, count, ppos, buf, sizeof(buf));
-+	return simple_read_from_buffer(data, count, ppos, buf, strlen(buf));
- }
- 
- #define TEST_PATTERN 0xa5
+  Reviewed-by: Qiuxu Zhuo <qzhuo@nvidia.com>
 
-base-commit: 97d73c8251226cf27cc6656b4c542869bb8c69fa
--- 
-2.43.0
-
+Thanks,
+Ahmed
