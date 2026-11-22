@@ -1,68 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.240.48.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795364903;
-	b=mNdJ6a6+VRcZEnZUxDBb0a9wJsNgnl29ccztGtOPgwjErJdqBGxIcMr4gGUL2pM4omY7
-	 fwQoTQTqfNXSTcJWDtgosCHc7PCoe0nYC63Py/Fkt4QsEkJWyeJFswVkocbeFT5ID9xrz
-	 kpx6k50T0MK1B0tnQCwOx0jHHEpXxoaNGnTAzJ+jDed1Q9cvb+z3QTS20bCBjrlPT6uYD
-	 aGVgyxx5UUFs4fckMhR3vKOPw5DGiZGzznFL5UnJwxn7cOumzI9IScikt0LIWZPHjXyjw
-	 CqjBEYuemH7XV109xWLf1Vdc67cbg/a9OAdG+SmmOBneDNMbxiPdh4xvOjYuZ1YLaug==
+	t=1795375640;
+	b=EfmSa8+nvvMs+4XbZuEcnIjaJB0iILpef+4EJxTFvNWtfjqeWtVZPyVMaA8SwzulWq94
+	 AIswNkLGOUH5JvXNMGjtOt9B7JzEeLW7CrwcEU5B3MZmHdur0XagAAHzi2c4+nu8vuLaN
+	 nE50G81lRCgV2ZNl7NkTa58gMsz1R8041orWx1woAqH3vS5UawKIQqWsnyg1gB0I/wFDG
+	 vQxS+Ds+ciQ1ELmimxCadbkA21MWx5bDOk+IQ1V+T9g2YpMRspL8eU9SaSB7OqJh/RlYj
+	 kUIyQr7MF6aXcJoWUJy7Mg75BG/5KRI5Q8GXZxhaHlKXzkSzU6IflR8X57dCA3jVxfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795364903;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:In-Reply-To:References:
-	 From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:
-	 MIME-Version:Content-Type:Feedback-ID:X-SES-Outgoing;
-	bh=Y6J9BBnU4fABb83GyABeux2c6o/ibtAfqfZDo8SSL4s=;
-	b=LXfh0PZxM5hOMek4ksrWRtfkXUXCKGbLL+aGA9iiFHZH+Ftf7+crlBiLyM18Oc1hZlAt
-	 c3jB1QR2kzWz8lTP6WUtQeGtqBGyiVKzDaJ2f6KlJjWUTWaGPRbATCyTuWGyAGrAIIDlb
-	 fVUuWdrb21wgv1vaPvgICNHVAiuyIjg2VYHCUVA/+Aal5xEJS+up4nmY1J6Pl3SHcqCVZ
-	 2cXoBmosHBipsqBulnSNfuxSbnDB11ICfyNM+8vAlcgn9fR7KokVqsW2XlJV3mji1vQKt
-	 EC6TqvrTfK6qkiGSxYRXd3r86sQmDBKggMDMCtOMREgoooJobnbcMsbVi7JeeK+tm6Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795375640;
+	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition;
+	bh=4iW5bc3Zo7mEUydqkdNeOPFRcmHj3rsr8mVXqL31LZE=;
+	b=1q/JMTKqmgll+YrNApUEasZRuxs7GsoVWlYDFPIel/yjMKJvBHGV0wOF8vKcY5cxnhhZ
+	 sYNgHRaWI9LOS+l+k9rOl3TxG1BEMLgl4Fn2HNbBA6ztBvKVTQY8zzKNys6O5FRj/8FJ3
+	 hAtKUrVghEBgyNZ2uMMRfuqwd9/NoQ4xUGRUOHc0EjbCtaPFN8lAAyQK7bZ4k+c8KKdpp
+	 +w6mCNL7aDG3FR6xAf6ylvBn34qEsRsSNJvxtDC+zhRRI6w53N3Twv4bhJY/z8k2HYZof
+	 U8QUCfKnXqlcI5yHW+RQAQfGVVkMERBbLzNShvFZU4q/W+fG+bAGGZ6XvPzOPcqpgag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ahmedabdelfattah.dev;
-	spf=pass smtp.mailfrom=send.ahmedabdelfattah.dev;
-	dkim=pass header.d=ahmedabdelfattah.dev header.i=@ahmedabdelfattah.dev header.a=rsa-sha256 header.s=resend header.b=ox2fG0Wi;
-	dkim=pass header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=At2+Qnn1;
-	arc=none smtp.remote-ip=54.240.48.56
-Received: from a48-56.smtp-out.amazonses.com (a48-56.smtp-out.amazonses.com [54.240.48.56])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=alien8.de;
+	spf=pass smtp.mailfrom=alien8.de;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=hUIpuzfQ;
+	arc=none smtp.remote-ip=65.109.113.108
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AC7606A320;
-	Sun, 22 Nov 2026 16:28:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49AC7606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ahmedabdelfattah.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=send.ahmedabdelfattah.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 995C7606A31E;
+	Sun, 22 Nov 2026 19:27:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 995C7606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ahmedabdelfattah.dev header.i=@ahmedabdelfattah.dev header.a=rsa-sha256 header.s=resend header.b=ox2fG0Wi;
-	dkim=pass (1024-bit key, unprotected) header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=At2+Qnn1
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend;
-	d=ahmedabdelfattah.dev; t=1795364902;
-	h=In-Reply-To:References:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
-	bh=r+rqUyXdaNAvzuO9p5Cq/rai/19+eqNqPr0AEDhIax8=;
-	b=ox2fG0WiK7+yU4D/y6qiYVnobJh3b4OQqyYs60rvbWNpFt+E1q9aw1mvvoXC7Jpe
-	Dm+c3Miz7iMBnF3Rf2RBddYlhXAnTZ5uCMyXrrq+LVn0Wz78yst/9BzLWDdj81+I0g3
-	1WFG/3A24yT2zu2noxbrmODOcnDbT4QD3x/r2sYU=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1795364902;
-	h=In-Reply-To:References:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
-	bh=r+rqUyXdaNAvzuO9p5Cq/rai/19+eqNqPr0AEDhIax8=;
-	b=At2+Qnn1OXArw9u2ztbrCBCWCYu+ZXkgDQKX1BwnJANojrvWykmU3AsVDeSKGGOY
-	UiWDQ8xsbucUxgtHLUV5uurpRpMwUWDzXUlrOFKof6KUOT2St4Rqjyk9Wcud+fv/bmj
-	Nxq4pWClvI+XODQ8Eigh4I2vQuaxeGpGWJDCvK5Q=
-In-Reply-To:
- <CY8PR12MB729059D6B66095F842FD470FD1462@CY8PR12MB7290.namprd12.prod.outlook.com>
-References:
- <20261119-edac-ie31200-rank-stride-v1-1-3514fcccb130@ahmedabdelfattah.dev>
- <CY8PR12MB729059D6B66095F842FD470FD1462@CY8PR12MB7290.namprd12.prod.outlook.com>
-From: Ahmed Abdelfattah <me@ahmedabdelfattah.dev>
-To: "Qiuxu (Leo) Zhuo" <qzhuo@nvidia.com>
-Cc: Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>, 
-	Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] EDAC/ie31200: Give each DIMM two chip selects again
-Message-ID: <010001a204165494-b76809e7-e171-4a1e-8da4-a1dcd2df4f6b-000000@email.amazonses.com>
-Content-Transfer-Encoding: 7bit
-Date: Sun, 22 Nov 2026 16:28:22 +0000
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=hUIpuzfQ
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5EB9440E01E1;
+	Sun, 22 Nov 2026 19:27:12 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id jHTgcmG_SV_s; Sun, 22 Nov 2026 19:27:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1795375628; bh=4iW5bc3Zo7mEUydqkdNeOPFRcmHj3rsr8mVXqL31LZE=;
+	h=Date:From:To:Cc:Subject:From;
+	b=hUIpuzfQh69uXhAre7v6tvFR8ZU7S2FaZ5zZf/BmdNwQ9fjg14jlI8Qh12sijXXBD
+	 QoD1Vzf6fcGFJxtW11gAUyruVsWJ7WLXbrlKogG17x0vFA80wwYPfxCr1YeenLbxsk
+	 i148j1MyuwlbMeOm4hQcbs/cU6Zf5B57Uwj3Hfri7E4dZGwXQKpZAqxulKruNQhWBr
+	 px3pT/o3TtLdQAAVcaxTyLtOmQWWgDTUGbGZOztyGjZV6Av4kbw8X70wgp+c5kFYH/
+	 V0xy81PqAK4Hmott1YrwpRDpArexWy2a3Vev4XuLPwuV4ugpDtZwXHxaAowSX24NWg
+	 xe3791DCgIpHWTcMt1i9D62k21G8VDs/l2SkW8lOoX7UO0HbDqkZtVPs8e7xVYOfi1
+	 4jtIodwoS178Cu0KKtHVMA96d/L3kRgjewincJE22RQUoEl24lyybkIaykqgN7ECbO
+	 KTr643Qvw2cbHAuK3x1kkf51UvUXVEmVIMMPrrgJJrDzSfyDcvSsGc9Mb4DYi+Gdul
+	 Np4jysAZcdp/3GtyE53FLfmpi2/SfjbCVDDC73ylu1PxgElLBX2UvK/QPnXJCk/yQU
+	 SMBvrxnoyRn/d9BFla9XA6Bk4gEvRYVuPdChIK1rnul2BMF+2E1vpfkWWL70B7sG+n
+	 1jPV64Msxr9OPQQvje704NoE=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EB7D940E015B;
+	Sun, 22 Nov 2026 19:27:04 +0000 (UTC)
+Date: Sun, 22 Nov 2026 11:27:01 -0800
+From: Borislav Petkov <bp@alien8.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-edac <linux-edac@vger.kernel.org>,
+	lkml <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] EDAC fix for v7.4-rc4
+Message-ID: <20261122192701.GAawNCBYMV2pirBGs4@fat_crate.local>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -73,28 +79,41 @@ List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Feedback-ID: :1.us-east-1.uCKvsN4fow5iTxhgdfCiLkD52dLS8e5zeZeNIHIyObThYgWj6io55JEpA9Lr59BibvMHOQwybONW0pi/CZ0koY1A1i17AG2yWEV8SeTaUDUkRN5zlcaoQEhviEafOoOqtPZhQs319GE3nsx7+JZeBdmAUyq6td6+kg0Qy2oXHvo=:1.us-east-1.pAEstvQcjyhQNKGKcgSlzI7SVR8ZSG5wSmKwiz/A8Dg=:AmazonSES
-X-SES-Outgoing: 2026.11.22-54.240.48.56
+Content-Disposition: inline
 
-On Sun, Nov 22, 2026 at 04:02:12PM +0000, Qiuxu (Leo) Zhuo wrote:
-> For comparison, Intel Ice Lake servers decode the per-channel rank ID
-> from MCi_MISC as
->
->   DIMM 0: ranks 0, 1, 2, 3
->   DIMM 1: ranks 4, 5, 6, 7
+Hi Linus,
 
-Thanks, that is a useful comparison. With a fixed block per DIMM on the
-server side, 0-1 and 2-3 looks like the natural layout here too, even
-with the RPL-S encoding unconfirmed.
+please pull an EDAC fix for v7.4-rc4.
 
-> The change looks good to me.
->
-> Reviewed-by: Qiuxu Zhuo qzhuo@nvidia.com (qzhuo@nvidia.com)
+Thx.
 
-Thank you for the review. The angle brackets got lost from the tag on
-the way, so b4 does not pick it up. If I send a v2 I will carry it as
+---
 
-  Reviewed-by: Qiuxu Zhuo <qzhuo@nvidia.com>
+The following changes since commit 7475ea8b58616b33c04afb976cf0fbaad9dd63fb:
 
-Thanks,
-Ahmed
+  Linux 7.4-rc2 (2026-11-08 16:22:20 -0800)
+
+are available in the Git repository at:
+
+  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_urgent_for_v7.4_rc4
+
+for you to fetch changes up to a088b092a8962db62327690ae2d0d68827e81229:
+
+  EDAC/i5000: Fix slot number passed to determine_mtr() (2026-11-12 15:16:31 -0800)
+
+----------------------------------------------------------------
+- Fix an array out-of-bounds access in i5000_edac
+
+----------------------------------------------------------------
+Aristeu Rozanski (1):
+      EDAC/i5000: Fix slot number passed to determine_mtr()
+
+ drivers/edac/i5000_edac.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
