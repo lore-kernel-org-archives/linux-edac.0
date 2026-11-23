@@ -1,83 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.219
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795427749;
-	b=H3XF33Np0hFj6cCFnxVqlblJpCyzoeolpbi+PKmo2ZXvfhzsMthfRkf72zGxBdSSNzrg
-	 HHDPgO80pv93/QSL7qO9JNevwL9lXDUr3FcoqfL8Rf2SjuxeWfP89JoMrmmfTD096s4up
-	 uoNP9e0I9XSgIrUZ8rCd6PkpTXK6sUYUsSwRg7q/i0ZAut9o7QCL4l+TOND5tmJ5WVxnK
-	 B6VcKcA6tJO0Z4yVhB6RUfiFm9oIhurnlpZbF6YJISSqQHJE0u86Uz+prL64vn02d1rnh
-	 7JTMQjTblgk9kZRvD8/8OUg4KtvuQFFlpF/WvwqA/pRa7PiFwXhII2d2JlNt+mTN0/A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795427749;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Received:From:
-	 To:CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-originating-ip:Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=i5Bb6LQ0JNsmImryWzNQLJ90C7blcTOwp5oThaKLOI0=;
-	b=EojpvVmIWbg4Q92sC5rEEJAHtVAcu6u7xxtlpRgFnDt8g8rE0HrN0oZt6oOXsUtis5Qt
-	 ReJY3XR+4Q03SamPCPCCH94b3cCvETc+kNsncRcyEutRg2UJwJu0BPDqvVRLVyehg4FYb
-	 +ssX4g/O+oWVcLzx5jqXkHAGAdx/OfrZTjt1JYb30s4DlQZVS26eIbm+t4ghlT600DaTW
-	 obiT5vcYk8KtrlZhLNV770ObcMgGWwhl8zMtcUjXfUJdb4mjEubrRhASd5fg02puOkxR5
-	 zSEp1J7aL5ehlILLwQPgjVP/DGimRsV98l8qxn16Q8acWEEt/WnPCYeByZxvDW//VCg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=KFow5d2R;
-	arc=none smtp.remote-ip=113.46.200.219
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795431341;
+	b=ukGp4dQzxVBxcFRHp0aYP2u2DJX5oHh/k3ni32RuwTq4BSP2MGJAkjoEHBZqQinSvue6
+	 NrqPF8zdnrx5+GphXOBEV5ExDsno7z2H9gLHF459LCB8ETYL9JM0upUKUnSZu80GNEvC+
+	 0TRtuSFBw3K3D+eJifmkrOnYmFHroHtnEqJz5obcsTjBlHLDqY46Q6BOSLRzeBWYeswUe
+	 UvxggEzxTDrsetAe0o9cWmVQBty8fWhpgrPo+UQNKKRkXG0n7FerdpanBhX7k+vVHhFZ6
+	 30vvbKFbg0iIVW2ZQ/CrfC5oGGLJml20bGtUTpzMLhCjniQ/qGSqlg18EH27s0PibkA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795431341;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=OHPurr6k9FoQrxkS/sSnGfsG+S8cHXcbjJO/f1mmfMk=;
+	b=Cn4qs3hGVxtz65vuLCobfPXhvYlqOPkuy/qDUNmKfeVshERzUwh58cuHQVreZZorTnf6
+	 9E1uIEr5xWAOStOq6vsK7A4IJos8u0kgKwPVY24eR9z1w8reZ8Zaakgwff9U1QFkUpVRE
+	 0HtvecE6oLwjw6O4vTZxjsdBc03tR4j5y1Tr70/gLQ1HEhK32kjhsMFpXPoftd7TXNyme
+	 fW0ugsFPc0yx8RH9KJ3Oole+c6VsWL7ycA17uF7cudDjJ/e5GK7M64o7R70ECzd0lf8ql
+	 j4MjNJAGGeOlR0DoFDS5tqZZwDDzslx2RTPIWTcxV8XX4HSO1lIAF9inKJMOLB17b4g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BhhKTrwI;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C32B606A31A;
-	Mon, 23 Nov 2026 09:55:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C32B606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C216606A31A;
+	Mon, 23 Nov 2026 10:55:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=KFow5d2R
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=i5Bb6LQ0JNsmImryWzNQLJ90C7blcTOwp5oThaKLOI0=;
-	b=KFow5d2RIBojVpe8IQ8W5FXByr0v16wXcBcCY8ieqhiE8AuKH+BNGrQNUeMIZFcE7WKcBPj59
-	GrjEFK0tATviKN9ZaYVBiorWi7f8lv1GE31HYR22EcG8PTauKgZT7aEREEHrmB+KEnLvvbmWXAp
-	YCSEo0M1AsevDvI5FMW2VBA=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4jY1XH4zXsz1prmh;
-	Mon, 23 Nov 2026 17:55:27 +0800 (CST)
-Received: from whupemk100014.china.huawei.com (unknown [7.152.184.20])
-	by mail.maildlp.com (Postfix) with ESMTPS id 89C194056E;
-	Mon, 23 Nov 2026 17:55:43 +0800 (CST)
-Received: from kwepemf100015.china.huawei.com (7.202.181.14) by
- whupemk100014.china.huawei.com (7.152.184.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Mon, 23 Nov 2026 17:55:42 +0800
-Received: from kwepemf100015.china.huawei.com ([7.202.181.14]) by
- kwepemf100015.china.huawei.com ([7.202.181.14]) with mapi id 15.02.2562.045;
- Mon, 23 Nov 2026 17:55:42 +0800
-From: "Liuwenliang (Abbott Liu)" <liuwenliang@huawei.com>
-To: "tony.luck@intel.com" <tony.luck@intel.com>, "bp@alien8.de"
-	<bp@alien8.de>, "Guohanjun (Hanjun Guo)" <guohanjun@huawei.com>,
-	"rafael.j.wysocki@intel.com" <rafael.j.wysocki@intel.com>, "jic23@kernel.org"
-	<jic23@kernel.org>, "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-	"ardb@kernel.org" <ardb@kernel.org>, "danielf@os.amperecomputing.com"
-	<danielf@os.amperecomputing.com>, luoshengwei <luoshengwei@huawei.com>,
-	"jason@os.amperecomputing.com" <jason@os.amperecomputing.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC: "yangzhuohao (A)" <yangzhuohao1@huawei.com>, douzhaolei
-	<douzhaolei@huawei.com>, zouyipeng <zouyipeng@huawei.com>, Wangbing
-	<wangbing6@huawei.com>, Nixiaoming <nixiaoming@huawei.com>
-Subject: Re: [PATCH v6 0/2] RAS: Fix ARM processor error bounds checking
-Thread-Topic: [PATCH v6 0/2] RAS: Fix ARM processor error bounds checking
-Thread-Index: Ad17L+za6KtM0f1WQxuNnF458ub2Yg==
-Date: Mon, 23 Nov 2026 09:55:42 +0000
-Message-ID: <4f5a15f093a44588bed88884e2bbe648@huawei.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BhhKTrwI
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795431340;
+	b=l3nck/fX1QHUqwlynsyQT088QiH99g1NU7vgCAMTCYFDSJqL9lKvo4Yxus5FdlDqvIC+
+	 XekX9YlZHFcQmnEVUNUMf7wQUgOEtF3jlNDSs7cR6QUw1kwuEjE+IvVkn4SyspeBKEF7l
+	 kQMRh64Ubq30qNNhiDqysiiNgSmNs8gJjY3SIj6YN9wkmtpagjbq8SZiT1dRMISwG9mJL
+	 6+bohoFuh/tGkUwPoQ/ka6Qdl66SBkaaOjrbBs+cTmWau+I8PBA4sIQBLuq2s3I3KJ/eV
+	 8aQ7lRs9QLB+JLsLzsMM/Me03Zs37CLpslGDaYZLCcuKvb84pMeauGFyKc7aJD5FQiw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795431340;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=OHPurr6k9FoQrxkS/sSnGfsG+S8cHXcbjJO/f1mmfMk=;
+	b=pNOlBGd6WwlF3EPl0JhIO0aajq53jqPGMFit85WQbRX4LPDXLyURlnMW/F18OolgIywR
+	 xqf0FKp5JSzS9l6mlWU8LnKKXfF0GdYb+54oelHAMFGfnAgmRsi4xR/Oyrgl7SyUOHgwC
+	 LSlI0byiag5yQY7wUe050F2BFMMcx+Qjs35FQgQzotDIZtair2WkIpjbju603n7JjDFMg
+	 ps6WM97ygQWAv4Ln0AciImSuHmyHFIds7lVcwyZbq8W+aZsLcEIJVOMZR6sPo+b61hAEI
+	 jQTPaKwaXNPBCjQCCsXlzRssbTa/SYkrPWjVaY6tB7ACviwbfbaBFbPvlspNY6yNfbQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 7092D1F000CF;
+	Mon, 23 Nov 2026 10:55:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795431340;
+	bh=OHPurr6k9FoQrxkS/sSnGfsG+S8cHXcbjJO/f1mmfMk=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=BhhKTrwIz7AILx3MLCgPQ8PXicrbGGrKWZanOmkPNetq3e6QrVmHodDNtkyoy68QW
+	 H5tQ8XcCRZNoQNpAh+6H94VJyE17zkoeXE/hGmKSvGVlnR2noeeTXIdwA2tVwG9Saz
+	 s62qwFC+zWwXfUuFKm6/TpQxjxYIXgTQljWcA5r0NlAqdxxhuXnk0kMA3s3nVzkc/C
+	 ON9VBuxYw7N3ed/ZLDo7SueeNyksx7GaOruRW6Dur3LEpnMMpCcnKnlRgztU8QRPer
+	 ik7kqu3BYkhYRYNbz6Drdyh/QLDYQhKDZ8Z65RgP4EmV43U/yrUYPdJ6HBC/5/lwhM
+	 g1q9lJSrneQtA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id F24CB4C423;
+	Mon, 23 Nov 2026 10:55:33 +0000 (UTC)
+From: Ahmed Abdelfattah via B4 Relay <devnull+me.ahmedabdelfattah.dev@kernel.org>
+Date: Mon, 23 Nov 2026 12:55:29 +0200
+Subject: [PATCH v2] EDAC/mc: Convert the poll period to jiffies when it is
+ changed
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -87,107 +83,161 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261123-edac-mc-poll-msec-jiffies-v2-1-0407cc52556d@ahmedabdelfattah.dev>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NTQ6CMBBGr0K6dgxTErSuvIdhUdoZKeEvbW00h
+ Ltb8AIuX/K+960ikHcUxK1YhafkgpunDPJUCNPp6UngbGYhS1kjogKy2sBoYJmHAcZABnrHnBP
+ A7YWVrBlRGpH3iyd276P9aH4cXm1PJu7B3ehciLP/HOcJd++fn4SAwFRJpaor61LddTdmvbU0s
+ I5Rd2dLSTTbtn0BMlh3w98AAAA=
+X-Change-ID: 20261119-edac-mc-poll-msec-jiffies-fb7f926f112c
+To: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>
+Cc: Qiuxu Zhuo <qzhuo@nvidia.com>, linux-edac@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Ahmed Abdelfattah <me@ahmedabdelfattah.dev>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795431333; l=5584;
+ i=me@ahmedabdelfattah.dev; s=20261106; h=from:subject:message-id;
+ bh=n19gK6o3sRSWNb0gfAuZ8xCRhx7uWKCKrQY4JcoU+gA=;
+ b=0HNrLZac5Wok4Ed+BV8WQnGeuQmK9bBXzryHZYf+2dHsC0ouws/cJBZ719etCXuW5BnVk7XzW
+ woVv7MJl0ncCEtBPGOjIprNAN3K6kA2LQ6F8oqENhFFuAKBFIzDHcIp
+X-Developer-Key: i=me@ahmedabdelfattah.dev; a=ed25519;
+ pk=DHEHKU4PddrkJ/iYMZpwyyXsFyIQ6ySjTttKLrt9YqI=
+X-Endpoint-Received: by B4 Relay for me@ahmedabdelfattah.dev/20261106 with
+ auth_id=1438
+X-Original-From: Ahmed Abdelfattah <me@ahmedabdelfattah.dev>
+Reply-To: me@ahmedabdelfattah.dev
+Content-Transfer-Encoding: 7bit
 
-> Commit 87880af2d24e ("APEI/GHES: ARM processor Error: don't go past
-> allocated memory") and commit 05954511b73e ("RAS: Report all ARM
-> processor CPER information to userspace") introduced bounds checking
-> for malformed ARM processor error records in log_arm_hw_error().
-> However, two issues remain:
->=20
-> 1. The ctx_info bounds check condition is inverted: it adds
->    ctx_info->size when the context header is already past the end of
->    the section instead of when it is within bounds.
->=20
-> 2. When vsei_len < 0, the error path does not verify pei_len and
->    ctx_len. Since these are derived from err_info_num and
->    context_info_num, they may describe regions beyond the allocated
->    record, causing trace_arm_event() to read out of bounds.
->=20
-> Patch 1 fixes the inverted bounds check for context info iteration.
-> Patch 2 sanitizes pei_len/ctx_len/ven_err_data in the vsei_len < 0
-> error path to prevent out-of-bounds reads in trace_arm_event().
->=20
-> The ctx_info->size overflow (a size over 0x7fffffff making the signed
-> sz negative, as reported by Hanjun Guo) is deliberately left
-> unaddressed in this series: a size overflow implies a corrupted
-> firmware record, and then section_length may be corrupted as well.
-> For example, a real section length of 1024 could be reported as
-> 16000, and the context walk can go out of bounds even without any
-> size overflow. Guarding ctx_info->size alone therefore does not add
-> meaningful protection.
->=20
-> Changes in v6:
->   - Drop patch 3 ("RAS: Fix integer overflow in ARM processor error
->     context walk"): an overflowing ctx_info->size implies a corrupted
->     firmware record, in which case section_length may be corrupted as
->     well, and the context walk can go out of bounds even without a
->     size overflow, so guarding ctx_info->size alone does not add
->     meaningful protection.
->   - Add a note to the patch 1 commit message with the same
->     reasoning, as cover letters are not preserved in git history.
->   - No code changes in this version.
->=20
-> Changes in v5:
->   - Collect Reviewed-by tags from Hanjun Guo for patches 1 and 2.
->   - Added comments to patch 3.
->   - No code changes in this version.
->=20
-> Changes in v4:
->   - Remove the empty line between the Fixes: and Signed-off-by: tags
->     in patches 1 and 2, per Hanjun Guo's comments.
->   - Add braces around the else branch that assigns ven_err_data in
->     patch 2, as suggested by Hanjun Guo.
->   - Add new patch 3 to check each context entry with 64-bit
->     arithmetic and stop the walk at the first entry that does not fit
->     in the section, so a ctx_info->size over 0x7fffffff cannot
->     overflow the signed int sz and walk ctx_info past the section,
->     addressing Hanjun Guo's overflow comment.
->=20
-> Changes in v3:
->   - There was no change, and the email was sent by mistake.
->=20
-> Changes in v2:
->   - Split the original single patch into two separate patches, one
->     for each distinct fix, to ease review and backporting.
->=20
-> v5:
->   RAS: Fix ARM processor error bounds checking
->   https://lore.kernel.org/all/20260921080337.3000957-1-liuwenliang@huawei=
-.com/
->=20
-> v4:
->   RAS: Fix ARM processor error bounds checking
->   https://lore.kernel.org/all/20260909112832.805314-1-liuwenliang@huawei.=
-com/
->=20
-> v2:
->   RAS: Fix ARM processor error bounds checking
->   https://lore.kernel.org/all/20260825134323.4181892-1-liuwenliang@huawei=
-.com/
->=20
-> v1:
->   RAS: Fix out-of-range section_length in ARM processor error handling
->   https://lore.kernel.org/all/20260820131829.1006371-1-liuwenliang@huawei=
-.com/
->=20
-> Abbott Liu (2):
->   RAS: Fix inverted context info bounds check in ARM processor errors
->   RAS: Fix out-of-bounds read when tracing arm_event
->=20
->  drivers/ras/ras.c | 24 +++++++++++++++++++-----
->  1 file changed, 19 insertions(+), 5 deletions(-)
->=20
-> --=20
-> 2.43.0
->
+From: Ahmed Abdelfattah <me@ahmedabdelfattah.dev>
 
-Hi,
-Friendly ping on these patches in v6 versions:
-https://lore.kernel.org/all/20261012131140.1526599-1-liuwenliang@huawei.com=
-/
+Writing edac_mc_poll_msec at run time re-arms every polled memory
+controller through edac_mc_reset_delay_period(), which passes the new
+value to edac_mod_work() as it is. mod_delayed_work() takes jiffies, so
+the first poll after the write comes that many jiffies later, not that
+many milliseconds: at HZ=300, writing 2000 puts the next poll 6.7 s
+out. edac_mc_workq_function() re-arms with msecs_to_jiffies(), so only
+that first poll is off.
 
-Please let me know if there is anything inappropriate in the patch
-or if it is ready to be applied to the tree.
+Before commit c4cf3b454eca ("EDAC: Rework workqueue handling") this
+path converted the value through edac_mc_workq_setup(), and
+edac_device_reset_delay_period() still does. Convert it here as well.
+
+All other callers of edac_mod_work() and edac_queue_work() already pass
+jiffies. Name the arguments after the unit they are in: "jiffies" for
+the two workqueue helpers, and "msec" for edac_mc_reset_delay_period(),
+as edac_device_reset_delay_period() has it.
+
+Fixes: c4cf3b454eca ("EDAC: Rework workqueue handling")
+Reviewed-by: Qiuxu Zhuo <qzhuo@nvidia.com>
+Signed-off-by: Ahmed Abdelfattah <me@ahmedabdelfattah.dev>
+---
+I noticed this while timing ie31200_edac's polls in a KVM guest: the
+first poll after a write to edac_mc_poll_msec came late.
+
+Tested on v7.4-rc3+ (4405c18c95d2) at HZ=300, with ie31200_edac bound
+to a QEMU model of the Kaby Lake host bridge (a local device model, not
+upstream QEMU), timing edac_mc_workq_function() with a kprobe. Without
+the patch the first poll came 6.76 s after writing 2000 and 3.51 s after
+writing 1000, with the polls after it every 2.13 s and 1.01 s. With the
+patch the first poll comes 2.11 s and 1.02 s after the write, in line
+with the ones after it. Writes below 1000 are still rejected.
+---
+Changes in v2:
+- Went through the callers of edac_mod_work() and edac_queue_work(). The
+  others already pass jiffies: edac_device keeps msecs_to_jiffies(msec)
+  in edac_dev->delay, edac_pci and the other edac_mc callers convert at
+  the call. So the fix is the same as in v1.
+- Renamed the "delay" argument of both helpers to "jiffies" (Borislav).
+  The "value" in the v1 hunk is edac_mc_reset_delay_period()'s argument
+  and is in milliseconds, so that one is now "msec". As an argument name
+  "jiffies" shadows the global one, which only W=2 complains about; I
+  can call it something else if you prefer.
+- Added Qiuxu's Reviewed-by and retested.
+- Link to v1: https://patch.msgid.link/20261119-edac-mc-poll-msec-jiffies-v1-1-fe329938fa09@ahmedabdelfattah.dev
+---
+ drivers/edac/edac_mc.c     | 6 +++---
+ drivers/edac/edac_module.h | 6 +++---
+ drivers/edac/wq.c          | 8 ++++----
+ 3 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
+index fd70caa85574..6feb0809a959 100644
+--- a/drivers/edac/edac_mc.c
++++ b/drivers/edac/edac_mc.c
+@@ -483,12 +483,12 @@ static void edac_mc_workq_function(struct work_struct *work_req)
+ }
+ 
+ /*
+- * edac_mc_reset_delay_period(unsigned long value)
++ * edac_mc_reset_delay_period(unsigned long msec)
+  *
+  *	user space has updated our poll period value, need to
+  *	reset our workq delays
+  */
+-void edac_mc_reset_delay_period(unsigned long value)
++void edac_mc_reset_delay_period(unsigned long msec)
+ {
+ 	struct mem_ctl_info *mci;
+ 	struct list_head *item;
+@@ -499,7 +499,7 @@ void edac_mc_reset_delay_period(unsigned long value)
+ 		mci = list_entry(item, struct mem_ctl_info, link);
+ 
+ 		if (mci->op_state == OP_RUNNING_POLL)
+-			edac_mod_work(&mci->work, value);
++			edac_mod_work(&mci->work, msecs_to_jiffies(msec));
+ 	}
+ 	mutex_unlock(&mem_ctls_mutex);
+ }
+diff --git a/drivers/edac/edac_module.h b/drivers/edac/edac_module.h
+index eceef5539186..762a331a5708 100644
+--- a/drivers/edac/edac_module.h
++++ b/drivers/edac/edac_module.h
+@@ -48,12 +48,12 @@ extern void edac_device_remove_sysfs(struct edac_device_ctl_info *edac_dev);
+ /* edac core workqueue: single CPU mode */
+ int edac_workqueue_setup(void);
+ void edac_workqueue_teardown(void);
+-bool edac_queue_work(struct delayed_work *work, unsigned long delay);
++bool edac_queue_work(struct delayed_work *work, unsigned long jiffies);
+ bool edac_stop_work(struct delayed_work *work);
+-bool edac_mod_work(struct delayed_work *work, unsigned long delay);
++bool edac_mod_work(struct delayed_work *work, unsigned long jiffies);
+ 
+ extern void edac_device_reset_delay_period(struct edac_device_ctl_info *edac_dev, unsigned int msec);
+-extern void edac_mc_reset_delay_period(unsigned long value);
++extern void edac_mc_reset_delay_period(unsigned long msec);
+ 
+ /*
+  * EDAC debugfs functions
+diff --git a/drivers/edac/wq.c b/drivers/edac/wq.c
+index ad3f516627c5..edeb7bbd3d68 100644
+--- a/drivers/edac/wq.c
++++ b/drivers/edac/wq.c
+@@ -3,15 +3,15 @@
+ 
+ static struct workqueue_struct *wq;
+ 
+-bool edac_queue_work(struct delayed_work *work, unsigned long delay)
++bool edac_queue_work(struct delayed_work *work, unsigned long jiffies)
+ {
+-	return queue_delayed_work(wq, work, delay);
++	return queue_delayed_work(wq, work, jiffies);
+ }
+ EXPORT_SYMBOL_GPL(edac_queue_work);
+ 
+-bool edac_mod_work(struct delayed_work *work, unsigned long delay)
++bool edac_mod_work(struct delayed_work *work, unsigned long jiffies)
+ {
+-	return mod_delayed_work(wq, work, delay);
++	return mod_delayed_work(wq, work, jiffies);
+ }
+ EXPORT_SYMBOL_GPL(edac_mod_work);
+ 
+
+---
+base-commit: 4405c18c95d2d0f99f6c581ef0ee8591a1aa6ccd
+change-id: 20261119-edac-mc-poll-msec-jiffies-fb7f926f112c
 
 Best regards,
-Abbott Liu
+--  
+Ahmed Abdelfattah <me@ahmedabdelfattah.dev>
+
+
