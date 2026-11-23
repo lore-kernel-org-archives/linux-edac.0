@@ -1,74 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.219
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795410504;
-	b=lf8YW6XwHD70NakBdKTvjhS6dvv9fQ8YewqXxKkfTddDBYya3fbVSdPrRmRcSzaIJYAF
-	 qz1u523jlsVyagXGNkl0pyoWivE1uflzb2G5j24MuZTibLHqYVpsl6iCaPAFCytsjRyUp
-	 +g6in4u14zAFu3ChwDUfFPO/FZ41GGiz6bylpAUZn9SadHn/IIxPPWv3BuDuLo7TRcevN
-	 DPtUwVagwy5wKETxGFXh1ODuuJxmqtzdZbYxBRLTffPNTDDrLs/w1PuoyalknrkihBg6L
-	 2g9A35QXOSk5OU8i8XYIkDxyjtBo9N95Jpi25zIQnlwN/bdSR831MDYol67wFiy1Bwg==
+	t=1795427749;
+	b=H3XF33Np0hFj6cCFnxVqlblJpCyzoeolpbi+PKmo2ZXvfhzsMthfRkf72zGxBdSSNzrg
+	 HHDPgO80pv93/QSL7qO9JNevwL9lXDUr3FcoqfL8Rf2SjuxeWfP89JoMrmmfTD096s4up
+	 uoNP9e0I9XSgIrUZ8rCd6PkpTXK6sUYUsSwRg7q/i0ZAut9o7QCL4l+TOND5tmJ5WVxnK
+	 B6VcKcA6tJO0Z4yVhB6RUfiFm9oIhurnlpZbF6YJISSqQHJE0u86Uz+prL64vn02d1rnh
+	 7JTMQjTblgk9kZRvD8/8OUg4KtvuQFFlpF/WvwqA/pRa7PiFwXhII2d2JlNt+mTN0/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795410504;
-	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=pG3RbMD1S2Y3gZ5p/GavYtpXKJVsH9ua8D7+Nx6kh6s=;
-	b=FuFvoXLCs3FbgUtizIrX+/gE4ZxLq139oA5liWQWvvZ3aP4Z2QjADEdPvOsCKC+iji5x
-	 SCRQUH0MSaoEO9ePgvSq0bQ3SoErssZjum5cZ64BzxuksescH7GyXvnA7ErMH1fEHSkDC
-	 UA2W912xxOFPnXcy3TWo9kMxvdkrQfJEPV459/z6buG7B+e8IqvWeh+FjEOHqadldSmXg
-	 pCaa8UGeZomHBJwg80V9HslCSsAPL/i3qxi1oUp4tD7sTqiWOhm6iPqM6Z+DNxsUM1pV9
-	 LrCiY1JvZIx1QuhUNtXZIi9hKc5VhQlGbuR3af0R7qeQFTWybSixyUxnIROsUlfnRVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795427749;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Received:From:
+	 To:CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:
+	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-originating-ip:Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=i5Bb6LQ0JNsmImryWzNQLJ90C7blcTOwp5oThaKLOI0=;
+	b=EojpvVmIWbg4Q92sC5rEEJAHtVAcu6u7xxtlpRgFnDt8g8rE0HrN0oZt6oOXsUtis5Qt
+	 ReJY3XR+4Q03SamPCPCCH94b3cCvETc+kNsncRcyEutRg2UJwJu0BPDqvVRLVyehg4FYb
+	 +ssX4g/O+oWVcLzx5jqXkHAGAdx/OfrZTjt1JYb30s4DlQZVS26eIbm+t4ghlT600DaTW
+	 obiT5vcYk8KtrlZhLNV770ObcMgGWwhl8zMtcUjXfUJdb4mjEubrRhASd5fg02puOkxR5
+	 zSEp1J7aL5ehlILLwQPgjVP/DGimRsV98l8qxn16Q8acWEEt/WnPCYeByZxvDW//VCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=alien8.de;
-	spf=pass smtp.mailfrom=alien8.de;
-	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=PeZdS3gk;
-	arc=none smtp.remote-ip=65.109.113.108
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=KFow5d2R;
+	arc=none smtp.remote-ip=113.46.200.219
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D3E606A31A;
-	Mon, 23 Nov 2026 05:08:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76D3E606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C32B606A31A;
+	Mon, 23 Nov 2026 09:55:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C32B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=PeZdS3gk
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7ECD540E0240;
-	Mon, 23 Nov 2026 05:08:21 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 7bckj3GvgYyG; Mon, 23 Nov 2026 05:08:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1795410498; bh=pG3RbMD1S2Y3gZ5p/GavYtpXKJVsH9ua8D7+Nx6kh6s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PeZdS3gkDamgWXNvp12TUrnxPGx7CuLMqSLfKrk6NtRZTv//44qtbqxLJc4zHFdVJ
-	 ztpEVXY8d1G73N2ZSsCIIW/HoJOvxGwaFVhudzWET9pwMyUWUXZNTV1UMpeC163qKN
-	 qJ0zghMjXWRej6OxB4LGs9+Z+Qgc050Aflcwj4IWkc/FWmWsJUSulD14NclP/zlJeX
-	 PfPl/gwDV9jR+o5EfwjjZyx2I6CET+SlJMn177vJ/oHm8MWix8VQXmUM2b6HKDX+Qr
-	 y2HQ169A27haQ7Y0AsysEeEQQS5m9r9AbUH/ccH8gR8ZKehr4ufEqEYqQPocR5MASO
-	 be3Mjy7zM4LMh+hNDxprDJ2i7OvcDHLRbKu5MdRDmSugUcsqRZOwkZNcQYApkCI99f
-	 0VXcSxmfHRBlGRclYEi+zmt/2mol43QGEZ6ZnLekFK4gph8BCh/tgzZOD4oUgpa6zM
-	 j/osnsZfUysqNexz9uODmyBfK+jWeXTRE6yuLsVu4d5hEoaD3oOZ1GKrs9YXf/GbHI
-	 cy93NKeU02RUIkltNZh6dkHIUDrZwwlvDB0+wBsY4zfnGkeloobEGXpoZ0L839ZY07
-	 N/hUP24EkifmHMEegq67NSWN1ellHov78x/0+CrNGkoGRzt7XTESQcDsZkJkKSI4MZ
-	 Tw34Et69C0JKmK2vgydzHeaQ=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E48B940E01F4;
-	Mon, 23 Nov 2026 05:08:13 +0000 (UTC)
-Date: Sun, 22 Nov 2026 21:08:10 -0800
-From: Borislav Petkov <bp@alien8.de>
-To: me@ahmedabdelfattah.dev
-Cc: Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] EDAC/mc: Convert the poll period to jiffies when it is
- changed
-Message-ID: <20261123050810.GGawPKOuhvLRFtlMIx@fat_crate.local>
-References: <20261119-edac-mc-poll-msec-jiffies-v1-1-fe329938fa09@ahmedabdelfattah.dev>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=KFow5d2R
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=i5Bb6LQ0JNsmImryWzNQLJ90C7blcTOwp5oThaKLOI0=;
+	b=KFow5d2RIBojVpe8IQ8W5FXByr0v16wXcBcCY8ieqhiE8AuKH+BNGrQNUeMIZFcE7WKcBPj59
+	GrjEFK0tATviKN9ZaYVBiorWi7f8lv1GE31HYR22EcG8PTauKgZT7aEREEHrmB+KEnLvvbmWXAp
+	YCSEo0M1AsevDvI5FMW2VBA=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4jY1XH4zXsz1prmh;
+	Mon, 23 Nov 2026 17:55:27 +0800 (CST)
+Received: from whupemk100014.china.huawei.com (unknown [7.152.184.20])
+	by mail.maildlp.com (Postfix) with ESMTPS id 89C194056E;
+	Mon, 23 Nov 2026 17:55:43 +0800 (CST)
+Received: from kwepemf100015.china.huawei.com (7.202.181.14) by
+ whupemk100014.china.huawei.com (7.152.184.20) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Mon, 23 Nov 2026 17:55:42 +0800
+Received: from kwepemf100015.china.huawei.com ([7.202.181.14]) by
+ kwepemf100015.china.huawei.com ([7.202.181.14]) with mapi id 15.02.2562.045;
+ Mon, 23 Nov 2026 17:55:42 +0800
+From: "Liuwenliang (Abbott Liu)" <liuwenliang@huawei.com>
+To: "tony.luck@intel.com" <tony.luck@intel.com>, "bp@alien8.de"
+	<bp@alien8.de>, "Guohanjun (Hanjun Guo)" <guohanjun@huawei.com>,
+	"rafael.j.wysocki@intel.com" <rafael.j.wysocki@intel.com>, "jic23@kernel.org"
+	<jic23@kernel.org>, "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
+	"ardb@kernel.org" <ardb@kernel.org>, "danielf@os.amperecomputing.com"
+	<danielf@os.amperecomputing.com>, luoshengwei <luoshengwei@huawei.com>,
+	"jason@os.amperecomputing.com" <jason@os.amperecomputing.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC: "yangzhuohao (A)" <yangzhuohao1@huawei.com>, douzhaolei
+	<douzhaolei@huawei.com>, zouyipeng <zouyipeng@huawei.com>, Wangbing
+	<wangbing6@huawei.com>, Nixiaoming <nixiaoming@huawei.com>
+Subject: Re: [PATCH v6 0/2] RAS: Fix ARM processor error bounds checking
+Thread-Topic: [PATCH v6 0/2] RAS: Fix ARM processor error bounds checking
+Thread-Index: Ad17L+za6KtM0f1WQxuNnF458ub2Yg==
+Date: Mon, 23 Nov 2026 09:55:42 +0000
+Message-ID: <4f5a15f093a44588bed88884e2bbe648@huawei.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -78,32 +87,107 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261119-edac-mc-poll-msec-jiffies-v1-1-fe329938fa09@ahmedabdelfattah.dev>
 
-On Thu, Nov 19, 2026 at 08:22:07PM +0200, Ahmed Abdelfattah via B4 Relay wrote:
-> diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
-> index fd70caa85574..787bef803ef0 100644
-> --- a/drivers/edac/edac_mc.c
-> +++ b/drivers/edac/edac_mc.c
-> @@ -499,7 +499,7 @@ void edac_mc_reset_delay_period(unsigned long value)
->  		mci = list_entry(item, struct mem_ctl_info, link);
->  
->  		if (mci->op_state == OP_RUNNING_POLL)
-> -			edac_mod_work(&mci->work, value);
-> +			edac_mod_work(&mci->work, msecs_to_jiffies(value));
+> Commit 87880af2d24e ("APEI/GHES: ARM processor Error: don't go past
+> allocated memory") and commit 05954511b73e ("RAS: Report all ARM
+> processor CPER information to userspace") introduced bounds checking
+> for malformed ARM processor error records in log_arm_hw_error().
+> However, two issues remain:
+>=20
+> 1. The ctx_info bounds check condition is inverted: it adds
+>    ctx_info->size when the context header is already past the end of
+>    the section instead of when it is within bounds.
+>=20
+> 2. When vsei_len < 0, the error path does not verify pei_len and
+>    ctx_len. Since these are derived from err_info_num and
+>    context_info_num, they may describe regions beyond the allocated
+>    record, causing trace_arm_event() to read out of bounds.
+>=20
+> Patch 1 fixes the inverted bounds check for context info iteration.
+> Patch 2 sanitizes pei_len/ctx_len/ven_err_data in the vsei_len < 0
+> error path to prevent out-of-bounds reads in trace_arm_event().
+>=20
+> The ctx_info->size overflow (a size over 0x7fffffff making the signed
+> sz negative, as reported by Hanjun Guo) is deliberately left
+> unaddressed in this series: a size overflow implies a corrupted
+> firmware record, and then section_length may be corrupted as well.
+> For example, a real section length of 1024 could be reported as
+> 16000, and the context walk can go out of bounds even without any
+> size overflow. Guarding ctx_info->size alone therefore does not add
+> meaningful protection.
+>=20
+> Changes in v6:
+>   - Drop patch 3 ("RAS: Fix integer overflow in ARM processor error
+>     context walk"): an overflowing ctx_info->size implies a corrupted
+>     firmware record, in which case section_length may be corrupted as
+>     well, and the context walk can go out of bounds even without a
+>     size overflow, so guarding ctx_info->size alone does not add
+>     meaningful protection.
+>   - Add a note to the patch 1 commit message with the same
+>     reasoning, as cover letters are not preserved in git history.
+>   - No code changes in this version.
+>=20
+> Changes in v5:
+>   - Collect Reviewed-by tags from Hanjun Guo for patches 1 and 2.
+>   - Added comments to patch 3.
+>   - No code changes in this version.
+>=20
+> Changes in v4:
+>   - Remove the empty line between the Fixes: and Signed-off-by: tags
+>     in patches 1 and 2, per Hanjun Guo's comments.
+>   - Add braces around the else branch that assigns ven_err_data in
+>     patch 2, as suggested by Hanjun Guo.
+>   - Add new patch 3 to check each context entry with 64-bit
+>     arithmetic and stop the walk at the first entry that does not fit
+>     in the section, so a ctx_info->size over 0x7fffffff cannot
+>     overflow the signed int sz and walk ctx_info past the section,
+>     addressing Hanjun Guo's overflow comment.
+>=20
+> Changes in v3:
+>   - There was no change, and the email was sent by mistake.
+>=20
+> Changes in v2:
+>   - Split the original single patch into two separate patches, one
+>     for each distinct fix, to ease review and backporting.
+>=20
+> v5:
+>   RAS: Fix ARM processor error bounds checking
+>   https://lore.kernel.org/all/20260921080337.3000957-1-liuwenliang@huawei=
+.com/
+>=20
+> v4:
+>   RAS: Fix ARM processor error bounds checking
+>   https://lore.kernel.org/all/20260909112832.805314-1-liuwenliang@huawei.=
+com/
+>=20
+> v2:
+>   RAS: Fix ARM processor error bounds checking
+>   https://lore.kernel.org/all/20260825134323.4181892-1-liuwenliang@huawei=
+.com/
+>=20
+> v1:
+>   RAS: Fix out-of-range section_length in ARM processor error handling
+>   https://lore.kernel.org/all/20260820131829.1006371-1-liuwenliang@huawei=
+.com/
+>=20
+> Abbott Liu (2):
+>   RAS: Fix inverted context info bounds check in ARM processor errors
+>   RAS: Fix out-of-bounds read when tracing arm_event
+>=20
+>  drivers/ras/ras.c | 24 +++++++++++++++++++-----
+>  1 file changed, 19 insertions(+), 5 deletions(-)
+>=20
+> --=20
+> 2.43.0
+>
 
-Ok, pls go through all callers of edac_mod_work() and make sure they all pass
-in jiffies. Then rename its argument from "value" to "jiffies" so that it is
-clear what it receives.
+Hi,
+Friendly ping on these patches in v6 versions:
+https://lore.kernel.org/all/20261012131140.1526599-1-liuwenliang@huawei.com=
+/
 
-This would be a complete fix then.
+Please let me know if there is anything inappropriate in the patch
+or if it is ready to be applied to the tree.
 
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Best regards,
+Abbott Liu
