@@ -1,102 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.61.20
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795476496;
-	b=SF/+EH75wRMqZxxG/JjRlwIKcReswfL6K9rK5YRU0Sn1kpYN/CNVHXyEF01s4gqfH5Dw
-	 9jyoAS2SWCbqmis0clSoxK34a2ioZlS6FqmQtpvHTSCRqf+znlsu31ulz7FFzrTUjZmyb
-	 HQ5Mw88wnuH3mZUGpRT6BWjCzJPffVmOvmZUZLm8ZskQCN7PSB8ecNqPrArU5m/p1Yq4R
-	 KV90FOetQUIIZsiGVA38qLNhW7AmzYe0gm4Lsz4RGYOwSBjJdK/kUPP6nD2uSsqG37CQ0
-	 5JCVkUE0nrtZ6KVWIJhc6A287SFxE2f3Iqz1+o6g85UNEbd7jBPfwp7hDJQOJP9HqMA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795476496;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy:X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=dNeNX5KHOuGMUwfAKukFrE4Y43K42FGPr/FFdQpmnG0=;
-	b=VYpxUowhulFr/FkSLW91dg8h43oKt3C2O0cUe7gwoTdIa9wwmRBWnLpC4b1U1u4UuN2G
-	 cypoHhCaNTxuj++OLD5lL5GX9YmVYp3URJ94vHnNLqk5dbJvgVKyfDr2MgFQG0K18WJuP
-	 pQHyO6BNAlY81asV4P2Uo6HPZjNaQeXZAJeB4nUHnv1rJFpoSt5r0zqZFIeRsypBBl36P
-	 BTenDoUvRvadJQ5zSFr+9O6A8lOClHJepllRbaB/H9HzZjUZQQTPhbltRGdL7gnvBs0m1
-	 6A3HL6r1NJrCwEhJlcQBow5xmdPsVnk2qU0GHEUbip4MEsrxTvkZIWZ9PvvsU6P3BwA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=R+sGLcjN;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.61.20
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010020.outbound.protection.outlook.com [52.101.61.20])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795480298;
+	b=xKnKxRQrNtTYqbcHp+Wnf5BrbsAfY4+Pr7Zc9PXTyNPPCixL+VALqK3lt6BFlZXvBZmw
+	 cNNjT3ua66tji/90odz9q7BuftRziWTyDC4smIGuy5+Y96VIS88gYtLecP5weBCmJ8JNz
+	 DIHsjIx8hLDQElFgDY7AQtS54IIntoF4J2aFYS+V/0HwiLQOBzWEaYYyrA65/xHg2Dd/h
+	 QxbuZSZFwcK07mkJ2+cwulhRaeRC2stSd3KpaQFDBEzZ8/QCasNSyJbfO2szzMd8P+qn7
+	 ytCIywkrMW1R4StFbwUuMz7H1nChxDtIDHO+cmCK0R5aJBAZnN+bMiH+Isn0qz2RwHA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795480298;
+	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=7IpkPkVFHEadLY409nUalcnMRClqdAQR7VTRSz1ZcO8=;
+	b=qyQrjrFNCFCUO1ils7QTCM4/OtYxZQivJ8O8SAR0WfzPkWscH3JswLQeY6XRJG0DQ6K3
+	 Vc5b2RYdAecBiRmbNxfF64NE91nf6H0bbwqCUADycWpgHE7ml+zgmBq6hlorRCm1u/f9Q
+	 2HHE2OWLG/4JEo/NPjENJd14/lvcW0fl2OtivjTOr8My6bdCgQk4X1s6HMBWbengobAUD
+	 VI1S/sgQXWotlrVnma3fB5EcNDOMh5vv+dPxgOF+9AwxXuWJ7xoZjjJ5sPBCszHAtb7C4
+	 vqr4dv6zprS1xPYES8elUNfVE60Xr1dQcMOL/fgk/zonMi3eDEVpWGFNemPLPoTmd3g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=alien8.de;
+	spf=pass smtp.mailfrom=alien8.de;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=dxtTMzrI;
+	arc=none smtp.remote-ip=65.109.113.108
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5C8606A330;
-	Mon, 23 Nov 2026 23:28:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE5C8606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3F4606A321;
+	Tue, 24 Nov 2026 00:31:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C3F4606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=R+sGLcjN
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RdcPnJo2gW+pKhbID6bBDk9PmOhpnPpuOmBiWkrDPbgbMWNQLwx/+XC7wjAdCUG49f0M+MlipViMCejvgIGybn9jq+6v/muZXiSDLXxQvPuUWyWFpPHdK+w4J6ChrrAdRms9IhnMdidBhMXw2biu156DEoUCsHQuBGLfDJrCbDc0Ai9SzRGPN3hJT9ndRXqTOOrUtyuqo3sDA7ecMQsu7gqucfSlAJE5IHWTAbjTnhJGPf48gngH7SGQiNh+fmDrlCTIckZLm3XYd7k10+2id0kZpC1U3TNCgwklFRbZbGR5QTwTsYazTjJTSzbYgp7Mq8Un/liL7XaMbwqOT9xrpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dNeNX5KHOuGMUwfAKukFrE4Y43K42FGPr/FFdQpmnG0=;
- b=Yg5Y5PkGrzE9gXlQri2+TrYBU3EofdYoAgTzL17fxVDc4PxPhDi5CLSFKqCXQutb8eBLs2q0eynpMndGg4yMBBfEhTC+cATiB54EpUN2XTeqZFoYTZHD17FfGbCMMF9gg3jG/LAuAUdEVfN79Ek13H1P2zCUFFqrGjQwNFoBdTKddup9psqCYmtBrk+cwu2ILMtqDmTDjg8aXK8kRVwS7At4yopEzA9N/sce2MYgBHHcIeCfmZCUgTYTOdLxxV9Zyx1wjsobFNJynTPUu3Uge8Ik8atg9KfbTiHXYo12hBo49Phtf0Bl4gn37o99r0rLY6MnnlT/8s+YvkassJ6/kg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dNeNX5KHOuGMUwfAKukFrE4Y43K42FGPr/FFdQpmnG0=;
- b=R+sGLcjNlMWCOGlc/6/Hh3u47C8WmaP8PpNUnVHjLw2DvI6MxJ5mFI2UTv2OusFYuZeTZ1beKpC77PmkzQUym+SjTTPES/OsbKS2/9pnj7RcGVOSNG0ObQImv9DSSluckKU161sxlbCPILidRlmVul5+VT8Q94OW3t2hR8xk3XI=
-Received: from PH8P220CA0037.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:2d9::9)
- by PH8PR12MB6843.namprd12.prod.outlook.com (2603:10b6:510:1ca::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Mon, 23 Nov
- 2026 23:27:17 +0000
-Received: from PH7PEPF00000009.namprd04.prod.outlook.com
- (2603:10b6:510:2d9:cafe::27) by PH8P220CA0037.outlook.office365.com
- (2603:10b6:510:2d9::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.639.14 via Frontend Transport; Mon,
- 23 Nov 2026 23:27:15 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- PH7PEPF00000009.mail.protection.outlook.com (10.167.243.40) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.639.5 via Frontend Transport; Mon, 23 Nov 2026 23:27:15 +0000
-Received: from quartz-7b1chost (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.57; Mon, 23 Nov
- 2026 17:27:12 -0600
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-To: <linux-edac@vger.kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <tony.luck@intel.com>, <x86@kernel.org>,
-	Yazen Ghannam <yazen.ghannam@amd.com>
-Subject: [PATCH v2 3/3] x86/mce: Increase MAX_NR_BANKS to 255
-Date: Mon, 23 Nov 2026 17:27:01 -0600
-Message-ID: <20261123232701.1923094-4-yazen.ghannam@amd.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261123232701.1923094-1-yazen.ghannam@amd.com>
-References: <20261123232701.1923094-1-yazen.ghannam@amd.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=dxtTMzrI
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 025B340E02AA;
+	Tue, 24 Nov 2026 00:31:35 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id xKx_-KTIfSpn; Tue, 24 Nov 2026 00:31:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1795480289; bh=7IpkPkVFHEadLY409nUalcnMRClqdAQR7VTRSz1ZcO8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dxtTMzrIL2fiuW2uuAg3o2TZ7OmmjPyRs4XTm6+40JI43cDYin4TG1Ke8hvvdeOE3
+	 6VG7vmghoywou2l3QfBlsSZU5jaKZwecLlfOjb/FNHgxaYyBvWTRdNjlBqQlNXBn0f
+	 V6QGk4z05IY5zZMYcoWYkMnjBmIXdyoCoJ7DYF2R7rPJY7QSObTY5zBZigUEH203Ys
+	 tXd5zqDVZA5syLn/Zh3fu+xApkDk1GBT5soKeVyvicfMGZ3RqLZhpkf8DSGmgWhzqg
+	 RwDFltz3o9zqd2Jt1MlK/Bqm/OlH1BZ0ZAkIzIcEUMjaf0j+fSsmEufdA1a2qG74fl
+	 SPKkcYEOplQX7bntkepvRlsTHKrYWUGIxh86h69Zjb0olSEsXO8M1BLxnpbqtQNOjt
+	 qvpnfeWTlaYTckcl1ggafe8aCh9mMzbf3/+etfuyv9BhcvUaK3gHV2KA49g2cV/A5Z
+	 rlZx9W+idJ2eEFHHWOWSo+13fZM+3L0F4+Zm43SI/6RTzonngU4uZxRKoCHjgjt+4k
+	 2avTfLz7xn0sKUaTteGBWjNYj8INDKK9ddwqE3Y5xZdNCZ1u+JT4D7saRDTkjIaGJ6
+	 AHYoXdF9Rrqdu6xQtkEKC7XeRX3ZMCt0Dlp0bijOwauJ2ycqiAq3+BJWSH6FGnNxH3
+	 wetm2jf087EkhHzioUWE3XQw=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E18E140E0240;
+	Tue, 24 Nov 2026 00:31:13 +0000 (UTC)
+Date: Mon, 23 Nov 2026 16:31:10 -0800
+From: Borislav Petkov <bp@alien8.de>
+To: Ryan Chen <ryan_chen@aspeedtech.com>
+Cc: Stefan Schaeckeler <sschaeck@cisco.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Tony Luck <tony.luck@intel.com>,
+	Billy Tsai <billy_tsai@aspeedtech.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+	Borislav Petkov <bp@suse.de>
+Subject: Re: [PATCH v6 0/4] Add Aspeed AST2700 SDRAM EDAC support
+Message-ID: <20261124003110.GHawTazmnfEiwzjh-0@fat_crate.local>
+References: <20261117-edac-v6-0-a2a747b95c3f@aspeedtech.com>
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -106,150 +86,45 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PEPF00000009:EE_|PH8PR12MB6843:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1e5b1bcd-e712-4429-e2f0-08df49b94f40
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|23010399003|36860700016|82310400026|10067099003|11063799006|56012099006|261009223027099003|261021123027099003|261021121427099003|261022075727099003|261022115727099003|261022105027099003|261026140227099003|261028144727099003|261026121527099003|261102123227099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	EgR+wcAhyaWlG6ohszAaz3j+rLm4hiplQeLgAFdoTJtiGpMSxO6UZHRBoFAw+oX6uZT3OjLOuROrjGI/gKGju3tjls0XQz0yk5MsFserwuWDkK6nZ++a2C1zAm5l03bA/7Ai+DuxUE2L3YenS4kiplAFVtui8+O7FsMwpDMMCb+zMxsqN1qvMFeaBVX4f4GqgUOMEBJtP14kvoeifGN/1g4wFqC2C4uRgeLuwVqVSYnGeo0h+BmvapxfPI38Bledro2ofDzUOJ6hqTYTvFHp6WxuW7LmyFJRk3v126dWweEmUDXWXdyQBkK9bkdBZWM2JArR//dTGK20ha9pgoH+fKuO8Dys8mB4ij01CW3z2CjqQau1+AxFNsWjw+uLM6uq47FBXAERKygSsuEIFTQO2KBPgA5cmy/gS/wdqm183G8lFW310cmWl20uUUK/uJ7q5k5h1PcfMAtlr1l/Vja2CkSyb7J2OyzEpdvA29wxOb5CcCW+Wlxsf1p7Hs7eTnufl28ffjBXih4KHv/Oh0d56Jwu0fPoBHBexsQRUoP7XGh6nicXjY+kOsme3up6k7hk+lcrbTn6bM8OGC9Qyn0tVF9+lUUSZoAdiojWDBNoSGpRPOV0bAuOWjXD3DnjTiUo+W7ili9mz5HrgK08ZF4kTiJ7iedw4cGXngF7oyGTtMYAViJkQ7WjqqtyNo9FVGUTs0B4mdm78uftebW0Qxhc+Q==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(36860700016)(82310400026)(10067099003)(11063799006)(56012099006)(261009223027099003)(261021123027099003)(261021121427099003)(261022075727099003)(261022115727099003)(261022105027099003)(261026140227099003)(261028144727099003)(261026121527099003)(261102123227099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	kicX2KsRgy9ARDI2vec07Dk8cBQgs7GYWGTt5LfOQ4tT4YPlVqrMWR1Z5tau6tA8WOmRdiMyghSdmnkCdzh9tNNAZwsY3IsMz9eMyJFneUt1A8QZ6oSuCbgTySdmX4awH2B7dAmRfnYftuoxzMat4EnlRFITCi2211JS1yY5SCIjGaAvgshiM1f8Auc59ZXn89gGj1nfku5m8PCZujCk8WOh4lmchmMCkUWsCwGHk2NNPcS7WTuy99ptlTSgsx5w3za6BCsOOSsxMs5NcZSjg/TECfEnnCKOUlHeyoLp+3XI2gH4dUnrf4j/tWEUy/G9X5UY8pHwmz+TauUTt+BKvGesqALqunuzmOXeVa/WKpQr+QBuhP+1+D+kmSrjzvI1tGsWqbo4QLzItz11tnmw1Tx61CIfvZBnhmwSC6beHslTUwlozCnCfXOz27Fsh9LS
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2026 23:27:15.6219
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e5b1bcd-e712-4429-e2f0-08df49b94f40
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	PH7PEPF00000009.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6843
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261117-edac-v6-0-a2a747b95c3f@aspeedtech.com>
 
-Machine Check Architecture (MCA) allows up to 255 MCA banks per CPU
-thread. This is based on the size of the "Count" field of the MCG_CAP
-registers. The "Count" field is 8 bits and holds the number of MCA banks
-per CPU thread. So the value range is 0-255.
+On Tue, Nov 17, 2026 at 05:26:37PM +0800, Ryan Chen wrote:
+> Add ECC error reporting for the Aspeed AST2700 SoC to the existing
+> aspeed_edac driver.
 
-Change the MAX_NR_BANKS value to match the architectural definition.
+Ok, I thought I can fix up small things while applying but there are waaay too
+many issues.
 
-Drop the clamps in __mcheck_cpu_cap_init() and cmci_supported().
-MCG_CAP[Count] can no longer exceed MAX_NR_BANKS, so neither is
-reachable.
+1. Split the biggish patches - a patch should do one logical change but yours
+   are doing more. Do not do any drive-by changes while adding driver support
+   for some new chip. They need to be in a separate patch. If not sure, refer
+   to the documentation I pointed you to.
 
-cmci_supported() now takes the bank count from mce_num_banks instead of
-reading MCG_CAP[Count] again. mcheck_cpu_init() sets it before CMCI
-is set up, so the two agree. A CPU that skipped MCA setup now reports
-no banks instead of the hardware count.
+2. Write your commit messages in English do not use made up terms like "DRAMC"
+   and "isr()" and so on. Those should be readable by humans.
 
-MAX_NR_BANKS sizes a number of arrays and bitmaps. Growing it by 191
-banks costs the following, measured with size -A on the MCA objects
-built from x86_64 defconfig.
+3. Do not explain the code in your commit messages - only the non-obvious
+   stuff.
 
-Global bitmaps:
-- core.c / mce_banks_ce_disabled
-- Total: 191 new bits = 24 new bytes
+4. Do not put in the commit message how a patch has been tested - that goes
+   below the "---" line. I think I mentioned that to you already.
 
-Per-CPU bitmaps:
-- core.c / mce_poll_banks
-- intel.c / mce_banks_owned
-- amd.c / bank_map
-- amd.c / mce_amd_data: thr_intr_banks and dfr_intr_banks
-- Total: 191 new bits * 5 bitmaps = 120 new bytes
+5. Drop the "aspeed_" prefix from all static functions - they don't need it.
+   That can be a final patch ontop if it is easier. One logical thing per
+   patch.
 
-Global structs:
-- core.c / struct mce_bank_dev mce_bank_devs[]: 56 bytes per bank
-- intel.c / u16 cmci_threshold[]: 2 bytes per bank
-- Total: 191 new banks * 58 bytes = 11078 new bytes
+In any case, tell your Claude to do those things because there's a human on
+the other end reading and human does not like it when Claude does a stinking
+pile.
 
-Per-CPU structs:
-- core.c / struct mce_bank mce_banks_array[]: 16 bytes per bank
-- amd.c / struct smca_bank smca_banks[]: 24 bytes per bank
-- threshold.c / struct mca_storm_desc storm_desc: 24 bytes per bank
-- Total: 191 new banks * 64 bytes = 12224 new bytes
+:)
 
-Section totals, which include alignment padding:
+Thx.
 
-Total global size increase: 11152 bytes of .bss
-Total per-CPU size increase: 12368 bytes
-
-The per-CPU total is replicated for every possible CPU. In the linked
-image .data..percpu grows by 12352 bytes. The first per-CPU chunk is
-page aligned, so each CPU retains three more pages, 229376 bytes up
-from 217088. That is 5.7% more per-CPU memory, or 6 MiB on a 512
-thread system.
-
-On the stack, the two bank bitmaps grow the frame of do_machine_check()
-by 48 bytes, from 232 to 280 bytes, on the 8 KiB #MC exception stack.
-
-One module outside defconfig also grows. Measured with size -A on
-intel-bff.o:
-
-Module read-only tables:
-- edac/intel-bff.c / enum bff_bank_type dmr_mcbanks[]: 4 bytes per bank
-- Total: 191 new banks * 4 bytes = 764 new bytes of .rodata
-
-Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
----
- arch/x86/include/asm/mce.h      | 2 +-
- arch/x86/kernel/cpu/mce/core.c  | 6 ------
- arch/x86/kernel/cpu/mce/intel.c | 2 +-
- 3 files changed, 2 insertions(+), 8 deletions(-)
-
-diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h
-index 9995176d6879..e5fa0f58b305 100644
---- a/arch/x86/include/asm/mce.h
-+++ b/arch/x86/include/asm/mce.h
-@@ -273,7 +273,7 @@ void mce_log(struct mce_hw_err *err);
- DECLARE_PER_CPU(struct device *, mce_device);
- 
- /* Maximum number of MCA banks per CPU. */
--#define MAX_NR_BANKS 64
-+#define MAX_NR_BANKS 255
- 
- #ifdef CONFIG_X86_MCE_INTEL
- void mce_intel_feature_init(struct cpuinfo_x86 *c);
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index eb0e51ac80fc..fa61ef6affc2 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -1841,12 +1841,6 @@ static void __mcheck_cpu_cap_init(void)
- 
- 	b = cap & MCG_BANKCNT_MASK;
- 
--	if (b > MAX_NR_BANKS) {
--		pr_warn("CPU%d: Using only %u machine check banks out of %u\n",
--			smp_processor_id(), MAX_NR_BANKS, b);
--		b = MAX_NR_BANKS;
--	}
--
- 	this_cpu_write(mce_num_banks, b);
- 
- 	__mcheck_cpu_mce_banks_init();
-diff --git a/arch/x86/kernel/cpu/mce/intel.c b/arch/x86/kernel/cpu/mce/intel.c
-index 4655223ba560..fa63f864e4ad 100644
---- a/arch/x86/kernel/cpu/mce/intel.c
-+++ b/arch/x86/kernel/cpu/mce/intel.c
-@@ -95,7 +95,7 @@ static bool cmci_supported(int *banks)
- 		return false;
- 
- 	rdmsrq(MSR_IA32_MCG_CAP, cap);
--	*banks = min_t(unsigned, MAX_NR_BANKS, cap & MCG_BANKCNT_MASK);
-+	*banks = this_cpu_read(mce_num_banks);
- 	return !!(cap & MCG_CMCI_P);
- }
- 
 -- 
-2.55.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
