@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.57
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.201.3
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795531359;
-	b=n6T/vAyrQhliCcoWbi8c4S/54/fV6nIqnO3dBxROIAxi+jBxBFQNHayk+oKHadQMDhX3
-	 Y1UMpknX73wR1V1yNF8Aveg72sPXhFXXnUk+sxBjK0Kd51c1iiihC/MDHP7tG9Qeqrr2w
-	 kfNIoGScTWHuxIwh/cXaMWnggvi8wd1AeCnc/AH8PoO71kpPrh9PzHEZgstERmOPvrA9X
-	 drPW2rDkwy7muyAGcHYVRgS8XJXgsbOGHZ8CJpR+38I9o1eGjASNVEUNMnTZ15dXmIT2L
-	 6y2CT0UM1k2p72W4Qfr93U8rR6835dBv2Pw9I0OjgEMKtBr3/4aeB8NaCL4VTFS3lfg==
+	t=1795533276;
+	b=jBCjlp6m772JGnMGrJma03nCNlHN0myaweFBQT0L4wxhzcL34KUJuF5yoBch9PXbMxQp
+	 vFRlTHSDXR18M8NoQN8/bSUYq57FVNr5qzf51Ga5KOsCRF87RGQdApVFjH3XXHRAna9Dp
+	 75GJGjZSqdnPFDI2oNQIVDXP4FQzGdV2OI6M+/OS/a8jYA8P1yR+vVZ5D7v/cdINVOGZ1
+	 SgUKEZ/onOHnEFSnxMtkM4sXOFTteS0sE3DbWuhoi8uEdjeGLwkIM/XuzmRP5pwtqdaXs
+	 GOVkgZ2ptqZI1UklML4ajYGw+Fehsesdtcp5fg6XQh/MCRJMU8n2aHJjpYLpFSaKO0A==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795531359;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795533276;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:Content-Type:Content-Disposition:
 	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
@@ -24,70 +24,81 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=KVP/OlP8tf/7c0ptAfcG4S6h/11+o7CoYQHfpwum6rc=;
-	b=GdZf51xoG/v/y33TmsMvkmzNCzrIdvPyRRTIvFd3nCLeNmbf/3s9Fel5J4xLat8spfib
-	 9JFHuEvFQ2tlEx58b4CvNG+9yWNnANQsXiO5pISj8LC3kfjmwu2g8k6resFNel0pH3rdy
-	 qxCEYbZg+wUzDfhJfI4Q2PwVYDlzGRCyTb8x+QvzvwZIlbv289gBIhIv5+v6b/sJAmbu1
-	 c5ki5AKIDif42UW2gf9b9ljEBYHerslp2eWCUAV3nN5rEFaADtyKkcImLItbtDsNoCAjJ
-	 FmiQePiBAdMaQVxGyIYdA9D0A8/GUmkHDKvVam//PzlC7ppson1fe6fKL91oqAOVlLg==
+	bh=03V5GD7kQqoVsq4w6sMK3MOuCKEqC8dnZKsmD1OJjs0=;
+	b=NR8LKaK2F44JC/WCs43Dm52xPWm89I2glS/DNprHXVi/QHi22yvjXT/JFTXXlNvoLYOA
+	 ZIwV7G8ISgzn/pwXjlBtccvnXtY/iuRTiJmi1/MbAh8NbSd4lCctbXhH+WqjTpn5x9CgI
+	 K3N+paitadUBpeTDmeJp6iLdi3fPsCf9BWKKnapuD/XmWp/fTsxGBawGAvXHyndyGV1WW
+	 kbT8nEQHaD9iJ/YFPLC6D2hdyIcPB6fR1Z8MIThnrgbZRghKNDPTPmRmKy4iF1txARxj1
+	 2Xl5qopMWL9mg2okwoKzBbmW/FIY4Gb08WEgHoXV1rYM1tdNcAzEtf1ERvJ1QYnkqMA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=amd.com;
 	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b="y/eNr8BL";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.57
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010057.outbound.protection.outlook.com [40.93.198.57])
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=LVKeRohz;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.201.3
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013003.outbound.protection.outlook.com [40.107.201.3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020EE606A31E;
-	Tue, 24 Nov 2026 14:42:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 020EE606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE86E606A321;
+	Tue, 24 Nov 2026 15:14:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE86E606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=y/eNr8BL
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=LVKeRohz
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VT/Q+R+/4DyuW0fW5aByF9fQRA+wT9J1EXjHgT1dw6ORiqIKTy9kd/8ROUr+36vGSokaiceQ4lZIlFxFAnVZl9Gmx84mRixg1NDUqf91vszjB2qIQVSo2qg+vgnwTpu/czeZn+Eb17P0vYj/c2vMDu1CVv+pl0CblLy0Dm5nAh9LQ3WNG+6YqREsOPv4LiX9+UCQb5Jmo9yhrRtaLpa5UruTkyjLfBb7sCStdgWYD3JjQj5OH42mKhbUOJzX5DDg7Iik3scovaVrqc4qEm35EGDJB2aGtVZoEFa+0dN/nRsZuxAro7FIIM3TIgPltDz13/vE0KsPMi9kXNwx6cy66g==
+ b=yfs/hPFc0igRsKz0kSaZM54txeEov+bHy++CCQnqArZY14Ex++j2uR3WupXMfoXXrsZov2jmXxrQm3ei5ub3ROyuyJ7Hy3XUnc2KhPpFVAK6cuzvYAr2EOpGTzjGZfnur0a1l6yxIAWfPBv3qSFACGPUb/KZ0Yg0+GfadGQJxJvsQb6yM5yVTUr0SliuC/+E1BtrsUKS2wU+Lts1UiEuKEezH4qRyoLyShgP+kkaaaY9Uj1n8NacA6Yngrxhyo195AuW3AOdJtdmFPDDWMoFBVItHkv8W+xcjjptj0mZWJKc70S0BEyTVI5poCSvIHGiKRDb9LaRTxG4eATnquL2mw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KVP/OlP8tf/7c0ptAfcG4S6h/11+o7CoYQHfpwum6rc=;
- b=b4giWHykma5Af9BN8RZwrtZ9RBLiltKiJoaNEuabHXpXRwDOnl+UzgKLrpfosms5cWS8sYx5hBXnyCtoBNCKlfTVOP9J1jRMmdlwnGu8ahPTyuJxcXnvPD+9CL+hYmlkQP50hAt57WtzpyjHZMX/+o0vdTLRFqHOTWpr5VLk38LuwTA12LWi7xXwwRSKkjtKsti/0bCGsmIa5Xa74JyNyERw2n8CY1CIgigRY9Z68w4bOSE1SK7w73AWYBHpsSPeHDScl8DOiKk2mzSLjE1+en73QH+s9rzdohG5Ucnd3cpK29FOx/9Wm9XqMWCNVKArIW76Rb46Mt0BRzVOfPPWEQ==
+ bh=03V5GD7kQqoVsq4w6sMK3MOuCKEqC8dnZKsmD1OJjs0=;
+ b=bq602sVbCBDUKAQXeiG4u2cCD7DYL/dTjygD0pTCPjFklvUTT9aT3eO7W1dFLDxEmDGfROCNMFQ+H5loLIEQZ/eyfXwc+2j4sagjES6u9dXYGvHUiNmXhF36c4CdACi79hVermySHMYhLqQtNYERmDCQrx80O8unzJ1cwdrIyCS/8CBf0N1jtbiLDJYJ1DcYLsInitpB8WDbOlz3aHbJUtjfnoetAfqzRQXEWUCJLw8KVkORBtQ1JkA9qRRWNKDY7l+zPDUP7pj5gzB0o1I34ILltdTilSB33MpoChW44pQwALnvNOynr3ffsQucKiOJUNc98HO3FA6oqr3/dvhIuw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KVP/OlP8tf/7c0ptAfcG4S6h/11+o7CoYQHfpwum6rc=;
- b=y/eNr8BL3ce3ZQLs+gTMYMYMou7WfrKRnX+DjC32fWzftr7s5Fw4rnqQRY0iNnGtND+iN83U4N6+erMOELSr+KvRJVaUYeMGxgbMIxrgAIwPKJwv3cih8QoN+BP699DzcoNRiGmUn/g0Dfnq4SqbiLVI9vfqg/dI15HVQqPwIIk=
+ bh=03V5GD7kQqoVsq4w6sMK3MOuCKEqC8dnZKsmD1OJjs0=;
+ b=LVKeRohzVPcFG9hzROoTvRN88ZhAJJVTBLWYcsiVcxHUyYsf9uuJYE5NqbTZ9EuI6ZtYKK/AJma83vhkMRo7c4FT6TECyzJ+sEvBCfABymMp2cOvD3pbar3wmDJfs0S6AG6DSTshKwWVhGaVPZok2y/29zK3xFersRkCOiBPsmw=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from EAYPR12MB923140.namprd12.prod.outlook.com
- (2603:10b6:303:2fd::15) by SJ0PR12MB7034.namprd12.prod.outlook.com
- (2603:10b6:a03:449::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Tue, 24 Nov
- 2026 14:42:33 +0000
+ (2603:10b6:303:2fd::15) by CH0PR12MB8461.namprd12.prod.outlook.com
+ (2603:10b6:610:183::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Tue, 24 Nov
+ 2026 15:14:28 +0000
 Received: from EAYPR12MB923140.namprd12.prod.outlook.com
  ([fe80::b986:8b81:beda:c167]) by EAYPR12MB923140.namprd12.prod.outlook.com
  ([fe80::b986:8b81:beda:c167%4]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
- 14:42:32 +0000
-Date: Tue, 24 Nov 2026 09:42:23 -0500
+ 15:14:28 +0000
+Date: Tue, 24 Nov 2026 10:14:17 -0500
 From: Yazen Ghannam <yazen.ghannam@amd.com>
-To: "Qiuxu (Leo) Zhuo" <qzhuo@nvidia.com>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"tony.luck@intel.com" <tony.luck@intel.com>,
-	"x86@kernel.org" <x86@kernel.org>
-Subject: Re: [PATCH v2 3/3] x86/mce: Increase MAX_NR_BANKS to 255
-Message-ID: <20261124144223.GA2156781@yaz-khff2.amd.com>
-References: <20261123232701.1923094-1-yazen.ghannam@amd.com>
- <20261123232701.1923094-4-yazen.ghannam@amd.com>
- <CY8PR12MB72909343EE7AA50BB36ED3CFD1442@CY8PR12MB7290.namprd12.prod.outlook.com>
+To: Pierre Gondois <pierre.gondois@arm.com>
+Cc: linux-kernel@vger.kernel.org, Ashok Raj <ashok.raj@oss.qualcomm.com>,
+	James Morse <james.morse@arm.com>, Mark Brown <broonie@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>, Hanjun Guo <guohanjun@huawei.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shuai Xue <xueshuai@linux.alibaba.com>,
+	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+	Pawel Chmielewski <pawel.chmielewski@intel.com>,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+	Dave Jiang <dave.jiang@intel.com>, Breno Leitao <leitao@debian.org>,
+	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	Terry Bowman <terry.bowman@amd.com>, Dan Williams <djbw@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Morduan Zang <zhangdandan@uniontech.com>,
+	linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org,
+	acpica-devel@lists.linux.dev
+Subject: Re: [PATCH v4 00/12] CPER: Add Memory Error Section 2 support
+Message-ID: <20261124151417.GB2156781@yaz-khff2.amd.com>
+References: <20261113132600.3355836-1-pierre.gondois@arm.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CY8PR12MB72909343EE7AA50BB36ED3CFD1442@CY8PR12MB7290.namprd12.prod.outlook.com>
-X-ClientProxiedBy: BN9PR03CA0105.namprd03.prod.outlook.com
- (2603:10b6:408:fd::20) To EAYPR12MB923140.namprd12.prod.outlook.com
+In-Reply-To: <20261113132600.3355836-1-pierre.gondois@arm.com>
+X-ClientProxiedBy: BN9PR03CA0265.namprd03.prod.outlook.com
+ (2603:10b6:408:ff::30) To EAYPR12MB923140.namprd12.prod.outlook.com
  (2603:10b6:303:2fd::15)
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -99,150 +110,191 @@ List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: EAYPR12MB923140:EE_|SJ0PR12MB7034:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8246efe4-c5b6-4ff1-3625-08df4a392c13
+X-MS-TrafficTypeDiagnostic: EAYPR12MB923140:EE_|CH0PR12MB8461:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9d1925c3-4b63-4484-8f21-08df4a3da1e7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|10067099003|4143699003|11063799006|56012099006|261026140227099003|261021121427099003|261021123027099003|261102123227099003|261009223027099003|261022105027099003|261022075727099003|261022115727099003|261026121527099003|261028144727099003|22082099003|18002099003|6133799003;
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|23010399003|6133799003|22082099003|18002099003|5023799004|56012099006|11063799006|261026121527099003|261026140227099003|261028144727099003|261102123227099003|261009223027099003|261022105027099003|261021121427099003|261022075727099003|261022113327099003|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	1YPvRP3pN5b+iTx/j+LSFuh89ukRkUpBquthXWkAANZfay8sfhuasil6fojLS2KeIbsklj8Vamy4jd1NoLDBRrw1OCYYa8DfY+RyiO5dojFN1+0dD9ZR2Pj+mccCUNmzG1vc0L/kghIA5BCHA6pKW3WPAANpX90w66CpM1OIyKvs1i0YSy05B9BZ++Su4N3v1uOcjNz+mi5zxOmF063NZKtVMyrtFqsOTmVG9ed1WYz/ko3/abTqDzUJKQruRxHy64U+OcGOqRYqucAH6aBhQhdhbtY8tA43dOIbHkTUn/uBlTdQEaNKZMOWONwhMwhKx+GUAysAN7/ci6EOayw9+bu90qLkrV36NtPdAezOIFHuc2Y9N6NtYpFQ7Crta/P+YsbtgNh+yMshugynRvdLXFVIuv58e1z7/ZCAgi1ap+jRhO5XP3KaZIcHR3IhHlwBo13IaUtsbECCDabtoHpjPGXVONPTNdChiUMAXHJBoQIfeQmE2P9sfn2OViJabPe1XTqEL0Q6xt77O7DV8QdLlqgrQVZf3+MsHl3FuBiiwRsyAAP0ijmzp+mANXgrA3IwdZWzWeLOeVhpDwxL9oizperjUzYL1EtzWuvt3ipcZpoE1iPMXbGqkOwD2DQ9eLFWFj6qOn2s5HwauSYIZioIo56QioNPsgyON3HES+DzPqw=
+	roxdVM3BNy8qe/9mA3evyX3BcxEiV1sjJ+aj4bxk21ynJaAB7AUHmEA2S1rXYtHbah4gnCNSheJccDVbCOn20j+K/cN1aP5h5q3k5XQESukvn8YYTdyZry8eXoa1nF7GGsEyNLnEN8XtIz8860VUs3S+jPPO+fQ5k0ZsHazysipHu99kFu4adHeEgg8foZKujeQv+qdn5GHq5zZVKtJ77f1/pqXao5Rdcr2iBTFOo9qhMSqngZdiXa8qgXkl6u5PAZs1H5S0r93U4pvmSbxdjywRJ+VefEOv1Mk38r8QJj1wOS4DP/z02TRC1X78u+ZcvhiNgkl6qJ9ppQZ24JyoqB0J+o9I3Pw2P6oSu02fNULvgKAlaHbtkec6Qw0jiDq9CitASBrrKS2vEZOSxhKTsE/9h5esIQe+Ggk4v0SCe01sXGBwrC40TbfA/a6o3fPHsdZPQUyQ8mbaP7orvcShlVPABt3aeMUQdMgRN1GqN/ZCthiTvK/TIz9W9NPoxcqyu18ZW3UA1lf/QuIZ8LGBX/nB19e/WQwHxP2KfnYat6v5a8t/G/j9qiKT6xQfhBqO8c1UGjMUx5RMfgi7sk+0D6XM1FiElQ1T/P+RAcr4zS16VWMtChL1DjpoQU69rYQ/
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:EAYPR12MB923140.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(10067099003)(4143699003)(11063799006)(56012099006)(261026140227099003)(261021121427099003)(261021123027099003)(261102123227099003)(261009223027099003)(261022105027099003)(261022075727099003)(261022115727099003)(261026121527099003)(261028144727099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:EAYPR12MB923140.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(23010399003)(6133799003)(22082099003)(18002099003)(5023799004)(56012099006)(11063799006)(261026121527099003)(261026140227099003)(261028144727099003)(261102123227099003)(261009223027099003)(261022105027099003)(261021121427099003)(261022075727099003)(261022113327099003)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?oXLNies4HffRYMaGPnLtQ44BfgtaO5CC24vADXQWdwTpT/CeN8XrVah8H8G5?=
- =?us-ascii?Q?jon5JTZhmgRCkvbuRey5mdfemncyjJoYwshuJ5fv7tPhPsILFgg4Wyp+TA9y?=
- =?us-ascii?Q?Y4gmhcFdhp9YTGScPl3/FC5njaJGhmtvmCjuhcp1HbwGm32Mpcgp2Y5nI/Ms?=
- =?us-ascii?Q?Epsqe6o3xFRlds03QSiJqbaeL07VY6droVfvvTP1hvBTAR4UYBPsoyFgRyCa?=
- =?us-ascii?Q?sFv7Gx2TejPvBf8l2Fj258Q5JUPRq2V1pmkQoGAqaovQiHpW9Yn/vdhvwAYH?=
- =?us-ascii?Q?5fFaxaIn9bCGWge2BUK4ln2SpfpIge/z8xS9dW0mpFoABGDFqd8GtAaugYa9?=
- =?us-ascii?Q?/ve1VammXc2IrjB+wyr56UCD3T2EkRPDyzDQtU7wbbg7F04ZzjqP6zY0Ccms?=
- =?us-ascii?Q?KQIeHnijq9Ym2F2BmS+71feSAWpNR78ShjpSu/XGkiIUPQokBey8WL/c+v2V?=
- =?us-ascii?Q?VDYnXYXUV1z4fCDJu2Z9SRUfCBYiQCW0LY9/cYtUhT1xZ1zhkK0PrHrZKCA4?=
- =?us-ascii?Q?ctbYTjMJE19KcNQ65gFDVSPZ+s1mAc8od2XFH1vh3/hCDDLq9WqgdKlKild0?=
- =?us-ascii?Q?pB0jn+Y1HaMH6KVWKHiNSSaX2/YshMgBVVTiJ6Og1G61+XcXhKxApgFX5xSN?=
- =?us-ascii?Q?5EU0opd+lBbfsb0J2lDfTRelCo6tmFOVKBQSt5FhdrkxyaYM29GS3qrH0BKn?=
- =?us-ascii?Q?YL1Pnq6atCqxwo08f5O2hDKQFFSwNh3hCb37VD0nKVh9GVSOfCXMsWGXz06A?=
- =?us-ascii?Q?JbT78NhRNTo4vxWxkBLMfrfjHp5U14oPZtq6YksvYOpZFPJ9J1sE4cAmGMax?=
- =?us-ascii?Q?LpaxyirtXE2wVX65ZHrNJB7t6iCXAgKqn+2v/aMWecK9haIFNEJIXNbHGFPY?=
- =?us-ascii?Q?1Zi//nYpZkmkGlt/W+n1wyiPhs/DwMDpvm2hgCCSiwy2rsCompRFCiw6d2yO?=
- =?us-ascii?Q?irmfV13poMgPF4HYgCop74dyNcMF+cfN7qylYF79r1oFj0fKtnJMpzbBruFF?=
- =?us-ascii?Q?MdvAzgDXFNkJM8lm3JgqR090dyKqAM3pU6ueQ0lK4QzMmlUFY0TjR4JEgBYY?=
- =?us-ascii?Q?+MwUCBg/gyKAk4ZPoizecfQ48xr14llyvFHeeFxCF/hC5f2e+0i+rJfSLvb5?=
- =?us-ascii?Q?zeCQ/TdsTbviUCv4H3huLwxcZH5me36hIhJx+YXbrmhRXMyxfPphxo3S94Bs?=
- =?us-ascii?Q?Ma04mem8IPafc6mL8ZCl3XMfXBSUZFJOyQOZz+tQ728ktwMuLpvcMUUbTe09?=
- =?us-ascii?Q?DeV02rUCrs7rJyUK0CK2N6JP6xG4A7q5+3hT6Wsn5F9FeMhIXPvgKmZswI7s?=
- =?us-ascii?Q?gfCtCcnD5lrY0GtvTWNvU6O4qhNG1IrA9Td5DzzkeBMBWrqKpoU/s9H1/Z7z?=
- =?us-ascii?Q?PuVX3XRzL9KZsZvPdYrj18a+6MueilLPKWhsVTnWwqa6iHtvYUYmjXa5oB6M?=
- =?us-ascii?Q?m2dqYapXhPyh/bb/mav9khOLgajf1O5DKxYkB0/rZn2pCXQg0AtYh+CK6RYL?=
- =?us-ascii?Q?Va7tbtodwjOs8ETEFKKcK7KE7cuKEglezNfRn+3QDp2/GNWXqLXB3OwfXSU8?=
- =?us-ascii?Q?mW9+IrHX59WoqAkhLwNLqE5hQyFwCTkYQPSXl+aSYg3EDEsNIG5ZwiHSUqUn?=
- =?us-ascii?Q?SzIkD77EvgN2xp/eUH86Jmf+irOJh0SeuIIQnOFpWM+MNf8R1SJrMYhzqPTX?=
- =?us-ascii?Q?UPjgTXF/BSgSgNdGpgBpfkczY3JTEt1Cn41SkjJKWMP2l4AgCZ3k12jb8Zfg?=
- =?us-ascii?Q?eRLNyNSfeQ=3D=3D?=
+	=?us-ascii?Q?r56CIbc2E4hdJuR7Nh2EqUUbQWPr2/v4kFLficVjJXVg+6wx5dtaGz+CtAvd?=
+ =?us-ascii?Q?8j+ZfoECX9MVI2uF6t59O2JlgpMwhEtfN/Vsh0FLQR5ObTzp/rpg1C14lE1c?=
+ =?us-ascii?Q?iasZ8nNQNtBjruPGuzSJTd6L2qH+uMyaXOM97tX99zwoU08MmnvUc0M+bF5F?=
+ =?us-ascii?Q?G1eSFt/9+WDMUf6qsV7Dt3bhxsQMMirEodk18Iyz2HcmuXnX8MdXr23/d7dE?=
+ =?us-ascii?Q?JU/CFaxxx786VPN3hEc/oiL41Kx6QOyFS0Q17pmYoCVJL3Qi27w/+93eSPE5?=
+ =?us-ascii?Q?ZfElWWfX5Evsotcm4b+4G/sMNo9s8LgDkZOWjdqYBQz1dbRKlvuehuRwdLZP?=
+ =?us-ascii?Q?W3T/2o8nGMvCC7F0mma6pw3qcC25TmJ6uHYWZhvPuKkIKuELqnXuv1bGISim?=
+ =?us-ascii?Q?U5N1uxSU55gGYGGNEfg/a6VNGVX5XXTPTt7gSk7j2MdNrzhDNRrTvqhlVImc?=
+ =?us-ascii?Q?LgLvIv9Xdg/e6sBW8QiVsOc6Z/T2UGNDpUNjgsxKbPrPbwK5tR5Sk8uzsCzg?=
+ =?us-ascii?Q?7qi1Lsy00yirumFzysL3IYHUoyElI5PW+8s4TZ3cRL0GpE5q55sszyjrJoRO?=
+ =?us-ascii?Q?VIiCUA1m7xBvcJ9i42F0ZmuImbsywgCuAJAsYK43lEQHKGQQfcAlszyFinTO?=
+ =?us-ascii?Q?WgDQedDL2wzFuWmGHOjtiiu+EK8vL9NhYtMvG/VN8Ty5j5DW97dTVh+G8zNm?=
+ =?us-ascii?Q?iT8eNiB4PuuKBwgzjU5QTvg1DZR+52jGYxsPioPU++P8svLXN1bXgKzVXr98?=
+ =?us-ascii?Q?P4U1saivJBw50p1NPjlC+Gkf3D/oFs945+WoZdOxrktWm7aBEDERGYuKSzgq?=
+ =?us-ascii?Q?3n+Bv+1eGO5zfYpZ//XgSEEAyl6DBiM/JMtmCtFgbu2gsrwf545wrm5fucCB?=
+ =?us-ascii?Q?4eUwUw0colto6mjTodkTy7L3B2JaHhVXPN/9XADMe/kQubkzv3QVlR4VpgHk?=
+ =?us-ascii?Q?ACr80Ov11kAleTQn4lKGFb0n9ezuQmAWm3hiE+EDhXDrb9oJGBMvOWY9/kkl?=
+ =?us-ascii?Q?gy1dbntfaeT2MXgOLtJ8eqGEQemEfi6uggxpj5vtEg144ANowAG5Akd0QtOp?=
+ =?us-ascii?Q?0YzbItzUnIihghBBCrbOy/gPmNwGQGFfVFGrqSCtFTArhG5W5v+PT8UaxMtL?=
+ =?us-ascii?Q?pgaXVFdOU0OYunu108Eym/al7naSK7dsQ/8XoAiFKduoeN+QOdT1YtBFXztG?=
+ =?us-ascii?Q?iazTbvV06LWDFLb2Nw7LCPpdokndxXJEeYizRraCYC+m9Gw+kcKNouUwfDJi?=
+ =?us-ascii?Q?LICJgV5NhfSsw4GcbmRe88GZcjVWEQZfNVKFypX6+HuFkBg/zMk0iw8y7F0D?=
+ =?us-ascii?Q?dm/6Tq6wiPEGKyVi86R3+jmzT0FN/siebyMuOcYkaq51p0iF5SZBZGifU0xx?=
+ =?us-ascii?Q?5E7ddVym/gc8+ikq9XkJKawt+V0is2drvJFDlU4E8IoRNUlHF+j6hnQVRWvb?=
+ =?us-ascii?Q?wwpsOlPPIgyrpoeX4iGF1A9sznUsPiXwypRrW0ATuDyw4LHLnqageQBSkPeI?=
+ =?us-ascii?Q?bnqh4FPcuwHYSANqGGziiDgHminWpcPk3OoiH//Lx+/Bw9inhztewmtzZg+z?=
+ =?us-ascii?Q?Gq34dk3EGsojXwQnSIMZ9GJxJlwRiLOSuMwUTdjROE9gi64PGLPzz+nRd97p?=
+ =?us-ascii?Q?W3en2g7KbrxYavBHZiu+x/Y0g9ndoS/thVPSHv9yi9MP2CoFc7wGb7evZEa5?=
+ =?us-ascii?Q?fZ20qK8fBsNoo1x5vpNWZm2S3dYOUYoXNezdiMCV5/Sk0znE?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8246efe4-c5b6-4ff1-3625-08df4a392c13
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d1925c3-4b63-4484-8f21-08df4a3da1e7
 X-MS-Exchange-CrossTenant-AuthSource: EAYPR12MB923140.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 14:42:32.5149
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 15:14:28.1587
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5jee3KNVWQa2sUfvMn2FPvprpk6iczVIpUMJSWY98sGKykGfIEIqK1jeRPQDR9L9bFjnHr7g7cxTM6fg0iQvtA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7034
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6TthTKe1vUYCRNQM/odLNrSQuNPLO/F7xRqmAsIU9Ri6gNmPuBs4k6UrpML0t8iUbJKgLnlOvg5ilearX6kFoQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8461
 
-On Tue, Nov 24, 2026 at 02:10:08AM +0000, Qiuxu (Leo) Zhuo wrote:
-> > From: Yazen Ghannam <yazen.ghannam@amd.com>
-> > Sent: Tuesday, November 24, 2026 7:27 AM
-> > To: linux-edac@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org; tony.luck@intel.com; x86@kernel.org; Yazen
-> > Ghannam <yazen.ghannam@amd.com>
-> > Subject: [PATCH v2 3/3] x86/mce: Increase MAX_NR_BANKS to 255
-> > 
-> > 
-> > Machine Check Architecture (MCA) allows up to 255 MCA banks per CPU thread.
-> > This is based on the size of the "Count" field of the MCG_CAP registers. The "Count"
-> > field is 8 bits and holds the number of MCA banks per CPU thread. So the value
-> > range is 0-255.
-> > 
-> > Change the MAX_NR_BANKS value to match the architectural definition.
-> > 
-> > Drop the clamps in __mcheck_cpu_cap_init() and cmci_supported().
-> > MCG_CAP[Count] can no longer exceed MAX_NR_BANKS, so neither is reachable.
-> > 
-> > cmci_supported() now takes the bank count from mce_num_banks instead of
-> > reading MCG_CAP[Count] again. mcheck_cpu_init() sets it before CMCI is set up, so
-> > the two agree. A CPU that skipped MCA setup now reports no banks instead of the
-> > hardware count.
-> > 
-> > MAX_NR_BANKS sizes a number of arrays and bitmaps. Growing it by 191 banks
-> > costs the following, measured with size -A on the MCA objects built from x86_64
-> > defconfig.
-> > 
-> > Global bitmaps:
-> > - core.c / mce_banks_ce_disabled
-> > - Total: 191 new bits = 24 new bytes
-> > 
-> > Per-CPU bitmaps:
-> > - core.c / mce_poll_banks
-> > - intel.c / mce_banks_owned
-> > - amd.c / bank_map
-> > - amd.c / mce_amd_data: thr_intr_banks and dfr_intr_banks
-> > - Total: 191 new bits * 5 bitmaps = 120 new bytes
-> > 
-> > Global structs:
-> > - core.c / struct mce_bank_dev mce_bank_devs[]: 56 bytes per bank
-> > - intel.c / u16 cmci_threshold[]: 2 bytes per bank
-> > - Total: 191 new banks * 58 bytes = 11078 new bytes
-> > 
-> > Per-CPU structs:
-> > - core.c / struct mce_bank mce_banks_array[]: 16 bytes per bank
-> > - amd.c / struct smca_bank smca_banks[]: 24 bytes per bank
-> > - threshold.c / struct mca_storm_desc storm_desc: 24 bytes per bank
-> > - Total: 191 new banks * 64 bytes = 12224 new bytes
-> > 
-> > Section totals, which include alignment padding:
-> > 
-> > Total global size increase: 11152 bytes of .bss Total per-CPU size increase: 12368
-> > bytes
-> > 
-> > The per-CPU total is replicated for every possible CPU. In the linked
-> > image .data..percpu grows by 12352 bytes. The first per-CPU chunk is page aligned,
-> > so each CPU retains three more pages, 229376 bytes up from 217088. That is 5.7%
-> > more per-CPU memory, or 6 MiB on a 512 thread system.
-> > 
-> > On the stack, the two bank bitmaps grow the frame of do_machine_check() by 48
-> > bytes, from 232 to 280 bytes, on the 8 KiB #MC exception stack.
-> > 
-> > One module outside defconfig also grows. Measured with size -A on
-> > intel-bff.o:
-> > 
-> > Module read-only tables:
-> > - edac/intel-bff.c / enum bff_bank_type dmr_mcbanks[]: 4 bytes per bank
-> > - Total: 191 new banks * 4 bytes = 764 new bytes of .rodata
-> > 
-> > Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
-> > ---
-> >  arch/x86/include/asm/mce.h      | 2 +-
-> >  arch/x86/kernel/cpu/mce/core.c  | 6 ------  arch/x86/kernel/cpu/mce/intel.c | 2 +-
-> >  3 files changed, 2 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h index
-> > 9995176d6879..e5fa0f58b305 100644
-> > --- a/arch/x86/include/asm/mce.h
-> > +++ b/arch/x86/include/asm/mce.h
-> > @@ -273,7 +273,7 @@ void mce_log(struct mce_hw_err *err);
-> > DECLARE_PER_CPU(struct device *, mce_device);
-> > 
-> >  /* Maximum number of MCA banks per CPU. */ -#define MAX_NR_BANKS 64
-> > +#define MAX_NR_BANKS 255
-> > 
+On Fri, Nov 13, 2026 at 02:24:42PM +0100, Pierre Gondois wrote:
+> The support is mostly duplicated from Memory Error Section handling.
+> Other than differences coming from the content of  Memory Error
+> Section 1 and 2, differences in the support are:
 > 
-> Out of curiosity , are there any existing systems with more than 64 MCA banks per CPU thread?
+> - v2 do not rely on a compact "struct cper_mem_err_compact" struct.
+> This structure was used to support older versions of the Memory
+> Error Section (1). This is not needed for the new structure.
+> 
+> - The compact version is also used by the tracing framework.
+> To avoid relying and propagating a non-standard record format,
+> through trace event (cf. extlog_mem event) the new trace event
+> prints each field individually.
+> 
+> The last patch of the serie was only build-tested due to the
+> absence of relevant hardware. apei_mce_report_mem_error() and
+> arch_apei_report_mem_error() implementations were also removed since
+> last version.
+> 
+> It will also require a proper handling from the rasdaemon. Applying
+> this last patch without rasdaemon support will silent the reports of
+> Memory Error Section 2 error, cf. ras_userspace_consumers() check.
+> 
+> Future:
+> - _OSC support (if agreed)
+> - Addition of arm64 tracepoints
+> https://lore.kernel.org/lkml/20261023170405.000060b8@oss.qualcomm.com/
+> - Emission of lossy CPER Mem error v1 tracepoints for legacy userspace
+>   tools
+> https://lore.kernel.org/lkml/at0rs4parlHFGI7k@hu-ashoraj-lv.qualcomm.com/
+> 
+> 
+> RFC: https://lore.kernel.org/all/20260929074659.2587216-1-pierre.gondois@arm.com/#t
+> V1:  https://lore.kernel.org/all/20261019145643.1877246-1-pierre.gondois@arm.com/
+> - Corrections from Jonathan's review
+> - New patch:
+>     [PATCH v2 4/6] EDAC/ghes: Extract error report initialization
+> - Last patch not in RFC as it has been reviewed by Jonathan@
+>     [PATCH v2 6/6] ACPI: extlog: add Memory Error Section 2 trace event
+> V2:
+> - Updated ghes_edac_init_error() to ghes_edac_init_error_desc(),
+>   which now only acts on the input "struct edac_raw_error_desc"
+>   + added lockdep_assert_held() to ghes_edac_init_error_desc()
+> - Accumulate failures with "queued |=" in ghes_do_proc()
+> - New PATCH:
+>   [PATCH v3 5/7] ACPI: APEI: Extract common memory failure handling
+> 
+> V3:
+> - Added <linux/bits.h> include
+> - Used pr_warn_rate_limited()
+> - Removed one warn for smbios handle overflow
+> - Replaced __string() -> __string_len() in trace event
+> 
+> Added patch to us scnprintf():
+> - cper: Return actual bytes written by DIMM location helpers
+> Added patches to increase buffer size and prevent overflows:
+> - EDAC/ghes: Small buffer fixes for mem other_detail helpers
+> - efi/cper: Pass buffer length to memory location helpers
+> - efi/cper: Pass buffer length to DIMM location helpers
+> 
+> Pierre Gondois (12):
+>   cper: use BIT_ULL() for processor and memory validation bits
+>   cper: add Memory Error Section 2 structures
+>   cper: add helpers to handle Memory Error Section 2
+>   cper: Return actual bytes written by DIMM location helpers
 
-Not currently. Future systems will have such configurations.
+Why not use 'efi/cper' for these ^^^ ?
+
+
+>   EDAC/ghes: Extract error report initialization
+>   ACPI: APEI: Extract common memory failure handling
+>   ACPI: APEI: add separate Memory Error Section 2 handlers
+>   ACPI: extlog: add Memory Error Section 2 trace event
+>   efi/cper: Pass buffer length to DIMM location helpers
+>   efi/cper: Pass buffer length to memory location helpers
+>   EDAC/ghes: Small buffer fixes for mem other_detail helpers
+>   efi/cper: Increase memory error location and detail buffer sizes
+> 
+
+Boris already mentioned having fixes go first. I think the common
+convention is to have "fixes > refactoring > new feature" order. I asked
+an LLM assistant to propose a new patch order (copied at the end). Some
+patches would need to be split/reworked, so it's not a strict 1-to-1
+reordering. I hope this helps.
 
 Thanks,
 Yazen
+
+=== PROPOSED PATCH ORDER ===
+A. Fixes and cleanups to the existing Section 1 code (could be sent
+   first or as a separate small series)
+ A1 efi/cper: Bound the DIMM location to the remaining buffer
+    (Section 1 parts of v4 4 and 9: scnprintf, a len parameter, the
+    ghes_edac caller passing len - (p - e->location), and stripping
+    the trailing char only if it is a space).
+    Fixes: ed27b5df3877
+ A2 efi/cper: Pass buffer length to cper_mem_err_location()
+    (Section 1 part of v4 10, API consistency, not a fix)
+ A3 EDAC/ghes: Clean up print_mem_error_other_detail() buffer handling
+    (Section 1 part of v4 11, cleanup)
+B. Prep with no behavior change
+ B1 efi/cper: Use BIT_ULL() for processor and memory validation bits (v4 1)
+ B2 EDAC/ghes: Extract error report initialization (v4 5)
+ B3 ACPI: APEI: GHES: Extract common memory failure handling (v4 6)
+C. Memory Error Section 2
+ C1 efi/cper: Add Memory Error Section 2 structures (v4 2)
+ C2 efi/cper: Increase CPER_REC_LEN for Memory Error Section 2
+    (cper.h part of v4 12)
+ C3 efi/cper: Add helpers to handle Memory Error Section 2
+    (v4 3 plus the Section 2 parts of 4 and 10: scnprintf and len from
+    the start)
+ C4 ACPI: APEI: GHES: Add a Memory Error Section 2 handler
+    (ghes.c/ghes.h part of v4 7)
+ C5 EDAC: Increase LOCATION_SIZE (edac.h part of v4 12)
+ C6 EDAC/ghes: Report Memory Error Section 2 errors
+    (ghes_edac.c part of v4 7 plus the Section 2 parts of 9 and 11, and
+    OTHER_DETAIL_LEN)
+ C7 ACPI: extlog: Add a Memory Error Section 2 trace event (v4 8)
+
+Why:
+- No bisect gap. Buffer sizes (C2, C5) and length arguments (C3, C6)
+  land no later than the code that needs them.
+- No API changes after the fact. The Section 2 helpers are added once,
+  in final form, instead of changing in v4 4, 9 and 10.
+- A1 doesn't depend on Section 2. It can carry Fixes:/Cc: stable and be
+  merged while Section 2 is still under discussion (Boris's question,
+  _OSC, rasdaemon).
+- One maintainer tree per patch (v4 7 and 12 each mix trees).
+- Consistent prefixes: efi/cper:, ACPI: APEI: GHES:, EDAC/ghes:, EDAC:.
+
+Caveat: C4 takes Section 2 out of the log_non_standard_event() path.
+Nothing else emits a tracepoint for these records until C6, and nothing
+ever does without ghes_edac. If C4 keeps calling log_non_standard_event()
+(the patch 7 inline question), the order doesn't matter for userspace.
+Otherwise squash C4 and C6, or keep them adjacent in the same pull.
