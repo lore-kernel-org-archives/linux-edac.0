@@ -1,76 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.48
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795626235;
-	b=QmTBMzOL24sT+gkG0vffDQlOdeFGElXCqDF+khJ1NY6yu4sOxWLAMTAm9NlAVnvMJDOV
-	 gZ/w/5Jf8kIDbsAY45k/wF+QTMkc+JHZazCaVSyWTfFcSNBAjQeQZnEQjGlvTYb+5MGvx
-	 jKd4WlDLSYGfsWdJmO1V0QAQLkhzgiDd9YpzQ1mGa709x7/KBEPjd/EeiXt4vcOQIkJPS
-	 nsFRO15iYsxoVyaZUmaLyoUC1nL+nCY/I77hvjLgozzPa3qPs4Y7/ZhpC7zCrLwrnu6n/
-	 QoehhnyQKd7uPFk6ey7OEwaRl2yBJPHNvg+KEg+U74VD6aOUYlKueuj2aBRSxTXY2Jw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795626235;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
-	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=/KcILltQBoAou7W2+XQ9IkERjy/Lp2MpSgOSIAqYW+I=;
-	b=Pa2pAbs29Y3Z0ugVVwWtX2PgXHs8DfXdARs7CtZawXadxWht1+cu2d4maWziJGjvP4zN
-	 rt81cMcUaZcPKfG4gm0zqv0UJx82kP8xRMQhdLIX0p2GhDzmsYjlJF73w7WJjAUVOV96W
-	 FgvY69kRSH1D27lXfSejz5csqlk0crmHUp8MfKAwOsO0S6kbRo7Ehn/lv/teL/XknTuMM
-	 mS4/UgGz27MhQu42+Hd8vvN4gBONr6j2lNgx8CT/t0w2fmx8j+b6oEeh8NZtYqHe5/FXL
-	 7IeQUzN1rD1HvbGu0K6fs2+ha7IC7k25UcOZh3s73UC6GBaauJ8L5IuhMv2IN7QKndQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=linux-m68k.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.219.48
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.1
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795627349;
+	b=g3b/lR9mDWPOLA+OqcTbo575Q3fGjfctQqlkG24KvXh6NxhPRa452JdwG2wO5nxh2hpN
+	 P/LbGoLHzicnGY8Y1el6lmcsKOY8W5Umgf83mv7G5cf2OPS7G20FLULLLbtoHPkm3bJS4
+	 281SL/mrnkWouLWPDKexghAtPaiQQJktqpiqRmgyi9fUJ9F1mlcx5zsAbhJVJYncoxt28
+	 lrwOYoURd54QfW+ZnlDc0xFdS4ngKAYAJFpANnV+ixunzPnv+F19LKIgQ5iHwi8InGXrk
+	 RS9wx2Q8tQA7DXtcy7+vdHXhSzp666ssG9Ej9Z2u0enLhZw6oijIprd05mpfP2eLlnA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795627349;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-LD-Processed:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=J3KgT1H07SppIzi+Y6T9x84tNDZfDlSXqVlo2UZbZxA=;
+	b=yXjzn9JBFJIL4qQk1KNfH1KK3SQnYx2XcYcko1nqJPF6FpQbMq/Ake8Jyb0DYx23Ca2w
+	 /QPTbf2zyIbUDBPdEPhha+ZK4C50J0sIgXY2aO508Nz0SBmo90YbACtSvuC6PFgWZJYSK
+	 cubjwspee2/U4rQA4uxOQX6HnGxwDN366yGiyPbKY/9pkX6i5rd8syXwtm/MQ1qS5uT4a
+	 ABNmlgdWkmbdpMZZYXA5zjAETousFJenDA0xFqKivJ3AXjv2DhfyzmPT95Ia/gGLlUBuz
+	 f5HKHy/w8RqElTufYNRdXtaALQk4RqJ9sIcK3y69hbFuOkLmagyyiG5S1aRtpVFpg/w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=e1PxPTQI;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.1
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013001.outbound.protection.outlook.com [40.93.201.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D403D606A336
-	for <linux-edac@vger.kernel.org>; Wed, 25 Nov 2026 17:03:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D403D606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-92110499585so55752506d6.0
-        for <linux-edac@vger.kernel.org>; Wed, 25 Nov 2026 09:03:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795626234; x=1796231034;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/KcILltQBoAou7W2+XQ9IkERjy/Lp2MpSgOSIAqYW+I=;
-        b=WXj9WmK27ZUv+4xP1EDudIBN7D54O5dMVzNldHvyA/WfG9hoXE1y1GX0fonJXmCn3Z
-         kJZT0J+US1BFQPuZr4GG2KwdewLbV2nxcXXDRxSVqMbq4snXR5uRpyVgRNQWDmzgChK/
-         gS5jO45rgSHXNIf5LFpVWHuIe34iSF8DO3DVCwYaJP1qcwIqHQic1GSvntl95HPOqET1
-         CNTiDj/M4xANTRXftXD1cEOljk+C4wdkYGEXNDrz65JEmDqLW8Rdtr3vBCp6sydQpJun
-         oSCwAysqYv4kEaGx41IleTxmbvK09jdd7bGn9u+eDzBMJ2IfZytu5ezvuRMzlkGG0rqV
-         D5rw==
-X-Forwarded-Encrypted: i=1; AL+hErHwA8BoBAKNz30A5+E75pYVjRdCD2bjKn9jcBHPUdh6ZIk5LxOJsX1k13g8RDlX4LAu/Chmb1tQGW5p@vger.kernel.org
-X-Gm-Message-State: APuU4Z95r54o4XbQOZjDak9MBbxrAp9XEE5QuT+QZkWzIoB19Lo8zEVB
-	1cQEDwqwhI9xudKG/O7wxSL4UpB6qa2T5PXVT/T62SSy6d4H/kQIhbwAK7wOzQbd
-X-Gm-Gg: AZFdTZdRcYXzJH6aQ5whX3Tqd9SmNP6eWubXS8G6+vHF6BmaSL5aSk5Jznz6iLJIr8f
-	MpF68B3z+k9VGahFXzr+V9rdURptDqJ0q0nQxVGaD9CRGR1kmQsmnBGuXKf5MetVldGED/k0gF4
-	YOTj9dZ172dIKac1RO+DR6TFCjRiViCh85T91wRpXnIveo60lIE8xB3rR8JFTsAyWWTcAlDH6Wm
-	+3lPhiEDP71P/gylloNbFnWqry3RgO6THtNqT3GRhH9RFSzBGxyx/GpLqSEC+nhlZQl//p8BBvi
-	E+2nZzkLpcdiY6yl2oUiJcPfA1wVlqf6FweYdU8+t7LcTeFQhBfChmJ+MgP7KzsDmtQAt3ALThz
-	Nvm4W273vYASYi91MRxgBYSOpPUrbUOqHu7ognazqLXM3C93ccCSAtaNDw1+j6XxV0mMq+Y+jov
-	uq+aEKOzlBd9YrDbmHwkfCJYkYTiHLf3O/QdGlXVHJPckqEqQM51R6fUZiEq3QnNga9UMOyhbjU
-	FEiC90I3IkN79x8jbEmvVmy2syAqheRBd/uLbedY/5BGIHLZCyRgb506svGGdI0GSFiRAhZaZZr
-	T4bPNrOnpe7szA2zjCf8ON9ueOaHh2eYLeukeJcvBMndhLTXrKM/M8QeaNIuaTlQNMs=
-X-Received: by 2002:a05:6214:460b:b0:921:3585:de48 with SMTP id 6a1803df08f44-9213585e1c5mr330409746d6.40.1795626233580;
-        Wed, 25 Nov 2026 09:03:53 -0800 (PST)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com. [209.85.219.51])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921349eae11sm167739146d6.25.2026.11.25.09.03.53
-        for <linux-edac@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2026 09:03:53 -0800 (PST)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-9217fbf97fbso4392926d6.2
-        for <linux-edac@vger.kernel.org>; Wed, 25 Nov 2026 09:03:53 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErG9BmVFXXErxFeh16k91INTPShhksT3VSEXu5CKMoC7Ey3nhyKVTuTHnScvz+am8qPrh4ggSjFmtkTi@vger.kernel.org
-X-Received: by 2002:a05:6102:578a:b0:7cc:2f04:a078 with SMTP id
- ada2fe7eead31-7d7396c2b24mr10563851137.37.1795625787958; Wed, 25 Nov 2026
- 08:56:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B27A606A326;
+	Wed, 25 Nov 2026 17:22:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B27A606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=e1PxPTQI
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=e1xl8Bq3AnkfuaXeEm0jM7+TksEYRTlDD81EGqFGPAvZa0OHYqY4NVyR4rgQihe+t/vV9WV4pxpfdJC77dRKCPpHyZtmXUPfTlilRFIHUOMh3UQuDrirCua6MskC4sNmY6yJel9XledhJj5pvEvZRmHCTstGn0K6/y9Mu0n8/2XwMfUBtKKG+/I0NElpM8/CD99mffeK34DUM3T0K38B2baYtBZAMNrIQPBpUOKxI0IjgfKeZa9UN3uevvQK/c6HfoM4luwCvaBB+6frZonk8+lGVKoZApvEh4b+AUAhwGuEoVY/Un+AaE8FkeMM09cQgLwxMyj41CkaKHnD22HKHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J3KgT1H07SppIzi+Y6T9x84tNDZfDlSXqVlo2UZbZxA=;
+ b=QvneCo+2m1zoFuom6k+ZKuDix0QYgV0GsoLWUWTI2jsF0LWgRFfK0GBgvSjXGFmeVl1n6U5XGHON0pOvYABtH0bySNoQGhQ5EImAbFYa0ITStZiFwlbEO34vEhZqF3p0SpF5IqOLMbzhBReqkzrJet/KtWTNyOhjwu0NeTtLxDYnwa1m26rFuuuXYUFC0CC63fQ43L+PuSw5vCkHyoZ/mPz6gmwtYQCIhac2Yjucbh/y+Ev/3o3UfkuHVkL0ZMBOyLbIqStRgvKKSDGrZ1xXpREvcQNVYmvR6jO9kW+d2uLA3Nxxr/S5HOGDN7cimcPWSz4p1KGdMlAzmRvSAvsedg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J3KgT1H07SppIzi+Y6T9x84tNDZfDlSXqVlo2UZbZxA=;
+ b=e1PxPTQIUu2fG/VeQ5vtRou1cCqDzseWWzwSi7uZcXWnJk3Cemuv9D4HU14uqIK9nwIqR71SWdS1EJaZjX5C8rAN/Nt9dbcYZIfGSSxecdS8HdOkzB5tQmk5SJyFYmaNHA+hPd4CoOkvSB1LwUG5yQdB4LYxMc6mPmPTjSsycnc=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from EAYPR12MB923140.namprd12.prod.outlook.com
+ (2603:10b6:303:2fd::15) by PH7PR12MB5951.namprd12.prod.outlook.com
+ (2603:10b6:510:1da::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Wed, 25 Nov
+ 2026 17:22:15 +0000
+Received: from EAYPR12MB923140.namprd12.prod.outlook.com
+ ([fe80::b986:8b81:beda:c167]) by EAYPR12MB923140.namprd12.prod.outlook.com
+ ([fe80::b986:8b81:beda:c167%4]) with mapi id 15.21.0639.012; Wed, 25 Nov 2026
+ 17:22:15 +0000
+Date: Wed, 25 Nov 2026 12:22:10 -0500
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+Cc: linux-edac@vger.kernel.org, git@amd.com, shubhrajyoti.datta@gmail.com,
+	michal.simek@amd.com,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 12/12] EDAC/versalnet: Make get_ddr_config() return
+ errors
+Message-ID: <20261125172210.GL2156781@yaz-khff2.amd.com>
+References: <20261118142213.100581-1-shubhrajyoti.datta@amd.com>
+ <20261118142213.100581-13-shubhrajyoti.datta@amd.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261118142213.100581-13-shubhrajyoti.datta@amd.com>
+X-ClientProxiedBy: BN9PR03CA0437.namprd03.prod.outlook.com
+ (2603:10b6:408:113::22) To EAYPR12MB923140.namprd12.prod.outlook.com
+ (2603:10b6:303:2fd::15)
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -80,55 +101,78 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261120-paul-v7-3-rc1-edac-v9-0-470f2e6928cd@bootlin.com> <20261120-paul-v7-3-rc1-edac-v9-2-470f2e6928cd@bootlin.com>
-In-Reply-To: <20261120-paul-v7-3-rc1-edac-v9-2-470f2e6928cd@bootlin.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 25 Nov 2026 17:56:16 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXwTWXN4XepPPrKUTJXRk4pQ+MzGbDADe1Z7FSB7q11pQ@mail.gmail.com>
-X-Gm-Features: Aa3M54ojpcJtUnDseL85QBstdnKjfhN6BZ1wTiGKwa4bXu6gXK1ydb3RLzGiqBk
-Message-ID: <CAMuHMdXwTWXN4XepPPrKUTJXRk4pQ+MzGbDADe1Z7FSB7q11pQ@mail.gmail.com>
-Subject: Re: [PATCH v9 2/3] EDAC/cadence: Add Cadence DDR EDAC driver
-To: Paul Louvel <paul.louvel@bootlin.com>
-Cc: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-edac@vger.kernel.org, devicetree@vger.kernel.org, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Herve Codina <herve.codina@bootlin.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: EAYPR12MB923140:EE_|PH7PR12MB5951:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8d093244-687e-481c-9656-08df4b18a649
+X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|261028144727099003|261026140227099003|10067099003|4143699003|261021121427099003|11063799006|5023799004|261022105027099003|56012099006|261102123227099003|22082099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	+Z56YLQxYdc89U6a8E8bb2X4pFe1FMd5VCmsUEp9ydxytTE+cX+1G23BBp8t5h39JJyulvJxdkDqdByTqTiX79FNq0PtnN2plBJmEqsBipxCKBKnEUv1NxDHz7ajPR0FUTOJPuIQp3kFFeoaL8B5Aqm9IVahnHsPtq5S3LAHhzkdYnf+X7/a7wx6I7pbXQvrda2d79s4VP/rnFdY76a63RaTjOO2xZGgB4eefvinD/whOos6k4nmF8U8G4j8HJ9aCAssOWc7JsxhEASUARMWG5bzly5T2YQqjs4TxNwF9aSLoLBqtZfaMKIkjsZ1A4qRvYfrjTP1Yt1a8lEJ+mJghPTLYcyZ3RYMcDklvZTEHbUbx3MdP8MVA6wleLVbjttYDeiZpo9eyc7YAPE1ossnuREGg7lIdwwKGSKzjIM0H7BkAUZo1wxbQgB5hT3t8PpYwppMEyAeRvcY87ZNKqH7oHQrnr7RV5xn5wl0H6dMyA9kLmDE//D9hBwqQKItlYo77pJB3jY+tJ2+fWXcU9iRWcaBlIsIplWndj2/tL5xthAfiLyFsc7TVjVApfgWD/24JZgiHyByMZ/li6vbE00mM20gLg82kLFgNDFlMrXuPJ6k3RFq4QrR17WOh09DkO+xJ4q5mvlkfYgXns1pCfFfyalr5RlgiVqiuymby+Yvxoo=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:EAYPR12MB923140.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(261028144727099003)(261026140227099003)(10067099003)(4143699003)(261021121427099003)(11063799006)(5023799004)(261022105027099003)(56012099006)(261102123227099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?k3eUPGrLuzcIIOQWCBA1oQxklvSd8WrJxO/2XOnnTWKt/giNRQCxvOi75awF?=
+ =?us-ascii?Q?FRnPtBGv9JyDTAgvS7Scu8xgXuo4nsWFTbN56Jj24U4u9/y+Ci7pSi4m2Ll6?=
+ =?us-ascii?Q?D/Ynum74iqZMdDs/pTyePoAGP7GsrLWBjf/6OvcqE4vvUpnA9kQspZNIwoYh?=
+ =?us-ascii?Q?/SeX40im9dDPQZscdTmYBo9Ewx0AdNLDd+l9tN6yGJ0JCFYC67bHAqJLz6vt?=
+ =?us-ascii?Q?UJy8qF2CV/3bw2P6bDgrW7ZDm5il9AzYMYTk674U51Z2eblkEgPxguNrb+3X?=
+ =?us-ascii?Q?qkjRYq3Bj+l2cqbeHGNqvZW66qz9iUyB7MTKkdcQ6luhnaFpvD5fDpkaLE7x?=
+ =?us-ascii?Q?dsguPRfSUfnWH/cyoFzTvKKk9Vcvi5J0SG6wBhIhCzaEe7UdP4lBZpJqIpOx?=
+ =?us-ascii?Q?87hQHa6VTmbRfdlu/WcTnkwK5NkLJMQiTV7VCdFLVCdKaMYSFCdWnzK07oh1?=
+ =?us-ascii?Q?lcmIzD1fa8ZYAnms5392k7mqmhaADhbfduEN0zZnpsvbDI6aoGH547papSoS?=
+ =?us-ascii?Q?dW/kqooElmbS4r3Y8vbnmbpaC6FBWjFAfKoXUtvbUUFQ7LzmFFK2O2d7zO0C?=
+ =?us-ascii?Q?EgPRK68IFoF/gLFxPlUc3KiHdiz1C+7zO6keb5cT+e/lwflf1ghwWIAwxlye?=
+ =?us-ascii?Q?G1ILXi8eI0/JaglmGtq+/nZNpt/1UNf5CuRhR+ulwQUJtYkMh9pk7MisZwl8?=
+ =?us-ascii?Q?7vZhRnsZT/DyQSWLAt+CiNngR33QKtArlwr7gHfJGHidnZNFfdoKmbpfLr/E?=
+ =?us-ascii?Q?JN9z+ty3ICXvxWc8DmwQeT52bgB9mTqBuLbSgWANQUbm7CU42VP2MdRkp338?=
+ =?us-ascii?Q?qYI14fFUDgXTTb0/cxHjEbs85f0LYqkVaBQjkh7l+qrnV72wcibvzahrC3Ms?=
+ =?us-ascii?Q?2YQQTnpisHbTTKu2/OgTEap2WoAMOINqRftJOu9GTFG+geBHdJk3DMuj6mP3?=
+ =?us-ascii?Q?aqodkqzVFJMLHSwmhniEt/FB7bAltKlcND9IVB+9JDekoWo5DZkKD2KdPEeA?=
+ =?us-ascii?Q?AHoWppVgeqvWAzUD3dkAJ1UMOSIytzvZOeNkcl2m1qnxR1GAeJBseT+7bNEb?=
+ =?us-ascii?Q?EeSjJqRltP6VAyA7vQhN/iWoWGVx4OGCu5SBQEsZVciaXPe5gHWZCFFS4nG5?=
+ =?us-ascii?Q?yTNl+0bo9ZWhh01Li9sppUHxPCM4FyCCbouDxw7D9TC4jCLb59Jis1E0kJLd?=
+ =?us-ascii?Q?hzLj/DD5REGXFEi/TeW4eqw01teZpMW10KUzcOsMiCb/08td76hqcDhg8GO5?=
+ =?us-ascii?Q?4rTraEgHFGCrnnTr1xZsVUXM2wluaA+xLG+x27QVud/y4ZHt+gGn0gL8ziDR?=
+ =?us-ascii?Q?Bq49TpXfHhWAeqv9tiZBv80dlbQ0KDz0qyvYD4d1wumR2SheR/PZKbeXAMJg?=
+ =?us-ascii?Q?EbYmZhKIWvz5/1WFAUFx3ni7Q39eG1y2d7/DyXfxeyJAi27IW47OErjgJ+TH?=
+ =?us-ascii?Q?JOfWxQR4iwinQuxu1V4Ay2MhsCY7TySQkJ9od7PyPMpikL5u4hX0PppwlRHE?=
+ =?us-ascii?Q?AcvMKwOgapU3htTkK55DpLlyWX5+NUJ+LGJmOoO2A+BxdAT5IaAPd5yILEVV?=
+ =?us-ascii?Q?WdsY8SSpni/bdh4bMR7J8iachAPmhgKpzvhHVGNiFNxLmZv9YA822HDzM5i7?=
+ =?us-ascii?Q?o5XUpz3YBp7wJ40h1FOB7iZxw8S2MIrRF0z0EUfSaALTYDLADnyQzx6VWG1F?=
+ =?us-ascii?Q?+AgvyRzM8WWWnS8sVZgqAYxc142BXen9VP04w0Wkh03eO9/l?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d093244-687e-481c-9656-08df4b18a649
+X-MS-Exchange-CrossTenant-AuthSource: EAYPR12MB923140.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 17:22:15.2497
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uOrGTyLohqr1F/wasO7A8AenfXoxPTdSlz8OQoS+c5Q8Q0VnR3juKEwHz2K/RXtFXrGayzovFF8Nt7XPukgyHw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5951
 
-Hi Paul,
+On Wed, Nov 18, 2026 at 07:50:36PM +0530, Shubhrajyoti Datta wrote:
+> get_ddr_config() invokes cdx_mcdi_rpc() but ignores its return value,
+> and proceeds even if the cdx_mcdi_rpc returned errors. Also it
+> copies the data out of the response buffer without checking that
+> the firmware actually returned that much data.
+> 
+> Make get_ddr_config() return an int: propagate cdx_mcdi_rpc()'s
+> return code on failure, and return -EIO if the response is shorter
+> than expected. Update mc_probe() to check the return value and bail
+> out through the existing error path on failure.
+> 
+> Fixes: d5fe2fec6c40 ("EDAC: Add a driver for the AMD Versal NET DDR controller")
+> Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+> ---
 
-On Fri, 20 Nov 2026 at 17:09, Paul Louvel <paul.louvel@bootlin.com> wrote:
-> Add the Cadence EDAC driver found on Renesas RZ/N1x SoC.
-> The memory controller supports ECC, software scrubbing, and SECDED.
->
-> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Signed-off-by: Paul Louvel (Schneider Electric) <paul.louvel@bootlin.com>
+Fixes should generally go first in a series. Any reason to leave this
+until the end?
 
-Thanks for your patch!
-
-> --- /dev/null
-> +++ b/drivers/edac/cadence_edac.c
-
-> +static int cdns_setup_mc(struct platform_device *pdev, void __iomem *io_base)
-> +{
-
-> +       edac_mc_chipset_printk(mci, KERN_DEBUG, DRV_NAME, "ECC %s\n",
-> +                              (!priv->ecc_enabled) ? "disabled" : "enabled");
-
-Inverse logic is harder to read.  And we have a helper for that:
-
-    str_enabled_disabled(priv->ecc_enabled)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Yazen
