@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.24
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.39
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795640115;
-	b=u4rRdxGarwTPU/qpkfkcq0jsBm2hHmtMHG1VSDrIOcGx99ppZ7cJJ783PopB+iX6+YSn
-	 zxKsnGdHwggaeusyUoY1Q91Tao/LrUCkIw/iSXv0ve/B9iKyACAC1Tokg++QTaWqIERZY
-	 HqlltsLRe6pW+Z6X+GDpr8mMZnA9DwQvfm1V22lUrDqrD3ioofkhR6wVxEfZeWAdo6jIu
-	 QXUEmF+xNymmi0N8JMsqIj668FLxJRs4BbFS39PNZYJEBfq8H57gcXrQv0LrhElmtPYFr
-	 ryLYcyXgVOey1any/QfesDW6Zdp5OWPj58YC/J6gwlfTL1zB/+5Ug/h+hJof57VHtbQ==
+	t=1795641995;
+	b=MJHjxYGwyB3HbOrT5PZdSdotqVLwT6UW1nFjMyfP25XgHeyE6qF9KF75ow5ECN14Yx14
+	 xV5udGTzvrx+eyI+0KLYCKy+X22iiBW+mOpfwKcJyPe/1Ok81TXPPJRZZLH/JDMnlHn3P
+	 0JJovnyAMRHIPRq8TiDNZcEp5aRKZKaeJOQMFjce3RbN+cXT+KMocozv22ARdz4LR5UEw
+	 lCbrLN5gUnZDhhkuQzmY+nAXrwsIGgZbtbTdSZKnPLK/dL6Z3hXglFmeeNewf9VYRR0wL
+	 UtOSealYg+/14JZlJnISC8N3IuaVNWU/V13vPN7iIg+djopCFI7aomzbxTOjNd3I6fA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795640115;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795641995;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:Content-Type:Content-Disposition:
 	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
@@ -24,69 +24,69 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=V/cx5L4f/PoiZFPyjGFIU0TXAgJaDdimkyfCnQq+YKs=;
-	b=Af3Ol2o1YJtvCYTC3gfwc5ZR9qVmIzE7FDErKH4k3cfXSoF/vzyQp6hJkGwqh4SI/ess
-	 9yHFY3hq6PFG5zAJvkxMV9r5DkeSjetQvuesLXo+S1w0uZjtP22MGm10Xqt8gGTfpF6Nm
-	 78xNIb5PHKWi4uzNxXw4DobASEb9r9tp7XhzCrxsZGUMEMoxgW4EdL/MBkm7Lj5Ng4LU6
-	 et0+7+iOx0y4QoBuaOy7jXF07hUNu4KWk1SsoRGuttdhojNwQBMRcLV21k0UD5uMb8xRD
-	 UV1I0vgDx9EQ/esvkV2FWw4PPxqJFBlrM1OpUZhoBzs2nXegJtJV1z68hdAw5QgE6BA==
+	bh=7zx6nW22fIwz8UPplznpyxhE3VIhEi/9xNXODxW45M8=;
+	b=4hK73rg9Te/EcV/Ndy8HN+vIpA94G30Ekju51thkm432gdoYwxpEfFUP4pPk2pZBTN70
+	 SlAnFFa1V8siZxHVzI+155o7UHCd43Lkj86FL16mygbXPW0qyv093v4k9+vFXb8TR03xm
+	 V+5hlvoK703B7xOSrFkcoqrUUxLTgNJQa1QDkBMO30nqCmHbVf+hl8XU/1/KrAy2vaFMY
+	 hcCHdkS20qy+OR41Z7UE3QNUC6WNZfOVxM4Y5sjN0YzxOZRT1C08LiiI0D4e5KPEiJtMm
+	 NTL4XIiDi4LAe6W3a7R6lGDgZKyRaytsjdMtTswhok2Ppu6dGR7ClBMQuCgCcflvniA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=amd.com;
 	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b="rk/YmTCe";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.24
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010024.outbound.protection.outlook.com [52.101.56.24])
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=DtcchiGP;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.39
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010039.outbound.protection.outlook.com [52.101.85.39])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA1C606A31E;
-	Wed, 25 Nov 2026 20:55:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DEA1C606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F66606A31E;
+	Wed, 25 Nov 2026 21:26:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4F66606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=rk/YmTCe
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=DtcchiGP
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GME1k3BX+BAKFimBnxOpNtIjc0abLdRqoMPUp5mGdwK9eakNr4Oa3ylLqQCbSH8MI6cCaUwqzEte9iUw3or32R37jH2OE/mGFCZ1psZN44SOKUBe9kaLqArC/JwQiH/So8YRF5knFnPKNXVslm5Jp32ahi78GGzuH4YIODfYDp/hgSp+x3sGHa5cEXf2UUbK2KAmFna7ShB8wYa4BUj8xCZyoVfs9YVoGTV8jCuYmiFzvzCtOZo8C9x7twD7CIZ5QdYA5ykVKaJGOlRk0uwzq9jpNZjsGmmfNINd4Z7jB57Wyk1TIIEjRTk1clrCgWp2DWpwMMGICkcNZnt42vqifA==
+ b=Hij9FsogHieRN/09Fijp5bMsM/VUUYhghj2zIJlRCQe/lNaNBCMt7s8UdXfFFVI6iQ1mtFko79IVAyWNgG0LW4yeQfSMQ6+gCDhcNFzsEIAEvdFdMAjB8TJWK0Uweumx1bL3BXNH5s0Dgy9IPigazDd31OH3MkYMidVINTQaaw+6xmCCN5/fcKo5LvRYErcGrA664InaIiuIhrvPJXMyRHx9o3tpw1ZPyexkzpv+zjQsHl7uOIr8hvdPRr9aWM2s1LPtOM6LNs7epix8M7LAY7kYlkOSO02p4TJYtl0kvPl3GkV/2rv6gdxydezd2DJmugC5C45rIjdL8mtlvW+KGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V/cx5L4f/PoiZFPyjGFIU0TXAgJaDdimkyfCnQq+YKs=;
- b=s/xOgAZ5ejiFdOMBb67EpSXFRZEePv3J0eidft+6pXLZqngKPaxLWCsi09JHxy6dlqrzCNe406THpQ14d8RHdstPZSuFFrITcj3CYVqvzED5VEj18fMTHQ1E69XIXybphoRqrNg5OuFRMUlS41PSWLUuX0v5RdOCpLdV3RiLlcIm29pislk4EIcg9arDnjyJkcHeh/Wx0VLWjHoJ0wpbsE5zYwMlcnwW+glwRqx84VUQCTLyFubKK+KylsF5rBkV4jjY4+3IYE1YT2usUnUfdd2UAB56XxzbvXDVnxUJo5KCrLHXy1NLygjowPLV92ywJYtnofjVtIMiM5+FZybK4A==
+ bh=7zx6nW22fIwz8UPplznpyxhE3VIhEi/9xNXODxW45M8=;
+ b=SRNpt0Rxino1FwVDfylniUqXhgyCQ+jRqqwftR6vYs+5IsZgDlsyutdLekG4WsMeZ8QsGVrZoqhQXCzWfkKM18s9A8fSHrRkMnojP8E7g3pbaEqLVrTkPmhqTDukMsqc74ZkqH8GNjwMaAtw/CbuXtfKsIkz/FRM7skDK7OZD61qcl80M99aAgE0wFy7Oy6/2OQKX6W95szkg6XQq2xbgiYB0lKWGLJvsoBj7hFZDJC7KAsqpK2htAG4Rz6rHiE6/LGhN+fBfshlPX9b24MYMSB7cye5Ndu5W7KBDJ3ndRsM+WD3CZWTE2Xu55rxRj1GVGk3eTABTlU8hT8NAfSheg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V/cx5L4f/PoiZFPyjGFIU0TXAgJaDdimkyfCnQq+YKs=;
- b=rk/YmTCeeLUZls6w9tb++B+8WwcvXJ71+VejgfxPseJEs3qGx0oJZgnInrL9efW5IvTZE65jmJVWDui7tXlgdv7pD7FvJadPs/r/9Jcgeq+A1lYM0SYbyLAoOWKjkt6n2GYFnzAyVqlQ72vVOfvX6jwIl0rzmyWZcPEBOFULvp4=
+ bh=7zx6nW22fIwz8UPplznpyxhE3VIhEi/9xNXODxW45M8=;
+ b=DtcchiGPbrbtGngUHAgOX75+xNATsFys6fT1VwhsGQWLnb7iH3KFQWWvoKCAZ4LH33U+wFRAiF/0l3TW6wjMsv0XRGhq9a7DfWjWG744BDTgdszvla1/IVorcbzx7XKtCdEcL4GW2qKA9zk/BSXtbdFwuRb9kyb3AcHJA3xYxL0=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from EAYPR12MB923140.namprd12.prod.outlook.com
- (2603:10b6:303:2fd::15) by CY1PR12MB9625.namprd12.prod.outlook.com
- (2603:10b6:930:106::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Wed, 25 Nov
- 2026 20:55:11 +0000
+ (2603:10b6:303:2fd::15) by BL1PR12MB5996.namprd12.prod.outlook.com
+ (2603:10b6:208:39c::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.5; Wed, 25 Nov
+ 2026 21:26:31 +0000
 Received: from EAYPR12MB923140.namprd12.prod.outlook.com
  ([fe80::b986:8b81:beda:c167]) by EAYPR12MB923140.namprd12.prod.outlook.com
  ([fe80::b986:8b81:beda:c167%4]) with mapi id 15.21.0639.012; Wed, 25 Nov 2026
- 20:55:11 +0000
-Date: Wed, 25 Nov 2026 15:55:03 -0500
+ 21:26:31 +0000
+Date: Wed, 25 Nov 2026 16:26:22 -0500
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 To: Dinh Nguyen <dinguyen@kernel.org>
 Cc: bp@alien8.de, tony.luck@intel.com, rounakdas2025@gmail.com,
-	niravkumar.l.rabara@altera.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCHv4 3/4] EDAC/altera: Add support for Agilex5 ECC manager
-Message-ID: <20261125205503.GQ2156781@yaz-khff2.amd.com>
-References: <20261116202854.3087673-1-dinguyen@kernel.org>
- <20261116202854.3087673-3-dinguyen@kernel.org>
+	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Niravkumar L Rabara <niravkumarlaxmidas.rabara@altera.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] EDAC/altera: Fix Port B error injection in
+ altr_edac_a10_device_trig
+Message-ID: <20261125212622.GR2156781@yaz-khff2.amd.com>
+References: <20261116131641.3064859-1-dinguyen@kernel.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261116202854.3087673-3-dinguyen@kernel.org>
-X-ClientProxiedBy: BN9PR03CA0401.namprd03.prod.outlook.com
- (2603:10b6:408:111::16) To EAYPR12MB923140.namprd12.prod.outlook.com
+In-Reply-To: <20261116131641.3064859-1-dinguyen@kernel.org>
+X-ClientProxiedBy: BN9PR03CA0887.namprd03.prod.outlook.com
+ (2603:10b6:408:13c::22) To EAYPR12MB923140.namprd12.prod.outlook.com
  (2603:10b6:303:2fd::15)
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -98,284 +98,138 @@ List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: EAYPR12MB923140:EE_|CY1PR12MB9625:EE_
-X-MS-Office365-Filtering-Correlation-Id: 225c68f0-d3f9-42ce-7976-08df4b36657d
+X-MS-TrafficTypeDiagnostic: EAYPR12MB923140:EE_|BL1PR12MB5996:EE_
+X-MS-Office365-Filtering-Correlation-Id: 06cf4de4-47cb-4e0f-7bb4-08df4b3ac5da
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|7416014|376014|366016|18002099003|22082099003|261009223027099003|6133799003|261022075727099003|5023799004|11063799006|261026121527099003|261022105027099003|261021135927099003|261026140227099003|261021123027099003|261028144727099003|261021121427099003|56012099006|4143699003|261102123227099003|10067099003;
+	BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|6133799003|22082099003|18002099003|56012099006|11063799006|261021121427099003|261009223027099003|261102123227099003|261021123027099003|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	rXGPNSEFdiWF5lhwKaluWXomR4vLimk6ZgShm2WVkktBglFssTcr6fft42qYz0vhEwTD2WBaNfZKiZEmq5MPp7FM4PlRiHQ682FynS5aVB6AudQGP1kINg+CELj2ulItNSHI5mfYzNpCwAd5TDy9pzMKtk6odgBb7q0Crv96NzBRJ5RBf6zvsVGm2olGVIYljVpcan4kOe24HjdtlXCh5e8RzsNzanMhGNuo59bn5HRL/M4bRqTHTY/EPQGITHII8eC98HifBGR6N5YL9kebzhC4LAzVwOy1UsETMbFyVEa2SA5IIkaVmhQmTJUt3b0e/A86IYIQ0+iNP12Z5wxFppXsZJL28I9Jd/0KsKo0WoSvAlhlZl4Q5Gf1cs5QL2FcTSkzm1IEb5MwjgCx4I/ivt0nmCf2xFHJu+bff8l5AK1EB6AGyeOR8jQ6+0ner+xGKrrgHT3U68PGM/c1PWCWNDgW0TiF4sqUqLHptpSVekIpnBahxMk1hmaGwHOYPJQxzEoy0Dj2WNgFMY+AAG4otJJf88jP13PmsirEiOi+4TvMJX8LRGigg/bji0PwEwPzIn4rm/KKICD7+slAicRYdbGhrGs5JeSKl2SHpuwvWtzERZfw2kOPb2FvgvPZ4a6xqvBjO4LPY0QtuKj3flJTR5B87LxLcALPnPhjG8z9eCE=
+	vwuvvpyZ2ttni7hezULKUL3G2AO7ndS6QG+kffYYsWTNEGPcG6eDicf2bPmG+Qw/AGAdqTxBYNhcWfABw0sjxAOstuT636AsXWMd1+qOymUgXc5GJXp8CORehURjc1LZzHyIib9sBhU0nOCH+wiUg8W6k//9xA78VHr9t+evfZJIFZ0wjCp4WafaoLm7QqJRDPC8g7ViTXjq2OXX5HjkWao97I2ge9dwBMZkGiAaDPQECGfQANU4TyXgJZV6HibkBKYZ/hlMmiVEtEUtYnEPVSRAiCA0Q1dKHD0xpSwsSGBbn6Fxs84EbrWCVXVyZvqM1VVfeqI5Wx/FYAde+L4LrXQG/pgtsVPAjmO38sWquLE232wCW1p3pV/6PTY/m2EVubYZ/wyLoRGFJOndaFefRXKFLjMrHF0iZLlG9VrIn7zSlI4bbH3w71d+LgNYhMM5kQb/w32FPlmeeAcmvpbuMINy6Ke9Q99SQRsbrRF0ieGVHnl1Bw9BimGPRrmoItRBklt+8TU1VcV8m2LWU2EydhPmJd++1eYEzxjm4VqORghQYFRkZA0oFaqYjjiIrMA4UQMi8GPYe4ZrVhqh3nQwj/KiBLlYnFjQqVJuIu6aWo4QrCGG3gUS/vr5xVEaIOMf4VMBNHCsAeYxzuVDQlr7RMOg0V5vGzPaGF+0RoS7X84=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:EAYPR12MB923140.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(7416014)(376014)(366016)(18002099003)(22082099003)(261009223027099003)(6133799003)(261022075727099003)(5023799004)(11063799006)(261026121527099003)(261022105027099003)(261021135927099003)(261026140227099003)(261021123027099003)(261028144727099003)(261021121427099003)(56012099006)(4143699003)(261102123227099003)(10067099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:EAYPR12MB923140.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(6133799003)(22082099003)(18002099003)(56012099006)(11063799006)(261021121427099003)(261009223027099003)(261102123227099003)(261021123027099003)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?T+sRvdcgA8cyHboX7B06tBmEFZKcII6/YA6mXDPtfhQJCnSjGv70QcThwK4B?=
- =?us-ascii?Q?/knwp2gqnZYvyXFtr116E0fcoQ6A2K5pgZJI8Hnm+oCDcQLl707iFMN9mzVP?=
- =?us-ascii?Q?WDeenkM517MwE30Z+EMHrvzfiWFsMx8KmpchRTuf3IM6lLfedRZ6HO8NJtxy?=
- =?us-ascii?Q?8wzmmk2n8wMRDcGJ7XTb8Woa9rRDkHFQ8tBkrTD1D29qnEzG7ZD4LkGeH2Dh?=
- =?us-ascii?Q?3wTpUg2UX9ajYJzBv3/WhsPv3swWBgz7eaRhEmChJYrELm43xpruwruFxTfa?=
- =?us-ascii?Q?as2MXoSg0VtSFhPX+gqE7w9bOEaKVWHFPUuYR9O0tT8p3HAEishJ5FVBxQ9d?=
- =?us-ascii?Q?3rxrMv9gNRApKMo7uo5OHEHulDM4bQ4ZmihYkVlMdTZ/T9iLu5amblapTOrl?=
- =?us-ascii?Q?8QyUR0dfaAUpiMFouAr5zQvkbZ9ExuEXJMGAOze+ttEONxBv6rCHiarC8KR+?=
- =?us-ascii?Q?6pMlAvgBjzQtuwugTLdgcO7hPOw5+jyG3O9/Qbsos1TwX93GIKQ4Ubr1fwcc?=
- =?us-ascii?Q?A6nlyBtum2CD1LAt85xMBSW7QeX7/VCr6C4OSD8mDY7EMUUN26Dy2aGuTT1s?=
- =?us-ascii?Q?YH+GoNGdL0PCrYmh+qz9QsZL9AgvE89S+jTlotwiSS9eK6Oxk9fwZJb1jKXu?=
- =?us-ascii?Q?BfejMWp5S7IviSqK9kfM+2u+hnpJSPa8lnqkVJDY0LRa1iCNGmW3v3yQo5ch?=
- =?us-ascii?Q?1rebqLbpdKn5cWEogCLScS2njD/HuesoTF8OWIEHt9zPIUzTba2v+CQts4P8?=
- =?us-ascii?Q?+HGzmuwiWuoPPX16qUQ+H1aO40+axBLmvYATkpzHhmlHwsIJdc9rzGZiRyY3?=
- =?us-ascii?Q?/vc4ICMRDgJp4Pb00Tn3I03hrlPbl234CyLhqTFhKEZp2fio/D9IZ7gFg5wp?=
- =?us-ascii?Q?/dfcq9j74KGjsOmAD/GvYayWLYtLMooJImM1g+cKBuxZiSfQSgm1sfwuFHna?=
- =?us-ascii?Q?och5q3jOhMLvi/tk+jSjsebO31m1eUrSAEjT8UwH2Sj+2MEG26vhrcWmKcMC?=
- =?us-ascii?Q?ug3j2JBFKRR/hbhPAPg3Goc8M9sXTeCg8gj7Xi0eN0SjS52MMuoWEDwGZT6f?=
- =?us-ascii?Q?dGuzePNHY/8E/pW1nK2ZiKkX1sXg+g3vGcHy6eXoGb1DbhihLTPMAPrv+UHb?=
- =?us-ascii?Q?QAbj/tkdwNwp0g3SGAnR7bYiBbWUOzzHp+IRfK/K8NNbNeuzHRLlBqGXlmCm?=
- =?us-ascii?Q?Ako1aF6c/n6oOPlfSMS8IjkKzTYry7hcrQZMiB1iTJf5HCWaJqwStk79L+CW?=
- =?us-ascii?Q?DXmXr71zR+5m++Y/FsRNORHYSU3YI1LpS2ys2cHVz+LVFH4l3OmSl4EbYx2A?=
- =?us-ascii?Q?5TGGzh9EjVWhwyduGlzXwFiQGAKOSaZPEAqUwIY4emZy309HSyeKEPsKwfC5?=
- =?us-ascii?Q?LUDjJ9e+4ahT7h+z3/oFh9ZopYqJDaGzzfwcxKVIRny1VpoD8NRhzFDAuZK2?=
- =?us-ascii?Q?qAa13sdC1lHdTBiT7du1v2qWqWbcQXG21bo1I+dSzVWq6pjt46L5/Fk8RAaF?=
- =?us-ascii?Q?6g07Lv1FE9wCLfZ/c4nEje8ZZRmwwzeeq8rnWEI2QzoxrgYxs/BJWWTM3Uxj?=
- =?us-ascii?Q?DReCkmD97keFb6uBzmF0L36q3h3ylC2QYVbcAIIC29rvR7Wcgrej4DQiQqTj?=
- =?us-ascii?Q?yzgmdGC5LH+Bcv9+9EgWJGJOA4K5YgdU4WOd0m5qpaaQfwO2UM5sYIcSIsEa?=
- =?us-ascii?Q?mqkgu3j3ohBRokUovP1ihHr40/xPJxTYDTB4qW7WtY/fvIZk?=
+	=?us-ascii?Q?gln6igDvXgptFeKHt/KP1CcNtVeHQTt32c6JIdtJbtX9Dq0pt/hf9kvGrKDd?=
+ =?us-ascii?Q?RafOusfK8FGQ8cyziTYXhy7fpfCVK/9v/e3EZ4p9YTvlByZuU4qFoBUoErC7?=
+ =?us-ascii?Q?u8eegasM3PfT/J0D7oQyMSrF/7TgbOQz4BKUe3WTea3o9yIiIJqNKnJj2i75?=
+ =?us-ascii?Q?t/R7uIe9d/sj4qfETSH7SJGIZeapfjzQYi98sAnR912lN8YoZLVGQrrXHTv8?=
+ =?us-ascii?Q?BxyeLK2c6N5amxoth4V47T3Er21vaxYPv/w4bjhZrglah3IV/C4PKjzjHYMl?=
+ =?us-ascii?Q?4WlK0p0+phaItN4hp4HFXf0AXy6gl4B0YOy+JJSERUh8V/yoxWbnvYX7Hg34?=
+ =?us-ascii?Q?K1cyvcc0u+T5FfZKdssutOXwjQra0BvlxMIvBz1pfZUGMG8sEv0ghmQGIKnH?=
+ =?us-ascii?Q?pkwzm3HlHnVE7y2/kqVCXrQyZvGPOdVUSp6l3xwsQK8bKHFqJSYp2VvQFRPY?=
+ =?us-ascii?Q?2oscwE5eq+cwdaL8cZQ7fI9aW8uJPZHvkl02wNfCqhelSgmMULixpgXqgJeP?=
+ =?us-ascii?Q?JzrBfboN6hqAOnKadX5GOjmXObqBkiCyRaqc09Zittl8vjeY19UcGnZa846m?=
+ =?us-ascii?Q?y7MMnaZ7ACpDHvtx5g6dZabvyaI4//mrMLraPjADAesWKgIXEPbiRK7931zx?=
+ =?us-ascii?Q?/dX2GCoFmte8v3VCXJ8yD2z5WBDcpGUiWyHLiYrsQQUMSGxLD+BLlonwHbnj?=
+ =?us-ascii?Q?P4463IuGj0conIm67/VKCQfQNXsP+A6I7iYjx21vUkqi70E9NVIQDVsu/iH3?=
+ =?us-ascii?Q?9aONy3N4gyvkhQwvl5tgoDu+/Kb8QnJDWlGMxyRxm5aXfCpnhT5IhxUi6iR8?=
+ =?us-ascii?Q?DsN+wGM1ButobSOToYPoX5/k0kvELwBc2+bq3yJFf2Enau5MCceff9pjBpzZ?=
+ =?us-ascii?Q?bFw6tg1UuFvbfhvatzce1AZ7fmrGC81IS6xhn4UI8wywtaX/TAD6dFWaIOPl?=
+ =?us-ascii?Q?VVzZt1ACOUKMehiRKGc4myg1GQwiZmxP70ttY8ybC0N+cUf15PkDQM0uRReH?=
+ =?us-ascii?Q?umJRoU24tG2wOyZs0f/SoZpO+1l6NuHc0WD9Hm2ZMvm/NMqN1cA8EjeiogqO?=
+ =?us-ascii?Q?0QjaiP+Jj1QWEY39pt/Lh9jdLXCjAtzLW/ZFXI29epaAPigACgHZAHs6rIUm?=
+ =?us-ascii?Q?hxOPLFE0FPExVQv6Y2VtAIztufPwyuhfWfmDBXJDCKRKJy/NNj9ehV4cbPOQ?=
+ =?us-ascii?Q?dWDGTLIZvidTLJ7y1Hvp9GQDrWq/+KUznb1ckkn+xPiFFNNjqacUWhQ/8Dpb?=
+ =?us-ascii?Q?BAXt7vUuQD+K0F6xLu2g/EYT91UFGlaC53XBi/uir4KT5mQHZSkEVg4iGh5v?=
+ =?us-ascii?Q?5N6WK3GrnaERYRkSdfxPKNCoTVQDO9qsfXg4GNmPoFQ6P5fFd3T2JUpHRdN9?=
+ =?us-ascii?Q?+iZm5ySovO2qWOuAkA3zpzMHgljd5IN4NWpZv4aQGNkvyDD3KQCKiy2779kX?=
+ =?us-ascii?Q?pIDG+ldFBm2WmqtfR0cJKkhF0s8H8Hjyy6LyTqtvsH4YdkWFkk0nGlKJivWO?=
+ =?us-ascii?Q?YZUw9Y97jgE9XdyJNUMLXpH5f/6TKcMPkFHyVBM8xYKfNhNeQaasCfalYvOC?=
+ =?us-ascii?Q?CV8tCmPtxkM0RlFYLjSWtDfBJLq6CjYtdbXneTdsNUbkexIhQmuXiYcmKKXB?=
+ =?us-ascii?Q?BLi+KZ+Is5PcE4NI6y2K1o0hqUbsP++dfOsBjOJ9P7T8a8RaSM2o2ler88Vl?=
+ =?us-ascii?Q?MF1ygIxUlASK8v5sOe4XmqMXHfCiOG9fG/IynU1l8IbL+BVB?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 225c68f0-d3f9-42ce-7976-08df4b36657d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06cf4de4-47cb-4e0f-7bb4-08df4b3ac5da
 X-MS-Exchange-CrossTenant-AuthSource: EAYPR12MB923140.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 20:55:11.3859
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 21:26:31.0813
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ba3qTI9hELk1HQfpe3DzEI0AxFGOFyFS33fQkL03uQoxqNXJMjnGp0tEWPUbJ0srorLGETPAHlX595hako+xWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9625
+X-MS-Exchange-CrossTenant-UserPrincipalName: d7t8aCd4YoaAuWEA/PlI11rukvEFEKCHvVfaNYsFt5FlENV8IkQvABwevCMH5gnk5c48yx+n4TrKFkPmeZUZ2Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5996
 
-On Mon, Nov 16, 2026 at 02:28:53PM -0600, Dinh Nguyen wrote:
-> Add support for the Agilex5 ECC manager, unlike Stratix10/Agilex7,
-> Agilex5 exposes 7 named interrupts on its DT node:
+On Mon, Nov 16, 2026 at 07:16:41AM -0600, Dinh Nguyen wrote:
+> From: Niravkumar L Rabara <niravkumarlaxmidas.rabara@altera.com>
 > 
->   global_sbe    - aggregate single-bit error (chained, drives IRQ domain)
->   global_dbe    - aggregate double-bit error (chained; DBE is no longer
->                   delivered exclusively through Asynchronous SError)
->   io96b0        - IO96B0 DRAM controller ECC
->   io96b1        - IO96B1 DRAM controller ECC
->   sdm_qspi_sbe  - SDM QSPI single-bit error
->   sdm_qspi_dbe  - SDM QSPI double-bit error
->   sdm_seu       - SDM single-event-upset
+> The INTTEST register on SoCFPGA only supports 16-bit writes; a 32-bit
+> write triggers an SError to the CPU.  altr_edac_a10_device_trig() was
+> already using writew() correctly, but Port B test bits (TSERRB at
+> BIT(16), TDERRB at BIT(24)) live in the upper half of the 32-bit
+> register.  Writing them to the base address silently truncates the
+> value to zero, so no test interrupt is ever asserted.
 > 
-> Place all seven interrupt's name in a new agilex5_irqs[] array on struct
-> altr_arria10_edac so subsequent peripheral support (IO96B, SDM QSPI, CRAM
-> SEU) can consume them without re-parsing the DT.
+> Write only the 16-bit half that holds the trigger bits, and leave the
+> zero half untouched.
 > 
-> global_sbe is wired up as the chained SBE handler (replacing the legacy
-> index-0 lookup). global_dbe is hooked into the same
-> altr_edac_a10_irq_handler() so that the existing sb_irq/db_irq demux
-> routes DBE events through the manager's IRQ domain.
-> 
-> Legacy A10/S10 probe paths are unchanged.
-> 
+> Fixes: e5ef4cd2a47f ("EDAC/altera: Use correct write width with the INTTEST register")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Niravkumar L Rabara <niravkumarlaxmidas.rabara@altera.com>
 > Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
 > ---
-> v4: The 7 named irqs for Agilex5 are all required properties
-> v3: Use irq_domain_remove() in error path of altr_edac_a10_probe() when
->     irq names cannot be found.
->     Return -EINVAL for when sbe irq is not found in
->     altr_agilex5_get_named_irqs()
-> v2: Reorganize db_error so Agilex5 goes last to prevent going into
->     default condition for A10
->     Clean up the commit message to be less wordy
-> ---
->  drivers/edac/altera_edac.c | 71 +++++++++++++++++++++++++++++++++++---
->  drivers/edac/altera_edac.h | 28 +++++++++++++++
->  2 files changed, 95 insertions(+), 4 deletions(-)
+>  drivers/edac/altera_edac.c | 16 +++++++++++++---
+>  drivers/edac/altera_edac.h |  3 +++
+>  2 files changed, 16 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-> index 78f4a1b0fc64a..c56413cb5c95c 100644
+> index bb95dab847b3c..37ce2a87443e2 100644
 > --- a/drivers/edac/altera_edac.c
 > +++ b/drivers/edac/altera_edac.c
-> @@ -2107,11 +2107,49 @@ static int s10_edac_dberr_handler(struct notifier_block *this,
->  	return NOTIFY_DONE;
->  }
+> @@ -1741,16 +1741,26 @@ altr_edac_a10_device_trig(struct file *file, const char __user *user_buf,
+>  	const struct edac_device_prv_data *priv = drvdata->data;
+>  	void __iomem *set_addr = (drvdata->base + priv->set_err_ofst);
+>  	unsigned long flags;
+> +	u32 mask;
+> +	u16 half;
+>  	u8 trig_type;
+
+When adding or modifying variable declarations, consider ordering the
+lines from longest to shortest.
+
 >  
-> +/*
-> + * Ordered table of named interrupts published by an
-> + * "altr,socfpga-agilex5-ecc-manager" device tree node. Indices match
-> + * enum altr_agilex5_irq_idx. Every name is required.
-> + */
-> +static const char * const altr_agilex5_irq_names[ALTR_AGILEX5_NUM_IRQS] = {
-> +	[ALTR_AGILEX5_IRQ_GLOBAL_SBE]   = "global_sbe",
-> +	[ALTR_AGILEX5_IRQ_GLOBAL_DBE]   = "global_dbe",
-> +	[ALTR_AGILEX5_IRQ_IO96B0]       = "io96b0",
-> +	[ALTR_AGILEX5_IRQ_IO96B1]       = "io96b1",
-> +	[ALTR_AGILEX5_IRQ_SDM_QSPI_SBE] = "sdm_qspi_sbe",
-> +	[ALTR_AGILEX5_IRQ_SDM_QSPI_DBE] = "sdm_qspi_dbe",
-> +	[ALTR_AGILEX5_IRQ_SDM_SEU]      = "sdm_seu",
-> +};
+>  	if (!user_buf || get_user(trig_type, user_buf))
+>  		return -EFAULT;
+>  
+> -	local_irq_save(flags);
+>  	if (trig_type == ALTR_UE_TRIGGER_CHAR)
+> -		writew(priv->ue_set_mask, set_addr);
+> +		mask = priv->ue_set_mask;
+>  	else
+> -		writew(priv->ce_set_mask, set_addr);
+> +		mask = priv->ce_set_mask;
 > +
-> +/*
-> + * Populate edac->agilex5_irqs[] from the named interrupts on the manager
-> + * platform device. Every name is required. platform_get_irq_byname()
-> + * reports a missing interrupt and returns -EPROBE_DEFER when the parent
-> + * irqchip is not yet probed so probe can be retried.
-> + */
-> +static int altr_agilex5_get_named_irqs(struct platform_device *pdev,
-> +				       struct altr_arria10_edac *edac)
-> +{
-> +	int i, irq;
+> +	local_irq_save(flags);
+> +	half = lower_16_bits(mask);
+> +	if (half)
+> +		writew(half, set_addr);
 > +
-> +	for (i = 0; i < ALTR_AGILEX5_NUM_IRQS; i++) {
-> +		irq = platform_get_irq_byname(pdev, altr_agilex5_irq_names[i]);
-> +		if (irq < 0)
-> +			return irq;
-> +
-> +		edac->agilex5_irqs[i] = irq;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  /****************** Arria 10 EDAC Probe Function *********************/
->  static int altr_edac_a10_probe(struct platform_device *pdev)
->  {
->  	struct altr_arria10_edac *edac;
->  	struct device_node *child;
-> +	int rc;
+> +	half = upper_16_bits(mask);
+> +	if (half)
+> +		writew(half, set_addr + ALTR_A10_ECC_INTTEST_PORTB_OFST);
 >  
->  	edac = devm_kzalloc(&pdev->dev, sizeof(*edac), GFP_KERNEL);
->  	if (!edac)
-
-This hunk has a conflict with ras/edac-for-next due to this commit:
-4dd10fbbeb9c "treewide: Convert devm_kmalloc() family to the devm_kmalloc_obj() family"
-
-> @@ -2147,14 +2185,32 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
->  		return -ENOMEM;
->  	}
->  
-> -	edac->sb_irq = platform_get_irq(pdev, 0);
-> -	if (edac->sb_irq < 0)
-> -		return edac->sb_irq;
-> +	if (edac->flag == SOCFPGA_AGILEX5) {
-> +		rc = altr_agilex5_get_named_irqs(pdev, edac);
-> +		if (rc) {
-> +			irq_domain_remove(edac->domain);
-
-Why remove domain here but not in the failure below?
-
-Seems like you would want to do the same in both places or have a common
-failure path.
-
-> +			return rc;
-> +		}
-> +
-> +		edac->sb_irq = edac->agilex5_irqs[ALTR_AGILEX5_IRQ_GLOBAL_SBE];
-> +	} else {
-> +		edac->sb_irq = platform_get_irq(pdev, 0);
-> +		if (edac->sb_irq < 0)
-> +			return edac->sb_irq;
-> +	}
->  
->  	irq_set_chained_handler_and_data(edac->sb_irq,
->  					 altr_edac_a10_irq_handler,
->  					 edac);
->  
-> +	/*
-> +	 * Unlike Stratix10/Agilex7 (which deliver uncorrectable errors as
-> +	 * Asynchronous SError), Agilex5 routes the global double-bit error
-> +	 * through a dedicated SPI ("global_dbe"). Hook it into the same
-> +	 * chained handler so the existing sb_irq/db_irq demux in
-> +	 * altr_edac_a10_irq_handler() routes DBE events through the manager's
-> +	 * IRQ domain.
-> +	 */
-
-Is this comment in the correct place?
-
->  	if (edac->flag == SOCFPGA_S10) {
->  		int dberror, err_addr;
->  
-> @@ -2177,13 +2233,18 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
->  			regmap_write(edac->ecc_mgr_map,
->  				     S10_SYSMGR_UE_ADDR_OFST, 0);
->  		}
-> -	} else {
-> +	} else if (edac->flag == SOCFPGA_A10) {
->  		edac->db_irq = platform_get_irq(pdev, 1);
->  		if (edac->db_irq < 0)
->  			return edac->db_irq;
->  
->  		irq_set_chained_handler_and_data(edac->db_irq,
->  						 altr_edac_a10_irq_handler, edac);
-> +	} else if (edac->flag == SOCFPGA_AGILEX5) {
-> +		edac->db_irq = edac->agilex5_irqs[ALTR_AGILEX5_IRQ_GLOBAL_DBE];
-> +		irq_set_chained_handler_and_data(edac->db_irq,
-> +						 altr_edac_a10_irq_handler,
-> +						 edac);
->  	}
->  
->  	for_each_child_of_node(pdev->dev.of_node, child) {
-> @@ -2209,6 +2270,8 @@ static const struct of_device_id altr_edac_a10_of_match[] = {
->  	  .data = (void *)SOCFPGA_A10 },
->  	{ .compatible = "altr,socfpga-s10-ecc-manager",
->  	  .data = (void *)SOCFPGA_S10 },
-> +	{ .compatible = "altr,socfpga-agilex5-ecc-manager",
-> +	  .data = (void *)SOCFPGA_AGILEX5 },
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, altr_edac_a10_of_match);
+>  	/* Ensure the interrupt test bits are set */
+>  	wmb();
 > diff --git a/drivers/edac/altera_edac.h b/drivers/edac/altera_edac.h
-> index 4a9da28fa96ba..b769cce6063cd 100644
+> index 9387056fd65e3..fe6d0289f5c35 100644
 > --- a/drivers/edac/altera_edac.h
 > +++ b/drivers/edac/altera_edac.h
-> @@ -326,6 +326,27 @@ struct altr_sdram_mc_data {
->  #define S10_DDR0_IRQ_MASK                 BIT(16)
->  #define S10_DBE_IRQ_MASK                  0x3FFFE
+> @@ -244,6 +244,9 @@ struct altr_sdram_mc_data {
+>  #define ALTR_A10_ECC_TSERRB             BIT(16)
+>  #define ALTR_A10_ECC_TDERRB             BIT(24)
 >  
-> +/************* Agilex5 Defines **************/
-> +/*
-> + * The Agilex5 ECC manager exposes 7 named interrupts on the manager
-> + * node. global_sbe and global_dbe are aggregate single/double-bit error
-> + * interrupts that fan-out through the manager's IRQ domain to the child
-> + * peripheral ECCs. The remaining named interrupts are routed directly from
-> + * dedicated controllers (IO96B memory controllers and Secure Device Manager)
-> + * to the GIC.
-> + */
-> +#define ALTR_AGILEX5_NUM_IRQS             7
+> +/* Byte offset of bits[31:16] of INTTEST for a 16-bit write */
+> +#define ALTR_A10_ECC_INTTEST_PORTB_OFST  2
 > +
-> +enum altr_agilex5_irq_idx {
-> +	ALTR_AGILEX5_IRQ_GLOBAL_SBE,
-> +	ALTR_AGILEX5_IRQ_GLOBAL_DBE,
-> +	ALTR_AGILEX5_IRQ_IO96B0,
-> +	ALTR_AGILEX5_IRQ_IO96B1,
-> +	ALTR_AGILEX5_IRQ_SDM_QSPI_SBE,
-> +	ALTR_AGILEX5_IRQ_SDM_QSPI_DBE,
-> +	ALTR_AGILEX5_IRQ_SDM_SEU,
-> +};
-
-You could add "ALTR_AGILEX5_NUM_IRQS" as the last enum entry. This would
-automatically match it to the number of valid entries.
-
-> +
->  /* Define ECC Block Offsets for peripherals */
->  #define ECC_BLK_ADDRESS_OFST              0x40
->  #define ECC_BLK_RDATA0_OFST               0x44
-> @@ -401,6 +422,13 @@ struct altr_arria10_edac {
->  	struct list_head	a10_ecc_devices;
->  	struct notifier_block	panic_notifier;
->  	unsigned long		flag;
-> +
-> +	/*
-> +	 * Agilex5 ECC manager supports up to 7 named interrupts. Entries
-> +	 * are indexed by the altr_agilex5_irq_idx enum and hold the virtual
-> +	 * IRQ number.
-> +	 */
-
-This comment seems redundant.
-
-> +	u32			agilex5_irqs[ALTR_AGILEX5_NUM_IRQS];
->  };
->  
->  #endif	/* #ifndef _ALTERA_EDAC_H */
+>  /* ECC Manager Defines */
+>  #define A10_SYSMGR_ECC_INTMASK_SET_OFST   0x94
+>  #define A10_SYSMGR_ECC_INTMASK_CLR_OFST   0x98
 > -- 
+
+Overall, looks good to me.
+
+Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
 
 Thanks,
 Yazen
