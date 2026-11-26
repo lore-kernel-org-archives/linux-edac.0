@@ -1,84 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795653202;
-	b=py+F+7cwkn/mo7uxPYOKKFpPIy0buWj6d1xwho2JZx3DCRX72IPj2MNwAA+/UjnpZxKd
-	 p2LjpWJHbBMp7iL15a5TJS3E/CoaekLsg1v5YTu7cRCG3LXpMX4uB7YmDcprJqPWbEQdB
-	 0QLczs2JlWDp6o4Suz7TSsdVu4oxTss7zRYEtTtM0ZQYGhzJf6S9MgXb77mBh4gWzP5Nl
-	 dXfsGViht5xR3tXrwk3LGcqhNu7CDPjbFAub60yzGXi9LkoIhx7Js/eOFiZNJyvItx/mN
-	 eFKafDlAfWlwaAGESo/LKhJIlOFTlSQQA5iOEfrFN8iTJ8M8ObqelLVnIp3UpPoQIag==
+	t=1795669754;
+	b=MXLld8zyLMz5gQXLk8ROuJMtqPPSHmS725SdG9AmG27DhoOxwhwfgbmB+iZKmfkQmUYW
+	 dssw5nKIJnYmeU8P31h5YBzKqwjIhoIPIGrtatbUViHmMlv4TYPaq4AjHD0j5WuT/BE/o
+	 lVHmbtFdvQHx60C04943Vkc7acV+RzQ4Myy0CZf3Wa8iPi2bXAv9dl/7ym+vO8JemFNM1
+	 Xcu5GOb+HYne6DrwWjnHnuOKztY3MhK5iNIcp8bisbkXk4REEZAs5GDyVWcXXJNrbCqji
+	 FWJtxo/B8IFKU80sCPn/ujFMA1XkRed0NJvteW1P89HYhkYESM34fDEdbyTJ/V6ygbg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795653202;
-	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795669754;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=bkVnt5x6snV/jr94cYM++Xh7cb4q6PuWBIFYI70gTyg=;
-	b=Z59XJ8eKaxxy8mGUAcPQcSGRJpTtU7Eu4wJwECtxpMGxWsecjGgzgMaIMA3i1B9We7hg
-	 AW+7G5GO3ljP3CQOZqmXVgiCTDhDLE/nZKIDfoW9jH5+CD8t4Zz0R+f48JbN+zBYiKQZg
-	 WSZd4/vZ6k7qCyMtSRtNUHcq8NusJcTUlVETSgegjlcDpe44arfMBN0iU2Ee5oWODxKDt
-	 r9LPJyk9fSWFeT8BCF6Y6M6SjEjmILwjDlktDvNCfdC//1axu7DzCuD/USq4Xzs7+0h50
-	 ITpQZS/DbptR6exUuXEvrFaONj4dvFTbyjN1AJ0dBjgR2Ylb13DkOHQPDLBhQWXcVkw==
+	bh=579e3IflvQCT6fIkLvaebX4/kKjzYNb7EbQCJO29WxQ=;
+	b=w2qi71ch3ubnLhZqavrSR39LldXsD3BA3MBiD4y7oI8w/KiT/KJvY6tMJiEerT9/4YQI
+	 StFaxZAg598SodnaKK2RWiaD8HLRkgGhSDJKxiS8PmYQxaR9luG60fh2rm4Sz+mGdwot+
+	 IMrtEaFSigOPBatLaTBBfdm3uz7ysqC22UdxSjCxdU9SxZHboBIxn0bf30OoU0H09Af2t
+	 Rf+Bp9t7ItiPxr4YYUh+XZ2reX4FNNngHdoy4duhIelnJjJN67pOjVev+PL5f8w2oBmfi
+	 jbKc2pS3wCF0JNjwwgZolGTUodsZiPoCo4OCte6cOuw2/obF/7WuCBV+SajFdph/TgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=alien8.de;
-	spf=pass smtp.mailfrom=alien8.de;
-	dkim=fail reason="signature verification failed" header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b="DbxIXyP/";
-	arc=none smtp.remote-ip=65.109.113.108
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269E8606A323;
-	Thu, 26 Nov 2026 00:33:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 269E8606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=IBtYNT50;
+	arc=none smtp.remote-ip=111.22.67.151
+Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA874606A31C;
+	Thu, 26 Nov 2026 05:09:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA874606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=DbxIXyP/
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A234340E0232;
-	Thu, 26 Nov 2026 00:33:18 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
-	reason="fail (body has been altered)" header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id UOQM5oECOoh7; Thu, 26 Nov 2026 00:33:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1795653193; bh=LET1Bou+dV9QSsRxgNAzEMVbQ5p9yJ4crrWpmY8stqU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DbxIXyP/IpF5rt5A6Z7ECR8zlMsDfebBgBm5OL3+l4T+oLgJxmRxrsogYS+sUGMux
-	 EDJ5GKOoWw3T2TX4+2y/I7X27+Uc5RAsp66MTNYD0y5IrsN5vlV1KmDwCm3nanwyf8
-	 C+5TYovtuX1dyE+AJx3/lLpPRcarQx/6QG3OS64cbd7eY0jdqQV1ZoiYP/xcx+7wda
-	 ZEV1nDrNBOL3BgedsobXdcoYiTksxYvHD5lTcUIuE6wQKYvd4yELj0s3GJVYtpAM3D
-	 EJDCNucgWsA0AhuCyxYEF4QFstEMifxRTAICYvTMgGwYg0HHXPg65keieYm6uja4Zv
-	 c4w2UgqpbwBI/T3FK1wPyhLHHoUXUg3U6DrYcZydObF4znkaBekrkZB63Uur1JpNLS
-	 u33L8Q4mK+jIfbJqkro+0eUn/1jMr9NOn4aZcU2CCI/Rzxp+O/rVmyNLS2Mj4ChyCN
-	 i1wEJkYKnt7XvBKe1Eiu1qzoIs3cPseX/ZYq5YZXBtsn7N7M/O1Jf3ifKxUhvaxOV5
-	 oC96XejJBj36Wlo2ZxURRNjrxWHdLBVtxWyXPBHmG4V/bqP4ATeOPSC6sD9/hjkiNt
-	 yOZjfwUo6LH2OHG1X3rx/af+Mv34yG+vfyEU6rEeyaQL56Th7h/ofhVI4MgMAvpZx7
-	 701CESX7kPADclxF1k2e9+Ok=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0444F40E0140;
-	Thu, 26 Nov 2026 00:33:01 +0000 (UTC)
-Date: Wed, 25 Nov 2026 16:32:58 -0800
-From: Borislav Petkov <bp@alien8.de>
-To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-Cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	David Matlack <dmatlack@google.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=IBtYNT50
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=IBtYNT50i5w6iJTwe6z69lElC4m4Rktd9RARiu4Vi1O6o0eotDV0F8zvkYLxQOC9d4X5v4L/l7gMI
+	 iWBTjutrc4pRGUe3nbF/LZfLYIs3meI94YmL5hF6DnDjA7jqZmFmcjoHI5N4Ce1nRXgxVNqzAHbKfd
+	 IJPfczDmX8DVJylc=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee66b07bef2456-24a4d;
+	Thu, 26 Nov 2026 13:09:07 +0800 (CST)
+X-RM-TRANSID:2ee66b07bef2456-24a4d
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from FHD-W7400297 (unknown[10.55.1.70])
+	by rmsmtp-syy-appsvr10-12010 (RichMail) with SMTP id 2eea6b07bef1572-5ddf7;
+	Thu, 26 Nov 2026 13:09:06 +0800 (CST)
+X-RM-TRANSID:2eea6b07bef1572-5ddf7
+From: Aibing Chen <chenaibing@cmss.chinamobile.com>
+To: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>
+Cc: Qiuxu Zhuo <qzhuo@nvidia.com>,
+	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 10/17] EDAC/i82875p: Convert to
- pci_assign_unassigned_bus_resources()
-Message-ID: <20261126003258.GBawd-OkxwAzwVVNI_@fat_crate.local>
-References: <20261125230925.2441-1-ilpo.jarvinen@linux.intel.com>
- <20261125230925.2441-11-ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH] EDAC: enlarge the DIMM label buffer to cover the worst case
+Date: Thu, 26 Nov 2026 13:09:04 +0800
+Message-ID: <20261126050905.1745-1-chenaibing@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.50.1.windows.1
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Post: <mailto:linux-edac@vger.kernel.org>
@@ -88,49 +69,54 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-edac+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261125230925.2441-11-ilpo.jarvinen@linux.intel.com>
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 26, 2026 at 01:09:09AM +0200, Ilpo J=C3=A4rvinen wrote:
-> The i82875p_edac driver scans a single device and then attempts to
-> assign its resources using pci_bus_assign_resources(). That function
-> makes bridge window sizing disjoint from the assignment phase and is
-> going to be removed.
->=20
-> Convert pci_bus_assign_resources() to
-> pci_assign_unassigned_bus_resources() which is likely a no-op in this
-> case as it looks like bridges are not involved here.
->=20
-> Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
-> ---
->  drivers/edac/i82875p_edac.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/edac/i82875p_edac.c b/drivers/edac/i82875p_edac.c
-> index 869de8e372b3..59a92a209dea 100644
-> --- a/drivers/edac/i82875p_edac.c
-> +++ b/drivers/edac/i82875p_edac.c
-> @@ -290,7 +290,7 @@ static int i82875p_setup_overfl_dev(struct pci_dev =
-*pdev,
->  		if (dev =3D=3D NULL)
->  			return 1;
-> =20
-> -		pci_bus_assign_resources(dev->bus);
-> +		pci_assign_unassigned_bus_resources(dev->bus);
->  		pci_bus_add_device(dev);
->  	}
-> =20
-> --=20
+The DIMM labels are assembled with snprintf() into label[EDAC_MC_LABEL_LEN
++ 1], a 32 byte array, with formats such as
+"CPU_SrcID#%u_MC#%u_Chan#%u_DIMM#%u" in skx_common.c and
+"CPU_SrcID#%u_Ha#%u_Chan#%u_DIMM#%u" in sb_edac.c.
 
-You can drop this from your set:
+The worst case gcc computes for these formats is 34 characters plus the
+terminator, i.e. 35 bytes, while the array only holds 32.  The labels fit
+in practice, but -Wformat-truncation is enabled for W=1 builds and
+COMPILE_TEST configurations turn it into an error through CONFIG_WERROR,
+so these two files do not build today:
 
-e5c2a84fd615 ("EDAC/i82875p: Convert to pci_assign_unassigned_bus_resourc=
-es()")
+  drivers/edac/skx_common.c:790:87: error: '_DIMM#' directive output may
+    be truncated writing 6 bytes into a region of size between 0 and 9
+    [-Werror=format-truncation=]
+  drivers/edac/skx_common.c:839:79: error: '_DIMM#' directive output may
+    be truncated writing 6 bytes into a region of size between 0 and 9
+    [-Werror=format-truncation=]
+  drivers/edac/sb_edac.c:1670:85: error: 'snprintf' output may be
+    truncated before the last format character
+    [-Werror=format-truncation=]
 
---=20
-Regards/Gruss,
-    Boris.
+Raise EDAC_MC_LABEL_LEN to 34 so that label[] is 35 bytes and covers the
+worst case: struct dimm_info and struct edac_raw_error_desc grow by three
+bytes per label, 24 bytes for the eight labels of the latter, and the
+stack buffers that the drivers size with this constant grow by the same
+three bytes.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+No functional change.
+
+Signed-off-by: Aibing Chen <chenaibing@cmss.chinamobile.com>
+---
+ include/linux/edac.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/edac.h b/include/linux/edac.h
+index f7a8218f9..f4c0a9613 100644
+--- a/include/linux/edac.h
++++ b/include/linux/edac.h
+@@ -45,7 +45,7 @@ static inline void opstate_init(void)
+ }
+ 
+ /* Max length of a DIMM label*/
+-#define EDAC_MC_LABEL_LEN	31
++#define EDAC_MC_LABEL_LEN	34
+ 
+ /* Maximum size of the location string */
+ #define LOCATION_SIZE 256
+
+
